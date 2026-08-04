@@ -47,12 +47,12 @@ The software-testing-fall-2026 repository has been thoroughly reviewed. All crit
 
 #### Workflows (All Present)
 
-| Workflow                 | Status | Purpose                                             |
-| ------------------------ | ------ | --------------------------------------------------- |
-| `ci.yml`                 | ✅     | Multi-version testing (Python 3.9-3.12, Node 18-20) |
-| `grading-automation.yml` | ✅     | **CRITICAL**: Automated student grading             |
-| `student-submission.yml` | ✅     | PR validation for students                          |
-| `homework-checker.yml`   | ✅     | Homework-specific validation                        |
+| Workflow                 | Status | Purpose                                              |
+| ------------------------ | ------ | ---------------------------------------------------- |
+| `ci.yml`                 | ✅     | Multi-version testing (Python 3.10-3.14, Node 22-26) |
+| `grading-automation.yml` | ✅     | **CRITICAL**: Automated student grading              |
+| `student-submission.yml` | ✅     | PR validation for students                           |
+| `homework-checker.yml`   | ✅     | Homework-specific validation                         |
 
 #### Templates
 

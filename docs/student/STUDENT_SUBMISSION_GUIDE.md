@@ -379,10 +379,10 @@ Use this checklist for every assignment:
 
 ```bash
 # Check Python version
-python --version  # Should be 3.9-3.12
+python --version  # Should be 3.10-3.14
 
 # Check Node version
-node --version    # Should be 18.x or 20.x
+node --version    # Should be 22.x, 24.x, or 26.x
 
 # Clean and reinstall
 rm -rf venv node_modules

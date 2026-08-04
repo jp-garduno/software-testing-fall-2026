@@ -8,8 +8,8 @@ Your repository now includes comprehensive CI/CD automation with GitHub Actions.
 
 1. **`.github/workflows/ci.yml`** - Main CI/CD pipeline
 
-   - Python tests (3.9, 3.10, 3.11, 3.12)
-   - JavaScript tests (Node 18.x, 20.x)
+   - Python tests (3.10, 3.12, 3.13, 3.14)
+   - JavaScript tests (Node 22.x, 24.x, 26.x)
    - Pre-commit validation
    - Playwright E2E tests
    - Security scanning with Trivy
@@ -309,8 +309,8 @@ All submissions will be automatically validated using GitHub Actions:
 
 ```bash
 # Match versions to workflow
-python --version  # Should be 3.9-3.12
-node --version    # Should be 18.x or 20.x
+python --version  # Should be 3.10-3.14
+node --version    # Should be 22.x, 24.x, or 26.x
 
 # Clean install
 rm -rf venv node_modules

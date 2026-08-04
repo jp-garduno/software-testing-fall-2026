@@ -90,8 +90,8 @@ This exercise walks you through:
 
 1. **Git** - Already done in Step 1
 2. **VS Code** (or your preferred editor)
-3. **Python 3.9+** - [Download here](https://www.python.org/downloads/)
-4. **Node.js 18+** - [Download here](https://nodejs.org/)
+3. **Python 3.10+** - [Download here](https://www.python.org/downloads/)
+4. **Node.js 22+** - [Download here](https://nodejs.org/)
 
 Verify installations:
 
