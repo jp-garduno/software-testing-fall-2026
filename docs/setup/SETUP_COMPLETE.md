@@ -128,15 +128,15 @@ software-testing-fall-2026/
 - [x] Module 4: Black Box Testing - ✅ 100% COMPLETE (13 files: 5 theory, 7 exercises, 1 homework)
 - [x] Module 5: White Box Testing - ✅ 100% COMPLETE (15 files: 6 theory, 8 exercises, 1 homework)
 - [x] Module 6: TDD - ✅ 100% COMPLETE (10 files: 4 theory, 5 kata exercises, 1 homework)
-- [ ] Module 7: Data-Driven Testing - README only (pending)
-- [ ] Module 8: System Level Testing - README only (pending)
-- [ ] Module 9: Performance Testing - README only (pending)
+- [ ] Module 7: Data-Driven Testing - README only
+- [ ] Module 8: System Level Testing - README only
+- [ ] Module 9: Performance Testing - README only
 
 ### Assessment Structure
 
 - [x] Exams overview README
 - [x] Team project comprehensive guide
-- [x] Homework assignments (6 complete, 3 pending)
+- [x] Homework assignments (6 of 9 complete: Modules 1-6 ready)
 
 ### Configuration Files
 
@@ -181,9 +181,9 @@ software-testing-fall-2026/
    - [x] Homework 4 (Black Box) - ✅ COMPLETE (Online Banking System, 110 pts)
    - [x] Homework 5 (White Box) - ✅ COMPLETE (TaskFlow Management, 110 pts)
    - [x] Homework 6 (TDD) - ✅ COMPLETE (Library Management, 110 pts)
-   - [ ] Homework 7 (Data-Driven) - Pending
-   - [ ] Homework 8 (System Testing) - Pending
-   - [ ] Homework 9 (Performance) - Pending
+   - [ ] Homework 7 (Data-Driven)
+   - [ ] Homework 8 (System Testing)
+   - [ ] Homework 9 (Performance)
 
 5. **Create Exercises**
 
@@ -191,7 +191,7 @@ software-testing-fall-2026/
    - [x] Module 4 Black Box exercises (7 files) - ✅ COMPLETE
    - [x] Module 5 White Box exercises (8 files Python/JS) - ✅ COMPLETE
    - [x] Module 6 TDD exercises (5 katas) - ✅ COMPLETE
-   - [ ] Module 7-9 exercises - Pending
+   - [ ] Module 7-9 exercises
 
 6. **Exam Preparation**
    - [ ] Create Exam 1 detailed requirements (Week 6)
@@ -319,13 +319,22 @@ Students will follow the setup instructions in the main README.md.
 **Week -4 to Week 0** (Before course starts):
 
 1. Main README, Timeline, Setup - ✅ DONE
-2. Module 1-3 complete materials (async weeks)
-3. Homework 1-3
+2. Module 1-3 complete materials (async weeks) - ✅ DONE
+3. Homework 1-3 - ✅ DONE
 4. Exam 1 preparation
 
-**Week 1-3** (During async period): 5. Module 4-6 materials 6. Homework 4-6 7. Exam 2 preparation
+**Week 1-3** (During async period):
 
-**Week 4-10**: 8. Module 7-9 materials 9. Homework 7-9 10. Exam 3 preparation 11. Team project details
+5. Module 4-6 materials - ✅ DONE
+6. Homework 4-6 - ✅ DONE
+7. Exam 2 preparation
+
+**Week 4-10**:
+
+8. Module 7-9 materials
+9. Homework 7-9
+10. Exam 3 preparation
+11. Team project details
 
 ---
 
