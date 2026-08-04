@@ -125,18 +125,18 @@ software-testing-fall-2026/
 - [x] Module 1: Git - ✅ 100% COMPLETE (18 files, theory, exercises, homework)
 - [x] Module 2: Testing Concepts - ✅ 100% COMPLETE (9 files, theory, exercises, homework)
 - [x] Module 3: Static Testing - ✅ 100% COMPLETE (10 files, theory, exercises, homework)
-- [x] Module 4: Black Box Testing - README only (pending)
-- [x] Module 5: White Box Testing - README only (pending)
-- [x] Module 6: TDD - README only (pending)
-- [x] Module 7: Data-Driven Testing - README only (pending)
-- [x] Module 8: System Level Testing - README only (pending)
-- [x] Module 9: Performance Testing - README only (pending)
+- [x] Module 4: Black Box Testing - ✅ 100% COMPLETE (13 files: 5 theory, 7 exercises, 1 homework)
+- [x] Module 5: White Box Testing - ✅ 100% COMPLETE (15 files: 6 theory, 8 exercises, 1 homework)
+- [x] Module 6: TDD - ✅ 100% COMPLETE (10 files: 4 theory, 5 kata exercises, 1 homework)
+- [ ] Module 7: Data-Driven Testing - README only (pending)
+- [ ] Module 8: System Level Testing - README only (pending)
+- [ ] Module 9: Performance Testing - README only (pending)
 
 ### Assessment Structure
 
 - [x] Exams overview README
 - [x] Team project comprehensive guide
-- [x] Homework assignments (2 complete, 7 templates ready)
+- [x] Homework assignments (6 complete, 3 pending)
 
 ### Configuration Files
 
@@ -178,19 +178,20 @@ software-testing-fall-2026/
    - [x] Homework 1 (Git) - ✅ COMPLETE
    - [x] Homework 2 (Testing Concepts) - ✅ COMPLETE
    - [x] Homework 3 (Static Testing) - ✅ COMPLETE
-   - [ ] Homework 4 (Black Box) - Pending
-   - [ ] Homework 5 (White Box) - Pending
-   - [ ] Homework 6 (TDD) - Pending
+   - [x] Homework 4 (Black Box) - ✅ COMPLETE (Online Banking System, 110 pts)
+   - [x] Homework 5 (White Box) - ✅ COMPLETE (TaskFlow Management, 110 pts)
+   - [x] Homework 6 (TDD) - ✅ COMPLETE (Library Management, 110 pts)
    - [ ] Homework 7 (Data-Driven) - Pending
    - [ ] Homework 8 (System Testing) - Pending
    - [ ] Homework 9 (Performance) - Pending
 
 5. **Create Exercises**
 
-   - [x] Black Box exercises - DONE
-   - [ ] Complete other module exercises
-   - [ ] Add solution examples
-   - [ ] Test all exercises work
+   - [x] Module 1-3 exercises - ✅ COMPLETE
+   - [x] Module 4 Black Box exercises (7 files) - ✅ COMPLETE
+   - [x] Module 5 White Box exercises (8 files Python/JS) - ✅ COMPLETE
+   - [x] Module 6 TDD exercises (5 katas) - ✅ COMPLETE
+   - [ ] Module 7-9 exercises - Pending
 
 6. **Exam Preparation**
    - [ ] Create Exam 1 detailed requirements (Week 6)

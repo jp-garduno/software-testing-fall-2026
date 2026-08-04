@@ -164,6 +164,48 @@ The software-testing-fall-2026 repository has been thoroughly reviewed. All crit
 
 ---
 
+### Module 4: Black Box Testing - ✅ 100% COMPLETE
+
+**Status**: Production ready  
+**Files**: 13 total (5 theory + 7 exercises + 1 homework)
+
+**Content**:
+
+- Theory: Test case design, EP, BVA, Decision Tables, State Transitions
+- Exercises: 6 individual + 1 in-class exercises
+- Homework 4: Online Banking System (110 points)
+- Both Python and JavaScript examples throughout
+
+---
+
+### Module 5: White Box Testing - ✅ 100% COMPLETE
+
+**Status**: Production ready  
+**Files**: 15 total (6 theory + 8 exercises + 1 homework)
+
+**Content**:
+
+- Theory: Introduction, Statement/Branch/Path Coverage, Tools, Mocking
+- Exercises: 4 exercises × 2 languages in exercises/python and exercises/javascript
+- Homework 5: TaskFlow Management System (110 points)
+- Focus on coverage metrics and mocking techniques
+
+---
+
+### Module 6: Test Driven Development - ✅ 100% COMPLETE
+
+**Status**: Production ready  
+**Files**: 10 total (4 theory + 5 exercises + 1 homework)
+
+**Content**:
+
+- Theory: Introduction, Red-Green-Refactor, Best Practices, Anti-patterns
+- Exercises: 5 classic TDD katas (FizzBuzz, String Calculator, Bowling, Roman Numerals, Bank Account)
+- Homework 6: Library Management System with strict TDD (110 points)
+- Emphasis on test-first development and commit history
+
+---
+
 ## 🎯 Key Features Validated
 
 ### Automated Grading System
