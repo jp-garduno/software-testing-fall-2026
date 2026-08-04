@@ -379,7 +379,7 @@ Use this checklist for every assignment:
 
 ```bash
 # Check Python version
-python --version  # Should be 3.10-3.14
+python --version  # Should be 3.11-3.14
 
 # Check Node version
 node --version    # Should be 22.x, 24.x, or 26.x

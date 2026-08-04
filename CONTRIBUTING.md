@@ -41,7 +41,7 @@ Thank you for contributing to this course repository! This guide will help you u
 1. **Git** installed and configured
 2. **GitHub account** set up
 3. **Development environment** configured:
-   - Python 3.10+
+   - Python 3.11+
    - Node.js 22+
    - Code editor (VS Code recommended)
 

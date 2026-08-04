@@ -30,7 +30,7 @@ This is a university-level Software Testing course repository. The course runs f
 
 ### Languages
 
-- **Python** (3.10+) - Primary language for testing examples
+- **Python** (3.11+) - Primary language for testing examples
 - **JavaScript/TypeScript** (Node 22+) - Secondary language
 
 ### Testing Frameworks
