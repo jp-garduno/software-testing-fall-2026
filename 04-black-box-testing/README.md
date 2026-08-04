@@ -104,11 +104,11 @@ Practice writing clear, comprehensive test cases for given requirements.
 
 Apply multiple techniques to a complex system (Shopping cart with discounts, shipping, and payment processing).
 
-## 📝 Class Exercises
+## 📝 In-Class Exercises
 
-Based on your spring-2026 materials, enhanced and expanded:
+For instructor-led sessions, enhanced and expanded:
 
-### [Class Exercise Set](./exercises/class-exercises.md)
+### [In-Class Exercise Set](./exercises/in-class-exercises.md)
 
 **Session 1: Equivalence Partitioning & BVA**
 
