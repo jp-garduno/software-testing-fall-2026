@@ -10,8 +10,8 @@ This directory contains CI/CD workflows that automatically validate code quality
 
 **Jobs**:
 
-- **Python Tests**: Runs pytest with coverage (Python 3.9, 3.10, 3.11, 3.12)
-- **JavaScript Tests**: Runs Jest with coverage (Node 18.x, 20.x)
+- **Python Tests**: Runs pytest with coverage (Python 3.10, 3.12, 3.13, 3.14)
+- **JavaScript Tests**: Runs Jest with coverage (Node 22.x, 24.x, 26.x)
 - **Pre-commit Hooks**: Validates all pre-commit checks pass
 - **Playwright E2E Tests**: Runs end-to-end browser tests
 - **Security Scan**: Runs Trivy vulnerability scanner

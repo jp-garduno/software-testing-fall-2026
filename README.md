@@ -87,8 +87,8 @@ See [TIMELINE.md](./TIMELINE.md) for the detailed weekly schedule.
 - Git installed on your computer
 - Code editor (VS Code recommended)
 - GitHub account
-- Python 3.9 or higher
-- Node.js 18 or higher
+- Python 3.10 or higher
+- Node.js 22 or higher
 
 ### Setup Instructions
 
