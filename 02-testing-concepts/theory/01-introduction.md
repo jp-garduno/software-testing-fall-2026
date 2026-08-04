@@ -7,6 +7,7 @@
 ### Formal Definition
 
 Software testing is a systematic activity that:
+
 - Evaluates software quality
 - Identifies defects and gaps
 - Verifies that software meets requirements
@@ -19,24 +20,28 @@ Software testing is a systematic activity that:
 Real-world examples of costly bugs:
 
 **1. Ariane 5 Rocket (1996)**
+
 - **Cost**: $370 million
 - **Cause**: Overflow error in code reused from Ariane 4
 - **Result**: Rocket self-destructed 40 seconds after launch
 - **Lesson**: Testing in the actual environment matters
 
 **2. Therac-25 Radiation Machine (1985-1987)**
+
 - **Cost**: 6 deaths, many injuries
 - **Cause**: Race condition in software
 - **Result**: Patients received massive radiation overdoses
 - **Lesson**: Testing is literally life-or-death in some systems
 
 **3. Knight Capital Trading Glitch (2012)**
+
 - **Cost**: $440 million in 45 minutes
 - **Cause**: Deployment of untested code to production
 - **Result**: Erratic stock trades, company bankruptcy
 - **Lesson**: Deploy and test carefully
 
 **4. Toyota Unintended Acceleration (2009-2010)**
+
 - **Cost**: $3 billion settlement, 89 deaths
 - **Cause**: Software bugs in throttle control
 - **Result**: Mass recall of millions of vehicles
@@ -63,11 +68,12 @@ Production:            $10,000+
 ❌ **NOT only QA team's job** - Everyone is responsible for quality  
 ❌ **NOT just about finding bugs** - Also about preventing them  
 ❌ **NOT exhaustive** - Impossible to test everything  
-❌ **NOT debugging** - Testing finds bugs; debugging fixes them  
+❌ **NOT debugging** - Testing finds bugs; debugging fixes them
 
 ## Testing vs Debugging
 
 ### Testing
+
 - **Goal**: Find defects
 - **Who**: Testers, QA engineers
 - **When**: Throughout development
@@ -75,6 +81,7 @@ Production:            $10,000+
 - **Mindset**: Prove software works (or doesn't)
 
 ### Debugging
+
 - **Goal**: Fix defects
 - **Who**: Developers
 - **When**: After bugs are found
@@ -103,7 +110,7 @@ Testing → Finds Bug → Debugging → Fixes Bug → Testing → Verifies Fix
 ✅ Verify requirements are met  
 ✅ Validate user needs are satisfied  
 ✅ Provide metrics for decision making  
-✅ Comply with standards/regulations  
+✅ Comply with standards/regulations
 
 ### What Testing Cannot Achieve
 
@@ -112,13 +119,14 @@ Testing → Finds Bug → Debugging → Fixes Bug → Testing → Verifies Fix
 ❌ Replace good design and development  
 ❌ Fix bugs (that's debugging)  
 ❌ Guarantee customer satisfaction  
-❌ Make bad software good  
+❌ Make bad software good
 
 ## Software Development Life Cycle (SDLC)
 
 Testing fits into various SDLC models:
 
 ### Waterfall Model
+
 ```
 Requirements → Design → Implementation → Testing → Deployment → Maintenance
                                            ↑
@@ -126,6 +134,7 @@ Requirements → Design → Implementation → Testing → Deployment → Mainte
 ```
 
 ### V-Model
+
 ```
 Requirements ←→ Acceptance Testing
     ↓                    ↑
@@ -139,20 +148,22 @@ Implementation ←→ Unit Testing
 Testing is planned from the start!
 
 ### Agile/Iterative
+
 ```
 Plan → Design → Develop → Test → Review → Deploy
   ↑______________|__________________________|
          (Repeat in short cycles)
-         
+
 Testing in every iteration!
 ```
 
 ### DevOps/Continuous
+
 ```
 Code → Build → Test → Deploy → Monitor
   ↑______|______|______|______|______|
          (Continuous cycle)
-         
+
 Testing is automated and continuous!
 ```
 
@@ -174,6 +185,7 @@ Integration → [Integration Tests]
 ```
 
 **Benefits**:
+
 - Find bugs earlier (cheaper to fix)
 - Better test coverage
 - Faster feedback
@@ -192,6 +204,7 @@ Feature Flags
 ```
 
 **Benefits**:
+
 - Real-world feedback
 - Actual user behavior
 - Production validation
@@ -202,6 +215,7 @@ Feature Flags
 Automated tests run without human intervention:
 
 **Benefits**:
+
 - Fast execution
 - Repeatable
 - Consistent
@@ -209,6 +223,7 @@ Automated tests run without human intervention:
 - Catch regressions
 
 **Challenges**:
+
 - Initial effort to create
 - Maintenance required
 - Not suitable for everything
@@ -249,7 +264,7 @@ Automated tests run without human intervention:
 **Test Coverage**: % of code/requirements tested  
 **Regression**: Previously working feature breaks  
 **Smoke Test**: Quick check that basics work  
-**Sanity Test**: Verify specific fix or feature  
+**Sanity Test**: Verify specific fix or feature
 
 ## Testing Metrics
 
@@ -280,12 +295,14 @@ Code Review Coverage: 100% ✅
 ## Quality Assurance vs Quality Control
 
 ### Quality Assurance (QA)
+
 - **Proactive** - Prevent defects
 - **Process-focused**
 - Activities: Reviews, standards, training
 - Example: Code review process, coding standards
 
 ### Quality Control (QC)
+
 - **Reactive** - Detect defects
 - **Product-focused**
 - Activities: Testing, inspections
@@ -316,6 +333,7 @@ Throughout this course, you'll learn:
 ### Scenario 1: E-Commerce Checkout
 
 What needs testing?
+
 - Add items to cart
 - Calculate totals correctly
 - Process payments
@@ -329,6 +347,7 @@ What needs testing?
 ### Scenario 2: Social Media Post
 
 What could go wrong?
+
 - Post doesn't appear
 - Wrong user attribution
 - HTML/script injection
@@ -343,6 +362,7 @@ Testing catches these issues!
 ## Benefits of Good Testing
 
 ### For the Business
+
 - Reduced costs (cheaper to fix early)
 - Better reputation
 - Customer satisfaction
@@ -350,6 +370,7 @@ Testing catches these issues!
 - Competitive advantage
 
 ### For the Development Team
+
 - Confidence to refactor
 - Faster development (catch bugs early)
 - Better design (testable code is better code)
@@ -357,6 +378,7 @@ Testing catches these issues!
 - Easier maintenance
 
 ### For the Users
+
 - Reliable software
 - Better experience
 - Fewer frustrations

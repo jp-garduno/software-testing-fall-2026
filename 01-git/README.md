@@ -3,6 +3,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this module, you will be able to:
+
 - Create and manage Git repositories
 - Make commits with meaningful messages
 - Create and merge branches
@@ -13,6 +14,7 @@ By the end of this module, you will be able to:
 ## 📚 Theory Materials
 
 ### Session 1: Git Basics
+
 - [Introduction to Version Control](./theory/01-version-control-intro.md)
 - [Git Setup and Configuration](./theory/02-git-setup.md)
 - [Basic Git Commands](./theory/03-basic-commands.md)
@@ -20,6 +22,7 @@ By the end of this module, you will be able to:
 - [Branching Basics](./theory/05-branching.md)
 
 ### Session 2: Collaboration with Git
+
 - [Merging Strategies](./theory/06-merging.md)
 - [Pull Requests](./theory/07-pull-requests.md)
 - [Resolving Conflicts](./theory/08-conflicts.md)
@@ -38,18 +41,23 @@ By the end of this module, you will be able to:
 ## 💻 Interactive Exercises
 
 ### [Exercise 1: First Repository](./exercises/01-first-repo.md)
+
 Create your first Git repository, make commits, and explore history.
 
 ### [Exercise 2: Branching Practice](./exercises/02-branching.md)
+
 Create feature branches, switch between branches, and understand branch isolation.
 
 ### [Exercise 3: Collaboration Simulation](./exercises/03-collaboration.md)
+
 Work with a partner repository, create pull requests, and review code.
 
 ### [Exercise 4: Conflict Resolution](./exercises/04-conflicts.md)
+
 Intentionally create and resolve merge conflicts.
 
 ### [Exercise 5: Real-World Workflow](./exercises/05-workflow.md)
+
 Simulate a complete feature development cycle from branch to merge.
 
 ## 📝 Homework Assignment
@@ -58,13 +66,15 @@ Simulate a complete feature development cycle from branch to merge.
 
 **Due**: End of Week 2
 
-**Objectives**: 
+**Objectives**:
+
 - Set up a personal project repository
 - Practice the complete Git workflow
 - Demonstrate understanding of branching and merging
 - Write proper commit messages
 
 **Deliverables**:
+
 - Link to your GitHub repository
 - At least 10 commits across 3 different branches
 - At least 2 pull requests (merged)
@@ -77,7 +87,7 @@ Simulate a complete feature development cycle from branch to merge.
 - **Git**: Version 2.30 or higher
   - Installation: https://git-scm.com/downloads
 - **GitHub Account**: https://github.com/
-- **Git Client (Optional)**: 
+- **Git Client (Optional)**:
   - GitHub Desktop
   - GitKraken
   - SourceTree
@@ -108,6 +118,7 @@ A: See [theory/06-merging.md](./theory/06-merging.md) for detailed comparison.
 ## 🎯 Self-Assessment Checklist
 
 Before moving to Module 2, make sure you can:
+
 - [ ] Initialize a Git repository
 - [ ] Stage and commit changes
 - [ ] View commit history
@@ -122,6 +133,7 @@ Before moving to Module 2, make sure you can:
 ## 🚀 Next Steps
 
 Once you complete this module:
+
 1. Complete [Homework 1](./homework/homework-1.md)
 2. Review [Module 2: Software Testing Concepts](../02-testing-concepts/README.md)
 3. Keep practicing Git in all future modules - it's the foundation!

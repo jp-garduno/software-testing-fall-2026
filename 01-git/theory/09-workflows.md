@@ -29,6 +29,7 @@ feature:       C -- D -- E
 ```
 
 **Process**:
+
 1. Create branch from main
 2. Develop feature
 3. Create PR
@@ -50,6 +51,7 @@ feature/*, hotfix/*, release/*
 ```
 
 **Branches**:
+
 - `main`: Production code only
 - `develop`: Integration branch
 - `feature/*`: New features
@@ -69,6 +71,7 @@ feature:     D -- E
 ```
 
 **Process**:
+
 1. Branch from main
 2. Make changes
 3. Create PR
@@ -137,6 +140,7 @@ git rebase main
 Developers commit directly to `main` (or very short-lived branches).
 
 **Requirements**:
+
 - Strong CI/CD
 - Feature flags
 - High test coverage
@@ -152,6 +156,7 @@ main: v1.0.0 -- v1.1.0 -- v2.0.0
 ```
 
 Tag releases:
+
 ```bash
 git tag -a v1.0.0 -m "Release version 1.0.0"
 git push origin v1.0.0
@@ -209,13 +214,13 @@ Two+ developers work on same branch together.
 
 **Choose based on**:
 
-| **Factor** | **Simple Workflow** | **Complex Workflow** |
-|------------|---------------------|----------------------|
-| Team size | < 5 | > 10 |
-| Release cycle | Continuous | Scheduled |
-| Team experience | Beginners | Experienced |
-| Project complexity | Simple | Complex |
-| Deployment | Automated | Manual |
+| **Factor**         | **Simple Workflow** | **Complex Workflow** |
+| ------------------ | ------------------- | -------------------- |
+| Team size          | < 5                 | > 10                 |
+| Release cycle      | Continuous          | Scheduled            |
+| Team experience    | Beginners           | Experienced          |
+| Project complexity | Simple              | Complex              |
+| Deployment         | Automated           | Manual               |
 
 ## Best Practices (All Workflows)
 
@@ -251,6 +256,7 @@ git push origin feat/homework-1-yourname
 ## Protecting Main Branch
 
 On GitHub:
+
 1. Settings → Branches
 2. Add rule for `main`
 3. Enable:

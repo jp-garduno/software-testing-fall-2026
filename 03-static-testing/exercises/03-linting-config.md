@@ -26,12 +26,14 @@ This creates a `.pylintrc` file with all available options.
 Open `.pylintrc` and find these sections:
 
 **[MASTER]** - Basic configuration
+
 ```ini
 [MASTER]
 jobs=0  # Use all CPU cores
 ```
 
 **[MESSAGES CONTROL]** - Enable/disable warnings
+
 ```ini
 [MESSAGES CONTROL]
 disable=C0111,  # missing-docstring
@@ -40,6 +42,7 @@ disable=C0111,  # missing-docstring
 ```
 
 **[FORMAT]** - Code style
+
 ```ini
 [FORMAT]
 max-line-length=120
@@ -87,7 +90,7 @@ def calculate_total(price, tax_rate, discount, shipping, insurance, handling_fee
 
 class MyClass:
     """A class with too many instance attributes."""
-    
+
     def __init__(self):
         self.a = 1
         self.b = 2
@@ -128,6 +131,7 @@ def complex_function(x):
 ```
 
 **Run Pylint**:
+
 ```bash
 pylint test_code.py
 ```
@@ -184,6 +188,7 @@ npx eslint --init
 ```
 
 Answer the prompts:
+
 - How would you like to use ESLint? **To check syntax and find problems**
 - What type of modules? **JavaScript modules (import/export)**
 - Which framework? **None**
@@ -200,22 +205,22 @@ export default [
   {
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'module',
+      sourceType: "module",
       globals: {
-        console: 'readonly',
-        process: 'readonly',
+        console: "readonly",
+        process: "readonly",
       },
     },
     rules: {
-      'no-console': 'warn',
-      'no-unused-vars': 'error',
-      'no-undef': 'error',
-      'semi': ['error', 'always'],
-      'quotes': ['error', 'single'],
-      'indent': ['error', 2],
-      'max-len': ['warn', { code: 120 }],
-      'eqeqeq': ['error', 'always'],
-      'curly': ['error', 'all'],
+      "no-console": "warn",
+      "no-unused-vars": "error",
+      "no-undef": "error",
+      semi: ["error", "always"],
+      quotes: ["error", "single"],
+      indent: ["error", 2],
+      "max-len": ["warn", { code: 120 }],
+      eqeqeq: ["error", "always"],
+      curly: ["error", "all"],
     },
   },
 ];
@@ -227,27 +232,28 @@ Create `test-code.js`:
 
 ```javascript
 function calculateTotal(price, taxRate, discount) {
-  const subtotal = price - discount
-  const tax = subtotal * taxRate
-  
-  if (tax > 0)
-    console.log("Tax applied")
-  
-  const unusedVariable = 10
-  
-  return subtotal + tax
+  const subtotal = price - discount;
+  const tax = subtotal * taxRate;
+
+  if (tax > 0) console.log("Tax applied");
+
+  const unusedVariable = 10;
+
+  return subtotal + tax;
 }
 
-const result = calculateTotal(100, 0.1, 20)
-console.log(result)
+const result = calculateTotal(100, 0.1, 20);
+console.log(result);
 ```
 
 **Run ESLint**:
+
 ```bash
 npx eslint test-code.js
 ```
 
 **Auto-fix**:
+
 ```bash
 npx eslint test-code.js --fix
 ```
@@ -309,13 +315,13 @@ npm install --save-dev eslint-config-prettier
 Update ESLint config:
 
 ```javascript
-import prettierConfig from 'eslint-config-prettier';
+import prettierConfig from "eslint-config-prettier";
 
 export default [
   {
     // ... your existing config
   },
-  prettierConfig,  // Disables conflicting rules
+  prettierConfig, // Disables conflicting rules
 ];
 ```
 
@@ -326,12 +332,14 @@ export default [
 ### Task 1: Python Configuration
 
 Create `.pylintrc` that:
+
 1. Sets max line length to 100
 2. Disables `missing-docstring` warnings
 3. Allows up to 8 arguments per function
 4. Sets minimum name length to 2 characters
 
 **Test with this code**:
+
 ```python
 def f(x):  # Short name
     return x * 2
@@ -343,6 +351,7 @@ def long_function(a, b, c, d, e, f, g, h, i):  # Too many args
 ### Task 2: JavaScript Configuration
 
 Create ESLint config that:
+
 1. Requires double quotes (not single)
 2. Requires 4-space indentation
 3. Allows `console.log` (no warning)
@@ -350,16 +359,18 @@ Create ESLint config that:
 5. Max line length 100
 
 **Test with this code**:
+
 ```javascript
 function test(x, y, z) {
-    console.log('Testing')
-    return x + y + z
+  console.log("Testing");
+  return x + y + z;
 }
 ```
 
 ### Task 3: Find Optimal Settings
 
 Run linters on your Homework 1 code and adjust settings to:
+
 - Fix legitimate issues
 - Suppress false positives
 - Match your team's style preferences
@@ -385,11 +396,13 @@ Document 5 rules you changed and why.
 **4.** How do you disable a rule for one line only?
 
 **Python:**
+
 ```python
 # pylint: disable=rule-name
 ```
 
 **JavaScript:**
+
 ```javascript
 // eslint-disable-next-line rule-name
 ```
@@ -405,6 +418,7 @@ Document 5 rules you changed and why.
 ### Challenge 1: Project-specific Rules
 
 Create different linting rules for:
+
 - `src/` (strict)
 - `tests/` (relaxed)
 - `scripts/` (very relaxed)
@@ -412,12 +426,14 @@ Create different linting rules for:
 ### Challenge 2: Custom Pylint Plugin
 
 Create a custom Pylint checker that warns about:
+
 - Functions longer than 50 lines
 - Files longer than 500 lines
 
 ### Challenge 3: ESLint Custom Rule
 
 Create custom ESLint rule that enforces:
+
 - All functions must have at least one comment
 - No function can have more than 20 lines
 
@@ -426,6 +442,7 @@ Create custom ESLint rule that enforces:
 ## Submission
 
 Provide:
+
 1. `.pylintrc` file
 2. `pyproject.toml` (Black config)
 3. `eslint.config.js`

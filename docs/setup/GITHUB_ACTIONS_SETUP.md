@@ -7,6 +7,7 @@ Your repository now includes comprehensive CI/CD automation with GitHub Actions.
 ### Workflows Created
 
 1. **`.github/workflows/ci.yml`** - Main CI/CD pipeline
+
    - Python tests (3.9, 3.10, 3.11, 3.12)
    - JavaScript tests (Node 18.x, 20.x)
    - Pre-commit validation
@@ -15,6 +16,7 @@ Your repository now includes comprehensive CI/CD automation with GitHub Actions.
    - Code quality checks
 
 2. **`.github/workflows/student-submission.yml`** - Student work validator
+
    - Automatically validates student submissions
    - Runs tests on changed files
    - Checks code style
@@ -28,6 +30,7 @@ Your repository now includes comprehensive CI/CD automation with GitHub Actions.
 ### GitHub Templates
 
 4. **`.github/PULL_REQUEST_TEMPLATE.md`** - PR template for submissions
+
    - Structured format for homework/assignments
    - Testing checklist
    - Review criteria
@@ -46,6 +49,7 @@ Your repository now includes comprehensive CI/CD automation with GitHub Actions.
 ### Claude AI Configuration
 
 8. **`.claude/CLAUDE.md`** - Project context for Claude
+
    - Repository structure
    - Coding standards
    - Common patterns
@@ -72,7 +76,7 @@ When a student submits work:
 
 2. Student commits changes
    └─→ git commit -m "feat(homework-4): complete black box tests"
-   
+
 3. Pre-commit hooks run locally
    └─→ Linting, formatting, basic checks
 
@@ -109,6 +113,7 @@ When a student submits work:
 ### For Instructors
 
 You get:
+
 - **Automated quality gates** - Code must pass checks before review
 - **Coverage reports** - See test coverage for each submission
 - **Consistent validation** - Same checks for all students
@@ -204,6 +209,7 @@ Changes take effect immediately.
 ### Monitoring Usage
 
 GitHub Actions minutes/storage:
+
 - **Public repos**: Unlimited (what you have)
 - **Private repos**: Limited by plan
 
@@ -220,31 +226,37 @@ Add this to your course announcement:
 All submissions will be automatically validated using GitHub Actions:
 
 1. **Create your branch**:
+
    ```bash
    git checkout -b feat/homework-X-your-name
    ```
 
 2. **Work on your assignment** in the appropriate directory:
+
    - Homework: `students/your-name/homework-X/`
    - Exercises: `students/your-name/exercises/`
 
 3. **Commit with proper format**:
+
    ```bash
    git commit -m "feat(homework-4): complete boundary value analysis"
    ```
 
 4. **Push and create PR**:
+
    ```bash
    git push origin feat/homework-X-your-name
    ```
 
 5. **Check automated feedback**:
+
    - Go to your PR on GitHub
    - Wait for checks to complete (~2-5 minutes)
    - View results: ✅ passed or ❌ failed
    - Click "Details" on failed checks to see what needs fixing
 
 6. **Fix issues if needed**:
+
    - Make corrections locally
    - Commit and push again
    - Checks run automatically on new commits
@@ -276,6 +288,7 @@ All submissions will be automatically validated using GitHub Actions:
 **Problem**: Workflows don't trigger when you push
 
 **Solutions**:
+
 1. Check Actions are enabled (Settings → Actions)
 2. Verify workflow files are in `.github/workflows/`
 3. Check YAML syntax is valid
@@ -286,12 +299,14 @@ All submissions will be automatically validated using GitHub Actions:
 **Problem**: Tests pass on your machine but fail in GitHub Actions
 
 **Common causes**:
+
 - Python/Node version mismatch
 - Missing dependencies
 - File path differences (Windows vs Linux)
 - Environment variables
 
 **Solution**:
+
 ```bash
 # Match versions to workflow
 python --version  # Should be 3.9-3.12
@@ -327,6 +342,7 @@ permissions:
 **Problem**: Workflows take too long
 
 **Solutions**:
+
 - Use caching for dependencies
 - Parallelize jobs when possible
 - Skip redundant checks
@@ -339,6 +355,7 @@ permissions:
 ### For This Course
 
 1. **Run checks locally first**
+
    ```bash
    pre-commit run --all-files
    pytest --cov=.
@@ -346,14 +363,17 @@ permissions:
    ```
 
 2. **Keep workflows fast**
+
    - Average run time: 2-5 minutes
    - Longer for E2E tests: 5-10 minutes
 
 3. **Don't ignore failures**
+
    - If CI fails, fix it before requesting review
    - Document why if you need to disable a check
 
 4. **Use workflow badges**
+
    - Add status badge to README
    - Shows build status at a glance
 
@@ -366,14 +386,17 @@ permissions:
 ## 📚 Additional Resources
 
 ### Official Documentation
+
 - [GitHub Actions Docs](https://docs.github.com/en/actions)
 - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 
 ### Video Tutorials
+
 - [GitHub Actions Tutorial](https://www.youtube.com/watch?v=R8_veQiYBjI) - freeCodeCamp
 - [CI/CD with GitHub Actions](https://www.youtube.com/watch?v=mFFXuXjVgkU) - Fireship
 
 ### Example Workflows
+
 - [Actions Examples](https://github.com/actions/starter-workflows)
 - [Awesome Actions](https://github.com/sdras/awesome-actions)
 

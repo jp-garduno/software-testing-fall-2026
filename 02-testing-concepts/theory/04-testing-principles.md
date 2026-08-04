@@ -47,6 +47,7 @@ These seven fundamental principles guide effective software testing (ISTQB).
 **Principle**: Different software needs **different testing approaches**.
 
 **Examples**:
+
 - Medical software: Safety-critical
 - E-commerce: Performance, security
 - Mobile game: Usability, fun
@@ -65,15 +66,15 @@ These seven fundamental principles guide effective software testing (ISTQB).
 
 ## Quick Reference
 
-| Principle | Meaning |
-|-----------|---------|
-| **Presence of Defects** | Testing finds bugs, can't prove absence |
-| **Exhaustive Impossible** | Can't test everything |
-| **Early Testing** | Test early, fix cheap |
-| **Defect Clustering** | 80/20 rule for bugs |
-| **Pesticide Paradox** | Update tests regularly |
-| **Context Dependent** | Adapt approach to context |
-| **Absence of Errors** | Bug-free ≠ Success |
+| Principle                 | Meaning                                 |
+| ------------------------- | --------------------------------------- |
+| **Presence of Defects**   | Testing finds bugs, can't prove absence |
+| **Exhaustive Impossible** | Can't test everything                   |
+| **Early Testing**         | Test early, fix cheap                   |
+| **Defect Clustering**     | 80/20 rule for bugs                     |
+| **Pesticide Paradox**     | Update tests regularly                  |
+| **Context Dependent**     | Adapt approach to context               |
+| **Absence of Errors**     | Bug-free ≠ Success                      |
 
 ---
 

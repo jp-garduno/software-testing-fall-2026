@@ -68,6 +68,7 @@ Your Software Testing course now has **fully automated grading** integrated with
 ### Documentation
 
 2. **`CANVAS_INTEGRATION.md`** (17KB)
+
    - Complete guide for instructors
    - Canvas setup instructions
    - Grade import process
@@ -101,6 +102,7 @@ FINAL GRADE = (Tests × 40%) + (Coverage × 30%) + (Quality × 20%) + (Structure
 ### Components Measured
 
 #### 1. Tests (40%)
+
 ```python
 # Runs all Python and JavaScript tests
 pytest -v --junitxml=results.xml
@@ -111,6 +113,7 @@ tests_score = (passed_tests / total_tests) × 100
 ```
 
 #### 2. Coverage (30%)
+
 ```python
 # Measures code coverage
 pytest --cov=. --cov-report=json
@@ -121,6 +124,7 @@ coverage_score = coverage_percentage
 ```
 
 #### 3. Code Quality (20%)
+
 ```python
 # Checks code style
 pylint **/*.py --output-format=json
@@ -131,6 +135,7 @@ quality_score = 100 - (errors × 5) - (warnings × 1)
 ```
 
 #### 4. Structure (10%)
+
 ```bash
 # Checks required files
 [ -f README.md ] → +3 points
@@ -180,6 +185,7 @@ Grade: 91.22/100 (A-)
 ### Before Semester Starts
 
 - [ ] **Push all files to GitHub**
+
   ```bash
   cd c:/tmp/software-testing-fall-2026
   git add .
@@ -188,14 +194,17 @@ Grade: 91.22/100 (A-)
   ```
 
 - [ ] **Enable GitHub Actions**
+
   - Settings → Actions → Allow all actions
 
 - [ ] **Test automated grading**
+
   - Create sample PR
   - Verify grading runs
   - Check CSV output
 
 - [ ] **Set up Canvas course**
+
   - Create assignments
   - Configure for URL submission
   - Add instructions
@@ -208,11 +217,13 @@ Grade: 91.22/100 (A-)
 ### First Week of Class
 
 - [ ] **Introduce the system**
+
   - Explain GitHub + Canvas workflow
   - Show example PR and grading
   - Walk through submission process
 
 - [ ] **Test with students**
+
   - Simple "Hello World" assignment
   - Verify they can create PRs
   - Check Canvas submissions work
@@ -225,11 +236,13 @@ Grade: 91.22/100 (A-)
 ### Ongoing
 
 - [ ] **Weekly grade imports**
+
   - Download CSVs from GitHub
   - Import to Canvas
   - Don't let grades pile up
 
 - [ ] **Spot check grades**
+
   - Randomly verify automated grades
   - Adjust rubric if needed
   - Document edge cases
@@ -246,12 +259,14 @@ Grade: 91.22/100 (A-)
 Share these links in Canvas:
 
 1. **[STUDENT_SUBMISSION_GUIDE.md](../student/STUDENT_SUBMISSION_GUIDE.md)**
+
    - Complete walkthrough
    - Checklist
    - Troubleshooting
    - **Post in Canvas announcements**
 
 2. **[CONTRIBUTING.md](./CONTRIBUTING.md)**
+
    - Git workflow
    - Commit standards
    - Code style
@@ -268,6 +283,7 @@ Share these links in Canvas:
 ### Week 1: Introduction
 
 **In-Class Demo** (30 minutes):
+
 1. Show the course repository
 2. Walk through a sample PR
 3. Demonstrate automated grading
@@ -275,6 +291,7 @@ Share these links in Canvas:
 5. Answer questions
 
 **Assignment**: Practice PR (not graded)
+
 - Create branch
 - Make small change
 - Create PR
@@ -283,6 +300,7 @@ Share these links in Canvas:
 ### Week 2-16: Regular Workflow
 
 **For Each Assignment**:
+
 1. Post assignment in Canvas
 2. Include GitHub instructions
 3. Students submit PR links
@@ -293,16 +311,19 @@ Share these links in Canvas:
 ### Handling Issues
 
 **Student Can't Create PR**:
+
 - Check branch is pushed
 - Verify repository access
 - Review Git basics from Module 1
 
 **Automated Grading Fails**:
+
 - Check Actions tab for errors
 - Common: missing dependencies, syntax errors
 - Can re-run workflow manually
 
 **Grade Seems Wrong**:
+
 - Review grading report with student
 - Check test output
 - Explain rubric weights
@@ -315,11 +336,13 @@ Share these links in Canvas:
 ### GitHub Actions
 
 **Free Tier** (Public Repositories):
+
 - ✅ **Unlimited** minutes for public repos
 - ✅ **Unlimited** storage (within reason)
 - ✅ **Concurrent jobs**: 20
 
 **For This Course**:
+
 - Each grading run: ~5 minutes
 - With 30 students: 150 minutes per assignment
 - 9 assignments + 3 exams: ~1,800 minutes total
@@ -328,11 +351,13 @@ Share these links in Canvas:
 ### Benefits vs Traditional Grading
 
 **Traditional Manual Grading**:
+
 - 30 students × 9 assignments = 270 submissions
 - 15 minutes per submission = 67.5 hours
 - At $50/hour = $3,375 worth of time
 
 **Automated Grading**:
+
 - Setup time: 4 hours ($200)
 - Ongoing per assignment: 30 minutes ($25)
 - Total semester: ~8 hours ($400)
@@ -388,6 +413,7 @@ Manual Grade (20%):
 ### Assignment-Specific Rubrics
 
 Create separate workflows:
+
 - `grading-homework.yml`
 - `grading-exam.yml`
 - `grading-project.yml`
@@ -401,6 +427,7 @@ Or use conditionals based on labels.
 ### View All Grades
 
 **Master Gradebook**:
+
 ```bash
 # View all grades
 cat .gradebook/master-gradebook.csv
@@ -414,6 +441,7 @@ grep "homework-4" .gradebook/master-gradebook.csv | awk -F',' '{sum+=$3; count++
 ```
 
 **GitHub Insights**:
+
 - Actions tab → Workflows
 - See success rate
 - Monitor timing
@@ -446,9 +474,11 @@ grep "homework-4" .gradebook/master-gradebook.csv | awk -F',' '
 ### For Students
 
 Common issues and solutions documented in:
+
 - [STUDENT_SUBMISSION_GUIDE.md](../student/STUDENT_SUBMISSION_GUIDE.md)
 
 Quick answers:
+
 - **Tests fail**: Fix code, push again
 - **Low coverage**: Add more tests
 - **Linting errors**: Run formatters
@@ -457,21 +487,25 @@ Quick answers:
 ### For You
 
 **GitHub Actions not running**:
+
 1. Check Actions are enabled
 2. Verify workflow syntax
 3. Check triggers match
 
 **Grades not calculating**:
+
 1. Review Actions logs
 2. Check test output
 3. Verify rubric weights
 
 **Canvas import failing**:
+
 1. Check CSV format
 2. Verify student IDs
 3. Manual import as backup
 
 **Need to regrade**:
+
 ```bash
 # Re-run workflow for specific PR
 gh workflow run grading-automation.yml -f pr_number=42
@@ -514,7 +548,7 @@ You now have a **state-of-the-art automated grading system** that:
 ✅ Integrates seamlessly with Canvas  
 ✅ Tracks all submissions automatically  
 ✅ Generates reports for administration  
-✅ Works 24/7 without human intervention  
+✅ Works 24/7 without human intervention
 
 **Ready to revolutionize your teaching!** 🚀
 

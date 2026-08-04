@@ -25,7 +25,7 @@
 ✅ **Enforce standards** - Automatic checking  
 ✅ **Save time** - Find issues locally, not in CI  
 ✅ **Consistent quality** - Same checks for everyone  
-✅ **No manual checking** - Automated quality gates  
+✅ **No manual checking** - Automated quality gates
 
 ## Pre-commit Framework
 
@@ -123,6 +123,7 @@ repos:
 ## Common Hooks
 
 ### File Checks
+
 - `trailing-whitespace` - Remove trailing spaces
 - `end-of-file-fixer` - Ensure newline at EOF
 - `check-added-large-files` - Prevent large files
@@ -131,10 +132,12 @@ repos:
 - `check-json` - Validate JSON syntax
 
 ### Security
+
 - `detect-private-key` - Find private keys
 - `detect-aws-credentials` - Find AWS credentials
 
 ### Python
+
 - `black` - Code formatter
 - `isort` - Sort imports
 - `pylint` - Linter
@@ -142,6 +145,7 @@ repos:
 - `pytest` - Run tests
 
 ### JavaScript
+
 - `prettier` - Code formatter
 - `eslint` - Linter
 - `tsc` - TypeScript compiler
@@ -248,6 +252,7 @@ git commit -m "feat: add test file"
 ```
 
 **Stages**:
+
 - `commit` - Before commit (default)
 - `commit-msg` - Check commit message
 - `push` - Before push
@@ -269,23 +274,26 @@ git commit -m "feat: add test file"
 ## Best Practices
 
 ### DO
+
 ✅ Install hooks for all team members  
 ✅ Keep hooks fast (< 10 seconds)  
 ✅ Auto-fix when possible  
 ✅ Update hooks regularly  
-✅ Document in README  
+✅ Document in README
 
 ### DON'T
+
 ❌ Skip hooks with `--no-verify`  
 ❌ Make hooks too slow  
 ❌ Run extensive tests in pre-commit  
-❌ Fail on warnings (only errors)  
+❌ Fail on warnings (only errors)
 
 ## Skipping Hooks
 
 ### When to Skip
 
 Only skip hooks for:
+
 - Emergency hotfixes
 - Work-in-progress commits
 - Known issues being fixed
@@ -305,18 +313,21 @@ git commit -n -m "message"
 ## Troubleshooting
 
 ### Hook Failed But No Error
+
 ```bash
 # Run manually to see details
 pre-commit run --all-files
 ```
 
 ### Hook Too Slow
+
 ```bash
 # Remove slow hook or optimize
 # Consider running in CI instead
 ```
 
 ### Hook Conflicts
+
 ```bash
 # Clear cache and reinstall
 pre-commit clean

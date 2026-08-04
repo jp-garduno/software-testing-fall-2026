@@ -52,6 +52,7 @@ git checkout -b feat/project-milestone-2-team-alpha
 ```
 
 **Branch Naming Rules**:
+
 - Use `feat/homework-X-yourname` for homework
 - Use `feat/exam-X-yourname` for exams
 - Use `feat/project-milestone-X-teamname` for project
@@ -74,6 +75,7 @@ For Project:
 ```
 
 **Directory Structure Example**:
+
 ```
 students/john-doe/homework-4/
 ├── README.md                    # Your documentation
@@ -109,6 +111,7 @@ pre-commit run --all-files
 ```
 
 **What to look for**:
+
 - ✅ All tests pass
 - ✅ Coverage is at least 80%
 - ✅ No linting errors
@@ -127,6 +130,7 @@ git commit -m "feat(homework-4): complete boundary value analysis exercises"
 ```
 
 **Commit Message Format**:
+
 ```
 <type>(<scope>): <description>
 
@@ -152,6 +156,7 @@ git push origin feat/homework-4-john-doe
 ```
 
 If this is your first push, you might need:
+
 ```bash
 git push -u origin feat/homework-4-john-doe
 ```
@@ -165,42 +170,52 @@ git push -u origin feat/homework-4-john-doe
    - base: `main`
    - compare: `feat/homework-4-john-doe`
 5. **Fill out the template**:
+
    ```markdown
    ## Description
+
    Completed Homework 4: Black Box Testing
 
    ## Type of Change
+
    - [x] Homework submission
 
    ## Module/Assignment
+
    - Module: Module 4: Black Box Testing
    - Assignment: Homework 4
 
    ## Student Information
+
    - Name: John Doe
    - Student ID: 12345678
 
    ## Changes Made
+
    - Implemented equivalence partitioning tests
    - Added boundary value analysis
    - Created decision tables
    - 90% test coverage achieved
 
    ## Testing Performed
+
    - [x] All tests pass locally
    - [x] Code is properly formatted
    - [x] Linting passes
    - [x] Pre-commit hooks pass
 
    ## Coverage Report
+
    - Python Coverage: 92%
    - JavaScript Coverage: 88%
    ```
+
 6. **Create pull request**
 
 ### Step 8: Wait for Automated Checks
 
 GitHub Actions will automatically:
+
 - Run all your tests
 - Check code quality
 - Calculate coverage
@@ -209,6 +224,7 @@ GitHub Actions will automatically:
 **This takes 2-5 minutes** ⏱️
 
 Watch the PR page for:
+
 - 🟡 Yellow dot = Running
 - ✅ Green checkmark = All passed
 - ❌ Red X = Something failed
@@ -220,6 +236,7 @@ Once checks complete:
 1. **Scroll down in your PR**
 2. **Find "Automated Grading Report" comment**
 3. **Review your grade**:
+
    ```
    Final Grade: 87.5/100
 
@@ -241,6 +258,7 @@ Once checks complete:
 Once you're happy with your grade:
 
 1. **Copy your PR URL**
+
    - Example: `https://github.com/john-doe/software-testing-fall-2026/pull/42`
 
 2. **Go to Canvas assignment**
@@ -251,7 +269,8 @@ Once you're happy with your grade:
 
 5. **Click "Submit"**
 
-**Important**: 
+**Important**:
+
 - ✅ Submit the **PR link**, not the repository link
 - ✅ Make sure all checks are **green** ✅ before submitting
 - ✅ You can see your grade in the PR **before** submitting to Canvas
@@ -269,23 +288,27 @@ Final Grade = (Tests × 40%) + (Coverage × 30%) + (Quality × 20%) + (Structure
 ```
 
 #### Tests (40%)
+
 - **What**: Percentage of passing tests
 - **How**: `(tests_passed / total_tests) × 100`
 - **Example**: 18/20 tests pass = 90/100
 
 #### Coverage (30%)
+
 - **What**: Code coverage percentage
 - **How**: Measured by coverage tools
 - **Target**: Aim for 80%+
 - **Example**: 85% coverage = 85/100
 
 #### Code Quality (20%)
+
 - **What**: Linting and style
 - **How**: Pylint (Python) and ESLint (JavaScript)
 - **Deductions**: Errors and warnings reduce score
 - **Example**: Few minor issues = 95/100
 
 #### Structure & Documentation (10%)
+
 - **What**: Required files and organization
 - **Points**:
   - README.md: 3 points
@@ -317,6 +340,7 @@ Your Grade: 90.5/100 🎉
 Use this checklist for every assignment:
 
 ### Local Testing
+
 - [ ] All tests pass (`pytest` and `npm test`)
 - [ ] Coverage is at least 80%
 - [ ] No linting errors
@@ -324,18 +348,21 @@ Use this checklist for every assignment:
 - [ ] Pre-commit hooks pass
 
 ### Documentation
+
 - [ ] README.md is complete
 - [ ] Code has necessary comments
 - [ ] Test cases are documented
 - [ ] Setup instructions are clear
 
 ### GitHub
+
 - [ ] Branch name follows convention
 - [ ] Commits use conventional format
 - [ ] PR template is filled out
 - [ ] All automated checks are green ✅
 
 ### Canvas
+
 - [ ] PR link is copied
 - [ ] Assignment is selected
 - [ ] Submission is confirmed
@@ -349,6 +376,7 @@ Use this checklist for every assignment:
 **Why**: Different environment or missing files
 
 **Solution**:
+
 ```bash
 # Check Python version
 python --version  # Should be 3.9-3.12
@@ -373,6 +401,7 @@ npm test
 **Why**: Code doesn't follow style guidelines
 
 **Solution**:
+
 ```bash
 # Python - auto-fix most issues
 black .
@@ -391,6 +420,7 @@ npm run lint
 **Why**: Not enough tests
 
 **Solution**:
+
 ```bash
 # See what's missing
 pytest --cov=. --cov-report=html
@@ -407,6 +437,7 @@ open htmlcov/index.html  # View report
 **Why**: Branch not pushed or conflicts
 
 **Solution**:
+
 ```bash
 # Make sure branch is pushed
 git push origin your-branch-name
@@ -424,6 +455,7 @@ git rebase origin/main
 **Why**: Misunderstanding or actual error
 
 **Solution**:
+
 1. Review grading report in PR comments
 2. Check which component is low
 3. Review the rubric
@@ -437,21 +469,25 @@ git rebase origin/main
 ### General Tips
 
 1. **Start Early**
+
    - Don't wait until the deadline
    - Gives you time to fix issues
    - Automated grading is instant, but fixing takes time
 
 2. **Test Frequently**
+
    - Run tests after every change
    - Don't write all code then test
    - Faster to fix issues immediately
 
 3. **Read Error Messages**
+
    - They tell you exactly what's wrong
    - Click "Details" on failed checks
    - Learn from the feedback
 
 4. **Ask for Help**
+
    - Use GitHub Discussions
    - Ask in class
    - Check with classmates (but don't copy code)
@@ -464,11 +500,13 @@ git rebase origin/main
 ### Testing Tips
 
 1. **Write Tests First** (TDD approach)
+
    - Helps design better code
    - Ensures you meet requirements
    - Higher coverage naturally
 
 2. **Test Edge Cases**
+
    - Empty inputs
    - Maximum/minimum values
    - Invalid data
@@ -482,10 +520,12 @@ git rebase origin/main
 ### Code Quality Tips
 
 1. **Use Meaningful Names**
+
    - `calculateDiscount` not `calc`
    - `userEmail` not `x`
 
 2. **Keep Functions Small**
+
    - One function = one purpose
    - Easier to test
    - Better grade on quality

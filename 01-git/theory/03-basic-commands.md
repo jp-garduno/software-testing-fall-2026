@@ -31,11 +31,13 @@ git init
 ```
 
 **What it does**:
+
 - Creates a `.git` folder (hidden)
 - Sets up Git database
 - Prepares for tracking
 
 **Output**:
+
 ```
 Initialized empty Git repository in /path/to/my-project/.git/
 ```
@@ -51,12 +53,14 @@ git status
 ```
 
 **What it shows**:
+
 - Modified files
 - Staged files
 - Untracked files
 - Current branch
 
 **Example output**:
+
 ```
 On branch main
 
@@ -93,6 +97,7 @@ git add -u
 ```
 
 **Examples**:
+
 ```bash
 # Stage README.md
 git add README.md
@@ -127,6 +132,7 @@ git commit -am "Your message"
 ```
 
 **Good commit messages**:
+
 ```bash
 # ✅ Good
 git commit -m "feat: add user authentication"
@@ -140,6 +146,7 @@ git commit -m "idk"
 ```
 
 **Conventional Commits format**:
+
 ```
 <type>: <description>
 
@@ -147,6 +154,7 @@ git commit -m "idk"
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -185,6 +193,7 @@ git log --pretty=format:"%h - %an, %ar : %s"
 ```
 
 **Example output**:
+
 ```bash
 $ git log --oneline
 a1b2c3d (HEAD -> main) feat: add login page
@@ -215,6 +224,7 @@ git diff filename.txt
 ```
 
 **Example**:
+
 ```diff
 diff --git a/calculator.py b/calculator.py
 index 1234567..abcdefg 100644
@@ -282,23 +292,28 @@ Untracked → Unmodified → Modified → Staged → Committed
 ```
 
 ### Untracked
+
 - New files Git doesn't know about
 - Not in version control
 - Won't be in commits
 
 ### Unmodified
+
 - File is tracked
 - No changes since last commit
 
 ### Modified
+
 - File has changes
 - Not staged yet
 
 ### Staged
+
 - Changes marked for commit
 - Will be in next commit
 
 ### Committed
+
 - Safely stored in repository
 - Part of project history
 
@@ -360,6 +375,7 @@ touch .gitignore
 ```
 
 **Example `.gitignore`**:
+
 ```
 # Python
 __pycache__/
@@ -389,6 +405,7 @@ build/
 ```
 
 **Common patterns**:
+
 ```
 # Ignore specific file
 secret.txt
@@ -429,6 +446,7 @@ git show commit_hash:filename.txt
 ## Quick Reference
 
 ### Setup
+
 ```bash
 git init                    # Initialize repository
 git config --global user.name "Name"
@@ -436,6 +454,7 @@ git config --global user.email "email"
 ```
 
 ### Basic Workflow
+
 ```bash
 git status                  # Check status
 git add file.txt            # Stage file
@@ -446,6 +465,7 @@ git log --oneline           # Compact history
 ```
 
 ### Undoing
+
 ```bash
 git restore file.txt        # Discard changes
 git restore --staged file.txt  # Unstage
@@ -453,6 +473,7 @@ git commit --amend          # Modify last commit
 ```
 
 ### Viewing Changes
+
 ```bash
 git diff                    # Unstaged changes
 git diff --staged           # Staged changes

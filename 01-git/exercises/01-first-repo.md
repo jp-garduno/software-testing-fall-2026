@@ -23,6 +23,7 @@ git status
 ```
 
 **Expected output**:
+
 ```
 Initialized empty Git repository in .../my-portfolio/.git/
 On branch main
@@ -45,6 +46,7 @@ git status
 ```
 
 **Questions**:
+
 1. What does `git status` show?
 2. Is README.md tracked or untracked?
 
@@ -64,9 +66,7 @@ git commit -m "feat: initial commit with README"
 git log
 ```
 
-**Questions**:
-3. What information does `git log` show?
-4. What is the commit hash (ID)?
+**Questions**: 3. What information does `git log` show? 4. What is the commit hash (ID)?
 
 ---
 
@@ -352,6 +352,7 @@ For this exercise, submit:
 
 **Issue**: Files still show in status despite .gitignore  
 **Solution**: .gitignore only affects untracked files. If files were already tracked, you need to untrack them:
+
 ```bash
 git rm --cached filename
 ```

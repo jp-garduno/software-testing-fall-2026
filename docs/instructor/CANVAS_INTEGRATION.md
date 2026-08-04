@@ -69,6 +69,7 @@ For each homework/exam/project milestone:
 1. **Go to Canvas → Assignments → +Assignment**
 
 2. **Configure Assignment**:
+
    ```
    Name: Homework 1 - Git Fundamentals
    Points: 100
@@ -76,38 +77,43 @@ For each homework/exam/project milestone:
    ```
 
 3. **Use "Website URL" submission type**:
+
    - Students will submit GitHub PR link
    - Example format: `https://github.com/[username]/[repo]/pull/[number]`
 
 4. **Add instructions**:
+
    ```markdown
    ## Submission Instructions
-   
+
    1. Complete your work in the GitHub repository
    2. Create a Pull Request with your changes
    3. Ensure all automated checks pass (green checkmarks)
    4. Copy your PR link (https://github.com/...)
    5. Submit the PR link here in Canvas
-   
+
    ## Grading
-   
+
    Your work will be graded automatically via GitHub Actions:
+
    - Tests (40%)
    - Code Coverage (30%)
    - Code Quality (20%)
    - Structure/Documentation (10%)
-   
+
    You can see your automated grade in the PR comments.
    ```
 
 ### 2. Gradebook Configuration
 
 **Option A: Manual Import (Recommended for start)**
+
 - Download CSV from GitHub Actions
 - Import to Canvas gradebook
 - Quick and simple
 
 **Option B: Canvas API Integration (Advanced)**
+
 - Set up automatic grade sync
 - Requires Canvas API token
 - See "Advanced Integration" section below
@@ -119,15 +125,18 @@ For each homework/exam/project milestone:
 ### Method 1: Individual Assignment Import
 
 1. **Go to GitHub Actions**
+
    - Navigate to your repository
    - Click "Actions" tab
    - Click "Automated Grading" workflow
 
 2. **Find Completed Run**
+
    - Look for runs with ✅ green checkmark
    - Click on the run for the student's PR
 
 3. **Download Artifact**
+
    - Scroll to "Artifacts" section at bottom
    - Download `canvas-import-pr-[number].zip`
    - Extract `canvas-grade.csv`
@@ -138,6 +147,7 @@ For each homework/exam/project milestone:
    - Review and confirm import
 
 **CSV Format**:
+
 ```csv
 Student,Assignment,Score,Max Points,Submission Date,Comments
 john_doe,1,85.5,100,2026-09-15,Automated grading via GitHub Actions - PR #42
@@ -148,19 +158,22 @@ john_doe,1,85.5,100,2026-09-15,Automated grading via GitHub Actions - PR #42
 Use the master gradebook that accumulates all grades:
 
 1. **Access Master Gradebook**
+
    - Located in `.gradebook/master-gradebook.csv` in repository
    - Updated automatically when PRs merge
 
 2. **Download Master Gradebook**
+
    ```bash
    # Clone or pull repository
    git pull origin main
-   
+
    # View gradebook
    cat .gradebook/master-gradebook.csv
    ```
 
 3. **Filter for Specific Assignment**
+
    ```bash
    # Filter homework 4 grades
    grep "homework-4" .gradebook/master-gradebook.csv > hw4-grades.csv
@@ -177,15 +190,16 @@ Use the master gradebook that accumulates all grades:
 
 Labels trigger different grading workflows:
 
-| **Label** | **Purpose** | **Grading Weight** |
-|-----------|-------------|-------------------|
-| `homework` | Regular homework assignment | Standard (see rubric) |
-| `exam` | Exam submission | Exam-specific rubric |
-| `project` | Team project milestone | Project-specific rubric |
-| `extra-credit` | Optional extra work | Bonus points |
-| `resubmission` | Second attempt after fixes | May have deduction |
+| **Label**      | **Purpose**                 | **Grading Weight**      |
+| -------------- | --------------------------- | ----------------------- |
+| `homework`     | Regular homework assignment | Standard (see rubric)   |
+| `exam`         | Exam submission             | Exam-specific rubric    |
+| `project`      | Team project milestone      | Project-specific rubric |
+| `extra-credit` | Optional extra work         | Bonus points            |
+| `resubmission` | Second attempt after fixes  | May have deduction      |
 
 **To label a PR**:
+
 1. Go to the student's PR
 2. Right sidebar → Labels
 3. Select appropriate label
@@ -202,21 +216,25 @@ FINAL GRADE = (Tests × 40%) + (Coverage × 30%) + (Quality × 20%) + (Structure
 ```
 
 #### Tests (40%)
+
 - Percentage of passing tests
 - Both Python and JavaScript combined
 - Formula: `(passed_tests / total_tests) × 100`
 
 #### Coverage (30%)
+
 - Code coverage percentage
 - Minimum recommended: 80%
 - Directly from coverage report
 
 #### Code Quality (20%)
+
 - Pylint score for Python
 - ESLint error count for JavaScript
 - Deductions for style violations
 
 #### Structure (10%)
+
 - README.md present (+3)
 - Test files present (+4)
 - Proper directory structure (+3)
@@ -299,6 +317,7 @@ Add this to your Canvas course or send as announcement:
 ### For Students: How to Submit Assignments
 
 **Step 1: Complete Your Work in GitHub**
+
 ```bash
 # Create your branch
 git checkout -b feat/homework-4-yourname
@@ -312,6 +331,7 @@ git push origin feat/homework-4-yourname
 ```
 
 **Step 2: Create Pull Request**
+
 1. Go to GitHub repository
 2. Click "Pull requests" → "New pull request"
 3. Select your branch
@@ -319,18 +339,21 @@ git push origin feat/homework-4-yourname
 5. Create pull request
 
 **Step 3: Wait for Automated Checks**
+
 - GitHub Actions will run automatically (~2-5 minutes)
 - Wait for all checks to complete
 - Look for ✅ green checkmarks or ❌ red X's
 - Click "Details" on any failed checks to see what needs fixing
 
 **Step 4: Review Your Automated Grade**
+
 - Scroll down in your PR
 - Find the "Automated Grading Report" comment
 - Review your score breakdown
 - Fix issues if needed and push again (checks re-run automatically)
 
 **Step 5: Submit PR Link to Canvas**
+
 1. Copy your PR URL (e.g., `https://github.com/yourname/software-testing-fall-2026/pull/42`)
 2. Go to Canvas assignment
 3. Click "Submit Assignment"
@@ -338,6 +361,7 @@ git push origin feat/homework-4-yourname
 5. Click "Submit"
 
 **Important Notes**:
+
 - ✅ All automated checks must pass before final submission
 - ✅ Your automated grade is visible in the PR
 - ✅ Instructor may add manual feedback after automated grading
@@ -351,6 +375,7 @@ git push origin feat/homework-4-yourname
 Sometimes you need to adjust grades manually:
 
 ### In GitHub PR
+
 ```markdown
 ## Manual Grade Adjustment
 
@@ -360,6 +385,7 @@ Sometimes you need to adjust grades manually:
 **Reason**: Excellent documentation and edge case handling not captured by automated tests
 
 **Breakdown**:
+
 - Tests: 40/40 (no change)
 - Coverage: 25/30 (no change)
 - Quality: 20/20 (+5 bonus for exceptional quality)
@@ -367,6 +393,7 @@ Sometimes you need to adjust grades manually:
 ```
 
 ### In Canvas
+
 1. Go to Canvas Gradebook
 2. Find the student and assignment
 3. Click on the grade
@@ -415,6 +442,7 @@ cat .gradebook/master-gradebook.csv | column -t -s,
 **Problem**: Student submitted repository link instead of PR link
 
 **Solution**:
+
 1. Ask student to find their PR number
 2. Construct correct URL: `https://github.com/[user]/[repo]/pull/[number]`
 3. Update Canvas submission
@@ -424,6 +452,7 @@ cat .gradebook/master-gradebook.csv | column -t -s,
 **Problem**: Workflow errors, doesn't complete
 
 **Solution**:
+
 1. Check Actions tab for error details
 2. Common issues:
    - Missing dependencies
@@ -436,6 +465,7 @@ cat .gradebook/master-gradebook.csv | column -t -s,
 **Problem**: Can't find grade to import
 
 **Solution**:
+
 1. Verify PR has required label (`homework`, `exam`, or `project`)
 2. Check if grading workflow completed successfully
 3. Download artifact from Actions tab
@@ -446,6 +476,7 @@ cat .gradebook/master-gradebook.csv | column -t -s,
 **Problem**: Student thinks grade is incorrect
 
 **Solution**:
+
 1. Review PR and grading report together
 2. Show exact test results and coverage
 3. Explain rubric weights
@@ -461,11 +492,13 @@ For automatic grade sync (optional):
 ### Setup
 
 1. **Get Canvas API Token**
+
    - Canvas → Account → Settings
    - "+ New Access Token"
    - Copy token securely
 
 2. **Add Token to GitHub Secrets**
+
    - Repository Settings → Secrets and variables → Actions
    - New repository secret
    - Name: `CANVAS_API_TOKEN`
@@ -504,21 +537,25 @@ Add to `.github/workflows/grading-automation.yml`:
 ### For Instructors
 
 1. **Review First Week Carefully**
+
    - Watch for submission issues
    - Verify students understand the process
    - Adjust if needed
 
 2. **Spot Check Automated Grades**
+
    - Randomly review a few each week
    - Ensure rubric is fair
    - Adjust weights if necessary
 
 3. **Provide Manual Feedback**
+
    - Automated grades are quantitative
    - Add qualitative comments
    - Highlight good practices
 
 4. **Keep Gradebook Synced**
+
    - Import grades weekly
    - Don't wait until end of semester
    - Students can track progress

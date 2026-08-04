@@ -9,6 +9,7 @@
 1. Download from [git-scm.com](https://git-scm.com/download/win)
 2. Run the installer
 3. **Important settings during installation**:
+
    - Editor: Choose VS Code (or your preferred editor)
    - PATH: "Git from the command line and also from 3rd-party software"
    - Line endings: "Checkout Windows-style, commit Unix-style"
@@ -22,6 +23,7 @@
    ```
 
 **Option 2: GitHub Desktop**
+
 - Download from [desktop.github.com](https://desktop.github.com/)
 - GUI application (easier for beginners)
 - Includes Git command-line tools
@@ -29,6 +31,7 @@
 ### macOS
 
 **Option 1: Homebrew (Recommended)**
+
 ```bash
 # Install Homebrew if you don't have it
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -41,17 +44,20 @@ git --version
 ```
 
 **Option 2: Xcode Command Line Tools**
+
 ```bash
 xcode-select --install
 git --version
 ```
 
 **Option 3: Download installer**
+
 - Download from [git-scm.com/download/mac](https://git-scm.com/download/mac)
 
 ### Linux
 
 **Ubuntu/Debian**:
+
 ```bash
 sudo apt update
 sudo apt install git
@@ -59,12 +65,14 @@ git --version
 ```
 
 **Fedora/RHEL**:
+
 ```bash
 sudo dnf install git
 git --version
 ```
 
 **Arch Linux**:
+
 ```bash
 sudo pacman -S git
 git --version
@@ -103,6 +111,7 @@ git config --global user.email
 ```
 
 **Example**:
+
 ```bash
 git config --global user.name "Jane Smith"
 git config --global user.email "jane.smith@university.edu"
@@ -121,21 +130,25 @@ git config --global init.defaultBranch main
 Choose your preferred text editor for commit messages:
 
 **VS Code**:
+
 ```bash
 git config --global core.editor "code --wait"
 ```
 
 **Vim** (default):
+
 ```bash
 git config --global core.editor vim
 ```
 
 **Nano** (easier than Vim):
+
 ```bash
 git config --global core.editor nano
 ```
 
 **Notepad** (Windows):
+
 ```bash
 git config --global core.editor notepad
 ```
@@ -143,11 +156,13 @@ git config --global core.editor notepad
 #### 4. Set Line Ending Preferences
 
 **Windows**:
+
 ```bash
 git config --global core.autocrlf true
 ```
 
 **macOS/Linux**:
+
 ```bash
 git config --global core.autocrlf input
 ```
@@ -227,6 +242,7 @@ Git stores configuration in text files you can edit directly:
 **macOS/Linux**: `~/.gitconfig`
 
 Example `.gitconfig`:
+
 ```ini
 [user]
     name = Jane Smith
@@ -264,24 +280,28 @@ ssh-keygen -t ed25519 -C "your.email@example.com"
 ```
 
 **During generation**:
+
 - Press Enter to accept default location
 - Enter a passphrase (optional but recommended)
 
 ### 3. Start SSH Agent
 
 **Windows (Git Bash)**:
+
 ```bash
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
 
 **macOS**:
+
 ```bash
 eval "$(ssh-agent -s)"
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 ```
 
 **Linux**:
+
 ```bash
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
@@ -320,6 +340,7 @@ ssh -T git@github.com
 ```
 
 Should show:
+
 ```
 Hi username! You've successfully authenticated, but GitHub does not provide shell access.
 ```
@@ -338,6 +359,7 @@ Hi username! You've successfully authenticated, but GitHub does not provide shel
 ### 2. GitHub Student Benefits
 
 With your university email, you get:
+
 - Free GitHub Pro
 - Free GitHub Copilot
 - Various tool credits
@@ -382,6 +404,7 @@ git config --global alias.undo "reset HEAD~1 --soft"
 ```
 
 **Usage**:
+
 ```bash
 git st          # Instead of: git status
 git ci -m "msg" # Instead of: git commit -m "msg"
@@ -461,6 +484,7 @@ git log
 **Error**: `git: command not found`
 
 **Solution**:
+
 - Git not installed or not in PATH
 - Close and reopen terminal
 - Reinstall Git
@@ -470,6 +494,7 @@ git log
 **Error**: `Permission denied (publickey)`
 
 **Solution**:
+
 - SSH key not added to GitHub
 - Follow SSH setup steps above
 - Or use HTTPS instead
@@ -479,6 +504,7 @@ git log
 **Error**: Commits show wrong email
 
 **Solution**:
+
 ```bash
 # Fix configuration
 git config --global user.email "correct.email@example.com"
@@ -492,6 +518,7 @@ git commit --amend --reset-author
 **Error**: Strange editor opens or nothing happens
 
 **Solution**:
+
 ```bash
 # Set editor to VS Code
 git config --global core.editor "code --wait"

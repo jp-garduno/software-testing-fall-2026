@@ -3,6 +3,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this module, you will be able to:
+
 - Understand the TDD philosophy and workflow
 - Apply the Red-Green-Refactor cycle
 - Write tests before implementation
@@ -15,12 +16,15 @@ By the end of this module, you will be able to:
 ### Core TDD Resources
 
 **Recommended Reading Materials**:
+
 1. **Getting Started with TDD**
+
    - [Kent Beck's "Test Driven Development: By Example"](https://www.oreilly.com/library/view/test-driven-development/0321146530/) - The definitive TDD book
    - [Martin Fowler: TDD Introduction](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
    - [Uncle Bob: The Three Rules of TDD](http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd)
 
 2. **Writing Clean Tests**
+
    - [Clean Code Chapter 9: Unit Tests](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
    - [Test Naming Conventions](https://dzone.com/articles/7-popular-unit-test-naming)
    - [Arrange-Act-Assert Pattern](http://wiki.c2.com/?ArrangeActAssert)
@@ -31,6 +35,7 @@ By the end of this module, you will be able to:
    - [Kata-Log.rocks](https://kata-log.rocks/) - Searchable kata collection
 
 ### Additional Theory Files
+
 - [01-introduction-to-tdd.md](./theory/01-introduction-to-tdd.md)
 - [02-red-green-refactor.md](./theory/02-red-green-refactor.md)
 - [03-tdd-best-practices.md](./theory/03-tdd-best-practices.md)
@@ -66,18 +71,22 @@ By the end of this module, you will be able to:
 Both Python and JavaScript implementations:
 
 1. **[FizzBuzz Kata](./exercises/01-fizzbuzz-kata.md)**
+
    - Classic TDD introduction
    - Simple rules, clear tests
 
 2. **[String Calculator Kata](./exercises/02-string-calculator.md)**
+
    - Incrementally add features
    - Practice the TDD cycle
 
 3. **[Bowling Game Kata](./exercises/03-bowling-game.md)**
+
    - More complex scoring logic
    - Multiple test scenarios
 
 4. **[Roman Numerals Kata](./exercises/04-roman-numerals.md)**
+
    - Conversion algorithms
    - Edge cases and refactoring
 
@@ -88,6 +97,7 @@ Both Python and JavaScript implementations:
 ### Guided TDD Projects
 
 - **[Python: Todo List API](./python/exercises/todo-api/)**
+
   - Build a REST API using TDD
   - pytest, Flask/FastAPI
 
@@ -99,7 +109,8 @@ Both Python and JavaScript implementations:
 
 **[Homework 6: TDD Feature Development](./homework/homework-6.md)** **Due**: End of Week 11
 
-**Objectives**: 
+**Objectives**:
+
 - Develop a complete feature using TDD
 - Document your Red-Green-Refactor cycles
 - Submit test-first commit history
@@ -115,6 +126,7 @@ Both Python and JavaScript implementations:
 ## 🛠️ Tools
 
 Same as Module 5:
+
 - **Python**: pytest
 - **JavaScript**: Jest
 - **Coverage**: pytest-cov, Jest --coverage

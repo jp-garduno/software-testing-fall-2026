@@ -41,6 +41,7 @@ git branch
 ```
 
 **Questions**:
+
 1. What does the `*` indicate in `git branch` output?
 2. Are you now on main or feature/add-about?
 
@@ -142,6 +143,7 @@ git log --graph --oneline --all
 ```
 
 **Expected output**:
+
 ```
 * abc1234 (HEAD -> feature/add-projects) feat: add projects list
 | * def5678 (feature/add-contact) feat: add contact page
@@ -175,9 +177,7 @@ git checkout main
 ls  # See only README.md
 ```
 
-**Questions**:
-3. What files do you see on each branch?
-4. Do the files "disappear" when you switch branches?
+**Questions**: 3. What files do you see on each branch? 4. Do the files "disappear" when you switch branches?
 
 ---
 

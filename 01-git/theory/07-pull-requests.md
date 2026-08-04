@@ -28,11 +28,13 @@ git push origin feature/add-login
 ## Code Review
 
 ### As Author
+
 - Keep PRs small (< 400 lines)
 - Respond to feedback
 - Test your code
 
 ### As Reviewer
+
 - Review promptly (1-2 days)
 - Be constructive
 - Test the code
@@ -46,11 +48,13 @@ git push origin feature/add-login
 ## PR Checklist
 
 Before creating:
+
 - [ ] Tests pass
-- [ ] Code is linted  
+- [ ] Code is linted
 - [ ] Branch pushed
 
 Before merging:
+
 - [ ] Approved
 - [ ] Checks passing
 - [ ] Up to date with main

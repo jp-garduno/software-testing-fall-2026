@@ -20,16 +20,19 @@ git init
 ## Part 2: Install Pre-commit
 
 **Python method**:
+
 ```bash
 pip install pre-commit
 ```
 
 **Or via system package manager** (macOS):
+
 ```bash
 brew install pre-commit
 ```
 
 **Verify installation**:
+
 ```bash
 pre-commit --version
 ```
@@ -50,7 +53,7 @@ repos:
       - id: check-yaml
       - id: check-json
       - id: check-added-large-files
-        args: ['--maxkb=500']
+        args: ["--maxkb=500"]
 
   - repo: https://github.com/psf/black
     rev: 24.1.1
@@ -74,6 +77,7 @@ pre-commit install
 ```
 
 Expected output:
+
 ```
 pre-commit installed at .git/hooks/pre-commit
 ```
@@ -83,23 +87,24 @@ pre-commit installed at .git/hooks/pre-commit
 ## Part 5: Create Test Files
 
 **Create `calculator.py`**:
+
 ```python
 def add(a,b):
     return a+b
 
 def subtract(a,b):
-    return a-b    
+    return a-b
 
 def multiply(a,  b):
     return a*b
 ```
 
 **Create `README.md`**:
+
 ```markdown
 # Calculator
 
-A simple calculator.   
-
+A simple calculator.
 ```
 
 ---
@@ -107,21 +112,25 @@ A simple calculator.
 ## Part 6: Test Pre-commit
 
 **Stage files**:
+
 ```bash
 git add .
 ```
 
 **Try to commit**:
+
 ```bash
 git commit -m "add calculator"
 ```
 
 **What happens?**
+
 - Pre-commit runs automatically
 - Checks find issues
 - Commit is blocked
 
 **Expected issues**:
+
 1. Trailing whitespace in README
 2. No newline at end of file
 3. Inconsistent spacing in Python
@@ -137,6 +146,7 @@ git diff
 ```
 
 **Notice**:
+
 - Black formatted Python code
 - Trailing whitespace removed
 - End-of-file fixer added newlines
@@ -146,11 +156,13 @@ git diff
 ## Part 8: Commit Again
 
 **Stage fixed files**:
+
 ```bash
 git add .
 ```
 
 **Commit**:
+
 ```bash
 git commit -m "add calculator"
 ```
@@ -174,19 +186,21 @@ pre-commit run --all-files
 Update `.pre-commit-config.yaml` to add Pylint:
 
 ```yaml
-  - repo: https://github.com/PyCQA/pylint
-    rev: v3.0.3
-    hooks:
-      - id: pylint
-        args: [--max-line-length=120]
+- repo: https://github.com/PyCQA/pylint
+  rev: v3.0.3
+  hooks:
+    - id: pylint
+      args: [--max-line-length=120]
 ```
 
 **Update hooks**:
+
 ```bash
 pre-commit install --install-hooks
 ```
 
 **Test again**:
+
 ```bash
 pre-commit run --all-files
 ```
@@ -232,12 +246,12 @@ pre-commit run --all-files
 Add ESLint hook to your configuration:
 
 ```yaml
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.56.0
-    hooks:
-      - id: eslint
-        files: \.[jt]sx?$
-        types: [file]
+- repo: https://github.com/pre-commit/mirrors-eslint
+  rev: v8.56.0
+  hooks:
+    - id: eslint
+      files: \.[jt]sx?$
+      types: [file]
 ```
 
 Create a JavaScript file with issues and test.
@@ -247,19 +261,21 @@ Create a JavaScript file with issues and test.
 Add conventional commits checker:
 
 ```yaml
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v3.0.0
-    hooks:
-      - id: conventional-pre-commit
-        stages: [commit-msg]
+- repo: https://github.com/compilerla/conventional-pre-commit
+  rev: v3.0.0
+  hooks:
+    - id: conventional-pre-commit
+      stages: [commit-msg]
 ```
 
 Install commit-msg hook:
+
 ```bash
 pre-commit install --hook-type commit-msg
 ```
 
 Try committing with a bad message:
+
 ```bash
 git commit -m "bad message"
 ```
@@ -271,13 +287,13 @@ What happens?
 Add a custom hook that checks for TODO comments:
 
 ```yaml
-  - repo: local
-    hooks:
-      - id: check-todos
-        name: Check for TODOs
-        entry: bash -c 'grep -r "TODO" . || exit 0'
-        language: system
-        pass_filenames: false
+- repo: local
+  hooks:
+    - id: check-todos
+      name: Check for TODOs
+      entry: bash -c 'grep -r "TODO" . || exit 0'
+      language: system
+      pass_filenames: false
 ```
 
 Does it work? Why or why not?
@@ -287,6 +303,7 @@ Does it work? Why or why not?
 ## Submission
 
 Document your process:
+
 1. Screenshot of successful pre-commit run
 2. Screenshot of hook blocking bad commit
 3. Your final `.pre-commit-config.yaml`

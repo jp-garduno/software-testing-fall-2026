@@ -49,7 +49,7 @@ Visual representations of testing relationships and hierarchies.
            /\
           /  \        Acceptance Testing
          /____\       (Users validate)
-        /      \      
+        /      \
        /System  \     System Testing
       /_Testing_\    (Complete system)
      /            \
@@ -165,10 +165,12 @@ Code → Build → Test → Deploy → Monitor
 Create concept maps for:
 
 1. **Testing Tools Landscape**
+
    - Map out tools for each type of testing
    - Include tools for Python and JavaScript
 
 2. **Your Project Testing Strategy**
+
    - Draw your project's testing approach
    - Show relationships between test types
 

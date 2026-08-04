@@ -13,6 +13,7 @@ The team project is a semester-long effort where you'll build a complete applica
 ## 📋 Project Objectives
 
 By completing this project, you will:
+
 - Apply all testing techniques learned in class
 - Build a real application from scratch
 - Work collaboratively using Git and GitHub
@@ -25,6 +26,7 @@ By completing this project, you will:
 ## 🎯 Learning Goals
 
 ### Technical Skills
+
 - Full-stack development (your choice of technologies)
 - Test automation at all levels
 - CI/CD pipeline integration
@@ -32,6 +34,7 @@ By completing this project, you will:
 - Performance testing and optimization
 
 ### Soft Skills
+
 - Team collaboration
 - Project management
 - Technical documentation
@@ -42,15 +45,15 @@ By completing this project, you will:
 
 ## 📅 Milestones
 
-| **Milestone** | **Week** | **Deliverable** | **Points** | **Focus Modules** |
-|---------------|----------|-----------------|------------|-------------------|
-| **M1: Proposal** | Week 4 | Project proposal document | 10% | - |
-| **M2: Foundation** | Week 6 | Git setup, static testing | 10% | Modules 1, 3 |
-| **M3: Black Box Tests** | Week 8 | Test plan with test cases | 15% | Module 4 |
-| **M4: White Box Tests** | Week 10 | Unit tests with coverage | 20% | Module 5 |
-| **M5: TDD Feature** | Week 12 | Feature using TDD | 15% | Module 6 |
-| **M6: System Tests** | Week 14 | E2E automated tests | 15% | Module 8 |
-| **M7: Final Presentation** | Week 16 | Complete project + demo | 15% | All modules |
+| **Milestone**              | **Week** | **Deliverable**           | **Points** | **Focus Modules** |
+| -------------------------- | -------- | ------------------------- | ---------- | ----------------- |
+| **M1: Proposal**           | Week 4   | Project proposal document | 10%        | -                 |
+| **M2: Foundation**         | Week 6   | Git setup, static testing | 10%        | Modules 1, 3      |
+| **M3: Black Box Tests**    | Week 8   | Test plan with test cases | 15%        | Module 4          |
+| **M4: White Box Tests**    | Week 10  | Unit tests with coverage  | 20%        | Module 5          |
+| **M5: TDD Feature**        | Week 12  | Feature using TDD         | 15%        | Module 6          |
+| **M6: System Tests**       | Week 14  | E2E automated tests       | 15%        | Module 8          |
+| **M7: Final Presentation** | Week 16  | Complete project + demo   | 15%        | All modules       |
 
 **Total**: 100% (20% of course grade)
 
@@ -63,7 +66,9 @@ See [Milestones Guide](./milestones/README.md) for detailed requirements.
 Choose **one** project idea (or propose your own):
 
 ### Option 1: E-Commerce Platform
+
 Build an online shopping platform with:
+
 - User authentication and profiles
 - Product catalog with search/filter
 - Shopping cart and checkout
@@ -75,7 +80,9 @@ Build an online shopping platform with:
 ---
 
 ### Option 2: Task Management System
+
 Build a project/task management tool with:
+
 - User accounts and teams
 - Project creation and management
 - Task assignment and tracking
@@ -87,7 +94,9 @@ Build a project/task management tool with:
 ---
 
 ### Option 3: Social Media Feed
+
 Build a social networking platform with:
+
 - User profiles and connections
 - Post creation (text, images)
 - Feed algorithm
@@ -99,7 +108,9 @@ Build a social networking platform with:
 ---
 
 ### Option 4: Online Learning Platform
+
 Build an educational platform with:
+
 - Course catalog
 - Video lessons and materials
 - Quizzes and assignments
@@ -111,7 +122,9 @@ Build an educational platform with:
 ---
 
 ### Option 5: Healthcare Appointment System
+
 Build a medical appointment system with:
+
 - Patient and doctor profiles
 - Appointment scheduling
 - Medical records (simplified)
@@ -123,7 +136,9 @@ Build a medical appointment system with:
 ---
 
 ### Option 6: Food Delivery Platform
+
 Build a food ordering system with:
+
 - Restaurant listings
 - Menu browsing and ordering
 - Shopping cart with customizations
@@ -135,7 +150,9 @@ Build a food ordering system with:
 ---
 
 ### Custom Project
+
 Propose your own project idea! Must include:
+
 - Clear scope and requirements
 - Multiple user roles
 - Complex business logic suitable for testing
@@ -149,6 +166,7 @@ Propose your own project idea! Must include:
 ### Application Requirements
 
 1. **Functionality**:
+
    - At least 5 major features
    - Multiple user roles (admin, regular user, etc.)
    - CRUD operations (Create, Read, Update, Delete)
@@ -156,6 +174,7 @@ Propose your own project idea! Must include:
    - Authentication and authorization
 
 2. **Technology Stack** (Your Choice):
+
    - **Backend**: Python (Flask/FastAPI/Django) or Node.js/TypeScript (Express/NestJS)
    - **Frontend**: React, Vue, or vanilla JavaScript/HTML/CSS
    - **Database**: SQLite, PostgreSQL, MongoDB, or similar
@@ -173,37 +192,44 @@ Propose your own project idea! Must include:
 Your project must include **all** of these:
 
 1. **Static Testing** (Module 3):
+
    - Pre-commit hooks configured
    - Linting (Pylint/ESLint)
    - Conventional commits
    - `.pre-commit-config.yaml`
 
 2. **Black Box Testing** (Module 4):
+
    - Test plan document
    - Test cases using EP, BVA, Decision Tables
    - At least 20 documented test cases
 
 3. **Unit Tests** (Module 5):
+
    - Individual function/method tests
    - At least 80% code coverage
    - Coverage reports generated
 
 4. **Integration Tests** (Module 5):
+
    - Module interaction tests
    - API endpoint tests
    - Database integration tests
    - Mocking external dependencies
 
 5. **TDD Feature** (Module 6):
+
    - At least one feature developed using TDD
    - Documented Red-Green-Refactor cycles
    - Git history showing test-first commits
 
 6. **Data-Driven Tests** (Module 7):
+
    - Parameterized tests
    - External test data (CSV/JSON)
 
 7. **System/E2E Tests** (Module 8):
+
    - BDD feature files (Gherkin)
    - Selenium or Playwright tests
    - Page Object Model implementation
@@ -217,6 +243,7 @@ Your project must include **all** of these:
 ### Documentation Requirements
 
 1. **README.md**:
+
    - Project description
    - Features list
    - Setup instructions
@@ -224,12 +251,14 @@ Your project must include **all** of these:
    - Team members and roles
 
 2. **Testing Documentation**:
+
    - Test strategy document
    - Test plan
    - Coverage reports
    - Performance test results
 
 3. **Architecture Documentation**:
+
    - System architecture diagram
    - Database schema
    - API documentation
@@ -253,21 +282,25 @@ Your project must include **all** of these:
 Roles can overlap, but ensure clear responsibilities:
 
 1. **Project Manager**:
+
    - Coordinates team activities
    - Manages milestones and deadlines
    - Facilitates communication
 
 2. **Backend Lead**:
+
    - API development
    - Database design
    - Integration testing
 
 3. **Frontend Lead**:
+
    - UI implementation
    - E2E testing
    - User experience
 
 4. **QA Lead**:
+
    - Test strategy
    - Test automation
    - Coverage monitoring
@@ -287,17 +320,20 @@ Roles can overlap, but ensure clear responsibilities:
 ### Git Workflow
 
 1. **Repository**:
+
    - Create GitHub repository
    - Add all team members
    - Set up branch protection
 
 2. **Branching Strategy**:
+
    - `main` branch: production-ready code
    - `develop` branch: integration branch
    - Feature branches: `feature/feature-name`
    - Bugfix branches: `fix/bug-description`
 
 3. **Pull Requests**:
+
    - All changes via pull requests
    - At least one team member review
    - PR template (provided)
@@ -327,16 +363,19 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 ### Final Submission (Milestone 7, Week 16)
 
 1. **GitHub Repository**:
+
    - Complete source code
    - All test suites
    - Documentation
    - README with setup instructions
 
 2. **Live Demo** (optional):
+
    - Deployed application
    - Or local demo during presentation
 
 3. **Presentation** (10-15 minutes):
+
    - Project overview
    - Demo of key features
    - Testing strategy and results
@@ -359,14 +398,14 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 
 ### Overall Project Grading (20% of course grade)
 
-| **Category** | **Weight** | **Description** |
-|--------------|------------|-----------------|
-| **Milestones** | 40% | Timely submission and quality of milestone deliverables |
-| **Application Quality** | 20% | Functionality, code quality, user experience |
-| **Testing Coverage** | 30% | Completeness and quality of all testing types |
-| **Documentation** | 10% | Clarity, completeness, professionalism |
-| **Presentation** | 10% | Demo, explanation, Q&A performance |
-| **Collaboration** | 10% | Git workflow, code reviews, equal contributions |
+| **Category**            | **Weight** | **Description**                                         |
+| ----------------------- | ---------- | ------------------------------------------------------- |
+| **Milestones**          | 40%        | Timely submission and quality of milestone deliverables |
+| **Application Quality** | 20%        | Functionality, code quality, user experience            |
+| **Testing Coverage**    | 30%        | Completeness and quality of all testing types           |
+| **Documentation**       | 10%        | Clarity, completeness, professionalism                  |
+| **Presentation**        | 10%        | Demo, explanation, Q&A performance                      |
+| **Collaboration**       | 10%        | Git workflow, code reviews, equal contributions         |
 
 **Total**: 120% (20% bonus points available)
 
@@ -384,6 +423,7 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 ## 💡 Tips for Success
 
 ### Project Management
+
 1. **Start early** - Don't wait for deadlines
 2. **Meet regularly** - Weekly team syncs minimum
 3. **Use project board** - GitHub Projects or Trello
@@ -391,6 +431,7 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 5. **Communicate** - Keep team and instructor informed
 
 ### Development
+
 1. **Simple first** - Get basic features working, then enhance
 2. **Test continuously** - Don't leave testing to the end
 3. **Review code** - Catch issues early
@@ -398,6 +439,7 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 5. **Version control discipline** - Commit often, meaningful messages
 
 ### Testing
+
 1. **Integrate early** - Set up testing from the start
 2. **Automate** - Manual testing doesn't scale
 3. **Measure coverage** - Track and improve
@@ -405,6 +447,7 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 5. **Performance matters** - Don't ignore it
 
 ### Common Pitfalls
+
 - ❌ Scope creep - Keep it manageable
 - ❌ One person doing everything - Distribute work
 - ❌ No testing until the end - Test from day one
@@ -434,6 +477,7 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 ## ✅ Getting Started Checklist
 
 Week 4 - Project Kickoff:
+
 - [ ] Form team of 4-5 students
 - [ ] Assign team roles
 - [ ] Choose project idea

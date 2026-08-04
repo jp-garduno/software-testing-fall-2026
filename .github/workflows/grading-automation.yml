@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to grade'
+        description: "PR number to grade"
         required: true
         type: number
 
@@ -25,334 +25,333 @@ jobs:
         contains(github.event.pull_request.labels.*.name, 'project'))) ||
       github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-
     outputs:
       grade: ${{ steps.calculate-grade.outputs.grade }}
       student_name: ${{ steps.extract-info.outputs.student_name }}
       assignment: ${{ steps.extract-info.outputs.assignment }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        cache: 'pip'
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20.x'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-        npm ci
-
-    - name: Extract submission info
-      id: extract-info
-      run: |
-        # Extract student name and assignment from PR title or branch name
-        PR_TITLE="${{ github.event.pull_request.title }}"
-        BRANCH="${{ github.event.pull_request.head.ref }}"
-
-        # Try to extract homework/exam number
-        ASSIGNMENT=$(echo "$PR_TITLE $BRANCH" | grep -oP '(homework|hw|exam|project)-?\K\d+' | head -1 || echo "unknown")
-
-        # Try to extract student name from branch or PR
-        STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "unknown")
-
-        echo "assignment=$ASSIGNMENT" >> $GITHUB_OUTPUT
-        echo "student_name=$STUDENT" >> $GITHUB_OUTPUT
-
-        echo "Grading Assignment: $ASSIGNMENT for Student: $STUDENT"
-
-    - name: Run Python tests and collect results
-      id: python-tests
-      run: |
-        set +e  # Don't fail on test failures
-
-        # Run tests with detailed output
-        pytest -v --tb=short --junitxml=python-results.xml --cov=. --cov-report=json --cov-report=term > python-test-output.txt 2>&1
-        PYTEST_EXIT=$?
-
-        # Extract metrics
-        TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' || echo "0")
-        TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' || echo "0")
-        COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(data['totals']['percent_covered'])" 2>/dev/null || echo "0")
-
-        echo "tests_passed=$TESTS_PASSED" >> $GITHUB_OUTPUT
-        echo "tests_failed=$TESTS_FAILED" >> $GITHUB_OUTPUT
-        echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
-        echo "exit_code=$PYTEST_EXIT" >> $GITHUB_OUTPUT
-
-        cat python-test-output.txt
-      continue-on-error: true
-
-    - name: Run JavaScript tests and collect results
-      id: js-tests
-      run: |
-        set +e
-
-        # Run tests with coverage
-        npm test -- --coverage --json --outputFile=js-results.json > js-test-output.txt 2>&1
-        NPM_EXIT=$?
-
-        # Extract metrics (simplified - adjust based on your Jest output)
-        JS_TESTS_PASSED=$(grep -oP '\d+ passed' js-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
-        JS_TESTS_FAILED=$(grep -oP '\d+ failed' js-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
-
-        echo "tests_passed=$JS_TESTS_PASSED" >> $GITHUB_OUTPUT
-        echo "tests_failed=$JS_TESTS_FAILED" >> $GITHUB_OUTPUT
-        echo "exit_code=$NPM_EXIT" >> $GITHUB_OUTPUT
-
-        cat js-test-output.txt
-      continue-on-error: true
-
-    - name: Check code quality
-      id: code-quality
-      run: |
-        set +e
-
-        # Python linting
-        pylint **/*.py --exit-zero --output-format=json > pylint-report.json 2>&1 || true
-        PYLINT_SCORE=$(python -c "import json; data=json.load(open('pylint-report.json')) if open('pylint-report.json').read() else {'score': 0}; print(data.get('score', 0))" 2>/dev/null || echo "0")
-
-        # JavaScript linting
-        npm run lint > eslint-report.txt 2>&1 || true
-        ESLINT_ERRORS=$(grep -c "error" eslint-report.txt || echo "0")
-
-        echo "pylint_score=$PYLINT_SCORE" >> $GITHUB_OUTPUT
-        echo "eslint_errors=$ESLINT_ERRORS" >> $GITHUB_OUTPUT
-      continue-on-error: true
-
-    - name: Check required files
-      id: required-files
-      run: |
-        SCORE=0
-        MAX_SCORE=10
-
-        # Check for README
-        if [ -f "README.md" ]; then
-          SCORE=$((SCORE + 3))
-          echo "✅ README.md found (+3)"
-        else
-          echo "❌ README.md missing"
-        fi
-
-        # Check for tests
-        if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
-          SCORE=$((SCORE + 4))
-          echo "✅ Test files found (+4)"
-        else
-          echo "❌ No test files found"
-        fi
-
-        # Check for proper structure
-        if [ -d "src" ] || [ -d "tests" ]; then
-          SCORE=$((SCORE + 3))
-          echo "✅ Proper structure (+3)"
-        else
-          echo "⚠️  No standard structure"
-        fi
-
-        echo "score=$SCORE" >> $GITHUB_OUTPUT
-        echo "max_score=$MAX_SCORE" >> $GITHUB_OUTPUT
-
-    - name: Calculate final grade
-      id: calculate-grade
-      run: |
-        # Define weights
-        TESTS_WEIGHT=40
-        COVERAGE_WEIGHT=30
-        CODE_QUALITY_WEIGHT=20
-        STRUCTURE_WEIGHT=10
-
-        # Get values
-        PY_PASSED=${{ steps.python-tests.outputs.tests_passed }}
-        PY_FAILED=${{ steps.python-tests.outputs.tests_failed }}
-        PY_TOTAL=$((PY_PASSED + PY_FAILED))
-
-        JS_PASSED=${{ steps.js-tests.outputs.tests_passed }}
-        JS_FAILED=${{ steps.js-tests.outputs.tests_failed }}
-        JS_TOTAL=$((JS_PASSED + JS_FAILED))
-
-        TOTAL_PASSED=$((PY_PASSED + JS_PASSED))
-        TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL))
-
-        # Calculate test score (0-100)
-        if [ $TOTAL_TESTS -gt 0 ]; then
-          TEST_SCORE=$(awk "BEGIN {printf \"%.2f\", ($TOTAL_PASSED / $TOTAL_TESTS) * 100}")
-        else
-          TEST_SCORE=0
-        fi
-
-        # Coverage score
-        COVERAGE=${{ steps.python-tests.outputs.coverage }}
-        COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
-
-        # Code quality score (simplified)
-        PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score }}
-        ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors }}
-        if [ $ESLINT_ERRORS -gt 10 ]; then
-          QUALITY_SCORE=50
-        elif [ $ESLINT_ERRORS -gt 5 ]; then
-          QUALITY_SCORE=70
-        elif [ $ESLINT_ERRORS -gt 0 ]; then
-          QUALITY_SCORE=85
-        else
-          QUALITY_SCORE=100
-        fi
-
-        # Structure score
-        STRUCT_SCORE=${{ steps.required-files.outputs.score }}
-        STRUCT_MAX=${{ steps.required-files.outputs.max_score }}
-        STRUCTURE_SCORE=$(awk "BEGIN {printf \"%.2f\", ($STRUCT_SCORE / $STRUCT_MAX) * 100}")
-
-        # Calculate weighted final grade
-        FINAL_GRADE=$(awk "BEGIN {
-          printf \"%.2f\",
-          ($TEST_SCORE * $TESTS_WEIGHT / 100) +
-          ($COVERAGE_SCORE * $COVERAGE_WEIGHT / 100) +
-          ($QUALITY_SCORE * $CODE_QUALITY_WEIGHT / 100) +
-          ($STRUCTURE_SCORE * $STRUCTURE_WEIGHT / 100)
-        }")
-
-        echo "grade=$FINAL_GRADE" >> $GITHUB_OUTPUT
-        echo "test_score=$TEST_SCORE" >> $GITHUB_OUTPUT
-        echo "coverage_score=$COVERAGE_SCORE" >> $GITHUB_OUTPUT
-        echo "quality_score=$QUALITY_SCORE" >> $GITHUB_OUTPUT
-        echo "structure_score=$STRUCTURE_SCORE" >> $GITHUB_OUTPUT
-
-        echo "=== GRADING SUMMARY ==="
-        echo "Tests: $TEST_SCORE/100 (${TESTS_WEIGHT}%)"
-        echo "Coverage: $COVERAGE_SCORE/100 (${COVERAGE_WEIGHT}%)"
-        echo "Quality: $QUALITY_SCORE/100 (${CODE_QUALITY_WEIGHT}%)"
-        echo "Structure: $STRUCTURE_SCORE/100 (${STRUCTURE_WEIGHT}%)"
-        echo "========================"
-        echo "FINAL GRADE: $FINAL_GRADE/100"
-
-    - name: Generate grading report
-      id: report
-      run: |
-        REPORT="## 📊 Automated Grading Report
-
-        **Student**: ${{ steps.extract-info.outputs.student_name }}
-        **Assignment**: ${{ steps.extract-info.outputs.assignment }}
-        **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-
-        ### 🎯 Final Grade: **${{ steps.calculate-grade.outputs.grade }}/100**
-
-        ---
-
-        ### Breakdown
-
-        | Category | Score | Weight | Contribution |
-        |----------|-------|--------|--------------|
-        | **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | 40% | ${{ steps.calculate-grade.outputs.test_score }} × 0.4 |
-        | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | 30% | ${{ steps.calculate-grade.outputs.coverage_score }} × 0.3 |
-        | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | 20% | ${{ steps.calculate-grade.outputs.quality_score }} × 0.2 |
-        | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | 10% | ${{ steps.calculate-grade.outputs.structure_score }} × 0.1 |
-
-        ---
-
-        ### 📝 Detailed Results
-
-        #### Python Tests
-        - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
-        - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
-        - 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}%
-
-        #### JavaScript Tests
-        - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
-        - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
-
-        #### Code Quality
-        - Pylint Score: ${{ steps.code-quality.outputs.pylint_score }}/10
-        - ESLint Errors: ${{ steps.code-quality.outputs.eslint_errors }}
-
-        #### Required Files
-        - Score: ${{ steps.required-files.outputs.score }}/${{ steps.required-files.outputs.max_score }}
-
-        ---
-
-        ### 📋 Next Steps
-
-        1. Review the detailed test output in the Actions tab
-        2. Fix any failing tests or linting issues
-        3. Ensure coverage meets the minimum threshold (80%)
-        4. Update documentation if needed
-
-        ---
-
-        ### 📦 Canvas Submission
-
-        **Copy this information to Canvas:**
-
-        \`\`\`
-        Student: ${{ steps.extract-info.outputs.student_name }}
-        Assignment: ${{ steps.extract-info.outputs.assignment }}
-        GitHub PR: #${{ github.event.pull_request.number }}
-        Grade: ${{ steps.calculate-grade.outputs.grade }}/100
-        PR Link: ${{ github.event.pull_request.html_url }}
-        \`\`\`
-
-        ---
-
-        *This is an automated grading report. For questions, contact your instructor.*"
-
-        # Save report to file
-        echo "$REPORT" > grading-report.md
-
-        # Also output for comment
-        echo "report<<EOF" >> $GITHUB_OUTPUT
-        echo "$REPORT" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-
-    - name: Comment grade on PR
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const fs = require('fs');
-          const report = fs.readFileSync('grading-report.md', 'utf8');
-
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: report
-          });
-
-    - name: Upload grading artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: grading-report-pr-${{ github.event.pull_request.number }}
-        path: |
-          grading-report.md
-          python-results.xml
-          coverage.json
-          pylint-report.json
-        retention-days: 90
-
-    - name: Create Canvas-ready CSV
-      run: |
-        # Create CSV for Canvas gradebook import
-        echo "Student,Assignment,Score,Max Points,Submission Date,Comments" > canvas-grade.csv
-        echo "${{ steps.extract-info.outputs.student_name }},${{ steps.extract-info.outputs.assignment }},${{ steps.calculate-grade.outputs.grade }},100,$(date +"%Y-%m-%d"),Automated grading via GitHub Actions - PR #${{ github.event.pull_request.number }}" >> canvas-grade.csv
-
-        cat canvas-grade.csv
-
-    - name: Upload Canvas CSV
-      uses: actions/upload-artifact@v4
-      with:
-        name: canvas-import-pr-${{ github.event.pull_request.number }}
-        path: canvas-grade.csv
-        retention-days: 90
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          npm ci
+
+      - name: Extract submission info
+        id: extract-info
+        run: |
+          # Extract student name and assignment from PR title or branch name
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          BRANCH="${{ github.event.pull_request.head.ref }}"
+
+          # Try to extract homework/exam number
+          ASSIGNMENT=$(echo "$PR_TITLE $BRANCH" | grep -oP '(homework|hw|exam|project)-?\K\d+' | head -1 || echo "unknown")
+
+          # Try to extract student name from branch or PR
+          STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "unknown")
+
+          echo "assignment=$ASSIGNMENT" >> $GITHUB_OUTPUT
+          echo "student_name=$STUDENT" >> $GITHUB_OUTPUT
+
+          echo "Grading Assignment: $ASSIGNMENT for Student: $STUDENT"
+
+      - name: Run Python tests and collect results
+        id: python-tests
+        run: |
+          set +e  # Don't fail on test failures
+
+          # Run tests with detailed output
+          pytest -v --tb=short --junitxml=python-results.xml --cov=. --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          PYTEST_EXIT=$?
+
+          # Extract metrics
+          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' || echo "0")
+          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' || echo "0")
+          COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(data['totals']['percent_covered'])" 2>/dev/null || echo "0")
+
+          echo "tests_passed=$TESTS_PASSED" >> $GITHUB_OUTPUT
+          echo "tests_failed=$TESTS_FAILED" >> $GITHUB_OUTPUT
+          echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+          echo "exit_code=$PYTEST_EXIT" >> $GITHUB_OUTPUT
+
+          cat python-test-output.txt
+        continue-on-error: true
+
+      - name: Run JavaScript tests and collect results
+        id: js-tests
+        run: |
+          set +e
+
+          # Run tests with coverage
+          npm test -- --coverage --json --outputFile=js-results.json > js-test-output.txt 2>&1
+          NPM_EXIT=$?
+
+          # Extract metrics (simplified - adjust based on your Jest output)
+          JS_TESTS_PASSED=$(grep -oP '\d+ passed' js-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+          JS_TESTS_FAILED=$(grep -oP '\d+ failed' js-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+
+          echo "tests_passed=$JS_TESTS_PASSED" >> $GITHUB_OUTPUT
+          echo "tests_failed=$JS_TESTS_FAILED" >> $GITHUB_OUTPUT
+          echo "exit_code=$NPM_EXIT" >> $GITHUB_OUTPUT
+
+          cat js-test-output.txt
+        continue-on-error: true
+
+      - name: Check code quality
+        id: code-quality
+        run: |
+          set +e
+
+          # Python linting
+          pylint **/*.py --exit-zero --output-format=json > pylint-report.json 2>&1 || true
+          PYLINT_SCORE=$(python -c "import json; data=json.load(open('pylint-report.json')) if open('pylint-report.json').read() else {'score': 0}; print(data.get('score', 0))" 2>/dev/null || echo "0")
+
+          # JavaScript linting
+          npm run lint > eslint-report.txt 2>&1 || true
+          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt || echo "0")
+
+          echo "pylint_score=$PYLINT_SCORE" >> $GITHUB_OUTPUT
+          echo "eslint_errors=$ESLINT_ERRORS" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Check required files
+        id: required-files
+        run: |
+          SCORE=0
+          MAX_SCORE=10
+
+          # Check for README
+          if [ -f "README.md" ]; then
+            SCORE=$((SCORE + 3))
+            echo "✅ README.md found (+3)"
+          else
+            echo "❌ README.md missing"
+          fi
+
+          # Check for tests
+          if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
+            SCORE=$((SCORE + 4))
+            echo "✅ Test files found (+4)"
+          else
+            echo "❌ No test files found"
+          fi
+
+          # Check for proper structure
+          if [ -d "src" ] || [ -d "tests" ]; then
+            SCORE=$((SCORE + 3))
+            echo "✅ Proper structure (+3)"
+          else
+            echo "⚠️  No standard structure"
+          fi
+
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          echo "max_score=$MAX_SCORE" >> $GITHUB_OUTPUT
+
+      - name: Calculate final grade
+        id: calculate-grade
+        run: |
+          # Define weights
+          TESTS_WEIGHT=40
+          COVERAGE_WEIGHT=30
+          CODE_QUALITY_WEIGHT=20
+          STRUCTURE_WEIGHT=10
+
+          # Get values
+          PY_PASSED=${{ steps.python-tests.outputs.tests_passed }}
+          PY_FAILED=${{ steps.python-tests.outputs.tests_failed }}
+          PY_TOTAL=$((PY_PASSED + PY_FAILED))
+
+          JS_PASSED=${{ steps.js-tests.outputs.tests_passed }}
+          JS_FAILED=${{ steps.js-tests.outputs.tests_failed }}
+          JS_TOTAL=$((JS_PASSED + JS_FAILED))
+
+          TOTAL_PASSED=$((PY_PASSED + JS_PASSED))
+          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL))
+
+          # Calculate test score (0-100)
+          if [ $TOTAL_TESTS -gt 0 ]; then
+            TEST_SCORE=$(awk "BEGIN {printf \"%.2f\", ($TOTAL_PASSED / $TOTAL_TESTS) * 100}")
+          else
+            TEST_SCORE=0
+          fi
+
+          # Coverage score
+          COVERAGE=${{ steps.python-tests.outputs.coverage }}
+          COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
+
+          # Code quality score (simplified)
+          PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score }}
+          ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors }}
+          if [ $ESLINT_ERRORS -gt 10 ]; then
+            QUALITY_SCORE=50
+          elif [ $ESLINT_ERRORS -gt 5 ]; then
+            QUALITY_SCORE=70
+          elif [ $ESLINT_ERRORS -gt 0 ]; then
+            QUALITY_SCORE=85
+          else
+            QUALITY_SCORE=100
+          fi
+
+          # Structure score
+          STRUCT_SCORE=${{ steps.required-files.outputs.score }}
+          STRUCT_MAX=${{ steps.required-files.outputs.max_score }}
+          STRUCTURE_SCORE=$(awk "BEGIN {printf \"%.2f\", ($STRUCT_SCORE / $STRUCT_MAX) * 100}")
+
+          # Calculate weighted final grade
+          FINAL_GRADE=$(awk "BEGIN {
+            printf \"%.2f\",
+            ($TEST_SCORE * $TESTS_WEIGHT / 100) +
+            ($COVERAGE_SCORE * $COVERAGE_WEIGHT / 100) +
+            ($QUALITY_SCORE * $CODE_QUALITY_WEIGHT / 100) +
+            ($STRUCTURE_SCORE * $STRUCTURE_WEIGHT / 100)
+          }")
+
+          echo "grade=$FINAL_GRADE" >> $GITHUB_OUTPUT
+          echo "test_score=$TEST_SCORE" >> $GITHUB_OUTPUT
+          echo "coverage_score=$COVERAGE_SCORE" >> $GITHUB_OUTPUT
+          echo "quality_score=$QUALITY_SCORE" >> $GITHUB_OUTPUT
+          echo "structure_score=$STRUCTURE_SCORE" >> $GITHUB_OUTPUT
+
+          echo "=== GRADING SUMMARY ==="
+          echo "Tests: $TEST_SCORE/100 (${TESTS_WEIGHT}%)"
+          echo "Coverage: $COVERAGE_SCORE/100 (${COVERAGE_WEIGHT}%)"
+          echo "Quality: $QUALITY_SCORE/100 (${CODE_QUALITY_WEIGHT}%)"
+          echo "Structure: $STRUCTURE_SCORE/100 (${STRUCTURE_WEIGHT}%)"
+          echo "========================"
+          echo "FINAL GRADE: $FINAL_GRADE/100"
+
+      - name: Generate grading report
+        id: report
+        run: |
+          REPORT="## 📊 Automated Grading Report
+
+          **Student**: ${{ steps.extract-info.outputs.student_name }}
+          **Assignment**: ${{ steps.extract-info.outputs.assignment }}
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+          ### 🎯 Final Grade: **${{ steps.calculate-grade.outputs.grade }}/100**
+
+          ---
+
+          ### Breakdown
+
+          | Category | Score | Weight | Contribution |
+          |----------|-------|--------|--------------|
+          | **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | 40% | ${{ steps.calculate-grade.outputs.test_score }} × 0.4 |
+          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | 30% | ${{ steps.calculate-grade.outputs.coverage_score }} × 0.3 |
+          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | 20% | ${{ steps.calculate-grade.outputs.quality_score }} × 0.2 |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | 10% | ${{ steps.calculate-grade.outputs.structure_score }} × 0.1 |
+
+          ---
+
+          ### 📝 Detailed Results
+
+          #### Python Tests
+          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
+          - 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}%
+
+          #### JavaScript Tests
+          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
+
+          #### Code Quality
+          - Pylint Score: ${{ steps.code-quality.outputs.pylint_score }}/10
+          - ESLint Errors: ${{ steps.code-quality.outputs.eslint_errors }}
+
+          #### Required Files
+          - Score: ${{ steps.required-files.outputs.score }}/${{ steps.required-files.outputs.max_score }}
+
+          ---
+
+          ### 📋 Next Steps
+
+          1. Review the detailed test output in the Actions tab
+          2. Fix any failing tests or linting issues
+          3. Ensure coverage meets the minimum threshold (80%)
+          4. Update documentation if needed
+
+          ---
+
+          ### 📦 Canvas Submission
+
+          **Copy this information to Canvas:**
+
+          \`\`\`
+          Student: ${{ steps.extract-info.outputs.student_name }}
+          Assignment: ${{ steps.extract-info.outputs.assignment }}
+          GitHub PR: #${{ github.event.pull_request.number }}
+          Grade: ${{ steps.calculate-grade.outputs.grade }}/100
+          PR Link: ${{ github.event.pull_request.html_url }}
+          \`\`\`
+
+          ---
+
+          *This is an automated grading report. For questions, contact your instructor.*"
+
+          # Save report to file
+          echo "$REPORT" > grading-report.md
+
+          # Also output for comment
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          echo "$REPORT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment grade on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('grading-report.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
+
+      - name: Upload grading artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: grading-report-pr-${{ github.event.pull_request.number }}
+          path: |
+            grading-report.md
+            python-results.xml
+            coverage.json
+            pylint-report.json
+          retention-days: 90
+
+      - name: Create Canvas-ready CSV
+        run: |
+          # Create CSV for Canvas gradebook import
+          echo "Student,Assignment,Score,Max Points,Submission Date,Comments" > canvas-grade.csv
+          echo "${{ steps.extract-info.outputs.student_name }},${{ steps.extract-info.outputs.assignment }},${{ steps.calculate-grade.outputs.grade }},100,$(date +"%Y-%m-%d"),Automated grading via GitHub Actions - PR #${{ github.event.pull_request.number }}" >> canvas-grade.csv
+
+          cat canvas-grade.csv
+
+      - name: Upload Canvas CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: canvas-import-pr-${{ github.event.pull_request.number }}
+          path: canvas-grade.csv
+          retention-days: 90
 
   # Job to collect all grades and create master gradebook
   update-gradebook:
@@ -362,39 +361,39 @@ jobs:
     if: github.event.pull_request.merged == true
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        ref: main
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
 
-    - name: Download Canvas CSV
-      uses: actions/download-artifact@v4
-      with:
-        name: canvas-import-pr-${{ github.event.pull_request.number }}
+      - name: Download Canvas CSV
+        uses: actions/download-artifact@v4
+        with:
+          name: canvas-import-pr-${{ github.event.pull_request.number }}
 
-    - name: Update gradebook
-      run: |
-        # Create gradebook directory if it doesn't exist
-        mkdir -p .gradebook
+      - name: Update gradebook
+        run: |
+          # Create gradebook directory if it doesn't exist
+          mkdir -p .gradebook
 
-        # Append to master gradebook
-        if [ ! -f .gradebook/master-gradebook.csv ]; then
-          echo "Student,Assignment,Score,Max Points,Submission Date,GitHub PR,Comments" > .gradebook/master-gradebook.csv
-        fi
+          # Append to master gradebook
+          if [ ! -f .gradebook/master-gradebook.csv ]; then
+            echo "Student,Assignment,Score,Max Points,Submission Date,GitHub PR,Comments" > .gradebook/master-gradebook.csv
+          fi
 
-        # Append new grade (skip header)
-        tail -n +2 canvas-grade.csv | while read line; do
-          echo "$line,#${{ github.event.pull_request.number }}" >> .gradebook/master-gradebook.csv
-        done
+          # Append new grade (skip header)
+          tail -n +2 canvas-grade.csv | while read line; do
+            echo "$line,#${{ github.event.pull_request.number }}" >> .gradebook/master-gradebook.csv
+          done
 
-        echo "Updated gradebook:"
-        cat .gradebook/master-gradebook.csv
+          echo "Updated gradebook:"
+          cat .gradebook/master-gradebook.csv
 
-    - name: Commit gradebook update
-      run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-        git add .gradebook/master-gradebook.csv
-        git commit -m "chore: update gradebook with PR #${{ github.event.pull_request.number }}" || echo "No changes to commit"
-        git push || echo "No changes to push"
-      continue-on-error: true
+      - name: Commit gradebook update
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .gradebook/master-gradebook.csv
+          git commit -m "chore: update gradebook with PR #${{ github.event.pull_request.number }}" || echo "No changes to commit"
+          git push || echo "No changes to push"
+        continue-on-error: true

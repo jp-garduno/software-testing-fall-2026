@@ -10,19 +10,19 @@
 Rewrite these bad commit messages using conventional commits format.
 
 **1. Bad**: `changes`  
-**Good**: 
+**Good**:
 
 **2. Bad**: `updated files`  
-**Good**: 
+**Good**:
 
 **3. Bad**: `Fixed the thing`  
-**Good**: 
+**Good**:
 
 **4. Bad**: `Added new feature and fixed bug and updated docs`  
 **Good** (multiple commits):
 
 **5. Bad**: `WIP`  
-**Good**: 
+**Good**:
 
 ---
 
@@ -31,28 +31,28 @@ Rewrite these bad commit messages using conventional commits format.
 Write appropriate conventional commit messages for these scenarios:
 
 **1.** You added a user registration feature  
-**Your commit**: 
+**Your commit**:
 
 **2.** You fixed a bug in email validation  
-**Your commit**: 
+**Your commit**:
 
 **3.** You updated the README with new setup instructions  
-**Your commit**: 
+**Your commit**:
 
 **4.** You formatted Python code with Black (no logic changes)  
-**Your commit**: 
+**Your commit**:
 
 **5.** You refactored the database query logic  
-**Your commit**: 
+**Your commit**:
 
 **6.** You added unit tests for the login feature  
-**Your commit**: 
+**Your commit**:
 
 **7.** You updated npm dependencies  
-**Your commit**: 
+**Your commit**:
 
 **8.** You changed the authentication system (breaking change)  
-**Your commit**: 
+**Your commit**:
 
 ---
 
@@ -61,13 +61,13 @@ Write appropriate conventional commit messages for these scenarios:
 Add appropriate scopes to these commits:
 
 **1.** `feat: add login functionality`  
-**With scope**: 
+**With scope**:
 
 **2.** `fix: correct validation error`  
-**With scope**: 
+**With scope**:
 
 **3.** `docs: update installation guide`  
-**With scope**: 
+**With scope**:
 
 ---
 
