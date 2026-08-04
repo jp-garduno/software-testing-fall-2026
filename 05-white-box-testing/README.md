@@ -87,17 +87,17 @@ npm test -- --coverage
 
 ### Python Exercises
 
-- [01-calculator](./python/exercises/01-calculator.md) - Basic unit tests
-- [02-shopping-cart](./python/exercises/02-shopping-cart.md) - Class testing
-- [03-user-service](./python/exercises/03-user-service.md) - Integration & mocking
-- [04-coverage-challenge](./python/exercises/04-coverage-challenge.md) - Achieve 100% coverage
+- [01-calculator](./exercises/python/01-calculator.md) - Basic unit tests
+- [02-shopping-cart](./exercises/python/02-shopping-cart.md) - Class testing
+- [03-user-service](./exercises/python/03-user-service.md) - Integration & mocking
+- [04-coverage-challenge](./exercises/python/04-coverage-challenge.md) - Achieve 100% coverage
 
 ### JavaScript Exercises
 
-- [01-calculator](./javascript/exercises/01-calculator.md) - Basic unit tests
-- [02-shopping-cart](./javascript/exercises/02-shopping-cart.md) - Class testing
-- [03-user-service](./javascript/exercises/03-user-service.md) - Integration & mocking
-- [04-coverage-challenge](./javascript/exercises/04-coverage-challenge.md) - Achieve 100% coverage
+- [01-calculator](./exercises/javascript/01-calculator.md) - Basic unit tests
+- [02-shopping-cart](./exercises/javascript/02-shopping-cart.md) - Class testing
+- [03-user-service](./exercises/javascript/03-user-service.md) - Integration & mocking
+- [04-coverage-challenge](./exercises/javascript/04-coverage-challenge.md) - Achieve 100% coverage
 
 ## 📝 Homework Assignment
 
