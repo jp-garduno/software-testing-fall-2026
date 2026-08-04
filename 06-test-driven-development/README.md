@@ -94,17 +94,6 @@ Both Python and JavaScript implementations:
    - Stateful object testing
    - Transaction history
 
-### Guided TDD Projects
-
-- **[Python: Todo List API](./python/exercises/todo-api/)**
-
-  - Build a REST API using TDD
-  - pytest, Flask/FastAPI
-
-- **[JavaScript: Shopping Cart](./javascript/exercises/shopping-cart/)**
-  - Build a shopping cart using TDD
-  - Jest, TypeScript
-
 ## 📝 Homework Assignment
 
 **[Homework 6: TDD Feature Development](./homework/homework-6.md)** **Due**: End of Week 11
