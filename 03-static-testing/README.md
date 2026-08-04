@@ -3,6 +3,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this module, you will be able to:
+
 - Understand the benefits of static testing vs dynamic testing
 - Write commit messages following Conventional Commits specification
 - Configure and use pre-commit hooks
@@ -13,24 +14,28 @@ By the end of this module, you will be able to:
 ## 📚 Theory Materials
 
 ### [1. Introduction to Static Testing](./theory/01-introduction.md)
+
 - Static vs Dynamic testing
 - Benefits of early defect detection
 - Types of static testing
 - Code reviews and inspections
 
 ### [2. Conventional Commits](./theory/02-conventional-commits.md)
+
 - Commit message standards
 - Commit types (feat, fix, docs, etc.)
 - Benefits for collaboration and automation
 - Semantic versioning connection
 
 ### [3. Pre-commit Hooks](./theory/03-pre-commit-hooks.md)
+
 - What are Git hooks
 - Setting up pre-commit framework
 - Configuring hooks
 - Common pre-commit hooks
 
 ### [4. Linting](./theory/04-linting.md)
+
 - Purpose of linting
 - Pylint for Python
 - ESLint for JavaScript
@@ -40,11 +45,13 @@ By the end of this module, you will be able to:
 ## 🛠️ Setup Instructions
 
 ### Install Pre-commit Framework
+
 ```bash
 pip install pre-commit
 ```
 
 ### Create `.pre-commit-config.yaml`
+
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -67,11 +74,13 @@ repos:
 ```
 
 ### Install Hooks
+
 ```bash
 pre-commit install
 ```
 
 ### Python Linting
+
 ```bash
 pip install pylint black isort
 pylint your_file.py
@@ -79,6 +88,7 @@ black your_file.py
 ```
 
 ### JavaScript Linting
+
 ```bash
 npm install --save-dev eslint
 npx eslint your_file.js --fix
@@ -87,15 +97,19 @@ npx eslint your_file.js --fix
 ## 💻 Practical Exercises
 
 ### [Exercise 1: Conventional Commits Practice](./exercises/01-conventional-commits-practice.md)
+
 Rewrite bad commit messages using Conventional Commits.
 
 ### [Exercise 2: Pre-commit Setup](./exercises/02-precommit-setup.md)
+
 Set up pre-commit hooks for a project from scratch.
 
 ### [Exercise 3: Linting Configuration](./exercises/03-linting-config.md)
+
 Configure Pylint and ESLint with custom rules.
 
 ### [Exercise 4: Fix Linting Issues](./exercises/04-fix-issues.md)
+
 Given code with linting errors, fix all issues.
 
 ## 📝 Homework Assignment
@@ -104,7 +118,8 @@ Given code with linting errors, fix all issues.
 
 **Due**: End of Week 4
 
-**Objectives**: 
+**Objectives**:
+
 - Configure static testing tools for a project
 - Set up pre-commit hooks
 - Configure linters
@@ -121,6 +136,7 @@ Given code with linting errors, fix all issues.
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation only
@@ -130,6 +146,7 @@ Given code with linting errors, fix all issues.
 - `chore`: Maintenance
 
 **Examples**:
+
 ```
 feat(auth): add login functionality
 fix(cart): correct total calculation

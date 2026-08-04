@@ -9,6 +9,7 @@ Think of it like a save point in a video game - you can always return to it.
 ## Anatomy of a Commit
 
 Each commit contains:
+
 - **Unique ID** (SHA hash): `a1b2c3d4e5f6...`
 - **Author**: Who made the commit
 - **Date**: When it was made
@@ -17,6 +18,7 @@ Each commit contains:
 - **Changes**: Diff of what was added/removed/modified
 
 Example:
+
 ```
 commit a1b2c3d4e5f6789...
 Author: Jane Smith <jane@example.com>
@@ -42,6 +44,7 @@ Date:   Mon Jan 15 14:30:00 2026 -0500
 ```
 
 ### Types
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -53,6 +56,7 @@ Date:   Mon Jan 15 14:30:00 2026 -0500
 ### Examples
 
 **Good**:
+
 ```bash
 feat(auth): add JWT token authentication
 fix(api): correct user validation logic
@@ -61,6 +65,7 @@ test(calculator): add edge case tests
 ```
 
 **Bad**:
+
 ```bash
 changes
 update
@@ -73,6 +78,7 @@ asdf
 ### Commit Frequently
 
 ✅ **Do commit**:
+
 - After completing a logical unit of work
 - When tests pass
 - Before switching tasks
@@ -80,6 +86,7 @@ asdf
 - Before trying something risky
 
 ❌ **Don't commit**:
+
 - Broken code (unless on feature branch)
 - Half-finished features to main
 - Debug statements and commented code
@@ -159,11 +166,13 @@ git show --name-only a1b2c3d
 ## Commit History
 
 ### Linear History
+
 ```
 A -- B -- C -- D (main)
 ```
 
 ### Branched History
+
 ```
 A -- B -- C -- F (main)
       \
@@ -175,12 +184,14 @@ A -- B -- C -- F (main)
 Make each commit "atomic" - a single, complete change.
 
 **Benefits**:
+
 - Easy to understand
 - Easy to revert
 - Easy to review
 - Better history
 
 **Example of atomic commits**:
+
 ```bash
 commit 1: feat: add database schema for users
 commit 2: feat: create User model class

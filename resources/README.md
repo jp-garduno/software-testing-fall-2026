@@ -21,14 +21,17 @@ This directory contains additional resources, references, and materials to suppo
 ### Essential Reading
 
 1. **"The Art of Software Testing"** by Glenford J. Myers, Corey Sandler, Tom Badgett
+
    - Classic testing book, covers fundamentals
    - Great for black box testing techniques
 
 2. **"Test Driven Development: By Example"** by Kent Beck
+
    - The TDD bible
    - Practical examples in Java (concepts apply to any language)
 
 3. **"Clean Code"** by Robert C. Martin
+
    - Essential for writing testable code
    - Chapter 9 specifically on unit tests
 
@@ -39,14 +42,17 @@ This directory contains additional resources, references, and materials to suppo
 ### Recommended Reading
 
 5. **"Growing Object-Oriented Software, Guided by Tests"** by Steve Freeman & Nat Pryce
+
    - Advanced TDD with mocking
    - Object-oriented design
 
 6. **"Effective Software Testing"** by Maurício Aniche
+
    - Modern approach to testing
    - Practical examples
 
 7. **"Software Testing"** by Ron Patton
+
    - Broad overview of testing field
    - Good for beginners
 
@@ -61,10 +67,12 @@ This directory contains additional resources, references, and materials to suppo
 ### Free Courses
 
 1. **[Udacity: Software Testing](https://www.udacity.com/course/software-testing--cs258)**
+
    - Comprehensive introduction
    - Videos and quizzes
 
 2. **[Test Automation University](https://testautomationu.applitools.com/)**
+
    - Multiple courses on various tools
    - Selenium, Playwright, API testing
 
@@ -75,6 +83,7 @@ This directory contains additional resources, references, and materials to suppo
 ### Paid Courses (Optional)
 
 4. **Udemy: Various Testing Courses**
+
    - Often on sale for $10-20
    - Search for specific tools
 
@@ -89,26 +98,31 @@ This directory contains additional resources, references, and materials to suppo
 ### Official Documentation
 
 #### Python Testing
+
 - **[pytest](https://docs.pytest.org/)** - Python testing framework
 - **[unittest](https://docs.python.org/3/library/unittest.html)** - Built-in Python testing
 - **[Coverage.py](https://coverage.readthedocs.io/)** - Code coverage tool
 - **[Behave](https://behave.readthedocs.io/)** - BDD framework for Python
 
 #### JavaScript Testing
+
 - **[Jest](https://jestjs.io/)** - JavaScript testing framework
 - **[Mocha](https://mochajs.org/)** - Test framework for Node.js
 - **[Chai](https://www.chaijs.com/)** - Assertion library
 
 #### Browser Automation
+
 - **[Selenium WebDriver](https://www.selenium.dev/documentation/)** - Browser automation
 - **[Playwright](https://playwright.dev/)** - Modern E2E testing
 - **[Cypress](https://docs.cypress.io/)** - Alternative E2E tool (not covered in course)
 
 #### Performance Testing
+
 - **[JMeter](https://jmeter.apache.org/usermanual/index.html)** - Load testing tool
 - **[Locust](https://docs.locust.io/)** - Python load testing
 
 #### Code Quality
+
 - **[Pylint](https://pylint.readthedocs.io/)** - Python linter
 - **[ESLint](https://eslint.org/docs/)** - JavaScript linter
 - **[Black](https://black.readthedocs.io/)** - Python formatter
@@ -126,14 +140,14 @@ This directory contains additional resources, references, and materials to suppo
 
 ### Testing Frameworks
 
-| **Language** | **Tool** | **Type** | **Purpose** |
-|--------------|----------|----------|-------------|
-| Python | pytest | Unit/Integration | Most popular Python testing framework |
-| Python | unittest | Unit/Integration | Built-in Python testing |
-| JavaScript | Jest | Unit/Integration | All-in-one testing solution |
-| JavaScript | Mocha | Unit/Integration | Flexible test framework |
-| Both | Selenium | E2E | Browser automation |
-| Both | Playwright | E2E | Modern browser automation |
+| **Language** | **Tool**   | **Type**         | **Purpose**                           |
+| ------------ | ---------- | ---------------- | ------------------------------------- |
+| Python       | pytest     | Unit/Integration | Most popular Python testing framework |
+| Python       | unittest   | Unit/Integration | Built-in Python testing               |
+| JavaScript   | Jest       | Unit/Integration | All-in-one testing solution           |
+| JavaScript   | Mocha      | Unit/Integration | Flexible test framework               |
+| Both         | Selenium   | E2E              | Browser automation                    |
+| Both         | Playwright | E2E              | Modern browser automation             |
 
 ### Code Quality Tools
 
@@ -175,6 +189,7 @@ This directory contains additional resources, references, and materials to suppo
 ## 📋 Cheat Sheets
 
 ### Git Commands
+
 ```bash
 # Common commands
 git status                 # Check status
@@ -194,6 +209,7 @@ git stash pop              # Restore stashed changes
 ```
 
 ### pytest
+
 ```bash
 # Running tests
 pytest                     # Run all tests
@@ -213,6 +229,7 @@ pytest --pdb               # Drop to debugger on failure
 ```
 
 ### Jest
+
 ```bash
 # Running tests
 npm test                   # Run all tests
@@ -232,6 +249,7 @@ jest.mock()                 # Mock module
 ```
 
 ### Selenium (Python)
+
 ```python
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -268,22 +286,27 @@ driver.quit()
 ### YouTube Channels
 
 1. **freeCodeCamp.org**
+
    - Comprehensive tutorials
    - Full courses on testing
 
 2. **Traversy Media**
+
    - Web development and testing
    - Practical examples
 
 3. **The Net Ninja**
+
    - Testing frameworks
    - TDD tutorials
 
 4. **Test Automation University**
+
    - Applitools' educational channel
    - Expert instructors
 
 5. **Continuous Delivery**
+
    - Dave Farley's channel
    - Testing philosophy and practices
 
@@ -298,15 +321,18 @@ driver.quit()
 ### Must-Read Articles
 
 1. **[Martin Fowler's Testing Articles](https://martinfowler.com/tags/testing.html)**
+
    - Testing pyramid
    - Test doubles
    - Continuous integration
 
 2. **[Google Testing Blog](https://testing.googleblog.com/)**
+
    - Testing at scale
    - Best practices from Google
 
 3. **[Kent Beck on Twitter/X](https://twitter.com/KentBeck)**
+
    - TDD insights
    - Testing philosophy
 
@@ -328,11 +354,13 @@ driver.quit()
 ### Coding Challenges
 
 1. **[Exercism](https://exercism.org/)**
+
    - Practice TDD
    - Mentor feedback
    - Python and JavaScript tracks
 
 2. **[Codewars](https://www.codewars.com/)**
+
    - Kata challenges
    - Test-driven challenges
    - Multiple languages
@@ -360,10 +388,12 @@ driver.quit()
 ### Online Forums
 
 1. **[Stack Overflow](https://stackoverflow.com/)**
+
    - Q&A for specific problems
    - Tags: [testing], [pytest], [jest], [selenium]
 
 2. **[Reddit](https://www.reddit.com/)**
+
    - r/softwaretesting
    - r/QualityAssurance
    - r/learnprogramming
@@ -390,11 +420,13 @@ driver.quit()
 For those interested in professional certifications:
 
 1. **ISTQB Foundation Level**
+
    - Internationally recognized
    - Good for resume
    - Not required for this course
 
 2. **ISTQB Advanced Levels**
+
    - After foundation
    - Specialized areas
 

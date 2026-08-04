@@ -10,6 +10,7 @@
 ## 🎯 Objectives
 
 This homework will help you:
+
 - Set up pre-commit hooks for a project
 - Configure linting tools
 - Write conventional commit messages
@@ -53,6 +54,7 @@ pip install pre-commit
 Create `.pre-commit-config.yaml` with:
 
 **For Python projects**:
+
 - trailing-whitespace
 - end-of-file-fixer
 - check-yaml
@@ -63,6 +65,7 @@ Create `.pre-commit-config.yaml` with:
 - pylint
 
 **For JavaScript projects**:
+
 - trailing-whitespace
 - end-of-file-fixer
 - check-yaml
@@ -91,6 +94,7 @@ pre-commit run --all-files
 ### For Python
 
 **1. Create `.pylintrc`** configuration:
+
 ```bash
 pylint --generate-rcfile > .pylintrc
 ```
@@ -98,16 +102,19 @@ pylint --generate-rcfile > .pylintrc
 Edit to customize rules.
 
 **2. Run Pylint**:
+
 ```bash
 pylint yourfile.py > pylint-report.txt
 ```
 
 **3. Format with Black**:
+
 ```bash
 black .
 ```
 
 **4. Sort imports with isort**:
+
 ```bash
 isort --profile=black .
 ```
@@ -115,11 +122,13 @@ isort --profile=black .
 ### For JavaScript
 
 **1. Initialize ESLint**:
+
 ```bash
 npx eslint --init
 ```
 
 **2. Create `.prettierrc`**:
+
 ```json
 {
   "semi": true,
@@ -129,16 +138,19 @@ npx eslint --init
 ```
 
 **3. Run ESLint**:
+
 ```bash
 npx eslint . > eslint-report.txt
 ```
 
 **4. Format with Prettier**:
+
 ```bash
 npx prettier --write .
 ```
 
 **Deliverables**:
+
 - Configuration files
 - Linting report (before fixes)
 - Screenshot showing issues found
@@ -150,8 +162,10 @@ npx prettier --write .
 Fix at least **5 issues** found by linters.
 
 **Document each fix**:
-```markdown
+
+````markdown
 ### Issue 1
+
 - **Tool**: Pylint
 - **Error**: C0301: Line too long (120/100)
 - **Location**: calculator.py:15
@@ -160,10 +174,13 @@ Fix at least **5 issues** found by linters.
   ```python
   # code before
   ```
+````
+
 - **After**:
   ```python
   # code after
   ```
+
 ```
 
 **Deliverable**: Document with 5+ fixes
@@ -223,6 +240,7 @@ Write a report (500-700 words) covering:
 Your repository must include:
 
 ```
+
 your-project/
 ├── .pre-commit-config.yaml
 ├── .pylintrc or eslint.config.js
@@ -230,13 +248,14 @@ your-project/
 ├── src/ (your code files)
 ├── README.md (updated with setup instructions)
 ├── reports/
-│   ├── pylint-report.txt or eslint-report.txt
-│   ├── issues-fixed.md
-│   └── analysis-report.pdf
+│ ├── pylint-report.txt or eslint-report.txt
+│ ├── issues-fixed.md
+│ └── analysis-report.pdf
 └── screenshots/
-    ├── pre-commit-output.png
-    ├── git-log.png
-    └── linting-issues.png
+├── pre-commit-output.png
+├── git-log.png
+└── linting-issues.png
+
 ```
 
 ### Canvas Submission
@@ -327,3 +346,4 @@ Before submitting:
 ---
 
 **Good luck!** This homework sets up habits that will make you a better developer! 🚀
+```

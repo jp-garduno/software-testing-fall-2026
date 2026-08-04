@@ -36,7 +36,7 @@ def divide(numerator,denominator):
 class Calculator():
   def __init__(self):
     self.history=[]
-  
+
   def calculate(self,operation,a,b):
     if operation=="add":
       result=a+b
@@ -50,10 +50,10 @@ class Calculator():
       result=a/b
     else:
       return None
-    
+
     self.history.append(result)
     return result
-  
+
   def get_history(self):
     return self.history
 
@@ -93,6 +93,7 @@ pylint calculator.py
 ```
 
 **Record the output:**
+
 - How many errors?
 - How many warnings?
 - What's the score?
@@ -104,18 +105,23 @@ pylint calculator.py
 Group the issues by type:
 
 ### Style Issues (C)
+
 - Example: Line too long
 
 ### Refactor Suggestions (R)
+
 - Example: Too many branches
 
 ### Warnings (W)
+
 - Example: Unused import
 
 ### Errors (E)
+
 - Example: Syntax error
 
 ### Fatal (F)
+
 - Example: Cannot open file
 
 ---
@@ -125,9 +131,11 @@ Group the issues by type:
 ### Step 1: Fix Imports
 
 **Issues**:
+
 - Unused imports (`sys`, `os`)
 
 **Fix**:
+
 ```python
 # Remove unused imports
 ```
@@ -137,12 +145,14 @@ Group the issues by type:
 ### Step 2: Fix Formatting
 
 **Issues**:
+
 - Inconsistent spacing around operators
 - Inconsistent indentation
 - Too many blank lines
 - Trailing comma in function parameters
 
 **Fix with Black**:
+
 ```bash
 pip install black
 black calculator.py
@@ -153,14 +163,17 @@ black calculator.py
 ### Step 3: Fix Naming
 
 **Issues**:
+
 - Class name has unnecessary parentheses
 
 **Before**:
+
 ```python
 class Calculator():
 ```
 
 **After**:
+
 ```python
 class Calculator:
 ```
@@ -170,15 +183,18 @@ class Calculator:
 ### Step 4: Fix Comparison
 
 **Issues**:
+
 - Using `==` to compare with `None`
 - Using `==` for string comparison (debatable)
 
 **Before**:
+
 ```python
 if denominator==0:
 ```
 
 **After**:
+
 ```python
 if denominator == 0:  # Black fixes spacing
 ```
@@ -192,6 +208,7 @@ if denominator == 0:  # Black fixes spacing
 **Before**: (See above)
 
 **After**:
+
 ```python
 def complex_function(x):
     """Classify number by magnitude."""
@@ -217,6 +234,7 @@ def complex_function(x):
 **Issue**: `unused_variable` is never used
 
 **Fix**: Delete it or prefix with underscore:
+
 ```python
 _unused_variable = 42  # Explicitly unused
 ```
@@ -228,6 +246,7 @@ _unused_variable = 42  # Explicitly unused
 **Issue**: Missing module and function docstrings
 
 **Fix**:
+
 ```python
 """Calculator module with basic arithmetic operations."""
 
@@ -250,90 +269,87 @@ def subtract(x, y):
 ### Code: `calculator.js`
 
 ```javascript
-function add(a,b)
-{
-  return a+b
+function add(a, b) {
+  return a + b;
 }
 
-function subtract(x,y){
-  const result=x-y;
-  return result
+function subtract(x, y) {
+  const result = x - y;
+  return result;
 }
 
-
-function multiply(a, b,) {
-  return a*b;
+function multiply(a, b) {
+  return a * b;
 }
 
-function divide(numerator,denominator){
-  if(denominator==0){
-    console.log("Cannot divide by zero")
-    return null
+function divide(numerator, denominator) {
+  if (denominator == 0) {
+    console.log("Cannot divide by zero");
+    return null;
   }
-  return numerator/denominator
+  return numerator / denominator;
 }
 
-
-class Calculator{
-  constructor(){
-    this.history=[]
+class Calculator {
+  constructor() {
+    this.history = [];
   }
-  
-  calculate(operation,a,b){
-    let result
-    if(operation=="add"){
-      result=a+b
-    }else if(operation=="subtract"){
-      result=a-b
-    }else if(operation=="multiply"){
-      result=a*b
-    }else if(operation=="divide"){
-      if(b==0) return null
-      result=a/b
-    }else{
-      return null
+
+  calculate(operation, a, b) {
+    let result;
+    if (operation == "add") {
+      result = a + b;
+    } else if (operation == "subtract") {
+      result = a - b;
+    } else if (operation == "multiply") {
+      result = a * b;
+    } else if (operation == "divide") {
+      if (b == 0) return null;
+      result = a / b;
+    } else {
+      return null;
     }
-    
-    this.history.push(result)
-    return result
+
+    this.history.push(result);
+    return result;
   }
-  
-  getHistory(){
-    return this.history
+
+  getHistory() {
+    return this.history;
   }
 }
 
-const unusedVariable=42
+const unusedVariable = 42;
 
-function complexFunction(x){
-  if(x<0){
-    if(x<-10){
-      if(x<-20){
-        return "very negative"
-      }else{
-        return "negative"
+function complexFunction(x) {
+  if (x < 0) {
+    if (x < -10) {
+      if (x < -20) {
+        return "very negative";
+      } else {
+        return "negative";
       }
-    }else{
-      return "slightly negative"
+    } else {
+      return "slightly negative";
     }
-  }else{
-    if(x>0){
-      if(x>10){
-        if(x>20){
-          return "very positive"
-        }else{
-          return "positive"
+  } else {
+    if (x > 0) {
+      if (x > 10) {
+        if (x > 20) {
+          return "very positive";
+        } else {
+          return "positive";
         }
-      }else{
-        return "slightly positive"
+      } else {
+        return "slightly positive";
       }
-    }else{
-      return "zero"
+    } else {
+      return "zero";
     }
   }
 }
 
-module.exports = { Calculator, add, subtract, multiply, divide }
+module.exports = { Calculator, add, subtract, multiply, divide };
 ```
 
 ---
@@ -346,6 +362,7 @@ npx eslint calculator.js
 ```
 
 **Record the output:**
+
 - How many errors?
 - How many warnings?
 
@@ -364,11 +381,13 @@ npx eslint calculator.js --fix
 **Issue**: `==` instead of `===`
 
 **Before**:
+
 ```javascript
 if (denominator == 0) {
 ```
 
 **After**:
+
 ```javascript
 if (denominator === 0) {
 ```
@@ -394,6 +413,7 @@ npx prettier --write calculator.js
 ```
 
 This will fix:
+
 - Spacing
 - Semicolons
 - Brace style
@@ -418,30 +438,34 @@ For each codebase:
 
 ### 1. Issue Report
 
-| Language | Initial Score | Final Score | Issues Fixed |
-|----------|---------------|-------------|--------------|
-| Python   |               |             |              |
-| JavaScript |             |             |              |
+| Language   | Initial Score | Final Score | Issues Fixed |
+| ---------- | ------------- | ----------- | ------------ |
+| Python     |               |             |              |
+| JavaScript |               |             |              |
 
 ### 2. Detailed Fix Log
 
 For each issue fixed:
 
-```markdown
+````markdown
 #### Issue #1
+
 - **Tool**: Pylint
 - **Code**: C0303
 - **Message**: Trailing whitespace
 - **Location**: Line 15
-- **Before**: 
+- **Before**:
   ```python
-  return result    
+  return result
   ```
+````
+
 - **After**:
   ```python
   return result
   ```
-```
+
+````
 
 Create at least **10 fix logs** (5 Python, 5 JavaScript).
 
@@ -471,11 +495,12 @@ Tools:
 pip install radon
 radon cc calculator.py
 radon mi calculator.py
-```
+````
 
 ### Challenge 2: Coverage
 
 Add tests and check if linting helps coverage:
+
 ```bash
 pytest --cov=calculator
 ```

@@ -16,11 +16,12 @@ feature:       E -- F -- G
 ✅ Experiment safely  
 ✅ Collaborate with others  
 ✅ Keep production code stable  
-✅ Work on multiple features simultaneously  
+✅ Work on multiple features simultaneously
 
 ## Branch Commands
 
 ### Create Branch
+
 ```bash
 # Create new branch
 git branch feature-name
@@ -32,6 +33,7 @@ git switch -c feature-name
 ```
 
 ### List Branches
+
 ```bash
 # List local branches
 git branch
@@ -44,6 +46,7 @@ git branch -v
 ```
 
 ### Switch Branches
+
 ```bash
 # Switch to branch
 git checkout branch-name
@@ -55,6 +58,7 @@ git checkout -
 ```
 
 ### Delete Branch
+
 ```bash
 # Delete merged branch
 git branch -d branch-name
@@ -66,6 +70,7 @@ git branch -D branch-name
 ## Branch Workflow
 
 ### Feature Branch Workflow
+
 ```bash
 # 1. Create feature branch from main
 git checkout main
@@ -93,6 +98,7 @@ git branch -d feature/login
 ## Branch Naming
 
 ### Good Branch Names
+
 ```
 feature/user-authentication
 fix/memory-leak
@@ -102,6 +108,7 @@ test/add-unit-tests
 ```
 
 ### Convention
+
 ```
 <type>/<description>
 
@@ -117,11 +124,13 @@ Types:
 ## Branching Strategies
 
 ### 1. Feature Branch Workflow
+
 - Main branch stays stable
 - Create branch for each feature
 - Merge when complete
 
 ### 2. Git Flow
+
 ```
 main (production)
   ↓
@@ -131,6 +140,7 @@ feature branches
 ```
 
 ### 3. GitHub Flow (Simplest)
+
 ```
 main branch
   ↓
@@ -152,6 +162,7 @@ back to main
 ## Common Scenarios
 
 ### Scenario 1: Work on New Feature
+
 ```bash
 git checkout main
 git pull
@@ -163,6 +174,7 @@ git commit -m "feat: implement dashboard"
 ```
 
 ### Scenario 2: Quick Bug Fix
+
 ```bash
 git checkout main
 git checkout -b fix/login-bug
@@ -175,6 +187,7 @@ git branch -d fix/login-bug
 ```
 
 ### Scenario 3: Switch Between Features
+
 ```bash
 # Working on feature A
 git checkout feature-a
@@ -195,6 +208,7 @@ git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(
 ```
 
 Example output:
+
 ```
 * a1b2c3d - (HEAD -> feature) feat: add feature
 * e4f5g6h - fix: bug fix

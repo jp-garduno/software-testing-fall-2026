@@ -3,6 +3,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this module, you will be able to:
+
 - Explain the importance and purpose of software testing
 - Differentiate between various types of software testing
 - Understand different levels of testing
@@ -13,7 +14,9 @@ By the end of this module, you will be able to:
 ## 📚 Theory Materials
 
 ### Session 1: Introduction & Testing Types
+
 1. [Introduction to Software Testing](./theory/01-introduction.md)
+
    - Why testing matters
    - Cost of bugs
    - Testing in SDLC
@@ -27,7 +30,9 @@ By the end of this module, you will be able to:
    - Smoke & Sanity Testing
 
 ### Session 2: Testing Levels & Principles
+
 3. [Software Testing Levels](./theory/03-testing-levels.md)
+
    - Unit Testing
    - Integration Testing
    - System Testing
@@ -56,13 +61,17 @@ By the end of this module, you will be able to:
 ## 📊 Interactive Materials
 
 ### [Concept Maps](./exercises/concept-maps.md)
+
 Visual representations of testing relationships and hierarchies.
 
 ### [Testing Quiz](./exercises/quiz.md)
+
 Self-assessment quiz to test your understanding (20 questions).
 
 ### [Case Studies](./exercises/case-studies.md)
+
 Real-world scenarios where you analyze testing strategies:
+
 - Case Study 1: E-commerce Platform Testing
 - Case Study 2: Mobile Banking App
 - Case Study 3: Healthcare Management System
@@ -70,15 +79,19 @@ Real-world scenarios where you analyze testing strategies:
 ## 💻 Practical Exercises
 
 ### [Exercise 1: Test Type Classification](./exercises/01-classify-tests.md)
+
 Given different test scenarios, classify them by type and level.
 
 ### [Exercise 2: Testing Strategy Design](./exercises/02-test-strategy.md)
+
 Design a comprehensive testing strategy for a sample application.
 
 ### [Exercise 3: Principle Application](./exercises/03-apply-principles.md)
+
 Apply testing principles to identify issues in existing test plans.
 
 ### [Exercise 4: Cost-Benefit Analysis](./exercises/04-cost-benefit.md)
+
 Analyze when and where to invest in different types of testing.
 
 ## 📝 Homework Assignment
@@ -87,13 +100,15 @@ Analyze when and where to invest in different types of testing.
 
 **Due**: End of Week 3
 
-**Objectives**: 
+**Objectives**:
+
 - Demonstrate understanding of testing concepts
 - Analyze a real application's testing needs
 - Design a test strategy
 - Apply testing principles
 
 **Deliverables**:
+
 - Test strategy document for a chosen application
 - Classification of test types and levels needed
 - Justification based on testing principles
@@ -104,15 +119,17 @@ Analyze when and where to invest in different types of testing.
 ## 📖 Key Concepts Summary
 
 ### Testing Types
-| **Type** | **Purpose** | **Example** |
-|----------|-------------|-------------|
-| **Functional** | Verify features work as specified | Login validates credentials |
-| **Non-Functional** | Verify quality attributes | App loads in <2 seconds |
-| **Regression** | Ensure changes don't break existing features | Old features still work after update |
-| **Smoke** | Quick check that critical features work | Can users log in? |
-| **Sanity** | Verify specific fix or feature | Bug fix actually works |
+
+| **Type**           | **Purpose**                                  | **Example**                          |
+| ------------------ | -------------------------------------------- | ------------------------------------ |
+| **Functional**     | Verify features work as specified            | Login validates credentials          |
+| **Non-Functional** | Verify quality attributes                    | App loads in <2 seconds              |
+| **Regression**     | Ensure changes don't break existing features | Old features still work after update |
+| **Smoke**          | Quick check that critical features work      | Can users log in?                    |
+| **Sanity**         | Verify specific fix or feature               | Bug fix actually works               |
 
 ### Testing Levels
+
 ```
          ▲
          │  Acceptance Testing (Customer perspective)
@@ -124,6 +141,7 @@ Analyze when and where to invest in different types of testing.
 ```
 
 ### The Seven Testing Principles
+
 1. **Testing shows presence of defects** - Not their absence
 2. **Exhaustive testing is impossible** - Focus on risk-based testing
 3. **Early testing** - Start testing as early as possible
@@ -135,6 +153,7 @@ Analyze when and where to invest in different types of testing.
 ## 🛠️ Tools Introduction
 
 While this module is theoretical, we'll introduce tools used in later modules:
+
 - **Unit Testing**: pytest (Python), Jest (JavaScript)
 - **Integration Testing**: pytest, Supertest (JavaScript)
 - **System Testing**: Selenium, Playwright
@@ -144,15 +163,18 @@ While this module is theoretical, we'll introduce tools used in later modules:
 ## 📚 Additional Resources
 
 ### Required Reading
+
 - [ISTQB Foundation Level Syllabus](https://www.istqb.org/) - Chapter 1 & 2
 - "The Art of Software Testing" by Myers, Sandler, and Badgett - Chapter 1
 
 ### Recommended Reading
+
 - [Google Testing Blog](https://testing.googleblog.com/)
 - [Testing Pyramid Article](https://martinfowler.com/articles/practical-test-pyramid.html)
 - [The Testing Trophy](https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications)
 
 ### Industry Standards
+
 - ISTQB (International Software Testing Qualifications Board)
 - ISO/IEC/IEEE 29119 (Software Testing Standards)
 
@@ -168,7 +190,7 @@ A: Both! Follow the testing pyramid - more unit tests, fewer E2E tests.
 A: As early as possible (Early Testing principle). Review requirements, design test cases.
 
 **Q: What's the difference between testing types and levels?**
-A: Types describe *what* you're testing (functionality, performance). Levels describe *where* in the system (unit, integration, system).
+A: Types describe _what_ you're testing (functionality, performance). Levels describe _where_ in the system (unit, integration, system).
 
 **Q: Can automated testing replace manual testing?**
 A: No. Some tests (UX, exploratory) are better done manually. Use both strategically.
@@ -176,6 +198,7 @@ A: No. Some tests (UX, exploratory) are better done manually. Use both strategic
 ## 🎯 Self-Assessment Checklist
 
 Before moving to Module 3, make sure you can:
+
 - [ ] Explain why software testing is important
 - [ ] Differentiate between functional and non-functional testing
 - [ ] Describe the four main testing levels
@@ -197,6 +220,7 @@ Before moving to Module 3, make sure you can:
 ## 🚀 Next Steps
 
 Once you complete this module:
+
 1. Complete [Homework 2](./homework/homework-2.md)
 2. Review [Module 3: Static Testing](../03-static-testing/README.md)
 3. Start thinking about testing in everything you code!

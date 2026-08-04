@@ -9,6 +9,7 @@
 ### Week 1: Git Fundamentals
 
 **Module 1: Week 1 - Session 1: Git Basics**
+
 - [ ] Copy instructions from CANVAS_ASYNC_INSTRUCTIONS.md (Session 1)
 - [ ] Add links to theory files (01-05)
 - [ ] Add link to exercise 01
@@ -16,6 +17,7 @@
 - [ ] Points: 0 (learning only)
 
 **Module 2: Week 1 - Session 2: Git Collaboration**
+
 - [ ] Copy instructions (Session 2)
 - [ ] Add links to theory files (06-10)
 - [ ] Add links to exercises 02-04
@@ -28,6 +30,7 @@
 ### Week 2: Software Testing Concepts
 
 **Module 3: Week 2 - Session 3: Testing Fundamentals**
+
 - [ ] Copy instructions (Session 3)
 - [ ] Add links to theory files 01-02
 - [ ] Add link to quiz
@@ -36,6 +39,7 @@
 - [ ] Points: 0
 
 **Module 4: Week 2 - Session 4: Testing Pyramid & Principles**
+
 - [ ] Copy instructions (Session 4)
 - [ ] Add links to theory files 03-04
 - [ ] Add link to concept maps
@@ -49,6 +53,7 @@
 ### Week 3: Static Testing
 
 **Module 5: Week 3 - Session 5: Static Testing Setup**
+
 - [ ] Copy instructions (Session 5)
 - [ ] Add links to theory files 01-03
 - [ ] Add links to exercises 01-02
@@ -57,6 +62,7 @@
 - [ ] Points: 0
 
 **Module 6: Week 3 - Session 6: Linting Tools**
+
 - [ ] Copy instructions (Session 6)
 - [ ] Add link to theory file 04
 - [ ] Add links to exercises 03-04
@@ -70,76 +76,82 @@
 ## 📝 Canvas Assignments to Create
 
 ### Assignment 1: Homework 1 - Git Workflow
+
 - **Title**: Homework 1: Git Workflow Project
 - **Points**: 100
 - **Due Date**: End of Week 2
 - **Submission Type**: Website URL (GitHub PR link)
-- **Instructions**: 
+- **Instructions**:
+
   ```
   Complete the Git workflow homework assignment.
-  
-  📖 Assignment Details: 
+
+  📖 Assignment Details:
   https://github.com/software-testing-fall-2026/01-git/homework/homework-1.md
-  
+
   📤 How to Submit:
   1. Complete the homework in a feature branch
   2. Create a Pull Request on GitHub
   3. Wait for automated grading (2-5 minutes)
   4. Review your grade in the PR comments
   5. Submit your PR URL here
-  
+
   Example PR URL: https://github.com/software-testing-fall-2026/pull/123
-  
+
   📚 Submission Guide:
   https://github.com/software-testing-fall-2026/docs/student/STUDENT_SUBMISSION_GUIDE.md
-  
+
   ⏰ Time Estimate: 3-4 hours
   ```
 
 ### Assignment 2: Homework 2 - Testing Concepts
+
 - **Title**: Homework 2: Testing Concepts Analysis
 - **Points**: 110 (100 base + 10 bonus)
 - **Due Date**: End of Week 3
 - **Submission Type**: Website URL (GitHub PR link)
 - **Instructions**:
+
   ```
   Analyze testing concepts and create test plans.
-  
+
   📖 Assignment Details:
   https://github.com/software-testing-fall-2026/02-testing-concepts/homework/homework-2.md
-  
+
   📤 How to Submit:
   1. Complete all parts of the homework
   2. Create a Pull Request on GitHub
   3. Wait for automated grading
   4. Submit your PR URL here
-  
+
   💡 Includes bonus opportunities for extra credit!
-  
+
   ⏰ Time Estimate: 3-4 hours
   ```
 
 ### Assignment 3: Homework 3 - Static Testing Setup
+
 - **Title**: Homework 3: Static Testing Configuration
 - **Points**: 110 (100 base + 10 bonus)
 - **Due Date**: End of Week 4
 - **Submission Type**: Website URL (GitHub PR link)
 - **Instructions**:
+
   ```
   Set up complete static testing infrastructure.
-  
+
   📖 Assignment Details:
   https://github.com/software-testing-fall-2026/03-static-testing/homework/homework-3.md
-  
+
   📤 How to Submit:
   1. Configure pre-commit hooks and linters
   2. Fix at least 5 linting issues
   3. Write analysis report
   4. Create Pull Request
   5. Submit PR URL here
-  
+
   💡 Bonus: CI/CD integration, security linting, style guide
-  
+
   ⏰ Time Estimate: 3-4 hours
   ```
 
@@ -248,7 +260,7 @@ Submit your Testing Concepts homework before end of day.
 
 ✅ You've Learned:
 - Git fundamentals and workflows
-- Software testing concepts and principles  
+- Software testing concepts and principles
 - Static testing with pre-commit and linting
 
 ⏰ Homework 3 (Static Testing):
@@ -272,13 +284,16 @@ See you in class! Excited to meet everyone! 🎓
 ## 📊 Canvas Gradebook Setup
 
 ### Categories
+
 Create these assignment categories:
 
 1. **Homework** (60%)
+
    - 9 assignments (HW 1-9)
    - 100 points each (some have bonus)
 
 2. **Exams** (30%)
+
    - Exam 1 (100 points)
    - Exam 2 (100 points)
    - Exam 3 (100 points)
@@ -288,6 +303,7 @@ Create these assignment categories:
    - Points vary by milestone
 
 ### Grading Scale
+
 - A: 90-100%
 - B: 80-89%
 - C: 70-79%
@@ -301,18 +317,22 @@ Create these assignment categories:
 Add these as Canvas Pages or External Links:
 
 ### GitHub Repository
+
 - **URL**: `https://github.com/jp-garduno/software-testing-fall-2026`
 - **Description**: Main course repository
 
 ### Student Submission Guide
+
 - **URL**: `https://github.com/jp-garduno/software-testing-fall-2026/blob/main/docs/student/STUDENT_SUBMISSION_GUIDE.md`
 - **Description**: How to submit homework
 
 ### Resources
+
 - **URL**: `https://github.com/jp-garduno/software-testing-fall-2026/blob/main/resources/README.md`
 - **Description**: Books, tutorials, cheat sheets
 
 ### Course Timeline
+
 - **URL**: `https://github.com/jp-garduno/software-testing-fall-2026/blob/main/TIMELINE.md`
 - **Description**: Full 16-week schedule
 
@@ -321,6 +341,7 @@ Add these as Canvas Pages or External Links:
 ## ✅ Pre-Launch Checklist
 
 Before Week 1:
+
 - [ ] Create all 6 Canvas modules (Sessions 1-6)
 - [ ] Create 3 homework assignments
 - [ ] Post welcome announcement
@@ -332,6 +353,7 @@ Before Week 1:
 - [ ] Set up grade categories in gradebook
 
 During async weeks:
+
 - [ ] Monitor discussion board daily
 - [ ] Post weekly reminder announcements
 - [ ] Check for student questions
@@ -343,19 +365,23 @@ During async weeks:
 ## 💡 Tips for Success
 
 1. **Post Weekly Reminders**
+
    - Students forget due dates
    - Weekly announcements keep them on track
 
 2. **Monitor Discussion Board**
+
    - Answer questions within 24 hours
    - Encourage peer-to-peer help
 
 3. **Test Everything First**
+
    - Submit a test homework yourself
    - Verify automated grading works
    - Check all links
 
 4. **Be Available via Email**
+
    - Even though async, be reachable
    - Set expectations for response time
 

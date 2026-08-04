@@ -72,6 +72,7 @@ cat file.txt
 ```
 
 **You'll see**:
+
 ```
 <<<<<<< HEAD
 Line 1: Modified by Branch A
@@ -85,21 +86,25 @@ Line 1: Modified by Branch B
 Choose how to resolve:
 
 **Option 1 - Keep A**:
+
 ```
 Line 1: Modified by Branch A
 ```
 
 **Option 2 - Keep B**:
+
 ```
 Line 1: Modified by Branch B
 ```
 
 **Option 3 - Keep Both**:
+
 ```
 Line 1: Modified by Branch A and Branch B
 ```
 
 **Option 4 - New Solution**:
+
 ```
 Line 1: Merged version from both branches
 ```

@@ -10,6 +10,7 @@
 ## 🎯 Objectives
 
 This homework will help you:
+
 - Practice the complete Git workflow
 - Understand branching and merging strategies
 - Write meaningful commit messages
@@ -29,6 +30,7 @@ You will create a personal portfolio website (or any simple project of your choi
 ### Part 1: Repository Setup (15 points)
 
 1. **Create a new GitHub repository** named `git-workflow-practice` or similar
+
    - Initialize with a README
    - Add a `.gitignore` file appropriate for your project
    - Add a license (MIT recommended)
@@ -46,10 +48,12 @@ You will create a personal portfolio website (or any simple project of your choi
 Create and work on **at least 3 feature branches**:
 
 1. **Branch naming convention**: Use descriptive names
+
    - ✅ Good: `feature/add-navigation`, `feature/create-about-page`, `fix/typo-in-readme`
    - ❌ Bad: `branch1`, `test`, `my-branch`
 
 2. **Required branches** (examples for a portfolio website):
+
    - `feature/initial-structure` - Create basic HTML/file structure
    - `feature/add-styling` - Add CSS or styling
    - `feature/add-content` - Add actual content (text, images, etc.)
@@ -66,13 +70,15 @@ Create and work on **at least 3 feature branches**:
 Make **at least 10 meaningful commits** across your branches:
 
 1. **Commit message format**:
+
    ```
    <type>: <short description>
-   
+
    [optional longer description]
    ```
 
 2. **Commit types**:
+
    - `feat:` - New feature
    - `fix:` - Bug fix
    - `docs:` - Documentation changes
@@ -80,16 +86,17 @@ Make **at least 10 meaningful commits** across your branches:
    - `refactor:` - Code restructuring
 
 3. **Examples**:
+
    ```
    feat: add navigation menu to header
-   
+
    - Created nav element with links
    - Added basic styling for mobile responsiveness
-   
+
    fix: correct typo in about page title
-   
+
    docs: update README with project description
-   
+
    style: format CSS with consistent indentation
    ```
 
@@ -103,24 +110,30 @@ Make **at least 10 meaningful commits** across your branches:
 Create **at least 2 pull requests**:
 
 1. **For each PR**:
+
    - Write a descriptive title
    - Add a description explaining what changes were made
    - Include why the changes were needed
    - (Optional) Add screenshots if relevant
 
 2. **PR Description Template**:
+
    ```markdown
    ## Description
+
    Brief description of changes
-   
+
    ## Changes Made
+
    - Change 1
    - Change 2
-   
+
    ## Testing
+
    How you tested these changes
-   
+
    ## Screenshots (if applicable)
+
    [Add images here]
    ```
 
@@ -156,14 +169,14 @@ Submit the following on the course LMS:
 
 ## 🎯 Grading Rubric
 
-| **Category** | **Points** | **Criteria** |
-|--------------|------------|--------------|
-| **Repository Setup** | 15 | Repository properly initialized, configured, and organized |
-| **Branching Strategy** | 25 | At least 3 feature branches with proper naming and workflow |
-| **Commit History** | 30 | At least 10 commits with clear, meaningful messages |
-| **Pull Requests** | 20 | At least 2 PRs with good descriptions and proper merges |
-| **Documentation** | 10 | Complete README with workflow documentation |
-| **Total** | **100** | |
+| **Category**           | **Points** | **Criteria**                                                |
+| ---------------------- | ---------- | ----------------------------------------------------------- |
+| **Repository Setup**   | 15         | Repository properly initialized, configured, and organized  |
+| **Branching Strategy** | 25         | At least 3 feature branches with proper naming and workflow |
+| **Commit History**     | 30         | At least 10 commits with clear, meaningful messages         |
+| **Pull Requests**      | 20         | At least 2 PRs with good descriptions and proper merges     |
+| **Documentation**      | 10         | Complete README with workflow documentation                 |
+| **Total**              | **100**    |                                                             |
 
 ### Bonus Points (up to +10)
 
@@ -198,6 +211,7 @@ Submit the following on the course LMS:
 ## 🆘 Getting Help
 
 If you're stuck:
+
 1. Review the [Module 1 theory materials](../theory/)
 2. Check the [interactive exercises](../exercises/)
 3. Ask questions in the course discussion forum
@@ -218,6 +232,7 @@ If you're stuck:
 ## ✅ Submission Checklist
 
 Before submitting, verify:
+
 - [ ] Repository is public and accessible
 - [ ] At least 3 feature branches created and merged
 - [ ] At least 10 commits with meaningful messages

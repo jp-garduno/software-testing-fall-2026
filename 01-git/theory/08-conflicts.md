@@ -40,6 +40,7 @@ def calculate_total(price, tax_rate):
 ```
 
 **Sections**:
+
 - `<<<<<<< HEAD`: Your current branch version
 - `=======`: Separator
 - `>>>>>>> branch-name`: Incoming branch version
@@ -58,18 +59,21 @@ git status
 Edit files and choose which version to keep:
 
 **Option A: Keep yours**
+
 ```python
 def calculate_total(price, tax):
     return price + tax
 ```
 
 **Option B: Keep theirs**
+
 ```python
 def calculate_total(price, tax_rate):
     return price * (1 + tax_rate)
 ```
 
 **Option C: Keep both (manual merge)**
+
 ```python
 def calculate_total(price, tax=0, tax_rate=0):
     if tax_rate:
@@ -110,6 +114,7 @@ Returns to state before merge.
 ### Using VS Code
 
 VS Code shows conflict resolution UI:
+
 - **Accept Current Change**: Keep your version
 - **Accept Incoming Change**: Keep their version
 - **Accept Both Changes**: Keep both
@@ -213,7 +218,7 @@ git log --graph --oneline
 ## Best Practices
 
 1. **Communicate**: Tell team before big refactors
-2. **Update often**: Pull main changes regularly  
+2. **Update often**: Pull main changes regularly
 3. **Small merges**: Don't let branches diverge too much
 4. **Test after resolving**: Make sure code still works
 5. **Ask for help**: If conflict is complex, ask teammate

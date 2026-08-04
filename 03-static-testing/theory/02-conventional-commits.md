@@ -16,7 +16,7 @@
 ✅ **Better Collaboration** - Team understands changes quickly  
 ✅ **Automated Releases** - CI/CD can trigger releases  
 ✅ **Easy Navigation** - Filter commits by type  
-✅ **Professional** - Industry standard practice  
+✅ **Professional** - Industry standard practice
 
 ## Format
 
@@ -50,24 +50,24 @@ Closes #123
 
 ### Primary Types
 
-| Type | Purpose | Example |
-|------|---------|---------|
-| **feat** | New feature | `feat: add password reset` |
-| **fix** | Bug fix | `fix: correct email validation` |
-| **docs** | Documentation only | `docs: update API guide` |
-| **style** | Formatting, no code change | `style: format with prettier` |
-| **refactor** | Code restructuring | `refactor: simplify auth logic` |
-| **test** | Adding/updating tests | `test: add login tests` |
-| **chore** | Maintenance, tooling | `chore: update dependencies` |
+| Type         | Purpose                    | Example                         |
+| ------------ | -------------------------- | ------------------------------- |
+| **feat**     | New feature                | `feat: add password reset`      |
+| **fix**      | Bug fix                    | `fix: correct email validation` |
+| **docs**     | Documentation only         | `docs: update API guide`        |
+| **style**    | Formatting, no code change | `style: format with prettier`   |
+| **refactor** | Code restructuring         | `refactor: simplify auth logic` |
+| **test**     | Adding/updating tests      | `test: add login tests`         |
+| **chore**    | Maintenance, tooling       | `chore: update dependencies`    |
 
 ### Additional Types (Optional)
 
-| Type | Purpose | Example |
-|------|---------|---------|
-| **perf** | Performance improvement | `perf: optimize database queries` |
-| **ci** | CI/CD changes | `ci: add GitHub Actions workflow` |
-| **build** | Build system changes | `build: update webpack config` |
-| **revert** | Revert previous commit | `revert: revert "feat: add feature X"` |
+| Type       | Purpose                 | Example                                |
+| ---------- | ----------------------- | -------------------------------------- |
+| **perf**   | Performance improvement | `perf: optimize database queries`      |
+| **ci**     | CI/CD changes           | `ci: add GitHub Actions workflow`      |
+| **build**  | Build system changes    | `build: update webpack config`         |
+| **revert** | Revert previous commit  | `revert: revert "feat: add feature X"` |
 
 ## Scope (Optional)
 
@@ -76,6 +76,7 @@ The scope specifies **what part** of the codebase is affected.
 **Format**: `type(scope): subject`
 
 **Examples**:
+
 ```bash
 feat(auth): add login functionality
 fix(api): correct user validation
@@ -84,6 +85,7 @@ test(cart): add checkout tests
 ```
 
 **Common Scopes**:
+
 - Module names: `auth`, `api`, `database`
 - Components: `header`, `footer`, `cart`
 - Features: `login`, `checkout`, `search`
@@ -170,11 +172,13 @@ Contains **metadata** about the commit.
 ### Common Uses
 
 **Breaking Changes**:
+
 ```
 BREAKING CHANGE: API endpoint /users changed to /api/users
 ```
 
 **Issue References**:
+
 ```
 Closes #123
 Fixes #456
@@ -183,6 +187,7 @@ Related to #234
 ```
 
 **Co-authors**:
+
 ```
 Co-authored-by: John Doe <john@example.com>
 ```
@@ -206,6 +211,7 @@ Co-authored-by: Jane Smith <jane@example.com>
 ### Two Ways to Indicate
 
 **1. In footer**:
+
 ```
 feat: change user API structure
 
@@ -213,11 +219,13 @@ BREAKING CHANGE: User object structure changed
 ```
 
 **2. With exclamation mark**:
+
 ```
 feat!: change user API structure
 ```
 
 **Both with scope**:
+
 ```
 feat(api)!: change user endpoint
 
@@ -421,17 +429,18 @@ Closes #123
 
 ```javascript
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
   rules: {
-    'type-enum': [2, 'always', [
-      'feat', 'fix', 'docs', 'style', 
-      'refactor', 'test', 'chore'
-    ]],
-    'subject-case': [2, 'always', 'lowercase'],
-    'subject-empty': [2, 'never'],
-    'subject-max-length': [2, 'always', 50],
-    'body-max-line-length': [2, 'always', 72]
-  }
+    "type-enum": [
+      2,
+      "always",
+      ["feat", "fix", "docs", "style", "refactor", "test", "chore"],
+    ],
+    "subject-case": [2, "always", "lowercase"],
+    "subject-empty": [2, "never"],
+    "subject-max-length": [2, "always", 50],
+    "body-max-line-length": [2, "always", 72],
+  },
 };
 ```
 
@@ -444,7 +453,7 @@ module.exports = {
 ✅ Separate subject and body with blank line  
 ✅ Use body to explain why, not what  
 ✅ Reference issues in footer  
-✅ Use BREAKING CHANGE for incompatible changes  
+✅ Use BREAKING CHANGE for incompatible changes
 
 ### DON'T
 
@@ -453,7 +462,7 @@ module.exports = {
 ❌ End subject with period: "add feature."  
 ❌ Be vague: "changes", "updates", "fixes"  
 ❌ Mix multiple changes in one commit  
-❌ Skip type prefix  
+❌ Skip type prefix
 
 ## Common Patterns
 
@@ -498,6 +507,7 @@ Use Conventional Commits format:
 `type(scope): subject`
 
 ## Types
+
 - feat: New feature
 - fix: Bug fix
 - docs: Documentation
@@ -507,6 +517,7 @@ Use Conventional Commits format:
 - chore: Maintenance
 
 ## Rules
+
 1. Use imperative mood
 2. Lowercase subject
 3. No period at end
@@ -515,6 +526,7 @@ Use Conventional Commits format:
 6. Mark breaking changes
 
 ## Examples
+
 ✅ feat(auth): add login
 ✅ fix: correct validation
 ❌ Added new feature

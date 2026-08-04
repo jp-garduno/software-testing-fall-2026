@@ -3,6 +3,7 @@
 ## Development Setup
 
 ### Initial Setup
+
 ```bash
 # Clone repository
 git clone https://github.com/[username]/software-testing-fall-2026.git
@@ -21,6 +22,7 @@ pre-commit install
 ```
 
 ### Updating Dependencies
+
 ```bash
 # Python
 pip install --upgrade -r requirements.txt
@@ -34,6 +36,7 @@ npm audit fix
 ## Testing Commands
 
 ### Python Tests
+
 ```bash
 # Run all tests
 pytest
@@ -61,6 +64,7 @@ pytest -s
 ```
 
 ### JavaScript Tests
+
 ```bash
 # Run all tests
 npm test
@@ -82,6 +86,7 @@ npm test -- -u
 ```
 
 ### Playwright Tests
+
 ```bash
 # Run E2E tests
 npm run playwright
@@ -99,6 +104,7 @@ npx playwright test login.spec.js
 ## Code Quality
 
 ### Python Linting and Formatting
+
 ```bash
 # Check with Pylint
 pylint **/*.py
@@ -120,6 +126,7 @@ mypy .
 ```
 
 ### JavaScript Linting and Formatting
+
 ```bash
 # Lint all files
 npm run lint
@@ -135,6 +142,7 @@ npx eslint file.js
 ```
 
 ### Pre-commit Hooks
+
 ```bash
 # Run on all files
 pre-commit run --all-files
@@ -152,6 +160,7 @@ git commit --no-verify
 ## Git Workflow
 
 ### Branch Management
+
 ```bash
 # Create and switch to new branch
 git checkout -b feat/homework-4
@@ -170,6 +179,7 @@ git push origin --delete feat/old-feature
 ```
 
 ### Committing
+
 ```bash
 # Stage changes
 git add file.py
@@ -185,6 +195,7 @@ git add .
 ```
 
 ### Syncing
+
 ```bash
 # Pull latest changes
 git pull origin main
@@ -200,6 +211,7 @@ git rebase main
 ```
 
 ### Stashing
+
 ```bash
 # Stash changes
 git stash
@@ -220,6 +232,7 @@ git stash apply stash@{0}
 ## Coverage Reports
 
 ### Python Coverage
+
 ```bash
 # Generate HTML report
 pytest --cov=. --cov-report=html
@@ -236,6 +249,7 @@ pytest --cov=. --cov-fail-under=80
 ```
 
 ### JavaScript Coverage
+
 ```bash
 # Generate coverage
 npm test -- --coverage
@@ -248,6 +262,7 @@ start coverage/lcov-report/index.html # Windows
 ## Module-Specific Commands
 
 ### Black Box Testing (Module 4)
+
 ```bash
 # Run black box tests
 pytest 04-black-box-testing/
@@ -257,6 +272,7 @@ pytest 04-black-box-testing/ --cov=04-black-box-testing --cov-report=html
 ```
 
 ### TDD (Module 6)
+
 ```bash
 # Run in watch mode for TDD
 pytest --watch  # requires pytest-watch
@@ -266,6 +282,7 @@ npm run test:watch
 ```
 
 ### System Testing (Module 8)
+
 ```bash
 # Run Behave (BDD) tests
 behave
@@ -281,6 +298,7 @@ pytest selenium/tests/
 ```
 
 ### Performance Testing (Module 9)
+
 ```bash
 # Run JMeter test plan (non-GUI)
 jmeter -n -t test-plan.jmx -l results.jtl -e -o report/
@@ -292,6 +310,7 @@ locust -f locustfile.py --host=http://example.com
 ## Cleanup
 
 ### Remove Generated Files
+
 ```bash
 # Python
 find . -type d -name "__pycache__" -exec rm -rf {} +
@@ -313,6 +332,7 @@ rm -rf build
 ```
 
 ### Reset Environment
+
 ```bash
 # Python
 deactivate
@@ -329,6 +349,7 @@ npm install
 ## GitHub Actions
 
 ### Triggering Workflows
+
 ```bash
 # Push triggers CI
 git push origin main
@@ -341,6 +362,7 @@ gh workflow run ci.yml
 ```
 
 ### Viewing Results
+
 ```bash
 # List workflows
 gh workflow list
@@ -358,12 +380,14 @@ gh run watch
 ## Quick References
 
 ### Running Full Test Suite
+
 ```bash
 # Everything at once
 pytest && npm test && pre-commit run --all-files
 ```
 
 ### Before Submitting PR
+
 ```bash
 # Run all checks
 pre-commit run --all-files
@@ -376,6 +400,7 @@ git diff
 ### Common Issues
 
 **Tests failing in CI but passing locally:**
+
 ```bash
 # Ensure clean state
 git status
@@ -389,6 +414,7 @@ node --version
 ```
 
 **Coverage too low:**
+
 ```bash
 # Generate report to see what's missing
 pytest --cov=. --cov-report=html
@@ -396,6 +422,7 @@ open htmlcov/index.html
 ```
 
 **Pre-commit hooks failing:**
+
 ```bash
 # Run manually to see errors
 pre-commit run --all-files

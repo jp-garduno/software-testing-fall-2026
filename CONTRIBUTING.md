@@ -48,28 +48,32 @@ Thank you for contributing to this course repository! This guide will help you u
 ### Initial Setup
 
 1. **Fork the repository** (if contributing to main repo)
+
    ```bash
    # Click "Fork" button on GitHub
    ```
 
 2. **Clone your fork**
+
    ```bash
    git clone https://github.com/YOUR-USERNAME/software-testing-fall-2026.git
    cd software-testing-fall-2026
    ```
 
 3. **Add upstream remote**
+
    ```bash
    git remote add upstream https://github.com/ORIGINAL-OWNER/software-testing-fall-2026.git
    ```
 
 4. **Install dependencies**
+
    ```bash
    # Python
    python -m venv venv
    source venv/bin/activate  # Windows: venv\Scripts\activate
    pip install -r requirements.txt
-   
+
    # JavaScript
    npm install
    ```
@@ -92,6 +96,7 @@ git checkout -b <type>/<description>
 ```
 
 **Branch naming conventions**:
+
 - `feat/add-new-exercise` - New feature or content
 - `fix/correct-typo-in-readme` - Bug fix
 - `docs/update-module-3` - Documentation only
@@ -179,6 +184,7 @@ We follow the **Conventional Commits** specification.
 ### Scope
 
 The scope indicates which module or area is affected:
+
 - `module-1`, `module-2`, ..., `module-9`
 - `exam-1`, `exam-2`, `exam-3`
 - `project`
@@ -250,6 +256,7 @@ All tests still pass.
 ### PR Title
 
 Use conventional commit format:
+
 ```
 feat(module-4): add decision table exercises
 ```
@@ -258,9 +265,11 @@ feat(module-4): add decision table exercises
 
 ```markdown
 ## Description
+
 Brief description of what this PR does.
 
 ## Type of Change
+
 - [ ] New feature (feat)
 - [ ] Bug fix (fix)
 - [ ] Documentation (docs)
@@ -269,23 +278,28 @@ Brief description of what this PR does.
 - [ ] Other (chore, style, perf, ci)
 
 ## Changes Made
+
 - Change 1
 - Change 2
 - Change 3
 
 ## Related Issues
+
 Closes #123
 Related to #456
 
 ## Testing
+
 - [ ] Existing tests pass
 - [ ] New tests added (if applicable)
 - [ ] Manual testing completed
 
 ## Screenshots (if applicable)
+
 Add screenshots here
 
 ## Checklist
+
 - [ ] Code follows style guidelines
 - [ ] Self-review completed
 - [ ] Documentation updated
@@ -303,6 +317,7 @@ Add screenshots here
 ### After PR is Merged
 
 1. **Delete your branch** (if appropriate)
+
    ```bash
    git branch -d <branch-name>
    git push origin --delete <branch-name>
@@ -321,6 +336,7 @@ Add screenshots here
 ### Python
 
 Follow **PEP 8** with these specifics:
+
 - Line length: 120 characters
 - Use Black for formatting
 - Use isort for import sorting
@@ -330,14 +346,14 @@ Follow **PEP 8** with these specifics:
 def calculate_discount(price: float, discount_rate: float) -> float:
     """
     Calculate the discounted price.
-    
+
     Args:
         price: Original price
         discount_rate: Discount percentage (0-100)
-        
+
     Returns:
         Discounted price
-        
+
     Raises:
         ValueError: If price is negative or discount_rate is invalid
     """
@@ -345,13 +361,14 @@ def calculate_discount(price: float, discount_rate: float) -> float:
         raise ValueError("Price cannot be negative")
     if not 0 <= discount_rate <= 100:
         raise ValueError("Discount rate must be between 0 and 100")
-    
+
     return price * (1 - discount_rate / 100)
 ```
 
 ### JavaScript/TypeScript
 
 Follow **Airbnb Style Guide** with ESLint:
+
 - Use modern ES6+ syntax
 - Prefer const/let over var
 - Use arrow functions when appropriate
@@ -367,12 +384,12 @@ Follow **Airbnb Style Guide** with ESLint:
  */
 function calculateDiscount(price, discountRate) {
   if (price < 0) {
-    throw new Error('Price cannot be negative');
+    throw new Error("Price cannot be negative");
   }
   if (discountRate < 0 || discountRate > 100) {
-    throw new Error('Discount rate must be between 0 and 100');
+    throw new Error("Discount rate must be between 0 and 100");
   }
-  
+
   return price * (1 - discountRate / 100);
 }
 ```
@@ -380,12 +397,14 @@ function calculateDiscount(price, discountRate) {
 ### General Guidelines
 
 - **Naming**:
+
   - Use descriptive names
   - Functions: `verb_noun` (Python) or `verbNoun` (JavaScript)
   - Classes: `PascalCase`
   - Constants: `UPPER_SNAKE_CASE`
 
 - **Comments**:
+
   - Explain WHY, not WHAT
   - Update comments when code changes
   - Remove commented-out code
@@ -402,23 +421,26 @@ function calculateDiscount(price, discountRate) {
 ### Writing Tests
 
 1. **Test file naming**:
+
    - Python: `test_<module>.py`
    - JavaScript: `<module>.test.js` or `<module>.spec.js`
 
 2. **Test function naming**:
+
    - Descriptive: `test_calculate_discount_with_valid_inputs`
    - Use `test_` prefix in Python
 
 3. **Test structure** (Arrange-Act-Assert):
+
    ```python
    def test_calculate_discount_applies_correctly():
        # Arrange
        price = 100
        discount_rate = 20
-       
+
        # Act
        result = calculate_discount(price, discount_rate)
-       
+
        # Assert
        assert result == 80
    ```

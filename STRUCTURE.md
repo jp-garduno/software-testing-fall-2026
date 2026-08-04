@@ -74,15 +74,17 @@ software-testing-fall-2026/
 ## 🎯 Key Improvements
 
 ### Before
+
 ```
 Root had 9+ markdown files mixed together:
 - Student guides
-- Instructor guides  
+- Instructor guides
 - Setup documentation
 - Course materials
 ```
 
 ### After
+
 ```
 Root now has only 3 essential files:
 ✅ README.md - Course overview
@@ -98,16 +100,19 @@ Everything else organized in docs/:
 ## 📍 Quick Navigation
 
 ### For Students
+
 - Start: [README.md](README.md)
 - Submit homework: [docs/student/STUDENT_SUBMISSION_GUIDE.md](docs/student/STUDENT_SUBMISSION_GUIDE.md)
 - Schedule: [TIMELINE.md](TIMELINE.md)
 - Resources: [resources/README.md](resources/README.md)
 
 ### For Instructors
+
 - Canvas setup: [docs/instructor/CANVAS_INTEGRATION.md](docs/instructor/CANVAS_INTEGRATION.md)
 - Grading: [docs/instructor/CANVAS_GRADING_COMPLETE.md](docs/instructor/CANVAS_GRADING_COMPLETE.md)
 
 ### For Maintainers
+
 - Setup checklist: [docs/setup/SETUP_COMPLETE.md](docs/setup/SETUP_COMPLETE.md)
 - Audit report: [docs/setup/REPOSITORY_AUDIT.md](docs/setup/REPOSITORY_AUDIT.md)
 - GitHub Actions: [docs/setup/GITHUB_ACTIONS_SETUP.md](docs/setup/GITHUB_ACTIONS_SETUP.md)

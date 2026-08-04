@@ -114,12 +114,14 @@ software-testing-fall-2026/
 ## ✅ Completed Components
 
 ### Core Documentation
+
 - [x] Main README with course overview
 - [x] TIMELINE with 16-week schedule and milestones
 - [x] CONTRIBUTING guide with Git workflow and standards
 - [x] Resources directory with learning materials
 
 ### Module READMEs (All 9 Modules)
+
 - [x] Module 1: Git - ✅ 100% COMPLETE (18 files, theory, exercises, homework)
 - [x] Module 2: Testing Concepts - ✅ 100% COMPLETE (9 files, theory, exercises, homework)
 - [x] Module 3: Static Testing - ✅ 100% COMPLETE (10 files, theory, exercises, homework)
@@ -131,11 +133,13 @@ software-testing-fall-2026/
 - [x] Module 9: Performance Testing - README only (pending)
 
 ### Assessment Structure
+
 - [x] Exams overview README
 - [x] Team project comprehensive guide
 - [x] Homework assignments (2 complete, 7 templates ready)
 
 ### Configuration Files
+
 - [x] Python requirements.txt with all testing dependencies
 - [x] package.json with Jest, Playwright, ESLint
 - [x] .pre-commit-config.yaml with hooks
@@ -148,12 +152,14 @@ software-testing-fall-2026/
 ### High Priority (Before Week 1)
 
 1. **Review and Customize**
+
    - [ ] Read through all module READMEs
    - [ ] Adjust learning objectives if needed
    - [ ] Verify timeline matches your schedule
    - [ ] Update repository URL in README
 
 2. **Create Theory Documents**
+
    - [x] Module 1: Git theory documents (10 files) - ✅ COMPLETE
    - [x] Module 2: Testing concepts theory (4 files) - ✅ COMPLETE
    - [x] Module 3: Static testing theory (4 files) - ✅ COMPLETE
@@ -168,6 +174,7 @@ software-testing-fall-2026/
 ### Medium Priority (Before Week 4)
 
 4. **Complete Homework Assignments**
+
    - [x] Homework 1 (Git) - ✅ COMPLETE
    - [x] Homework 2 (Testing Concepts) - ✅ COMPLETE
    - [x] Homework 3 (Static Testing) - ✅ COMPLETE
@@ -179,6 +186,7 @@ software-testing-fall-2026/
    - [ ] Homework 9 (Performance) - Pending
 
 5. **Create Exercises**
+
    - [x] Black Box exercises - DONE
    - [ ] Complete other module exercises
    - [ ] Add solution examples
@@ -194,12 +202,14 @@ software-testing-fall-2026/
 ### Lower Priority (Throughout Semester)
 
 7. **Team Project Details**
+
    - [ ] Create milestone detailed requirements
    - [ ] Prepare project templates
    - [ ] Create example projects
    - [ ] Design grading rubrics
 
 8. **Additional Materials**
+
    - [ ] Copy TDD Manifesto PDFs to Module 6
    - [ ] Create video tutorials or find good ones
    - [ ] Add more examples from spring-2026 repo
@@ -218,31 +228,33 @@ software-testing-fall-2026/
 ### For Instructor
 
 1. **Initial Setup**
+
    ```bash
    cd software-testing-fall-2026
-   
+
    # Install Python dependencies
    python -m venv venv
    source venv/bin/activate  # Windows: venv\Scripts\activate
    pip install -r requirements.txt
-   
+
    # Install JavaScript dependencies
    npm install
-   
+
    # Install pre-commit hooks
    pre-commit install
    ```
 
 2. **Test the Setup**
+
    ```bash
    # Test Python
    pytest --version
    pylint --version
-   
+
    # Test JavaScript
    npm test -- --version
    npx eslint --version
-   
+
    # Test pre-commit
    pre-commit run --all-files
    ```
@@ -277,17 +289,20 @@ Students will follow the setup instructions in the main README.md.
 ### Efficiency Tips
 
 1. **Reuse Content**: Look at your spring-2026 repo for:
+
    - Exercise solutions
    - Homework examples
    - Student work as references
    - What worked well vs what needs improvement
 
 2. **Prioritize**: Not everything needs to be ready day 1
+
    - Weeks 1-3 (async): Need complete materials
    - Week 4+: Can prepare week-by-week
    - Homework: Due 1-2 weeks after module ends
 
 3. **Leverage AI**: Use GitHub Copilot or Claude to help:
+
    - Generate exercise variations
    - Create example solutions
    - Draft theory documents
@@ -301,21 +316,15 @@ Students will follow the setup instructions in the main README.md.
 ### Content Creation Order
 
 **Week -4 to Week 0** (Before course starts):
+
 1. Main README, Timeline, Setup - ✅ DONE
 2. Module 1-3 complete materials (async weeks)
 3. Homework 1-3
 4. Exam 1 preparation
 
-**Week 1-3** (During async period):
-5. Module 4-6 materials
-6. Homework 4-6
-7. Exam 2 preparation
+**Week 1-3** (During async period): 5. Module 4-6 materials 6. Homework 4-6 7. Exam 2 preparation
 
-**Week 4-10**:
-8. Module 7-9 materials
-9. Homework 7-9
-10. Exam 3 preparation
-11. Team project details
+**Week 4-10**: 8. Module 7-9 materials 9. Homework 7-9 10. Exam 3 preparation 11. Team project details
 
 ---
 
@@ -324,21 +333,25 @@ Students will follow the setup instructions in the main README.md.
 ### What's New/Improved
 
 1. **Better Organization**
+
    - Consistent module structure
    - Clear learning objectives
    - Separated theory/exercises/homework
 
 2. **Enhanced Content**
+
    - Comprehensive READMEs for each module
    - Detailed timeline with milestones
    - Professional contribution guide
 
 3. **Dual Language Support**
+
    - Python AND JavaScript/TypeScript
    - Side-by-side examples
    - Both pytest and Jest
 
 4. **Team Project Structure**
+
    - 7 milestones throughout semester
    - Clear deliverables
    - Integration of all concepts
@@ -370,6 +383,7 @@ Students will follow the setup instructions in the main README.md.
 ## 🎓 Questions to Consider
 
 Before finalizing:
+
 - [ ] Does the timeline work with your university calendar?
 - [ ] Are the assessment weights appropriate? (25% HW, 55% Exams, 20% Project)
 - [ ] Do you have access to all required tools?
@@ -384,6 +398,7 @@ Before finalizing:
 ### For Interactive/Dynamic Content
 
 Consider adding:
+
 - **Jupyter Notebooks** for Python tutorials
 - **CodePen/JSFiddle** for JavaScript examples
 - **GitHub Codespaces** for consistent environments

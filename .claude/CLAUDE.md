@@ -7,6 +7,7 @@ This is a university-level Software Testing course repository. The course runs f
 ## Repository Structure
 
 ### Modules (9 total)
+
 1. **Git** - Version control fundamentals
 2. **Testing Concepts** - Types, levels, principles
 3. **Static Testing** - Pre-commit, linting, conventional commits
@@ -18,6 +19,7 @@ This is a university-level Software Testing course repository. The course runs f
 9. **Performance Testing** - JMeter, load testing
 
 ### Key Directories
+
 - `0X-module-name/` - Each module has theory/, exercises/, homework/ subdirectories
 - `exams/` - Three practical exams throughout semester
 - `team-project/` - Semester-long team project (4-5 students)
@@ -27,14 +29,17 @@ This is a university-level Software Testing course repository. The course runs f
 ## Technologies
 
 ### Languages
+
 - **Python** (3.9+) - Primary language for testing examples
 - **JavaScript/TypeScript** (Node 18+) - Secondary language
 
 ### Testing Frameworks
+
 - Python: pytest, behave, selenium, playwright
 - JavaScript: Jest, Playwright, Selenium WebDriver
 
 ### Code Quality
+
 - Python: black, isort, pylint
 - JavaScript: ESLint, Prettier
 - Pre-commit hooks for both
@@ -42,7 +47,9 @@ This is a university-level Software Testing course repository. The course runs f
 ## Coding Standards
 
 ### Commit Messages
+
 Follow Conventional Commits specification:
+
 ```
 <type>(<scope>): <description>
 
@@ -52,6 +59,7 @@ Follow Conventional Commits specification:
 Types: feat, fix, docs, style, refactor, test, chore
 
 ### Python Style
+
 - PEP 8 compliant
 - Line length: 120 characters
 - Black formatter
@@ -59,6 +67,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 - Docstrings for public functions
 
 ### JavaScript Style
+
 - Airbnb style guide
 - ESLint + Prettier
 - Modern ES6+ syntax
@@ -67,6 +76,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 ## Common Tasks
 
 ### Adding a New Exercise
+
 1. Create exercise file in appropriate module's `exercises/` directory
 2. Include both Python and JavaScript versions if applicable
 3. Add solution in separate `solutions/` subdirectory
@@ -74,6 +84,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 5. Add corresponding tests
 
 ### Adding Theory Content
+
 1. Create markdown file in module's `theory/` directory
 2. Use clear headings and examples
 3. Include code snippets in both languages
@@ -81,6 +92,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 5. Update module README
 
 ### Creating Homework Assignment
+
 1. Create homework-X.md in module's `homework/` directory
 2. Include: objectives, requirements, deliverables, rubric
 3. Estimate time (typically 3-5 hours)
@@ -90,6 +102,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 ## Testing Guidelines
 
 ### When Writing Tests
+
 - Arrange-Act-Assert pattern
 - One assertion per test when possible
 - Clear test names: `test_<what>_<condition>_<expected>`
@@ -97,6 +110,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 - Mock external dependencies
 
 ### Coverage Goals
+
 - Minimum: 70% for exercises
 - Homework: 80%
 - Team project: 80%+
@@ -111,6 +125,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 ## Important Notes
 
 ### For Content Creation
+
 - All content should be beginner-friendly but comprehensive
 - Include both theoretical explanations and practical examples
 - Use real-world scenarios students can relate to
@@ -118,12 +133,14 @@ Types: feat, fix, docs, style, refactor, test, chore
 - GitHub Copilot is available to students
 
 ### For Automation (GitHub Actions)
+
 - CI/CD runs on all PRs and pushes
 - Validates code style, tests, coverage
 - Student submissions get automated feedback
 - Pre-commit hooks must pass before commit
 
 ### For Assessment
+
 - 3 practical exams (not theory/multiple choice)
 - 9 homework assignments (one per module)
 - Team project with 7 milestones
@@ -132,8 +149,10 @@ Types: feat, fix, docs, style, refactor, test, chore
 ## Common Patterns
 
 ### Module README Structure
+
 ```markdown
 # Module X: Title
+
 - Learning Objectives
 - Theory Materials
 - Exercises
@@ -144,8 +163,10 @@ Types: feat, fix, docs, style, refactor, test, chore
 ```
 
 ### Exercise File Structure
+
 ```markdown
 # Exercise: Title
+
 - Requirement description
 - Input/output examples
 - Constraints

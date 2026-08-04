@@ -3,10 +3,11 @@
 ## Commit Best Practices
 
 ### 1. Commit Often
+
 ```bash
 # ✅ Good: Small, focused commits
 git commit -m "feat: add login form"
-git commit -m "test: add login form tests"  
+git commit -m "test: add login form tests"
 git commit -m "docs: update API documentation"
 
 # ❌ Bad: One huge commit at end of day
@@ -16,6 +17,7 @@ git commit -m "did everything"
 ### 2. Write Clear Commit Messages
 
 **Format**:
+
 ```
 <type>(<scope>): <subject>
 
@@ -25,6 +27,7 @@ git commit -m "did everything"
 ```
 
 **Examples**:
+
 ```bash
 feat(auth): add JWT token authentication
 fix(api): correct user validation logic
@@ -191,6 +194,7 @@ build/
 ### Use Templates
 
 GitHub provides gitignore templates:
+
 ```bash
 # Download Python .gitignore
 curl https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore > .gitignore
@@ -427,6 +431,7 @@ jobs:
 ## Summary
 
 **Golden Rules**:
+
 1. Commit often with clear messages
 2. Always work on branches
 3. Test before committing

@@ -3,6 +3,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this module, you will be able to:
+
 - Understand different types of performance testing
 - Design performance test scenarios
 - Use JMeter for load and stress testing
@@ -13,30 +14,35 @@ By the end of this module, you will be able to:
 ## 📚 Theory Materials
 
 ### [1. Introduction to Performance Testing](./theory/01-introduction.md)
+
 - What is performance testing
 - Why performance matters
 - Types: Load, Stress, Spike, Endurance, Scalability
 - Performance metrics (response time, throughput, resource usage)
 
 ### [2. Performance Test Design](./theory/02-test-design.md)
+
 - Identifying performance requirements
 - Defining test scenarios
 - User load patterns
 - Performance test planning
 
 ### [3. JMeter Fundamentals](./theory/03-jmeter-fundamentals.md)
+
 - JMeter architecture
 - Thread groups and samplers
 - Listeners and assertions
 - Configuration elements
 
 ### [4. Advanced JMeter](./theory/04-jmeter-advanced.md)
+
 - Parameterization and data files
 - Timers and think times
 - Distributed testing
 - CI/CD integration
 
 ### [5. Performance Analysis](./theory/05-analysis.md)
+
 - Reading performance reports
 - Identifying bottlenecks
 - Performance tuning strategies
@@ -47,24 +53,29 @@ By the end of this module, you will be able to:
 ### Install JMeter
 
 **Option 1: Download**
+
 1. Download from: https://jmeter.apache.org/download_jmeter.cgi
 2. Extract the archive
 3. Run: `bin/jmeter` (Linux/Mac) or `bin/jmeter.bat` (Windows)
 
 **Option 2: Package Manager (Mac)**
+
 ```bash
 brew install jmeter
 ```
 
 **Requirements**:
+
 - Java 8 or higher
 
 **Verify Installation**:
+
 ```bash
 jmeter --version
 ```
 
 ### Alternative Tools (Optional)
+
 ```bash
 # Locust (Python-based)
 pip install locust
@@ -76,21 +87,27 @@ brew install k6  # Mac
 ## 💻 Practical Exercises
 
 ### [Exercise 1: Simple Load Test](./exercises/01-simple-load-test.md)
+
 Create your first JMeter test plan for a web application.
 
 ### [Exercise 2: API Performance Testing](./exercises/02-api-testing.md)
+
 Test REST API endpoints under load.
 
 ### [Exercise 3: Stress Testing](./exercises/03-stress-test.md)
+
 Find the breaking point of an application.
 
 ### [Exercise 4: Spike Testing](./exercises/04-spike-test.md)
+
 Test how system handles sudden traffic spikes.
 
 ### [Exercise 5: Endurance Testing](./exercises/05-endurance-test.md)
+
 Test system stability over extended periods.
 
 ### [Exercise 6: Database Load Testing](./exercises/06-database-load.md)
+
 Test database performance under concurrent queries.
 
 ## 📝 Homework Assignment
@@ -99,7 +116,8 @@ Test database performance under concurrent queries.
 
 **Due**: Before Exam 3 (Week 16)
 
-**Objectives**: 
+**Objectives**:
+
 - Design complete performance test strategy
 - Create JMeter test plans
 - Execute load and stress tests
@@ -117,26 +135,31 @@ Test database performance under concurrent queries.
 ## 📊 Types of Performance Testing
 
 ### Load Testing
+
 - Tests system behavior under **expected load**
 - Validates response times meet requirements
 - Identifies resource usage patterns
 
 ### Stress Testing
+
 - Tests system behavior **beyond normal capacity**
 - Finds breaking point
 - Validates system recovery
 
 ### Spike Testing
+
 - Tests **sudden increases** in load
 - Common in flash sales, viral events
 - Validates auto-scaling
 
 ### Endurance Testing (Soak Testing)
+
 - Tests system over **extended period**
 - Identifies memory leaks
 - Validates stability
 
 ### Scalability Testing
+
 - Tests ability to **scale up/down**
 - Vertical vs horizontal scaling
 - Cost-performance analysis
@@ -163,19 +186,20 @@ Test Plan
 
 ## 🎯 Key Performance Metrics
 
-| **Metric** | **Description** | **Target Example** |
-|------------|-----------------|-------------------|
-| **Response Time** | Time to complete request | < 200ms (avg) |
-| **Throughput** | Requests per second | > 1000 req/s |
-| **Error Rate** | % of failed requests | < 1% |
-| **Concurrent Users** | Simultaneous active users | 10,000 users |
-| **CPU Usage** | Server CPU utilization | < 70% |
-| **Memory Usage** | Server memory utilization | < 80% |
-| **Network I/O** | Data transfer rate | < 100 Mbps |
+| **Metric**           | **Description**           | **Target Example** |
+| -------------------- | ------------------------- | ------------------ |
+| **Response Time**    | Time to complete request  | < 200ms (avg)      |
+| **Throughput**       | Requests per second       | > 1000 req/s       |
+| **Error Rate**       | % of failed requests      | < 1%               |
+| **Concurrent Users** | Simultaneous active users | 10,000 users       |
+| **CPU Usage**        | Server CPU utilization    | < 70%              |
+| **Memory Usage**     | Server memory utilization | < 80%              |
+| **Network I/O**      | Data transfer rate        | < 100 Mbps         |
 
 ## 📈 Sample JMeter Configuration
 
 ### Basic HTTP Request Test
+
 ```
 Thread Group Settings:
 - Number of Threads: 100

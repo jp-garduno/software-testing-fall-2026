@@ -30,7 +30,7 @@ Dynamic Testing (Execution Required)
 ✅ **Prevent Defects** - Catch issues in design phase  
 ✅ **No Test Data Needed** - Review code directly  
 ✅ **Find More Types** - Logic errors, standards violations, security flaws  
-✅ **Improve Quality** - Better code structure and maintainability  
+✅ **Improve Quality** - Better code structure and maintainability
 
 ### Cost Comparison
 
@@ -45,16 +45,19 @@ Production:      Find issue in production → $5,000+ to fix
 ### 1. Manual Static Testing
 
 **Code Reviews**
+
 - Developers review each other's code
 - Find logic errors, design issues
 - Share knowledge
 
 **Walkthroughs**
+
 - Author presents code to team
 - Informal discussion
 - Educational
 
 **Inspections**
+
 - Formal process with defined roles
 - Follow checklist
 - Document findings
@@ -62,17 +65,20 @@ Production:      Find issue in production → $5,000+ to fix
 ### 2. Automated Static Testing
 
 **Linting**
+
 - Analyze code for style violations
 - Check coding standards
 - Find common mistakes
 
 **Static Analysis**
+
 - Deep code analysis
 - Find security vulnerabilities
 - Detect complex bugs
 - Check code metrics
 
 **Type Checking**
+
 - Verify type correctness
 - Catch type errors
 - Example: TypeScript, mypy
@@ -89,7 +95,7 @@ Production:      Find issue in production → $5,000+ to fix
 ✅ **Unreachable Code** - Dead code paths  
 ✅ **Type Mismatches** - Incompatible types  
 ✅ **Logic Errors** - Flawed algorithms  
-✅ **Documentation Issues** - Missing or incorrect docs  
+✅ **Documentation Issues** - Missing or incorrect docs
 
 ### Example
 
@@ -101,7 +107,7 @@ def calculate_discount(price):
         discount = price * 0.1  # Syntax error: missing colon
     else:
         discout = 0  # Typo: 'discout' instead of 'discount'
-    
+
     total = price - discount  # Error: 'discount' undefined in else branch
     return total
 
@@ -113,18 +119,21 @@ def calculate_discount(price):
 This module focuses on three key static testing tools:
 
 ### 1. Conventional Commits
+
 - Standardized commit messages
 - Automated changelog generation
 - Better collaboration
 - **Theory**: [Conventional Commits](./02-conventional-commits.md)
 
 ### 2. Pre-commit Hooks
+
 - Automated checks before commit
 - Prevent bad code from being committed
 - Enforce quality gates
 - **Theory**: [Pre-commit Hooks](./03-pre-commit-hooks.md)
 
 ### 3. Linting
+
 - Automated code style checking
 - Enforce coding standards
 - Find common errors
@@ -161,26 +170,31 @@ Multiple layers of static testing!
 ## Static Testing Best Practices
 
 ### 1. Integrate Early
+
 - Set up linting from day one
 - Configure pre-commit hooks early
 - Establish standards before coding
 
 ### 2. Automate Everything
+
 - Use tools, not manual checks
 - Run checks automatically
 - Fail fast on violations
 
 ### 3. Consistent Standards
+
 - Agree on coding standards
 - Document the rules
 - Apply to entire team
 
 ### 4. Fix Issues Immediately
+
 - Don't accumulate violations
 - Fix before committing
 - Don't disable checks
 
 ### 5. Combine with Dynamic Testing
+
 - Static + dynamic = comprehensive
 - Static finds different issues
 - Both are necessary
@@ -194,7 +208,7 @@ Multiple layers of static testing!
 ✅ Type errors  
 ✅ Security vulnerabilities  
 ✅ Code smells  
-✅ Documentation gaps  
+✅ Documentation gaps
 
 ### Dynamic Testing Finds
 
@@ -202,7 +216,7 @@ Multiple layers of static testing!
 ✅ Performance issues  
 ✅ Integration problems  
 ✅ Incorrect behavior  
-✅ Unexpected outputs  
+✅ Unexpected outputs
 
 ### Both Together = Complete Testing
 
@@ -211,6 +225,7 @@ Multiple layers of static testing!
 ### Code Quality
 
 **Python**
+
 - pylint - Comprehensive linter
 - flake8 - Style guide enforcement
 - black - Code formatter
@@ -219,17 +234,20 @@ Multiple layers of static testing!
 - bandit - Security linting
 
 **JavaScript/TypeScript**
+
 - ESLint - Linting
 - Prettier - Code formatter
 - TypeScript - Type checking
 - StandardJS - Zero-config linter
 
 ### Pre-commit Frameworks
+
 - pre-commit (Python)
 - husky (JavaScript)
 - lefthook (Go)
 
 ### Static Analysis
+
 - SonarQube - Enterprise analysis
 - CodeClimate - Code quality
 - Codacy - Automated review
@@ -242,6 +260,7 @@ Multiple layers of static testing!
 **Scenario**: Payment calculation bug
 
 **Without Static Testing**:
+
 ```python
 def calculate_total(price, tax_rate):
     return price + tax_rate  # BUG: Should multiply!
@@ -251,6 +270,7 @@ def calculate_total(price, tax_rate):
 ```
 
 **With Static Testing**:
+
 ```python
 def calculate_total(price, tax_rate):
     return price + tax_rate  # Linter: "Suspicious addition of percentage"
@@ -262,6 +282,7 @@ def calculate_total(price, tax_rate):
 ### Case Study: Security Vulnerability
 
 **Without Static Testing**:
+
 ```python
 query = f"SELECT * FROM users WHERE name = '{user_input}'"
 # SQL injection vulnerability!
@@ -271,6 +292,7 @@ query = f"SELECT * FROM users WHERE name = '{user_input}'"
 ```
 
 **With Static Testing**:
+
 ```python
 query = f"SELECT * FROM users WHERE name = '{user_input}'"
 # Bandit: "SQL injection vulnerability detected [HIGH]"
@@ -282,6 +304,7 @@ query = f"SELECT * FROM users WHERE name = '{user_input}'"
 ## Integration with Development Workflow
 
 ### IDE Integration
+
 ```
 Developer writes code
     ↓
@@ -293,6 +316,7 @@ First layer of defense!
 ```
 
 ### Pre-commit Integration
+
 ```
 Developer commits code
     ↓
@@ -306,6 +330,7 @@ Second layer of defense!
 ```
 
 ### CI/CD Integration
+
 ```
 Code pushed to repository
     ↓
@@ -326,7 +351,7 @@ Third layer of defense!
 ❌ **Cannot test performance** - Need real execution  
 ❌ **Cannot verify correctness** - Logic may be wrong but syntactically correct  
 ❌ **Cannot test integration** - Need components to interact  
-❌ **May have false positives** - Flags correct code as wrong  
+❌ **May have false positives** - Flags correct code as wrong
 
 ### Example of Limitation
 

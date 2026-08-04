@@ -4,11 +4,11 @@ This course includes **three practical exams** throughout the semester. All exam
 
 ## 📅 Exam Schedule
 
-| **Exam** | **Week** | **Session** | **Coverage** | **Duration** | **Weight** |
-|----------|----------|-------------|--------------|--------------|------------|
-| **Exam 1** | Week 6 | Session 2 | Modules 1-3 | 2 hours | 15% |
-| **Exam 2** | Week 11 | Session 2 | Modules 4-6 | 2 hours | 20% |
-| **Exam 3** | Week 16 | Session 2 | Modules 7-9 | 2 hours | 20% |
+| **Exam**   | **Week** | **Session** | **Coverage** | **Duration** | **Weight** |
+| ---------- | -------- | ----------- | ------------ | ------------ | ---------- |
+| **Exam 1** | Week 6   | Session 2   | Modules 1-3  | 2 hours      | 15%        |
+| **Exam 2** | Week 11  | Session 2   | Modules 4-6  | 2 hours      | 20%        |
+| **Exam 3** | Week 16  | Session 2   | Modules 7-9  | 2 hours      | 20%        |
 
 **Total Exam Weight**: 55% of final grade
 
@@ -19,6 +19,7 @@ This course includes **three practical exams** throughout the semester. All exam
 ### What to Expect
 
 All exams follow a similar structure:
+
 1. **Problem Description**: Real-world scenario or application
 2. **Requirements**: What you need to implement/test
 3. **Deliverables**: Code, tests, documentation
@@ -39,12 +40,14 @@ All exams follow a similar structure:
 ### What You Can Bring
 
 ✅ **Allowed**:
+
 - Your laptop with development environment set up
 - Course materials (digital or printed)
 - Your own notes and code from exercises
 - Access to official documentation websites
 
 ❌ **Not Allowed**:
+
 - Communication with other students
 - Using someone else's solutions
 - Asking for help during the exam
@@ -59,11 +62,13 @@ All exams follow a similar structure:
 **Week 6, Session 2**
 
 **Coverage**:
+
 - Git operations and workflows (30%)
 - Testing concepts application (30%)
 - Static testing setup (40%)
 
 **Sample Tasks**:
+
 - Create repository with proper Git workflow
 - Set up pre-commit hooks
 - Configure linting
@@ -77,11 +82,13 @@ All exams follow a similar structure:
 **Week 11, Session 2**
 
 **Coverage**:
+
 - Black box test design (30%)
 - White box testing with coverage (40%)
 - TDD implementation (30%)
 
 **Sample Tasks**:
+
 - Design test cases using black box techniques
 - Write unit tests achieving high coverage
 - Implement feature using TDD
@@ -94,11 +101,13 @@ All exams follow a similar structure:
 **Week 16, Session 2**
 
 **Coverage**:
+
 - System-level testing (BDD, Selenium/Playwright) (50%)
 - Performance testing with JMeter (25%)
 - Integration challenge (25%)
 
 **Sample Tasks**:
+
 - Write E2E tests for web application
 - Create BDD scenarios
 - Design performance test plan
@@ -142,17 +151,20 @@ All exams follow a similar structure:
 ### For All Exams
 
 1. **GitHub Repository**:
+
    - Create a repository for the exam
    - Commit your work regularly
    - Push final version before deadline
    - Include proper README
 
 2. **Code**:
+
    - All code should run without errors
    - Include all dependencies (requirements.txt, package.json)
    - Proper project structure
 
 3. **Documentation**:
+
    - README with setup instructions
    - Comments in code where necessary
    - Test execution results
@@ -169,22 +181,26 @@ All exams follow a similar structure:
 Exams are graded on:
 
 ### Functionality (40%)
+
 - Code works as specified
 - All requirements met
 - No critical bugs
 
 ### Testing Quality (30%)
+
 - Tests are comprehensive
 - Good coverage
 - Tests actually validate functionality
 
 ### Code Quality (20%)
+
 - Clean, readable code
 - Proper structure and organization
 - Follows best practices
 - Good naming conventions
 
 ### Documentation (10%)
+
 - Clear README
 - Proper comments
 - Test documentation
@@ -197,22 +213,26 @@ Exams are graded on:
 Before each exam, ensure you have:
 
 ### For All Exams
+
 - [ ] Git installed and configured
 - [ ] GitHub account set up
 - [ ] Code editor (VS Code recommended)
 - [ ] Internet connection
 
 ### For Exam 1
+
 - [ ] Pre-commit framework installed
 - [ ] Pylint and ESLint configured
 - [ ] Basic project structure ready
 
 ### For Exam 2
+
 - [ ] pytest and Jest installed
 - [ ] Coverage tools configured
 - [ ] Familiar with TDD workflow
 
 ### For Exam 3
+
 - [ ] Selenium or Playwright set up
 - [ ] JMeter installed
 - [ ] Behave (Python) or Cucumber (JS) configured

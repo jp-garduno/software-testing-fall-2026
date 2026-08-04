@@ -4,7 +4,7 @@ repos:
     rev: v4.5.0
     hooks:
       - id: check-added-large-files
-        args: ['--maxkb=1000']
+        args: ["--maxkb=1000"]
       - id: check-case-conflict
       - id: check-json
       - id: check-merge-conflict
@@ -14,7 +14,7 @@ repos:
         exclude: '\.txt$'
       - id: mixed-line-ending
       - id: trailing-whitespace
-        args: ['--markdown-linebreak-ext=md']
+        args: ["--markdown-linebreak-ext=md"]
 
   # Markdown formatting (for documentation)
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -22,7 +22,7 @@ repos:
     hooks:
       - id: prettier
         types_or: [json, yaml, markdown]
-        args: ['--prose-wrap', 'preserve']
+        args: ["--prose-wrap", "preserve"]
 
   # Conventional Commits validation
   - repo: https://github.com/compilerla/conventional-pre-commit
@@ -57,7 +57,7 @@ repos:
     rev: v3.0.3
     hooks:
       - id: pylint
-        args: [--max-line-length=120, --disable=C0111,W0621]
+        args: [--max-line-length=120, --disable=C0111, W0621]
         files: \.py$
         additional_dependencies:
           - pytest

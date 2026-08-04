@@ -27,15 +27,19 @@ Testing levels describe **WHERE** in the system you're testing - from individual
 ## Level 1: Unit Testing
 
 ### What
+
 Test individual components in isolation (functions, methods, classes).
 
 ### Who
+
 Developers
 
 ### When
+
 During development (ideally before/during coding - TDD)
 
 ### Examples
+
 ```python
 def add(a, b):
     return a + b
@@ -48,6 +52,7 @@ def test_add():
 ```
 
 ### Characteristics
+
 - ✅ Fast (milliseconds)
 - ✅ Isolated (no dependencies)
 - ✅ Many tests (hundreds/thousands)
@@ -55,6 +60,7 @@ def test_add():
 - ✅ Cheap to maintain
 
 ### Tools
+
 - Python: pytest, unittest
 - JavaScript: Jest, Mocha
 - Java: JUnit
@@ -64,15 +70,19 @@ def test_add():
 ## Level 2: Integration Testing
 
 ### What
+
 Test how components work together.
 
 ### Who
+
 Developers, QA
 
 ### When
+
 After unit testing
 
 ### Examples
+
 ```python
 # Test database + service layer
 def test_save_user():
@@ -83,6 +93,7 @@ def test_save_user():
 ```
 
 ### Types
+
 - **Big Bang**: Integrate all at once
 - **Incremental**: Add modules gradually
   - Top-down
@@ -90,6 +101,7 @@ def test_save_user():
   - Sandwich
 
 ### Characteristics
+
 - ⚠️ Slower than unit tests
 - ⚠️ External dependencies (DB, APIs)
 - ⚠️ Fewer tests than unit
@@ -100,15 +112,19 @@ def test_save_user():
 ## Level 3: System Testing
 
 ### What
+
 Test complete, integrated system end-to-end.
 
 ### Who
+
 QA team
 
 ### When
+
 After integration testing
 
 ### Examples
+
 ```
 User Journey: Purchase Product
 1. Browse catalog
@@ -123,6 +139,7 @@ Test: Complete flow works
 ```
 
 ### Includes
+
 - Functional system testing
 - Non-functional system testing
   - Performance
@@ -130,6 +147,7 @@ Test: Complete flow works
   - Usability
 
 ### Characteristics
+
 - ⏱️ Slow (minutes per test)
 - 🌐 Full environment needed
 - 📝 Fewer tests (dozens)
@@ -140,37 +158,45 @@ Test: Complete flow works
 ## Level 4: Acceptance Testing
 
 ### What
+
 Verify system meets business requirements and user needs.
 
 ### Who
+
 End users, Business stakeholders, QA
 
 ### When
+
 Before deployment
 
 ### Types
 
 **User Acceptance Testing (UAT)**
+
 - Real users test
 - In real-world scenarios
 - Final validation
 
 **Business Acceptance Testing (BAT)**
+
 - Business validates
 - Meets business goals
 - Ready for release
 
 **Alpha Testing**
+
 - Internal users
 - Developer's site
 - Controlled environment
 
 **Beta Testing**
+
 - External users
 - User's site
 - Real-world conditions
 
 ### Example
+
 ```
 E-commerce UAT:
 - 10 beta users
@@ -189,36 +215,40 @@ Acceptance Criteria:
 
 ## Comparison Matrix
 
-| **Level** | **Scope** | **Speed** | **Quantity** | **Cost** | **Who** |
-|-----------|-----------|-----------|--------------|----------|---------|
-| Unit | Function | Fast | 1000s | Low | Devs |
-| Integration | Modules | Medium | 100s | Medium | Devs/QA |
-| System | Complete | Slow | 10s | High | QA |
-| Acceptance | Business | Slowest | Few | Highest | Users |
+| **Level**   | **Scope** | **Speed** | **Quantity** | **Cost** | **Who** |
+| ----------- | --------- | --------- | ------------ | -------- | ------- |
+| Unit        | Function  | Fast      | 1000s        | Low      | Devs    |
+| Integration | Modules   | Medium    | 100s         | Medium   | Devs/QA |
+| System      | Complete  | Slow      | 10s          | High     | QA      |
+| Acceptance  | Business  | Slowest   | Few          | Highest  | Users   |
 
 ---
 
 ## When to Use Each Level
 
 ### Unit Tests When:
+
 - Testing business logic
 - Testing algorithms
 - Testing utilities
 - Rapid feedback needed
 
 ### Integration Tests When:
+
 - Testing API endpoints
 - Testing database interactions
 - Testing external services
 - Testing module communication
 
 ### System Tests When:
+
 - Testing complete workflows
 - Testing user journeys
 - Testing cross-system features
 - Verifying requirements
 
 ### Acceptance Tests When:
+
 - Validating user needs
 - Getting stakeholder approval
 - Pre-release verification
@@ -229,6 +259,7 @@ Acceptance Criteria:
 ## The Testing Pyramid in Practice
 
 ### Good Balance
+
 ```
 Acceptance: 5 tests
 System: 20 tests
@@ -237,6 +268,7 @@ Unit: 1000 tests
 ```
 
 ### Anti-Pattern: Ice Cream Cone
+
 ```
 Manual Testing: Most tests (Bad!)
 UI Tests: Many
@@ -245,6 +277,7 @@ Unit: Few
 ```
 
 ### Anti-Pattern: Hourglass
+
 ```
 UI Tests: Many (Slow!)
 Integration: Few (Gap!)
@@ -256,6 +289,7 @@ Unit: Many
 ## Coverage at Each Level
 
 ### Unit Tests Cover
+
 - ✅ Business logic
 - ✅ Edge cases
 - ✅ Error conditions
@@ -264,6 +298,7 @@ Unit: Many
 - ❌ UI behavior
 
 ### Integration Tests Cover
+
 - ✅ Component communication
 - ✅ Data flow
 - ✅ API contracts
@@ -272,6 +307,7 @@ Unit: Many
 - ❌ User experience
 
 ### System Tests Cover
+
 - ✅ End-to-end flows
 - ✅ User journeys
 - ✅ Cross-system features
@@ -280,6 +316,7 @@ Unit: Many
 - ❌ All edge cases
 
 ### Acceptance Tests Cover
+
 - ✅ Business requirements
 - ✅ User needs
 - ✅ Real-world scenarios

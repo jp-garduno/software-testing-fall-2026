@@ -7,6 +7,7 @@
 ### The Problem Without Version Control
 
 Imagine working on a project and you have files like:
+
 ```
 project_final.py
 project_final_v2.py
@@ -16,6 +17,7 @@ project_FINAL_FOR_REAL.py
 ```
 
 Sound familiar? Without version control, you face:
+
 - 😱 **File chaos** - Multiple versions with confusing names
 - 🤔 **Lost history** - Can't remember what changed and why
 - 😢 **No undo** - Can't go back to a working version
@@ -25,30 +27,37 @@ Sound familiar? Without version control, you face:
 ## Why Version Control Matters
 
 ### 1. **History and Tracking**
+
 Every change is recorded with:
+
 - What changed
 - Who changed it
 - When it changed
 - Why it changed (commit message)
 
 ### 2. **Collaboration**
+
 Multiple people can work on the same project:
+
 - Work independently without conflicts
 - Merge changes together
 - See who changed what
 
 ### 3. **Backup and Recovery**
+
 - Never lose work
 - Undo mistakes easily
 - Restore any previous version
 - Experiment safely
 
 ### 4. **Branching and Experimentation**
+
 - Try new features without breaking working code
 - Work on multiple features simultaneously
 - Keep production code stable
 
 ### 5. **Professional Development**
+
 - Industry standard practice
 - Essential for software jobs
 - Shows your work history
@@ -57,6 +66,7 @@ Multiple people can work on the same project:
 ## Types of Version Control Systems
 
 ### Local Version Control
+
 ```
 ┌─────────────────┐
 │  Your Computer  │
@@ -67,11 +77,13 @@ Multiple people can work on the same project:
 │  └───────────┘  │
 └─────────────────┘
 ```
+
 - All versions stored on your computer
 - Simple but risky (no backup)
 - Can't collaborate
 
 ### Centralized Version Control (CVS, SVN)
+
 ```
      ┌─────────────┐
      │   Server    │
@@ -84,11 +96,13 @@ Multiple people can work on the same project:
 (Working (Working (Working
   Copy)   Copy)   Copy)
 ```
+
 - Single server with all history
 - Users check out files
 - Problem: Single point of failure
 
 ### Distributed Version Control (Git, Mercurial)
+
 ```
     ┌─────────────┐
     │   Server    │
@@ -108,6 +122,7 @@ Multiple people can work on the same project:
 │ Local Repository   │
 └────────────────────┘
 ```
+
 - Every user has full history
 - Work offline
 - Fast operations
@@ -126,26 +141,28 @@ Git was created by Linus Torvalds (creator of Linux) in 2005.
 ✅ **Open Source** - Free and widely supported  
 ✅ **Industry Standard** - Used by most companies  
 ✅ **GitHub Integration** - Largest code hosting platform  
-✅ **Powerful** - Handles large projects efficiently  
+✅ **Powerful** - Handles large projects efficiently
 
 ### Git vs Others
 
-| Feature | Git | SVN | CVS |
-|---------|-----|-----|-----|
-| Speed | ⚡ Fast | Slow | Slow |
-| Offline Work | ✅ Yes | ❌ No | ❌ No |
-| Branching | ✅ Easy | Hard | Hard |
-| Storage | Efficient | Large | Large |
-| Adoption | 🌟 High | Medium | Low |
+| Feature      | Git       | SVN    | CVS   |
+| ------------ | --------- | ------ | ----- |
+| Speed        | ⚡ Fast   | Slow   | Slow  |
+| Offline Work | ✅ Yes    | ❌ No  | ❌ No |
+| Branching    | ✅ Easy   | Hard   | Hard  |
+| Storage      | Efficient | Large  | Large |
+| Adoption     | 🌟 High   | Medium | Low   |
 
 ## Common Version Control Workflows
 
 ### 1. Solo Development
+
 ```
 You → Edit → Commit → Edit → Commit → Push to backup
 ```
 
 ### 2. Team Development
+
 ```
 Team Member 1 → Branch → Edit → Commit → Pull Request → Merge
 Team Member 2 → Branch → Edit → Commit → Pull Request → Merge
@@ -155,6 +172,7 @@ Team Member 3 → Branch → Edit → Commit → Pull Request → Merge
 ```
 
 ### 3. Open Source Contribution
+
 ```
 Fork → Clone → Branch → Edit → Commit → Pull Request → Discussion → Merge
 ```
@@ -162,22 +180,26 @@ Fork → Clone → Branch → Edit → Commit → Pull Request → Discussion �
 ## Real-World Use Cases
 
 ### Software Development
+
 - **Code Management** - Track all code changes
 - **Release Management** - Tag versions (v1.0, v2.0)
 - **Bug Tracking** - Link commits to bug reports
 - **Code Review** - Review changes before merging
 
 ### Documentation
+
 - **Writing** - Track document changes
 - **Collaboration** - Multiple authors
 - **Versions** - Draft vs published
 
 ### Configuration Management
+
 - **Server Config** - Track infrastructure changes
 - **Deployment Scripts** - Version your automation
 - **Dotfiles** - Share configuration files
 
 ### Research and Data Science
+
 - **Notebooks** - Version Jupyter notebooks
 - **Data Pipelines** - Track processing scripts
 - **Experiments** - Record experiment configurations
@@ -187,36 +209,47 @@ Fork → Clone → Branch → Edit → Commit → Pull Request → Discussion �
 You'll learn these concepts in detail:
 
 ### Repository (Repo)
+
 A database of your project's history
 
 ### Commit
+
 A snapshot of your project at a point in time
 
 ### Branch
+
 A parallel version of your repository
 
 ### Merge
+
 Combining changes from different branches
 
 ### Remote
+
 A version of your repository hosted elsewhere (e.g., GitHub)
 
 ### Clone
+
 Making a local copy of a remote repository
 
 ### Pull/Push
+
 Syncing changes between local and remote
 
 ## Industry Importance
 
 ### Job Requirements
+
 Most software job postings require:
+
 - Git experience
 - GitHub profile
 - Version control knowledge
 
 ### Best Practices
+
 Professional developers:
+
 - Commit frequently
 - Write clear commit messages
 - Use branches for features
@@ -240,12 +273,14 @@ Professional developers:
 **Important distinction**:
 
 ### Git
+
 - ✅ Version control system
 - ✅ Runs on your computer
 - ✅ Works offline
 - ✅ Command-line tool
 
 ### GitHub
+
 - ✅ Website for hosting Git repositories
 - ✅ Collaboration platform
 - ✅ Social network for code
@@ -267,6 +302,7 @@ You can use Git without GitHub, but GitHub makes collaboration easier.
 ## Next Steps
 
 Now that you understand what version control is and why it matters, you're ready to:
+
 1. **[Install and configure Git](./02-git-setup.md)**
 2. **[Learn basic commands](./03-basic-commands.md)**
 3. **[Start making commits](./04-commits.md)**

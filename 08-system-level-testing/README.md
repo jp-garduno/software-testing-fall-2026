@@ -3,6 +3,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this module, you will be able to:
+
 - Understand system-level and end-to-end testing
 - Write BDD scenarios using Gherkin syntax
 - Automate web testing with Selenium WebDriver
@@ -15,12 +16,14 @@ By the end of this module, you will be able to:
 This module is divided into three key areas:
 
 ### 8.1 Behavior Driven Development (BDD)
+
 - Gherkin syntax (Given-When-Then)
 - Feature files and step definitions
 - Behave (Python) and Cucumber/Jest (JavaScript)
 - Collaboration between technical and non-technical stakeholders
 
 ### 8.2 Selenium WebDriver
+
 - Browser automation fundamentals
 - Locator strategies (ID, class, XPath, CSS)
 - Interacting with web elements
@@ -28,6 +31,7 @@ This module is divided into three key areas:
 - Page Object Model design pattern
 
 ### 8.3 Playwright
+
 - Modern browser automation
 - Cross-browser testing (Chromium, Firefox, WebKit)
 - Auto-waiting and reliability
@@ -37,18 +41,21 @@ This module is divided into three key areas:
 ## 📚 Theory Materials
 
 ### [1. Introduction to System Testing](./theory/01-introduction.md)
+
 - System testing vs integration testing
 - End-to-end testing importance
 - Types of system tests
 - The test automation pyramid
 
 ### [2. Behavior Driven Development](./theory/02-bdd-introduction.md)
+
 - BDD philosophy and benefits
 - Gherkin syntax guide
 - Writing effective scenarios
 - Living documentation
 
 ### [3. Selenium WebDriver](./theory/03-selenium-webdriver.md)
+
 - WebDriver architecture
 - Setting up Selenium
 - Locator strategies
@@ -56,12 +63,14 @@ This module is divided into three key areas:
 - Best practices
 
 ### [4. Page Object Model](./theory/04-page-object-model.md)
+
 - Design pattern for test maintenance
 - Separation of concerns
 - Implementing POM
 - Examples in Python and JavaScript
 
 ### [5. Playwright](./theory/05-playwright.md)
+
 - Why Playwright
 - Key features and advantages
 - Setting up Playwright
@@ -71,26 +80,31 @@ This module is divided into three key areas:
 ## 🛠️ Setup Instructions
 
 ### Python - Selenium
+
 ```bash
 pip install selenium behave
 ```
 
 Download WebDriver:
+
 - ChromeDriver: https://chromedriver.chromium.org/
 - GeckoDriver (Firefox): https://github.com/mozilla/geckodriver/
 
 ### Python - Playwright
+
 ```bash
 pip install playwright pytest-playwright
 playwright install
 ```
 
 ### JavaScript - Selenium
+
 ```bash
 npm install --save-dev selenium-webdriver
 ```
 
 ### JavaScript - Playwright
+
 ```bash
 npm install --save-dev @playwright/test
 npx playwright install
@@ -99,17 +113,20 @@ npx playwright install
 ## 💻 Practical Exercises
 
 ### BDD Exercises
+
 - [01-feature-file-writing](./exercises/01-feature-files.md)
 - [02-step-definitions](./exercises/02-step-definitions.md)
 - [03-scenario-outlines](./exercises/03-scenario-outlines.md)
 
 ### Selenium Exercises (Python & JavaScript)
+
 - [01-basic-navigation](./python/selenium/01-basic-navigation/)
 - [02-form-interaction](./python/selenium/02-form-interaction/)
 - [03-page-object-model](./python/selenium/03-page-object-model/)
 - [04-wait-strategies](./python/selenium/04-wait-strategies/)
 
 ### Playwright Exercises (Python & JavaScript)
+
 - [01-basic-navigation](./python/playwright/01-basic-navigation/)
 - [02-form-interaction](./python/playwright/02-form-interaction/)
 - [03-api-mocking](./python/playwright/03-api-mocking/)
@@ -121,7 +138,8 @@ npx playwright install
 
 **Due**: End of Week 15
 
-**Objectives**: 
+**Objectives**:
+
 - Automate test scenarios for a web application
 - Implement Page Object Model
 - Use both Selenium and Playwright
@@ -171,21 +189,22 @@ Feature: User Login
 
 ## 🔄 Selenium vs Playwright Comparison
 
-| **Feature** | **Selenium** | **Playwright** |
-|-------------|--------------|----------------|
-| **Browsers** | Chrome, Firefox, Safari, Edge | Chromium, Firefox, WebKit |
+| **Feature**          | **Selenium**                      | **Playwright**                 |
+| -------------------- | --------------------------------- | ------------------------------ |
+| **Browsers**         | Chrome, Firefox, Safari, Edge     | Chromium, Firefox, WebKit      |
 | **Language Support** | Many (Python, Java, C#, JS, etc.) | Python, JavaScript, .NET, Java |
-| **Auto-waiting** | Manual waits needed | Built-in auto-waiting |
-| **Speed** | Moderate | Faster |
-| **API Interception** | Limited | Built-in support |
-| **Maturity** | Very mature | Newer but rapidly evolving |
-| **Learning Curve** | Moderate | Easier for modern patterns |
-| **Mobile Testing** | Appium integration | Mobile web supported |
-| **Community** | Large, established | Growing rapidly |
+| **Auto-waiting**     | Manual waits needed               | Built-in auto-waiting          |
+| **Speed**            | Moderate                          | Faster                         |
+| **API Interception** | Limited                           | Built-in support               |
+| **Maturity**         | Very mature                       | Newer but rapidly evolving     |
+| **Learning Curve**   | Moderate                          | Easier for modern patterns     |
+| **Mobile Testing**   | Appium integration                | Mobile web supported           |
+| **Community**        | Large, established                | Growing rapidly                |
 
 ## 📖 Page Object Model Example
 
 ### Python (Selenium):
+
 ```python
 class LoginPage:
     def __init__(self, driver):
@@ -193,7 +212,7 @@ class LoginPage:
         self.username_input = (By.ID, "username")
         self.password_input = (By.ID, "password")
         self.login_button = (By.ID, "login-btn")
-    
+
     def login(self, username, password):
         self.driver.find_element(*self.username_input).send_keys(username)
         self.driver.find_element(*self.password_input).send_keys(password)
@@ -201,20 +220,21 @@ class LoginPage:
 ```
 
 ### JavaScript (Playwright):
+
 ```javascript
 class LoginPage {
-    constructor(page) {
-        this.page = page;
-        this.usernameInput = page.locator('#username');
-        this.passwordInput = page.locator('#password');
-        this.loginButton = page.locator('#login-btn');
-    }
-    
-    async login(username, password) {
-        await this.usernameInput.fill(username);
-        await this.passwordInput.fill(password);
-        await this.loginButton.click();
-    }
+  constructor(page) {
+    this.page = page;
+    this.usernameInput = page.locator("#username");
+    this.passwordInput = page.locator("#password");
+    this.loginButton = page.locator("#login-btn");
+  }
+
+  async login(username, password) {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+  }
 }
 ```
 

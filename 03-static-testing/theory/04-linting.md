@@ -13,29 +13,33 @@
 ✅ **Improve quality** - Prevent common mistakes  
 ✅ **Save time** - Auto-fix many issues  
 ✅ **Team consistency** - Everyone follows same rules  
-✅ **Learning tool** - Teaches best practices  
+✅ **Learning tool** - Teaches best practices
 
 ## What Linters Find
 
 ### Errors
+
 - Undefined variables
 - Syntax errors
 - Type mismatches
 - Import errors
 
 ### Code Quality
+
 - Unused variables
 - Unreachable code
 - Complexity warnings
 - Duplicated code
 
 ### Style
+
 - Indentation
 - Line length
 - Naming conventions
 - Import ordering
 
 ### Security
+
 - SQL injection risks
 - XSS vulnerabilities
 - Weak cryptography
@@ -64,6 +68,7 @@ Your code has been rated at 7.50/10
 ```
 
 **Features**:
+
 - Error detection
 - Code smells
 - Refactoring suggestions
@@ -71,6 +76,7 @@ Your code has been rated at 7.50/10
 - Configurable rules
 
 **Configuration** (`.pylintrc` or `pyproject.toml`):
+
 ```ini
 [MASTER]
 max-line-length=120
@@ -97,6 +103,7 @@ black --check myfile.py
 ```
 
 **Features**:
+
 - Zero configuration
 - Consistent style
 - Fast
@@ -157,20 +164,22 @@ npx eslint src/
 ```
 
 **Configuration** (`eslint.config.js` or `.eslintrc.js`):
+
 ```javascript
 export default [
   {
     rules: {
       "no-unused-vars": "error",
       "no-console": "warn",
-      "semi": ["error", "always"],
-      "quotes": ["error", "single"]
-    }
-  }
+      semi: ["error", "always"],
+      quotes: ["error", "single"],
+    },
+  },
 ];
 ```
 
 **Popular Configs**:
+
 - `eslint:recommended`
 - `airbnb`
 - `standard`
@@ -191,6 +200,7 @@ npx prettier --check file.js
 ```
 
 **Configuration** (`.prettierrc`):
+
 ```json
 {
   "semi": true,
@@ -215,6 +225,7 @@ npx tsc file.ts --noEmit
 ### VS Code
 
 **Python**:
+
 ```json
 // settings.json
 {
@@ -226,6 +237,7 @@ npx tsc file.ts --noEmit
 ```
 
 **JavaScript**:
+
 ```json
 {
   "eslint.enable": true,
@@ -241,16 +253,19 @@ npx tsc file.ts --noEmit
 ### Python
 
 **Error Detection**:
+
 - `E0602`: Undefined variable
 - `E1101`: No member
 - `E0401`: Import error
 
 **Code Quality**:
+
 - `R0913`: Too many arguments
 - `R0914`: Too many local variables
 - `W0612`: Unused variable
 
 **Style**:
+
 - `C0103`: Invalid name
 - `C0301`: Line too long
 - `C0111`: Missing docstring
@@ -258,16 +273,19 @@ npx tsc file.ts --noEmit
 ### JavaScript
 
 **Error Detection**:
+
 - `no-undef`: Undefined variable
 - `no-unused-vars`: Unused variable
 - `no-unreachable`: Unreachable code
 
 **Best Practices**:
+
 - `eqeqeq`: Use === instead of ==
 - `no-eval`: Don't use eval()
 - `no-console`: No console.log
 
 **Style**:
+
 - `semi`: Require semicolons
 - `quotes`: Single or double quotes
 - `indent`: Indentation
@@ -291,24 +309,28 @@ npx prettier --write file.js
 ### Inline Ignores
 
 **Python**:
+
 ```python
 result = dangerous_operation()  # pylint: disable=no-member
 ```
 
 **JavaScript**:
+
 ```javascript
 // eslint-disable-next-line no-console
-console.log('Debug message');
+console.log("Debug message");
 ```
 
 ### File-level Ignores
 
 **Python**:
+
 ```python
 # pylint: disable=missing-docstring
 ```
 
 **JavaScript**:
+
 ```javascript
 /* eslint-disable no-console */
 ```
@@ -316,12 +338,14 @@ console.log('Debug message');
 ### Configuration Ignores
 
 **Python** (`.pylintrc`):
+
 ```ini
 [MESSAGES CONTROL]
 disable=missing-docstring,too-many-arguments
 ```
 
 **JavaScript** (`.eslintrc.js`):
+
 ```javascript
 {
   "rules": {
@@ -334,19 +358,21 @@ disable=missing-docstring,too-many-arguments
 ## Best Practices
 
 ### DO
+
 ✅ Enable linting from project start  
 ✅ Use IDE integration  
 ✅ Auto-fix on save  
 ✅ Run in pre-commit hooks  
 ✅ Run in CI/CD  
-✅ Agree on rules as team  
+✅ Agree on rules as team
 
 ### DON'T
+
 ❌ Disable too many rules  
 ❌ Ignore all warnings  
 ❌ Skip linting "just this once"  
 ❌ Have inconsistent configs  
-❌ Over-configure (keep it simple)  
+❌ Over-configure (keep it simple)
 
 ## Linting Workflow
 
@@ -367,6 +393,7 @@ disable=missing-docstring,too-many-arguments
 ## Quick Reference
 
 **Python**:
+
 ```bash
 pip install pylint black isort
 pylint myfile.py
@@ -375,6 +402,7 @@ isort --profile=black myfile.py
 ```
 
 **JavaScript**:
+
 ```bash
 npm install --save-dev eslint prettier
 npx eslint file.js --fix

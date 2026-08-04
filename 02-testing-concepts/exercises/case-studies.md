@@ -9,6 +9,7 @@
 ## Instructions
 
 For each case study:
+
 1. Read the scenario carefully
 2. Answer all questions
 3. Justify your answers
@@ -25,9 +26,10 @@ For each case study:
 **Features**: Product catalog, search, shopping cart, checkout, payment processing, order tracking  
 **Tech Stack**: React frontend, Node.js backend, PostgreSQL database  
 **Budget**: Limited testing resources  
-**Timeline**: 3-month release cycle  
+**Timeline**: 3-month release cycle
 
 ### Critical Requirements
+
 - Payment processing must be 99.99% reliable
 - Checkout must complete in under 10 seconds
 - Must handle Black Friday traffic (10x normal load)
@@ -39,6 +41,7 @@ For each case study:
 **1. Prioritize Testing Types (Rank 1-5)**
 
 Which testing types are MOST important? Rank them:
+
 - [ ] Functional testing
 - [ ] Performance testing
 - [ ] Security testing
@@ -53,12 +56,12 @@ Which testing types are MOST important? Rank them:
 
 How would you distribute testing effort across levels?
 
-| Level | % of Effort | Justification |
-|-------|-------------|---------------|
-| Unit | | |
-| Integration | | |
-| System | | |
-| Acceptance | | |
+| Level       | % of Effort | Justification |
+| ----------- | ----------- | ------------- |
+| Unit        |             |               |
+| Integration |             |               |
+| System      |             |               |
+| Acceptance  |             |               |
 
 ---
 
@@ -79,10 +82,10 @@ How would each principle apply to ShopFast?
 Identify top 3 risks and mitigation:
 
 | Risk | Impact | Probability | Mitigation Strategy |
-|------|--------|-------------|---------------------|
-| 1. | | | |
-| 2. | | | |
-| 3. | | | |
+| ---- | ------ | ----------- | ------------------- |
+| 1.   |        |             |                     |
+| 2.   |        |             |                     |
+| 3.   |        |             |                     |
 
 ---
 
@@ -95,9 +98,10 @@ Identify top 3 risks and mitigation:
 **Features**: Patient records, appointment scheduling, prescription management, billing, lab results  
 **Compliance**: HIPAA required  
 **Criticality**: High - patient safety depends on accuracy  
-**Deployment**: Desktop application in hospital network  
+**Deployment**: Desktop application in hospital network
 
 ### Critical Requirements
+
 - Zero data loss
 - Patient privacy (HIPAA compliance)
 - Accurate medical records
@@ -110,6 +114,7 @@ Identify top 3 risks and mitigation:
 **1. Testing Focus**
 
 What should be the PRIMARY testing focus? Why?
+
 - A) Speed and performance
 - B) Accuracy, reliability, and security
 - C) User interface aesthetics
@@ -123,12 +128,12 @@ What should be the PRIMARY testing focus? Why?
 
 For each feature, identify appropriate testing:
 
-| Feature | Testing Type(s) | Testing Level(s) | Why? |
-|---------|----------------|------------------|------|
-| Prescription Dosage Calculation | | | |
-| Patient Record Access Control | | | |
-| Appointment Scheduling | | | |
-| Lab Results Entry | | | |
+| Feature                         | Testing Type(s) | Testing Level(s) | Why? |
+| ------------------------------- | --------------- | ---------------- | ---- |
+| Prescription Dosage Calculation |                 |                  |      |
+| Patient Record Access Control   |                 |                  |      |
+| Appointment Scheduling          |                 |                  |      |
+| Lab Results Entry               |                 |                  |      |
 
 ---
 
@@ -149,11 +154,13 @@ How would you implement "early testing" principle?
 You cannot test everything. What would you prioritize and why?
 
 **Must test thoroughly (justify)**:
+
 1.
 2.
 3.
 
 **Can test less thoroughly (justify)**:
+
 1.
 2.
 3.
@@ -170,9 +177,10 @@ You cannot test everything. What would you prioritize and why?
 **Users**: Casual gamers, ages 13-45  
 **Features**: 200 levels, multiplayer, leaderboards, power-ups, social sharing  
 **Timeline**: Launch in 2 months  
-**Competition**: High - many similar games  
+**Competition**: High - many similar games
 
 ### Critical Requirements
+
 - Fun and engaging
 - Smooth performance (60 FPS)
 - No crashes
@@ -200,12 +208,14 @@ How does this differ from e-commerce or healthcare?
 Design a beta testing plan:
 
 **Alpha Testing (Internal)**:
+
 - Who:
 - What:
 - Duration:
 - Success criteria:
 
 **Beta Testing (External)**:
+
 - Who:
 - What:
 - Duration:
@@ -237,14 +247,14 @@ The game has zero bugs. Will it succeed? Why or why not?
 
 Compare all three case studies:
 
-| Aspect | E-Commerce | Healthcare | Gaming |
-|--------|------------|------------|--------|
-| Primary testing focus | | | |
-| Most critical feature | | | |
-| Risk tolerance | | | |
-| Testing pyramid shape | | | |
-| Manual vs automated | | | |
-| Most important principle | | | |
+| Aspect                   | E-Commerce | Healthcare | Gaming |
+| ------------------------ | ---------- | ---------- | ------ |
+| Primary testing focus    |            |            |        |
+| Most critical feature    |            |            |        |
+| Risk tolerance           |            |            |        |
+| Testing pyramid shape    |            |            |        |
+| Manual vs automated      |            |            |        |
+| Most important principle |            |            |        |
 
 ---
 
@@ -265,6 +275,7 @@ Compare all three case studies:
 ## Submission
 
 For each case study, provide:
+
 1. Answered questions with justifications
 2. Filled tables
 3. Comparison table
