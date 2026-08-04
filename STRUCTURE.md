@@ -41,9 +41,26 @@ software-testing-fall-2026/
 │   ├── exercises/
 │   └── homework/
 │
-├── 📂 04-black-box-testing/        # Module 4 (pending)
-├── 📂 05-white-box-testing/        # Module 5 (pending)
-├── 📂 06-test-driven-development/  # Module 6 (pending)
+├── 📂 04-black-box-testing/        # Module 4 ✅
+│   ├── README.md
+│   ├── theory/
+│   ├── exercises/
+│   └── homework/
+│
+├── 📂 05-white-box-testing/        # Module 5 ✅
+│   ├── README.md
+│   ├── theory/
+│   ├── exercises/
+│   │   ├── python/
+│   │   └── javascript/
+│   └── homework/
+│
+├── 📂 06-test-driven-development/  # Module 6 ✅
+│   ├── README.md
+│   ├── theory/
+│   ├── exercises/
+│   └── homework/
+│
 ├── 📂 07-data-driven-testing/      # Module 7 (pending)
 ├── 📂 08-system-level-testing/     # Module 8 (pending)
 ├── 📂 09-performance-testing/      # Module 9 (pending)
