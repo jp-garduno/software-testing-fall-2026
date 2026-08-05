@@ -75,7 +75,11 @@ software-testing-fall-2026/
 │   ├── exercises/
 │   └── homework/
 │
-├── 📂 09-performance-testing/      # Module 9 (pending)
+├── 📂 09-performance-testing/      # Module 9 ✅
+│   ├── README.md
+│   ├── theory/
+│   ├── exercises/
+│   └── homework/
 │
 ├── 📂 exams/                       # Exam specifications (pending)
 ├── 📂 team-project/                # Team project guidelines (pending)
