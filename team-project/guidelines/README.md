@@ -4,23 +4,9 @@ This directory contains best practices and guidelines for successful team projec
 
 ## 📚 Available Guidelines
 
-### Team Collaboration
-
-- **[git-workflow.md](./git-workflow.md)** - Branching strategy and Git best practices
-- **[code-review.md](./code-review.md)** - How to review code effectively
-- **[communication.md](./communication.md)** - Team communication guidelines
-
-### Development
-
-- **[coding-standards.md](./coding-standards.md)** - Code style and conventions
-- **[testing-guidelines.md](./testing-guidelines.md)** - How to write good tests
-- **[documentation.md](./documentation.md)** - Documentation best practices
-
-### Project Management
-
-- **[milestone-planning.md](./milestone-planning.md)** - How to plan each milestone
-- **[issue-tracking.md](./issue-tracking.md)** - Using GitHub Issues effectively
-- **[time-management.md](./time-management.md)** - Managing project timeline
+- **[git-workflow.md](./git-workflow.md)** - Branching strategy, commit conventions, PR workflow
+- **[code-review.md](./code-review.md)** - Review best practices for authors and reviewers
+- **[testing-guidelines.md](./testing-guidelines.md)** - Test structure, coverage, mocking best practices
 
 ## 🎯 Quick Start
 
