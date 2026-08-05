@@ -459,9 +459,8 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 ## 📚 Resources
 
 - [Project Templates](./templates/) - Starter files and templates
-- [Milestone Guidelines](./milestones/README.md) - Detailed milestone requirements
-- [Example Projects](./examples/) - Reference implementations
-- [Grading Rubrics](./rubrics/) - Detailed grading criteria
+- [Milestone Guidelines](./milestones/) - Detailed milestone requirements (M1-M7)
+- [Development Guidelines](./guidelines/) - Git workflow, code review, testing best practices
 
 ---
 
