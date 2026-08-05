@@ -413,11 +413,11 @@ Both Python and JavaScript:
 
 ### Additional Pending Components
 
-- [ ] Exam 1 (Week 6) - Modules 1-3
-- [ ] Exam 2 (Week 11) - Modules 4-6
-- [ ] Exam 3 (Week 16) - Modules 7-9
-- [ ] Team Project Guidelines
-- [ ] Team Project Milestones (7 total)
+- [ ] Exam 1 (Week 6) - Modules 1-3 (kept local, not in repository)
+- [ ] Exam 2 (Week 11) - Modules 4-6 (kept local, not in repository)
+- [ ] Exam 3 (Week 16) - Modules 7-9 (kept local, not in repository)
+- [x] Team Project Guidelines (COMPLETE - git-workflow, code-review, testing-guidelines)
+- [x] Team Project Milestones (COMPLETE - all 7 milestones with detailed specifications)
 
 ---
 
