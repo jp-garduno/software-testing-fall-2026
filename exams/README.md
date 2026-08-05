@@ -267,10 +267,7 @@ A: Point distribution is specified in each exam. Budget time accordingly.
 
 ## 📚 Additional Resources
 
-- [Practice Exam Problems](./practice/)
-- [Past Exam Examples](./examples/)
-- [Exam Day Checklist](./exam-day-checklist.md)
-- [Technical Setup Guide](./technical-setup.md)
+Exam specifications and practice materials will be provided closer to exam dates.
 
 ---
 
