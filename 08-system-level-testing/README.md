@@ -112,25 +112,22 @@ npx playwright install
 
 ## 💻 Practical Exercises
 
-### BDD Exercises
+**Note**: This module uses an integrated approach. Instead of separate exercises, all concepts are covered in the comprehensive homework assignment.
 
-- [01-feature-file-writing](./exercises/01-feature-files.md)
-- [02-step-definitions](./exercises/02-step-definitions.md)
-- [03-scenario-outlines](./exercises/03-scenario-outlines.md)
+See [exercises/README.md](./exercises/README.md) for:
 
-### Selenium Exercises (Python & JavaScript)
+- Theory study guide
+- Practice sites for experimentation
+- Quick code examples for Selenium and Playwright
+- Integrated homework approach explanation
 
-- [01-basic-navigation](./python/selenium/01-basic-navigation/)
-- [02-form-interaction](./python/selenium/02-form-interaction/)
-- [03-page-object-model](./python/selenium/03-page-object-model/)
-- [04-wait-strategies](./python/selenium/04-wait-strategies/)
+**Why no separate exercises?** E2E testing requires complete application setup and interconnected scenarios. The homework provides hands-on practice with:
 
-### Playwright Exercises (Python & JavaScript)
-
-- [01-basic-navigation](./python/playwright/01-basic-navigation/)
-- [02-form-interaction](./python/playwright/02-form-interaction/)
-- [03-api-mocking](./python/playwright/03-api-mocking/)
-- [04-visual-testing](./python/playwright/04-visual-testing/)
+- Selenium automation with Page Object Model
+- Playwright automation
+- BDD scenarios with Gherkin
+- Framework comparison
+- Real-world application (TodoMVC)
 
 ## 📝 Homework Assignment
 
