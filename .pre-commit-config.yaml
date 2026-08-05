@@ -64,3 +64,17 @@ repos:
           - behave
           - selenium
           - requests
+
+  # JavaScript/TypeScript hooks
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.0.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx|ts|tsx)$
+        types: [file]
+        additional_dependencies:
+          - eslint@8.56.0
+          - "@typescript-eslint/parser@6.20.0"
+          - "@typescript-eslint/eslint-plugin@6.20.0"
+          - eslint-config-prettier@9.1.0
+          - eslint-plugin-jest@27.6.0
