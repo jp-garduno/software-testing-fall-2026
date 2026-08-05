@@ -476,7 +476,7 @@ Canvas Course
 ### Initial Setup
 
 - [ ] Create all 16 week modules
-- [ ] Set up assignment categories with correct weights (25%, 55%, 20%)
+- [ ] Set up assignment categories with correct weights (25%, 45%, 30%)
 - [ ] Add external link to GitHub repository
 - [ ] Add external link to Student Submission Guide
 - [ ] Configure gradebook

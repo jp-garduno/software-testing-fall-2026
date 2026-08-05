@@ -7,10 +7,10 @@ This course includes **three practical exams** throughout the semester. All exam
 | **Exam**   | **Week** | **Session** | **Coverage** | **Duration** | **Weight** |
 | ---------- | -------- | ----------- | ------------ | ------------ | ---------- |
 | **Exam 1** | Week 6   | Session 2   | Modules 1-3  | 2 hours      | 15%        |
-| **Exam 2** | Week 11  | Session 2   | Modules 4-6  | 2 hours      | 20%        |
-| **Exam 3** | Week 16  | Session 2   | Modules 7-9  | 2 hours      | 20%        |
+| **Exam 2** | Week 11  | Session 2   | Modules 4-6  | 2 hours      | 15%        |
+| **Exam 3** | Week 16  | Session 2   | Modules 7-9  | 2 hours      | 15%        |
 
-**Total Exam Weight**: 55% of final grade
+**Total Exam Weight**: 45% of final grade
 
 ---
 

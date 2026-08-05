@@ -397,7 +397,7 @@ Students will follow the setup instructions in the main README.md.
 Before finalizing:
 
 - [ ] Does the timeline work with your university calendar?
-- [ ] Are the assessment weights appropriate? (25% HW, 55% Exams, 20% Project)
+- [ ] Are the assessment weights appropriate? (25% HW, 45% Exams, 30% Project)
 - [ ] Do you have access to all required tools?
 - [ ] Are there any prerequisites students should have?
 - [ ] Do you want to add/remove any modules?
