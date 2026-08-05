@@ -61,7 +61,14 @@ software-testing-fall-2026/
 │   ├── exercises/
 │   └── homework/
 │
-├── 📂 07-data-driven-testing/      # Module 7 (pending)
+├── 📂 07-data-driven-testing/      # Module 7 ✅
+│   ├── README.md
+│   ├── theory/
+│   ├── exercises/
+│   │   ├── python/
+│   │   └── javascript/
+│   └── homework/
+│
 ├── 📂 08-system-level-testing/     # Module 8 (pending)
 ├── 📂 09-performance-testing/      # Module 9 (pending)
 │

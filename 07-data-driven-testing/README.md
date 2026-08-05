@@ -92,9 +92,10 @@ test.each([
 
 ### JavaScript Exercises
 
-- [01-basic-parametrization](./javascript/exercises/01-basic-parametrization.md)
-- [02-json-data-driven](./javascript/exercises/02-json-data-driven.md)
-- [03-api-data-driven](./javascript/exercises/03-api-data-driven.md)
+- [01-basic-parametrization](./exercises/javascript/01-basic-parametrization.md)
+- [02-csv-data-driven](./exercises/javascript/02-csv-data-driven.md)
+- [03-json-data-driven](./exercises/javascript/03-json-data-driven.md)
+- [04-api-data-driven](./exercises/javascript/04-api-data-driven.md)
 
 ## 📝 Homework Assignment
 
