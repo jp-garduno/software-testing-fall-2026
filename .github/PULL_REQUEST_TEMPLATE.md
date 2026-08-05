@@ -11,12 +11,6 @@
 - [ ] Bug fix
 - [ ] Documentation
 
-## Checklist
-
-- [ ] Tests pass
-- [ ] Code formatted (Black/Prettier)
-- [ ] Pre-commit hooks pass
-
 ## For Students (Homework Submissions)
 
 **Name**:
