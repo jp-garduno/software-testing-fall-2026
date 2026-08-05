@@ -14,7 +14,7 @@ This directory contains detailed requirements for all 7 project milestones throu
 | M6        | Week 14 | End of Week 14 | System Testing     | 15%    |
 | M7        | Week 16 | End of Week 16 | Final Presentation | 15%    |
 
-**Total**: 100 points (= 20% of course grade)
+**Total**: 100 points (= 30% of course grade)
 
 ---
 

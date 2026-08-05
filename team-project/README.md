@@ -55,7 +55,7 @@ By completing this project, you will:
 | **M6: System Tests**       | Week 14  | E2E automated tests       | 15%        | Module 8          |
 | **M7: Final Presentation** | Week 16  | Complete project + demo   | 15%        | All modules       |
 
-**Total**: 100% (20% of course grade)
+**Total**: 100% (30% of course grade)
 
 See [Milestones Guide](./milestones/README.md) for detailed requirements.
 
@@ -396,7 +396,7 @@ See [Milestones Guide](./milestones/README.md) for specific requirements.
 
 ## 🎯 Grading Rubric
 
-### Overall Project Grading (20% of course grade)
+### Overall Project Grading (30% of course grade)
 
 | **Category**            | **Weight** | **Description**                                         |
 | ----------------------- | ---------- | ------------------------------------------------------- |
