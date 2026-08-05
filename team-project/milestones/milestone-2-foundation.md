@@ -685,7 +685,7 @@ pre-commit run --all-files
 - [Pre-commit Documentation](https://pre-commit.com/)
 - [Conventional Commits Spec](https://www.conventionalcommits.org/)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Setup Examples](../examples/setup-examples/)
+- [Git Workflow Guide](../guidelines/git-workflow.md)
 
 ---
 
