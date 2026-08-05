@@ -34,12 +34,33 @@ By the end of this module, you will be able to:
    - [Coding Dojo Kata Catalog](http://codingdojo.org/kata/)
    - [Kata-Log.rocks](https://kata-log.rocks/) - Searchable kata collection
 
-### Additional Theory Files
+### Theory Documents
 
 - [01-introduction-to-tdd.md](./theory/01-introduction-to-tdd.md)
 - [02-red-green-refactor.md](./theory/02-red-green-refactor.md)
 - [03-tdd-best-practices.md](./theory/03-tdd-best-practices.md)
 - [04-tdd-anti-patterns.md](./theory/04-tdd-anti-patterns.md)
+
+### 📄 TDD Manifesto PDFs
+
+Essential reading materials from tddmanifesto.com:
+
+- [01-getting-started-tdd-manifesto.pdf](./theory/pdfs/01-getting-started-tdd-manifesto.pdf) (83 KB)
+
+  - Introduction to TDD philosophy
+  - The TDD manifesto principles
+  - Why TDD matters
+
+- [02-a-clean-test-tdd-manifesto.pdf](./theory/pdfs/02-a-clean-test-tdd-manifesto.pdf) (2.8 MB)
+
+  - Writing clean, maintainable tests
+  - Test structure and organization
+  - Best practices for test code quality
+
+- [03-exercises-tdd-manifesto.pdf](./theory/pdfs/03-exercises-tdd-manifesto.pdf) (2.7 MB)
+  - Practical TDD exercises
+  - Kata examples with solutions
+  - Step-by-step TDD practice
 
 ## 🔄 The TDD Cycle
 

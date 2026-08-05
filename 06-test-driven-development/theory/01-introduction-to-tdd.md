@@ -914,6 +914,14 @@ Now that you understand TDD fundamentals, learn about:
 
 ## Additional Resources
 
+### 📄 Essential Reading (PDFs Available)
+
+- [Getting Started • TDD Manifesto](./pdfs/01-getting-started-tdd-manifesto.pdf) - Introduction to TDD philosophy
+- [A Clean Test • TDD Manifesto](./pdfs/02-a-clean-test-tdd-manifesto.pdf) - Writing quality test code
+- [Exercises • TDD Manifesto](./pdfs/03-exercises-tdd-manifesto.pdf) - Practical TDD exercises
+
+### 📚 Books and Articles
+
 - ["Test Driven Development: By Example" by Kent Beck](https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530)
 - [Martin Fowler on TDD](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
 - [TDD Katas (practice exercises)](http://codingdojo.org/kata/)
