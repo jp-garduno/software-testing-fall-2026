@@ -45,8 +45,7 @@ software-testing-fall-2026/
 │   ├── exercises/
 │   │   └── class-exercises.md        # Complete set of exercises
 │   └── homework/
-│       └── homework-4.md             # (to be created)
-│
+│       └── homework-4.md│
 ├── 05-white-box-testing/             # Module 5: White Box Testing
 │   ├── README.md                     # Coverage, unit tests, integration tests
 │   ├── theory/
@@ -54,8 +53,7 @@ software-testing-fall-2026/
 │   ├── javascript/                   # JavaScript-specific exercises
 │   ├── exercises/
 │   └── homework/
-│       └── homework-5.md             # (to be created)
-│
+│       └── homework-5.md│
 ├── 06-test-driven-development/       # Module 6: TDD
 │   ├── README.md                     # TDD principles, Red-Green-Refactor
 │   ├── theory/                       # Including TDD Manifesto PDFs
@@ -63,8 +61,7 @@ software-testing-fall-2026/
 │   ├── javascript/                   # JavaScript TDD exercises
 │   ├── exercises/                    # TDD katas
 │   └── homework/
-│       └── homework-6.md             # (to be created)
-│
+│       └── homework-6.md│
 ├── 07-data-driven-testing/           # Module 7: Data-Driven Testing
 │   ├── README.md                     # Parameterized tests, data management
 │   ├── theory/
@@ -72,8 +69,7 @@ software-testing-fall-2026/
 │   ├── javascript/                   # JavaScript DDT examples
 │   ├── exercises/
 │   └── homework/
-│       └── homework-7.md             # (to be created)
-│
+│       └── homework-7.md│
 ├── 08-system-level-testing/          # Module 8: System Testing
 │   ├── README.md                     # BDD, Selenium, Playwright
 │   ├── theory/
@@ -81,24 +77,19 @@ software-testing-fall-2026/
 │   ├── javascript/                   # JavaScript E2E tests
 │   ├── exercises/
 │   └── homework/
-│       └── homework-8.md             # (to be created)
-│
+│       └── homework-8.md│
 ├── 09-performance-testing/           # Module 9: Performance Testing
 │   ├── README.md                     # JMeter, load testing, stress testing
 │   ├── theory/
 │   ├── exercises/
 │   └── homework/
-│       └── homework-9.md             # (to be created)
-│
+│       └── homework-9.md│
 ├── exams/                            # Exam Information
 │   ├── README.md                     # Exam overview and guidelines
 │   ├── exam-1/                       # Week 6: Modules 1-3
-│   │   └── README.md                 # (to be created)
-│   ├── exam-2/                       # Week 11: Modules 4-6
-│   │   └── README.md                 # (to be created)
-│   └── exam-3/                       # Week 16: Modules 7-9
-│       └── README.md                 # (to be created)
-│
+│   │   └── README.md    │   ├── exam-2/                       # Week 11: Modules 4-6
+│   │   └── README.md    │   └── exam-3/                       # Week 16: Modules 7-9
+│       └── README.md    │
 ├── team-project/                     # Team Project Information
 │   ├── README.md                     # Complete project guidelines
 │   ├── guidelines/                   # Detailed guidelines
