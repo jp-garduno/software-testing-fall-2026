@@ -444,8 +444,6 @@ tests/data/
 - [Module 4: Black Box Testing Theory](../../04-black-box-testing/theory/)
 - [Module 4: Exercises](../../04-black-box-testing/exercises/)
 - [Test Case Template](../templates/test-case-template.md)
-- [Decision Table Examples](../examples/decision-tables/)
-- [State Diagram Examples](../examples/state-diagrams/)
 
 ---
 

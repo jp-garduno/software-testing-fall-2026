@@ -570,7 +570,7 @@ gh pr create --title "M5: Shopping Cart Feature (TDD)" \
 - [TDD Exercises](../../06-test-driven-development/exercises/)
 - [Kent Beck - TDD by Example](https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530)
 - [Martin Fowler - Is TDD Dead?](https://martinfowler.com/articles/is-tdd-dead/)
-- [TDD Best Practices](../examples/tdd-best-practices.md)
+- [Testing Guidelines](../guidelines/testing-guidelines.md)
 
 ---
 

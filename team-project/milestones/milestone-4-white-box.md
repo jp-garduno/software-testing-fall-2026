@@ -611,7 +611,7 @@ gh pr create --title "Milestone 4: White Box Testing"
 - [pytest Documentation](https://docs.pytest.org/)
 - [Jest Documentation](https://jestjs.io/)
 - [Python unittest.mock](https://docs.python.org/3/library/unittest.mock.html)
-- [Test Fixtures Guide](../examples/test-fixtures/)
+- [Testing Guidelines](../guidelines/testing-guidelines.md)
 
 ---
 

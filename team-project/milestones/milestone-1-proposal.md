@@ -444,9 +444,7 @@ Before submitting, verify:
 
 ## 📚 Resources
 
-- [Project Ideas Examples](../examples/project-ideas.md)
 - [Requirements Template](../templates/requirements-template.md)
-- [Architecture Diagram Examples](../examples/architecture-diagrams/)
 - [Team Charter Template](../templates/team-charter.md)
 
 ---

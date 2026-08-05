@@ -27,6 +27,5 @@ This directory contains templates and starter files for your team project.
 
 ## 📚 Related Resources
 
-- [Milestone Guidelines](../milestones/)
-- [Project Examples](../examples/)
-- [Best Practices Guide](../guidelines/)
+- [Milestone Guidelines](../milestones/) - Detailed requirements for all 7 milestones
+- [Development Guidelines](../guidelines/) - Git workflow, code review, testing best practices
