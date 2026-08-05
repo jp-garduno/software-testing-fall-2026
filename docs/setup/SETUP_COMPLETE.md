@@ -213,10 +213,10 @@ software-testing-fall-2026/
 
 8. **Additional Materials**
 
-   - [ ] Copy TDD Manifesto PDFs to Module 6
-   - [ ] Create video tutorials or find good ones
-   - [ ] Add more examples from spring-2026 repo
-   - [ ] Create presentation slides
+   - [x] Copy TDD Manifesto PDFs to Module 6 (3 PDFs, 5.5 MB total)
+   - [ ] Create video tutorials or find good ones (optional)
+   - [ ] Add more examples from spring-2026 repo (optional)
+   - [ ] Create presentation slides (optional)
 
 9. **Repository Setup**
    - [ ] Install dependencies locally
