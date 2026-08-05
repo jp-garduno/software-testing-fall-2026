@@ -69,7 +69,12 @@ software-testing-fall-2026/
 │   │   └── javascript/
 │   └── homework/
 │
-├── 📂 08-system-level-testing/     # Module 8 (pending)
+├── 📂 08-system-level-testing/     # Module 8 ✅
+│   ├── README.md
+│   ├── theory/
+│   ├── exercises/
+│   └── homework/
+│
 ├── 📂 09-performance-testing/      # Module 9 (pending)
 │
 ├── 📂 exams/                       # Exam specifications (pending)
