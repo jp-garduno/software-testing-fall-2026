@@ -292,19 +292,16 @@ Create these assignment categories:
    - 9 assignments (HW 1-9)
    - 110 points each (100 base + 10 bonus)
 
-2. **Exams** (55%)
+2. **Exams** (45%)
 
    - Exam 1 (15%) - Modules 1-3
-   - Exam 2 (20%) - Modules 4-6
-   - Exam 3 (20%) - Modules 7-9
+   - Exam 2 (15%) - Modules 4-6
+   - Exam 3 (15%) - Modules 7-9
 
-3. **Team Project** (20%)
+3. **Team Project** (30%)
 
    - 7 milestones throughout semester
    - 100 points total (M1: 10, M2: 10, M3: 15, M4: 20, M5: 15, M6: 15, M7: 15)
-
-4. **Participation & Attendance** (10%)
-   - In-person sessions (Weeks 4-16)
 
 ### Grading Scale
 
