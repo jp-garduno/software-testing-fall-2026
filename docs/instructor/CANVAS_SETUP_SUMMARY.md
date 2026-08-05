@@ -37,6 +37,8 @@ Location: `docs/instructor/CANVAS_ASYNC_INSTRUCTIONS.md`
 
 **Use this for**: Copy-paste instructions for asynchronous weeks
 
+**File Size**: 774 lines
+
 **Contents**:
 
 - ✅ Week 1 Session 1: Git Basics (complete instructions)
@@ -69,7 +71,52 @@ Location: `docs/instructor/CANVAS_ASYNC_INSTRUCTIONS.md`
 
 ---
 
-### 3. **CANVAS_INTEGRATION.md** (For Automated Grading)
+### 3. **CANVAS_IN_PERSON_INSTRUCTIONS.md** (For Weeks 4-16)
+
+Location: `docs/instructor/CANVAS_IN_PERSON_INSTRUCTIONS.md`
+
+**Use this for**: Copy-paste instructions for in-person weeks
+
+**File Size**: 2449 lines (complete instructions for all 26 in-person sessions!)
+
+**Contents**:
+
+- ✅ Week 4: Black Box Testing (2 sessions)
+- ✅ Week 5: Black Box Deep Dive (2 sessions)
+- ✅ Week 6: Exam 1 Week (review + exam)
+- ✅ Week 7: White Box Testing (2 sessions)
+- ✅ Week 8: White Box Deep Dive (2 sessions)
+- ✅ Week 9: Test-Driven Development (2 sessions)
+- ✅ Week 10: TDD Deep Dive (2 sessions)
+- ✅ Week 11: Exam 2 Week (review + exam)
+- ✅ Week 12: Data-Driven Testing (2 sessions)
+- ✅ Week 13: System-Level Testing (2 sessions)
+- ✅ Week 14: System-Level Advanced (2 sessions)
+- ✅ Week 15: Performance Testing (2 sessions)
+- ✅ Week 16: Final Week (Exam 3 + presentations)
+
+**What's included for EACH session**:
+
+- Welcome message and session focus
+- Pre-class preparation (required reading, setup)
+- In-class activities (lectures, workshops, live coding, hands-on exercises)
+- Discussion questions
+- Post-class work
+- Homework and milestone reminders
+- Time allocations for each activity
+- Links to all course materials
+
+**How to use**:
+
+1. Open CANVAS_IN_PERSON_INSTRUCTIONS.md
+2. Find the section for the week/session you're creating
+3. Copy everything under "Instructions to post in Canvas"
+4. Paste into Canvas module page
+5. Add any Canvas-specific formatting or announcements
+
+---
+
+### 4. **CANVAS_INTEGRATION.md** (For Automated Grading)
 
 Location: `docs/instructor/CANVAS_INTEGRATION.md`
 
@@ -87,7 +134,7 @@ Location: `docs/instructor/CANVAS_INTEGRATION.md`
 
 ---
 
-### 4. **CANVAS_GRADING_COMPLETE.md** (Grading Reference)
+### 5. **CANVAS_GRADING_COMPLETE.md** (Grading Reference)
 
 Location: `docs/instructor/CANVAS_GRADING_COMPLETE.md`
 
@@ -238,7 +285,45 @@ Location: `docs/instructor/CANVAS_GRADING_COMPLETE.md`
 
 ---
 
-### Phase 5: Assignments (30 minutes)
+### Phase 5: Weeks 4-16 In-Person Content (10-15 hours)
+
+**Use**: CANVAS_IN_PERSON_INSTRUCTIONS.md
+
+**Overview**:
+
+This file contains complete instructions for all 26 in-person sessions (weeks 4-16). Each session is fully documented with the same level of detail as the async weeks.
+
+**How to proceed**:
+
+**Option A - Create all at once** (8-12 hours):
+
+1. Set aside dedicated time
+2. Go through CANVAS_IN_PERSON_INSTRUCTIONS.md week by week
+3. Create Canvas page for each session
+4. Copy-paste instructions from the file
+5. Publish or schedule for future release
+
+**Option B - Week-by-week** (30-60 min per week):
+
+1. One week before each module
+2. Find the relevant week in CANVAS_IN_PERSON_INSTRUCTIONS.md
+3. Create both session pages for that week
+4. Copy-paste instructions
+5. Review and publish
+
+**Recommended**: Option B (create content week-by-week as needed)
+
+**Content already includes**:
+
+- All pre-class readings with links
+- All in-class activities
+- All homework and milestone reminders
+- Exam review sessions
+- Discussion questions
+
+---
+
+### Phase 6: Assignments (30 minutes)
 
 **Use**: CANVAS_QUICK_CHECKLIST.md
 
@@ -265,7 +350,7 @@ For each homework (1-9):
 
 ---
 
-### Phase 6: Team Project (30 minutes)
+### Phase 7: Team Project (30 minutes)
 
 **Reference**: team-project/milestones/ directory
 
@@ -288,7 +373,7 @@ For each milestone:
 
 ---
 
-### Phase 7: Exams (15 minutes)
+### Phase 8: Exams (15 minutes)
 
 1. Create Exam 1 assignment (Week 6, 15%)
 2. Create Exam 2 assignment (Week 11, 20%)
@@ -419,7 +504,21 @@ Canvas Course
 
 ### Weeks 4-16 (IN-PERSON)
 
-- [ ] Create placeholder pages for lectures (add slides/notes later)
+**Option A - All at once**:
+
+- [ ] Go through CANVAS_IN_PERSON_INSTRUCTIONS.md week by week
+- [ ] Create Canvas pages for all 26 sessions
+- [ ] Copy-paste complete instructions for each session
+- [ ] Schedule or publish content
+
+**Option B - Week by week** (Recommended):
+
+- [ ] Each week, copy instructions from CANVAS_IN_PERSON_INSTRUCTIONS.md
+- [ ] Create 2 session pages per week
+- [ ] Publish before the week starts
+
+**All Weeks**:
+
 - [ ] Create all homework assignments (HW 4-9)
 - [ ] Create all team project milestones (M1-M7)
 - [ ] Create all exam assignments (Exam 1, 2, 3)
@@ -436,28 +535,54 @@ Canvas Course
 
 ### What's Already Done ✅
 
-- All async week instructions written (774 lines!)
+- **Async week instructions** written (774 lines covering weeks 1-3)
+- **In-person week instructions** written (2449 lines covering weeks 4-16, all 26 sessions!)
 - All homework assignments created (9 complete)
 - All team project milestones created (7 complete with rubrics)
 - All guidelines and templates created
 - Grading rubrics included in each assignment
 - Step-by-step student instructions with time estimates
+- Pre-class preparation lists for every session
+- In-class activities detailed for every session
+- Discussion questions for engagement
 
 ### What You Need to Do 📝
 
-1. **Copy-paste content** from CANVAS_ASYNC_INSTRUCTIONS.md into Canvas pages
-2. **Create assignments** in Canvas with links to GitHub
-3. **Set due dates** according to TIMELINE.md
-4. **Publish modules** as appropriate
-5. **(Optional)** Set up automated grading later
+1. **Copy-paste async content** (weeks 1-3) from CANVAS_ASYNC_INSTRUCTIONS.md
+2. **Copy-paste in-person content** (weeks 4-16) from CANVAS_IN_PERSON_INSTRUCTIONS.md
+3. **Create assignments** in Canvas with links to GitHub
+4. **Set due dates** according to TIMELINE.md
+5. **Publish modules** as appropriate
+6. **(Optional)** Set up automated grading later
 
 ### Time Estimates ⏱️
 
-- **Weeks 1-3 async content**: 3 hours (mostly copy-paste)
-- **Assignment creation**: 1 hour
+**Initial Setup (Weeks 1-3 + Structure)**:
+
+- **Weeks 1-3 async content**: 3 hours (copy-paste from CANVAS_ASYNC_INSTRUCTIONS.md)
+- **Assignment creation**: 1 hour (all 9 homework + 7 milestones + 3 exams)
 - **Module structure**: 30 minutes
 - **Testing & verification**: 1 hour
-- **Total**: ~5.5 hours for complete Canvas setup
+- **Subtotal**: ~5.5 hours
+
+**In-Person Content (Weeks 4-16)**:
+
+**Option A - All at once**: 10-15 hours
+
+- Create all 26 session pages
+- Copy-paste from CANVAS_IN_PERSON_INSTRUCTIONS.md
+- Review and schedule
+
+**Option B - Week by week** (Recommended): 30-60 min per week
+
+- Each week, create 2 session pages
+- Copy-paste from CANVAS_IN_PERSON_INSTRUCTIONS.md
+- Total over semester: ~8-13 hours spread out
+
+**Total Time Investment**:
+
+- **Option A** (all upfront): ~15-20 hours
+- **Option B** (week-by-week): ~14-19 hours spread across semester
 
 ---
 
@@ -466,7 +591,8 @@ Canvas Course
 If you have questions about:
 
 - **Canvas setup**: Refer to CANVAS_QUICK_CHECKLIST.md
-- **Async instructions**: Refer to CANVAS_ASYNC_INSTRUCTIONS.md
+- **Async instructions (weeks 1-3)**: Refer to CANVAS_ASYNC_INSTRUCTIONS.md
+- **In-person instructions (weeks 4-16)**: Refer to CANVAS_IN_PERSON_INSTRUCTIONS.md
 - **Automated grading**: Refer to CANVAS_INTEGRATION.md
 - **Grading process**: Refer to CANVAS_GRADING_COMPLETE.md
 - **Course schedule**: Refer to TIMELINE.md
@@ -475,4 +601,19 @@ If you have questions about:
 
 ---
 
+## 📄 All Canvas Instruction Files Summary
+
+| File                             | Lines     | Weeks Covered | Content Type         |
+| -------------------------------- | --------- | ------------- | -------------------- |
+| CANVAS_QUICK_CHECKLIST.md        | ~300      | All           | Setup guide          |
+| CANVAS_ASYNC_INSTRUCTIONS.md     | 774       | 1-3           | Session instructions |
+| CANVAS_IN_PERSON_INSTRUCTIONS.md | 2449      | 4-16          | Session instructions |
+| CANVAS_INTEGRATION.md            | ~400      | All           | Grading automation   |
+| CANVAS_GRADING_COMPLETE.md       | ~300      | All           | Grading reference    |
+| **TOTAL**                        | **~4223** | **1-16**      | **Complete course**  |
+
+---
+
 **All content is ready! You just need to copy it into Canvas.** 🎉
+
+**3,223+ lines of session instructions = zero content creation needed!**
