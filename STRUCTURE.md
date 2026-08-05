@@ -81,8 +81,36 @@ software-testing-fall-2026/
 │   ├── exercises/
 │   └── homework/
 │
-├── 📂 exams/                       # Exam specifications (pending)
-├── 📂 team-project/                # Team project guidelines (pending)
+├── 📂 exams/                       # Exam specifications (kept local)
+│   ├── README.md
+│   ├── exam-1/
+│   ├── exam-2/
+│   └── exam-3/
+│
+├── 📂 team-project/                # ✅ Team project (COMPLETE)
+│   ├── README.md                   # Project overview
+│   ├── milestones/                 # 7 milestone specifications
+│   │   ├── README.md
+│   │   ├── milestone-1-proposal.md
+│   │   ├── milestone-2-foundation.md
+│   │   ├── milestone-3-black-box.md
+│   │   ├── milestone-4-white-box.md
+│   │   ├── milestone-5-tdd.md
+│   │   ├── milestone-6-system-testing.md
+│   │   └── milestone-7-final.md
+│   ├── templates/                  # Project templates
+│   │   ├── README.md
+│   │   ├── test-case-template.md
+│   │   ├── requirements-template.md
+│   │   ├── team-charter.md
+│   │   ├── pr-template.md
+│   │   ├── issue-template.md
+│   │   └── gitignore-template.txt
+│   └── guidelines/                 # Development guidelines
+│       ├── README.md
+│       ├── git-workflow.md
+│       ├── code-review.md
+│       └── testing-guidelines.md
 │
 ├── 📂 .github/                     # GitHub configuration
 │   ├── workflows/                  # CI/CD automation
