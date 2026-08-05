@@ -130,13 +130,13 @@ software-testing-fall-2026/
 - [x] Module 6: TDD - ✅ 100% COMPLETE (10 files: 4 theory, 5 kata exercises, 1 homework)
 - [x] Module 7: Data-Driven Testing - ✅ 100% COMPLETE (13 files: 4 theory, 8 exercises, 1 homework)
 - [x] Module 8: System Level Testing - ✅ 100% COMPLETE (8 files: 5 theory, 1 exercises README, 1 homework)
-- [ ] Module 9: Performance Testing - README only
+- [x] Module 9: Performance Testing - ✅ 100% COMPLETE (7 files: 5 theory, 1 exercises README, 1 homework)
 
 ### Assessment Structure
 
 - [x] Exams overview README
 - [x] Team project comprehensive guide
-- [x] Homework assignments (8 of 9 complete: Modules 1-8 ready)
+- [x] Homework assignments (9 of 9 complete: ALL MODULES READY)
 
 ### Configuration Files
 
@@ -183,7 +183,7 @@ software-testing-fall-2026/
    - [x] Homework 6 (TDD) - ✅ COMPLETE (Library Management, 110 pts)
    - [x] Homework 7 (Data-Driven) - ✅ COMPLETE (E-Commerce Order Processing, 110 pts)
    - [x] Homework 8 (System Testing) - ✅ COMPLETE (E2E Test Automation with Selenium & Playwright, 110 pts)
-   - [ ] Homework 9 (Performance)
+   - [x] Homework 9 (Performance) - ✅ COMPLETE (Performance Test Strategy with JMeter, 110 pts)
 
 5. **Create Exercises**
 
@@ -193,7 +193,7 @@ software-testing-fall-2026/
    - [x] Module 6 TDD exercises (5 katas) - ✅ COMPLETE
    - [x] Module 7 Data-Driven exercises (8 files: 4 Python, 4 JavaScript) - ✅ COMPLETE
    - [x] Module 8 System Testing exercises (1 exercises README) - ✅ COMPLETE
-   - [ ] Module 9 exercises
+   - [x] Module 9 Performance Testing exercises (1 exercises README) - ✅ COMPLETE
 
 6. **Exam Preparation**
    - [ ] Create Exam 1 detailed requirements (Week 6)
