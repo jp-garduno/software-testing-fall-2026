@@ -4,17 +4,12 @@ This directory contains templates and starter files for your team project.
 
 ## 📋 Available Templates
 
-### Documentation Templates
-
-- **[test-case-template.md](./test-case-template.md)** - Standard test case format
-- **[requirements-template.md](./requirements-template.md)** - Requirements specification format
-- **[team-charter.md](./team-charter.md)** - Team agreement and expectations
-
-### Code Templates
-
-- **[gitignore-template.txt](./gitignore-template.txt)** - Comprehensive .gitignore
-- **[pr-template.md](./pr-template.md)** - Pull request template
+- **[test-case-template.md](./test-case-template.md)** - Standard test case format for M3
+- **[requirements-template.md](./requirements-template.md)** - Requirements specification for M1
+- **[team-charter.md](./team-charter.md)** - Team agreement and expectations for M1
+- **[pr-template.md](./pr-template.md)** - Detailed pull request template
 - **[issue-template.md](./issue-template.md)** - GitHub issue template
+- **[gitignore-template.txt](./gitignore-template.txt)** - Comprehensive .gitignore for Python + JavaScript
 
 ## 🎯 How to Use
 
