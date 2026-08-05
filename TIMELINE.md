@@ -169,14 +169,15 @@ The team project runs throughout the semester with incremental deliverables:
 
 ## 📊 Assessment Breakdown
 
-| **Component**              | **Weight** | **Details**                      |
-| -------------------------- | ---------- | -------------------------------- |
-| Homework (9 assignments)   | 25%        | ~2.8% each                       |
-| Exam 1                     | 15%        | Modules 1-3                      |
-| Exam 2                     | 20%        | Modules 4-6                      |
-| Exam 3                     | 20%        | Modules 7-9                      |
-| Team Project               | 20%        | 7 milestones throughout semester |
-| Participation & Attendance | 10%        | In-person sessions (Weeks 4-16)  |
+| **Component**            | **Weight** | **Details**                      |
+| ------------------------ | ---------- | -------------------------------- |
+| Homework (9 assignments) | 25%        | ~2.8% each                       |
+| Exam 1                   | 15%        | Modules 1-3                      |
+| Exam 2                   | 15%        | Modules 4-6                      |
+| Exam 3                   | 15%        | Modules 7-9                      |
+| Team Project             | 30%        | 7 milestones throughout semester |
+
+**Total**: 100%
 
 ---
 

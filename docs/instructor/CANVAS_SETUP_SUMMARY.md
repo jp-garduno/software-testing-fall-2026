@@ -168,9 +168,9 @@ Location: `docs/instructor/CANVAS_GRADING_COMPLETE.md`
 2. **Set Up Assignment Categories** (10 min)
 
    - Homework: 25%
-   - Exams: 55%
-   - Team Project: 20%
-   - Participation: 10%
+   - Exams: 45% (15% each for 3 exams)
+   - Team Project: 30%
+   - **Total: 100%**
 
 3. **Add External Links** (10 min)
    - GitHub repository
@@ -476,7 +476,7 @@ Canvas Course
 ### Initial Setup
 
 - [ ] Create all 16 week modules
-- [ ] Set up assignment categories with correct weights (25%, 55%, 20%, 10%)
+- [ ] Set up assignment categories with correct weights (25%, 55%, 20%)
 - [ ] Add external link to GitHub repository
 - [ ] Add external link to Student Submission Guide
 - [ ] Configure gradebook
