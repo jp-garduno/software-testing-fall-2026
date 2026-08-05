@@ -287,20 +287,24 @@ See you in class! Excited to meet everyone! 🎓
 
 Create these assignment categories:
 
-1. **Homework** (60%)
+1. **Homework** (25%)
 
    - 9 assignments (HW 1-9)
-   - 100 points each (some have bonus)
+   - 110 points each (100 base + 10 bonus)
 
-2. **Exams** (30%)
+2. **Exams** (55%)
 
-   - Exam 1 (100 points)
-   - Exam 2 (100 points)
-   - Exam 3 (100 points)
+   - Exam 1 (15%) - Modules 1-3
+   - Exam 2 (20%) - Modules 4-6
+   - Exam 3 (20%) - Modules 7-9
 
-3. **Team Project** (10%)
-   - 7 milestones
-   - Points vary by milestone
+3. **Team Project** (20%)
+
+   - 7 milestones throughout semester
+   - 100 points total (M1: 10, M2: 10, M3: 15, M4: 20, M5: 15, M6: 15, M7: 15)
+
+4. **Participation & Attendance** (10%)
+   - In-person sessions (Weeks 4-16)
 
 ### Grading Scale
 
