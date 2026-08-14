@@ -172,13 +172,17 @@ jobs:
           CODE_QUALITY_WEIGHT=20
           STRUCTURE_WEIGHT=10
 
-          # Get values
+          # Get values (with defaults for empty values)
           PY_PASSED=${{ steps.python-tests.outputs.tests_passed }}
           PY_FAILED=${{ steps.python-tests.outputs.tests_failed }}
+          PY_PASSED=${PY_PASSED:-0}
+          PY_FAILED=${PY_FAILED:-0}
           PY_TOTAL=$((PY_PASSED + PY_FAILED))
 
           JS_PASSED=${{ steps.js-tests.outputs.tests_passed }}
           JS_FAILED=${{ steps.js-tests.outputs.tests_failed }}
+          JS_PASSED=${JS_PASSED:-0}
+          JS_FAILED=${JS_FAILED:-0}
           JS_TOTAL=$((JS_PASSED + JS_FAILED))
 
           TOTAL_PASSED=$((PY_PASSED + JS_PASSED))
@@ -193,11 +197,14 @@ jobs:
 
           # Coverage score
           COVERAGE=${{ steps.python-tests.outputs.coverage }}
+          COVERAGE=${COVERAGE:-0}
           COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
 
           # Code quality score (simplified)
           PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score }}
           ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors }}
+          PYLINT_SCORE=${PYLINT_SCORE:-0}
+          ESLINT_ERRORS=${ESLINT_ERRORS:-0}
           if [ $ESLINT_ERRORS -gt 10 ]; then
             QUALITY_SCORE=50
           elif [ $ESLINT_ERRORS -gt 5 ]; then
@@ -211,6 +218,8 @@ jobs:
           # Structure score
           STRUCT_SCORE=${{ steps.required-files.outputs.score }}
           STRUCT_MAX=${{ steps.required-files.outputs.max_score }}
+          STRUCT_SCORE=${STRUCT_SCORE:-0}
+          STRUCT_MAX=${STRUCT_MAX:-10}
           STRUCTURE_SCORE=$(awk "BEGIN {printf \"%.2f\", ($STRUCT_SCORE / $STRUCT_MAX) * 100}")
 
           # Calculate weighted final grade
