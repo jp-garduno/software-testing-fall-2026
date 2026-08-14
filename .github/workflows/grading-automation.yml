@@ -172,48 +172,96 @@ jobs:
 
           # Check for README (always required)
           if [ -f "README.md" ]; then
-            SCORE=$((SCORE + 2))
-            echo "✅ README.md found (+2)"
+            # For Homework 2, README is worth 1 point; for others, 2 points
+            if [ "$ASSIGNMENT" = "2" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ README.md found (+1)"
+            else
+              SCORE=$((SCORE + 2))
+              echo "✅ README.md found (+2)"
+            fi
           else
             echo "❌ README.md missing"
           fi
 
           # Assignment-specific checks
           if [ "$ASSIGNMENT" = "2" ]; then
-            # Homework 2: Theoretical analysis - check for 5 parts
-            echo "Checking Homework 2 structure (theoretical analysis)..."
+            # Homework 2: Theoretical analysis - check for 5 parts with content validation
+            echo "Checking Homework 2 structure (theoretical analysis with content validation)..."
 
+            # Part 1: Application Analysis (2 points, requires 300+ words)
             if [ -f "part1-application-analysis.md" ]; then
-              SCORE=$((SCORE + 2))
-              echo "✅ Part 1 found (+2)"
+              WORD_COUNT=$(wc -w < "part1-application-analysis.md")
+              if [ $WORD_COUNT -ge 300 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 1 found with adequate content: $WORD_COUNT words (+2)"
+              else
+                PART1_SCORE=$(awk "BEGIN {printf \"%.1f\", ($WORD_COUNT / 300.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART1_SCORE}")
+                echo "⚠️  Part 1 found but too brief: $WORD_COUNT/300 words (+$PART1_SCORE)"
+              fi
             else
               echo "❌ Part 1 missing"
             fi
 
+            # Part 2: Testing Types (2 points, requires 8+ test types)
             if [ -f "part2-testing-types.md" ]; then
-              SCORE=$((SCORE + 2))
-              echo "✅ Part 2 found (+2)"
+              TEST_TYPES=$(grep -c "## Test Type:" "part2-testing-types.md" || echo "0")
+              if [ $TEST_TYPES -ge 8 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 2 found with adequate content: $TEST_TYPES test types (+2)"
+              else
+                PART2_SCORE=$(awk "BEGIN {printf \"%.1f\", ($TEST_TYPES / 8.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART2_SCORE}")
+                echo "⚠️  Part 2 found but incomplete: $TEST_TYPES/8 test types (+$PART2_SCORE)"
+              fi
             else
               echo "❌ Part 2 missing"
             fi
 
+            # Part 3: Testing Levels (2 points, requires 4 levels)
             if [ -f "part3-testing-levels.md" ]; then
-              SCORE=$((SCORE + 2))
-              echo "✅ Part 3 found (+2)"
+              LEVELS=$(grep -c "^## [A-Z]" "part3-testing-levels.md" || echo "0")
+              if [ $LEVELS -ge 4 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 3 found with adequate content: $LEVELS testing levels (+2)"
+              else
+                PART3_SCORE=$(awk "BEGIN {printf \"%.1f\", ($LEVELS / 4.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART3_SCORE}")
+                echo "⚠️  Part 3 found but incomplete: $LEVELS/4 testing levels (+$PART3_SCORE)"
+              fi
             else
               echo "❌ Part 3 missing"
             fi
 
+            # Part 4: Testing Principles (2 points, requires 7 principles)
             if [ -f "part4-testing-principles.md" ]; then
-              SCORE=$((SCORE + 1))
-              echo "✅ Part 4 found (+1)"
+              PRINCIPLES=$(grep -c "^## [0-9]" "part4-testing-principles.md" || echo "0")
+              if [ $PRINCIPLES -ge 7 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 4 found with adequate content: $PRINCIPLES principles (+2)"
+              else
+                PART4_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PRINCIPLES / 7.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART4_SCORE}")
+                echo "⚠️  Part 4 found but incomplete: $PRINCIPLES/7 principles (+$PART4_SCORE)"
+              fi
             else
               echo "❌ Part 4 missing"
             fi
 
+            # Part 5: Risk Analysis (1 point, requires 6+ risks in table)
             if [ -f "part5-risk-analysis.md" ]; then
-              SCORE=$((SCORE + 1))
-              echo "✅ Part 5 found (+1)"
+              RISKS=$(grep -c "^|.*|.*|.*|.*|" "part5-risk-analysis.md" || echo "0")
+              # Subtract 2 for header rows
+              RISKS=$((RISKS > 2 ? RISKS - 2 : 0))
+              if [ $RISKS -ge 6 ]; then
+                SCORE=$((SCORE + 1))
+                echo "✅ Part 5 found with adequate content: $RISKS risks (+1)"
+              else
+                PART5_SCORE=$(awk "BEGIN {printf \"%.1f\", ($RISKS / 6.0) * 1}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART5_SCORE}")
+                echo "⚠️  Part 5 found but incomplete: $RISKS/6 risks (+$PART5_SCORE)"
+              fi
             else
               echo "❌ Part 5 missing"
             fi
