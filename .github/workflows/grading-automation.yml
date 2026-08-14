@@ -93,8 +93,19 @@ jobs:
 
           set +e  # Don't fail on test failures
 
+          # Determine coverage source (prefer src/ to exclude test files from coverage)
+          if [ -d "src" ]; then
+            COV_SOURCE="src"
+          elif [ -d "lib" ]; then
+            COV_SOURCE="lib"
+          elif [ -d "app" ]; then
+            COV_SOURCE="app"
+          else
+            COV_SOURCE="."
+          fi
+
           # Run tests with detailed output
-          pytest -v --tb=short --junitxml=python-results.xml --cov=. --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
           # Extract metrics
