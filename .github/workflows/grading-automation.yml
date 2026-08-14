@@ -183,8 +183,8 @@ jobs:
 
           # Check for README (always required)
           if [ -f "README.md" ]; then
-            # For Homework 2, README is worth 1 point; for others, 2 points
-            if [ "$ASSIGNMENT" = "2" ]; then
+            # For Homework 2 & 3, README is worth 1 point; for others, 2 points
+            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ]; then
               SCORE=$((SCORE + 1))
               echo "✅ README.md found (+1)"
             else
@@ -275,6 +275,73 @@ jobs:
               fi
             else
               echo "❌ Part 5 missing"
+            fi
+          elif [ "$ASSIGNMENT" = "3" ]; then
+            # Homework 3: Static testing setup - check for specific requirements
+            echo "Checking Homework 3 structure (static testing setup with content validation)..."
+
+            # Pre-commit config (2 points, requires 5+ hooks)
+            if [ -f ".pre-commit-config.yaml" ]; then
+              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" || echo "0")
+              if [ $HOOKS -ge 5 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+2)"
+              else
+                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PRECOMMIT_SCORE}")
+                echo "⚠️  Pre-commit config found but incomplete: $HOOKS/5 hooks (+$PRECOMMIT_SCORE)"
+              fi
+            else
+              echo "❌ Pre-commit config missing"
+            fi
+
+            # Number of Python source files (2 points, requires 3+ files excluding tests)
+            PY_FILES=$(find src -name "*.py" 2>/dev/null | grep -v "__pycache__" | wc -l || echo "0")
+            if [ $PY_FILES -ge 3 ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ Sufficient Python files: $PY_FILES files (+2)"
+            else
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PY_FILES / 3.0) * 2}")
+              SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
+              echo "⚠️  Insufficient Python files: $PY_FILES/3 files (+$FILES_SCORE)"
+            fi
+
+            # Lines of code (2 points, requires 100+ lines in src/)
+            if [ -d "src" ]; then
+              LOC=$(find src -name "*.py" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+              if [ "$LOC" -ge 100 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Sufficient code: $LOC lines (+2)"
+              else
+                LOC_SCORE=$(awk "BEGIN {printf \"%.1f\", ($LOC / 100.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $LOC_SCORE}")
+                echo "⚠️  Insufficient code: $LOC/100 lines (+$LOC_SCORE)"
+              fi
+            else
+              echo "❌ No src/ directory found"
+            fi
+
+            # Report (2 points, requires 500+ words)
+            if [ -f "REPORT.md" ]; then
+              REPORT_WORDS=$(wc -w < "REPORT.md")
+              if [ $REPORT_WORDS -ge 500 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Report found with adequate content: $REPORT_WORDS words (+2)"
+              else
+                REPORT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($REPORT_WORDS / 500.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $REPORT_SCORE}")
+                echo "⚠️  Report found but too brief: $REPORT_WORDS/500 words (+$REPORT_SCORE)"
+              fi
+            else
+              echo "❌ Report missing"
+            fi
+
+            # Tests present (1 point)
+            if ls test_*.py 1> /dev/null 2>&1 || ls *_test.py 1> /dev/null 2>&1; then
+              SCORE=$((SCORE + 1))
+              echo "✅ Test files found (+1)"
+            else
+              echo "❌ No test files found"
             fi
           else
             # Code-based homework: check for tests and structure
