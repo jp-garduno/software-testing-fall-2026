@@ -172,42 +172,30 @@ git push -u origin feat/homework-4-john-doe
 5. **Fill out the template**:
 
    ```markdown
-   ## Description
+   # Pull Request
 
-   Completed Homework 4: Black Box Testing
+   ## What does this PR do?
 
-   ## Type of Change
+   Completed Homework 4: Black Box Testing exercises
+
+   ## Type
 
    - [x] Homework submission
+   - [ ] Module content
+   - [ ] Bug fix
+   - [ ] Documentation
 
-   ## Module/Assignment
+   ## For Students (Homework Submissions)
 
-   - Module: Module 4: Black Box Testing
-   - Assignment: Homework 4
+   **Name**: John Doe
+   **Module**: Module 4: Black Box Testing
+   **Coverage**: 92%
 
-   ## Student Information
+   ## Additional Notes
 
-   - Name: John Doe
-   - Student ID: 12345678
-
-   ## Changes Made
-
-   - Implemented equivalence partitioning tests
-   - Added boundary value analysis
-   - Created decision tables
-   - 90% test coverage achieved
-
-   ## Testing Performed
-
-   - [x] All tests pass locally
-   - [x] Code is properly formatted
-   - [x] Linting passes
-   - [x] Pre-commit hooks pass
-
-   ## Coverage Report
-
-   - Python Coverage: 92%
-   - JavaScript Coverage: 88%
+   - All tests passing locally
+   - Linting and pre-commit hooks pass
+   - Implemented EP, BVA, and decision tables
    ```
 
 6. **Create pull request**

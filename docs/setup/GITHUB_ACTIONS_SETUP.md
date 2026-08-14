@@ -22,10 +22,11 @@ Your repository now includes comprehensive CI/CD automation with GitHub Actions.
    - Checks code style
    - Posts feedback on PRs
 
-3. **`.github/workflows/homework-checker.yml`** - Homework validator
-   - Validates homework submissions
-   - Checks for required files
-   - Generates automated feedback
+3. **`.github/workflows/grading-automation.yml`** - Automated grading
+   - Calculates grades for homework/exams/projects
+   - Runs tests and checks code quality
+   - Generates detailed grading reports with breakdown
+   - Creates Canvas-ready CSV files
 
 ### GitHub Templates
 
@@ -100,14 +101,16 @@ When a student submits work:
    ├─→ Checks code style
    └─→ Posts feedback comment
 
-8. If labeled "homework", Homework Checker runs:
-   ├─→ Extracts homework number
-   ├─→ Validates requirements
-   └─→ Generates feedback
+8. Automated Grading runs (if labeled with homework/exam/project):
+   ├─→ Extracts submission info
+   ├─→ Runs tests and calculates coverage
+   ├─→ Checks code quality
+   ├─→ Calculates final grade (0-100)
+   └─→ Posts grading report comment
 
 9. Results shown in PR:
    ├─→ ✅ All checks passed → Ready for review
-   └─→ ❌ Some checks failed → Student fixes issues
+   └─→ ❌ Some checks failed → Student fixes and pushes again
 ```
 
 ### For Instructors
