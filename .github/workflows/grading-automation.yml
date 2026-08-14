@@ -166,11 +166,22 @@ jobs:
       - name: Calculate final grade
         id: calculate-grade
         run: |
-          # Define weights
-          TESTS_WEIGHT=40
-          COVERAGE_WEIGHT=30
-          CODE_QUALITY_WEIGHT=20
-          STRUCTURE_WEIGHT=10
+          # Define weights (adjusted for Homework 1 - Git workflow assignment)
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+          if [ "$ASSIGNMENT" = "1" ]; then
+            # Homework 1: Git workflow - prioritize structure over tests
+            TESTS_WEIGHT=10
+            COVERAGE_WEIGHT=10
+            CODE_QUALITY_WEIGHT=20
+            STRUCTURE_WEIGHT=60
+            echo "Homework 1 detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
+          else
+            # Regular homework: prioritize tests and coverage
+            TESTS_WEIGHT=40
+            COVERAGE_WEIGHT=30
+            CODE_QUALITY_WEIGHT=20
+            STRUCTURE_WEIGHT=10
+          fi
 
           # Get values (with defaults for empty values)
           PY_PASSED=${{ steps.python-tests.outputs.tests_passed || '0' }}
