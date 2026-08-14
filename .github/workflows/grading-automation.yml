@@ -195,6 +195,15 @@ jobs:
           COVERAGE=${{ steps.python-tests.outputs.coverage || '0' }}
           COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
 
+          # Special case: Homework 1 is about Git workflow, not code tests
+          # Give full credit for tests and coverage
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+          if [ "$ASSIGNMENT" = "1" ]; then
+            echo "Homework 1 detected - giving full credit for tests and coverage (Git workflow assignment)"
+            TEST_SCORE=100
+            COVERAGE_SCORE=100
+          fi
+
           # Code quality score (simplified)
           PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score || '0' }}
           ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors || '0' }}
