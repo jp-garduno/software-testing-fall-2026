@@ -338,12 +338,37 @@ jobs:
             const fs = require('fs');
             const report = fs.readFileSync('grading-report.md', 'utf8');
 
-            github.rest.issues.createComment({
+            // Find all existing bot grading comments
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            // Find all grading report comments from the bot
+            const botComments = comments.filter(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('📊 Automated Grading Report')
+            );
+
+            // Delete all existing grading comments
+            for (const comment of botComments) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id
+              });
+              console.log(`Deleted old comment ${comment.id}`);
+            }
+
+            // Create new comment
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: report
             });
+            console.log('Created new grading comment');
 
       - name: Upload grading artifacts
         uses: actions/upload-artifact@v4
