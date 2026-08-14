@@ -19,3 +19,7 @@ pre-commit install
 ```bash
 pytest test_calculator.py
 ```
+
+## Note
+
+This project demonstrates static testing setup with pre-commit hooks and linting tools.
