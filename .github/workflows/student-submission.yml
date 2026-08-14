@@ -86,9 +86,34 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.issues.createComment({
+            const message = '✅ Submission validated! Your tests have been run. Check the Actions tab for detailed results.';
+
+            // Find all existing bot validation comments
+            const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '✅ Submission validated! Your tests have been run. Check the Actions tab for detailed results.'
-            })
+            });
+
+            // Find all validation comments from the bot
+            const botComments = comments.filter(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Submission validated')
+            );
+
+            // Delete all existing validation comments
+            for (const comment of botComments) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id
+              });
+            }
+
+            // Create new comment
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
