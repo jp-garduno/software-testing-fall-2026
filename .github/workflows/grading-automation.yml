@@ -71,9 +71,26 @@ jobs:
 
           echo "Grading Assignment: $ASSIGNMENT for Student: $STUDENT"
 
+      - name: Navigate to student directory
+        run: |
+          STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
+          if [ -d "$STUDENT_DIR" ]; then
+            cd "$STUDENT_DIR"
+            echo "Working directory: $(pwd)"
+            echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
+          else
+            echo "Warning: Student directory not found: $STUDENT_DIR"
+            echo "STUDENT_DIR=." >> $GITHUB_ENV
+          fi
+
       - name: Run Python tests and collect results
         id: python-tests
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+
           set +e  # Don't fail on test failures
 
           # Run tests with detailed output
@@ -96,6 +113,11 @@ jobs:
       - name: Run JavaScript tests and collect results
         id: js-tests
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+
           set +e
 
           # Run tests with coverage
@@ -116,6 +138,11 @@ jobs:
       - name: Check code quality
         id: code-quality
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+
           set +e
 
           # Python linting
@@ -133,6 +160,12 @@ jobs:
       - name: Check required files
         id: required-files
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+            echo "Checking files in: $(pwd)"
+          fi
+
           SCORE=0
           MAX_SCORE=10
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
