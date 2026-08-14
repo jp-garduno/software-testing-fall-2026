@@ -241,6 +241,10 @@ jobs:
           echo "coverage_score=$COVERAGE_SCORE" >> $GITHUB_OUTPUT
           echo "quality_score=$QUALITY_SCORE" >> $GITHUB_OUTPUT
           echo "structure_score=$STRUCTURE_SCORE" >> $GITHUB_OUTPUT
+          echo "tests_weight=$TESTS_WEIGHT" >> $GITHUB_OUTPUT
+          echo "coverage_weight=$COVERAGE_WEIGHT" >> $GITHUB_OUTPUT
+          echo "quality_weight=$CODE_QUALITY_WEIGHT" >> $GITHUB_OUTPUT
+          echo "structure_weight=$STRUCTURE_WEIGHT" >> $GITHUB_OUTPUT
 
           echo "=== GRADING SUMMARY ==="
           echo "Tests: $TEST_SCORE/100 (${TESTS_WEIGHT}%)"
@@ -265,12 +269,12 @@ jobs:
 
           ### Breakdown
 
-          | Category | Score | Weight | Contribution |
-          |----------|-------|--------|--------------|
-          | **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | 40% | ${{ steps.calculate-grade.outputs.test_score }} × 0.4 |
-          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | 30% | ${{ steps.calculate-grade.outputs.coverage_score }} × 0.3 |
-          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | 20% | ${{ steps.calculate-grade.outputs.quality_score }} × 0.2 |
-          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | 10% | ${{ steps.calculate-grade.outputs.structure_score }} × 0.1 |
+          | Category | Score | Weight |
+          |----------|-------|--------|
+          | **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
+          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
+          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |
 
           ---
 
