@@ -135,29 +135,70 @@ jobs:
         run: |
           SCORE=0
           MAX_SCORE=10
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
 
-          # Check for README
+          # Check for README (always required)
           if [ -f "README.md" ]; then
-            SCORE=$((SCORE + 3))
-            echo "✅ README.md found (+3)"
+            SCORE=$((SCORE + 2))
+            echo "✅ README.md found (+2)"
           else
             echo "❌ README.md missing"
           fi
 
-          # Check for tests
-          if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
-            SCORE=$((SCORE + 4))
-            echo "✅ Test files found (+4)"
-          else
-            echo "❌ No test files found"
-          fi
+          # Assignment-specific checks
+          if [ "$ASSIGNMENT" = "2" ]; then
+            # Homework 2: Theoretical analysis - check for 5 parts
+            echo "Checking Homework 2 structure (theoretical analysis)..."
 
-          # Check for proper structure
-          if [ -d "src" ] || [ -d "tests" ]; then
-            SCORE=$((SCORE + 3))
-            echo "✅ Proper structure (+3)"
+            if [ -f "part1-application-analysis.md" ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ Part 1 found (+2)"
+            else
+              echo "❌ Part 1 missing"
+            fi
+
+            if [ -f "part2-testing-types.md" ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ Part 2 found (+2)"
+            else
+              echo "❌ Part 2 missing"
+            fi
+
+            if [ -f "part3-testing-levels.md" ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ Part 3 found (+2)"
+            else
+              echo "❌ Part 3 missing"
+            fi
+
+            if [ -f "part4-testing-principles.md" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ Part 4 found (+1)"
+            else
+              echo "❌ Part 4 missing"
+            fi
+
+            if [ -f "part5-risk-analysis.md" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ Part 5 found (+1)"
+            else
+              echo "❌ Part 5 missing"
+            fi
           else
-            echo "⚠️  No standard structure"
+            # Code-based homework: check for tests and structure
+            if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
+              SCORE=$((SCORE + 4))
+              echo "✅ Test files found (+4)"
+            else
+              echo "❌ No test files found"
+            fi
+
+            if [ -d "src" ] || [ -d "tests" ]; then
+              SCORE=$((SCORE + 4))
+              echo "✅ Proper structure (+4)"
+            else
+              echo "⚠️  No standard structure"
+            fi
           fi
 
           echo "score=$SCORE" >> $GITHUB_OUTPUT
@@ -166,15 +207,15 @@ jobs:
       - name: Calculate final grade
         id: calculate-grade
         run: |
-          # Define weights (adjusted for Homework 1 - Git workflow assignment)
+          # Define weights based on assignment type
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
-          if [ "$ASSIGNMENT" = "1" ]; then
-            # Homework 1: Git workflow - prioritize structure over tests
+          if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
+            # Homework 1 & 2: Non-code assignments - prioritize structure over tests
             TESTS_WEIGHT=10
             COVERAGE_WEIGHT=10
             CODE_QUALITY_WEIGHT=20
             STRUCTURE_WEIGHT=60
-            echo "Homework 1 detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
+            echo "Homework $ASSIGNMENT detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
@@ -206,11 +247,11 @@ jobs:
           COVERAGE=${{ steps.python-tests.outputs.coverage || '0' }}
           COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
 
-          # Special case: Homework 1 is about Git workflow, not code tests
+          # Special case: Homework 1 & 2 are not code-based assignments
           # Give full credit for tests and coverage
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
-          if [ "$ASSIGNMENT" = "1" ]; then
-            echo "Homework 1 detected - giving full credit for tests and coverage (Git workflow assignment)"
+          if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
+            echo "Homework $ASSIGNMENT detected - giving full credit for tests and coverage (non-code assignment)"
             TEST_SCORE=100
             COVERAGE_SCORE=100
           fi
