@@ -214,13 +214,7 @@ jobs:
           STRUCTURE_SCORE=$(awk "BEGIN {printf \"%.2f\", ($STRUCT_SCORE / $STRUCT_MAX) * 100}")
 
           # Calculate weighted final grade
-          FINAL_GRADE=$(awk "BEGIN {
-            printf \"%.2f\",
-            ($TEST_SCORE * $TESTS_WEIGHT / 100) +
-            ($COVERAGE_SCORE * $COVERAGE_WEIGHT / 100) +
-            ($QUALITY_SCORE * $CODE_QUALITY_WEIGHT / 100) +
-            ($STRUCTURE_SCORE * $STRUCTURE_WEIGHT / 100)
-          }")
+          FINAL_GRADE=$(awk "BEGIN {printf \"%.2f\", ($TEST_SCORE * $TESTS_WEIGHT / 100) + ($COVERAGE_SCORE * $COVERAGE_WEIGHT / 100) + ($QUALITY_SCORE * $CODE_QUALITY_WEIGHT / 100) + ($STRUCTURE_SCORE * $STRUCTURE_WEIGHT / 100)}")
 
           echo "grade=$FINAL_GRADE" >> $GITHUB_OUTPUT
           echo "test_score=$TEST_SCORE" >> $GITHUB_OUTPUT
