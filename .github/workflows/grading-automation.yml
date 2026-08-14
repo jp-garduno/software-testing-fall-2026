@@ -375,6 +375,13 @@ jobs:
             CODE_QUALITY_WEIGHT=20
             STRUCTURE_WEIGHT=60
             echo "Homework $ASSIGNMENT detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
+          elif [ "$ASSIGNMENT" = "3" ]; then
+            # Homework 3: Static testing setup - balanced with emphasis on structure
+            TESTS_WEIGHT=25
+            COVERAGE_WEIGHT=20
+            CODE_QUALITY_WEIGHT=15
+            STRUCTURE_WEIGHT=40
+            echo "Homework 3 detected - using adjusted weights (Structure: 40%, Tests: 25%, Coverage: 20%, Quality: 15%)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
