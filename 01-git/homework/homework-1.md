@@ -29,19 +29,35 @@ You will create a personal portfolio website (or any simple project of your choi
 
 ### Part 1: Repository Setup (15 points)
 
-1. **Create a new GitHub repository** named `git-workflow-practice` or similar
+**You have two options for practicing:**
 
+**Option A: Practice in a separate repository** (recommended for learning)
+
+1. **Create a new GitHub repository** named `git-workflow-practice` or similar
    - Initialize with a README
    - Add a `.gitignore` file appropriate for your project
    - Add a license (MIT recommended)
+2. Complete all parts of the assignment in this repository
+3. Document your work with screenshots/links for your final submission
 
-2. **Clone the repository** to your local machine
+**Option B: Work directly in the course repository**
 
-3. **Configure Git locally**
+1. **Clone the course repository** if you haven't already
+2. **Create your branch** from `main`:
    ```bash
-   git config user.name "Your Name"
-   git config user.email "your.email@example.com"
+   git checkout -b feat/<your-username>/homework-1
    ```
+3. **Create your directory**: `students/<your-username>/homework-1/`
+4. Complete all work in this directory
+
+**Regardless of which option you choose**, you must configure Git locally:
+
+```bash
+git config user.name "Your Name"
+git config user.email "your.email@example.com"
+```
+
+**Important**: Whether you use Option A or B, you must submit your final deliverables in the course repository under `students/<your-username>/homework-1/` for automated grading.
 
 ### Part 2: Branching Strategy (25 points)
 
@@ -64,6 +80,8 @@ Create and work on **at least 3 feature branches**:
    - Make commits on the feature branch
    - Create a pull request to merge back to `main`
    - Merge the pull request on GitHub
+
+**Note**: You can practice this workflow in a separate repository. Document your branch strategy and include screenshots/links in your REFLECTION.md for grading.
 
 ### Part 3: Commit History (30 points)
 
@@ -139,6 +157,8 @@ Create **at least 2 pull requests**:
 
 3. **Merge your PRs** - Use the "Squash and merge" or "Merge commit" option
 
+**Note**: You can create these PRs in a practice repository. Document them with screenshots/links in your REFLECTION.md. Your final submission PR in the course repository will also be evaluated.
+
 ### Part 5: Documentation (10 points)
 
 Update your **README.md** to include:
@@ -156,14 +176,42 @@ Update your **README.md** to include:
 
 ## 📤 Submission
 
-Submit the following on the course LMS:
+### Option 1: Practice Repository (Recommended for Learning)
 
-1. **GitHub Repository URL**: Link to your public repository
-2. **Reflection Document** (PDF or Markdown):
+You can practice Git workflow in a separate repository (e.g., `git-workflow-practice`) to fully experience creating a repository from scratch, managing branches, and creating pull requests independently.
+
+### Option 2: Submit for Automated Grading (Required for Credit)
+
+**To receive automated grading and credit**, you must submit your work in this course repository:
+
+1. **Create your submission directory**:
+
+   ```bash
+   students/<your-github-username>/homework-1/
+   ```
+
+2. **Copy your final project files** to this directory:
+
+   - All source files (HTML, CSS, JavaScript, or other project files)
+   - `.gitignore`
+   - `README.md` with complete documentation
+   - `REFLECTION.md` with your reflection (200-300 words)
+
+3. **Create a Pull Request** in this repository:
+
+   - Branch name: `feat/<your-username>/homework-1`
+   - Title: `Homework 1: Git Workflow Practice - <Your Name>`
+   - Base branch: `main`
+   - Add the `homework` label to your PR
+   - Fill out the PR description using the template
+
+4. **REFLECTION.md should include**:
    - What challenges did you face?
    - What Git commands did you find most useful?
    - How will you apply this workflow in the team project?
-   - (200-300 words)
+   - Documentation of your commit history and branching strategy (can link to practice repo if you used one)
+
+**Important**: The automated grading system only works for pull requests in the course repository (`software-testing-fall-2026`). If you practiced in a separate repository, make sure to create a PR in this repository with your final deliverables for grading.
 
 ---
 
@@ -233,14 +281,15 @@ If you're stuck:
 
 Before submitting, verify:
 
-- [ ] Repository is public and accessible
-- [ ] At least 3 feature branches created and merged
-- [ ] At least 10 commits with meaningful messages
-- [ ] At least 2 pull requests created and merged
-- [ ] README is complete and well-formatted
-- [ ] Reflection document is written
-- [ ] Repository URL submitted on LMS
-- [ ] All files are committed and pushed
+- [ ] All required files are in `students/<your-username>/homework-1/`
+- [ ] At least 3 feature branches created and merged (documented in REFLECTION.md)
+- [ ] At least 10 commits with meaningful messages (documented in REFLECTION.md)
+- [ ] At least 2 pull requests created (in practice repo or documented in REFLECTION.md)
+- [ ] README.md is complete and well-formatted
+- [ ] REFLECTION.md is written (200-300 words)
+- [ ] Created a pull request in the course repository
+- [ ] Added the `homework` label to your PR
+- [ ] All files are committed and pushed to your branch
 
 ---
 
