@@ -27,6 +27,8 @@ You will select a real application (web, mobile, or desktop), analyze its testin
 
 ## 📝 Part 1: Application Selection & Analysis (20 points)
 
+**File**: `part1-application-analysis.md` (minimum 300 words)
+
 ### 1.1 Choose an Application
 
 Select **ONE** of the following:
@@ -79,12 +81,16 @@ users to browse menus, place orders, track delivery, and pay online.
 
 ## 📝 Part 2: Testing Types Classification (25 points)
 
+**File**: `part2-testing-types.md` (minimum 8 test types)
+
 For your selected application, identify and describe **at least 8 different test types** needed.
 
 ### Template for Each Test Type:
 
+**Important**: Use `## Test Type:` heading (not `###`) for each test type in your file.
+
 ```markdown
-### Test Type: [Functional/Non-Functional/Regression/etc.]
+## Test Type: [Functional/Non-Functional/Regression/etc.]
 
 **Category**: [Functional or Non-Functional]
 
@@ -104,7 +110,7 @@ For your selected application, identify and describe **at least 8 different test
 ### Example:
 
 ```markdown
-### Test Type: Functional Testing
+## Test Type: Functional Testing
 
 **Category**: Functional
 
@@ -124,7 +130,7 @@ application has no value to users.
 
 ---
 
-### Test Type: Performance Testing
+## Test Type: Performance Testing
 
 **Category**: Non-Functional
 
@@ -155,7 +161,11 @@ application has no value to users.
 
 ## 📝 Part 3: Testing Levels Strategy (25 points)
 
+**File**: `part3-testing-levels.md` (all 4 levels required)
+
 Design a testing strategy for **each testing level**. Explain what will be tested at each level.
+
+**Important**: Use `## [Level Name] Testing` heading for each level (e.g., `## Unit Testing`).
 
 ### Template:
 
@@ -207,12 +217,16 @@ For each level, provide:
 
 ## 📝 Part 4: Testing Principles Application (20 points)
 
+**File**: `part4-testing-principles.md` (all 7 principles required)
+
 Apply **each of the seven testing principles** to your application. Explain how each principle influences your testing strategy.
+
+**Important**: Use numbered headings for each principle (e.g., `## 1. Testing Shows Presence of Defects`).
 
 ### Template:
 
 ```markdown
-### 1. Testing Shows Presence of Defects (Not Absence)
+## 1. Testing Shows Presence of Defects (Not Absence)
 
 **Application to FoodHub**:
 Even if all our tests pass, we cannot guarantee the app is bug-free.
@@ -228,7 +242,7 @@ issues may still exist in less-tested areas.
 
 ---
 
-### 2. Exhaustive Testing is Impossible
+## 2. Exhaustive Testing is Impossible
 
 **Application to FoodHub**:
 ...
@@ -248,11 +262,13 @@ Address **all seven principles**:
 
 ## 📝 Part 5: Risk Analysis & Test Prioritization (10 points)
 
+**File**: `part5-risk-analysis.md` (minimum 6 risks)
+
 Create a risk matrix and prioritize testing efforts.
 
 ### 5.1 Risk Matrix
 
-Identify at least 6 risks and classify them:
+Identify at least 6 risks and classify them using a markdown table:
 
 | **Risk**                   | **Likelihood** | **Impact** | **Priority** | **Mitigation Strategy**                            |
 | -------------------------- | -------------- | ---------- | ------------ | -------------------------------------------------- |
@@ -277,37 +293,96 @@ Based on your risk analysis, list testing activities in priority order:
 
 ## 📤 Submission Requirements
 
-Submit a **single PDF document** containing all five parts. Use clear headings, formatting, and structure.
+**To receive automated grading and credit**, you must submit your work in this course repository.
 
-### Document Structure:
+### Submission Structure
 
+Create your submission directory in the course repository:
+
+```bash
+students/<your-github-username>/homework-2/
 ```
-1. Cover Page
-   - Assignment title
-   - Your name
-   - Date
-   - Application name
 
-2. Part 1: Application Selection & Analysis
-3. Part 2: Testing Types Classification
-4. Part 3: Testing Levels Strategy
-5. Part 4: Testing Principles Application
-6. Part 5: Risk Analysis & Test Prioritization
+### Required Files
 
-7. Conclusion (Optional)
-   - Summary of your testing strategy
-   - Key insights learned
+Submit **5 markdown files** (one for each part) plus a README:
 
-8. References (if any)
-```
+1. **README.md** - Brief overview of your submission
+
+   ```markdown
+   # Homework 2: Testing Concepts Analysis
+
+   **Student**: [Your Name]
+   **Application**: [Application Name]
+   **Date**: [Submission Date]
+
+   ## Summary
+
+   Brief 2-3 sentence summary of your testing strategy for the chosen application.
+   ```
+
+2. **part1-application-analysis.md** - Application Selection & Analysis
+
+   - Minimum 300 words
+   - Include all sections from Part 1
+
+3. **part2-testing-types.md** - Testing Types Classification
+
+   - At least 8 test types
+   - Each type should have a heading: `## Test Type: [Name]`
+
+4. **part3-testing-levels.md** - Testing Levels Strategy
+
+   - All 4 testing levels (Unit, Integration, System, Acceptance)
+   - Each level should have a heading: `## Unit Testing`, `## Integration Testing`, etc.
+
+5. **part4-testing-principles.md** - Testing Principles Application
+
+   - All 7 testing principles
+   - Each principle should have a numbered heading: `## 1. Testing Shows Presence of Defects`, etc.
+
+6. **part5-risk-analysis.md** - Risk Analysis & Test Prioritization
+   - Risk matrix table with at least 6 risks
+   - Testing priority order
+
+### Submission Process
+
+1. **Create your branch**:
+
+   ```bash
+   git checkout -b feat/<your-username>/homework-2
+   ```
+
+2. **Create your directory**:
+
+   ```bash
+   mkdir -p students/<your-username>/homework-2
+   cd students/<your-username>/homework-2
+   ```
+
+3. **Create all required files** in this directory
+
+4. **Commit your work**:
+
+   ```bash
+   git add .
+   git commit -m "feat: complete homework 2 - testing concepts analysis"
+   git push -u origin feat/<your-username>/homework-2
+   ```
+
+5. **Create a Pull Request**:
+   - Title: `Homework 2: Testing Concepts Analysis - <Your Name>`
+   - Base branch: `main`
+   - **Add the `homework` label** to your PR
+   - Fill out the PR description using the template
 
 **Formatting Guidelines**:
 
-- Use headings and subheadings
-- Include tables where appropriate
+- Use markdown headers (`##`, `###`) for structure
+- Include tables where appropriate (use markdown table syntax)
 - Use bullet points for lists
-- Page limit: 8-12 pages (excluding cover page)
-- Font: 11-12pt, readable font (Arial, Calibri, Times New Roman)
+- Code blocks for examples (use \`\`\` fences)
+- Clear, readable formatting
 
 ---
 
@@ -388,16 +463,17 @@ Submit a **single PDF document** containing all five parts. Use clear headings, 
 
 Before submitting, verify:
 
-- [ ] All 5 parts are complete
-- [ ] Document is in PDF format
-- [ ] Cover page includes all required information
-- [ ] At least 8 testing types described
-- [ ] All 4 testing levels covered
-- [ ] All 7 principles applied
-- [ ] Risk matrix is complete with at least 6 risks
-- [ ] Document is well-formatted and proofread
-- [ ] Page count is within limits (8-12 pages)
-- [ ] File name format: `HW2_[YourLastName]_[YourFirstName].pdf`
+- [ ] All required files are in `students/<your-username>/homework-2/`
+- [ ] README.md is present with basic information
+- [ ] part1-application-analysis.md has 300+ words
+- [ ] part2-testing-types.md has at least 8 test types with proper headings
+- [ ] part3-testing-levels.md covers all 4 testing levels with proper headings
+- [ ] part4-testing-principles.md covers all 7 principles with numbered headings
+- [ ] part5-risk-analysis.md has risk matrix with at least 6 risks
+- [ ] All files are well-formatted markdown and proofread
+- [ ] Created a pull request in the course repository
+- [ ] Added the `homework` label to your PR
+- [ ] All files are committed and pushed to your branch
 
 ---
 
