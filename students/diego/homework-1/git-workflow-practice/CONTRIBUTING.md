@@ -1,0 +1,3 @@
+# Contribución
+
+Mi flujo de trabajo fue sencillo: primero hice la rama `feature/estructura-inicial`, la cual usé para crear la estructura básica del proyecto y archivos vacíos para guiarme, técnica que me sirve mucho con mi equipo para saber guiar el proyecto. Después hice `feature/añadir-estilo` para añadir el CSS, `feature/añadir-contenido` para añadir el contenido de los archivos Handlebars (que sirven como HTML, pero que se pueden reutilizar en ciertas partes) y `docs/añadir-documentación` para el tema de la documentación. Usé `feat` para nuevos archivos o para rellenar los vacíos, `fix` para corregir errores, `style` para trabajar el CSS y `chore` para agregar contenido nuevo que no fue necesariamente un error.
