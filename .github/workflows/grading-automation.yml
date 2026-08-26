@@ -71,13 +71,41 @@ jobs:
 
           echo "Grading Assignment: $ASSIGNMENT for Student: $STUDENT"
 
+      - name: Navigate to student directory
+        run: |
+          STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
+          if [ -d "$STUDENT_DIR" ]; then
+            cd "$STUDENT_DIR"
+            echo "Working directory: $(pwd)"
+            echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
+          else
+            echo "Warning: Student directory not found: $STUDENT_DIR"
+            echo "STUDENT_DIR=." >> $GITHUB_ENV
+          fi
+
       - name: Run Python tests and collect results
         id: python-tests
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+
           set +e  # Don't fail on test failures
 
+          # Determine coverage source (prefer src/ to exclude test files from coverage)
+          if [ -d "src" ]; then
+            COV_SOURCE="src"
+          elif [ -d "lib" ]; then
+            COV_SOURCE="lib"
+          elif [ -d "app" ]; then
+            COV_SOURCE="app"
+          else
+            COV_SOURCE="."
+          fi
+
           # Run tests with detailed output
-          pytest -v --tb=short --junitxml=python-results.xml --cov=. --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
           # Extract metrics
@@ -96,6 +124,11 @@ jobs:
       - name: Run JavaScript tests and collect results
         id: js-tests
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+
           set +e
 
           # Run tests with coverage
@@ -116,6 +149,11 @@ jobs:
       - name: Check code quality
         id: code-quality
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+
           set +e
 
           # Python linting
@@ -133,31 +171,193 @@ jobs:
       - name: Check required files
         id: required-files
         run: |
+          # Navigate to student directory
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+            echo "Checking files in: $(pwd)"
+          fi
+
           SCORE=0
           MAX_SCORE=10
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
 
-          # Check for README
+          # Check for README (always required)
           if [ -f "README.md" ]; then
-            SCORE=$((SCORE + 3))
-            echo "✅ README.md found (+3)"
+            # For Homework 2 & 3, README is worth 1 point; for others, 2 points
+            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ README.md found (+1)"
+            else
+              SCORE=$((SCORE + 2))
+              echo "✅ README.md found (+2)"
+            fi
           else
             echo "❌ README.md missing"
           fi
 
-          # Check for tests
-          if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
-            SCORE=$((SCORE + 4))
-            echo "✅ Test files found (+4)"
-          else
-            echo "❌ No test files found"
-          fi
+          # Assignment-specific checks
+          if [ "$ASSIGNMENT" = "2" ]; then
+            # Homework 2: Theoretical analysis - check for 5 parts with content validation
+            echo "Checking Homework 2 structure (theoretical analysis with content validation)..."
 
-          # Check for proper structure
-          if [ -d "src" ] || [ -d "tests" ]; then
-            SCORE=$((SCORE + 3))
-            echo "✅ Proper structure (+3)"
+            # Part 1: Application Analysis (2 points, requires 300+ words)
+            if [ -f "part1-application-analysis.md" ]; then
+              WORD_COUNT=$(wc -w < "part1-application-analysis.md")
+              if [ $WORD_COUNT -ge 300 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 1 found with adequate content: $WORD_COUNT words (+2)"
+              else
+                PART1_SCORE=$(awk "BEGIN {printf \"%.1f\", ($WORD_COUNT / 300.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART1_SCORE}")
+                echo "⚠️  Part 1 found but too brief: $WORD_COUNT/300 words (+$PART1_SCORE)"
+              fi
+            else
+              echo "❌ Part 1 missing"
+            fi
+
+            # Part 2: Testing Types (2 points, requires 8+ test types)
+            if [ -f "part2-testing-types.md" ]; then
+              TEST_TYPES=$(grep -c "## Test Type:" "part2-testing-types.md" || echo "0")
+              if [ $TEST_TYPES -ge 8 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 2 found with adequate content: $TEST_TYPES test types (+2)"
+              else
+                PART2_SCORE=$(awk "BEGIN {printf \"%.1f\", ($TEST_TYPES / 8.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART2_SCORE}")
+                echo "⚠️  Part 2 found but incomplete: $TEST_TYPES/8 test types (+$PART2_SCORE)"
+              fi
+            else
+              echo "❌ Part 2 missing"
+            fi
+
+            # Part 3: Testing Levels (2 points, requires 4 levels)
+            if [ -f "part3-testing-levels.md" ]; then
+              LEVELS=$(grep -c "^## [A-Z]" "part3-testing-levels.md" || echo "0")
+              if [ $LEVELS -ge 4 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 3 found with adequate content: $LEVELS testing levels (+2)"
+              else
+                PART3_SCORE=$(awk "BEGIN {printf \"%.1f\", ($LEVELS / 4.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART3_SCORE}")
+                echo "⚠️  Part 3 found but incomplete: $LEVELS/4 testing levels (+$PART3_SCORE)"
+              fi
+            else
+              echo "❌ Part 3 missing"
+            fi
+
+            # Part 4: Testing Principles (2 points, requires 7 principles)
+            if [ -f "part4-testing-principles.md" ]; then
+              PRINCIPLES=$(grep -c "^## [0-9]" "part4-testing-principles.md" || echo "0")
+              if [ $PRINCIPLES -ge 7 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Part 4 found with adequate content: $PRINCIPLES principles (+2)"
+              else
+                PART4_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PRINCIPLES / 7.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART4_SCORE}")
+                echo "⚠️  Part 4 found but incomplete: $PRINCIPLES/7 principles (+$PART4_SCORE)"
+              fi
+            else
+              echo "❌ Part 4 missing"
+            fi
+
+            # Part 5: Risk Analysis (1 point, requires 6+ risks in table)
+            if [ -f "part5-risk-analysis.md" ]; then
+              RISKS=$(grep -c "^|.*|.*|.*|.*|" "part5-risk-analysis.md" || echo "0")
+              # Subtract 2 for header rows
+              RISKS=$((RISKS > 2 ? RISKS - 2 : 0))
+              if [ $RISKS -ge 6 ]; then
+                SCORE=$((SCORE + 1))
+                echo "✅ Part 5 found with adequate content: $RISKS risks (+1)"
+              else
+                PART5_SCORE=$(awk "BEGIN {printf \"%.1f\", ($RISKS / 6.0) * 1}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PART5_SCORE}")
+                echo "⚠️  Part 5 found but incomplete: $RISKS/6 risks (+$PART5_SCORE)"
+              fi
+            else
+              echo "❌ Part 5 missing"
+            fi
+          elif [ "$ASSIGNMENT" = "3" ]; then
+            # Homework 3: Static testing setup - check for specific requirements
+            echo "Checking Homework 3 structure (static testing setup with content validation)..."
+
+            # Pre-commit config (2 points, requires 5+ hooks)
+            if [ -f ".pre-commit-config.yaml" ]; then
+              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" || echo "0")
+              if [ $HOOKS -ge 5 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+2)"
+              else
+                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PRECOMMIT_SCORE}")
+                echo "⚠️  Pre-commit config found but incomplete: $HOOKS/5 hooks (+$PRECOMMIT_SCORE)"
+              fi
+            else
+              echo "❌ Pre-commit config missing"
+            fi
+
+            # Number of Python source files (2 points, requires 3+ files excluding tests)
+            PY_FILES=$(find src -name "*.py" 2>/dev/null | grep -v "__pycache__" | wc -l || echo "0")
+            if [ $PY_FILES -ge 3 ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ Sufficient Python files: $PY_FILES files (+2)"
+            else
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PY_FILES / 3.0) * 2}")
+              SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
+              echo "⚠️  Insufficient Python files: $PY_FILES/3 files (+$FILES_SCORE)"
+            fi
+
+            # Lines of code (2 points, requires 100+ lines in src/)
+            if [ -d "src" ]; then
+              LOC=$(find src -name "*.py" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+              if [ "$LOC" -ge 100 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Sufficient code: $LOC lines (+2)"
+              else
+                LOC_SCORE=$(awk "BEGIN {printf \"%.1f\", ($LOC / 100.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $LOC_SCORE}")
+                echo "⚠️  Insufficient code: $LOC/100 lines (+$LOC_SCORE)"
+              fi
+            else
+              echo "❌ No src/ directory found"
+            fi
+
+            # Report (2 points, requires 500+ words)
+            if [ -f "REPORT.md" ]; then
+              REPORT_WORDS=$(wc -w < "REPORT.md")
+              if [ $REPORT_WORDS -ge 500 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Report found with adequate content: $REPORT_WORDS words (+2)"
+              else
+                REPORT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($REPORT_WORDS / 500.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $REPORT_SCORE}")
+                echo "⚠️  Report found but too brief: $REPORT_WORDS/500 words (+$REPORT_SCORE)"
+              fi
+            else
+              echo "❌ Report missing"
+            fi
+
+            # Tests present (1 point)
+            if ls test_*.py 1> /dev/null 2>&1 || ls *_test.py 1> /dev/null 2>&1; then
+              SCORE=$((SCORE + 1))
+              echo "✅ Test files found (+1)"
+            else
+              echo "❌ No test files found"
+            fi
           else
-            echo "⚠️  No standard structure"
+            # Code-based homework: check for tests and structure
+            if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
+              SCORE=$((SCORE + 4))
+              echo "✅ Test files found (+4)"
+            else
+              echo "❌ No test files found"
+            fi
+
+            if [ -d "src" ] || [ -d "tests" ]; then
+              SCORE=$((SCORE + 4))
+              echo "✅ Proper structure (+4)"
+            else
+              echo "⚠️  No standard structure"
+            fi
           fi
 
           echo "score=$SCORE" >> $GITHUB_OUTPUT
@@ -166,15 +366,22 @@ jobs:
       - name: Calculate final grade
         id: calculate-grade
         run: |
-          # Define weights (adjusted for Homework 1 - Git workflow assignment)
+          # Define weights based on assignment type
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
-          if [ "$ASSIGNMENT" = "1" ]; then
-            # Homework 1: Git workflow - prioritize structure over tests
+          if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
+            # Homework 1 & 2: Non-code assignments - prioritize structure over tests
             TESTS_WEIGHT=10
             COVERAGE_WEIGHT=10
             CODE_QUALITY_WEIGHT=20
             STRUCTURE_WEIGHT=60
-            echo "Homework 1 detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
+            echo "Homework $ASSIGNMENT detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
+          elif [ "$ASSIGNMENT" = "3" ]; then
+            # Homework 3: Static testing setup - balanced with emphasis on structure
+            TESTS_WEIGHT=25
+            COVERAGE_WEIGHT=20
+            CODE_QUALITY_WEIGHT=15
+            STRUCTURE_WEIGHT=40
+            echo "Homework 3 detected - using adjusted weights (Structure: 40%, Tests: 25%, Coverage: 20%, Quality: 15%)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
@@ -206,11 +413,11 @@ jobs:
           COVERAGE=${{ steps.python-tests.outputs.coverage || '0' }}
           COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
 
-          # Special case: Homework 1 is about Git workflow, not code tests
+          # Special case: Homework 1 & 2 are not code-based assignments
           # Give full credit for tests and coverage
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
-          if [ "$ASSIGNMENT" = "1" ]; then
-            echo "Homework 1 detected - giving full credit for tests and coverage (Git workflow assignment)"
+          if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
+            echo "Homework $ASSIGNMENT detected - giving full credit for tests and coverage (non-code assignment)"
             TEST_SCORE=100
             COVERAGE_SCORE=100
           fi

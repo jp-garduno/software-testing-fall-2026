@@ -35,9 +35,10 @@ You will set up complete static testing infrastructure for a Python or JavaScrip
 
 ### Requirements
 
-- At least 3 Python OR JavaScript files
-- At least 100 lines of code total
+- At least 3 Python OR JavaScript files **in `src/` directory**
+- At least 100 lines of code total (excluding tests)
 - Code should have some intentional issues for linters to find
+- Include test files (`test_*.py` or `*.test.js`)
 
 ---
 
@@ -85,7 +86,7 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-**Deliverable**: Screenshot of pre-commit run output
+**Deliverable**: `.pre-commit-config.yaml` file with 5+ hooks configured
 
 ---
 
@@ -151,9 +152,9 @@ npx prettier --write .
 
 **Deliverables**:
 
-- Configuration files
-- Linting report (before fixes)
-- Screenshot showing issues found
+- Configuration files (`.pylintrc` or `.eslintrc.js`)
+- Source code files with linting applied
+- Optionally: linting report files for reference (not graded)
 
 ---
 
@@ -161,7 +162,7 @@ npx prettier --write .
 
 Fix at least **5 issues** found by linters.
 
-**Document each fix**:
+**Document fixes in your REPORT.md** (Part 6) or as code comments. Example documentation format:
 
 ````markdown
 ### Issue 1
@@ -181,9 +182,7 @@ Fix at least **5 issues** found by linters.
   # code after
   ```
 
-```
-
-**Deliverable**: Document with 5+ fixes
+**Deliverable**: Fixed code with issues resolved, documented in REPORT.md
 
 ---
 
@@ -191,18 +190,21 @@ Fix at least **5 issues** found by linters.
 
 Commit all changes using conventional commits format.
 
-**Required commits**:
+**Required commits** (at least 5 total):
+
 1. Initial project setup
 2. Add pre-commit configuration
 3. Add linting configuration
 4. Fix linting issues (multiple commits, one per fix or group)
 5. Update documentation
 
-**Deliverable**: Screenshot of `git log --oneline` showing conventional commits
+**Deliverable**: Git history with conventional commits (verified automatically by grading system)
 
 ---
 
 ## 📝 Part 6: Analysis Report (15 points)
+
+**File**: `REPORT.md` (minimum 500 words, markdown format)
 
 Write a report (500-700 words) covering:
 
@@ -229,56 +231,133 @@ Write a report (500-700 words) covering:
 - What would you change about the configuration?
 - Would you use this in future projects? Why?
 
-**Deliverable**: PDF report
+**Deliverable**: `REPORT.md` file (markdown format, 500+ words)
 
 ---
 
 ## 📤 Submission Requirements
 
-### GitHub Repository
+**To receive automated grading and credit**, you must submit your work in this course repository.
 
-Your repository must include:
+### Submission Structure
 
+Create your submission directory in the course repository:
+
+```bash
+students/<your-github-username>/homework-3/
 ```
 
-your-project/
-├── .pre-commit-config.yaml
-├── .pylintrc or eslint.config.js
-├── .prettierrc (if JavaScript)
-├── src/ (your code files)
-├── README.md (updated with setup instructions)
-├── reports/
-│ ├── pylint-report.txt or eslint-report.txt
-│ ├── issues-fixed.md
-│ └── analysis-report.pdf
-└── screenshots/
-├── pre-commit-output.png
-├── git-log.png
-└── linting-issues.png
+### Required Files
 
+Your submission directory must include:
+
+**README.md Template**:
+
+```markdown
+# Homework 3: Static Testing Setup
+
+**Student**: [Your Name]
+**Project**: [Project Name]
+**Language**: Python/JavaScript
+
+## Description
+
+Brief description of your project (2-3 sentences)
+
+## Setup Instructions
+
+1. Install dependencies
+2. Install pre-commit hooks
+3. Run the project
+
+## Pre-commit Hooks Configured
+
+- List your configured hooks
+
+## Testing
+
+Instructions to run tests
 ```
 
-### Canvas Submission
+**Directory Structure**:
 
-Submit:
-1. **GitHub repository URL**
-2. **Analysis report** (PDF)
-3. **Reflection** (200-300 words): What did you learn about static testing?
+```
+students/<your-username>/homework-3/
+├── README.md                      # Project overview and setup instructions
+├── .pre-commit-config.yaml        # Pre-commit configuration (5+ hooks required)
+├── .pylintrc or .eslintrc.js      # Linter configuration
+├── .prettierrc                    # Prettier config (if JavaScript)
+├── requirements.txt               # Python dependencies (if Python)
+├── package.json                   # Node dependencies (if JavaScript)
+├── src/                           # Source code directory
+│   ├── *.py or *.js              # At least 3 files, 100+ lines total
+│   └── ...
+├── test_*.py or *.test.js         # Test files
+└── REPORT.md                      # Analysis report (500+ words, markdown format)
+```
+
+**Important**:
+
+- **REPORT.md** must be in markdown format (not PDF), minimum 500 words
+- Source files must be in `src/` directory
+- At least 3 source files required
+- At least 100 lines of code total in `src/`
+- Pre-commit config must have 5+ hooks
+
+### Submission Process
+
+1. **Create your branch**:
+
+   ```bash
+   git checkout -b feat/<your-username>/homework-3
+   ```
+
+2. **Create your directory**:
+
+   ```bash
+   mkdir -p students/<your-username>/homework-3
+   cd students/<your-username>/homework-3
+   ```
+
+3. **Complete all work in this directory**
+
+4. **Commit with conventional commits** (at least 5 commits required):
+
+   ```bash
+   git add .
+   git commit -m "feat: add initial project setup"
+   git commit -m "chore: configure pre-commit hooks"
+   git commit -m "chore: configure linting tools"
+   git commit -m "fix: resolve linting issues"
+   git commit -m "docs: add analysis report"
+   ```
+
+5. **Push your branch**:
+
+   ```bash
+   git push -u origin feat/<your-username>/homework-3
+   ```
+
+6. **Create a Pull Request**:
+   - Title: `Homework 3: Static Testing Setup - <Your Name>`
+   - Base branch: `main`
+   - **Add the `homework` label** to your PR
+   - Fill out the PR description using the template
 
 ---
 
 ## 🎯 Grading Rubric
 
-| **Category** | **Points** | **Criteria** |
-|--------------|------------|--------------|
-| **Project Setup** | 15 | Project with sufficient code, runs successfully |
-| **Pre-commit Config** | 25 | Correct configuration, hooks installed and work |
-| **Linting Config** | 30 | Proper configuration, reports generated |
-| **Issue Fixes** | 15 | At least 5 issues documented and fixed |
-| **Conventional Commits** | 10 | All commits follow format, meaningful messages |
-| **Analysis Report** | 15 | Complete analysis, thoughtful insights |
-| **Documentation** | 5 | Clear README, well-organized |
-| **Total** | **110** | (10 bonus points available) |
+| **Category**             | **Points** | **Criteria**                                    |
+| ------------------------ | ---------- | ----------------------------------------------- |
+| **Project Setup**        | 15         | Project with sufficient code, runs successfully |
+| **Pre-commit Config**    | 25         | Correct configuration, hooks installed and work |
+| **Linting Config**       | 30         | Proper configuration, reports generated         |
+| **Issue Fixes**          | 15         | At least 5 issues documented and fixed          |
+| **Conventional Commits** | 10         | All commits follow format, meaningful messages  |
+| **Analysis Report**      | 15         | Complete analysis, thoughtful insights          |
+| **Documentation**        | 5          | Clear README, well-organized                    |
+| **Total**                | **110**    | (10 bonus points available)                     |
 
 ### Bonus Points
 
@@ -333,17 +412,25 @@ Submit:
 ## ✅ Submission Checklist
 
 Before submitting:
-- [ ] All files committed with conventional commits
-- [ ] Pre-commit hooks work (test with a commit)
-- [ ] Linting configuration is valid
-- [ ] At least 5 issues documented and fixed
-- [ ] All required screenshots taken
-- [ ] Analysis report written (500-700 words)
-- [ ] README updated with setup instructions
-- [ ] Repository is public and accessible
-- [ ] GitHub URL submitted to Canvas
+
+- [ ] All files are in `students/<your-username>/homework-3/`
+- [ ] At least 5 commits with conventional commit messages
+- [ ] Pre-commit config has 5+ hooks and works (test with a commit)
+- [ ] At least 3 source files in `src/` directory
+- [ ] At least 100 lines of code total in `src/`
+- [ ] Test files present (test\__.py or _.test.js)
+- [ ] Linting configuration is valid (.pylintrc or .eslintrc.js)
+- [ ] REPORT.md written (500+ words in markdown format)
+- [ ] README.md includes project overview and setup instructions
+- [ ] requirements.txt or package.json present with dependencies
+- [ ] Created a pull request in the course repository
+- [ ] Added the `homework` label to your PR
+- [ ] All files are committed and pushed to your branch
 
 ---
 
 **Good luck!** This homework sets up habits that will make you a better developer! 🚀
+
+```
+
 ```
