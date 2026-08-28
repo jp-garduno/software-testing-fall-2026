@@ -63,8 +63,30 @@ jobs:
           # Try to extract homework/exam number
           ASSIGNMENT=$(echo "$PR_TITLE $BRANCH" | grep -oP '(homework|hw|exam|project)-?\K\d+' | head -1 || echo "unknown")
 
-          # Try to extract student name from branch or PR
-          STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "unknown")
+          # Try multiple patterns to extract student name from branch
+          STUDENT=""
+
+          # Pattern 1: students/username/homework-X
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP 'students/\K[^/]+(?=/homework)' | head -1 || echo "")
+          fi
+
+          # Pattern 2: homework-X-username or hw-X-username
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "")
+          fi
+
+          # Pattern 3: feat/username/homework-X
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP 'feat/\K[^/]+(?=/homework)' | head -1 || echo "")
+          fi
+
+          # Fallback: try to extract from changed files
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(git diff --name-only origin/main | grep -oP 'students/\K[^/]+' | head -1 || echo "unknown")
+          fi
+
+          [ -z "$STUDENT" ] && STUDENT="unknown"
 
           echo "assignment=$ASSIGNMENT" >> $GITHUB_OUTPUT
           echo "student_name=$STUDENT" >> $GITHUB_OUTPUT
@@ -76,10 +98,24 @@ jobs:
           STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
           if [ -d "$STUDENT_DIR" ]; then
             cd "$STUDENT_DIR"
-            echo "Working directory: $(pwd)"
+
+            # Check if files are in a subdirectory (common mistake)
+            # Look for subdirectories that might contain the actual submission
+            SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
+            FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
+
+            # If there's exactly one subdirectory and no files at this level, navigate into it
+            if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
+              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
+              echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
+              cd "$SUBDIR_NAME"
+              STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
+            fi
+
+            echo "✅ Working directory: $(pwd)"
             echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
           else
-            echo "Warning: Student directory not found: $STUDENT_DIR"
+            echo "❌ Warning: Student directory not found: $STUDENT_DIR"
             echo "STUDENT_DIR=." >> $GITHUB_ENV
           fi
 
