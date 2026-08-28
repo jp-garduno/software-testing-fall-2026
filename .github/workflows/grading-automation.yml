@@ -63,8 +63,30 @@ jobs:
           # Try to extract homework/exam number
           ASSIGNMENT=$(echo "$PR_TITLE $BRANCH" | grep -oP '(homework|hw|exam|project)-?\K\d+' | head -1 || echo "unknown")
 
-          # Try to extract student name from branch or PR
-          STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "unknown")
+          # Try multiple patterns to extract student name from branch
+          STUDENT=""
+
+          # Pattern 1: students/username/homework-X
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP 'students/\K[^/]+(?=/homework)' | head -1 || echo "")
+          fi
+
+          # Pattern 2: homework-X-username or hw-X-username
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "")
+          fi
+
+          # Pattern 3: feat/username/homework-X
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP 'feat/\K[^/]+(?=/homework)' | head -1 || echo "")
+          fi
+
+          # Fallback: try to extract from changed files
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(git diff --name-only origin/main | grep -oP 'students/\K[^/]+' | head -1 || echo "unknown")
+          fi
+
+          [ -z "$STUDENT" ] && STUDENT="unknown"
 
           echo "assignment=$ASSIGNMENT" >> $GITHUB_OUTPUT
           echo "student_name=$STUDENT" >> $GITHUB_OUTPUT
@@ -74,12 +96,47 @@ jobs:
       - name: Navigate to student directory
         run: |
           STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+
+          # If directory doesn't exist, try to find it from changed files
+          if [ ! -d "$STUDENT_DIR" ]; then
+            echo "⚠️  Expected directory not found: $STUDENT_DIR"
+            echo "🔍 Searching for actual student directory from changed files..."
+
+            # Find all homework directories for this assignment from changed files
+            FOUND_DIR=$(git diff --name-only origin/main | grep -oP "students/[^/]+/homework-$ASSIGNMENT" | sort -u | head -1)
+
+            if [ -n "$FOUND_DIR" ] && [ -d "$FOUND_DIR" ]; then
+              STUDENT_DIR="$FOUND_DIR"
+              ACTUAL_STUDENT=$(echo "$STUDENT_DIR" | grep -oP 'students/\K[^/]+')
+              echo "✅ Found actual directory: $STUDENT_DIR (student: $ACTUAL_STUDENT)"
+            else
+              echo "❌ Could not find student homework directory"
+              echo "STUDENT_DIR=." >> $GITHUB_ENV
+              exit 0
+            fi
+          fi
+
           if [ -d "$STUDENT_DIR" ]; then
             cd "$STUDENT_DIR"
-            echo "Working directory: $(pwd)"
+
+            # Check if files are in a subdirectory (common mistake)
+            # Look for subdirectories that might contain the actual submission
+            SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
+            FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
+
+            # If there's exactly one subdirectory and no files at this level, navigate into it
+            if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
+              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
+              echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
+              cd "$SUBDIR_NAME"
+              STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
+            fi
+
+            echo "✅ Working directory: $(pwd)"
             echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
           else
-            echo "Warning: Student directory not found: $STUDENT_DIR"
+            echo "❌ Warning: Student directory not found: $STUDENT_DIR"
             echo "STUDENT_DIR=." >> $GITHUB_ENV
           fi
 
@@ -93,8 +150,19 @@ jobs:
 
           set +e  # Don't fail on test failures
 
+          # Determine coverage source (prefer src/ to exclude test files from coverage)
+          if [ -d "src" ]; then
+            COV_SOURCE="src"
+          elif [ -d "lib" ]; then
+            COV_SOURCE="lib"
+          elif [ -d "app" ]; then
+            COV_SOURCE="app"
+          else
+            COV_SOURCE="."
+          fi
+
           # Run tests with detailed output
-          pytest -v --tb=short --junitxml=python-results.xml --cov=. --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
           # Extract metrics
@@ -172,8 +240,8 @@ jobs:
 
           # Check for README (always required)
           if [ -f "README.md" ]; then
-            # For Homework 2, README is worth 1 point; for others, 2 points
-            if [ "$ASSIGNMENT" = "2" ]; then
+            # For Homework 2 & 3, README is worth 1 point; for others, 2 points
+            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ]; then
               SCORE=$((SCORE + 1))
               echo "✅ README.md found (+1)"
             else
@@ -265,6 +333,73 @@ jobs:
             else
               echo "❌ Part 5 missing"
             fi
+          elif [ "$ASSIGNMENT" = "3" ]; then
+            # Homework 3: Static testing setup - check for specific requirements
+            echo "Checking Homework 3 structure (static testing setup with content validation)..."
+
+            # Pre-commit config (2 points, requires 5+ hooks)
+            if [ -f ".pre-commit-config.yaml" ]; then
+              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" || echo "0")
+              if [ $HOOKS -ge 5 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+2)"
+              else
+                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PRECOMMIT_SCORE}")
+                echo "⚠️  Pre-commit config found but incomplete: $HOOKS/5 hooks (+$PRECOMMIT_SCORE)"
+              fi
+            else
+              echo "❌ Pre-commit config missing"
+            fi
+
+            # Number of Python source files (2 points, requires 3+ files excluding tests)
+            PY_FILES=$(find src -name "*.py" 2>/dev/null | grep -v "__pycache__" | wc -l || echo "0")
+            if [ $PY_FILES -ge 3 ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ Sufficient Python files: $PY_FILES files (+2)"
+            else
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PY_FILES / 3.0) * 2}")
+              SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
+              echo "⚠️  Insufficient Python files: $PY_FILES/3 files (+$FILES_SCORE)"
+            fi
+
+            # Lines of code (2 points, requires 100+ lines in src/)
+            if [ -d "src" ]; then
+              LOC=$(find src -name "*.py" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+              if [ "$LOC" -ge 100 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Sufficient code: $LOC lines (+2)"
+              else
+                LOC_SCORE=$(awk "BEGIN {printf \"%.1f\", ($LOC / 100.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $LOC_SCORE}")
+                echo "⚠️  Insufficient code: $LOC/100 lines (+$LOC_SCORE)"
+              fi
+            else
+              echo "❌ No src/ directory found"
+            fi
+
+            # Report (2 points, requires 500+ words)
+            if [ -f "REPORT.md" ]; then
+              REPORT_WORDS=$(wc -w < "REPORT.md")
+              if [ $REPORT_WORDS -ge 500 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ Report found with adequate content: $REPORT_WORDS words (+2)"
+              else
+                REPORT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($REPORT_WORDS / 500.0) * 2}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $REPORT_SCORE}")
+                echo "⚠️  Report found but too brief: $REPORT_WORDS/500 words (+$REPORT_SCORE)"
+              fi
+            else
+              echo "❌ Report missing"
+            fi
+
+            # Tests present (1 point)
+            if ls test_*.py 1> /dev/null 2>&1 || ls *_test.py 1> /dev/null 2>&1; then
+              SCORE=$((SCORE + 1))
+              echo "✅ Test files found (+1)"
+            else
+              echo "❌ No test files found"
+            fi
           else
             # Code-based homework: check for tests and structure
             if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
@@ -297,6 +432,13 @@ jobs:
             CODE_QUALITY_WEIGHT=20
             STRUCTURE_WEIGHT=60
             echo "Homework $ASSIGNMENT detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
+          elif [ "$ASSIGNMENT" = "3" ]; then
+            # Homework 3: Static testing setup - balanced with emphasis on structure
+            TESTS_WEIGHT=25
+            COVERAGE_WEIGHT=20
+            CODE_QUALITY_WEIGHT=15
+            STRUCTURE_WEIGHT=40
+            echo "Homework 3 detected - using adjusted weights (Structure: 40%, Tests: 25%, Coverage: 20%, Quality: 15%)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
