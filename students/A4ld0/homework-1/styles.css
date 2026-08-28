@@ -75,3 +75,21 @@ footer {
   background-color: #1f2933;
   color: white;
 }
+
+@media (max-width: 600px) {
+  header {
+    padding: 1.5rem 1rem;
+  }
+
+  nav {
+    gap: 0.75rem;
+  }
+
+  section {
+    padding: 1rem;
+  }
+
+  article {
+    padding: 0.75rem;
+  }
+}
