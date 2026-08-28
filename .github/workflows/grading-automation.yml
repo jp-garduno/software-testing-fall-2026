@@ -117,13 +117,13 @@ jobs:
           STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
 
-          # If directory doesn't exist, try to find it from changed files
+          # If directory doesn't exist, try to find it by searching students directory
           if [ ! -d "$STUDENT_DIR" ]; then
             echo "⚠️  Expected directory not found: $STUDENT_DIR"
-            echo "🔍 Searching for actual student directory from changed files..."
+            echo "🔍 Searching for actual student directory in students/*/homework-$ASSIGNMENT..."
 
-            # Find all homework directories for this assignment from changed files
-            FOUND_DIR=$(git diff --name-only origin/main | grep -oP "students/[^/]+/homework-$ASSIGNMENT" | sort -u | head -1)
+            # Find all homework directories for this assignment
+            FOUND_DIR=$(find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1)
 
             if [ -n "$FOUND_DIR" ] && [ -d "$FOUND_DIR" ]; then
               STUDENT_DIR="$FOUND_DIR"
@@ -272,7 +272,44 @@ jobs:
           fi
 
           # Assignment-specific checks
-          if [ "$ASSIGNMENT" = "2" ]; then
+          if [ "$ASSIGNMENT" = "1" ]; then
+            # Homework 1: Git workflow practice - check for workflow documentation
+            echo "Checking Homework 1 structure (Git workflow practice)..."
+
+            # REFLECTION.md (3 points, requires 200+ words)
+            if [ -f "REFLECTION.md" ]; then
+              WORD_COUNT=$(wc -w < "REFLECTION.md")
+              if [ $WORD_COUNT -ge 200 ]; then
+                SCORE=$((SCORE + 3))
+                echo "✅ REFLECTION.md found with adequate content: $WORD_COUNT words (+3)"
+              else
+                REFLECTION_SCORE=$(awk "BEGIN {printf \"%.1f\", ($WORD_COUNT / 200.0) * 3}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $REFLECTION_SCORE}")
+                echo "⚠️  REFLECTION.md found but too brief: $WORD_COUNT/200 words (+$REFLECTION_SCORE)"
+              fi
+            else
+              echo "❌ REFLECTION.md missing"
+            fi
+
+            # .gitignore (2 points)
+            if [ -f ".gitignore" ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ .gitignore found (+2)"
+            else
+              echo "❌ .gitignore missing"
+            fi
+
+            # Project files (3 points, requires at least 5 files)
+            FILE_COUNT=$(find . -maxdepth 3 -type f ! -path "*/.*" ! -name ".*" | wc -l)
+            if [ $FILE_COUNT -ge 5 ]; then
+              SCORE=$((SCORE + 3))
+              echo "✅ Sufficient project files: $FILE_COUNT files (+3)"
+            else
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($FILE_COUNT / 5.0) * 3}")
+              SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
+              echo "⚠️  Insufficient project files: $FILE_COUNT/5 files (+$FILES_SCORE)"
+            fi
+          elif [ "$ASSIGNMENT" = "2" ]; then
             # Homework 2: Theoretical analysis - check for 5 parts with content validation
             echo "Checking Homework 2 structure (theoretical analysis with content validation)..."
 
@@ -501,7 +538,13 @@ jobs:
           # Code quality score (simplified)
           PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score || '0' }}
           ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors || '0' }}
-          if [ $ESLINT_ERRORS -gt 10 ]; then
+
+          # Special case: Homework 1 & 2 are not code-based assignments
+          # Give full credit for code quality
+          if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
+            echo "Homework $ASSIGNMENT detected - giving full credit for code quality (non-code assignment)"
+            QUALITY_SCORE=100
+          elif [ $ESLINT_ERRORS -gt 10 ]; then
             QUALITY_SCORE=50
           elif [ $ESLINT_ERRORS -gt 5 ]; then
             QUALITY_SCORE=70
