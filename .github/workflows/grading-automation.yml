@@ -106,16 +106,16 @@ jobs:
 
             # If there's exactly one subdirectory and no files at this level, navigate into it
             if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
-              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*")
+              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
               echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
               cd "$SUBDIR_NAME"
               STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
             fi
 
-            echo "Working directory: $(pwd)"
+            echo "✅ Working directory: $(pwd)"
             echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
           else
-            echo "Warning: Student directory not found: $STUDENT_DIR"
+            echo "❌ Warning: Student directory not found: $STUDENT_DIR"
             echo "STUDENT_DIR=." >> $GITHUB_ENV
           fi
 
