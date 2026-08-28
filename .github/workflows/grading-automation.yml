@@ -117,13 +117,13 @@ jobs:
           STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
 
-          # If directory doesn't exist, try to find it from changed files
+          # If directory doesn't exist, try to find it by searching students directory
           if [ ! -d "$STUDENT_DIR" ]; then
             echo "⚠️  Expected directory not found: $STUDENT_DIR"
-            echo "🔍 Searching for actual student directory from changed files..."
+            echo "🔍 Searching for actual student directory in students/*/homework-$ASSIGNMENT..."
 
-            # Find all homework directories for this assignment from changed files
-            FOUND_DIR=$(git diff --name-only origin/main | grep -oP "students/[^/]+/homework-$ASSIGNMENT" | sort -u | head -1)
+            # Find all homework directories for this assignment
+            FOUND_DIR=$(find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1)
 
             if [ -n "$FOUND_DIR" ] && [ -d "$FOUND_DIR" ]; then
               STUDENT_DIR="$FOUND_DIR"
