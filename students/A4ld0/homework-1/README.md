@@ -6,6 +6,8 @@ A simple personal portfolio website created for Homework 1: Git Workflow Practic
 
 - HTML
 - CSS
+- Python
+- Pytest
 - Git
 - GitHub
 
@@ -18,7 +20,6 @@ For this assignment, I used a feature branch workflow. I created separate branch
 - `feature/initial-structure`
 - `feature/add-styling`
 - `feature/add-content`
-- `docs/update-readme`
 
 ## Commit Message Convention
 
@@ -36,8 +37,16 @@ I used clear commit messages with a type and short description, such as: (Declar
 
    ```bash
    cd students/A4ld0/homework-1
+   ```
+
 3. Open index.html in a web browser.
+
+4. Run the helper tests from this folder with:
+
+   ```bash
+   pytest
+   ```
 
 ## Commit History Summary
 
-This project includes meaningful commits for the initial structure, styling, responsive design, portfolio content, contact link, README documentation, reflection, and project file cleanup.
+This project includes meaningful commits for the initial structure, styling, responsive design, portfolio content, contact link, README documentation, reflection, project file cleanup, and helper tests.
