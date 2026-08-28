@@ -37,3 +37,7 @@ I used clear commit messages with a type and short description, such as: (Declar
    ```bash
    cd students/A4ld0/homework-1
 3. Open index.html in a web browser.
+
+## Commit History Summary
+
+This project includes meaningful commits for the initial structure, styling, responsive design, portfolio content, contact link, README documentation, reflection, and project file cleanup.
