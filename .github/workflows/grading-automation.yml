@@ -31,10 +31,19 @@ jobs:
       assignment: ${{ steps.extract-info.outputs.assignment }}
 
     steps:
+      - name: Get PR info for manual trigger
+        if: github.event_name == 'workflow_dispatch'
+        id: pr-info
+        run: |
+          PR_SHA=$(gh api repos/${{ github.repository }}/pulls/${{ inputs.pr_number }} --jq '.head.sha')
+          echo "sha=$PR_SHA" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ steps.pr-info.outputs.sha || github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -55,16 +64,48 @@ jobs:
 
       - name: Extract submission info
         id: extract-info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Extract student name and assignment from PR title or branch name
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          BRANCH="${{ github.event.pull_request.head.ref }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual trigger - fetch PR info using API
+            PR_INFO=$(gh pr view ${{ inputs.pr_number }} --json title,headRefName)
+            PR_TITLE=$(echo "$PR_INFO" | jq -r '.title')
+            BRANCH=$(echo "$PR_INFO" | jq -r '.headRefName')
+          else
+            # Automatic trigger - use event data
+            PR_TITLE="${{ github.event.pull_request.title }}"
+            BRANCH="${{ github.event.pull_request.head.ref }}"
+          fi
 
           # Try to extract homework/exam number
           ASSIGNMENT=$(echo "$PR_TITLE $BRANCH" | grep -oP '(homework|hw|exam|project)-?\K\d+' | head -1 || echo "unknown")
 
-          # Try to extract student name from branch or PR
-          STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "unknown")
+          # Try multiple patterns to extract student name from branch
+          STUDENT=""
+
+          # Pattern 1: students/username/homework-X
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP 'students/\K[^/]+(?=/homework)' | head -1 || echo "")
+          fi
+
+          # Pattern 2: homework-X-username or hw-X-username
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP '(homework|hw|exam)-\d+-\K[^/]+' | head -1 || echo "")
+          fi
+
+          # Pattern 3: feat/username/homework-X
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(echo "$BRANCH" | grep -oP 'feat/\K[^/]+(?=/homework)' | head -1 || echo "")
+          fi
+
+          # Fallback: try to extract from changed files
+          if [ -z "$STUDENT" ]; then
+            STUDENT=$(git diff --name-only origin/main | grep -oP 'students/\K[^/]+' | head -1 || echo "unknown")
+          fi
+
+          [ -z "$STUDENT" ] && STUDENT="unknown"
 
           echo "assignment=$ASSIGNMENT" >> $GITHUB_OUTPUT
           echo "student_name=$STUDENT" >> $GITHUB_OUTPUT
@@ -74,12 +115,47 @@ jobs:
       - name: Navigate to student directory
         run: |
           STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+
+          # If directory doesn't exist, try to find it by searching students directory
+          if [ ! -d "$STUDENT_DIR" ]; then
+            echo "⚠️  Expected directory not found: $STUDENT_DIR"
+            echo "🔍 Searching for actual student directory in students/*/homework-$ASSIGNMENT..."
+
+            # Find all homework directories for this assignment
+            FOUND_DIR=$(find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1)
+
+            if [ -n "$FOUND_DIR" ] && [ -d "$FOUND_DIR" ]; then
+              STUDENT_DIR="$FOUND_DIR"
+              ACTUAL_STUDENT=$(echo "$STUDENT_DIR" | grep -oP 'students/\K[^/]+')
+              echo "✅ Found actual directory: $STUDENT_DIR (student: $ACTUAL_STUDENT)"
+            else
+              echo "❌ Could not find student homework directory"
+              echo "STUDENT_DIR=." >> $GITHUB_ENV
+              exit 0
+            fi
+          fi
+
           if [ -d "$STUDENT_DIR" ]; then
             cd "$STUDENT_DIR"
-            echo "Working directory: $(pwd)"
+
+            # Check if files are in a subdirectory (common mistake)
+            # Look for subdirectories that might contain the actual submission
+            SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
+            FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
+
+            # If there's exactly one subdirectory and no files at this level, navigate into it
+            if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
+              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
+              echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
+              cd "$SUBDIR_NAME"
+              STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
+            fi
+
+            echo "✅ Working directory: $(pwd)"
             echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
           else
-            echo "Warning: Student directory not found: $STUDENT_DIR"
+            echo "❌ Warning: Student directory not found: $STUDENT_DIR"
             echo "STUDENT_DIR=." >> $GITHUB_ENV
           fi
 
@@ -196,7 +272,44 @@ jobs:
           fi
 
           # Assignment-specific checks
-          if [ "$ASSIGNMENT" = "2" ]; then
+          if [ "$ASSIGNMENT" = "1" ]; then
+            # Homework 1: Git workflow practice - check for workflow documentation
+            echo "Checking Homework 1 structure (Git workflow practice)..."
+
+            # REFLECTION.md (3 points, requires 200+ words)
+            if [ -f "REFLECTION.md" ]; then
+              WORD_COUNT=$(wc -w < "REFLECTION.md")
+              if [ $WORD_COUNT -ge 200 ]; then
+                SCORE=$((SCORE + 3))
+                echo "✅ REFLECTION.md found with adequate content: $WORD_COUNT words (+3)"
+              else
+                REFLECTION_SCORE=$(awk "BEGIN {printf \"%.1f\", ($WORD_COUNT / 200.0) * 3}")
+                SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $REFLECTION_SCORE}")
+                echo "⚠️  REFLECTION.md found but too brief: $WORD_COUNT/200 words (+$REFLECTION_SCORE)"
+              fi
+            else
+              echo "❌ REFLECTION.md missing"
+            fi
+
+            # .gitignore (2 points)
+            if [ -f ".gitignore" ]; then
+              SCORE=$((SCORE + 2))
+              echo "✅ .gitignore found (+2)"
+            else
+              echo "❌ .gitignore missing"
+            fi
+
+            # Project files (3 points, requires at least 5 files)
+            FILE_COUNT=$(find . -maxdepth 3 -type f ! -path "*/.*" ! -name ".*" | wc -l)
+            if [ $FILE_COUNT -ge 5 ]; then
+              SCORE=$((SCORE + 3))
+              echo "✅ Sufficient project files: $FILE_COUNT files (+3)"
+            else
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($FILE_COUNT / 5.0) * 3}")
+              SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
+              echo "⚠️  Insufficient project files: $FILE_COUNT/5 files (+$FILES_SCORE)"
+            fi
+          elif [ "$ASSIGNMENT" = "2" ]; then
             # Homework 2: Theoretical analysis - check for 5 parts with content validation
             echo "Checking Homework 2 structure (theoretical analysis with content validation)..."
 
@@ -425,7 +538,13 @@ jobs:
           # Code quality score (simplified)
           PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score || '0' }}
           ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors || '0' }}
-          if [ $ESLINT_ERRORS -gt 10 ]; then
+
+          # Special case: Homework 1 & 2 are not code-based assignments
+          # Give full credit for code quality
+          if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
+            echo "Homework $ASSIGNMENT detected - giving full credit for code quality (non-code assignment)"
+            QUALITY_SCORE=100
+          elif [ $ESLINT_ERRORS -gt 10 ]; then
             QUALITY_SCORE=50
           elif [ $ESLINT_ERRORS -gt 5 ]; then
             QUALITY_SCORE=70
