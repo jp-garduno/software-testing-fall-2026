@@ -25,3 +25,18 @@ main {
 section {
     margin-bottom: 2rem;
 }
+
+nav {
+    margin-top: 1rem;
+}
+
+nav a {
+    margin: 0 0.75rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
