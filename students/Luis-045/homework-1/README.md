@@ -54,3 +54,17 @@ Examples:
 3. Open `index.html` in a web browser.
 
 No additional dependencies are required.
+
+## Pull Request Workflow
+
+Changes were developed in separate feature branches and reviewed through Pull Requests before being integrated into the homework branch.
+
+Pull Requests created during the project:
+
+- Initial portfolio structure
+- Portfolio styling
+- Portfolio content and documentation
+
+The Pull Requests were merged using the **Squash and Merge** strategy, following the assignment requirements.
+
+Before creating each Pull Request, changes were committed locally and pushed to the corresponding remote feature branch.
