@@ -1,11 +1,19 @@
+:root {
+    --fondo: #10100f;
+    --texto: #ece7e1;
+    --tenue: #8f8880;
+    --acento: #c9a227;
+    --borde: #2a2825;
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    background: #10100f;
-    color: #ece7e1;
+    background: var(--fondo);
+    color: var(--texto);
     font-family: "Segoe UI", system-ui, sans-serif;
     line-height: 1.6;
 }
@@ -15,24 +23,24 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 2rem;
-    border-bottom: 1px solid #2a2825;
+    border-bottom: 1px solid var(--borde);
 }
 
 .logo {
-    color: #c9a227;
+    color: var(--acento);
     font-weight: 600;
     letter-spacing: 0.15em;
     text-decoration: none;
 }
 
 .navegacion a {
-    color: #8f8880;
+    color: var(--tenue);
     margin-left: 1.5rem;
     text-decoration: none;
 }
 
 .navegacion a:hover {
-    color: #ece7e1;
+    color: var(--texto);
 }
 
 main {
@@ -43,11 +51,11 @@ main {
 
 .portada {
     padding: 5rem 0 3rem;
-    border-bottom: 1px solid #2a2825;
+    border-bottom: 1px solid var(--borde);
 }
 
 .etiqueta {
-    color: #c9a227;
+    color: var(--acento);
     font-size: 0.8rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -60,23 +68,23 @@ main {
 }
 
 .subtitulo {
-    color: #8f8880;
+    color: var(--tenue);
     margin: 0;
 }
 
 .seccion {
     padding: 3rem 0;
-    border-bottom: 1px solid #2a2825;
+    border-bottom: 1px solid var(--borde);
 }
 
 .seccion h2 {
-    color: #c9a227;
+    color: var(--acento);
     font-size: 1.25rem;
     margin-top: 0;
 }
 
 .pie {
-    color: #8f8880;
+    color: var(--tenue);
     font-size: 0.85rem;
     padding: 2rem;
     text-align: center;
