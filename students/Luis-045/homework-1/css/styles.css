@@ -68,3 +68,14 @@ footer {
         padding: 1rem;
     }
 }
+
+.project-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.project-card h3 {
+    margin-bottom: 0.5rem;
+}
