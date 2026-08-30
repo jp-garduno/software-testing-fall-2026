@@ -115,6 +115,17 @@ main {
     font-size: 0.9rem;
 }
 
+.contacto {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--tenue);
+}
+
+.contacto a {
+  color: var(--acento);
+}
+
 @media (max-width: 600px) {
     .encabezado {
         flex-direction: column;
