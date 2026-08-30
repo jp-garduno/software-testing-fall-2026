@@ -89,3 +89,23 @@ main {
     padding: 2rem;
     text-align: center;
 }
+
+@media (max-width: 600px) {
+    .encabezado {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .navegacion a {
+        margin: 0 0.75rem;
+    }
+
+    .portada h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 0 1.25rem;
+    }
+}
