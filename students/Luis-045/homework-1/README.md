@@ -68,3 +68,11 @@ Pull Requests created during the project:
 The Pull Requests were merged using the **Squash and Merge** strategy, following the assignment requirements.
 
 Before creating each Pull Request, changes were committed locally and pushed to the corresponding remote feature branch.
+
+## Lessons Learned
+
+This assignment helped me understand how Git branches, commits, and pull requests work together in a real development workflow.
+
+One of the most important lessons I learned was the difference between working on a feature branch and integrating that work into another branch. I also learned how merge strategies such as Squash and Merge can affect commit history.
+
+Using descriptive branch names and meaningful commit messages made the project easier to organize and understand. I also learned the importance of checking the current branch and synchronizing changes before starting new work.
