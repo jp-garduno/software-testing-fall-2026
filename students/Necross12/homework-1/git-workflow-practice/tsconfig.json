@@ -1,0 +1,11 @@
+{
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./src/**/*.spec.ts"],
+  "compilerOptions": {
+    "target": "esnext",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "module": "nodenext"
+  }
+}
