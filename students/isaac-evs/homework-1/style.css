@@ -56,3 +56,31 @@ body {
 .nav-links a:hover {
   color: var(--color-accent);
 }
+
+.section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
