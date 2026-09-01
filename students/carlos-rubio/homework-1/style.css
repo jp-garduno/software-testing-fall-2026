@@ -1,0 +1,28 @@
+body{
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+#Title{
+    font-size: 2em;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#Contenido{
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+#Footer{
+    text-align: center;
+    padding: 10px;
+    background-color: #222;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
