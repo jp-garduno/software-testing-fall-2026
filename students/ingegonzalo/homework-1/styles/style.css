@@ -1,0 +1,23 @@
+.navbar-brand img:hover{
+    transform: scale(1.1);
+}
+
+#navbar-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background:#f8f9fa;
+}
+
+main {
+    min-height: 80vh;
+    padding: 20px;
+}
+
+section {
+    padding: 60px 0;
+}
