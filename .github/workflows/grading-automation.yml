@@ -19,7 +19,7 @@ jobs:
   grade-submission:
     name: Grade Student Submission
     if: |
-      (github.event_name == 'pull_request' &&
+      (github.event_name == 'pull_request_target' &&
        (contains(github.event.pull_request.labels.*.name, 'homework') ||
         contains(github.event.pull_request.labels.*.name, 'exam') ||
         contains(github.event.pull_request.labels.*.name, 'project'))) ||
