@@ -660,14 +660,17 @@ jobs:
 
       - name: Comment grade on PR
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.pr_number || github.event.pull_request.number }}
         with:
           script: |
             const fs = require('fs');
             const report = fs.readFileSync('grading-report.md', 'utf8');
+            const prNumber = parseInt(process.env.PR_NUMBER);
 
             // Find all existing bot grading comments
             const { data: comments } = await github.rest.issues.listComments({
-              issue_number: context.issue.number,
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
@@ -690,7 +693,7 @@ jobs:
 
             // Create new comment
             await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: report
