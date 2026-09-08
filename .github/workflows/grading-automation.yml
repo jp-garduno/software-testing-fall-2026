@@ -344,7 +344,10 @@ jobs:
 
             # Part 2: Testing Types (2 points, requires 8+ test types)
             if [ -f "part2-testing-types.md" ]; then
-              TEST_TYPES=$(grep -c "## Test Type:" "part2-testing-types.md" | head -1)
+              # Accept the documented "## Test Type: X" format as well as
+              # numbered headings ("## 1. Pruebas Funcionales"), so a submission
+              # is graded on content rather than heading style.
+              TEST_TYPES=$(grep -cE '^## (Test Type:|[0-9]+\.)' "part2-testing-types.md" | head -1)
               TEST_TYPES=${TEST_TYPES:-0}
               if [ "$TEST_TYPES" -ge 8 ]; then
                 SCORE=$((SCORE + 2))
@@ -360,8 +363,16 @@ jobs:
 
             # Part 3: Testing Levels (2 points, requires 4 levels)
             if [ -f "part3-testing-levels.md" ]; then
-              LEVELS=$(grep -c "^## [A-Z]" "part3-testing-levels.md" | head -1)
-              LEVELS=${LEVELS:-0}
+              # Count the four required levels by name instead of counting
+              # headings. This accepts any heading style ("## Unit Testing",
+              # "## 1. Pruebas Unitarias") in English or Spanish, and cannot be
+              # satisfied by unrelated headings like "## Introduccion".
+              # Patterns are ASCII-only so -i works regardless of locale.
+              LEVELS=0
+              if grep -qiE '^#+ .*unit' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if grep -qiE '^#+ .*integra' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if grep -qiE '^#+ .*(system|sistema)' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if grep -qiE '^#+ .*ac+ept' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
               if [ "$LEVELS" -ge 4 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 3 found with adequate content: $LEVELS testing levels (+2)"
