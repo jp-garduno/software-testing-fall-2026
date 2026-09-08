@@ -234,12 +234,22 @@ jobs:
           set +e
 
           # Python linting
-          pylint **/*.py --exit-zero --output-format=json > pylint-report.json 2>&1 || true
-          PYLINT_SCORE=$(python -c "import json; data=json.load(open('pylint-report.json')) if open('pylint-report.json').read() else {'score': 0}; print(data.get('score', 0))" 2>/dev/null || echo "0")
+          find . -name "*.py" -type f -not -path "*/\.*" | head -1 > /dev/null 2>&1
+          if [ $? -eq 0 ]; then
+            find . -name "*.py" -type f -not -path "*/\.*" -exec pylint --exit-zero --output-format=json {} + > pylint-report.json 2>&1 || true
+            # Parse Pylint JSON safely
+            if [ -s pylint-report.json ]; then
+              PYLINT_SCORE=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('score',0) if isinstance(d,dict) else 0)" < pylint-report.json 2>/dev/null || echo "0")
+            else
+              PYLINT_SCORE="0"
+            fi
+          else
+            PYLINT_SCORE="0"
+          fi
 
           # JavaScript linting
           npm run lint > eslint-report.txt 2>&1 || true
-          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt || echo "0")
+          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt 2>/dev/null || echo "0")
 
           echo "pylint_score=$PYLINT_SCORE" >> $GITHUB_OUTPUT
           echo "eslint_errors=$ESLINT_ERRORS" >> $GITHUB_OUTPUT
