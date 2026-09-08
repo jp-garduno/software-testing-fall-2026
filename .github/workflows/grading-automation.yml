@@ -186,8 +186,8 @@ jobs:
           PYTEST_EXIT=$?
 
           # Extract metrics
-          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' || echo "0")
-          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' || echo "0")
+          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
           COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(data['totals']['percent_covered'])" 2>/dev/null || echo "0")
 
           echo "tests_passed=$TESTS_PASSED" >> $GITHUB_OUTPUT
@@ -249,7 +249,10 @@ jobs:
 
           # JavaScript linting
           npm run lint > eslint-report.txt 2>&1 || true
-          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt 2>/dev/null || echo "0")
+          # grep -c prints "0" AND exits 1 when there are no matches, so a
+          # "|| echo 0" fallback would append a second line. Pipe to head instead.
+          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt 2>/dev/null | head -1)
+          ESLINT_ERRORS=${ESLINT_ERRORS:-0}
 
           echo "pylint_score=$PYLINT_SCORE" >> $GITHUB_OUTPUT
           echo "eslint_errors=$ESLINT_ERRORS" >> $GITHUB_OUTPUT
@@ -341,8 +344,9 @@ jobs:
 
             # Part 2: Testing Types (2 points, requires 8+ test types)
             if [ -f "part2-testing-types.md" ]; then
-              TEST_TYPES=$(grep -c "## Test Type:" "part2-testing-types.md" || echo "0")
-              if [ $TEST_TYPES -ge 8 ]; then
+              TEST_TYPES=$(grep -c "## Test Type:" "part2-testing-types.md" | head -1)
+              TEST_TYPES=${TEST_TYPES:-0}
+              if [ "$TEST_TYPES" -ge 8 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 2 found with adequate content: $TEST_TYPES test types (+2)"
               else
@@ -356,8 +360,9 @@ jobs:
 
             # Part 3: Testing Levels (2 points, requires 4 levels)
             if [ -f "part3-testing-levels.md" ]; then
-              LEVELS=$(grep -c "^## [A-Z]" "part3-testing-levels.md" || echo "0")
-              if [ $LEVELS -ge 4 ]; then
+              LEVELS=$(grep -c "^## [A-Z]" "part3-testing-levels.md" | head -1)
+              LEVELS=${LEVELS:-0}
+              if [ "$LEVELS" -ge 4 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 3 found with adequate content: $LEVELS testing levels (+2)"
               else
@@ -371,8 +376,9 @@ jobs:
 
             # Part 4: Testing Principles (2 points, requires 7 principles)
             if [ -f "part4-testing-principles.md" ]; then
-              PRINCIPLES=$(grep -c "^## [0-9]" "part4-testing-principles.md" || echo "0")
-              if [ $PRINCIPLES -ge 7 ]; then
+              PRINCIPLES=$(grep -c "^## [0-9]" "part4-testing-principles.md" | head -1)
+              PRINCIPLES=${PRINCIPLES:-0}
+              if [ "$PRINCIPLES" -ge 7 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 4 found with adequate content: $PRINCIPLES principles (+2)"
               else
@@ -386,10 +392,11 @@ jobs:
 
             # Part 5: Risk Analysis (1 point, requires 6+ risks in table)
             if [ -f "part5-risk-analysis.md" ]; then
-              RISKS=$(grep -c "^|.*|.*|.*|.*|" "part5-risk-analysis.md" || echo "0")
+              RISKS=$(grep -c "^|.*|.*|.*|.*|" "part5-risk-analysis.md" | head -1)
+              RISKS=${RISKS:-0}
               # Subtract 2 for header rows
               RISKS=$((RISKS > 2 ? RISKS - 2 : 0))
-              if [ $RISKS -ge 6 ]; then
+              if [ "$RISKS" -ge 6 ]; then
                 SCORE=$((SCORE + 1))
                 echo "✅ Part 5 found with adequate content: $RISKS risks (+1)"
               else
@@ -406,8 +413,9 @@ jobs:
 
             # Pre-commit config (2 points, requires 5+ hooks)
             if [ -f ".pre-commit-config.yaml" ]; then
-              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" || echo "0")
-              if [ $HOOKS -ge 5 ]; then
+              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" | head -1)
+              HOOKS=${HOOKS:-0}
+              if [ "$HOOKS" -ge 5 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+2)"
               else
