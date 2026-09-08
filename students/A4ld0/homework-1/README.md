@@ -1,0 +1,52 @@
+# A4ld0 Portfolio
+
+A simple personal portfolio website created for Homework 1: Git Workflow Practice. The goal of this project is to practice using Git branches, meaningful commits, merges, pull requests, and project documentation.
+
+## Technologies Used
+
+- HTML
+- CSS
+- Python
+- Pytest
+- Git
+- GitHub
+
+## Git Workflow Documentation
+
+For this assignment, I used a feature branch workflow. I created separate branches for different parts of the project and merged them back into my main homework branch after completing each task.
+
+## Branches Created 
+
+- `feature/initial-structure`
+- `feature/add-styling`
+- `feature/add-content`
+
+## Commit Message Convention
+
+I used clear commit messages with a type and short description, such as: (Declared in the homework files)
+
+- `feat: add initial portfolio HTML structure`
+- `feat: add basic portfolio styling`
+- `style: improve responsive spacing for small screens`
+- `docs: update README with project documentation`
+
+## Setup Instructions
+
+1. Clone the course repository.
+2. Navigate to the homework folder:
+
+   ```bash
+   cd students/A4ld0/homework-1
+   ```
+
+3. Open index.html in a web browser.
+
+4. Run the helper tests from this folder with:
+
+   ```bash
+   pytest
+   ```
+
+## Commit History Summary
+
+This project includes meaningful commits for the initial structure, styling, responsive design, portfolio content, contact link, README documentation, reflection, project file cleanup, and helper tests.
