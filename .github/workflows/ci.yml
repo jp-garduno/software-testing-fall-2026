@@ -33,13 +33,21 @@ jobs:
 
       - name: Lint with Pylint
         run: |
-          pylint **/*.py --exit-zero || true
-        continue-on-error: true
+          if find . -name "*.py" -not -path "*/\.*" -not -path "*/node_modules/*" | grep -q .; then
+            find . -name "*.py" -not -path "*/\.*" -not -path "*/node_modules/*" -exec pylint --errors-only {} +
+          else
+            echo "No Python files found, skipping Pylint"
+          fi
+        continue-on-error: false
 
       - name: Format check with Black
         run: |
-          black --check . || true
-        continue-on-error: true
+          if find . -name "*.py" -not -path "*/\.*" -not -path "*/node_modules/*" | grep -q .; then
+            black --check .
+          else
+            echo "No Python files found, skipping Black"
+          fi
+        continue-on-error: false
 
       - name: Run Python tests
         run: |
@@ -77,8 +85,18 @@ jobs:
         run: npm ci
 
       - name: Lint with ESLint
-        run: npm run lint
-        continue-on-error: true
+        run: |
+          npm run lint || EXIT_CODE=$?
+          # Exit code 2 means no files found (not an error for base repo)
+          # Exit code 1 means lint errors found (real error)
+          if [ "${EXIT_CODE:-0}" -eq 2 ]; then
+            echo "No files to lint or ESLint config issue - skipping"
+            exit 0
+          elif [ "${EXIT_CODE:-0}" -eq 1 ]; then
+            echo "ESLint found errors in code"
+            exit 1
+          fi
+        continue-on-error: false
 
       - name: Run JavaScript tests
         run: npm test -- --coverage
