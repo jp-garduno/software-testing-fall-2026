@@ -49,6 +49,16 @@ class TaskManager:
     def clear_completed(self):
         self.tasks = [task for task in self.tasks if not task.completed]
 
+    def tasks_by_priority(self, priority):
+        return [task for task in self.tasks if task.priority == priority]
+
+    def completion_percentage(self):
+        if not self.tasks:
+            return 0.0
+
+        completed = len(self.completed_tasks())
+        return (completed / len(self.tasks)) * 100
+
     def summary(self):
         total = self.count_tasks()
         completed = len(self.completed_tasks())

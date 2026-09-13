@@ -52,6 +52,24 @@ class TaskManagerTests(unittest.TestCase):
         self.assertTrue(manager.remove_task("Homework"))
         self.assertEqual(manager.count_tasks(), 0)
 
+    def test_tasks_by_priority(self):
+        manager = TaskManager()
+        manager.add_task("Task 1", priority="high")
+        manager.add_task("Task 2", priority="low")
+        manager.add_task("Task 3", priority="high")
+
+        high_priority = manager.tasks_by_priority("high")
+
+        self.assertEqual(len(high_priority), 2)
+
+    def test_completion_percentage(self):
+        manager = TaskManager()
+        manager.add_task("Task 1")
+        manager.add_task("Task 2")
+        manager.complete_task("Task 1")
+
+        self.assertEqual(manager.completion_percentage(), 50.0)
+
     def test_summary(self):
         manager = TaskManager()
         manager.add_task("Task 1")
