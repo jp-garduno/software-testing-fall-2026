@@ -128,7 +128,7 @@ This demonstrated how isort can automatically enforce a consistent import struct
 
 One of the most important things I observed during this homework is that passing unit tests does not necessarily mean that the code has good quality.
 
-Before fixing the static analysis issues, all 8 unit tests were already passing successfully. However, Pylint was still able to identify unused imports, unused variables, formatting problems, and excessively long lines.
+Before fixing the static analysis issues, all 10 unit tests were already passing successfully. However, Pylint was still able to identify unused imports, unused variables, formatting problems, and excessively long lines.
 
 These issues do not necessarily change the functionality of the program, so traditional functional testing may never detect them.
 
@@ -138,7 +138,7 @@ Another benefit was automation. Tools such as `end-of-file-fixer`, Black, and is
 
 This reduces the amount of manual work required from developers and also makes formatting more consistent between different team members.
 
-After correcting the reported issues, all 8 unit tests continued to pass, all pre-commit hooks passed successfully, and the Pylint score improved from 8.95/10 to 10.00/10.
+After correcting the reported issues, all 10 unit tests continued to pass, all pre-commit hooks passed successfully, and the Pylint score improved from 8.95/10 to 10.00/10.
 
 ## 3. Integration Into a Development Workflow
 

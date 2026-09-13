@@ -67,7 +67,7 @@ python -m src.app
 
 ## Running the Tests
 
-The project contains 8 unit tests.
+The project contains 10 unit tests.
 
 Run all tests with:
 
@@ -78,7 +78,7 @@ python -m unittest -v
 The expected result is:
 
 ```text
-Ran 8 tests
+Ran 10 tests
 
 OK
 ```
@@ -160,7 +160,7 @@ docs: add analysis report
 After correcting the static analysis issues:
 
 ```text
-Unit tests: 8 passed
+Unit tests: 10 passed
 Pre-commit hooks: Passed
 Pylint score: 10.00/10
 ```
