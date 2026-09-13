@@ -1,5 +1,4 @@
 from src.task_manager import TaskManager
-import sys
 
 
 def create_demo_manager():
@@ -21,7 +20,6 @@ def print_summary(manager):
 
 
 def main():
-    temporary_message = "this variable is intentionally unused"
     manager = create_demo_manager()
     print("TODO LIST")
     print_tasks(manager)

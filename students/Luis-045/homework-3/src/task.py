@@ -1,6 +1,3 @@
-import math
-
-
 class Task:
     def __init__(self, title, description="", priority="medium"):
         self.title = title

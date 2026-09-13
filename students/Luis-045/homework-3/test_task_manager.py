@@ -28,20 +28,27 @@ class TaskManagerTests(unittest.TestCase):
 
     def test_add_and_find_task(self):
         manager = TaskManager()
-        manager.add_task("Homework", "Finish static testing homework", "high")
+        manager.add_task(
+            "Homework",
+            "Finish static testing homework",
+            "high",
+        )
         task = manager.find_task("Homework")
+
         self.assertIsNotNone(task)
         self.assertEqual(task.priority, "high")
 
     def test_complete_task(self):
         manager = TaskManager()
         manager.add_task("Homework")
+
         self.assertTrue(manager.complete_task("Homework"))
         self.assertTrue(manager.find_task("Homework").completed)
 
     def test_remove_task(self):
         manager = TaskManager()
         manager.add_task("Homework")
+
         self.assertTrue(manager.remove_task("Homework"))
         self.assertEqual(manager.count_tasks(), 0)
 
@@ -50,10 +57,15 @@ class TaskManagerTests(unittest.TestCase):
         manager.add_task("Task 1")
         manager.add_task("Task 2")
         manager.complete_task("Task 1")
-        self.assertEqual(
-            manager.summary(),
-            "Task summary -> total tasks: 2, completed tasks: 1, pending tasks: 1, completion tracking enabled",
+
+        expected = (
+            "Task summary -> total tasks: 2, "
+            "completed tasks: 1, "
+            "pending tasks: 1, "
+            "completion tracking enabled"
         )
+
+        self.assertEqual(manager.summary(), expected)
 
 
 if __name__ == "__main__":

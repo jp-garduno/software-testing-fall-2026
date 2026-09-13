@@ -1,5 +1,3 @@
-import os
-
 from src.task import Task
 
 
@@ -55,4 +53,10 @@ class TaskManager:
         total = self.count_tasks()
         completed = len(self.completed_tasks())
         pending = len(self.pending_tasks())
-        return f"Task summary -> total tasks: {total}, completed tasks: {completed}, pending tasks: {pending}, completion tracking enabled"
+
+        return (
+            f"Task summary -> total tasks: {total}, "
+            f"completed tasks: {completed}, "
+            f"pending tasks: {pending}, "
+            "completion tracking enabled"
+        )
