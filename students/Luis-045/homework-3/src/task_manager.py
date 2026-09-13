@@ -56,8 +56,12 @@ class TaskManager:
         if not self.tasks:
             return 0.0
 
-        completed = len(self.completed_tasks())
-        return (completed / len(self.tasks)) * 100
+        total_tasks = len(self.tasks)
+        completed_tasks = len(self.completed_tasks())
+        completion_ratio = completed_tasks / total_tasks
+        percentage = completion_ratio * 100
+
+        return percentage
 
     def summary(self):
         total = self.count_tasks()
