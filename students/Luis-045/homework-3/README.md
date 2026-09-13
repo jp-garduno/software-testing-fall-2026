@@ -8,9 +8,9 @@
 
 This project is a simple task management application developed in Python.
 
-The application allows users to create tasks, assign priorities, mark tasks as completed, remove tasks, and display a summary of the current task list.
+The application allows users to create tasks, assign priorities, mark tasks as completed, remove tasks, filter tasks by priority, calculate completion statistics, and display a summary of the current task list.
 
-The main purpose of this project is to practice static testing by configuring and using tools such as Pylint, Black, isort, and pre-commit hooks.
+The main purpose of this project is to practice static testing by configuring and using tools such as Pylint, Black, isort, coverage, and pre-commit hooks.
 
 ## Project Structure
 
@@ -67,7 +67,7 @@ python -m src.app
 
 ## Running the Tests
 
-The project contains 10 unit tests.
+The project contains 23 unit tests.
 
 Run all tests with:
 
@@ -78,10 +78,41 @@ python -m unittest -v
 The expected result is:
 
 ```text
-Ran 10 tests
+Ran 23 tests
 
 OK
 ```
+
+## Test Coverage
+
+Coverage is measured using the `coverage` package.
+
+Run the tests with coverage enabled:
+
+```bash
+coverage run --source=src -m unittest
+```
+
+Display the coverage report with:
+
+```bash
+coverage report -m
+```
+
+The final coverage result is:
+
+```text
+Name                  Stmts   Miss  Cover   Missing
+---------------------------------------------------
+src/__init__.py           0      0   100%
+src/app.py               20      1    95%   30
+src/task.py              18      0   100%
+src/task_manager.py      54      0   100%
+---------------------------------------------------
+TOTAL                    92      1    99%
+```
+
+The project achieved 99% total source code coverage.
 
 ## Static Analysis
 
@@ -147,22 +178,26 @@ pre-commit run --all-files
 
 The `conventional-pre-commit` hook is also configured to validate commit messages using the Conventional Commits format.
 
-Example:
+Examples:
 
 ```text
 feat: add initial project setup
 fix: resolve linting issues
+test: improve source code coverage
 docs: add analysis report
 ```
 
 ## Final Results
 
-After correcting the static analysis issues:
+After correcting the static analysis issues and improving the test suite:
 
 ```text
-Unit tests: 10 passed
+Unit tests: 23 passed
+Test coverage: 99%
 Pre-commit hooks: Passed
 Pylint score: 10.00/10
 ```
 
 The static testing tools helped identify formatting problems, unused code, import problems, long lines, and other code quality issues before committing the final version of the project.
+
+The additional unit tests also increased source code coverage from approximately 64% to 99%.

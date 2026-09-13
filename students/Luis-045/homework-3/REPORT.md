@@ -8,7 +8,7 @@ The main static analysis tool used was Pylint. After configuring Pylint for the 
 
 The problems found included unused imports, an unused variable, incorrect import order, a line that exceeded the configured maximum length, and files without a final newline. When the complete pre-commit configuration was executed, other formatting problems such as mixed line endings were also detected.
 
-The tools used during the homework were Pylint, Black, isort, and several pre-commit hooks.
+The tools used during the homework were Pylint, Black, isort, coverage, and several pre-commit hooks.
 
 ### Issue 1: Unused Import in task.py
 
@@ -128,7 +128,7 @@ This demonstrated how isort can automatically enforce a consistent import struct
 
 One of the most important things I observed during this homework is that passing unit tests does not necessarily mean that the code has good quality.
 
-Before fixing the static analysis issues, all 10 unit tests were already passing successfully. However, Pylint was still able to identify unused imports, unused variables, formatting problems, and excessively long lines.
+Before fixing the static analysis issues, the original unit tests were already passing successfully. However, Pylint was still able to identify unused imports, unused variables, formatting problems, and excessively long lines.
 
 These issues do not necessarily change the functionality of the program, so traditional functional testing may never detect them.
 
@@ -138,7 +138,21 @@ Another benefit was automation. Tools such as `end-of-file-fixer`, Black, and is
 
 This reduces the amount of manual work required from developers and also makes formatting more consistent between different team members.
 
-After correcting the reported issues, all 10 unit tests continued to pass, all pre-commit hooks passed successfully, and the Pylint score improved from 8.95/10 to 10.00/10.
+The test suite was later expanded to 23 unit tests. Using the `coverage` tool, the initial source code coverage was approximately 64%. Additional tests were created for methods and branches that were not previously exercised.
+
+After improving the test suite, the final coverage results were:
+
+```text
+src/__init__.py       100%
+src/app.py             95%
+src/task.py           100%
+src/task_manager.py   100%
+TOTAL                  99%
+```
+
+The final result was 92 statements with only one statement not covered, resulting in 99% total source code coverage.
+
+After all corrections, all 23 unit tests passed successfully, all pre-commit hooks passed, and Pylint reported a score of 10.00/10 for the source code.
 
 ## 3. Integration Into a Development Workflow
 
@@ -152,7 +166,9 @@ Pre-commit is especially useful because it connects all these tools directly to 
 
 Before a commit is created, the configured hooks automatically inspect the files. If a problem is detected, the commit is stopped until the developer corrects the issue.
 
-The same static analysis tools could also be executed in a Continuous Integration pipeline after pushing the branch to the remote repository. This would ensure that the same quality rules are applied even if a developer accidentally skips the local hooks.
+Coverage can also be used together with the unit tests to identify parts of the application that are not being exercised. In this project, the coverage report made it possible to identify missing test cases and increase total coverage from approximately 64% to 99%.
+
+The same static analysis and testing tools could also be executed in a Continuous Integration pipeline after pushing the branch to the remote repository. This would ensure that the same quality rules are applied even if a developer accidentally skips the local hooks.
 
 ## 4. Recommendations
 
@@ -164,6 +180,8 @@ Pre-commit was useful because it automated the complete validation process and i
 
 Black and isort were also valuable because instead of only reporting formatting problems, they could automatically correct them.
 
+Coverage was also useful because it showed which parts of the application were not being tested. Increasing the number of tests from 10 to 23 improved the total source code coverage from approximately 64% to 99%.
+
 One important lesson from this homework was that the scope of the hooks must be configured correctly when working inside a large repository. Initially, running `pre-commit run --all-files` caused the hooks to inspect files outside my homework directory. The configuration was then updated so that the hooks only analyze files inside:
 
 ```text
@@ -172,6 +190,6 @@ students/Luis-045/homework-3/
 
 This prevents the static analysis tools from modifying files that belong to other students or other sections of the repository.
 
-For future projects, I would use a similar combination of Pylint, Black, isort, and pre-commit. I would also make sure that all developers use compatible versions of the tools and that the same checks are executed locally and in Continuous Integration.
+For future projects, I would use a similar combination of Pylint, Black, isort, coverage, and pre-commit. I would also make sure that all developers use compatible versions of the tools and that the same checks are executed locally and in Continuous Integration.
 
-Overall, static testing was useful because it detected problems that unit tests were not designed to find, automated repetitive code quality checks, and helped produce cleaner and more consistent code.
+Overall, static testing was useful because it detected problems that unit tests were not designed to find, automated repetitive code quality checks, and helped produce cleaner and more consistent code. The coverage report also demonstrated the importance of testing different paths and behaviors instead of only checking whether the existing tests pass.
