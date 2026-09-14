@@ -1,0 +1,14 @@
+[
+  {
+    "identifier": 1,
+    "title": "Repasar análisis estático",
+    "priority": 1,
+    "completed": false
+  },
+  {
+    "identifier": 2,
+    "title": "Preparar reporte",
+    "priority": 2,
+    "completed": true
+  }
+]
