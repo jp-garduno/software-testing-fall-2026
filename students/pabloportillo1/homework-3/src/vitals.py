@@ -1,7 +1,4 @@
 import json
-import os
-from typing import Dict
-import math
 
 RANGES = {
     "respiratory_rate": (4, 60),
@@ -21,27 +18,26 @@ def validate_reading(Reading, strict = True):
             errors.append("missing field: " + field)
             continue
         value = Reading[field]
-        if value == None:
+        if value is None:
             errors.append("null value for field: " + field)
             continue
         try:
             value = float(value)
-        except:
+        except (TypeError, ValueError):
             errors.append("non numeric value for field: " + field)
             continue
         low, high = bounds
         if value < low or value > high:
             errors.append("field " + field + " out of physiological range, got " + str(value) + " expected between " + str(low) + " and " + str(high))
-    if strict == True and len(errors) > 0:
+    if strict and errors:
         raise VitalsError("; ".join(errors))
     else:
         return errors
 
 def normalize(reading):
     out = {}
-    unused = os.getcwd()
     for k in RANGES:
-        if k in reading and reading[k] != None:
+        if k in reading and reading[k] is not None:
             out[k] = float(reading[k])
     if "consciousness" in reading:
         out["consciousness"] = str(reading["consciousness"]).upper()
@@ -51,5 +47,5 @@ def normalize(reading):
     return out
 
 def load_readings(path):
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         return json.load(f)

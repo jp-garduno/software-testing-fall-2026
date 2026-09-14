@@ -4,14 +4,14 @@ from src.vitals import validate_reading
 
 class PatientRecord:
 
-    def __init__(self, patient_id, name, history = []):
+    def __init__(self, patient_id, name, history = None):
         self.patient_id = patient_id
         self.name = name
-        self.history = history
+        self.history = list(history) if history else []
 
     def add_reading(self, reading, taken_at = None):
         validate_reading(reading)
-        if taken_at == None:
+        if taken_at is None:
             taken_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
         total, breakdown = score_reading(reading)
         risk = clinical_risk(total, breakdown)
@@ -39,7 +39,7 @@ class PatientRecord:
 
     def escalation_required(self):
         last = self.latest()
-        if last == None:
+        if last is None:
             return False
         if last["risk"] == "HIGH":
             return True
@@ -49,6 +49,6 @@ class PatientRecord:
 
     def summary(self):
         last = self.latest()
-        if last == None:
+        if last is None:
             return "Patient " + self.name + " (" + self.patient_id + ") has no recorded observations yet."
         return "Patient " + self.name + " (" + self.patient_id + ") scored " + str(last["score"]) + " on NEWS2, risk " + last["risk"] + ", trend " + self.trend() + ", monitoring " + last["monitoring"] + "."

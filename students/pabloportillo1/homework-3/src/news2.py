@@ -1,5 +1,4 @@
 from src.vitals import normalize
-import sys
 
 RESP_BANDS = [(0, 8, 3), (9, 11, 1), (12, 20, 0), (21, 24, 2), (25, 999, 3)]
 SPO2_BANDS = [(0, 91, 3), (92, 93, 2), (94, 95, 1), (96, 100, 0)]

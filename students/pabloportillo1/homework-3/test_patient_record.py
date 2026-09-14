@@ -52,3 +52,10 @@ def test_summary_mentions_patient_and_score():
     summary = record.summary()
     assert "Elena Cruz" in summary
     assert "P-005" in summary
+
+
+def test_records_do_not_share_history():
+    first = PatientRecord("P-006", "Jorge Paz")
+    second = PatientRecord("P-007", "Nadia Sol")
+    first.add_reading(HEALTHY)
+    assert second.latest() is None
