@@ -12,9 +12,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-"""
 from helpers.utils import get_random_phrase  # noqa: E402  pylint: disable=wrong-import-position
-"""
 
 class TestGetRandomPhrase(unittest.TestCase):
     def test_returns_an_item_from_the_list(self):
