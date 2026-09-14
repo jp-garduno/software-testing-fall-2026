@@ -1,3 +1,5 @@
+"""Validation and normalization of patient vital-sign readings."""
+
 import json
 
 RANGES = {
@@ -9,15 +11,20 @@ RANGES = {
 }
 
 class VitalsError(Exception):
-    pass
+    """Raised when a reading cannot be trusted for clinical scoring."""
 
-def validate_reading(Reading, strict = True):
+def validate_reading(reading, strict=True):
+    """Check a reading against physiological ranges.
+
+    Returns the list of problems found. When ``strict`` is set, a non-empty
+    list is raised as a :class:`VitalsError` instead of being returned.
+    """
     errors = []
     for field, bounds in RANGES.items():
-        if field not in Reading:
+        if field not in reading:
             errors.append("missing field: " + field)
             continue
-        value = Reading[field]
+        value = reading[field]
         if value is None:
             errors.append("null value for field: " + field)
             continue
@@ -28,13 +35,16 @@ def validate_reading(Reading, strict = True):
             continue
         low, high = bounds
         if value < low or value > high:
-            errors.append("field " + field + " out of physiological range, got " + str(value) + " expected between " + str(low) + " and " + str(high))
+            errors.append(
+                f"field {field} out of physiological range, got {value} "
+                f"expected between {low} and {high}"
+            )
     if strict and errors:
         raise VitalsError("; ".join(errors))
-    else:
-        return errors
+    return errors
 
 def normalize(reading):
+    """Return a reading with defaults filled in and values coerced to floats."""
     out = {}
     for k in RANGES:
         if k in reading and reading[k] is not None:
@@ -47,5 +57,6 @@ def normalize(reading):
     return out
 
 def load_readings(path):
+    """Load a JSON file containing a list of readings."""
     with open(path, encoding="utf-8") as f:
         return json.load(f)
