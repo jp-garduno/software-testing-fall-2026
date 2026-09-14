@@ -1,8 +1,13 @@
+"""Input validation helpers for the task tracker."""
+
+
 class TaskValidationError(ValueError):
-    pass
+    """Raised when an input cannot be used to create or update a task."""
 
 
 def validate_title(title: str) -> str:
+    """Strip and validate a non-empty task title of at most 80 characters."""
+
     cleaned_title = title.strip()
     if not cleaned_title:
         raise TaskValidationError("A task title is required")
@@ -12,6 +17,8 @@ def validate_title(title: str) -> str:
 
 
 def validate_priority(priority: int) -> int:
+    """Validate the integer priority scale from one (low) to five (high)."""
+
     if isinstance(priority, bool) or not isinstance(priority, int):
         raise TaskValidationError("Priority must be an integer")
     if priority < 1 or priority > 5:
@@ -20,6 +27,8 @@ def validate_priority(priority: int) -> int:
 
 
 def normalise_tags(tags: list[str] | None) -> list[str]:
+    """Return unique lowercase tags while preserving their original order."""
+
     if tags is None:
         return []
     normalised = []
