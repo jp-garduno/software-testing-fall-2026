@@ -438,20 +438,27 @@ jobs:
               echo "❌ Pre-commit config missing"
             fi
 
-            # Number of Python source files (2 points, requires 3+ files excluding tests)
-            PY_FILES=$(find src -name "*.py" 2>/dev/null | grep -v "__pycache__" | wc -l || echo "0")
-            if [ $PY_FILES -ge 3 ]; then
+            # Number of source files (2 points, requires 3+ files)
+            # The assignment accepts a Python OR a JavaScript project, so count
+            # both. node_modules is excluded for the same reason __pycache__ is.
+            SRC_FILES=$(find src -type f \( -name "*.py" -o -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
+            SRC_FILES=${SRC_FILES:-0}
+            if [ "$SRC_FILES" -ge 3 ]; then
               SCORE=$((SCORE + 2))
-              echo "✅ Sufficient Python files: $PY_FILES files (+2)"
+              echo "✅ Sufficient source files: $SRC_FILES files (+2)"
             else
-              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PY_FILES / 3.0) * 2}")
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($SRC_FILES / 3.0) * 2}")
               SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
-              echo "⚠️  Insufficient Python files: $PY_FILES/3 files (+$FILES_SCORE)"
+              echo "⚠️  Insufficient source files: $SRC_FILES/3 files (+$FILES_SCORE)"
             fi
 
             # Lines of code (2 points, requires 100+ lines in src/)
             if [ -d "src" ]; then
-              LOC=$(find src -name "*.py" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+              # Concatenate and count once: when no source file matches, wc reads
+              # empty stdin and prints 0. The previous "wc -l ... | tail -1 | awk"
+              # form printed nothing instead, and the empty value aborted the step.
+              LOC=$(find src -type f \( -name "*.py" -o -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" -exec cat {} + 2>/dev/null | wc -l)
+              LOC=${LOC:-0}
               if [ "$LOC" -ge 100 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Sufficient code: $LOC lines (+2)"
@@ -480,9 +487,13 @@ jobs:
             fi
 
             # Tests present (1 point)
-            if ls test_*.py 1> /dev/null 2>&1 || ls *_test.py 1> /dev/null 2>&1; then
+            # homework-3.md asks for "test_*.py or *.test.js", so accept both
+            # naming conventions, and look in subdirectories (tests/, src/) too.
+            TEST_FILES=$(find . -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
+            TEST_FILES=${TEST_FILES:-0}
+            if [ "$TEST_FILES" -ge 1 ]; then
               SCORE=$((SCORE + 1))
-              echo "✅ Test files found (+1)"
+              echo "✅ Test files found: $TEST_FILES (+1)"
             else
               echo "❌ No test files found"
             fi
