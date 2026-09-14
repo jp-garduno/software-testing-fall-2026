@@ -1,6 +1,6 @@
 """Read and write validated task records as UTF-8 JSON."""
 
-import os, json
+import json
 from pathlib import Path
 
 from .tasks import Task, validate_title
@@ -14,11 +14,19 @@ def task_from_dict(record: dict) -> Task:
     title = record.get("title")
     priority = record.get("priority")
     completed = record.get("completed")
-    if type(identifier) is not int or identifier < 1:
+    if (
+        not isinstance(identifier, int)
+        or isinstance(identifier, bool)
+        or identifier < 1
+    ):
         raise ValueError("Task identifiers must be positive integers.")
     if not isinstance(title, str):
         raise ValueError("Task titles must be strings.")
-    if type(priority) is not int or priority not in (1, 2, 3):
+    if (
+        not isinstance(priority, int)
+        or isinstance(priority, bool)
+        or priority not in (1, 2, 3)
+    ):
         raise ValueError("Priority must be 1, 2, or 3.")
     if not isinstance(completed, bool):
         raise ValueError("Completion must be a boolean.")

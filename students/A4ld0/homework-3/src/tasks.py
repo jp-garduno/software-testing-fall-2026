@@ -1,3 +1,5 @@
+"""Task records, validation, and progress calculations."""
+
 from dataclasses import dataclass
 
 
@@ -22,12 +24,12 @@ class Task:
 
 def validate_title(title: str) -> str:
     """Normalize a title and reject empty or excessively long values."""
-    TaskName = title.strip()
-    if len(TaskName) == 0:
+    task_name = title.strip()
+    if not task_name:
         raise ValueError("The title cannot be empty.")
-    if len(TaskName) > 120:
+    if len(task_name) > 120:
         raise ValueError("The title must contain at most 120 characters.")
-    return TaskName
+    return task_name
 
 
 def add_task(tasks: list[Task], title: str, priority: int) -> Task:
@@ -62,6 +64,5 @@ def summary(tasks: list[Task]) -> str:
     """Describe completion progress without dividing by zero."""
     if not tasks:
         return "No tasks yet."
-    else:
-        completed = sum(task.completed == True for task in tasks)
-        return f"{completed}/{len(tasks)} completed"
+    completed = sum(task.completed for task in tasks)
+    return f"{completed}/{len(tasks)} completed"
