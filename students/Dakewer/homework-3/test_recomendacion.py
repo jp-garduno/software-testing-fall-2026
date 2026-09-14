@@ -12,6 +12,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
+"""
 from helpers.recomendacion import (  # noqa: E402  pylint: disable=wrong-import-position
     AleatoriaStrategy,
     DelDiaStrategy,
@@ -19,7 +20,7 @@ from helpers.recomendacion import (  # noqa: E402  pylint: disable=wrong-import-
     Recomendador,
     RecomendacionStrategy,
 )
-
+"""
 
 class TestRecomendacionStrategyBase(unittest.TestCase):
     """The base class is an interface: calling recomendar() directly

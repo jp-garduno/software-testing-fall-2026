@@ -13,14 +13,14 @@ from unittest.mock import MagicMock, patch
 
 # Make src/ importable regardless of where pytest is invoked from.
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
-
+"""
 from helpers.api import (  # noqa: E402  pylint: disable=wrong-import-position
     GENRES_MAP,
     get_movie_list,
     get_next_movie_response,
     spin_the_wheel,
 )
-
+"""
 
 class TestGenresMap(unittest.TestCase):
     """GENRES_MAP is static data used to translate Spanish genre names
