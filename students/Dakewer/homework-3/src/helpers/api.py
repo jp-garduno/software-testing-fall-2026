@@ -1,3 +1,4 @@
+import os
 import json
 import logging
 import random
@@ -49,7 +50,7 @@ def get_movie_of_the_day():
     querystring = parse.urlencode(query_params)
     full_url = f"{url}?{querystring}"
 
-    token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNGZjYmJlMmI5MDJkMGM0YmMwZGUwZjEzOGZkODg5ZSIsIm5iZiI6MTc1Njc3MTE3OS42NDQsInN1YiI6IjY4YjYzMzZiZDJlMmQxZjk1NGI0ZmQ2NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XhklhS4vQPBe9Wa708mKyuQODu0Ya7TE7xWVxEkwcI0"
+    token = os.environ.get("TMDB_TOKEN")
 
     req = request.Request(full_url)
     req.add_header("Authorization", f"Bearer {token}")
@@ -108,7 +109,7 @@ def get_movie_list(handler_input):
     querystring = parse.urlencode(query_params)
     full_url = f"{base_url}?{querystring}"
 
-    token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNGZjYmJlMmI5MDJkMGM0YmMwZGUwZjEzOGZkODg5ZSIsIm5iZiI6MTc1Njc3MTE3OS42NDQsInN1YiI6IjY4YjYzMzZiZDJlMmQxZjk1NGI0ZmQ2NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XhklhS4vQPBe9Wa708mKyuQODu0Ya7TE7xWVxEkwcI0"
+    token = os.environ.get("TMDB_TOKEN")
 
     req = request.Request(full_url)
     req.add_header("Authorization", f"Bearer {token}")
