@@ -1,7 +1,6 @@
 import pytest
 
-from src.news2 import band_score, clinical_risk, monitoring_frequency, score_reading, temperature_score
-from src.news2 import RESP_BANDS
+from src.news2 import RESP_BANDS, band_score, clinical_risk, monitoring_frequency, score_reading, temperature_score
 
 HEALTHY = {
     "respiratory_rate": 16,

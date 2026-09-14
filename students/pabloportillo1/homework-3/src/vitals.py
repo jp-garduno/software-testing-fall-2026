@@ -10,8 +10,10 @@ RANGES = {
     "temperature": (25.0, 45.0),
 }
 
+
 class VitalsError(Exception):
     """Raised when a reading cannot be trusted for clinical scoring."""
+
 
 def validate_reading(reading, strict=True):
     """Check a reading against physiological ranges.
@@ -36,12 +38,12 @@ def validate_reading(reading, strict=True):
         low, high = bounds
         if value < low or value > high:
             errors.append(
-                f"field {field} out of physiological range, got {value} "
-                f"expected between {low} and {high}"
+                f"field {field} out of physiological range, got {value} " f"expected between {low} and {high}"
             )
     if strict and errors:
         raise VitalsError("; ".join(errors))
     return errors
+
 
 def normalize(reading):
     """Return a reading with defaults filled in and values coerced to floats."""
@@ -55,6 +57,7 @@ def normalize(reading):
         out["consciousness"] = "A"
     out["on_oxygen"] = bool(reading.get("on_oxygen", False))
     return out
+
 
 def load_readings(path):
     """Load a JSON file containing a list of readings."""

@@ -1,8 +1,10 @@
 """Patient observation history built on top of the NEWS2 scorer."""
 
 import datetime
-from src.news2 import score_reading, clinical_risk, monitoring_frequency
+
+from src.news2 import clinical_risk, monitoring_frequency, score_reading
 from src.vitals import validate_reading
+
 
 class PatientRecord:
     """A patient and the ordered history of their scored observations."""
