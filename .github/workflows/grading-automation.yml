@@ -162,6 +162,8 @@ jobs:
 
       - name: Run Python tests and collect results
         id: python-tests
+        # Homework 3 is graded on static testing only, so skip the dynamic run.
+        if: steps.extract-info.outputs.assignment != '3'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -200,6 +202,8 @@ jobs:
 
       - name: Run JavaScript tests and collect results
         id: js-tests
+        # Homework 3 is graded on static testing only, so skip the dynamic run.
+        if: steps.extract-info.outputs.assignment != '3'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -422,15 +426,18 @@ jobs:
             # Homework 3: Static testing setup - check for specific requirements
             echo "Checking Homework 3 structure (static testing setup with content validation)..."
 
-            # Pre-commit config (2 points, requires 5+ hooks)
+            # Pre-commit config (3 points, requires 5+ hooks)
+            # Worth 3 rather than 2 because the point previously allocated to
+            # having dynamic test files moved here: homework 3 is a static
+            # testing assignment and its rubric awards no points for tests.
             if [ -f ".pre-commit-config.yaml" ]; then
               HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" | head -1)
               HOOKS=${HOOKS:-0}
               if [ "$HOOKS" -ge 5 ]; then
-                SCORE=$((SCORE + 2))
-                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+2)"
+                SCORE=$((SCORE + 3))
+                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+3)"
               else
-                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 2}")
+                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 3}")
                 SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PRECOMMIT_SCORE}")
                 echo "⚠️  Pre-commit config found but incomplete: $HOOKS/5 hooks (+$PRECOMMIT_SCORE)"
               fi
@@ -486,17 +493,8 @@ jobs:
               echo "❌ Report missing"
             fi
 
-            # Tests present (1 point)
-            # homework-3.md asks for "test_*.py or *.test.js", so accept both
-            # naming conventions, and look in subdirectories (tests/, src/) too.
-            TEST_FILES=$(find . -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
-            TEST_FILES=${TEST_FILES:-0}
-            if [ "$TEST_FILES" -ge 1 ]; then
-              SCORE=$((SCORE + 1))
-              echo "✅ Test files found: $TEST_FILES (+1)"
-            else
-              echo "❌ No test files found"
-            fi
+            # No dynamic test check here on purpose: homework 3 covers static
+            # testing, and its rubric awards no points for tests or coverage.
           else
             # Code-based homework: check for tests and structure
             if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
@@ -530,12 +528,16 @@ jobs:
             STRUCTURE_WEIGHT=60
             echo "Homework $ASSIGNMENT detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
           elif [ "$ASSIGNMENT" = "3" ]; then
-            # Homework 3: Static testing setup - balanced with emphasis on structure
-            TESTS_WEIGHT=25
-            COVERAGE_WEIGHT=20
-            CODE_QUALITY_WEIGHT=15
-            STRUCTURE_WEIGHT=40
-            echo "Homework 3 detected - using adjusted weights (Structure: 40%, Tests: 25%, Coverage: 20%, Quality: 15%)"
+            # Homework 3 is a static testing assignment, so dynamic tests and
+            # coverage carry no weight. The split mirrors the rubric in
+            # 03-static-testing/homework/homework-3.md, where "Linting Config"
+            # is 30 of 110 points (~25%) and the remaining automatable
+            # categories (Setup, Pre-commit, Report, Documentation) are structure.
+            TESTS_WEIGHT=0
+            COVERAGE_WEIGHT=0
+            CODE_QUALITY_WEIGHT=25
+            STRUCTURE_WEIGHT=75
+            echo "Homework 3 detected - static testing assignment, using adjusted weights (Structure: 75%, Quality: 25%, Tests/Coverage: not applicable)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
@@ -624,6 +626,38 @@ jobs:
       - name: Generate grading report
         id: report
         run: |
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+
+          # Homework 3 grades static testing only, so leave the dynamic
+          # categories out of the report entirely rather than printing rows
+          # that carry 0% weight and a coverage figure nobody was graded on.
+          if [ "$ASSIGNMENT" = "3" ]; then
+            BREAKDOWN_ROWS="| **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+            DYNAMIC_SECTION="#### Dynamic Tests & Coverage
+          - Not applicable: homework 3 is a static testing assignment and is graded on configuration, linting and analysis only."
+            NEXT_STEPS="1. Review the linting output in the Actions tab
+          2. Fix any remaining linting issues and make sure the pre-commit hooks run
+          3. Update documentation if needed"
+          else
+            BREAKDOWN_ROWS="| **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
+          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
+          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+            DYNAMIC_SECTION="#### Python Tests
+          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
+          - 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}%
+
+          #### JavaScript Tests
+          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}"
+            NEXT_STEPS="1. Review the detailed test output in the Actions tab
+          2. Fix any failing tests or linting issues
+          3. Ensure coverage meets the minimum threshold (80%)
+          4. Update documentation if needed"
+          fi
+
           REPORT="## 📊 Automated Grading Report
 
           **Student**: ${{ steps.extract-info.outputs.student_name }}
@@ -638,23 +672,13 @@ jobs:
 
           | Category | Score | Weight |
           |----------|-------|--------|
-          | **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
-          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
-          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
-          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |
+          $BREAKDOWN_ROWS
 
           ---
 
           ### 📝 Detailed Results
 
-          #### Python Tests
-          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
-          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
-          - 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}%
-
-          #### JavaScript Tests
-          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
-          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
+          $DYNAMIC_SECTION
 
           #### Code Quality
           - Pylint Score: ${{ steps.code-quality.outputs.pylint_score }}/10
@@ -667,10 +691,7 @@ jobs:
 
           ### 📋 Next Steps
 
-          1. Review the detailed test output in the Actions tab
-          2. Fix any failing tests or linting issues
-          3. Ensure coverage meets the minimum threshold (80%)
-          4. Update documentation if needed
+          $NEXT_STEPS
 
           ---
 
