@@ -1,0 +1,111 @@
+[MASTER]
+# Use multiple processes to speed up Pylint
+jobs=1
+
+# Pickle collected data for later comparisons
+persistent=yes
+
+# A comma-separated list of package or module names from where C extensions
+# may be loaded.
+extension-pkg-allow-list=
+
+# List of plugins to load
+load-plugins=
+
+[MESSAGES CONTROL]
+# Disable specific messages/categories
+disable=
+    C0111,  # missing-docstring (handled by our own docstrings)
+    W0621,  # redefined-outer-name
+    R0903,  # too-few-public-methods
+
+# Enable all other messages
+enable=all
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=100
+
+# Expected format of line ending.
+expected-line-ending-format=
+
+# String used as indentation unit.
+indent-string='    '
+
+# Number of spaces of indent required inside a hanging or continued line.
+indent-after-paren=4
+
+[DESIGN]
+# Maximum number of arguments for function / method.
+max-args=8
+
+# Maximum number of attributes for a class.
+max-attributes=10
+
+# Maximum number of boolean expressions in an if statement.
+max-bool-expr=5
+
+# Maximum number of branch for function / method body.
+max-branches=12
+
+# Maximum number of locals for function / method body.
+max-locals=15
+
+# Maximum number of public methods for a class.
+max-public-methods=20
+
+# Maximum number of return / yield for function / method body.
+max-returns=6
+
+# Maximum number of statements in function / method body.
+max-statements=50
+
+[BASIC]
+# Naming style for arguments.
+argument-naming-style=snake_case
+
+# Naming style for attributes.
+attr-naming-style=snake_case
+
+# Naming style for class attributes.
+class-attribute-naming-style=any
+
+# Naming style for class names.
+class-naming-style=PascalCase
+
+# Naming style for constants.
+const-naming-style=UPPER_CASE
+
+# Naming style for functions.
+function-naming-style=snake_case
+
+# Naming style for method names.
+method-naming-style=snake_case
+
+# Naming style for modules.
+module-naming-style=snake_case
+
+# Naming style for variables.
+variable-naming-style=snake_case
+
+# Minimum length for variable names (except loop variables).
+good-names=i,j,k,n,a,b,x,y,_
+
+[SIMILARITIES]
+# Minimum lines number of a similarity.
+min-similarity-lines=4
+
+# Ignore imports when computing similarities.
+ignore-imports=yes
+
+[TYPECHECK]
+# List of module names for which member attributes should not be checked.
+ignored-modules=
+
+[IMPORTS]
+# Allow wildcard imports from modules that define __all__.
+allow-wildcard-with-all=no
+
+[EXCEPTIONS]
+# Exceptions that will emit a warning when caught.
+overgeneral-exceptions=builtins.BaseException,builtins.Exception
