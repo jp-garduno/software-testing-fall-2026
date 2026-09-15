@@ -12,9 +12,9 @@
 | Inconsistencia de UI                                 | Medium           | Medio      | P2            | Hacer pruebas en la mayoría de sistemas y navegadores, y probar en diferentes periféricos.                                                                                                                                 |
 
 ## Top
-1. Fuga de datos de usuarios
+1. Fuga de datos de usuarios  
 2. Problemas de acceso a las bases de datos de usuario
 3. Carga de datos incorrecta en regiones específicas
 4. Lag en el video por picos de usuarios
 5. Fallo en el estado de dispositivos conectados
-6. Inconsistencia de UI
+6. Inconsistencia de UI    

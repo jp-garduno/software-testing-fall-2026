@@ -1,5 +1,5 @@
-# Pruebas
-## Tipo de prueba: Pruebas de humo
+# Pruebas 
+## Test Type: Pruebas de humo
 
 **Categoría**: Funcional
 
@@ -19,7 +19,7 @@ Ya que representan las funciones básicas y más esperables de la app, las cuale
 
 ---
 
-## Tipo de prueba: Prueba de usabilidad
+## Test Type: Prueba de usabilidad
 
 **Categoría**: No funcional
 
@@ -47,7 +47,7 @@ Netflix es una aplicación con un público objetivo muy amplio, desde niños de 
 
 ---
 
-## Tipo de prueba: Rendimiento
+## Test Type: Rendimiento
 
 **Categoría**: No funcional
 
@@ -67,7 +67,7 @@ En el caso del video y el pago, es sumamente importante que sean rápidos, ya qu
 
 ---
 
-## Tipo de prueba: Seguridad
+## Test Type: Seguridad
 
 **Categoría**: No funcional
 
@@ -87,7 +87,7 @@ Ya que se manejan datos sensibles, como datos de tarjeta de crédito/débito o i
 Los problemas legales que pueden surgir por una mala seguridad son muy graves, desde incumplimiento de contrato hasta demandas colectivas por la filtración, por lo cual es muy importante evitar tener problemas en el futuro contando con una estructura sólida.
 ---
 
-## Tipo de prueba: Regresión
+## Test Type: Regresión
 
 **Categoría**: Funcional
 
@@ -107,7 +107,7 @@ Es importante que, cuando se corrija algo, quede bien hecho, ya que si termina t
 
 ---
 
-## Tipo de prueba: Aceptación
+## Test Type: Aceptación
 
 **Categoría**: Funcional
 
@@ -127,7 +127,7 @@ Es sumamente importante ver cómo reacciona la gente a la aplicación y que esta
 
 ---
 
-## Tipo de prueba: Compatibilidad
+## Test Type: Compatibilidad
 
 **Categoría**: No funcional
 
@@ -147,7 +147,7 @@ Es importante que la plataforma funcione en todos los dispositivos que dice sopo
 
 ---
 
-## Tipo de prueba: Integración
+## Test Type: Integración
 
 **Categoría**: Funcional
 

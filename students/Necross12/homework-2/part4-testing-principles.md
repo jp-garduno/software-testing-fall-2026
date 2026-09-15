@@ -1,4 +1,6 @@
-## 1. Las pruebas muestran la presencia de defectos.
+## 1. Testing Shows Presence of Defects
+
+[//]: # (## 1. Las pruebas muestran la presencia de defectos.)
 
 **Aplicado**
 Las pruebas pueden demostrar que existen errores, pero no pueden probar que no existen. Por lo cual se deben establecer pruebas realistas y específicas para comprobar el comportamiento de la app.
@@ -10,7 +12,9 @@ Las pruebas pueden demostrar que existen errores, pero no pueden probar que no e
 
 ---
 
-## 2. Es imposible realizar pruebas exhaustivas.
+## 2. Exhaustive Testing is Impossible
+
+[//]: # (## 2. Es imposible realizar pruebas exhaustivas.)
 
 **Aplicado**
 Probarlo todo no es factible, excepto en casos triviales. Por lo cual nos vamos a centrar en la función de riesgo y en el MVP.
@@ -22,7 +26,9 @@ Probarlo todo no es factible, excepto en casos triviales. Por lo cual nos vamos 
 
 ---
 
-## 3. Pruebas tempranas
+## 3. Early Testing
+
+[//]: # (## 3. Pruebas tempranas)
 
 **Aplicado**
 Comience las pruebas lo antes posible en el ciclo de vida del desarrollo de software. Probar los requisitos, el diseño y el código mientras se desarrolla la app, y no solo antes de que la plataforma se lance.
@@ -33,8 +39,8 @@ Comience las pruebas lo antes posible en el ciclo de vida del desarrollo de soft
 - Hacer pruebas alfa y beta para saber cómo va la app, y no esperar hasta el feedback final
 
 ---
-
-## 4. Agrupación de defectos
+## 4. Defect Clustering
+<!-- ## 4. Agrupación de defectos -->
 
 **Aplicado**
 Un número reducido de módulos contiene la mayoría de los defectos (regla 80/20). Centrar las pruebas en los módulos de alto riesgo.
@@ -46,7 +52,8 @@ Un número reducido de módulos contiene la mayoría de los defectos (regla 80/2
 
 ---
 
-## 5. La paradoja de los plaguicidas
+## 5. Pesticide Paradox
+<!-- ## 5. La paradoja de los plaguicidas -->
 
 **Aplicado**
 Repetir las mismas pruebas no encontrará nuevos defectos. Por lo cual, para una plataforma con tantas funciones como Netflix, es importante actualizar y renovar las pruebas periódicamente, sobre todo las de elementos vitales.
@@ -57,8 +64,8 @@ Repetir las mismas pruebas no encontrará nuevos defectos. Por lo cual, para una
 - Ver interacciones reales con el código, y no código prehecho (para evitar que se desarrolle código pensando en cómo resolver la prueba y no el problema)
 
 ---
-
-## 6. Las pruebas dependen del contexto.
+## 6. Testing is Context Dependent
+<!-- ## 6. Las pruebas dependen del contexto. -->
 
 **Aplicado**
 Las pruebas se deben adaptar a la plataforma (es decir, Netflix) y no al revés.
@@ -69,8 +76,8 @@ Las pruebas se deben adaptar a la plataforma (es decir, Netflix) y no al revés.
 - Adaptar las pruebas a las necesidades reales del cliente y no solo a lo teórico (adaptación)
 
 ---
-
-## 7. Falacia de ausencia de errores
+## 7. Absence of Errors Fallacy
+<!-- ## 7. Falacia de ausencia de errores -->
 
 **Aplicado**
 Un software libre de errores es inútil si no satisface las necesidades del usuario. Por lo cual es más importante que Netflix satisfaga las necesidades de sus usuarios, a que no tenga errores pero sea inutilizable (o que nunca salga).

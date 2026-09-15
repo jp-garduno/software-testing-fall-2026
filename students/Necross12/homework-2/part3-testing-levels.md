@@ -1,5 +1,7 @@
 ## Pruebas unitarias
 
+[//]: # (## Pruebas unitarias)
+
 **Alcance **: Funciones/métodos/componentes individuales
 
 **Qué se debe probar**:
@@ -22,14 +24,15 @@
 
 ---
 
-## Pruebas de integración
+## Integration Testing
+[//]: # (## Pruebas de integración)
 
 **Alcance **: Módulos (secciones), APIs, bases de datos
 
 **Qué se debe probar**:
 
 - Login: probar iniciar sesión con diferentes usuarios, de forma correcta e incorrecta, para ver qué sucede
-- Probar que el filtro arroje resultados adecuados, probando los diversos filtros con los elementos que deberían existir
+- Probar que el filtro arroje resultados adecuados, probando los diversos filtros con los elementos que deberían existir 
 - Probar que se pueda reproducir una película de la base de datos y aplicar las funciones básicas (similar a los comandos de un bot de Discord)
 
 **Tools**: Base de datos, agentes
@@ -46,7 +49,9 @@
 
 ---
 <!-- (aqui ya hay interfas) /-->
-## Pruebas de sistema
+## System Testing
+
+[//]: # (## Pruebas de sistema)
 
 **Alcance **: Probar el sistema en partes concretas, interfaz y carga de elementos
 
@@ -55,7 +60,7 @@
 - Sistema de registro de nuevo usuario (incluyendo el pago)
 - Provocar ataques
 - Seleccionar una película desde el filtro
--
+- 
 **Tools**: QA, tester, herramienta para ver mensajes en consola, agente
 
 **Coverage Goal**: 20
@@ -70,7 +75,8 @@
 
 ---
 
-## Pruebas de aceptación
+## Acceptance Testing
+[//]: # (## Pruebas de aceptación)
 
 **Alcance**: Toda la aplicación
 
