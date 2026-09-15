@@ -1,0 +1,35 @@
+name: Static testing - davidvaldezm homework 3
+
+on:
+  pull_request:
+    paths:
+      - students/davidvaldezm/homework-3/**
+      - .github/workflows/static-testing-davidvaldezm.yml
+  push:
+    branches: [feat/davidvaldezm/homework-3]
+    paths:
+      - students/davidvaldezm/homework-3/**
+      - .github/workflows/static-testing-davidvaldezm.yml
+
+permissions:
+  contents: read
+
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: students/davidvaldezm/homework-3/requirements.txt
+      - name: Install pinned tools
+        run: python -m pip install -r students/davidvaldezm/homework-3/requirements.txt
+      - name: Run all static checks
+        run: >-
+          python -m pre_commit run --all-files
+          --config students/davidvaldezm/homework-3/.pre-commit-config.yaml
+      - name: Run tests and require 90 percent coverage
+        working-directory: students/davidvaldezm/homework-3
+        run: python -m pytest

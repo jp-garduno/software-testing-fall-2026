@@ -1,0 +1,30 @@
+[MASTER]
+ignore=CVS
+persistent=yes
+jobs=1
+
+[MESSAGES CONTROL]
+# Disabled a handful of rules that are too strict for a small CLI script:
+# - missing-module-docstring / missing-class-docstring: the module and
+#   class names in this project are already self-explanatory.
+# - too-few-public-methods: TaskManager is a small, focused class.
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    too-few-public-methods
+
+[FORMAT]
+max-line-length=100
+indent-string='    '
+
+[BASIC]
+good-names=i,j,k,t,f,id
+
+[DESIGN]
+max-args=6
+max-attributes=8
+
+[REPORTS]
+output-format=text
+reports=no
+score=yes
