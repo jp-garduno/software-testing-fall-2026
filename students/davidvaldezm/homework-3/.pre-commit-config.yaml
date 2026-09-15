@@ -1,4 +1,4 @@
-files: ^students/davidvaldezm/homework-3/
+files: ^(students/davidvaldezm/homework-3/|\.github/workflows/static-testing-davidvaldezm\.yml$)
 repos:
   - repo: local
     hooks:
