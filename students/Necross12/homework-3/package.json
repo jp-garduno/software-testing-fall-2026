@@ -1,0 +1,41 @@
+{
+  "name": "flujo-git",
+  "version": "1.0.0",
+  "description": "Tarea 03: Configuración de pruebas estáticas",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon src/app.js",
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jp-garduno/software-testing-fall-2026.git"
+  },
+  "keywords": [
+    "tarea",
+    "pruebas",
+    "git"
+  ],
+  "author": "Diego Orozco",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Necross12/git-workflow-practice/issues"
+  },
+  "homepage": "https://github.com/jp-garduno/software-testing-fall-2026",
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.3",
+    "lodash": "^4.18.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.9.6",
+    "rimraf": "^6.1.3",
+    "ts-node": "^10.9.2"
+  }
+}
