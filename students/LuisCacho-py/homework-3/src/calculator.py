@@ -83,7 +83,7 @@ class Calculator:
         Returns:
             base ** exponent.
         """
-        result = base ** exponent
+        result = base**exponent
         self.history.append(f"{base} ** {exponent} = {result}")
         return result
 
