@@ -1,0 +1,28 @@
+﻿************* Module advanced_operations
+src\advanced_operations.py:31:0: C0301: Line too long (140/100) (line-too-long)
+src\advanced_operations.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\advanced_operations.py:28:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module calculator
+src\calculator.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\calculator.py:3:0: E0401: Unable to import 'src.advanced_operations' (import-error)
+src\calculator.py:4:0: E0401: Unable to import 'src.math_operations' (import-error)
+src\calculator.py:13:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\calculator.py:39:15: W0718: Catching too general exception Exception (broad-exception-caught)
+src\calculator.py:43:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\calculator.py:52:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\calculator.py:75:8: R1723: Unnecessary "elif" after "break", remove the leading "el" from "elif" (no-else-break)
+src\calculator.py:60:4: W0612: Unused variable 'x' (unused-variable)
+src\calculator.py:61:4: W0612: Unused variable 'y' (unused-variable)
+src\calculator.py:62:4: W0612: Unused variable 'z' (unused-variable)
+src\calculator.py:1:0: W0611: Unused import time (unused-import)
+************* Module math_operations
+src\math_operations.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\math_operations.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\math_operations.py:5:0: C0103: Function name "AddNumbers" doesn't conform to snake_case naming style (invalid-name)
+src\math_operations.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\math_operations.py:1:0: W0611: Unused import os (unused-import)
+src\math_operations.py:2:0: W0611: Unused import sys (unused-import)
+
+------------------------------------------------------------------
+Your code has been rated at 7.21/10 (previous run: 7.21/10, +0.00)
+
