@@ -57,7 +57,9 @@ repos:
     rev: v3.0.3
     hooks:
       - id: pylint
-        args: [--max-line-length=120, "--disable=C0111,W0621"]
+        args:
+          - --rcfile=students/Kaito0110/homework-3/.pylintrc
+          - --max-line-length=120
         files: \.py$
         additional_dependencies:
           - pytest
