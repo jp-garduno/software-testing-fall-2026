@@ -14,9 +14,10 @@ function parseNumber(value) {
   if (typeof value !== 'string') {
     throw new CalculatorError('operand must be a number or a string');
   }
-  var parsed = Number(value.trim());
-  if (value.trim() === '' || Number.isNaN(parsed))
-    throw new CalculatorError('not a number: ' + value);
+  const parsed = Number(value.trim());
+  if (value.trim() === '' || Number.isNaN(parsed)) {
+    throw new CalculatorError(`not a number: ${value}`);
+  }
   return parsed;
 }
 
@@ -27,7 +28,7 @@ function validateOperator(operator) {
   const cleaned = operator.trim();
   if (!VALID_OPERATORS.includes(cleaned)) {
     throw new CalculatorError(
-      'unknown operator "' + cleaned + '", expected one of: ' + VALID_OPERATORS.join(' ')
+      `unknown operator "${cleaned}", expected one of: ${VALID_OPERATORS.join(' ')}`
     );
   }
   return cleaned;

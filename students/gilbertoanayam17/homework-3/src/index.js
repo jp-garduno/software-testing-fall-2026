@@ -9,7 +9,6 @@ function runExamples(expressions) {
   expressions.forEach(function (expression) {
     calculator.calculate(expression[0], expression[1], expression[2]);
   });
-  console.log('Calculated ' + calculator.history.length + ' expressions');
   return calculator.history.join('\n');
 }
 

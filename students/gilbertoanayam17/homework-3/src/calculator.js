@@ -23,7 +23,6 @@ const OPERATIONS = {
 class Calculator {
   constructor() {
     this.entries = [];
-    const maxHistory = 100;
   }
 
   calculate(left, operator, right) {
@@ -31,7 +30,7 @@ class Calculator {
     const first = parseNumber(left);
     const second = parseNumber(right);
     const result = OPERATIONS[symbol](first, second);
-    this.entries.push(first + " " + symbol + " " + second + " = " + result);
+    this.entries.push(`${first} ${symbol} ${second} = ${result}`);
     return result;
   }
 

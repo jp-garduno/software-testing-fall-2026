@@ -1,7 +1,5 @@
 'use strict';
 
-const os = require('os');
-
 class CalculatorError extends Error {
   constructor(message) {
     super(message);
@@ -22,7 +20,7 @@ function multiply(left, right) {
 }
 
 function divide(left, right) {
-  if (right == 0) {
+  if (right === 0) {
     throw new CalculatorError('cannot divide by zero');
   }
   return left / right;
