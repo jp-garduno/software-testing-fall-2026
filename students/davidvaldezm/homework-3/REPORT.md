@@ -10,7 +10,7 @@ como solicita el ejercicio. La comparación usa código realmente ejecutado: el
 archivo `reports/pylint-before.txt` conserva la salida inicial y el historial
 permite reproducirla sin modificar la versión final.
 
-La validación local utilizó Python 3.12.14, Pylint 3.3.8, Black 25.1.0 e isort
+La validación inicial utilizó Python 3.12.14, Pylint 3.3.8, Black 25.1.0 e isort
 6.0.1. Las dependencias directas tienen versiones fijas. Primero se ejecutaron
 pruebas funcionales; después se aplicaron los analizadores, se corrigió el código
 y se repitieron las comprobaciones. El entorno de integración continua utiliza
@@ -47,6 +47,11 @@ pasaron con 100% de cobertura de líneas y ramas medidas por pytest-cov. Bandit
 no encontró problemas en los módulos de producción. Los nueve hooks pasaron al
 ejecutarlos sobre todos los archivos; también se comprobó su ejecución durante
 un commit real. Los resultados finales se conservan en `reports/`.
+
+Trivy detectó después dos vulnerabilidades en dependencias: CVE-2026-32274
+en Black y CVE-2025-71176 en pytest. Se actualizaron a Black 26.3.1 y pytest
+9.0.3, versiones corregidas indicadas por el escáner, y se repitió la validación.
+Esto muestra el valor de complementar Bandit con análisis de dependencias.
 
 Una revisión manual podría detectar estos defectos, pero repetirla para cada
 importación o línea consume atención que conviene dedicar al diseño. La

@@ -1,5 +1,5 @@
 ============================= test session starts =============================
-platform win32 -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+platform win32 -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0
 rootdir: C:\Users\david\MYSHIT\homework-3\students\davidvaldezm\homework-3
 configfile: pyproject.toml
 testpaths: .
