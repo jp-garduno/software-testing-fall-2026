@@ -1,17 +1,23 @@
-import datetime
-from storage import loadTasks, saveTasks
+"""Core task management logic (in-memory model backed by JSON storage)."""
 
+import datetime
+
+from storage import load_tasks, save_tasks
 
 PRIORITY_LEVELS = ["low", "medium", "high"]
 
 
 class TaskManager:
-    def __init__(self, tasks=[]):
-        self.tasks = tasks if tasks else loadTasks()
+    """Keeps track of tasks and persists them to disk on every change."""
+
+    def __init__(self, tasks=None):
+        self.tasks = tasks if tasks else load_tasks()
         self.next_id = len(self.tasks) + 1
 
     def add_task(self, title, priority="medium", due_date=None):
-        if priority not in PRIORITY_LEVELS: priority = "medium"
+        """Create a new task and persist it."""
+        if priority not in PRIORITY_LEVELS:
+            priority = "medium"
         task = {
             "id": self.next_id,
             "title": title,
@@ -22,36 +28,37 @@ class TaskManager:
         }
         self.tasks.append(task)
         self.next_id += 1
-        saveTasks(self.tasks)
+        save_tasks(self.tasks)
         return task
 
     def complete_task(self, task_id):
-        for t in self.tasks:
-            if t["id"] == task_id:
-                t["completed"] = True
-                saveTasks(self.tasks)
+        """Mark a task as completed by id. Returns True if found."""
+        for task in self.tasks:
+            if task["id"] == task_id:
+                task["completed"] = True
+                save_tasks(self.tasks)
                 return True
         return False
 
     def remove_task(self, task_id):
-        found = False
-        for t in self.tasks:
-            if t["id"] == task_id:
-                found = True
-        self.tasks = [t for t in self.tasks if t["id"] != task_id]
-        saveTasks(self.tasks)
+        """Remove a task by id. Returns True if it existed."""
+        found = any(task["id"] == task_id for task in self.tasks)
+        self.tasks = [task for task in self.tasks if task["id"] != task_id]
+        save_tasks(self.tasks)
         return found
 
     def list_tasks(self, show_completed=True, filter_priority=None):
+        """Return tasks, optionally hiding completed ones or filtering by priority."""
         result = []
-        for t in self.tasks:
-            if not show_completed and t["completed"]:
+        for task in self.tasks:
+            if not show_completed and task["completed"]:
                 continue
-            if filter_priority is not None and t["priority"] != filter_priority:
+            if filter_priority is not None and task["priority"] != filter_priority:
                 continue
-            result.append(t)
+            result.append(task)
         return result
 
-    def get_tasks_sorted_by_priority_and_then_by_creation_date_descending(self):
+    def get_tasks_by_priority(self):
+        """Return tasks sorted by priority (high first), then creation date."""
         order = {"high": 0, "medium": 1, "low": 2}
         return sorted(self.tasks, key=lambda t: (order[t["priority"]], t["created_at"]))

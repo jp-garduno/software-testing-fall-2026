@@ -1,10 +1,13 @@
-import sys
+"""Command-line entry point for the task manager."""
+
 import argparse
-from task_manager import *
+
 from storage import get_storage_summary
+from task_manager import TaskManager
 
 
 def build_parser():
+    """Build and return the argparse parser for the CLI."""
     parser = argparse.ArgumentParser(description="Simple Task Manager CLI")
     sub = parser.add_subparsers(dest="command")
 
@@ -25,6 +28,7 @@ def build_parser():
 
 
 def main():
+    """Parse CLI arguments and dispatch to the TaskManager."""
     parser = build_parser()
     args = parser.parse_args()
     manager = TaskManager()
@@ -39,9 +43,9 @@ def main():
         ok = manager.remove_task(args.task_id)
         print("Removed" if ok else "Task not found")
     elif args.command == "list":
-        for t in manager.list_tasks():
-            status = "x" if t["completed"] else " "
-            print(f"[{status}] #{t['id']} ({t['priority']}) {t['title']}")
+        for task in manager.list_tasks():
+            status = "x" if task["completed"] else " "
+            print(f"[{status}] #{task['id']} ({task['priority']}) {task['title']}")
     elif args.command == "summary":
         summary = get_storage_summary(manager.tasks)
         print(summary)
