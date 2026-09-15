@@ -43,7 +43,10 @@ def test_exact_totals_and_boundaries():
     assert budget.remove(2).category == "travel"
 
 
-@pytest.mark.parametrize("index,error", [(-1, IndexError), (0, IndexError), (True, TypeError), ("0", TypeError)])
+@pytest.mark.parametrize(
+    "index,error",
+    [(-1, IndexError), (0, IndexError), (True, TypeError), ("0", TypeError)],
+)
 def test_invalid_removal(index, error):
     """Reject indexes that cannot identify an existing expense."""
     with pytest.raises(error):
@@ -69,14 +72,26 @@ def test_storage_round_trip(tmp_path):
     assert restored.transactions == budget.transactions
 
 
-@pytest.mark.parametrize("record", [[], {}, {"amount": "1", "category": "food", "description": "", "extra": 1}])
+@pytest.mark.parametrize(
+    "record",
+    [[], {}, {"amount": "1", "category": "food", "description": "", "extra": 1}],
+)
 def test_invalid_transaction_schema(record):
     """Reject missing fields and unrecognized data."""
     with pytest.raises(ValueError):
         Transaction.from_dict(record)
 
 
-@pytest.mark.parametrize("payload", [[], {}, {"version": 2, "limit": "10", "transactions": []}, {"version": True, "limit": "10", "transactions": []}, {"version": 1, "limit": "10", "transactions": {}}])
+@pytest.mark.parametrize(
+    "payload",
+    [
+        [],
+        {},
+        {"version": 2, "limit": "10", "transactions": []},
+        {"version": True, "limit": "10", "transactions": []},
+        {"version": 1, "limit": "10", "transactions": {}},
+    ],
+)
 def test_invalid_budget_schema(tmp_path, payload):
     """Reject invalid stored budget schemas."""
     filename = tmp_path / "invalid.json"

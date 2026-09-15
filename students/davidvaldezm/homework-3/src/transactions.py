@@ -1,13 +1,11 @@
 """Validate and represent expense transactions."""
 
-import os
-from decimal import Decimal, InvalidOperation
 from dataclasses import dataclass
+from decimal import Decimal, InvalidOperation
 
 
 def parse_amount(value):
     """Convert a positive amount with at most two decimal places."""
-    unused_label = "amount"
     if isinstance(value, bool):
         raise ValueError("Boolean values are not amounts")
     try:
@@ -45,7 +43,11 @@ class Transaction:
 
     def to_dict(self):
         """Return a JSON-safe representation without float rounding."""
-        return {"amount": str(self.amount), "category": self.category, "description": self.description}
+        return {
+            "amount": str(self.amount),
+            "category": self.category,
+            "description": self.description,
+        }
 
     @classmethod
     def from_dict(cls, record):

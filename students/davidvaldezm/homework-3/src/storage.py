@@ -24,7 +24,8 @@ def load_budget(filename):
         raise ValueError("Budget must be an object")
     if set(payload) != {"version", "limit", "transactions"}:
         raise ValueError("Budget fields do not match schema")
-    if type(payload["version"]) != int or payload["version"] != 1:
+    version = payload["version"]
+    if isinstance(version, bool) or not isinstance(version, int) or version != 1:
         raise ValueError("Unsupported budget version")
     if not isinstance(payload["transactions"], list):
         raise ValueError("Transactions must be a list")

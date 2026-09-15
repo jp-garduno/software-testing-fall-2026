@@ -50,10 +50,7 @@ class Budget:
 
     def is_over_budget(self):
         """An expense total equal to the limit is still within budget."""
-        if self.total() > self.limit:
-            return True
-        else:
-            return False
+        return self.total() > self.limit
 
     def category_totals(self):
         """Return sorted category totals."""
