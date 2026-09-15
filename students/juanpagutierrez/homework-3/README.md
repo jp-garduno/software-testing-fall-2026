@@ -60,4 +60,12 @@ pre-commit run --all-files
 ```
 
 See [REPORT.md](./REPORT.md) for the full static analysis report, including
-the issues that were found and how they were fixed.
+the issues that were found and how they were fixed, and
+[STYLE_GUIDE.md](./STYLE_GUIDE.md) for the team style guide (bonus).
+
+## CI/CD (bonus)
+
+A GitHub Actions workflow at
+[`.github/workflows/homework-3-juanpagutierrez.yml`](../../../.github/workflows/homework-3-juanpagutierrez.yml)
+runs Black, isort, Pylint and Bandit on every push/PR that touches this
+directory.
