@@ -722,23 +722,83 @@ npm test -- --coverage
 
 ## 📤 Submission Requirements
 
-### GitHub Repository
+**To receive automated grading and credit**, you must submit your work in this
+course repository. Do not create a separate repository: the grading system only
+runs on pull requests opened here.
 
-1. Create a new public repository named `banking-black-box-tests` or similar
-2. Include all files listed in Part 5 structure
-3. Ensure all tests pass before submitting
-4. Tag your final submission: `git tag -a hw4-final -m "Homework 4 submission"`
+### Submission Structure
+
+Put everything in `students/<your-github-username>/homework-4/`, using the
+directory layout from Part 5. In particular the grading system expects:
+
+- Your test files under `tests/` (named `test_*.py` or `*.test.js`)
+- Your code under `src/`
+- `README.md` at the top level of your submission directory
+
+### Submission Process
+
+1. **Create your branch**:
+
+   ```bash
+   git checkout -b feat/<your-username>/homework-4
+   ```
+
+2. **Create your directory**:
+
+   ```bash
+   mkdir -p students/<your-username>/homework-4
+   cd students/<your-username>/homework-4
+   ```
+
+3. **Complete all five parts in this directory**
+
+4. **Make sure every test passes before submitting**:
+
+   ```bash
+   # Python
+   pytest tests/ -v --cov=src
+
+   # JavaScript
+   npm test -- --coverage
+   ```
+
+5. **Commit with conventional commits** (at least 5 commits required):
+
+   ```bash
+   git add .
+   git commit -m "docs: add black box test design document"
+   git commit -m "feat: add banking system under test"
+   git commit -m "test: add equivalence partitioning and boundary value tests"
+   git commit -m "test: add decision table and state transition tests"
+   git commit -m "docs: add execution and analysis reports"
+   ```
+
+6. **Push your branch**:
+
+   ```bash
+   git push -u origin feat/<your-username>/homework-4
+   ```
+
+7. **Create a Pull Request**:
+   - Title: `Homework 4: Black Box Testing Suite - <Your Name>`
+   - Base branch: `main`
+   - **Add the `homework` label** to your PR — without it the automated
+     grading does not run
+   - Fill out the PR description using the template
+
+8. **Check your grade**: a bot comments the breakdown on your PR within a few
+   minutes. If something is wrong, fix it, push again, and it re-grades.
 
 ### Canvas Submission
 
-Submit:
-1. **GitHub Repository URL** (including tag)
-2. **Test Design Document** (PDF export of the markdown)
-3. **Analysis Report** (PDF)
-4. **Brief Reflection** (200-300 words):
-   - What was most challenging?
-   - What did you learn about black box testing?
-   - How confident are you in the quality of the banking system?
+Submit the **URL of your pull request**.
+
+Also include a **brief reflection** (200-300 words) in your PR description or as
+`reports/reflection.md`:
+
+- What was most challenging?
+- What did you learn about black box testing?
+- How confident are you in the quality of the banking system?
 
 ---
 
@@ -940,14 +1000,15 @@ Before submitting, verify:
 - [ ] All files organized in correct structure
 - [ ] requirements.txt or package.json included
 - [ ] .gitignore configured properly
-- [ ] Repository is public and accessible
+- [ ] Everything is under `students/<your-username>/homework-4/`
 
 ### Submission
 
-- [ ] Repository URL submitted to Canvas
-- [ ] Final commit tagged (hw4-final)
-- [ ] PDF exports of reports uploaded
-- [ ] Reflection document written (200-300 words)
+- [ ] At least 5 commits with conventional commit messages
+- [ ] Pull request created in the course repository
+- [ ] The `homework` label added to your PR
+- [ ] Pull request URL submitted to Canvas
+- [ ] Reflection written (200-300 words)
 - [ ] All tests pass one final time before submission
 
 ---

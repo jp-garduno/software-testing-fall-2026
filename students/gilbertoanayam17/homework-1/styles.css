@@ -1,0 +1,147 @@
+:root {
+    --fondo: #10100f;
+    --texto: #ece7e1;
+    --tenue: #8f8880;
+    --acento: #c9a227;
+    --borde: #2a2825;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--borde);
+}
+
+.logo {
+    color: var(--acento);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+}
+
+.navegacion a {
+    color: var(--tenue);
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
+
+.navegacion a:hover {
+    color: var(--texto);
+}
+
+main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.portada {
+    padding: 5rem 0 3rem;
+    border-bottom: 1px solid var(--borde);
+}
+
+.etiqueta {
+    color: var(--acento);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.portada h1 {
+    font-size: 2.75rem;
+    margin: 0.5rem 0;
+}
+
+.subtitulo {
+    color: var(--tenue);
+    margin: 0;
+}
+
+.seccion {
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.seccion h2 {
+    color: var(--acento);
+    font-size: 1.25rem;
+    margin-top: 0;
+}
+
+.pie {
+    color: var(--tenue);
+    font-size: 0.85rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.tarjetas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.tarjeta {
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+}
+
+.tarjeta h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+}
+
+.tarjeta p {
+    margin: 0;
+    color: var(--tenue);
+    font-size: 0.9rem;
+}
+
+.contacto {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--tenue);
+}
+
+.contacto a {
+  color: var(--acento);
+}
+
+@media (max-width: 600px) {
+    .encabezado {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .navegacion a {
+        margin: 0 0.75rem;
+    }
+
+    .portada h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 0 1.25rem;
+    }
+}

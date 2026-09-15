@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portafolio de Jorge, estudiante de ingeniería en desarrollo de software.">
+  <title>Jorge — Portafolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <span class="mark">JR</span>
+      <nav class="nav">
+        <a href="#proyectos">proyectos</a>
+        <a href="#sobre-mi">sobre mí</a>
+        <a href="#contacto">contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="hero-kicker">estudiante de ingeniería en desarrollo de software</p>
+      <h1 class="hero-title">Jorge construye cosas<br>y entiende cómo funcionan.</h1>
+      <p class="hero-sub">
+        Practicando control de versiones, arquitectura de software y bases de datos —
+        este sitio es en sí mismo el ejercicio: cada sección llegó por su propia rama.
+      </p>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">rama actual</span>
+          <span class="meta-value">feature/add-content</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">stack</span>
+          <span class="meta-value">HTML · CSS · JS</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos" class="projects wrap">
+      <h2 class="section-title">Proyectos</h2>
+      <div class="project-list">
+        <article class="project-card">
+          <h3>Conversor JSON → TOON</h3>
+          <p>Construido con PLY para la materia de Lenguajes Formales — analizador léxico y sintáctico desde cero.</p>
+          <span class="project-tag">Python · PLY</span>
+        </article>
+        <article class="project-card">
+          <h3>LiveMatch — NoSQL</h3>
+          <p>Simulación de un partido de fútbol en tiempo real usando una arquitectura poliglota de bases NoSQL.</p>
+          <span class="project-tag">MongoDB · Redis</span>
+        </article>
+        <article class="project-card">
+          <h3>Este portafolio</h3>
+          <p>Práctica de flujo de Git: ramas de feature, commits atómicos y pull requests documentados.</p>
+          <span class="project-tag">Git · GitHub</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="sobre-mi" class="about wrap">
+      <h2 class="section-title">Sobre mí</h2>
+      <p class="about-text">
+        Estudio ingeniería en desarrollo de software. Prefiero escribir el código yo mismo
+        antes que copiar una solución que no termino de entender — así es como de verdad se queda.
+        Ahora mismo mi semestre cruza pruebas de software, desarrollo en la nube, desarrollo de cliente y diseño de sistemas escalables.
+      </p>
+    </section>
+  </main>
+
+  <footer id="contacto" class="site-footer wrap">
+    <p>¿Hablamos? <a href="mailto:eduardo.moreno@iteso.mx">eduardo.moreno@iteso.mx</a></p>
+    <p class="footer-note">Hecho a mano, commit por commit.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

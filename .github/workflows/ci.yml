@@ -32,18 +32,41 @@ jobs:
           pip install -r requirements.txt
 
       - name: Lint with Pylint
+        # students/ is excluded on purpose. Homework 3 asks students for code
+        # that "should have some intentional issues for linters to find", so
+        # linting their submissions here guarantees a red CI the moment any
+        # homework lands on main - and then every unrelated pull request
+        # inherits the failure. Submissions are linted and graded by
+        # grading-automation.yml, against their own linter configuration.
         run: |
-          pylint **/*.py --exit-zero || true
-        continue-on-error: true
+          if find . -name "*.py" -not -path "*/\.*" -not -path "*/node_modules/*" -not -path "./students/*" | grep -q .; then
+            find . -name "*.py" -not -path "*/\.*" -not -path "*/node_modules/*" -not -path "./students/*" -exec pylint --errors-only {} +
+          else
+            echo "No Python files found outside students/, skipping Pylint"
+          fi
+        continue-on-error: false
 
       - name: Format check with Black
+        # Excludes students/ for the same reason as Pylint above: students are
+        # not required to run Black, and homework 3 grades their formatting
+        # setup separately.
         run: |
-          black --check . || true
-        continue-on-error: true
+          if find . -name "*.py" -not -path "*/\.*" -not -path "*/node_modules/*" -not -path "./students/*" | grep -q .; then
+            # Unanchored on purpose: Black matches this regex against the path
+            # as a substring, and an anchored '^/students/' silently matched
+            # nothing and checked all 42 student files anyway.
+            black --check . --extend-exclude 'students/'
+          else
+            echo "No Python files found outside students/, skipping Black"
+          fi
+        continue-on-error: false
 
       - name: Run Python tests
+        # --ignore=students: a submission whose imports do not resolve aborts
+        # collection for the whole run, and student tests are not part of this
+        # repository's coverage.
         run: |
-          pytest --cov=. --cov-report=xml --cov-report=html --cov-report=term
+          pytest --ignore=students --cov=. --cov-report=xml --cov-report=html --cov-report=term
         continue-on-error: true
 
       - name: Upload Python coverage to Codecov
@@ -77,8 +100,18 @@ jobs:
         run: npm ci
 
       - name: Lint with ESLint
-        run: npm run lint
-        continue-on-error: true
+        run: |
+          npm run lint || EXIT_CODE=$?
+          # Exit code 2 means no files found (not an error for base repo)
+          # Exit code 1 means lint errors found (real error)
+          if [ "${EXIT_CODE:-0}" -eq 2 ]; then
+            echo "No files to lint or ESLint config issue - skipping"
+            exit 0
+          elif [ "${EXIT_CODE:-0}" -eq 1 ]; then
+            echo "ESLint found errors in code"
+            exit 1
+          fi
+        continue-on-error: false
 
       - name: Run JavaScript tests
         run: npm test -- --coverage
