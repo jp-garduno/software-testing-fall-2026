@@ -11,14 +11,14 @@ const {
 } = require('./operations');
 const { parseNumber, validateOperator } = require('./validation');
 
-const OPERATIONS = {
-  '+': add,
-  '-': subtract,
-  '*': multiply,
-  '/': divide,
-  '^': power,
-  '%': percentage,
-};
+const OPERATIONS = new Map([
+  ['+', add],
+  ['-', subtract],
+  ['*', multiply],
+  ['/', divide],
+  ['^', power],
+  ['%', percentage],
+]);
 
 class Calculator {
   constructor() {
@@ -29,7 +29,7 @@ class Calculator {
     const symbol = validateOperator(operator);
     const first = parseNumber(left);
     const second = parseNumber(right);
-    const result = OPERATIONS[symbol](first, second);
+    const result = OPERATIONS.get(symbol)(first, second);
     this.entries.push(`${first} ${symbol} ${second} = ${result}`);
     return result;
   }
