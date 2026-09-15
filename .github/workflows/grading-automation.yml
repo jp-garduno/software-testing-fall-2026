@@ -497,9 +497,15 @@ jobs:
             # testing, and its rubric awards no points for tests or coverage.
           else
             # Code-based homework: check for tests and structure
-            if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
+            # Search recursively: these assignments ask for the tests in a
+            # tests/ subdirectory, so a root-only `ls test_*.py` would miss
+            # every submission that follows the required structure. Accept both
+            # Python and JavaScript naming.
+            TEST_FILES=$(find . -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
+            TEST_FILES=${TEST_FILES:-0}
+            if [ "$TEST_FILES" -ge 1 ]; then
               SCORE=$((SCORE + 4))
-              echo "✅ Test files found (+4)"
+              echo "✅ Test files found: $TEST_FILES (+4)"
             else
               echo "❌ No test files found"
             fi
