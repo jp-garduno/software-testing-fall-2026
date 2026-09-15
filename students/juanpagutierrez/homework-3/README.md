@@ -40,6 +40,7 @@ later found and fixed with the linters below.
 - `black` (code formatter)
 - `isort` (import sorter)
 - `pylint` (linter)
+- `bandit` (security linter, bonus)
 
 ## Linting
 
@@ -49,6 +50,7 @@ Run the linters manually with:
 black src/
 isort --profile=black src/
 pylint src/*.py
+bandit -r src/
 ```
 
 Or run everything (including the pre-commit hooks) against all files with:
