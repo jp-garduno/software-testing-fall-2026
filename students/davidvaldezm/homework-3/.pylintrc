@@ -1,0 +1,14 @@
+[MAIN]
+py-version=3.11
+
+[FORMAT]
+max-line-length=88
+
+[BASIC]
+good-names=cls
+
+[REPORTS]
+score=yes
+
+[TYPECHECK]
+ignored-classes=decimal.Decimal
