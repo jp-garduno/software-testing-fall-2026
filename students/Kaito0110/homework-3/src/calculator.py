@@ -1,49 +1,34 @@
-from operations import (
-    suma,
-    resta,
-    multiplicacion,
+from src.operations import (
     division,
-    potencia,
-    modulo,
-    promedio,
     mayor,
     menor,
-    porcentaje
+    modulo,
+    multiplicacion,
+    porcentaje,
+    potencia,
+    promedio,
+    resta,
+    suma,
 )
-
-from utils import mostrar_menu, pedir_numero, mostrar_resultado
+from src.utils import mostrar_menu, mostrar_resultado, pedir_numero
 
 
 def calcular(opcion, a, b):
-    if opcion == "1":
-        return suma(a, b)
+    operaciones = {
+        "1": suma,
+        "2": resta,
+        "3": multiplicacion,
+        "4": division,
+        "5": potencia,
+        "6": modulo,
+        "7": promedio,
+        "8": mayor,
+        "9": menor,
+        "10": porcentaje,
+    }
 
-    if opcion == "2":
-        return resta(a, b)
-
-    if opcion == "3":
-        return multiplicacion(a, b)
-
-    if opcion == "4":
-        return division(a, b)
-
-    if opcion == "5":
-        return potencia(a, b)
-
-    if opcion == "6":
-        return modulo(a, b)
-
-    if opcion == "7":
-        return promedio(a, b)
-
-    if opcion == "8":
-        return mayor(a, b)
-
-    if opcion == "9":
-        return menor(a, b)
-
-    if opcion == "10":
-        return porcentaje(a, b)
+    if opcion in operaciones:
+        return operaciones[opcion](a, b)
 
     return "Opcion no valida"
 
@@ -55,7 +40,7 @@ def iniciar_calculadora():
         opcion = input("Selecciona una opcion: ")
 
         if opcion == "0":
-            print("Bye...")
+            print("Calculadora cerrada")
             break
 
         a = pedir_numero("Ingresa el primer numero: ")
