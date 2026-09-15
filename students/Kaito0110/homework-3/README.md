@@ -1,5 +1,9 @@
 # Homework 3 - Python Calculator
 
+**Student**: Kaito0110
+**Project**: Python Calculator
+**Language**: Python
+
 ## Description
 
 This project is a simple calculator developed in Python. The purpose of the project is to practice software testing, code quality and Git workflow.
@@ -65,8 +69,32 @@ pytest students/Kaito0110/homework-3/test_calculator.py
 
 The project currently includes 10 unit tests that verify the calculator operations.
 
+## Pre-commit Hooks Configured
+
+The configuration includes these checks:
+
+- trailing whitespace and end-of-file fixer
+- YAML and JSON validation
+- large-file, merge-conflict and private-key detection
+- Black formatting
+- isort import sorting
+- Pylint static analysis
+
+Install the hooks from the repository root with:
+
+```bash
+pre-commit install
+pre-commit run --files students/Kaito0110/homework-3/src/calculator.py students/Kaito0110/homework-3/src/operations.py students/Kaito0110/homework-3/src/utils.py students/Kaito0110/homework-3/test_calculator.py
+```
+
+To run the configured checks across the repository, use:
+
+```bash
+pre-commit run --all-files
+```
+
 ## Code Quality
 
-The project uses pre-commit hooks to check the code before commits. The configuration includes tools such as Black, isort and Pylint.
+The project uses pre-commit hooks to check the code before commits. The configuration includes tools such as Black, isort and Pylint. The Pylint configuration is stored in `.pylintrc`.
 
 These tools help maintain consistent formatting and identify possible problems in the Python code.

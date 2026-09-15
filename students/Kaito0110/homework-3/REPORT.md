@@ -1,67 +1,57 @@
-# Homework 3 - Testing Report
+# Homework 3 - Static Testing Report
 
 ## Introduction
 
-For this homework, I made a simple calculator using Python. The main goal was to practice software testing and also use some tools that help keep the code organized and clean.
+For this homework, I made a simple Python calculator with three source files in `src`: `calculator.py`, `operations.py` and `utils.py`.
 
-I decided to separate the calculator into different files instead of putting everything in one file. The project has three Python files inside the `src` folder: `calculator.py`, `operations.py` and `utils.py`.
+The goal was to practice finding problems before execution. I used Pylint, Black, isort and pre-commit, with pytest as a separate behavior check.
 
-The `operations.py` file has the different math operations, `utils.py` has some functions that help with the menu and user input, and `calculator.py` is the main part that connects everything together.
+## Issues Found
 
-## Testing
+The original code produced several findings.
 
-For the tests, I used pytest. I created a file called `test_calculator.py` where I tested the different operations of the calculator.
+The first issue was missing module documentation (`C0114`).
 
-I made tests for addition, subtraction, multiplication, division, power, modulo, average, finding the bigger number, finding the smaller number and percentage.
+The second was missing function documentation (`C0116`) in the calculator, operations and utility files.
 
-There are 10 tests in total. When I ran pytest, all the tests passed successfully:
+Another issue was multiple statements on one line (`C0321`). I expanded those operations to improve readability.
 
-`10 passed`
+Pylint also found a problem with the name `porcentaje` (`W0621`). The function was called `porcentaje`, but one of its parameters also had the name `porcentaje`. I changed the parameter name to `valor_porcentaje` to avoid using the same name.
 
-This was useful because instead of checking every operation manually, I could run all the tests at the same time and see if the results were correct.
+The `calcular` function also had too many return statements (`R0911`). I replaced its repeated conditions with a dictionary that maps each option to a function.
 
-For example, one of the tests checks that adding 5 and 3 gives 8. I also tested some of the other operations with simple numbers to make sure the calculator was giving the expected results.
+Black corrected spacing and layout, while isort organized the imports in `calculator.py`.
 
-## Code Quality
+## Fixes Made
 
-I also used pre-commit to check the code before making commits. The configuration includes different tools such as Black, isort and Pylint.
+I fixed more than five issues found by the static testing tools:
 
-Black checks the format of the Python code, isort helps organize the imports, and Pylint checks for possible problems in the code.
+1. Added a module docstring.
+2. Added documentation to functions that were missing it.
+3. Changed one-line functions into multiple lines.
+4. Renamed the `porcentaje` parameter to `valor_porcentaje`.
+5. Reduced the number of return statements in `calcular`.
+6. Formatted the Python files using Black.
+7. Organized the imports using isort.
 
-At first, I had a problem with the Pylint configuration. Pylint was giving me an error because of the way one of the warning codes was configured. I had to check the configuration and make some changes until it worked correctly.
+After the changes, all 10 calculator tests passed and the pre-commit checks passed for the Python files.
 
-After fixing it, I ran the pre-commit checks again and everything passed. Black, isort and Pylint all passed, as well as the other file checks included in the configuration.
+## Benefits of Static Testing
 
-This part was a little annoying at first, but it was also useful because I learned that sometimes the problem is not necessarily in the code itself, but in the configuration of the tools being used.
+Static testing finds problems without running the program. Here, Pylint identified documentation, structure and naming issues.
 
-## Project Organization
+Black and isort made the code consistent, which reduces formatting disagreements in team reviews.
 
-I tried to keep the project simple and easy to understand. The operations are in their own file, while the calculator and utility functions are separated.
+Pre-commit makes these checks easier to use because the tools can run automatically when making commits. This helps prevent simple problems from being added to the project.
 
-I think this is better than having everything in one file because it makes it easier to find a specific function or make changes later.
+## Git and Integration
 
-The project also has a `requirements.txt` file with the dependencies needed for the project. I also created a README file with information about the calculator and instructions for running it and its tests.
+I made five conventional commits covering setup, source code, testing configuration and documentation. This makes the work easier to review because each commit has a clear purpose.
 
-## Git
+## Integration and Recommendations
 
-I also used Git during the development of the homework. I made different commits as I worked on the project instead of putting all the changes into one commit.
+In a team workflow, I would run Black and isort while developing in the IDE or before opening a pull request. These tools give quick feedback and keep formatting consistent. I would run the complete pre-commit configuration before every commit so that whitespace, file validity, imports and Pylint rules are checked locally. The CI pipeline should run `pre-commit run --all-files` and the test suite again on every pull request. This protects the repository when a contributor has not installed the local hooks or uses a different editor.
 
-I used conventional commit messages so it is easier to understand what each commit was about. For example, I used messages like `feat:` and `chore:` depending on the type of change.
+The most useful tools were Pylint and pre-commit. Pylint explained each problem, while pre-commit combined the checks into one repeatable command. I would review disabled Pylint messages periodically and add Bandit plus CI in a larger project.
 
-Using Git this way helped me keep track of the different parts of the project and the changes I made.
-
-## What I Learned
-
-One of the main things I learned from this homework was that testing can make development easier. Even though this is a small calculator, having tests makes it easier to check that the operations are working correctly.
-
-I also learned more about tools like pytest, Pylint, Black, isort and pre-commit. Before this project, I knew what some of these tools were for, but I had not used them all together in the same project.
-
-I also learned that configuring these tools correctly is important. The Pylint problem was a good example of this because the code itself was not the main problem. The configuration needed to be fixed first.
-
-## Conclusion
-
-Overall, this homework helped me practice testing in a simple way. The calculator has 10 unit tests, and all of them are passing. The pre-commit checks are also working correctly.
-
-I think the project is simple, but it helped me understand better why testing and code quality tools are useful. It also gave me more practice using Git and organizing a small Python project.
-
-The part I found most useful was being able to run the tests and the pre-commit checks and know that the project was working correctly before continuing with the next steps.
+The setup took approximately one hour. That is less time than a team might spend finding inconsistent formatting or confusing names during review. Static testing does not replace runtime tests, but it catches a different class of defects early. I would use this workflow in future Python projects because it creates a consistent quality gate with little ongoing effort.
