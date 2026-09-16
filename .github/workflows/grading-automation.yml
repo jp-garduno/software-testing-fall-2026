@@ -114,56 +114,117 @@ jobs:
           echo "Grading Assignment: $ASSIGNMENT for Student: $STUDENT"
 
       - name: Navigate to student directory
+        id: locate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.pr_number || github.event.pull_request.number }}
         run: |
-          STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
+          STUDENT="${{ steps.extract-info.outputs.student_name }}"
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+          EXPECTED="students/$STUDENT/homework-$ASSIGNMENT"
 
-          # If directory doesn't exist, try to find it by searching students directory
-          if [ ! -d "$STUDENT_DIR" ]; then
-            echo "⚠️  Expected directory not found: $STUDENT_DIR"
-            echo "🔍 Searching for actual student directory in students/*/homework-$ASSIGNMENT..."
+          # Every candidate below is tied to this pull request or to this
+          # student. MATCH records which rule resolved the directory, so the
+          # grade can always be traced back to the files it was computed from.
+          STUDENT_DIR=""
+          MATCH="none"
 
-            # Find all homework directories for this assignment
-            FOUND_DIR=$(find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1)
+          # 1. The path the assignment documents.
+          if [ -d "$EXPECTED" ]; then
+            STUDENT_DIR="$EXPECTED"
+            MATCH="exact"
+          fi
 
-            if [ -n "$FOUND_DIR" ] && [ -d "$FOUND_DIR" ]; then
-              STUDENT_DIR="$FOUND_DIR"
-              ACTUAL_STUDENT=$(echo "$STUDENT_DIR" | grep -oP 'students/\K[^/]+')
-              echo "✅ Found actual directory: $STUDENT_DIR (student: $ACTUAL_STUDENT)"
+          # 2. The same path ignoring letter case. Branch names and directory
+          #    names disagree in case often enough to matter - branch
+          #    feat/rro0o/homework-3 next to directory students/Rro0O/homework-3 -
+          #    and the runner is case sensitive, so the documented path alone
+          #    misses those submissions entirely.
+          if [ -z "$STUDENT_DIR" ] && [ -n "$STUDENT" ]; then
+            CASE_DIR=$(find students -maxdepth 1 -type d -iname "$STUDENT" 2>/dev/null | head -1)
+            if [ -n "$CASE_DIR" ] && [ -d "$CASE_DIR/homework-$ASSIGNMENT" ]; then
+              STUDENT_DIR="$CASE_DIR/homework-$ASSIGNMENT"
+              MATCH="case-insensitive"
+            fi
+          fi
+
+          # 3. The directories this pull request actually touches. This is the
+          #    authoritative source - by construction it cannot point at
+          #    somebody else's work - and it also covers the case where the
+          #    student name parsed out of the branch is not the directory name.
+          if [ -z "$STUDENT_DIR" ]; then
+            PR_DIRS=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path' 2>/dev/null \
+              | grep -E "^students/[^/]+/homework-$ASSIGNMENT/" \
+              | cut -d/ -f1-3 | sort -u)
+
+            # Prefer the directory belonging to the student being graded; only
+            # fall back to the first touched directory if there is no match.
+            if [ -n "$STUDENT" ]; then
+              CANDIDATE=$(echo "$PR_DIRS" | grep -i "^students/$STUDENT/" | head -1)
             else
-              echo "❌ Could not find student homework directory"
-              echo "STUDENT_DIR=." >> $GITHUB_ENV
-              exit 0
+              CANDIDATE=""
+            fi
+            if [ -z "$CANDIDATE" ]; then
+              CANDIDATE=$(echo "$PR_DIRS" | head -1)
+            fi
+
+            if [ -n "$CANDIDATE" ] && [ -d "$CANDIDATE" ]; then
+              STUDENT_DIR="$CANDIDATE"
+              MATCH="pull-request-files"
             fi
           fi
 
-          if [ -d "$STUDENT_DIR" ]; then
-            cd "$STUDENT_DIR"
-
-            # Check if files are in a subdirectory (common mistake)
-            # Look for subdirectories that might contain the actual submission
-            SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
-            FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
-
-            # If there's exactly one subdirectory and no files at this level, navigate into it
-            if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
-              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
-              echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
-              cd "$SUBDIR_NAME"
-              STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
-            fi
-
-            echo "✅ Working directory: $(pwd)"
-            echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
-          else
-            echo "❌ Warning: Student directory not found: $STUDENT_DIR"
-            echo "STUDENT_DIR=." >> $GITHUB_ENV
+          # There is deliberately no wider search. The previous version fell
+          # back to
+          #   find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1
+          # which returns the first directory in readdir order regardless of who
+          # it belongs to. PRs #129 and #132 were both graded against
+          # students/isaac-evs/homework-3 that way and each reported an
+          # identical 96.25 that belonged to neither of them. Refusing to grade
+          # is recoverable; silently grading somebody else's work is not.
+          if [ -z "$STUDENT_DIR" ]; then
+            echo "❌ Could not locate a submission for this pull request"
+            echo "   Expected: $EXPECTED"
+            echo "   No students/*/homework-$ASSIGNMENT directory is touched by this PR either."
+            echo "   Refusing to grade rather than guessing at another student's directory."
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "expected_dir=$EXPECTED" >> $GITHUB_OUTPUT
+            echo "SUBMISSION_FOUND=false" >> $GITHUB_ENV
+            exit 0
           fi
+
+          echo "✅ Submission located: $STUDENT_DIR (matched by: $MATCH)"
+
+          cd "$STUDENT_DIR"
+
+          # Check if files are in a subdirectory (common mistake)
+          # Look for subdirectories that might contain the actual submission
+          SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
+          FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
+
+          # If there's exactly one subdirectory and no files at this level, navigate into it
+          if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
+            SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
+            echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
+            cd "$SUBDIR_NAME"
+            STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
+          fi
+
+          echo "✅ Working directory: $(pwd)"
+          echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
+          echo "SUBMISSION_FOUND=true" >> $GITHUB_ENV
+          echo "found=true" >> $GITHUB_OUTPUT
+          echo "student_dir=$STUDENT_DIR" >> $GITHUB_OUTPUT
+          echo "match=$MATCH" >> $GITHUB_OUTPUT
+          echo "expected_dir=$EXPECTED" >> $GITHUB_OUTPUT
 
       - name: Run Python tests and collect results
         id: python-tests
         # Homework 3 is graded on static testing only, so skip the dynamic run.
-        if: steps.extract-info.outputs.assignment != '3'
+        # SUBMISSION_FOUND guards every step that inspects the submission: with
+        # no directory to inspect these would silently run against the
+        # repository root and grade the course material instead.
+        if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -203,7 +264,7 @@ jobs:
       - name: Run JavaScript tests and collect results
         id: js-tests
         # Homework 3 is graded on static testing only, so skip the dynamic run.
-        if: steps.extract-info.outputs.assignment != '3'
+        if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -229,6 +290,7 @@ jobs:
 
       - name: Check code quality
         id: code-quality
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Linter output goes here, not into the submission. The previous
           # version wrote pylint-report.json and eslint-report.txt inside the
@@ -245,9 +307,10 @@ jobs:
           set +e
 
           # Each linter reports a status alongside its numbers so that
-          # "Calculate final grade" can tell three different situations apart:
+          # "Calculate final grade" can tell these situations apart:
           #   ok             - the linter ran and its result is the student's
           #   not_applicable - no source files of that language to lint
+          #   no_code        - source files exist but there is no code in them
           #   no_config      - source files, but no linter configuration committed
           #   error_running  - the linter itself failed; never charge this to the student
           PYLINT_SCORE="0"
@@ -258,11 +321,33 @@ jobs:
 
           FIND_PRUNE=(-not -path "*/node_modules/*" -not -path "*/__pycache__/*" -not -path "*/.git/*" -not -path "*/venv/*" -not -path "*/.venv/*")
 
+          # Non-whitespace byte count across whatever is piped in. Zero means the
+          # files are genuinely empty, which is the one case a linter has nothing
+          # to say about. Only ESLint needs this: it reports "0 errors" on an
+          # empty file, which is indistinguishable from clean code. Pylint says
+          # so itself - see the score handling below.
+          count_content_bytes() {
+            tr -d '[:space:]' | wc -c | tr -d ' '
+          }
+
           # ---------------------------------------------------------------
           # Python
           # ---------------------------------------------------------------
           PY_FILE_COUNT=$(find . -type f -name "*.py" "${FIND_PRUNE[@]}" | wc -l)
-          if [ "$PY_FILE_COUNT" -gt 0 ]; then
+
+          # An empty __init__.py is the idiomatic way to declare a package, so it
+          # is not evidence of an unfinished submission. Files that are expected
+          # to carry code are counted separately and only that count decides
+          # whether an unrated submission is empty on purpose or by mistake.
+          PY_GRADED_COUNT=$(find . -type f -name "*.py" ! -name "__init__.py" "${FIND_PRUNE[@]}" | wc -l)
+
+          if [ "$PY_FILE_COUNT" -eq 0 ]; then
+            echo "No Python files in the submission - skipping pylint"
+          elif ! command -v pylint > /dev/null 2>&1; then
+            PYLINT_SCORE="0"
+            PYLINT_STATUS="error_running"
+            echo "⚠️  pylint is not installed on the runner - excluding Python from the quality grade"
+          else
             echo "Linting $PY_FILE_COUNT Python file(s) with pylint..."
             find . -type f -name "*.py" "${FIND_PRUNE[@]}" \
               -exec pylint --exit-zero {} + > "$QUALITY_OUT/pylint-report.txt" 2>&1
@@ -274,24 +359,55 @@ jobs:
             # awk rather than grep -oP: POSIX ERE needs no PCRE support, and the
             # last match wins so a "(previous run: ...)" suffix cannot confuse it.
             PYLINT_SCORE=$(awk 'match($0, /rated at -?[0-9]+(\.[0-9]+)?/) { score = substr($0, RSTART + 9, RLENGTH - 9) } END { if (score != "") print score }' "$QUALITY_OUT/pylint-report.txt")
+
             if [ -n "$PYLINT_SCORE" ]; then
               PYLINT_STATUS="ok"
               echo "✅ Pylint score: $PYLINT_SCORE/10"
-            else
+            elif grep -q "Traceback (most recent call last)" "$QUALITY_OUT/pylint-report.txt"; then
               PYLINT_SCORE="0"
               PYLINT_STATUS="error_running"
-              echo "⚠️  Pylint produced no score - excluding Python from the quality grade"
+              echo "⚠️  Pylint crashed - excluding Python from the quality grade"
+              tail -20 "$QUALITY_OUT/pylint-report.txt"
+            elif [ "$PY_GRADED_COUNT" -eq 0 ]; then
+              # Nothing but package markers. There is no code here, but there was
+              # never meant to be any, so Python is left out of the quality grade
+              # instead of being scored 0.
+              PYLINT_SCORE="0"
+              PYLINT_STATUS="not_applicable"
+              echo "ℹ️  The only Python file(s) are empty __init__.py package markers - excluding Python from the quality grade"
+            else
+              # Pylint prints its score section only for a module that has
+              # statements: verified against pylint 3.3, an empty file, a
+              # comment-only file, a docstring-only file and a file that fails to
+              # parse all produce no score line, while one line of real code in
+              # any of the files produces one. So "no score and no crash" means
+              # there was no code to rate, which is the student's doing and worth
+              # 0 - not a tooling failure to be excluded. PR #122 committed an
+              # __init__.py plus four named modules, all 0 bytes, and scored
+              # 100/100 for quality before this.
+              PYLINT_SCORE="0"
+              PYLINT_STATUS="no_code"
+              echo "❌ Pylint found no code to rate in $PY_GRADED_COUNT file(s) that should contain code - empty, comments only, or does not parse"
               tail -20 "$QUALITY_OUT/pylint-report.txt"
             fi
-          else
-            echo "No Python files in the submission - skipping pylint"
           fi
 
           # ---------------------------------------------------------------
           # JavaScript / TypeScript
           # ---------------------------------------------------------------
           JS_FILE_COUNT=$(find . -type f \( -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \) "${FIND_PRUNE[@]}" | wc -l)
+          JS_CONTENT=0
           if [ "$JS_FILE_COUNT" -gt 0 ]; then
+            JS_CONTENT=$(find . -type f \( -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \) "${FIND_PRUNE[@]}" -exec cat {} + | count_content_bytes)
+            JS_CONTENT=${JS_CONTENT:-0}
+          fi
+
+          if [ "$JS_FILE_COUNT" -gt 0 ] && [ "$JS_CONTENT" -eq 0 ]; then
+            # Same reasoning as the Python side: ESLint reports 0 errors on empty
+            # files, which is indistinguishable from clean code by the numbers.
+            ESLINT_STATUS="no_code"
+            echo "❌ $JS_FILE_COUNT JavaScript file(s) found but they contain no code - nothing for ESLint to check"
+          elif [ "$JS_FILE_COUNT" -gt 0 ]; then
             ESLINT_CONFIG=""
             for CANDIDATE in eslint.config.js eslint.config.mjs eslint.config.cjs eslint.config.ts \
                              .eslintrc.js .eslintrc.cjs .eslintrc.json .eslintrc.yml .eslintrc.yaml .eslintrc; do
@@ -350,6 +466,7 @@ jobs:
 
       - name: Check required files
         id: required-files
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -609,6 +726,10 @@ jobs:
 
       - name: Calculate final grade
         id: calculate-grade
+        # No submission means no grade. Computing one from the skipped steps
+        # above would report a confident 0 for work that may well exist under a
+        # path this workflow does not know how to find.
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Define weights based on assignment type
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
@@ -698,6 +819,12 @@ jobs:
               QUALITY_TOTAL=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL + $PY_QUALITY}")
               QUALITY_PARTS=$((QUALITY_PARTS + 1))
               echo "Python: pylint rated the code $PYLINT_SCORE/10 -> $PY_QUALITY/100"
+            elif [ "$PYLINT_STATUS" = "no_code" ]; then
+              # A submission with no code in it is the student's doing, not the
+              # tooling's, so this counts as a part scoring 0 instead of being
+              # excluded from the average. Adding nothing to QUALITY_TOTAL is the 0.
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "Python: pylint found no code to rate -> 0/100"
             fi
 
             if [ "$ESLINT_STATUS" = "ok" ]; then
@@ -717,6 +844,9 @@ jobs:
               QUALITY_TOTAL=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL + $JS_QUALITY}")
               QUALITY_PARTS=$((QUALITY_PARTS + 1))
               echo "JavaScript: ESLint reported $ESLINT_ERRORS error(s) -> $JS_QUALITY/100"
+            elif [ "$ESLINT_STATUS" = "no_code" ]; then
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: the JavaScript files in the submission are empty -> 0/100"
             elif [ "$ESLINT_STATUS" = "no_config" ] && [ "$ASSIGNMENT" = "3" ]; then
               # Only homework 3 grades this: configuring a linter is Part 3 of
               # that assignment, so a missing config is a missing deliverable.
@@ -765,6 +895,48 @@ jobs:
         run: |
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
 
+          # A submission that could not be located gets an explanation instead of
+          # a grade. See "Navigate to student directory" for why guessing at a
+          # directory is worse than reporting nothing.
+          if [ "${{ steps.locate.outputs.found || 'false' }}" != "true" ]; then
+            EXPECTED="${{ steps.locate.outputs.expected_dir }}"
+            REPORT="## 📊 Automated Grading Report
+
+          **Student**: ${{ steps.extract-info.outputs.student_name }}
+          **Assignment**: $ASSIGNMENT
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+          ### ⚠️ Not graded: your submission could not be found
+
+          The grader looks for your work at:
+
+          \`\`\`
+          $EXPECTED
+          \`\`\`
+
+          That directory is not in this pull request, and no other \`students/<username>/homework-$ASSIGNMENT/\` directory is touched by it either.
+
+          **No grade was recorded, and nothing is being counted against you.** Put the files where the grader expects them and it will run again on its own.
+
+          ### How to fix it
+
+          1. Move your work into \`$EXPECTED\`, creating the folders if they do not exist.
+          2. Commit and push to this same branch.
+          3. The grader re-runs on every push to a pull request labelled \`homework\`.
+
+          If your files are already somewhere under \`students/\`, check the spelling of your username folder and of the \`homework-$ASSIGNMENT\` folder.
+
+          ---
+
+          *This is an automated grading report. For questions, contact your instructor.*"
+
+            echo "$REPORT" > grading-report.md
+            echo "report<<EOF" >> $GITHUB_OUTPUT
+            echo "$REPORT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
           # Report each linter only when it has something to say. The old report
           # always printed "Pylint Score: 0/10", which looked like a failing
           # grade to every JavaScript student even though no Python was involved.
@@ -774,12 +946,16 @@ jobs:
 
           case "$PYLINT_STATUS" in
             ok) QUALITY_LINES="- Pylint: ${{ steps.code-quality.outputs.pylint_score }}/10" ;;
+            no_code) QUALITY_LINES="- Pylint: found no code to rate - the \`.py\` files that should contain your work are empty, contain only comments, or do not parse. Code quality scores **0/100** for Python. Check that you committed the actual contents of your files. (An empty \`__init__.py\` is fine and is not what triggered this.)" ;;
             error_running) QUALITY_LINES="- Pylint could not run, so Python was left out of the quality grade (this is not counted against you)" ;;
           esac
 
           case "$ESLINT_STATUS" in
             ok)
               ESLINT_LINE="- ESLint: ${{ steps.code-quality.outputs.eslint_errors }} error(s), ${{ steps.code-quality.outputs.eslint_warnings }} warning(s)"
+              ;;
+            no_code)
+              ESLINT_LINE="- ESLint: your JavaScript files are empty, so there was nothing to check. Code quality scores **0/100** for JavaScript. Commit the actual contents of your files and push again."
               ;;
             no_config)
               if [ "$ASSIGNMENT" = "3" ]; then
@@ -841,6 +1017,7 @@ jobs:
 
           **Student**: ${{ steps.extract-info.outputs.student_name }}
           **Assignment**: ${{ steps.extract-info.outputs.assignment }}
+          **Graded directory**: \`${{ steps.locate.outputs.student_dir }}\`
           **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
           ### 🎯 Final Grade: **${{ steps.calculate-grade.outputs.grade }}/100**
@@ -952,6 +1129,9 @@ jobs:
           if-no-files-found: ignore
 
       - name: Create Canvas-ready CSV
+        # Keep unlocatable submissions out of the gradebook entirely rather than
+        # importing a placeholder the instructor would have to notice and undo.
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Create CSV for Canvas gradebook import
           echo "Student,Assignment,Score,Max Points,Submission Date,Comments" > canvas-grade.csv
@@ -960,6 +1140,7 @@ jobs:
           cat canvas-grade.csv
 
       - name: Upload Canvas CSV
+        if: env.SUBMISSION_FOUND == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: canvas-import-pr-${{ github.event.pull_request.number }}
