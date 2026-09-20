@@ -102,7 +102,7 @@ None
 InLongDomain
 
 ###### Description
-The url has a domain that contains a character that isn't a letters, numbers, hyphens or dots
+The url has a domain that contains a character that isn't letters, numbers, hyphens or dots
 ###### Type
 Invalid
 
@@ -112,4 +112,76 @@ None
 ###### Steps
 
 1) Type http://kahoot^?&.com 
+2) Expect an error
+
+#### T04
+
+###### Test Name
+InBVTLDLessThan2
+
+###### Description
+The TLD has less than two characters
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type http://invalid.g 
+2) Expect an error
+
+#### T05
+
+###### Test Name
+InBVTLDExactly2
+
+###### Description
+The TLD has exactly 2 characters
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type https://youtube.go
+2) Expect an error
+
+#### T06
+
+###### Test Name
+InBVTLDMoreThan6
+
+###### Description
+The TLD has less than six characters
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type http://kahoot.criminalrizz
+2) Expect an error
+
+#### T07
+
+###### Test Name
+InBVTLDExactly6
+
+###### Description
+The TLD has six characters
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type https://slowApi.slowly
 2) Expect an error
