@@ -16,7 +16,7 @@
 |PartitionID|Description|Type|Example Values|
 |---|---|---|---|
 |P1|Starts with http://|Valid|http://google.com|  
-|P2|Starts with https://|Valid|http://kahoot.com|  
+|P2|Starts with https://|Valid|https://kahoot.com|  
 |P3|Dosen't start with http or https//|Valid|lol://yahoo.com|  
 
 #### Domain
@@ -61,7 +61,7 @@
 #### T01
 
 ###### Test Name
-InUsesHttp
+InNoHttp
 
 ###### Description
 The url incorrectly starts with a header different from http:// or http://
@@ -80,7 +80,46 @@ None
 #### T02
 
 ###### Test Name
-InShortDomain
+VHasHttp
+
+###### Description
+The url correctly starts with header http://
+
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type http://google.com
+2) Get "Valid" as result
+
+
+#### T03
+
+###### Test Name
+VHasHttps
+
+###### Description
+The url correctly starts with header https://
+
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type https://kahoot.com
+2) Get "Valid" as result
+
+#### T04
+
+###### Test Name
+VDomain
 
 ###### Description
 The url has a domain that contains letters, numbers, hyphens or dots
@@ -96,10 +135,10 @@ None
 1) Type http://clo9d_p4ge.com
 2) Get no error
 
-#### T03
+#### T05
 
 ###### Test Name
-InLongDomain
+InDomain
 
 ###### Description
 The url has a domain that contains a character that isn't letters, numbers, hyphens or dots
@@ -114,7 +153,7 @@ None
 1) Type http://kahoot^?&.com 
 2) Expect an error
 
-#### T04
+#### T06
 
 ###### Test Name
 InBVTLDLessThan2
@@ -132,7 +171,7 @@ None
 1) Type http://invalid.g 
 2) Expect an error
 
-#### T05
+#### T07
 
 ###### Test Name
 InBVTLDExactly2
@@ -150,13 +189,13 @@ None
 1) Type https://youtube.go
 2) Expect an error
 
-#### T06
+#### T08
 
 ###### Test Name
 InBVTLDMoreThan6
 
 ###### Description
-The TLD has less than six characters
+The TLD has more than six characters
 ###### Type
 Invalid
 
@@ -168,7 +207,7 @@ None
 1) Type http://kahoot.criminalrizz
 2) Expect an error
 
-#### T07
+#### T09
 
 ###### Test Name
 InBVTLDExactly6
