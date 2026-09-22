@@ -39,14 +39,14 @@
 |PartitionID|Description|Type|Example Values|
 |---|---|---|---|
 |P1|Url includes a path|Valid|http://amazon.net/ec2/create  
-|P2|Url has no path|Valid|http://netflix.com  
+|P2|Url has 0 length path|Valid|https://netflix.com//  
 
 #### Query params
 
 |PartitionID|Description|Type|Example Values|
 |---|---|---|---|
-|P1|Url includes a query param|Valid|http://amazon.net/s3?memory=5:ttl=true
-|P2|Url has no query params|Valid|http://netflix.com  
+|P1|Url includes a query param|Valid|https://amazon.net/s3?memory=5:ttl=true
+|P2|Url has empty query param|Valid|https://netflix.com/watch? 
 
 
 #### Fragment
@@ -54,7 +54,7 @@
 |PartitionID|Description|Type|Example Values|
 |---|---|---|---|
 |P1|Url includes a fragment|Valid|http://amazon.net#neverskiplegday
-|P2|Url has no fragments|Valid|http://netflix.com  
+|P2|Url has empty fragemnt|Valid|https://amazon.com/cart#  
 
 3. **Identify test cases**
 
@@ -74,8 +74,8 @@ None
 
 ###### Steps
 
-1) Type htp://crunchyroll.net/watch
-2) Expect an error
+1) Type "htp://crunchyroll.net/watch"
+2) Get "Invalid" as result
 
 #### T02
 
@@ -93,7 +93,7 @@ None
 
 ###### Steps
 
-1) Type http://google.com
+1) Type "http://google.com"
 2) Get "Valid" as result
 
 
@@ -113,13 +113,13 @@ None
 
 ###### Steps
 
-1) Type https://kahoot.com
+1) Type "https://kahoot.com"
 2) Get "Valid" as result
 
 #### T04
 
 ###### Test Name
-VDomain
+VDomain1
 
 ###### Description
 The url has a domain that contains letters, numbers, hyphens or dots
@@ -132,13 +132,13 @@ None
 
 ###### Steps
 
-1) Type http://clo9d_p4ge.com
-2) Get no error
+1) Type "http://clo9d_p4ge.com"
+2) Get "Valid" as result
 
 #### T05
 
 ###### Test Name
-InDomain
+InDomain1
 
 ###### Description
 The url has a domain that contains a character that isn't letters, numbers, hyphens or dots
@@ -150,8 +150,8 @@ None
 
 ###### Steps
 
-1) Type http://kahoot^?&.com 
-2) Expect an error
+1) Type "http://kahoot^?&.com"
+2) Get "Invalid" as result
 
 #### T06
 
@@ -168,8 +168,8 @@ None
 
 ###### Steps
 
-1) Type http://invalid.g 
-2) Expect an error
+1) Type "http://invalid.g"
+2) Get "Invalid" as result
 
 #### T07
 
@@ -186,8 +186,8 @@ None
 
 ###### Steps
 
-1) Type https://youtube.go
-2) Expect an error
+1) Type "https://youtube.go"
+2) Get "Invalid" as result
 
 #### T08
 
@@ -204,8 +204,8 @@ None
 
 ###### Steps
 
-1) Type http://kahoot.criminalrizz
-2) Expect an error
+1) Type "http://kahoot.criminalrizz"
+2) Get "Invalid" as result
 
 #### T09
 
@@ -222,5 +222,176 @@ None
 
 ###### Steps
 
-1) Type https://slowApi.slowly
-2) Expect an error
+1) Type "https://slowApi.slowly"
+2) Get "Invalid" as result
+
+#### T10
+
+###### Test Name
+VBContainsPath
+
+###### Description
+The url contains a path
+
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "http://amazon.net/ec2/create"
+2) Get "Valid" as result
+
+#### T11
+
+###### Test Name
+InBContainsPath1
+
+###### Description
+The url contains an empty path
+
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://netflix.com//"
+2) Get "Valid" as result
+
+#### T12
+
+###### Test Name
+InContainsPath2
+
+###### Description
+The url contains an empty path
+
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://mail.google.com/mail//0/#inbox"
+2) Get "Invalid" as result
+
+#### T013
+
+###### Test Name
+VDomain2
+
+###### Description
+The url has a domain that contains letters, numbers, hyphens or dots
+
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://various.example.com/substantial/pricey"
+2) Get "Valid" as result
+
+#### T14
+
+###### Test Name
+InDomain2
+
+###### Description
+The url has a domain that contains a character that isn't letters, numbers, hyphens or dots
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://slim.exam-ple.org/bottle"
+2) Get "Invalid" as result
+
+#### T15
+
+###### Test Name
+VContainsQuery
+
+###### Description
+The url contains a query
+
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://music.youtube.com/watch?v=_qur4p4qV7E&list=RDAMVM_qur4p4qV7E"
+2) Get "Valid" as result
+
+#### T16
+
+###### Test Name
+InContainsEmptyQuery
+
+###### Description
+The url contains an empty query
+
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://netflix.com/watch?"
+2) Get "Valid" as result
+
+#### T17
+
+###### Test Name
+VContainsFragment
+
+###### Description
+The url contains a fragment
+
+###### Type
+Valid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://mail.google.com/mail/u/0/#trash"
+2) Get "Valid" as result
+
+#### T18
+
+###### Test Name
+InContainsEmptyFragment
+
+###### Description
+The url contains an empty fragment
+
+###### Type
+Invalid
+
+###### Prerequesites
+None
+
+###### Steps
+
+1) Type "https://pomofocus.io/start#"
+2) Get "Invalid" as result
+
