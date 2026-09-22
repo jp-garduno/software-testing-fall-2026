@@ -54,19 +54,19 @@ class TestEquivalencePartitioning:
         assert "Insufficient funds" in result["error"]
 
     def test_invalid_account_type(self):
-        """Invalid account type should raise ValueError."""
+        """EP6: Invalid account type should raise ValueError."""
         with pytest.raises(ValueError, match="Invalid account type"):
             BankAccount("Business", 1000)
 
     def test_negative_initial_balance(self):
-        """Negative initial balance should raise ValueError."""
+        """EP7: Negative initial balance should raise ValueError."""
         with pytest.raises(
             ValueError, match="Initial balance cannot be negative"
         ):
             BankAccount("Checking", -1)
 
     def test_zero_deposit_amount(self):
-        """Zero deposit should be rejected."""
+        """EP8: Zero deposit amount should be rejected."""
         account = BankAccount("Checking", 1000)
 
         result = account.deposit(0)
@@ -75,7 +75,7 @@ class TestEquivalencePartitioning:
         assert "positive" in result["error"]
 
     def test_non_string_payee(self):
-        """Non-string payee should be rejected."""
+        """EP9: Non-string payee should be rejected."""
         account = BankAccount("Checking", 1000)
 
         result = account.pay_bill(12345, 100)

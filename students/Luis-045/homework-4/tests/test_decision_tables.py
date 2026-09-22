@@ -64,7 +64,7 @@ class TestDecisionTables:
         assert "Invalid payee" in result["error"]
 
     def test_monthly_fee_closed_account(self):
-        """Closed account cannot process monthly fee."""
+        """DT7: Closed account cannot process monthly fee."""
         account = BankAccount("Checking", 5000)
         account.close()
 
@@ -74,7 +74,7 @@ class TestDecisionTables:
         assert "closed" in result["error"].lower()
 
     def test_premium_monthly_fee_waived(self):
-        """Premium account never pays a monthly fee."""
+        """DT8: Premium account never pays a monthly fee."""
         account = BankAccount("Premium", 20000)
 
         result = account.process_monthly_fee()
@@ -83,7 +83,7 @@ class TestDecisionTables:
         assert result["fee_charged"] == 0
 
     def test_monthly_fee_suspends_savings_account(self):
-        """Fee can place Savings account below its minimum balance."""
+        """DT9: Savings fee can cause account suspension."""
         account = BankAccount("Savings", 100)
 
         result = account.process_monthly_fee()
@@ -94,7 +94,7 @@ class TestDecisionTables:
         assert account.state == "Suspended"
 
     def test_bill_payment_from_frozen_account(self):
-        """Frozen account cannot pay bills."""
+        """DT10: Frozen account cannot pay bills."""
         account = BankAccount("Checking", 1000)
         account.freeze()
 
@@ -104,7 +104,7 @@ class TestDecisionTables:
         assert "not active" in result["error"]
 
     def test_bill_payment_zero_amount(self):
-        """Bill payment amount must be positive."""
+        """DT11: Bill payment amount must be positive."""
         account = BankAccount("Checking", 1000)
 
         result = account.pay_bill("Electricity", 0)
@@ -113,7 +113,7 @@ class TestDecisionTables:
         assert "positive" in result["error"]
 
     def test_bill_payment_insufficient_funds(self):
-        """Bill payment above balance must fail."""
+        """DT12: Bill payment above available balance must fail."""
         account = BankAccount("Checking", 1000)
 
         result = account.pay_bill("Electricity", 1001)
@@ -122,7 +122,7 @@ class TestDecisionTables:
         assert "Insufficient funds" in result["error"]
 
     def test_successful_bill_payment(self):
-        """Valid bill payment should reduce account balance."""
+        """DT13: Valid bill payment succeeds and reduces balance."""
         account = BankAccount("Checking", 1000)
 
         result = account.pay_bill("Electricity", 200)
@@ -132,7 +132,7 @@ class TestDecisionTables:
         assert account.state == "Active"
 
     def test_bill_payment_can_suspend_savings_account(self):
-        """Bill payment below Savings minimum causes suspension."""
+        """DT14: Bill payment can suspend Savings below minimum balance."""
         account = BankAccount("Savings", 150)
 
         result = account.pay_bill("Electricity", 60)

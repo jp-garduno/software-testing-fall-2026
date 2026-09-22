@@ -56,7 +56,7 @@ class TestStateTransitions:
         assert account.state == "Closed"
 
     def test_closed_account_remains_closed(self):
-        """ST6: Closed account cannot perform transactions or reopen."""
+        """ST6: Closed account rejects transactions and remains Closed."""
         account = BankAccount("Checking", 5000)
         account.close()
 
@@ -67,7 +67,7 @@ class TestStateTransitions:
         assert account.state == "Closed"
 
     def test_deposit_to_frozen_account(self):
-        """Frozen account must reject deposits."""
+        """ST7: Frozen account rejects deposits and remains Frozen."""
         account = BankAccount("Checking", 1000)
         account.freeze()
 
@@ -78,7 +78,7 @@ class TestStateTransitions:
         assert account.state == "Frozen"
 
     def test_active_deposit_remains_active(self):
-        """Deposit to Active account keeps account Active."""
+        """ST8: Deposit to Active account keeps account Active."""
         account = BankAccount("Savings", 500)
 
         result = account.deposit(100)
@@ -88,7 +88,7 @@ class TestStateTransitions:
         assert account.state == "Active"
 
     def test_suspended_account_remains_suspended_below_minimum(self):
-        """Deposit below minimum does not reactivate Suspended account."""
+        """ST9: Insufficient deposit keeps account Suspended."""
         account = BankAccount("Savings", 150)
         account.transfer(60)
 
@@ -99,7 +99,7 @@ class TestStateTransitions:
         assert account.state == "Suspended"
 
     def test_closed_account_cannot_be_frozen(self):
-        """Closed account cannot transition to Frozen."""
+        """ST10: Closed account cannot transition to Frozen."""
         account = BankAccount("Checking", 1000)
         account.close()
 
@@ -109,7 +109,7 @@ class TestStateTransitions:
         assert account.state == "Closed"
 
     def test_active_account_cannot_be_unfrozen(self):
-        """Only Frozen accounts can be unfrozen."""
+        """ST11: Active account cannot perform an unfreeze transition."""
         account = BankAccount("Checking", 1000)
 
         result = account.unfreeze()
