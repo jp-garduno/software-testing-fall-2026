@@ -62,3 +62,81 @@ class TestDecisionTables:
 
         assert result["success"] is False
         assert "Invalid payee" in result["error"]
+
+    def test_monthly_fee_closed_account(self):
+        """Closed account cannot process monthly fee."""
+        account = BankAccount("Checking", 5000)
+        account.close()
+
+        result = account.process_monthly_fee()
+
+        assert result["success"] is False
+        assert "closed" in result["error"].lower()
+
+    def test_premium_monthly_fee_waived(self):
+        """Premium account never pays a monthly fee."""
+        account = BankAccount("Premium", 20000)
+
+        result = account.process_monthly_fee()
+
+        assert result["success"] is True
+        assert result["fee_charged"] == 0
+
+    def test_monthly_fee_suspends_savings_account(self):
+        """Fee can place Savings account below its minimum balance."""
+        account = BankAccount("Savings", 100)
+
+        result = account.process_monthly_fee()
+
+        assert result["success"] is True
+        assert result["fee_charged"] == 5
+        assert account.balance == 95
+        assert account.state == "Suspended"
+
+    def test_bill_payment_from_frozen_account(self):
+        """Frozen account cannot pay bills."""
+        account = BankAccount("Checking", 1000)
+        account.freeze()
+
+        result = account.pay_bill("Electricity", 100)
+
+        assert result["success"] is False
+        assert "not active" in result["error"]
+
+    def test_bill_payment_zero_amount(self):
+        """Bill payment amount must be positive."""
+        account = BankAccount("Checking", 1000)
+
+        result = account.pay_bill("Electricity", 0)
+
+        assert result["success"] is False
+        assert "positive" in result["error"]
+
+    def test_bill_payment_insufficient_funds(self):
+        """Bill payment above balance must fail."""
+        account = BankAccount("Checking", 1000)
+
+        result = account.pay_bill("Electricity", 1001)
+
+        assert result["success"] is False
+        assert "Insufficient funds" in result["error"]
+
+    def test_successful_bill_payment(self):
+        """Valid bill payment should reduce account balance."""
+        account = BankAccount("Checking", 1000)
+
+        result = account.pay_bill("Electricity", 200)
+
+        assert result["success"] is True
+        assert account.balance == 800
+        assert account.state == "Active"
+
+    def test_bill_payment_can_suspend_savings_account(self):
+        """Bill payment below Savings minimum causes suspension."""
+        account = BankAccount("Savings", 150)
+
+        result = account.pay_bill("Electricity", 60)
+
+        assert result["success"] is True
+        assert account.balance == 90
+        assert account.state == "Suspended"

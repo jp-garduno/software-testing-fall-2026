@@ -65,3 +65,54 @@ class TestStateTransitions:
         assert result["success"] is False
         assert "closed" in result["error"].lower()
         assert account.state == "Closed"
+
+    def test_deposit_to_frozen_account(self):
+        """Frozen account must reject deposits."""
+        account = BankAccount("Checking", 1000)
+        account.freeze()
+
+        result = account.deposit(100)
+
+        assert result["success"] is False
+        assert "frozen" in result["error"].lower()
+        assert account.state == "Frozen"
+
+    def test_active_deposit_remains_active(self):
+        """Deposit to Active account keeps account Active."""
+        account = BankAccount("Savings", 500)
+
+        result = account.deposit(100)
+
+        assert result["success"] is True
+        assert account.balance == 600
+        assert account.state == "Active"
+
+    def test_suspended_account_remains_suspended_below_minimum(self):
+        """Deposit below minimum does not reactivate Suspended account."""
+        account = BankAccount("Savings", 150)
+        account.transfer(60)
+
+        result = account.deposit(5)
+
+        assert result["success"] is True
+        assert account.balance == 95
+        assert account.state == "Suspended"
+
+    def test_closed_account_cannot_be_frozen(self):
+        """Closed account cannot transition to Frozen."""
+        account = BankAccount("Checking", 1000)
+        account.close()
+
+        result = account.freeze()
+
+        assert result is False
+        assert account.state == "Closed"
+
+    def test_active_account_cannot_be_unfrozen(self):
+        """Only Frozen accounts can be unfrozen."""
+        account = BankAccount("Checking", 1000)
+
+        result = account.unfreeze()
+
+        assert result is False
+        assert account.state == "Active"
