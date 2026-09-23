@@ -1,5 +1,6 @@
 from src.banking_system import BankAccount
 
+
 class TestDecisionTables:
 
     def test_dt_transfer_success(self, checking_account):
@@ -9,7 +10,7 @@ class TestDecisionTables:
 
     def test_dt_transfer_insufficient_funds(self, checking_account):
         """DT2: Fondos suficientes (N), Dentro del límite (Y), Activa (Y) -> Error."""
-        checking_account.balance = 500 # Forzar saldo bajo
+        checking_account.balance = 500  # Forzar saldo bajo
         result = checking_account.transfer(1000)
         assert result["success"] is False
         assert "Insufficient funds" in result["error"]

@@ -1,5 +1,6 @@
 from src.banking_system import BankAccount
 
+
 class TestBoundaryValues:
 
     def test_transfer_below_minimum(self, checking_account):
@@ -36,4 +37,4 @@ class TestBoundaryValues:
         account = BankAccount("Savings", 100.00)
         result = account.transfer(0.01)
         assert result["success"] is True
-        assert account.state == "Suspended" # El saldo quedó en 99.99
+        assert account.state == "Suspended"  # El saldo quedó en 99.99

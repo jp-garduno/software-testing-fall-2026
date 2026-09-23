@@ -1,5 +1,6 @@
 from src.banking_system import BankAccount
 
+
 class TestEquivalencePartitioning:
 
     def test_transfer_valid_amount(self, checking_account):
@@ -23,7 +24,7 @@ class TestEquivalencePartitioning:
     def test_transfer_exceeds_daily_limit(self, checking_account):
         """EP4: Transferir una cantidad que exceda el límite diario ($10,000) debe fallar."""
         # El límite de checking es 5000
-        checking_account.deposit(5000) # Asegurar fondos suficientes
+        checking_account.deposit(5000)  # Asegurar fondos suficientes
         result = checking_account.transfer(10000)
         assert result["success"] is False
         assert "Exceeds daily limit" in result["error"]
