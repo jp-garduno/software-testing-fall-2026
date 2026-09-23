@@ -5,3 +5,4 @@ skips = []
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-v"
+pythonpath = ["."]
