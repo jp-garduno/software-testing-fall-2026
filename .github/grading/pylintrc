@@ -3,8 +3,8 @@
 # Submissions used to be graded with pylint's defaults, which are stricter than
 # the standards this course actually teaches: pylint wraps at 100 columns while
 # CLAUDE.md, module 3 and exam 1 all state 120, and it asks for a docstring on
-# every module even though every homework rubric already grades documentation
-# by reading the submission.
+# every module, class and function even though every homework rubric already
+# grades documentation by reading the submission.
 #
 # A submission that ships its own pylint configuration is graded with that one
 # instead of this file: homework 3 asks students to write one, and exam 1 lets
@@ -19,12 +19,6 @@ persistent = no
 # The course standard. Pylint's own default is 100.
 max-line-length = 120
 
-[BASIC]
-# The course requires test names that state what they check
-# (test_<what>_<condition>_<expected>), so a docstring that repeats the name
-# adds nothing. Public functions and classes still need one.
-no-docstring-rgx = ^(_|test_|Test)
-
 [MESSAGES CONTROL]
 # Each entry is either something the student cannot act on from here, or
 # something a human already grades elsewhere in the rubric:
@@ -35,10 +29,15 @@ no-docstring-rgx = ^(_|test_|Test)
 #     tests/ layout the course recommends is unresolvable on the runner. Pylint
 #     weighs an error five times a convention, so this would cost more than a
 #     real defect.
-#   missing-module-docstring
+#   missing-module-docstring, missing-class-docstring,
+#   missing-function-docstring
 #     Documentation is a rubric item scored by reading the submission (homework
 #     4, part 5, and its equivalent in the others). Charging it here too counts
-#     it twice.
+#     it twice, and it counted heavily: docstrings were 18 of the 27 findings on
+#     PR #143. The course still asks for docstrings on public functions
+#     (.claude/CLAUDE.md) - that requirement is now graded by a human only.
+#     This is also why there is no no-docstring-rgx here: with all three
+#     messages off, the exemption pattern would have nothing left to exempt.
 #   duplicate-code
 #     Boundary-value and parameterized tests repeat themselves on purpose.
 #   too-few-public-methods
@@ -47,5 +46,7 @@ disable =
     import-error,
     no-name-in-module,
     missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
     duplicate-code,
     too-few-public-methods
