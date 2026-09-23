@@ -78,6 +78,15 @@ class TestTransferValidationTable:
         assert result["success"] is True
         assert (source.balance, target.balance) == (750, 750)
 
+    def test_dt1_r13_suspended_destination_can_receive_and_is_reactivated(self, make_account):
+        """DT1-R13: a Suspended own account may receive money; reaching the minimum reactivates it."""
+        source = make_account("Checking", 1000)
+        target = make_account("Savings", 150)
+        target.transfer(60)
+        assert target.state == "Suspended"
+        assert source.transfer(50, destination=target)["success"] is True
+        assert (target.balance, target.state) == (140, "Active")
+
     def test_dt1_r12_transfer_to_same_account_is_rejected(self, checking):
         """DT1-R12: an account cannot transfer to itself."""
         assert checking.transfer(10, destination=checking)["error"] == "Cannot transfer to the same account"
@@ -149,6 +158,14 @@ class TestMonthlyFeeTable:
         result = account.process_monthly_fee(self.FEE_DAY)
         assert result["success"] is False
         assert account.balance == 100
+
+    def test_dt2_r11_suspended_account_still_pays_the_fee(self, make_account):
+        """DT2-R11: fees are processed for Suspended accounts too ($90 - $5 = $85, still Suspended)."""
+        account = make_account("Savings", 150)
+        account.transfer(60)
+        result = account.process_monthly_fee(self.FEE_DAY)
+        assert result["fee_charged"] == 5
+        assert (account.balance, account.state) == (85, "Suspended")
 
     def test_dt2_r10_invalid_date_is_rejected(self, checking):
         """DT2-R10: an unparsable date cannot trigger fees."""
@@ -243,3 +260,9 @@ class TestAccountCreationTable:
         assert (checking.owner, checking.email) == ("New Name", "a@b.com")
         result = checking.update_info(owner=" ", email="not-an-email")
         assert result["errors"] == ["Owner name is required", "Invalid e-mail address"]
+
+    def test_dt4_r6_partial_update_changes_only_the_given_field(self, checking):
+        """DT4-R6: updating only the owner keeps the e-mail and vice versa."""
+        checking.update_info(email="a@b.com")
+        checking.update_info(owner="Only Name")
+        assert (checking.owner, checking.email) == ("Only Name", "a@b.com")

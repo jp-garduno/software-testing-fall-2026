@@ -64,6 +64,15 @@ describe('Decision table 1: transfer validation', () => {
     expect([source.balance, target.balance]).toEqual([750, 750]);
   });
 
+  test('DT1-R13: a Suspended destination can receive money and is reactivated', () => {
+    const source = makeAccount('Checking', 1000);
+    const target = makeAccount('Savings', 150);
+    target.transfer(60);
+    expect(target.state).toBe('Suspended');
+    expect(source.transfer(50, { destination: target }).success).toBe(true);
+    expect([target.balance, target.state]).toEqual([140, 'Active']);
+  });
+
   test('DT1-R12: transfer to the same account is rejected', () => {
     const account = makeChecking();
     expect(account.transfer(10, { destination: account }).error).toBe('Cannot transfer to the same account');
@@ -126,6 +135,13 @@ describe('Decision table 2: monthly fee processing', () => {
     account[action]();
     expect(account.processMonthlyFee(FEE_DAY).success).toBe(false);
     expect(account.balance).toBe(100);
+  });
+
+  test('DT2-R11: a Suspended account still pays the fee', () => {
+    const account = makeAccount('Savings', 150);
+    account.transfer(60);
+    expect(account.processMonthlyFee(FEE_DAY).feeCharged).toBe(5);
+    expect([account.balance, account.state]).toEqual([85, 'Suspended']);
   });
 
   test('DT2-R10: an invalid date cannot trigger fees', () => {
@@ -217,5 +233,12 @@ describe('Decision table 4: account creation and information', () => {
       'Owner name is required',
       'Invalid e-mail address',
     ]);
+  });
+
+  test('DT4-R6: a partial update changes only the given field', () => {
+    const account = makeChecking();
+    account.updateInfo({ email: 'a@b.com' });
+    account.updateInfo({ owner: 'Only Name' });
+    expect([account.owner, account.email]).toEqual(['Only Name', 'a@b.com']);
   });
 });
