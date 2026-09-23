@@ -1220,7 +1220,7 @@ jobs:
           # able to see why without reading the workflow.
           case "${{ steps.code-quality.outputs.pylint_config }}" in
             submission) PYLINT_CONFIG_NOTE=", using the pylint configuration you committed" ;;
-            course) PYLINT_CONFIG_NOTE=", using the course configuration (120-column lines, module docstrings not required)" ;;
+            course) PYLINT_CONFIG_NOTE=", using the course configuration (120-column lines, docstrings not checked here because the rubric grades them by hand)" ;;
             *) PYLINT_CONFIG_NOTE="" ;;
           esac
 

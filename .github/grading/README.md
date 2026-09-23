@@ -47,8 +47,11 @@ defaults:
   `no-param-reassign` and `max-len` - the exact set exercise 2 of exam 1 asks
   students to configure, so a submission graded with this file is held to the
   same rules as one graded with its own.
-- **No module docstring required** in Python, because documentation is a rubric
-  item scored by reading the submission rather than by counting linter findings.
+- **No docstrings checked** in Python - module, class and function - because
+  documentation is a rubric item scored by reading the submission rather than by
+  counting linter findings, and it dominated the count: 18 of the 27 findings on
+  PR #143. The course still asks for docstrings on public functions; that
+  requirement is now graded by a human only.
 
 `pylintrc` carries the reasoning for each of its `disable` entries in comments.
 `eslintrc.json` cannot, so the short version: nothing is disabled there - the
