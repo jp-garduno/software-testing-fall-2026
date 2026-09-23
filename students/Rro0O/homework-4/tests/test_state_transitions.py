@@ -193,3 +193,11 @@ class TestHistoryAndInformation:
         """ST25: updating personal data is not a monetary transaction, so Frozen accounts may do it."""
         checking.freeze()
         assert checking.update_info(email="me@example.com")["success"] is True
+
+    def test_st23b_csv_fields_with_commas_and_quotes_are_quoted(self, make_account):
+        """ST23b: CSV export quotes descriptions that contain commas or quotes."""
+        account = make_account("Checking", 1000, owner="Perez, Ana")
+        target = make_account("Savings", 500, owner='Luis "Lucho" Diaz, Jr.')
+        account.transfer(10, destination=target, on_date="2026-09-10")
+        assert '"Transfer from Perez, Ana"' in target.export_csv()
+        assert '"Transfer to Luis ""Lucho"" Diaz, Jr."' in account.export_csv()

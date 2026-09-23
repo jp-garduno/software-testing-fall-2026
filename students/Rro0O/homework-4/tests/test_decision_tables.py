@@ -199,6 +199,11 @@ class TestBillPaymentTable:
         result = checking.pay_bill("Nobody", -5, payment_date="2020-01-01", on_date=today)
         assert result["errors"] == ["Invalid payee", "Amount must be positive", "Payment date cannot be in the past"]
 
+    def test_dt3_r10_invalid_amount_type_and_date_are_reported(self, checking, today):
+        """DT3-R10: a text amount and an unparsable date are both reported."""
+        result = checking.pay_bill("SIAPA Water", "lots", payment_date="someday", on_date=today)
+        assert result["errors"] == ["Amount must be a number", "Invalid payment date"]
+
     def test_dt3_r9_payment_that_drops_below_minimum_suspends(self, make_account, today):
         """DT3-R9: a Savings bill payment leaving $90 (< $100) succeeds with a suspension warning."""
         account = make_account("Savings", 150)
