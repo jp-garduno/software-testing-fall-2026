@@ -1,0 +1,7 @@
+[tool.bandit]
+exclude_dirs = ["tests", "__pycache__"]
+skips = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
