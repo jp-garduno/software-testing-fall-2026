@@ -182,7 +182,7 @@ Model an ATM withdrawal flow and design transition tests.
    - Requirements specification
    - Submit on Canvas
 
-2. Start Homework 4 (due Week 9)
+2. Start Homework 4 (due end of Week 5)
    - Black box test case design for online banking system
    - Use all 4 techniques learned this week
 
@@ -260,7 +260,7 @@ Review Homework 4 requirements:
 - Online Banking System test case design
 - Minimum 20 test cases required
 - Use all 4 techniques
-- Due Week 9
+- Due end of Week 5 (this week)
 - Worth 110 points
 
 Walk through the requirements together and answer questions.
@@ -273,7 +273,7 @@ Walk through the requirements together and answer questions.
 
 #### 📝 Post-Class Work
 
-1. Continue working on Homework 4
+1. Continue working on Homework 4 (due at the end of this week)
 2. Apply black box techniques to your team project
 3. Prepare for Exam 1 review (next week!)
 
@@ -325,24 +325,27 @@ Topics covered:
 
 **Part 3: Exam 1 Review (30 min)**
 
-**Next Week: Exam 1** (Modules 1-3: Git, Testing Concepts, Static Testing)
+**Next Week: Exam 1** (Modules 1, 3 and 4: Git, Static Testing, Black Box Testing)
 
 Review topics:
 
 - Git commands and workflows
-- Branching and merging
-- Testing types and levels
-- Static testing techniques
-- Pre-commit hooks
+- Branching, merging and conflict resolution
 - Conventional commits
+- Pre-commit hooks and linter configuration
+- Reading and fixing linter findings
+- Black box design: equivalence partitioning, boundary value analysis, decision tables, state transition
 
 **Exam Format**:
 
 - Practical hands-on exam (not multiple choice)
-- 2 hours in class
+- **90 minutes** in class
 - You'll use your laptop
-- Open resources (course materials, documentation)
+- Open resources (course materials, documentation, Copilot)
 - No collaboration
+- You **design and document** tests; you do not write automated tests
+- Choose Python **or** JavaScript and use it throughout
+- Delivered as a **ZIP file on Canvas**, not a repository URL
 
 #### 💬 Discussion Questions
 
@@ -356,24 +359,24 @@ Review topics:
 
    - Git operations (branching, merging, conflicts)
    - Setting up pre-commit hooks
-   - Linting configuration
+   - Linting configuration and fixing findings
    - Conventional commit format
+   - Black box techniques and their table formats (EP, BVA, decision tables, state transition)
 
-2. **Homework 2 Due This Week**
+2. **Homework 4 Due This Week**
 
-   - Testing analysis report
+   - Black box test case design
    - Submit on Canvas
-
-3. Continue Homework 4 (due Week 9)
 
 #### 📚 Exam 1 Study Resources
 
 - [Module 1: Git Theory](../../01-git/theory/)
-- [Module 2: Testing Concepts](../../02-testing-concepts/theory/)
 - [Module 3: Static Testing](../../03-static-testing/theory/)
-- Review all exercises from Modules 1-3
-- Practice setting up pre-commit hooks
-- Review your Homework 1, 2, 3 solutions
+- [Module 4: Black Box Testing](../../04-black-box-testing/theory/)
+- Review all exercises from Modules 1, 3 and 4
+- Practice setting up pre-commit hooks and linter configs
+- Review your Homework 1, 3 and 4 solutions
+- Memorize the four table formats from Module 4 - the exam requires them exactly
 
 ---
 
@@ -395,13 +398,13 @@ Today's session is dedicated to reviewing for Exam 1. Come with questions!
 
 **Part 1: Q&A Session (60 min)**
 
-Open floor for any questions about Modules 1-3:
+Open floor for any questions about Modules 1, 3 and 4:
 
 - Git workflows and commands
-- Testing concepts and principles
 - Static testing setup
 - Pre-commit hooks
 - Linting tools
+- Black box design techniques and their table formats
 
 **Part 2: Hands-On Practice (60 min)**
 
@@ -421,10 +424,10 @@ Work through practice problems:
    - Test hook execution
    - Fix linting issues
 
-3. **Testing Concepts** (20 min)
-   - Identify testing type for scenarios
-   - Apply testing principles
-   - Design a test strategy
+3. **Black Box Design** (20 min)
+   - Derive equivalence partitions and boundary values from a written spec
+   - Build a complete decision table for a rule with 3 conditions
+   - Write state transition test cases, including invalid transitions
 
 #### 💬 Study Tips
 
@@ -435,26 +438,28 @@ Work through practice problems:
 - Understand pull request workflow
 - Be familiar with git log, git diff, git status
 
-**Testing Concepts (Module 2)**:
-
-- Know testing types (functional vs non-functional)
-- Understand testing levels (unit, integration, system, acceptance)
-- Remember the 7 testing principles
-- Understand the testing pyramid
-
 **Static Testing (Module 3)**:
 
 - Conventional commit format (type, scope, description)
-- Pre-commit hook configuration
+- Pre-commit hook configuration (`repo` and `rev` for every hook)
 - Linting tools (Black, isort, Pylint, ESLint, Prettier)
-- Benefits of static testing
+- Reading linter output and fixing findings without changing behavior
+
+**Black Box Testing (Module 4)**:
+
+- Equivalence partitioning: valid and invalid partitions, representative values
+- Boundary value analysis: just below, on, and just above each boundary
+- Decision tables: 3 conditions means 8 rules, all of them
+- State transition: valid transitions, invalid transitions, and guard conditions
+- Know the four table formats by heart - the exam requires them exactly
 
 #### 📝 Exam 1 Details
 
 **When**: Session 2 (next class)  
-**Duration**: 2 hours  
-**Coverage**: Modules 1-3  
-**Format**: Practical hands-on tasks  
+**Duration**: 90 minutes  
+**Coverage**: Modules 1, 3 and 4  
+**Format**: 3 practical exercises, 100 points  
+**Submission**: ZIP file uploaded to Canvas  
 **Weight**: 15% of final grade
 
 **What to Bring**:
@@ -480,11 +485,12 @@ Work through practice problems:
 
 **Tonight**:
 
-1. Review all Module 1-3 theory documents
-2. Practice git commands in terminal
-3. Set up a test repository with pre-commit hooks
-4. Review your homework solutions
-5. Get good sleep!
+1. Review the Module 1, 3 and 4 theory documents
+2. Practice git commands in terminal, especially resolving a conflict
+3. Set up a test repository with pre-commit hooks and a linter config
+4. Redo one exercise of each black box technique from memory
+5. Review your homework solutions
+6. Get good sleep!
 
 **Before Exam**:
 
@@ -498,9 +504,9 @@ Work through practice problems:
 
 ---
 
-### 📅 Session 2: **EXAM 1** 🎯 (2 hours)
+### 📅 Session 2: **EXAM 1** 🎯 (90 minutes within the 2-hour session)
 
-**Canvas Module Title**: Week 6 - Session 2: Exam 1 (Modules 1-3)
+**Canvas Module Title**: Week 6 - Session 2: Exam 1 (Modules 1, 3, 4)
 
 **Instructions to post in Canvas**:
 
@@ -508,37 +514,38 @@ Work through practice problems:
 
 #### Exam 1: Practical Assessment
 
-**Duration**: 2 hours  
-**Coverage**: Modules 1-3 (Git, Testing Concepts, Static Testing)  
+**Duration**: 90 minutes  
+**Coverage**: Modules 1, 3 and 4 (Git, Static Testing, Black Box Testing)  
 **Weight**: 15% of final grade
 
 #### 📋 Exam Format
 
-You will receive a separate exam document at the start of class with detailed instructions.
+The full statement, the exercises and the starter file are attached to this Canvas assignment. Download them at the start of class.
 
-**Typical exam structure** (example):
+**Exercise structure** (3 exercises, 100 points):
 
-**Part 1: Git Operations** (30%)
+**Exercise 1: Git - branching, conflict and Conventional Commits** (25 pts, ~15 min)
 
-- Create repository with specific structure
-- Make commits following conventional commit standard
-- Create feature branch
-- Resolve merge conflict
-- Create pull request
+- Create a new local repository
+- Make commits following the Conventional Commits standard, with the correct type
+- Create a feature branch, produce a real merge conflict and resolve it
+- Deliver the hidden `.git/` folder plus evidence files
 
-**Part 2: Static Testing Setup** (40%)
+**Exercise 2: Static Testing** (30 pts, ~20 min)
 
-- Configure pre-commit hooks for provided project
-- Set up linting tools (Black, Pylint for Python OR ESLint, Prettier for JavaScript)
-- Fix linting issues in provided code
-- Verify hooks work correctly
+- Write a `.pre-commit-config.yaml` with 6+ hooks (graded by inspection, no need to run it)
+- Write a linter config (`.pylintrc` for Python, ESLint config for JavaScript)
+- Take the provided module to Pylint 10.00/10 or ESLint 0 errors, **without silencing checks**
+- Fix the behavioral defect the linter reveals and note it in `notas.md`
 
-**Part 3: Testing Concepts** (30%)
+**Exercise 3: Black Box Test Design** (45 pts, ~30 min)
 
-- Analyze requirements and identify test types needed
-- Design test strategy for given scenario
-- Apply testing principles
-- Answer scenario-based questions
+- Equivalence partitions for three inputs
+- Boundary value analysis for four boundaries, 12 rows with exact expected results
+- A complete 8-rule decision table with the exact total for each rule
+- Six state transition test cases, including invalid transitions and a guard condition
+
+**Important**: you **design and document** tests in this exam; you do not write automated tests. Choose Python **or** JavaScript and use it for everything. You are given a written specification, **not** the code it describes - deriving expected results from the spec is the point.
 
 #### ✅ Before You Begin
 
@@ -551,11 +558,12 @@ You will receive a separate exam document at the start of class with detailed in
 
 #### 📤 Submission Instructions
 
-1. Create repository as instructed in exam
-2. Push all work to GitHub
-3. Submit repository URL on Canvas
-4. Submit before end of class time
-5. No late submissions accepted
+1. Build the folder structure described in the exam statement
+2. Compress it as a **ZIP file**, named after you in lowercase with hyphens and no accents
+3. Verify the ZIP contains the hidden `ejercicio-1/.git/` folder - many tools silently skip hidden folders
+4. Upload the ZIP to this Canvas assignment. **Do not** submit a repository URL
+5. Submit before end of class time
+6. No late submissions accepted
 
 #### 🚫 Academic Integrity
 
@@ -567,9 +575,10 @@ You will receive a separate exam document at the start of class with detailed in
 
 #### ⏱️ Time Management
 
-- Read all instructions first (5 min)
-- Allocate time per section (Part 1: 35 min, Part 2: 50 min, Part 3: 30 min)
-- Save time for testing and submission (10 min)
+- Read all instructions first
+- Suggested budget: Exercise 1 15 min, Exercise 2 20 min, Exercise 3 30 min
+- Save 5 min for packaging and uploading the ZIP
+- That leaves about 20 min of slack - it exists so getting stuck on the Git conflict or the linter does not cost you Exercise 3
 - Don't get stuck - move on and come back
 
 #### 📝 After Exam
@@ -686,14 +695,9 @@ Instructor demonstrates:
 
 #### 📝 Post-Class Work
 
-1. **Homework 3 Due This Week**
+1. Complete the coverage exercise for your chosen language
 
-   - Static testing setup
-   - Submit on Canvas
-
-2. Complete the coverage exercise for your chosen language
-
-3. Start thinking about Milestone 3 (due Week 8)
+2. Start thinking about Milestone 3 (due Week 8)
 
 #### 📚 Resources
 
@@ -787,7 +791,7 @@ Compare:
 
 #### 📝 Post-Class Work
 
-1. Start Homework 5 (due Week 10)
+1. Start Homework 5 (due end of Week 8)
 
    - White box testing for TaskFlow Management system
    - 50+ unit tests
@@ -901,7 +905,7 @@ Working in pairs:
    - Use all 4 black box techniques
    - Submit on Canvas
 
-2. Continue Homework 5 (due Week 10)
+2. Continue Homework 5 (due at the end of this week)
    - Focus on increasing coverage
    - Add integration tests
 
@@ -978,7 +982,7 @@ Take feedback from peer review and refactor your tests:
 
 #### 📝 Post-Class Work
 
-1. Apply refactoring to Homework 5
+1. **Homework 5 Due This Week** - apply today's refactoring lessons, then submit on Canvas
 2. Prepare for Module 6 (TDD) next week
 3. Review Milestone 4 requirements (due Week 10)
 
@@ -1091,12 +1095,7 @@ Work in pairs (driver/navigator) and switch every 5 minutes.
    - Commit after each cycle
    - Reflect on the experience
 
-2. **Homework 4 Due This Week**
-
-   - Black box test design
-   - Submit on Canvas
-
-3. Read theory for Session 2
+2. Read theory for Session 2
 
 ---
 
@@ -1180,7 +1179,7 @@ Class discussion:
 
 #### 📝 Post-Class Work
 
-1. Start Homework 6 (due Week 12)
+1. Start Homework 6 (due end of Week 11)
 
    - Library Management System
    - MUST use strict TDD
@@ -1277,12 +1276,7 @@ Instructor demonstrates TDD with real project feature:
 
 #### 📝 Post-Class Work
 
-1. **Homework 5 Due This Week**
-
-   - White box testing
-   - Submit on Canvas
-
-2. Work on Milestone 5 preparation
+1. Work on Milestone 5 preparation
    - Choose your TDD feature
    - Create test list
    - Start planning approach
@@ -1347,7 +1341,7 @@ Choose a challenging kata:
    - Implement feature using strict TDD
    - Remember: tests first, always!
 
-3. Continue Homework 6 (due Week 12)
+3. Continue Homework 6 (due end of Week 11 - next week)
 
 #### 🎯 Week 11 Preview: Exam 2
 
@@ -1431,10 +1425,10 @@ Work through sample problems:
 #### 💬 Exam 2 Details
 
 **When**: Session 2 (next class)  
-**Duration**: 2 hours  
+**Duration**: 90 minutes  
 **Coverage**: Modules 4-6  
 **Format**: Practical hands-on tasks  
-**Weight**: 20% of final grade
+**Weight**: 15% of final grade
 
 **Likely exam structure**:
 
@@ -1500,7 +1494,7 @@ Work through sample problems:
 
 ---
 
-### 📅 Session 2: **EXAM 2** 🎯 (2 hours)
+### 📅 Session 2: **EXAM 2** 🎯 (90 minutes within the 2-hour session)
 
 **Canvas Module Title**: Week 11 - Session 2: Exam 2 (Modules 4-6)
 
@@ -1510,9 +1504,9 @@ Work through sample problems:
 
 #### Exam 2: Practical Assessment
 
-**Duration**: 2 hours  
+**Duration**: 90 minutes  
 **Coverage**: Modules 4-6 (Black Box, White Box, TDD)  
-**Weight**: 20% of final grade
+**Weight**: 15% of final grade
 
 #### 📋 Exam Format
 
@@ -1596,7 +1590,7 @@ Next modules:
 **Don't forget**:
 
 - **Milestone 5 due next week** (TDD Feature)
-- **Homework 6 due next week** (TDD Implementation)
+- **Homework 6 due this week** (TDD Implementation)
 
 ---
 
@@ -1685,17 +1679,12 @@ Load test data from CSV file and run parameterized tests.
 
 #### 📝 Post-Class Work
 
-1. **Homework 6 Due This Week**
-
-   - TDD implementation
-   - Submit on Canvas
-
-2. **Milestone 5 Due This Week**
+1. **Milestone 5 Due This Week**
 
    - TDD feature implementation
    - Submit on Canvas
 
-3. Start Homework 7 (due Week 13)
+2. Start Homework 7 (due end of Week 13)
    - E-Commerce Order Processing
    - Data-driven testing focus
 
@@ -2366,10 +2355,10 @@ Work through sample problems for each module.
 #### 💬 Exam 3 Details
 
 **When**: Session 2 (next class)  
-**Duration**: 2 hours  
+**Duration**: 90 minutes  
 **Coverage**: Modules 7-9  
 **Format**: Practical hands-on  
-**Weight**: 20% of final grade
+**Weight**: 15% of final grade
 
 **Expected sections**:
 
@@ -2444,20 +2433,20 @@ Work through sample problems for each module.
 
 **Session Plan**:
 
-- **First 2 hours**: Exam 3
+- **First 90 minutes**: Exam 3
 - **Break**: 15 minutes
 - **Next 1.5 hours**: Team Project Final Presentations
 - **Last 30 min**: Course wrap-up & feedback
 
 ---
 
-### Part 1: Exam 3 (2 hours)
+### Part 1: Exam 3 (90 minutes)
 
 #### Exam 3: Practical Assessment
 
-**Duration**: 2 hours  
+**Duration**: 90 minutes  
 **Coverage**: Modules 7-9 (Data-Driven, System-Level, Performance)  
-**Weight**: 20% of final grade
+**Weight**: 15% of final grade
 
 #### 📋 Exam Format
 
@@ -2502,7 +2491,7 @@ You will receive a separate exam document with detailed instructions.
 3. Include JMeter test plan (.jmx file)
 4. Include performance test results
 5. Submit repository URL on Canvas
-6. Submit before 2-hour mark
+6. Submit before the 90-minute mark
 
 ---
 

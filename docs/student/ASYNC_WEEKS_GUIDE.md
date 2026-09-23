@@ -300,9 +300,11 @@ Weekend:    Work on homework (3-4 hours)
 
 **Exam 1**: Week 6
 
-- Covers Modules 1-3 (everything from async weeks)
-- Practical exam (not multiple choice)
-- You'll write code and tests
+- Covers Modules **1 (Git), 3 (Static Testing) and 4 (Black Box Testing)**
+- ⚠️ Module 4 is **not** part of the async weeks — it is taught in person in Weeks 4-6, and it is the largest part of the exam (45%). Studying only the async material is not enough.
+- Practical exam (not multiple choice), 90 minutes
+- You **design and document** tests; you do not write automated tests
+- Submitted as a ZIP file on Canvas
 
 ---
 

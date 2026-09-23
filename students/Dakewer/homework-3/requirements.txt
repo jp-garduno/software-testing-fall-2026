@@ -1,0 +1,8 @@
+ask-sdk-core
+ask-sdk-dynamodb-persistence-adapter
+requests
+pytest
+black
+isort
+pylint
+pre-commit
