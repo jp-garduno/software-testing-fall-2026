@@ -286,7 +286,7 @@ Once you complete this module:
 
 1. Complete all [exercises](./exercises/) - practice makes perfect!
 2. Complete [Homework 4](./homework/homework-4.md)
-3. Review for **Exam 1** (Week 6) covering Modules 1-3
+3. Review for **Exam 1** (Week 6, Session 2) covering Modules 1, 3 and 4 - this module is 45% of it, the largest part
 4. Preview [Module 5: White Box Testing](../05-white-box-testing/README.md)
 
 ---
