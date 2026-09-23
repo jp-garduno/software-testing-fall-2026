@@ -42,7 +42,9 @@ this simulation, not claims about a production banking service:
    Dates must be real, zero-padded ISO dates. Schedule only today or later;
    validate available funds at scheduling and again at execution. Scheduling
    does not reserve money. Due payments execute once in insertion order; failed
-   execution is terminal and recorded in the returned batch result.
+   execution is terminal and recorded in the returned batch result. Processing
+   the queue is an administrative action permitted while Frozen, but every
+   attempted payment fails. Closed accounts reject queue processing entirely.
 7. Transfers simulate the source-account debit and record a nonempty destination
    label (`external` by default). There is no real settlement or multi-account
    atomicity. Account information contains a nonempty owner name only.
@@ -132,7 +134,7 @@ first/last days around monthly fee processing. See the case catalog.
 | Result | Success | Limit error | Funds error | Funds error | State error | State error | State error | State error |
 
 For combinations with a used allowance, first transfer 4900 from a Checking
-account. Then attempt 50 or 200 with remaining funds 100 or 1000. Non-Active
+account. Then attempt 50 or 200 with remaining funds 25 or 1000. Non-Active
 combinations freeze through the public API. Suspended and Closed are tested by
 the state suite. Only the first applicable error is returned.
 
