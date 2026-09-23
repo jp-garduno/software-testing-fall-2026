@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/isaac/Documents/Code/software-testing-fall-2026/students/isaac-evs/homework-4
+configfile: pytest.ini
+plugins: cov-7.1.0
+collected 75 items
+
+tests/test_boundary_values.py .....................                      [ 28%]
+tests/test_decision_tables.py ................                           [ 49%]
+tests/test_equivalence_partitioning.py .......................           [ 80%]
+tests/test_state_transitions.py ...............                          [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.9.6-final-0 ________________
+
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+src/__init__.py             0      0   100%
+src/banking_system.py     103      0   100%
+-----------------------------------------------------
+TOTAL                     103      0   100%
+Coverage HTML written to dir htmlcov
+============================== 75 passed in 0.11s ==============================
