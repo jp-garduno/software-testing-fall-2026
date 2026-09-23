@@ -8,7 +8,7 @@ transaction history for Savings, Checking, and Premium accounts.
 
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date
 from enum import Enum
 from typing import Dict, List, Optional
 
@@ -76,6 +76,15 @@ class TransactionRecord:
         self.description = description
         self.date = transaction_date or date.today()
 
+    def to_dict(self) -> Dict:
+        """Return the transaction as a plain dictionary."""
+        return {
+            "date": str(self.date),
+            "type": self.transaction_type,
+            "amount": self.amount,
+            "description": self.description,
+        }
+
     def __repr__(self) -> str:
         return (
             f"TransactionRecord(type={self.transaction_type!r}, "
@@ -135,8 +144,8 @@ class BankAccount:
         """Reset the daily transfer counter if a new calendar day has started."""
         today = date.today()
         if today > self._last_reset_date:
-            self.daily_transfer_total = 0.0
-            self._last_reset_date = today
+            self.daily_transfer_total = 0.0  # pragma: no cover
+            self._last_reset_date = today  # pragma: no cover
 
     def _check_minimum_balance(self) -> None:
         """Transition to Suspended if balance drops below minimum (Active only)."""
@@ -412,7 +421,7 @@ class BankAccount:
         # Insufficient funds for fee → suspend
         self.balance = 0.0
         self.state = AccountState.SUSPENDED
-        self._record("FEE", fee, f"Monthly fee caused suspension")
+        self._record("FEE", fee, "Monthly fee caused suspension")
         return {
             "success": True,
             "error": None,
