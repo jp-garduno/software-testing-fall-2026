@@ -1,6 +1,5 @@
 from banking_system import BankAccount
 
-
 class TestEquivalencePartitioning:
     def test_ep6_ahorro_valido(self):
         """EP6: Ahorro es un tipo válido"""

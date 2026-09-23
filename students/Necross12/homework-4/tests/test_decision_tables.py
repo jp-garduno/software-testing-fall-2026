@@ -1,6 +1,5 @@
 from banking_system import BankAccount
 
-
 class TestDecisionTable1:
     def test_td1_todo_correcto(self):
         """TD1 (Regla 1): fondos OK, límite OK, cuenta activa -> éxito"""

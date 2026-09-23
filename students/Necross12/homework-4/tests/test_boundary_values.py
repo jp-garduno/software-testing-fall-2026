@@ -1,7 +1,5 @@
 import pytest
-
 from banking_system import BankAccount
-
 
 class TestBoundaryValues:
     def test_bv1_transferir_cero_falla(self):

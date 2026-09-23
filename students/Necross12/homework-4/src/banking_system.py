@@ -1,3 +1,5 @@
+import math
+
 AHORRO = "Ahorro"
 ESTANDAR = "Estándar"
 PREMIUM = "Premium"
@@ -64,7 +66,11 @@ class BankAccount:
         if self.state == CERRADO:
             return self._fail("Error: Cuenta cerrada")
         if (
-            isinstance(amount, bool) or not isinstance(amount, (int, float)) or amount != amount or amount <= 0):
+            isinstance(amount, bool)
+            or not isinstance(amount, (int, float))
+            or not math.isfinite(amount)
+            or amount <= 0
+        ):
             return self._fail("Error: el monto debe ser positivo")
         if amount > self.balance:
             return self._fail("Error: fondos insuficientes")
@@ -86,7 +92,9 @@ class BankAccount:
             if self.state == CERRADO:
                 self.last_message = "Error: Cuenta cerrada"
             else:
-                self.last_message = (f"Error: transición inválida de {self.state} a {target_state}")
+                self.last_message = (
+                    f"Error: transición inválida de {self.state} a {target_state}"
+                )
             return False
         self.state = target_state
         self.last_message = BankAccount.MENSAJES_ESTADO[target_state]

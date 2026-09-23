@@ -40,6 +40,7 @@
 **Defects Found**: Ninguno.
 
 ### Decision Tables (5 tests)
+
 - ✅ TD1 (Regla 1): fondos OK, límite OK, cuenta activa -> transferencia exitosa
 - ✅ TD2 (Regla 2): cuenta congelada -> error cuenta congelada
 - ✅ TD3 (Regla 3): límite excedido -> error de límite
@@ -49,6 +50,7 @@
 **Defects Found**: La tabla marca varios errores por regla; el código devuelve solo el primero (fondos > límite).
 
 ### State Transitions (6 tests)
+
 - ✅ ST1: Activo -> Suspendido
 - ✅ ST2: Activo -> Congelado
 - ✅ ST3: Activo -> Cerrado
@@ -59,6 +61,7 @@
 **Defects Found**: La versión inicial usaba "Active" en el constructor y "Activo" en `next()`, por lo que el rechazo de cuentas cerradas nunca se activaba.
 
 ## Screenshots
+
 ![test-results.png](screenshots/test-results.png)
 ![coverage-report.png](screenshots/coverage-report.png)
 
@@ -72,16 +75,22 @@ Se cubrió el porcentaje de cobertura solicitado en la planeación (tanto en la 
 Faltan una sentencia y varias ramas al ser el 87%.
 
 ¿En qué se diferencia la cobertura según la técnica?
-* Partición equivalente: Solo busca separar los elementos en clases.
-* Análisis de valores límite: Prueba los casos donde es más probable que se encuentren errores.
-* Tabla de decisiones: Ayuda a probar elementos complejos agrupando reglas según la acción que se considere necesaria.
-* Tabla de transición de estados: Verifica los elementos que pueden cambiar de estado para asegurarse de que no se alcancen zonas incorrectas.
+
+- Partición equivalente: Solo busca separar los elementos en clases.
+- Análisis de valores límite: Prueba los casos donde es más probable que se encuentren errores.
+- Tabla de decisiones: Ayuda a probar elementos complejos agrupando reglas según la acción que se considere necesaria.
+- Tabla de transición de estados: Verifica los elementos que pueden cambiar de estado para asegurarse de que no se alcancen zonas incorrectas.
 
 | Técnica                   | Sentencias | Ramas   |
-|---------------------------|------------|---------|
+| ------------------------- | ---------- | ------- |
 | Partición de equivalencia | 34.04 %    | 23.33 % |
 | Valores límite            | 65.95 %    | 40 %    |
 | Tablas de decisión        | 78.72 %    | 50 %    |
 | Transición de estados     | 74.46 %    | 46.66 % |
 
 Las tablas de decisión cubren más código porque recorren varias validaciones de transfer y la partición solo toca validarTipoCuenta.
+
+## Python version
+
+Estos resultados se generaron usando los archivos .py en vez de los archivos .js
+![testPython.png](screenshots/testPython.png)

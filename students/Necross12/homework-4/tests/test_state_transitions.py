@@ -1,6 +1,5 @@
 from banking_system import BankAccount
 
-
 class TestStateTransitions:
     def test_st1_activo_a_suspendido(self):
         """ST1: Activo -> Suspendido"""
