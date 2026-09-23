@@ -1,0 +1,7 @@
+# La cuenta guarda 8 atributos (tipo, reglas, saldo, acumulado diario, fecha,
+# historial, pagos agendados y estado) y el limite por defecto de pylint es 7.
+# Juntarlos en un diccionario solo para bajar el numero haria mas dificiles de
+# leer las pruebas de estado, asi que subo el limite.
+
+[DESIGN]
+max-attributes=10
