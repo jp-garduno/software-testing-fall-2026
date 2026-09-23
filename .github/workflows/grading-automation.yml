@@ -1,7 +1,7 @@
 name: Automated Grading
 
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled, closed, synchronize]
   workflow_dispatch:
     inputs:
@@ -19,7 +19,7 @@ jobs:
   grade-submission:
     name: Grade Student Submission
     if: |
-      (github.event_name == 'pull_request' &&
+      (github.event_name == 'pull_request_target' &&
        (contains(github.event.pull_request.labels.*.name, 'homework') ||
         contains(github.event.pull_request.labels.*.name, 'exam') ||
         contains(github.event.pull_request.labels.*.name, 'project'))) ||
@@ -44,6 +44,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.pr-info.outputs.sha || github.event.pull_request.head.sha || github.sha }}
+          allow-unsafe-pr-checkout: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -113,54 +114,117 @@ jobs:
           echo "Grading Assignment: $ASSIGNMENT for Student: $STUDENT"
 
       - name: Navigate to student directory
+        id: locate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.pr_number || github.event.pull_request.number }}
         run: |
-          STUDENT_DIR="students/${{ steps.extract-info.outputs.student_name }}/homework-${{ steps.extract-info.outputs.assignment }}"
+          STUDENT="${{ steps.extract-info.outputs.student_name }}"
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+          EXPECTED="students/$STUDENT/homework-$ASSIGNMENT"
 
-          # If directory doesn't exist, try to find it by searching students directory
-          if [ ! -d "$STUDENT_DIR" ]; then
-            echo "⚠️  Expected directory not found: $STUDENT_DIR"
-            echo "🔍 Searching for actual student directory in students/*/homework-$ASSIGNMENT..."
+          # Every candidate below is tied to this pull request or to this
+          # student. MATCH records which rule resolved the directory, so the
+          # grade can always be traced back to the files it was computed from.
+          STUDENT_DIR=""
+          MATCH="none"
 
-            # Find all homework directories for this assignment
-            FOUND_DIR=$(find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1)
+          # 1. The path the assignment documents.
+          if [ -d "$EXPECTED" ]; then
+            STUDENT_DIR="$EXPECTED"
+            MATCH="exact"
+          fi
 
-            if [ -n "$FOUND_DIR" ] && [ -d "$FOUND_DIR" ]; then
-              STUDENT_DIR="$FOUND_DIR"
-              ACTUAL_STUDENT=$(echo "$STUDENT_DIR" | grep -oP 'students/\K[^/]+')
-              echo "✅ Found actual directory: $STUDENT_DIR (student: $ACTUAL_STUDENT)"
+          # 2. The same path ignoring letter case. Branch names and directory
+          #    names disagree in case often enough to matter - branch
+          #    feat/rro0o/homework-3 next to directory students/Rro0O/homework-3 -
+          #    and the runner is case sensitive, so the documented path alone
+          #    misses those submissions entirely.
+          if [ -z "$STUDENT_DIR" ] && [ -n "$STUDENT" ]; then
+            CASE_DIR=$(find students -maxdepth 1 -type d -iname "$STUDENT" 2>/dev/null | head -1)
+            if [ -n "$CASE_DIR" ] && [ -d "$CASE_DIR/homework-$ASSIGNMENT" ]; then
+              STUDENT_DIR="$CASE_DIR/homework-$ASSIGNMENT"
+              MATCH="case-insensitive"
+            fi
+          fi
+
+          # 3. The directories this pull request actually touches. This is the
+          #    authoritative source - by construction it cannot point at
+          #    somebody else's work - and it also covers the case where the
+          #    student name parsed out of the branch is not the directory name.
+          if [ -z "$STUDENT_DIR" ]; then
+            PR_DIRS=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path' 2>/dev/null \
+              | grep -E "^students/[^/]+/homework-$ASSIGNMENT/" \
+              | cut -d/ -f1-3 | sort -u)
+
+            # Prefer the directory belonging to the student being graded; only
+            # fall back to the first touched directory if there is no match.
+            if [ -n "$STUDENT" ]; then
+              CANDIDATE=$(echo "$PR_DIRS" | grep -i "^students/$STUDENT/" | head -1)
             else
-              echo "❌ Could not find student homework directory"
-              echo "STUDENT_DIR=." >> $GITHUB_ENV
-              exit 0
+              CANDIDATE=""
+            fi
+            if [ -z "$CANDIDATE" ]; then
+              CANDIDATE=$(echo "$PR_DIRS" | head -1)
+            fi
+
+            if [ -n "$CANDIDATE" ] && [ -d "$CANDIDATE" ]; then
+              STUDENT_DIR="$CANDIDATE"
+              MATCH="pull-request-files"
             fi
           fi
 
-          if [ -d "$STUDENT_DIR" ]; then
-            cd "$STUDENT_DIR"
-
-            # Check if files are in a subdirectory (common mistake)
-            # Look for subdirectories that might contain the actual submission
-            SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
-            FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
-
-            # If there's exactly one subdirectory and no files at this level, navigate into it
-            if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
-              SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
-              echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
-              cd "$SUBDIR_NAME"
-              STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
-            fi
-
-            echo "✅ Working directory: $(pwd)"
-            echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
-          else
-            echo "❌ Warning: Student directory not found: $STUDENT_DIR"
-            echo "STUDENT_DIR=." >> $GITHUB_ENV
+          # There is deliberately no wider search. The previous version fell
+          # back to
+          #   find students -maxdepth 2 -type d -name "homework-$ASSIGNMENT" | head -1
+          # which returns the first directory in readdir order regardless of who
+          # it belongs to. PRs #129 and #132 were both graded against
+          # students/isaac-evs/homework-3 that way and each reported an
+          # identical 96.25 that belonged to neither of them. Refusing to grade
+          # is recoverable; silently grading somebody else's work is not.
+          if [ -z "$STUDENT_DIR" ]; then
+            echo "❌ Could not locate a submission for this pull request"
+            echo "   Expected: $EXPECTED"
+            echo "   No students/*/homework-$ASSIGNMENT directory is touched by this PR either."
+            echo "   Refusing to grade rather than guessing at another student's directory."
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "expected_dir=$EXPECTED" >> $GITHUB_OUTPUT
+            echo "SUBMISSION_FOUND=false" >> $GITHUB_ENV
+            exit 0
           fi
+
+          echo "✅ Submission located: $STUDENT_DIR (matched by: $MATCH)"
+
+          cd "$STUDENT_DIR"
+
+          # Check if files are in a subdirectory (common mistake)
+          # Look for subdirectories that might contain the actual submission
+          SUBDIRS=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" | wc -l)
+          FILES=$(find . -maxdepth 1 -type f ! -name ".*" | wc -l)
+
+          # If there's exactly one subdirectory and no files at this level, navigate into it
+          if [ "$SUBDIRS" -eq 1 ] && [ "$FILES" -eq 0 ]; then
+            SUBDIR_NAME=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." ! -name ".*" -printf "%f\n")
+            echo "⚠️  Detected submission in subdirectory: $SUBDIR_NAME"
+            cd "$SUBDIR_NAME"
+            STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
+          fi
+
+          echo "✅ Working directory: $(pwd)"
+          echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
+          echo "SUBMISSION_FOUND=true" >> $GITHUB_ENV
+          echo "found=true" >> $GITHUB_OUTPUT
+          echo "student_dir=$STUDENT_DIR" >> $GITHUB_OUTPUT
+          echo "match=$MATCH" >> $GITHUB_OUTPUT
+          echo "expected_dir=$EXPECTED" >> $GITHUB_OUTPUT
 
       - name: Run Python tests and collect results
         id: python-tests
+        # Homework 3 is graded on static testing only, so skip the dynamic run.
+        # SUBMISSION_FOUND guards every step that inspects the submission: with
+        # no directory to inspect these would silently run against the
+        # repository root and grade the course material instead.
+        if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -185,13 +249,28 @@ jobs:
           PYTEST_EXIT=$?
 
           # Extract metrics
-          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' || echo "0")
-          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' || echo "0")
-          COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(data['totals']['percent_covered'])" 2>/dev/null || echo "0")
+          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+          COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(data['totals']['percent_covered'])" 2>/dev/null)
+
+          # A missing coverage.json and a genuine 0% are different things: the
+          # first means coverage.py never ran (no Python here, or pytest could not
+          # collect), the second is a real measurement worth 0. The status lets
+          # "Calculate final grade" leave an unmeasured language out of the
+          # average instead of charging it as a zero.
+          if [ -n "$COVERAGE" ]; then
+            COVERAGE_STATUS="ok"
+            echo "📊 Python coverage: $COVERAGE%"
+          else
+            COVERAGE="0"
+            COVERAGE_STATUS="none"
+            echo "ℹ️  No Python coverage report - Python is left out of the coverage grade"
+          fi
 
           echo "tests_passed=$TESTS_PASSED" >> $GITHUB_OUTPUT
           echo "tests_failed=$TESTS_FAILED" >> $GITHUB_OUTPUT
           echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+          echo "coverage_status=$COVERAGE_STATUS" >> $GITHUB_OUTPUT
           echo "exit_code=$PYTEST_EXIT" >> $GITHUB_OUTPUT
 
           cat python-test-output.txt
@@ -199,6 +278,8 @@ jobs:
 
       - name: Run JavaScript tests and collect results
         id: js-tests
+        # Homework 3 is graded on static testing only, so skip the dynamic run.
+        if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -211,12 +292,72 @@ jobs:
           npm test -- --coverage --json --outputFile=js-results.json > js-test-output.txt 2>&1
           NPM_EXIT=$?
 
-          # Extract metrics (simplified - adjust based on your Jest output)
-          JS_TESTS_PASSED=$(grep -oP '\d+ passed' js-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
-          JS_TESTS_FAILED=$(grep -oP '\d+ failed' js-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+          # Read the totals from the JSON report the run above already writes.
+          # The old code grepped the first "N passed" out of the human summary,
+          # and Jest prints "Test Suites:" before "Tests:", so what got counted
+          # was suites: PR #143 was recorded as 4 passed JavaScript tests because
+          # it had four *.test.js files. The pooled pass ratio hid it whenever
+          # everything passed, and understated the failures when it did not.
+          JS_COUNTS=$(node -e '
+          const r = JSON.parse(require("fs").readFileSync("js-results.json", "utf8"));
+          if (typeof r.numPassedTests !== "number") throw new Error("no test totals in the report");
+          console.log(r.numPassedTests, r.numFailedTests || 0);
+          ' 2>/dev/null)
+
+          if [ -n "$JS_COUNTS" ]; then
+            JS_TESTS_PASSED=$(echo "$JS_COUNTS" | awk '{print $1}')
+            JS_TESTS_FAILED=$(echo "$JS_COUNTS" | awk '{print $2}')
+          else
+            # No JSON report. Fall back to the summary line, anchored on "Tests:"
+            # so the "Test Suites:" line above it cannot be picked up by mistake.
+            JS_TESTS_PASSED=$(awk '/^Tests:/ && match($0, /[0-9]+ passed/) { print substr($0, RSTART, RLENGTH); exit }' js-test-output.txt | grep -oE '[0-9]+')
+            JS_TESTS_FAILED=$(awk '/^Tests:/ && match($0, /[0-9]+ failed/) { print substr($0, RSTART, RLENGTH); exit }' js-test-output.txt | grep -oE '[0-9]+')
+            JS_TESTS_PASSED=${JS_TESTS_PASSED:-0}
+            JS_TESTS_FAILED=${JS_TESTS_FAILED:-0}
+            echo "ℹ️  No js-results.json - test totals read from the summary line"
+          fi
+
+          echo "🧪 JavaScript tests: $JS_TESTS_PASSED passed, $JS_TESTS_FAILED failed"
+
+          # The --coverage above was already being requested and then thrown away:
+          # the coverage grade came from coverage.py alone, so a submission written
+          # in JavaScript scored 0/100 on 30% of its grade with nothing it could do
+          # about it. Statement coverage is read here so it matches what coverage.py
+          # reports for Python and the two can be averaged honestly.
+          JS_COVERAGE=$(node -e '
+          const fs = require("fs");
+          let pct = null;
+          try {
+            const s = JSON.parse(fs.readFileSync("coverage/coverage-summary.json", "utf8"));
+            if (s.total && s.total.statements && typeof s.total.statements.pct === "number") pct = s.total.statements.pct;
+          } catch (e) { /* the json-summary reporter is not configured; fall through */ }
+          if (pct === null) {
+            // coverage-final.json comes from the "json" reporter, which is one of
+            // Jest defaults, so this is the branch that usually runs.
+            const f = JSON.parse(fs.readFileSync("coverage/coverage-final.json", "utf8"));
+            let covered = 0, total = 0;
+            for (const file of Object.values(f)) {
+              for (const hits of Object.values(file.s || {})) { total++; if (hits > 0) covered++; }
+            }
+            if (total === 0) throw new Error("no statements instrumented");
+            pct = (covered / total) * 100;
+          }
+          console.log(pct.toFixed(2));
+          ' 2>/dev/null)
+
+          if [ -n "$JS_COVERAGE" ]; then
+            JS_COVERAGE_STATUS="ok"
+            echo "📊 JavaScript coverage: $JS_COVERAGE%"
+          else
+            JS_COVERAGE="0"
+            JS_COVERAGE_STATUS="none"
+            echo "ℹ️  No Jest coverage report - JavaScript is left out of the coverage grade"
+          fi
 
           echo "tests_passed=$JS_TESTS_PASSED" >> $GITHUB_OUTPUT
           echo "tests_failed=$JS_TESTS_FAILED" >> $GITHUB_OUTPUT
+          echo "coverage=$JS_COVERAGE" >> $GITHUB_OUTPUT
+          echo "coverage_status=$JS_COVERAGE_STATUS" >> $GITHUB_OUTPUT
           echo "exit_code=$NPM_EXIT" >> $GITHUB_OUTPUT
 
           cat js-test-output.txt
@@ -224,7 +365,21 @@ jobs:
 
       - name: Check code quality
         id: code-quality
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
+          # Linter output goes here, not into the submission. The previous
+          # version wrote pylint-report.json and eslint-report.txt inside the
+          # student directory, which overwrote files students had committed and
+          # inflated the homework-1 file count.
+          QUALITY_OUT="$GITHUB_WORKSPACE/grading-artifacts"
+          mkdir -p "$QUALITY_OUT"
+
+          # Absolute, because the lint runs from inside the student directory and
+          # pylint only walks up looking for a configuration while the parent
+          # directories are packages - it would never find this one on its own.
+          COURSE_PYLINTRC="$GITHUB_WORKSPACE/.github/grading/pylintrc"
+          COURSE_ESLINTRC="$GITHUB_WORKSPACE/.github/grading/eslintrc.json"
+
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
             cd "$STUDENT_DIR"
@@ -232,20 +387,307 @@ jobs:
 
           set +e
 
-          # Python linting
-          pylint **/*.py --exit-zero --output-format=json > pylint-report.json 2>&1 || true
-          PYLINT_SCORE=$(python -c "import json; data=json.load(open('pylint-report.json')) if open('pylint-report.json').read() else {'score': 0}; print(data.get('score', 0))" 2>/dev/null || echo "0")
+          # Each linter reports a status alongside its numbers so that
+          # "Calculate final grade" can tell these situations apart:
+          #   ok             - the linter ran and its result is the student's
+          #   not_applicable - no source files of that language to lint
+          #   no_code        - source files exist but there is no code in them
+          #   no_config      - source files, but neither the submission nor the
+          #                    course supplied a configuration to lint them with
+          #   error_running  - the linter itself failed; never charge this to the student
+          #
+          # A companion *_CONFIG output says which configuration produced the
+          # numbers: "submission" for one the student committed, "course" for the
+          # fallback in .github/grading/, "defaults" / "none" otherwise.
+          PYLINT_SCORE="0"
+          PYLINT_STATUS="not_applicable"
+          PYLINT_CONFIG="none"
+          ESLINT_ERRORS=0
+          ESLINT_WARNINGS=0
+          ESLINT_STATUS="not_applicable"
+          ESLINT_CONFIG_SOURCE="none"
 
-          # JavaScript linting
-          npm run lint > eslint-report.txt 2>&1 || true
-          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt || echo "0")
+          FIND_PRUNE=(-not -path "*/node_modules/*" -not -path "*/__pycache__/*" -not -path "*/.git/*" -not -path "*/venv/*" -not -path "*/.venv/*")
+
+          # A file named pytest.ini.py or requirements.txt.py is not Python: it is
+          # a configuration file that picked up a .py extension by mistake. Pylint
+          # parses it as source anyway, and since it weighs an error five times a
+          # convention the cost is out of all proportion to the mistake - the
+          # three-line pytest.ini.py in PR #143 produced three undefined-variable
+          # errors and accounted for 17 of that submission's 39 penalty points.
+          # These files are left out of the lint and reported to the student as
+          # the naming problem they are, which is also the only thing that will
+          # get the tool they were meant to configure to read them.
+          PY_MISNAMED_GLOBS=("*.ini.py" "*.cfg.py" "*.toml.py" "*.txt.py" "*.json.py" "*.yaml.py" "*.yml.py" "*.md.py" "*.csv.py")
+          PY_SKIP_MISNAMED=()
+          PY_ONLY_MISNAMED=()
+          for GLOB in "${PY_MISNAMED_GLOBS[@]}"; do
+            PY_SKIP_MISNAMED+=(-not -name "$GLOB")
+            [ "${#PY_ONLY_MISNAMED[@]}" -eq 0 ] || PY_ONLY_MISNAMED+=(-o)
+            PY_ONLY_MISNAMED+=(-name "$GLOB")
+          done
+
+          # Non-whitespace byte count across whatever is piped in. Zero means the
+          # files are genuinely empty, which is the one case a linter has nothing
+          # to say about. Only ESLint needs this: it reports "0 errors" on an
+          # empty file, which is indistinguishable from clean code. Pylint says
+          # so itself - see the score handling below.
+          count_content_bytes() {
+            tr -d '[:space:]' | wc -c | tr -d ' '
+          }
+
+          # ---------------------------------------------------------------
+          # Python
+          # ---------------------------------------------------------------
+          PY_MISNAMED_FILES=$(find . -type f "${FIND_PRUNE[@]}" \( "${PY_ONLY_MISNAMED[@]}" \) | sed 's|^\./||' | sort | tr '\n' ' ')
+          PY_MISNAMED_FILES="${PY_MISNAMED_FILES% }"
+          if [ -n "$PY_MISNAMED_FILES" ]; then
+            echo "⚠️  Excluded from the lint - named .py but not Python: $PY_MISNAMED_FILES"
+          fi
+
+          PY_FILE_COUNT=$(find . -type f -name "*.py" "${PY_SKIP_MISNAMED[@]}" "${FIND_PRUNE[@]}" | wc -l)
+
+          # An empty __init__.py is the idiomatic way to declare a package, so it
+          # is not evidence of an unfinished submission. Files that are expected
+          # to carry code are counted separately and only that count decides
+          # whether an unrated submission is empty on purpose or by mistake.
+          PY_GRADED_COUNT=$(find . -type f -name "*.py" ! -name "__init__.py" "${PY_SKIP_MISNAMED[@]}" "${FIND_PRUNE[@]}" | wc -l)
+
+          if [ "$PY_FILE_COUNT" -eq 0 ]; then
+            echo "No Python files in the submission - skipping pylint"
+          elif ! command -v pylint > /dev/null 2>&1; then
+            PYLINT_SCORE="0"
+            PYLINT_STATUS="error_running"
+            echo "⚠️  pylint is not installed on the runner - excluding Python from the quality grade"
+          else
+            # A submission that ships its own pylint configuration is graded with
+            # it: homework 3 asks students to write one and exam 1 lets them set
+            # the line length, so overriding it would grade something other than
+            # what was assigned. Everything else is graded with the course
+            # configuration rather than pylint's defaults, which are stricter than
+            # the standards the course teaches - 100-column lines against the 120
+            # in CLAUDE.md, and a docstring on every module even though every
+            # rubric already scores documentation by hand.
+            PYLINT_RCFILE=()
+            if [ -f .pylintrc ] || [ -f pylintrc ]; then
+              PYLINT_CONFIG="submission"
+              echo "Using the pylint configuration committed with the submission"
+            elif [ -f pyproject.toml ] && grep -q '^\[tool\.pylint' pyproject.toml; then
+              PYLINT_CONFIG="submission"
+              echo "Using the submission's pylint configuration from pyproject.toml"
+            elif [ -f setup.cfg ] && grep -q '^\[pylint' setup.cfg; then
+              PYLINT_CONFIG="submission"
+              echo "Using the submission's pylint configuration from setup.cfg"
+            elif [ -f "$COURSE_PYLINTRC" ]; then
+              PYLINT_CONFIG="course"
+              PYLINT_RCFILE=(--rcfile="$COURSE_PYLINTRC")
+              echo "Using the course pylint configuration: $COURSE_PYLINTRC"
+            else
+              PYLINT_CONFIG="defaults"
+              echo "⚠️  $COURSE_PYLINTRC is missing - falling back to pylint's defaults"
+            fi
+
+            echo "Linting $PY_FILE_COUNT Python file(s) with pylint..."
+            find . -type f -name "*.py" "${PY_SKIP_MISNAMED[@]}" "${FIND_PRUNE[@]}" \
+              -exec pylint --exit-zero "${PYLINT_RCFILE[@]}" {} + > "$QUALITY_OUT/pylint-report.txt" 2>&1
+
+            # Read the score off pylint's own summary line ("Your code has been
+            # rated at 8.57/10"). The old code parsed --output-format=json for a
+            # "score" key, but that format emits a bare list of messages with no
+            # score in it, so PYLINT_SCORE was always 0 even for clean code.
+            # awk rather than grep -oP: POSIX ERE needs no PCRE support, and the
+            # last match wins so a "(previous run: ...)" suffix cannot confuse it.
+            PYLINT_SCORE=$(awk 'match($0, /rated at -?[0-9]+(\.[0-9]+)?/) { score = substr($0, RSTART + 9, RLENGTH - 9) } END { if (score != "") print score }' "$QUALITY_OUT/pylint-report.txt")
+
+            # One finding per line, in pylint's own "file:line:col: CODE: message
+            # (symbol)" form, for the PR comment and the artifact. A score on its
+            # own tells a student that something is wrong but not what, and the
+            # score is what the grade is computed from.
+            grep -E '^[^ ]+:[0-9]+:[0-9]+: [A-Z][0-9]{4}: ' "$QUALITY_OUT/pylint-report.txt" \
+              > "$QUALITY_OUT/pylint-findings.txt" 2>/dev/null
+            PYLINT_FINDING_COUNT=$(wc -l < "$QUALITY_OUT/pylint-findings.txt" | tr -d ' ')
+            PYLINT_FINDING_COUNT=${PYLINT_FINDING_COUNT:-0}
+
+            if [ -n "$PYLINT_SCORE" ]; then
+              PYLINT_STATUS="ok"
+              echo "✅ Pylint score: $PYLINT_SCORE/10 from $PYLINT_FINDING_COUNT finding(s)"
+            elif grep -q "Traceback (most recent call last)" "$QUALITY_OUT/pylint-report.txt"; then
+              PYLINT_SCORE="0"
+              PYLINT_STATUS="error_running"
+              echo "⚠️  Pylint crashed - excluding Python from the quality grade"
+              tail -20 "$QUALITY_OUT/pylint-report.txt"
+            elif [ "$PY_GRADED_COUNT" -eq 0 ]; then
+              # Nothing but package markers. There is no code here, but there was
+              # never meant to be any, so Python is left out of the quality grade
+              # instead of being scored 0.
+              PYLINT_SCORE="0"
+              PYLINT_STATUS="not_applicable"
+              echo "ℹ️  The only Python file(s) are empty __init__.py package markers - excluding Python from the quality grade"
+            else
+              # Pylint prints its score section only for a module that has
+              # statements: verified against pylint 3.3, an empty file, a
+              # comment-only file, a docstring-only file and a file that fails to
+              # parse all produce no score line, while one line of real code in
+              # any of the files produces one. So "no score and no crash" means
+              # there was no code to rate, which is the student's doing and worth
+              # 0 - not a tooling failure to be excluded. PR #122 committed an
+              # __init__.py plus four named modules, all 0 bytes, and scored
+              # 100/100 for quality before this.
+              PYLINT_SCORE="0"
+              PYLINT_STATUS="no_code"
+              echo "❌ Pylint found no code to rate in $PY_GRADED_COUNT file(s) that should contain code - empty, comments only, or does not parse"
+              tail -20 "$QUALITY_OUT/pylint-report.txt"
+            fi
+          fi
+
+          # ---------------------------------------------------------------
+          # JavaScript / TypeScript
+          # ---------------------------------------------------------------
+          JS_FILE_COUNT=$(find . -type f \( -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \) "${FIND_PRUNE[@]}" | wc -l)
+          JS_CONTENT=0
+          if [ "$JS_FILE_COUNT" -gt 0 ]; then
+            JS_CONTENT=$(find . -type f \( -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \) "${FIND_PRUNE[@]}" -exec cat {} + | count_content_bytes)
+            JS_CONTENT=${JS_CONTENT:-0}
+          fi
+
+          if [ "$JS_FILE_COUNT" -gt 0 ] && [ "$JS_CONTENT" -eq 0 ]; then
+            # Same reasoning as the Python side: ESLint reports 0 errors on empty
+            # files, which is indistinguishable from clean code by the numbers.
+            ESLINT_STATUS="no_code"
+            echo "❌ $JS_FILE_COUNT JavaScript file(s) found but they contain no code - nothing for ESLint to check"
+          elif [ "$JS_FILE_COUNT" -gt 0 ]; then
+            ESLINT_CONFIG=""
+            for CANDIDATE in eslint.config.js eslint.config.mjs eslint.config.cjs eslint.config.ts \
+                             .eslintrc.js .eslintrc.cjs .eslintrc.json .eslintrc.yml .eslintrc.yaml .eslintrc; do
+              if [ -f "$CANDIDATE" ]; then
+                ESLINT_CONFIG="$CANDIDATE"
+                break
+              fi
+            done
+
+            # An eslintConfig block in package.json is a configuration too, and the
+            # loop above cannot see it.
+            if [ -z "$ESLINT_CONFIG" ] && [ -f "package.json" ] \
+               && node -e 'process.exit(require("./package.json").eslintConfig ? 0 : 1)' 2>/dev/null; then
+              ESLINT_CONFIG="package.json (eslintConfig)"
+            fi
+
+            # Count real problems from ESLint's own per-file errorCount and
+            # warningCount, which tally severity 2 and severity 1 results.
+            # Printing nothing (invalid or missing JSON) means ESLint crashed.
+            read_eslint_counts() {
+              node -e 'const r = require(process.argv[1]); if (!Array.isArray(r)) process.exit(1); console.log(r.reduce((a, f) => a + (f.errorCount || 0), 0), r.reduce((a, f) => a + (f.warningCount || 0), 0));' "$QUALITY_OUT/eslint-report.json" 2>/dev/null
+            }
+
+            # The course repository's own ESLint, pinned to 8.x in package.json
+            # and installed by the `npm ci` above, rather than npx: the eslintrc
+            # format eslintrc.json is written in was removed in ESLint 9, so a
+            # submission that happens to carry ESLint 9 in its node_modules would
+            # refuse to read it. --no-eslintrc stops anything left in the
+            # submission from merging into the course rules.
+            run_course_eslint() {
+              "$GITHUB_WORKSPACE/node_modules/.bin/eslint" . \
+                --no-eslintrc --config "$COURSE_ESLINTRC" \
+                --ext .js,.mjs,.cjs,.jsx --format json \
+                > "$QUALITY_OUT/eslint-report.json" 2> "$QUALITY_OUT/eslint-stderr.txt"
+            }
+
+            if [ -n "$ESLINT_CONFIG" ]; then
+              ESLINT_CONFIG_SOURCE="submission"
+              echo "Linting $JS_FILE_COUNT JavaScript file(s) with $ESLINT_CONFIG..."
+
+              # Install the submission's own toolchain when it declares one: a
+              # flat config written against ESLint 9/10 cannot be loaded by the
+              # course repository's ESLint 8.
+              if [ -f "package.json" ] && [ ! -d "node_modules" ]; then
+                npm install --no-audit --no-fund --no-save > "$QUALITY_OUT/npm-install.log" 2>&1 \
+                  || echo "⚠️  npm install failed - falling back to the course repository's ESLint"
+              fi
+
+              # Invoke ESLint directly instead of `npm run lint`: the assignment
+              # never asks for a lint script, and when there was none npm printed
+              # "Missing script: lint" and the old `grep -c error` counted the 8
+              # lines of that message as 8 ESLint errors.
+              npx --no-install eslint . --format json > "$QUALITY_OUT/eslint-report.json" 2> "$QUALITY_OUT/eslint-stderr.txt"
+
+              # A committed configuration ESLint cannot actually run with - no
+              # node_modules and no package.json to install from, a plugin that
+              # is not declared, a flat config on ESLint 8 - used to drop the
+              # language. Grade it with the course rules instead, and keep the
+              # source distinct from "course" so the student is not told they
+              # forgot a configuration they did commit.
+              if [ -z "$(read_eslint_counts)" ] && [ -f "$COURSE_ESLINTRC" ]; then
+                echo "⚠️  ESLint could not run with $ESLINT_CONFIG - grading with the course configuration instead"
+                head -5 "$QUALITY_OUT/eslint-stderr.txt"
+                ESLINT_CONFIG_SOURCE="submission_unusable"
+                run_course_eslint
+              fi
+            elif [ -f "$COURSE_ESLINTRC" ]; then
+              # JavaScript files but no configuration used to drop the language from
+              # the quality grade, which is worse than it sounds: for a submission
+              # written entirely in JavaScript nothing was left to average, so the
+              # "no linter could run" branch below awarded the whole 20% category.
+              # Grading with the course rules instead holds everyone to the same
+              # standard, the same way the Python side falls back to the course
+              # pylintrc.
+              ESLINT_CONFIG_SOURCE="course"
+              echo "No ESLint configuration in the submission - linting $JS_FILE_COUNT file(s) with $COURSE_ESLINTRC"
+              run_course_eslint
+            else
+              ESLINT_STATUS="no_config"
+              echo "⚠️  No ESLint configuration in the submission and $COURSE_ESLINTRC is missing"
+            fi
+
+            if [ "$ESLINT_STATUS" != "no_config" ]; then
+              ESLINT_COUNTS=$(read_eslint_counts)
+
+              if [ -n "$ESLINT_COUNTS" ]; then
+                ESLINT_ERRORS=$(echo "$ESLINT_COUNTS" | awk '{print $1}')
+                ESLINT_WARNINGS=$(echo "$ESLINT_COUNTS" | awk '{print $2}')
+                ESLINT_STATUS="ok"
+                echo "✅ ESLint: $ESLINT_ERRORS error(s), $ESLINT_WARNINGS warning(s)"
+
+                # Same one-line-per-finding shape as the pylint list, rendered
+                # from the JSON rather than asking ESLint for a second, stylish
+                # run: the JSON is already on disk and a rerun could disagree
+                # with the counts above.
+                node -e '
+                const path = require("path");
+                const results = require(process.argv[1]);
+                const lines = [];
+                for (const file of results) {
+                  const name = path.relative(process.cwd(), file.filePath).split(path.sep).join("/");
+                  for (const m of file.messages) {
+                    const severity = m.severity === 2 ? "error" : "warning";
+                    const rule = m.ruleId || (m.fatal ? "parse error" : "eslint");
+                    lines.push(name + ":" + (m.line || 0) + ":" + (m.column || 0) + ": " + severity + ": " + m.message + " (" + rule + ")");
+                  }
+                }
+                if (lines.length) console.log(lines.join("\n"));
+                ' "$QUALITY_OUT/eslint-report.json" > "$QUALITY_OUT/eslint-findings.txt" 2>/dev/null
+              else
+                ESLINT_STATUS="error_running"
+                echo "⚠️  ESLint did not produce a usable report - excluding JavaScript from the quality grade"
+                head -20 "$QUALITY_OUT/eslint-stderr.txt"
+              fi
+            fi
+          else
+            echo "No JavaScript files in the submission - skipping ESLint"
+          fi
 
           echo "pylint_score=$PYLINT_SCORE" >> $GITHUB_OUTPUT
+          echo "pylint_status=$PYLINT_STATUS" >> $GITHUB_OUTPUT
+          echo "pylint_config=$PYLINT_CONFIG" >> $GITHUB_OUTPUT
+          echo "py_misnamed_files=$PY_MISNAMED_FILES" >> $GITHUB_OUTPUT
           echo "eslint_errors=$ESLINT_ERRORS" >> $GITHUB_OUTPUT
+          echo "eslint_warnings=$ESLINT_WARNINGS" >> $GITHUB_OUTPUT
+          echo "eslint_config=$ESLINT_CONFIG_SOURCE" >> $GITHUB_OUTPUT
+          echo "eslint_status=$ESLINT_STATUS" >> $GITHUB_OUTPUT
         continue-on-error: true
 
       - name: Check required files
         id: required-files
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -330,8 +772,12 @@ jobs:
 
             # Part 2: Testing Types (2 points, requires 8+ test types)
             if [ -f "part2-testing-types.md" ]; then
-              TEST_TYPES=$(grep -c "## Test Type:" "part2-testing-types.md" || echo "0")
-              if [ $TEST_TYPES -ge 8 ]; then
+              # Accept the documented "## Test Type: X" format as well as
+              # numbered headings ("## 1. Pruebas Funcionales"), so a submission
+              # is graded on content rather than heading style.
+              TEST_TYPES=$(grep -cE '^## (Test Type:|[0-9]+\.)' "part2-testing-types.md" | head -1)
+              TEST_TYPES=${TEST_TYPES:-0}
+              if [ "$TEST_TYPES" -ge 8 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 2 found with adequate content: $TEST_TYPES test types (+2)"
               else
@@ -345,8 +791,17 @@ jobs:
 
             # Part 3: Testing Levels (2 points, requires 4 levels)
             if [ -f "part3-testing-levels.md" ]; then
-              LEVELS=$(grep -c "^## [A-Z]" "part3-testing-levels.md" || echo "0")
-              if [ $LEVELS -ge 4 ]; then
+              # Count the four required levels by name instead of counting
+              # headings. This accepts any heading style ("## Unit Testing",
+              # "## 1. Pruebas Unitarias") in English or Spanish, and cannot be
+              # satisfied by unrelated headings like "## Introduccion".
+              # Patterns are ASCII-only so -i works regardless of locale.
+              LEVELS=0
+              if grep -qiE '^#+ .*unit' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if grep -qiE '^#+ .*integra' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if grep -qiE '^#+ .*(system|sistema)' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if grep -qiE '^#+ .*ac+ept' "part3-testing-levels.md"; then LEVELS=$((LEVELS + 1)); fi
+              if [ "$LEVELS" -ge 4 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 3 found with adequate content: $LEVELS testing levels (+2)"
               else
@@ -360,8 +815,9 @@ jobs:
 
             # Part 4: Testing Principles (2 points, requires 7 principles)
             if [ -f "part4-testing-principles.md" ]; then
-              PRINCIPLES=$(grep -c "^## [0-9]" "part4-testing-principles.md" || echo "0")
-              if [ $PRINCIPLES -ge 7 ]; then
+              PRINCIPLES=$(grep -c "^## [0-9]" "part4-testing-principles.md" | head -1)
+              PRINCIPLES=${PRINCIPLES:-0}
+              if [ "$PRINCIPLES" -ge 7 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Part 4 found with adequate content: $PRINCIPLES principles (+2)"
               else
@@ -375,10 +831,11 @@ jobs:
 
             # Part 5: Risk Analysis (1 point, requires 6+ risks in table)
             if [ -f "part5-risk-analysis.md" ]; then
-              RISKS=$(grep -c "^|.*|.*|.*|.*|" "part5-risk-analysis.md" || echo "0")
+              RISKS=$(grep -c "^|.*|.*|.*|.*|" "part5-risk-analysis.md" | head -1)
+              RISKS=${RISKS:-0}
               # Subtract 2 for header rows
               RISKS=$((RISKS > 2 ? RISKS - 2 : 0))
-              if [ $RISKS -ge 6 ]; then
+              if [ "$RISKS" -ge 6 ]; then
                 SCORE=$((SCORE + 1))
                 echo "✅ Part 5 found with adequate content: $RISKS risks (+1)"
               else
@@ -393,14 +850,18 @@ jobs:
             # Homework 3: Static testing setup - check for specific requirements
             echo "Checking Homework 3 structure (static testing setup with content validation)..."
 
-            # Pre-commit config (2 points, requires 5+ hooks)
+            # Pre-commit config (3 points, requires 5+ hooks)
+            # Worth 3 rather than 2 because the point previously allocated to
+            # having dynamic test files moved here: homework 3 is a static
+            # testing assignment and its rubric awards no points for tests.
             if [ -f ".pre-commit-config.yaml" ]; then
-              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" || echo "0")
-              if [ $HOOKS -ge 5 ]; then
-                SCORE=$((SCORE + 2))
-                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+2)"
+              HOOKS=$(grep -c "id:" ".pre-commit-config.yaml" | head -1)
+              HOOKS=${HOOKS:-0}
+              if [ "$HOOKS" -ge 5 ]; then
+                SCORE=$((SCORE + 3))
+                echo "✅ Pre-commit config found with adequate hooks: $HOOKS hooks (+3)"
               else
-                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 2}")
+                PRECOMMIT_SCORE=$(awk "BEGIN {printf \"%.1f\", ($HOOKS / 5.0) * 3}")
                 SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $PRECOMMIT_SCORE}")
                 echo "⚠️  Pre-commit config found but incomplete: $HOOKS/5 hooks (+$PRECOMMIT_SCORE)"
               fi
@@ -408,20 +869,27 @@ jobs:
               echo "❌ Pre-commit config missing"
             fi
 
-            # Number of Python source files (2 points, requires 3+ files excluding tests)
-            PY_FILES=$(find src -name "*.py" 2>/dev/null | grep -v "__pycache__" | wc -l || echo "0")
-            if [ $PY_FILES -ge 3 ]; then
+            # Number of source files (2 points, requires 3+ files)
+            # The assignment accepts a Python OR a JavaScript project, so count
+            # both. node_modules is excluded for the same reason __pycache__ is.
+            SRC_FILES=$(find src -type f \( -name "*.py" -o -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
+            SRC_FILES=${SRC_FILES:-0}
+            if [ "$SRC_FILES" -ge 3 ]; then
               SCORE=$((SCORE + 2))
-              echo "✅ Sufficient Python files: $PY_FILES files (+2)"
+              echo "✅ Sufficient source files: $SRC_FILES files (+2)"
             else
-              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($PY_FILES / 3.0) * 2}")
+              FILES_SCORE=$(awk "BEGIN {printf \"%.1f\", ($SRC_FILES / 3.0) * 2}")
               SCORE=$(awk "BEGIN {printf \"%.0f\", $SCORE + $FILES_SCORE}")
-              echo "⚠️  Insufficient Python files: $PY_FILES/3 files (+$FILES_SCORE)"
+              echo "⚠️  Insufficient source files: $SRC_FILES/3 files (+$FILES_SCORE)"
             fi
 
             # Lines of code (2 points, requires 100+ lines in src/)
             if [ -d "src" ]; then
-              LOC=$(find src -name "*.py" -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+              # Concatenate and count once: when no source file matches, wc reads
+              # empty stdin and prints 0. The previous "wc -l ... | tail -1 | awk"
+              # form printed nothing instead, and the empty value aborted the step.
+              LOC=$(find src -type f \( -name "*.py" -o -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" -exec cat {} + 2>/dev/null | wc -l)
+              LOC=${LOC:-0}
               if [ "$LOC" -ge 100 ]; then
                 SCORE=$((SCORE + 2))
                 echo "✅ Sufficient code: $LOC lines (+2)"
@@ -449,18 +917,19 @@ jobs:
               echo "❌ Report missing"
             fi
 
-            # Tests present (1 point)
-            if ls test_*.py 1> /dev/null 2>&1 || ls *_test.py 1> /dev/null 2>&1; then
-              SCORE=$((SCORE + 1))
-              echo "✅ Test files found (+1)"
-            else
-              echo "❌ No test files found"
-            fi
+            # No dynamic test check here on purpose: homework 3 covers static
+            # testing, and its rubric awards no points for tests or coverage.
           else
             # Code-based homework: check for tests and structure
-            if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
+            # Search recursively: these assignments ask for the tests in a
+            # tests/ subdirectory, so a root-only `ls test_*.py` would miss
+            # every submission that follows the required structure. Accept both
+            # Python and JavaScript naming.
+            TEST_FILES=$(find . -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
+            TEST_FILES=${TEST_FILES:-0}
+            if [ "$TEST_FILES" -ge 1 ]; then
               SCORE=$((SCORE + 4))
-              echo "✅ Test files found (+4)"
+              echo "✅ Test files found: $TEST_FILES (+4)"
             else
               echo "❌ No test files found"
             fi
@@ -478,6 +947,10 @@ jobs:
 
       - name: Calculate final grade
         id: calculate-grade
+        # No submission means no grade. Computing one from the skipped steps
+        # above would report a confident 0 for work that may well exist under a
+        # path this workflow does not know how to find.
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Define weights based on assignment type
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
@@ -489,12 +962,16 @@ jobs:
             STRUCTURE_WEIGHT=60
             echo "Homework $ASSIGNMENT detected - using adjusted weights (Structure: 60%, Quality: 20%, Tests: 10%, Coverage: 10%)"
           elif [ "$ASSIGNMENT" = "3" ]; then
-            # Homework 3: Static testing setup - balanced with emphasis on structure
-            TESTS_WEIGHT=25
-            COVERAGE_WEIGHT=20
-            CODE_QUALITY_WEIGHT=15
-            STRUCTURE_WEIGHT=40
-            echo "Homework 3 detected - using adjusted weights (Structure: 40%, Tests: 25%, Coverage: 20%, Quality: 15%)"
+            # Homework 3 is a static testing assignment, so dynamic tests and
+            # coverage carry no weight. The split mirrors the rubric in
+            # 03-static-testing/homework/homework-3.md, where "Linting Config"
+            # is 30 of 110 points (~25%) and the remaining automatable
+            # categories (Setup, Pre-commit, Report, Documentation) are structure.
+            TESTS_WEIGHT=0
+            COVERAGE_WEIGHT=0
+            CODE_QUALITY_WEIGHT=25
+            STRUCTURE_WEIGHT=75
+            echo "Homework 3 detected - static testing assignment, using adjusted weights (Structure: 75%, Quality: 25%, Tests/Coverage: not applicable)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
@@ -522,9 +999,47 @@ jobs:
             TEST_SCORE=0
           fi
 
-          # Coverage score
-          COVERAGE=${{ steps.python-tests.outputs.coverage || '0' }}
-          COVERAGE_SCORE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE}")
+          # Coverage score, averaged over the languages that actually produced a
+          # coverage report - the same rule the quality score follows, and for the
+          # same reason: a measurement that could not be taken is not charged as a
+          # zero. Until this was added the figure came from coverage.py alone, so a
+          # submission written in JavaScript lost the whole category.
+          PY_COVERAGE=${{ steps.python-tests.outputs.coverage || '0' }}
+          PY_COVERAGE_STATUS="${{ steps.python-tests.outputs.coverage_status || 'none' }}"
+          JS_COVERAGE=${{ steps.js-tests.outputs.coverage || '0' }}
+          JS_COVERAGE_STATUS="${{ steps.js-tests.outputs.coverage_status || 'none' }}"
+
+          COVERAGE_TOTAL=0
+          COVERAGE_PARTS=0
+          if [ "$PY_COVERAGE_STATUS" = "ok" ]; then
+            COVERAGE_TOTAL=$(awk "BEGIN {printf \"%.4f\", $COVERAGE_TOTAL + $PY_COVERAGE}")
+            COVERAGE_PARTS=$((COVERAGE_PARTS + 1))
+          fi
+          if [ "$JS_COVERAGE_STATUS" = "ok" ]; then
+            COVERAGE_TOTAL=$(awk "BEGIN {printf \"%.4f\", $COVERAGE_TOTAL + $JS_COVERAGE}")
+            COVERAGE_PARTS=$((COVERAGE_PARTS + 1))
+          fi
+
+          # Full credit at the 80% the course actually publishes - CLAUDE.md sets it
+          # for homework, and this very report already tells students it is the
+          # minimum threshold - scaled linearly below it. The old code used the
+          # percentage verbatim, which silently graded against a 100% target nobody
+          # ever stated: PR #143 covered 96.61% and still lost part of the category.
+          COVERAGE_TARGET=80
+
+          if [ "$COVERAGE_PARTS" -gt 0 ]; then
+            COVERAGE=$(awk "BEGIN {printf \"%.2f\", $COVERAGE_TOTAL / $COVERAGE_PARTS}")
+            COVERAGE_SCORE=$(awk "BEGIN {s = $COVERAGE / $COVERAGE_TARGET * 100; if (s > 100) s = 100; if (s < 0) s = 0; printf \"%.2f\", s}")
+            echo "Coverage: $COVERAGE% measured over $COVERAGE_PARTS language(s), target ${COVERAGE_TARGET}% -> $COVERAGE_SCORE/100"
+          else
+            # Nothing to average. Unlike a linter that cannot run, the absence of
+            # any coverage report on a code assignment is the submission's own
+            # doing - no test suite ran in either language - so it stays a 0
+            # rather than being excused.
+            COVERAGE=0
+            COVERAGE_SCORE=0
+            echo "Coverage: no report in either language -> 0/100"
+          fi
 
           # Special case: Homework 1 & 2 are not code-based assignments
           # Give full credit for tests and coverage
@@ -535,23 +1050,87 @@ jobs:
             COVERAGE_SCORE=100
           fi
 
-          # Code quality score (simplified)
+          # Code quality score, averaged over the languages that were actually
+          # linted. The guiding rule is that a tooling failure must never cost
+          # the student points: a linter that could not run is left out of the
+          # average instead of scoring 0. The previous version ran
+          # `npm run lint`, and for a submission with no lint script npm printed
+          # "Missing script: lint" while `grep -c error` counted the 8 lines of
+          # that message as 8 ESLint errors - a silent 30-point penalty.
           PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score || '0' }}
+          PYLINT_STATUS="${{ steps.code-quality.outputs.pylint_status || 'error_running' }}"
           ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors || '0' }}
+          ESLINT_STATUS="${{ steps.code-quality.outputs.eslint_status || 'error_running' }}"
+          # "submission" if the student committed an ESLint config, "course" if
+          # the grading fallback was used, "none" if ESLint did not run at all.
+          ESLINT_CONFIG="${{ steps.code-quality.outputs.eslint_config || 'none' }}"
 
           # Special case: Homework 1 & 2 are not code-based assignments
           # Give full credit for code quality
           if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
             echo "Homework $ASSIGNMENT detected - giving full credit for code quality (non-code assignment)"
             QUALITY_SCORE=100
-          elif [ $ESLINT_ERRORS -gt 10 ]; then
-            QUALITY_SCORE=50
-          elif [ $ESLINT_ERRORS -gt 5 ]; then
-            QUALITY_SCORE=70
-          elif [ $ESLINT_ERRORS -gt 0 ]; then
-            QUALITY_SCORE=85
           else
-            QUALITY_SCORE=100
+            QUALITY_TOTAL=0
+            QUALITY_PARTS=0
+
+            if [ "$PYLINT_STATUS" = "ok" ]; then
+              # Pylint already rates code out of 10; scale it to 100 and clamp,
+              # since a badly rated file can score below zero.
+              PY_QUALITY=$(awk "BEGIN {s = $PYLINT_SCORE * 10; if (s < 0) s = 0; if (s > 100) s = 100; printf \"%.2f\", s}")
+              QUALITY_TOTAL=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL + $PY_QUALITY}")
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "Python: pylint rated the code $PYLINT_SCORE/10 -> $PY_QUALITY/100"
+            elif [ "$PYLINT_STATUS" = "no_code" ]; then
+              # A submission with no code in it is the student's doing, not the
+              # tooling's, so this counts as a part scoring 0 instead of being
+              # excluded from the average. Adding nothing to QUALITY_TOTAL is the 0.
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "Python: pylint found no code to rate -> 0/100"
+            fi
+
+            if [ "$ASSIGNMENT" = "3" ] && [ "$ESLINT_CONFIG" = "course" ]; then
+              # Only homework 3 grades this: configuring a linter is Part 3 of
+              # that assignment, so a missing config is a missing deliverable
+              # even though the course configuration still lints the code and
+              # reports its findings. Every other assignment is graded on the
+              # findings alone, because none of them ask the student to set a
+              # linter up.
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: no ESLint configuration committed -> 0/100 (homework 3 requires one)"
+            elif [ "$ESLINT_STATUS" = "ok" ]; then
+              # Same thresholds the workflow has always used; only the error
+              # count feeding them is now ESLint's own tally instead of a
+              # substring match. Warnings are reported but not penalized:
+              # homework 3 deliberately asks students to leave issues in.
+              if [ "$ESLINT_ERRORS" -gt 10 ]; then
+                JS_QUALITY=50
+              elif [ "$ESLINT_ERRORS" -gt 5 ]; then
+                JS_QUALITY=70
+              elif [ "$ESLINT_ERRORS" -gt 0 ]; then
+                JS_QUALITY=85
+              else
+                JS_QUALITY=100
+              fi
+              QUALITY_TOTAL=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL + $JS_QUALITY}")
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: ESLint reported $ESLINT_ERRORS error(s) -> $JS_QUALITY/100"
+            elif [ "$ESLINT_STATUS" = "no_code" ]; then
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: the JavaScript files in the submission are empty -> 0/100"
+            elif [ "$ESLINT_STATUS" = "no_config" ] && [ "$ASSIGNMENT" = "3" ]; then
+              # Reachable only if the course configuration is missing from the
+              # repository, so ESLint had nothing at all to run with.
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: no ESLint configuration committed -> 0/100 (homework 3 requires one)"
+            fi
+
+            if [ "$QUALITY_PARTS" -eq 0 ]; then
+              QUALITY_SCORE=100
+              echo "No linter produced a usable result (pylint: $PYLINT_STATUS, eslint: $ESLINT_STATUS) - full credit rather than a penalty for a tooling problem"
+            else
+              QUALITY_SCORE=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL / $QUALITY_PARTS}")
+            fi
           fi
 
           # Structure score
@@ -565,6 +1144,8 @@ jobs:
           echo "grade=$FINAL_GRADE" >> $GITHUB_OUTPUT
           echo "test_score=$TEST_SCORE" >> $GITHUB_OUTPUT
           echo "coverage_score=$COVERAGE_SCORE" >> $GITHUB_OUTPUT
+          echo "coverage_measured=$COVERAGE" >> $GITHUB_OUTPUT
+          echo "coverage_target=$COVERAGE_TARGET" >> $GITHUB_OUTPUT
           echo "quality_score=$QUALITY_SCORE" >> $GITHUB_OUTPUT
           echo "structure_score=$STRUCTURE_SCORE" >> $GITHUB_OUTPUT
           echo "tests_weight=$TESTS_WEIGHT" >> $GITHUB_OUTPUT
@@ -583,10 +1164,225 @@ jobs:
       - name: Generate grading report
         id: report
         run: |
+          ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+
+          # A submission that could not be located gets an explanation instead of
+          # a grade. See "Navigate to student directory" for why guessing at a
+          # directory is worse than reporting nothing.
+          if [ "${{ steps.locate.outputs.found || 'false' }}" != "true" ]; then
+            EXPECTED="${{ steps.locate.outputs.expected_dir }}"
+            REPORT="## 📊 Automated Grading Report
+
+          **Student**: ${{ steps.extract-info.outputs.student_name }}
+          **Assignment**: $ASSIGNMENT
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+          ### ⚠️ Not graded: your submission could not be found
+
+          The grader looks for your work at:
+
+          \`\`\`
+          $EXPECTED
+          \`\`\`
+
+          That directory is not in this pull request, and no other \`students/<username>/homework-$ASSIGNMENT/\` directory is touched by it either.
+
+          **No grade was recorded, and nothing is being counted against you.** Put the files where the grader expects them and it will run again on its own.
+
+          ### How to fix it
+
+          1. Move your work into \`$EXPECTED\`, creating the folders if they do not exist.
+          2. Commit and push to this same branch.
+          3. The grader re-runs on every push to a pull request labelled \`homework\`.
+
+          If your files are already somewhere under \`students/\`, check the spelling of your username folder and of the \`homework-$ASSIGNMENT\` folder.
+
+          ---
+
+          *This is an automated grading report. For questions, contact your instructor.*"
+
+            echo "$REPORT" > grading-report.md
+            echo "report<<EOF" >> $GITHUB_OUTPUT
+            echo "$REPORT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Report each linter only when it has something to say. The old report
+          # always printed "Pylint Score: 0/10", which looked like a failing
+          # grade to every JavaScript student even though no Python was involved.
+          PYLINT_STATUS="${{ steps.code-quality.outputs.pylint_status || 'error_running' }}"
+          ESLINT_STATUS="${{ steps.code-quality.outputs.eslint_status || 'error_running' }}"
+          QUALITY_LINES=""
+
+          # Say which configuration produced the score: a student who runs pylint
+          # locally with different settings and gets a different number should be
+          # able to see why without reading the workflow.
+          case "${{ steps.code-quality.outputs.pylint_config }}" in
+            submission) PYLINT_CONFIG_NOTE=", using the pylint configuration you committed" ;;
+            course) PYLINT_CONFIG_NOTE=", using the course configuration (120-column lines, docstrings not checked here because the rubric grades them by hand)" ;;
+            *) PYLINT_CONFIG_NOTE="" ;;
+          esac
+
+          case "$PYLINT_STATUS" in
+            ok) QUALITY_LINES="- Pylint: ${{ steps.code-quality.outputs.pylint_score }}/10$PYLINT_CONFIG_NOTE" ;;
+            no_code) QUALITY_LINES="- Pylint: found no code to rate - the \`.py\` files that should contain your work are empty, contain only comments, or do not parse. Code quality scores **0/100** for Python. Check that you committed the actual contents of your files. (An empty \`__init__.py\` is fine and is not what triggered this.)" ;;
+            error_running) QUALITY_LINES="- Pylint could not run, so Python was left out of the quality grade (this is not counted against you)" ;;
+          esac
+
+          # Warn, but do not penalise: the file was excluded from the lint, so the
+          # score above already leaves it out.
+          PY_MISNAMED_FILES="${{ steps.code-quality.outputs.py_misnamed_files }}"
+          if [ -n "$PY_MISNAMED_FILES" ]; then
+            MISNAMED_LINE="- ⚠️ Not linted as Python: \`$PY_MISNAMED_FILES\`. The name ends in \`.py\` but the contents are not Python, so pylint was skipped for it and your score above is unaffected. Rename it (\`pytest.ini.py\` → \`pytest.ini\`): as it stands, the tool it is meant to configure never reads it."
+            if [ -n "$QUALITY_LINES" ]; then
+              QUALITY_LINES="$QUALITY_LINES
+          $MISNAMED_LINE"
+            else
+              QUALITY_LINES="$MISNAMED_LINE"
+            fi
+          fi
+
+          COURSE_ESLINT_RULES=" (\`eslint:recommended\` plus \`eqeqeq\`, \`no-var\`, \`prefer-const\`, \`no-param-reassign\` and 120-column lines)"
+          case "${{ steps.code-quality.outputs.eslint_config }}" in
+            submission) ESLINT_CONFIG_NOTE=", using the ESLint configuration you committed" ;;
+            course) ESLINT_CONFIG_NOTE=", using the course configuration$COURSE_ESLINT_RULES" ;;
+            submission_unusable) ESLINT_CONFIG_NOTE=", using the course configuration$COURSE_ESLINT_RULES, because ESLint could not run with the one you committed (see the log for the reason - a missing \`package.json\`, an undeclared plugin or a flat config are the usual ones)" ;;
+            *) ESLINT_CONFIG_NOTE="" ;;
+          esac
+
+          case "$ESLINT_STATUS" in
+            ok)
+              ESLINT_LINE="- ESLint: ${{ steps.code-quality.outputs.eslint_errors }} error(s), ${{ steps.code-quality.outputs.eslint_warnings }} warning(s)$ESLINT_CONFIG_NOTE"
+              # Homework 3 is the one assignment where writing that configuration
+              # *is* the deliverable, so a missing one still costs the points even
+              # though the course configuration linted the code anyway.
+              if [ "$ASSIGNMENT" = "3" ] && [ "${{ steps.code-quality.outputs.eslint_config }}" = "course" ]; then
+                ESLINT_LINE="$ESLINT_LINE. Part 3 of this homework asks you to commit your own configuration (\`eslint.config.mjs\` or \`.eslintrc.js\`), and none was found, so code quality scores **0/100** for JavaScript. The errors and warnings counted here are still worth fixing."
+              fi
+              ;;
+            no_code)
+              ESLINT_LINE="- ESLint: your JavaScript files are empty, so there was nothing to check. Code quality scores **0/100** for JavaScript. Commit the actual contents of your files and push again."
+              ;;
+            no_config)
+              if [ "$ASSIGNMENT" = "3" ]; then
+                ESLINT_LINE="- ESLint: no configuration file found in your submission. Part 3 of this homework asks you to add one (\`eslint.config.mjs\` or \`.eslintrc.js\`)."
+              else
+                ESLINT_LINE="- ESLint could not be given a configuration, so JavaScript was left out of the quality grade (this is not counted against you)"
+              fi
+              ;;
+            error_running)
+              ESLINT_LINE="- ESLint could not run, so JavaScript was left out of the quality grade (this is not counted against you)"
+              ;;
+            *) ESLINT_LINE="" ;;
+          esac
+
+          if [ -n "$ESLINT_LINE" ]; then
+            if [ -n "$QUALITY_LINES" ]; then
+              QUALITY_LINES="$QUALITY_LINES
+          $ESLINT_LINE"
+            else
+              QUALITY_LINES="$ESLINT_LINE"
+            fi
+          fi
+
+          if [ -z "$QUALITY_LINES" ]; then
+            QUALITY_LINES="- No lintable source files were found in your submission."
+          fi
+
+          # The findings themselves, collapsed, so a student can see *why* the
+          # score is what it is without opening the Actions log. Read from the
+          # files the linters wrote, never through a workflow expression: these
+          # lines quote identifiers from the submission, and GitHub substitutes
+          # expressions into this script before bash runs it, so a variable named
+          # $(...) in a student's file would execute on the runner.
+          FINDINGS_DIR="$GITHUB_WORKSPACE/grading-artifacts"
+          FINDINGS_LIMIT=25
+
+          append_findings() {
+            FINDINGS_FILE="$1"
+            FINDINGS_LABEL="$2"
+            FINDINGS_HINT="$3"
+            [ -s "$FINDINGS_FILE" ] || return 0
+            FINDINGS_TOTAL=$(wc -l < "$FINDINGS_FILE" | tr -d ' ')
+            # Backticks become apostrophes: a fenced block is what keeps this
+            # readable, and pylint quotes code in its messages.
+            FINDINGS_BODY=$(head -"$FINDINGS_LIMIT" "$FINDINGS_FILE" | tr '\140' "'")
+            if [ "$FINDINGS_TOTAL" -gt "$FINDINGS_LIMIT" ]; then
+              FINDINGS_BODY="$FINDINGS_BODY
+          ... and $((FINDINGS_TOTAL - FINDINGS_LIMIT)) more - the full list is in the grading-report artifact on the Actions run."
+            fi
+            QUALITY_LINES="$QUALITY_LINES
+
+          <details>
+          <summary>$FINDINGS_LABEL ($FINDINGS_TOTAL)</summary>
+
+          \`\`\`text
+          $FINDINGS_BODY
+          \`\`\`
+
+          $FINDINGS_HINT
+          </details>"
+          }
+
+          append_findings "$FINDINGS_DIR/pylint-findings.txt" "Pylint findings" \
+            "Each line is \`file:line:column: CODE: message (symbol)\`. To see the same list locally: \`pylint --rcfile=.github/grading/pylintrc <your files>\`. The score is 10 minus a weighted penalty per finding, and an \`E\` counts five times a \`C\`."
+          append_findings "$FINDINGS_DIR/eslint-findings.txt" "ESLint findings" \
+            "Each line is \`file:line:column: severity: message (rule)\`. Only errors affect the score; warnings are there to read. Most of these are fixable with \`npx eslint . --fix\`."
+
+          # Homework 3 grades static testing only, so leave the dynamic
+          # categories out of the report entirely rather than printing rows
+          # that carry 0% weight and a coverage figure nobody was graded on.
+          if [ "$ASSIGNMENT" = "3" ]; then
+            BREAKDOWN_ROWS="| **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+            DYNAMIC_SECTION="#### Dynamic Tests & Coverage
+          - Not applicable: homework 3 is a static testing assignment and is graded on configuration, linting and analysis only."
+            NEXT_STEPS="1. Review the linting output in the Actions tab
+          2. Fix any remaining linting issues and make sure the pre-commit hooks run
+          3. Update documentation if needed"
+          else
+            BREAKDOWN_ROWS="| **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
+          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
+          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+            # "Not measured" and "0%" have to read differently: the first is left
+            # out of the coverage grade, the second is scored.
+            if [ "${{ steps.python-tests.outputs.coverage_status }}" = "ok" ]; then
+              PY_COV_LINE="- 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}%"
+            else
+              PY_COV_LINE="- 📊 Coverage: not measured, so Python is left out of the coverage grade"
+            fi
+            if [ "${{ steps.js-tests.outputs.coverage_status }}" = "ok" ]; then
+              JS_COV_LINE="- 📊 Coverage: ${{ steps.js-tests.outputs.coverage }}%"
+            else
+              JS_COV_LINE="- 📊 Coverage: not measured, so JavaScript is left out of the coverage grade"
+            fi
+
+            DYNAMIC_SECTION="#### Python Tests
+          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
+          $PY_COV_LINE
+
+          #### JavaScript Tests
+          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
+          $JS_COV_LINE
+
+          #### How coverage is scored
+          - The target is **${{ steps.calculate-grade.outputs.coverage_target }}%**, not 100%. At or above it you get the whole category; below it the score scales down proportionally, so 60% covered scores 75/100.
+          - Graded figure: **${{ steps.calculate-grade.outputs.coverage_measured }}%**, the average of the languages above that produced a report."
+            NEXT_STEPS="1. Review the detailed test output in the Actions tab
+          2. Fix any failing tests or linting issues
+          3. Ensure coverage meets the minimum threshold (80%)
+          4. Update documentation if needed"
+          fi
+
           REPORT="## 📊 Automated Grading Report
 
           **Student**: ${{ steps.extract-info.outputs.student_name }}
           **Assignment**: ${{ steps.extract-info.outputs.assignment }}
+          **Graded directory**: \`${{ steps.locate.outputs.student_dir }}\`
           **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
           ### 🎯 Final Grade: **${{ steps.calculate-grade.outputs.grade }}/100**
@@ -597,27 +1393,16 @@ jobs:
 
           | Category | Score | Weight |
           |----------|-------|--------|
-          | **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
-          | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
-          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
-          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |
+          $BREAKDOWN_ROWS
 
           ---
 
           ### 📝 Detailed Results
 
-          #### Python Tests
-          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
-          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
-          - 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}%
-
-          #### JavaScript Tests
-          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
-          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
+          $DYNAMIC_SECTION
 
           #### Code Quality
-          - Pylint Score: ${{ steps.code-quality.outputs.pylint_score }}/10
-          - ESLint Errors: ${{ steps.code-quality.outputs.eslint_errors }}
+          $QUALITY_LINES
 
           #### Required Files
           - Score: ${{ steps.required-files.outputs.score }}/${{ steps.required-files.outputs.max_score }}
@@ -626,10 +1411,7 @@ jobs:
 
           ### 📋 Next Steps
 
-          1. Review the detailed test output in the Actions tab
-          2. Fix any failing tests or linting issues
-          3. Ensure coverage meets the minimum threshold (80%)
-          4. Update documentation if needed
+          $NEXT_STEPS
 
           ---
 
@@ -659,14 +1441,17 @@ jobs:
 
       - name: Comment grade on PR
         uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.pr_number || github.event.pull_request.number }}
         with:
           script: |
             const fs = require('fs');
             const report = fs.readFileSync('grading-report.md', 'utf8');
+            const prNumber = parseInt(process.env.PR_NUMBER);
 
             // Find all existing bot grading comments
             const { data: comments } = await github.rest.issues.listComments({
-              issue_number: context.issue.number,
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
@@ -689,7 +1474,7 @@ jobs:
 
             // Create new comment
             await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: report
@@ -704,10 +1489,14 @@ jobs:
             grading-report.md
             python-results.xml
             coverage.json
-            pylint-report.json
+            grading-artifacts/
           retention-days: 90
+          if-no-files-found: ignore
 
       - name: Create Canvas-ready CSV
+        # Keep unlocatable submissions out of the gradebook entirely rather than
+        # importing a placeholder the instructor would have to notice and undo.
+        if: env.SUBMISSION_FOUND == 'true'
         run: |
           # Create CSV for Canvas gradebook import
           echo "Student,Assignment,Score,Max Points,Submission Date,Comments" > canvas-grade.csv
@@ -716,6 +1505,7 @@ jobs:
           cat canvas-grade.csv
 
       - name: Upload Canvas CSV
+        if: env.SUBMISSION_FOUND == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: canvas-import-pr-${{ github.event.pull_request.number }}

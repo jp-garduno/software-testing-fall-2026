@@ -1,0 +1,98 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.calculator {
+  background: #0f172a;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  width: 300px;
+}
+
+.display {
+  background: #1e293b;
+  color: #38bdf8;
+  font-size: 2.2rem;
+  text-align: right;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  min-height: 60px;
+  line-height: 30px;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 55px);
+  gap: 10px;
+}
+
+.btn {
+  font-size: 1.25rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background: #334155;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: #475569;
+}
+
+/* Operadores */
+.btn-op {
+  background: #f59e0b;
+}
+
+.btn-op:hover {
+  background: #d97706;
+}
+
+/* C */
+.btn-clear {
+  background: #ef4444;
+}
+
+.btn-clear:hover {
+  background: #dc2626;
+}
+
+/* Cero */
+.btn-zero {
+  grid-column: span 2;
+}
+
+/* + ocupa dos filas */
+.btn-plus {
+  grid-column: 4;
+  grid-row: 2 / span 2;
+}
+
+/* = ocupa dos filas */
+.btn-equals {
+  background: #10b981;
+  grid-column: 4;
+  grid-row: 4 / span 2;
+}
+
+.btn-equals:hover {
+  background: #059669;
+}
