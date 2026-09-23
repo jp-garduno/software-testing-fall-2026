@@ -1,13 +1,11 @@
 import pytest
 from banking_system import BankAccount
 
-
-@pytest.fixture
-
 @pytest.fixture
 def savings_account():
     return BankAccount("Savings", 1500)
 
+@pytest.fixture
 def checking_account():
     return BankAccount("Checking", 10000)
 
