@@ -71,3 +71,4 @@ def test_valores_limite_cupo(cupo, estado_esperado):
     resultado = procesar_inscripcion(solicitud)
 
     assert resultado == estado_esperado
+    assert solicitud.estado == estado_esperado
