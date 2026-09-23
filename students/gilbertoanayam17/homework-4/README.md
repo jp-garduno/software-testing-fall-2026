@@ -73,6 +73,7 @@ homework-4/
 ├── reports/
 │   ├── test-execution-report.md # Parte 3: resultados y análisis de cobertura
 │   ├── analysis-report.md       # Parte 4: análisis de las técnicas
+│   ├── implementation-comparison.md # diferencias entre JavaScript y Python
 │   ├── reflection.md            # reflexión de entrega
 │   └── screenshots/
 ├── jest.config.js               # configuración de Jest
