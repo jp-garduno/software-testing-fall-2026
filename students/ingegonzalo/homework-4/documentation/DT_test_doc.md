@@ -1,6 +1,6 @@
-# Decision Tables
+## Decision Tables
 
-## Decision Table 1: Transfer Validation
+### Decision Table 1: Transfer Validation
 
 | Condition                  | Rule 1 | Rule 2 | Rule 3 | Rule 4 | Rule 5 | Rule 6 | Rule 7 | Rule 8 |
 | -------------------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
@@ -13,7 +13,7 @@
 | Error: Exceeds limit       |        |        | X      |        |        |        | X      |        |
 | Error: Account not active  |        | X      |        | X      |        | X      |        | X      |
 
-## Decision Table 2: Monthly Fee Processing
+### Decision Table 2: Monthly Fee Processing
 
 | Condition                     | Rule 1  | Rule 2  | Rule 3   | Rule 4   | Rule 5  |
 | ----------------------------- | ------- | ------- | -------- | -------- | ------- |
@@ -25,7 +25,7 @@
 | $10 fee charged               |         |         | X        |          |         |
 | Check for insufficient funds  | X       |         | X        |          |         |
 
-## Decision Table 3: Bill Payment Validation
+### Decision Table 3: Bill Payment Validation
 
 | Condition                       | Rule 1 | Rule 2 | Rule 3 | Rule 4 | Rule 5 | Rule 6 | Rule 7 | Rule 8 |
 | ------------------------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
@@ -38,7 +38,7 @@
 | Error: Amount must be positive  |        |        | X      |        |        |        | X      |        |
 | Error: Invalid payee            |        |        |        |        | X      | X      | X      | X      |
 
-## Decision Table 4: Account Creation Eligibility
+### Decision Table 4: Account Creation Eligibility
  
 | Condition                            | Rule 1       | Rule 2       | Rule 3 | Rule 4 |
 | ------------------------------------ | ------------ | ------------ | ------ | ------ |
@@ -48,7 +48,7 @@
 | Account created (status Active)      | X            |              | X      | X      |
 | Error: Initial deposit below minimum |              | X            |        |        |
 
-### Coverage Summary
+#### Coverage Summary
 
 | Table                        | # Conditions | # Rules | Checked |
 | ---------------------------- | ---------- - | ------- | ------- |
