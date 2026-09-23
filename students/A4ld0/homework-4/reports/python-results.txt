@@ -186,10 +186,10 @@ ______________ coverage: platform win32, python 3.12.14-final-0 _______________
 
 Name                    Stmts   Miss Branch BrPart  Cover   Missing
 -------------------------------------------------------------------
-src\banking_system.py     187      0     56      0   100%
+src\banking_system.py     200      0     56      0   100%
 -------------------------------------------------------------------
-TOTAL                     187      0     56      0   100%
+TOTAL                     200      0     56      0   100%
 Coverage HTML written to dir htmlcov
 Coverage JSON written to file reports/python-coverage.json
 Required test coverage of 81% reached. Total coverage: 100.00%
-============================= 172 passed in 0.73s =============================
+============================= 172 passed in 0.80s =============================

@@ -1,24 +1,24 @@
 {
   "EP": {
-    "python_lines": 75.4,
+    "python_lines": 77.0,
     "python_branches": 60.71,
     "javascript_lines": 68.53,
     "javascript_branches": 68.53
   },
   "BV": {
-    "python_lines": 78.61,
+    "python_lines": 80.0,
     "python_branches": 60.71,
     "javascript_lines": 76.22,
     "javascript_branches": 67.41
   },
   "DT": {
-    "python_lines": 78.61,
+    "python_lines": 80.0,
     "python_branches": 60.71,
     "javascript_lines": 75.52,
     "javascript_branches": 65.16
   },
   "ST": {
-    "python_lines": 81.82,
+    "python_lines": 83.0,
     "python_branches": 58.93,
     "javascript_lines": 83.21,
     "javascript_branches": 67.41

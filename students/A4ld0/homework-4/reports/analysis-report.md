@@ -46,10 +46,10 @@ Independent measurements show how the techniques complement one another:
 
 | Technique | Cases | Python line coverage | JavaScript line coverage |
 | --- | --- | --- | --- |
-| Equivalence partitioning | 66 | 75.40% | 68.53% |
-| Boundary values | 58 | 78.61% | 76.22% |
-| Decision tables | 33 | 78.61% | 75.52% |
-| State transitions | 15 | 81.82% | 83.21% |
+| Equivalence partitioning | 66 | 77.00% | 68.53% |
+| Boundary values | 58 | 80.00% | 76.22% |
+| Decision tables | 33 | 80.00% | 75.52% |
+| State transitions | 15 | 83.00% | 83.21% |
 
 These percentages overlap and must not be added. Every technique exercises
 construction and validation, while state scenarios also traverse several

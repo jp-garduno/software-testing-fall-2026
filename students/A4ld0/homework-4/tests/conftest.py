@@ -7,28 +7,37 @@ import pytest
 
 from src.banking_system import BankAccount
 
-
-CASES = json.loads((Path(__file__).parents[1] / "design" / "cases.json").read_text(encoding="utf-8"))
+CASES = json.loads(
+    (Path(__file__).parents[1] / "design" / "cases.json").read_text(encoding="utf-8")
+)
 
 
 def cases_for(technique):
+    """Select the documented cases for one black box technique."""
     return [case for case in CASES if case["technique"] == technique]
 
 
 def decode(value):
     """JSON cannot encode NaN/infinity; these explicit markers bridge both runners."""
     if isinstance(value, dict) and "$number" in value:
-        return {"NaN": float("nan"), "Infinity": float("inf"), "-Infinity": -float("inf")}[value["$number"]]
+        return {
+            "NaN": float("nan"),
+            "Infinity": float("inf"),
+            "-Infinity": -float("inf"),
+        }[value["$number"]]
     return value
 
 
 def checkpoint(account, expected):
+    """Compare the requested public-state fields with their design oracle."""
     actual = account.snapshot()
     assert {key: actual[key] for key in expected} == expected
 
 
 @pytest.fixture
 def run_case():
+    """Provide a runner that builds an independent account and clock per case."""
+
     def run(case):
         now = [case.get("date", "2026-09-22")]
         args = [decode(value) for value in case["account"]]
@@ -47,9 +56,12 @@ def run_case():
             result = getattr(account, step["call"])(*args)
             assert result == step["expect"], f'{case["id"]}: {step["call"]}'
             if not result["success"] and not step.get("allows_state_change", False):
-                assert account.snapshot() == before, "Rejected operation changed account"
+                assert (
+                    account.snapshot() == before
+                ), "Rejected operation changed account"
             checkpoint(account, step.get("snapshot", {}))
             if step.get("mutate_return"):
                 result["transactions"][0]["detail"] = "tampered"
                 assert account.history(*args) == step["expect"]
+
     return run

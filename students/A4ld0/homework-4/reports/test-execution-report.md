@@ -6,6 +6,8 @@ Execution date: **2026-09-22**, local timezone America/Mexico_City.
 Environment: Windows, Python 3.12.14, pytest 8.4.2, pytest-cov 6.3.0,
 coverage.py 7.16.1, Node.js 24.13.1, Jest 30.1.3.
 Command: `python scripts/verify.py` (runs both suites and validates case parity).
+This evidence was refreshed after the Pylint corrections; see
+[the quality report](code-quality-report.md) for the reproduced baseline and fixes.
 
 | Result | Python | JavaScript |
 | --- | --- | --- |
@@ -13,7 +15,7 @@ Command: `python scripts/verify.py` (runs both suites and validates case parity)
 | Passed | 172 | 172 |
 | Failed | 0 | 0 |
 | Skipped | 0 | 0 |
-| Framework-reported duration | 0.73 s | 0.899 s |
+| Framework-reported duration | 0.80 s | 0.764 s |
 | Test modules | 4 | 4 |
 
 These are 172 distinct shared scenarios executed twice, not 344 distinct
@@ -51,9 +53,9 @@ reporting scripts. No banking lines are excluded with ignore directives.
 
 | Metric | Python | JavaScript |
 | --- | --- | --- |
-| Lines / executable statements in Python | 187/187 (100%) | 141/143 (98.60%) |
+| Lines / executable statements in Python | 200/200 (100%) | 141/143 (98.60%) |
 | Branches | 56/56 (100%) | 85/89 (95.50%) |
-| Statements | 187/187 (100%) | 165/169 (97.63%) |
+| Statements | 200/200 (100%) | 165/169 (97.63%) |
 | Functions | Not a separate pytest-cov summary metric | 30/31 (96.77%) |
 
 Both implementations exceed 80% line and branch coverage. The verification
@@ -85,10 +87,10 @@ runs. Their temporary files do not overwrite full-suite coverage evidence.
 
 | Technique | Python lines | Python branches | JS lines | JS branches |
 | --- | --- | --- | --- | --- |
-| EP | 75.40% | 60.71% | 68.53% | 68.53% |
-| BV | 78.61% | 60.71% | 76.22% | 67.41% |
-| DT | 78.61% | 60.71% | 75.52% | 65.16% |
-| ST | 81.82% | 58.93% | 83.21% | 67.41% |
+| EP | 77.00% | 60.71% | 68.53% | 68.53% |
+| BV | 80.00% | 60.71% | 76.22% | 67.41% |
+| DT | 80.00% | 60.71% | 75.52% | 65.16% |
+| ST | 83.00% | 58.93% | 83.21% | 67.41% |
 
 These measurements overlap. State scenarios execute multiple operations, while
 partition tests emphasize rejection branches. No single technique reaches the

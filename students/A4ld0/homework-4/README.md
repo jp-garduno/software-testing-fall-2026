@@ -60,6 +60,21 @@ The verification script preserves raw logs, coverage JSON, pytest XML and Jest
 JSON under `reports/`. It fails if either suite fails, an ID is missing or
 duplicated, or either implementation has line/branch coverage at or below 80%.
 
+## Code quality
+
+Install the development tools and check all submitted Python code:
+
+```sh
+python -m pip install -r requirements-dev.txt
+python -m pylint src tests scripts --persistent=n
+python -m black --check src tests scripts
+```
+
+Pylint 3.3.8 now reports **10.00/10 with zero messages**, compared with the
+reproduced 8.34/10 baseline. No lint rules are disabled and no grading workflow
+is modified. See [the correction report](reports/code-quality-report.md).
+`--persistent=n` only avoids writing Pylint's optional machine-local score cache.
+
 Measured on 2026-09-22 using Python 3.12.14, pytest 8.4.2, pytest-cov 6.3.0,
 Node 24.13.1, and Jest 30.1.3:
 
@@ -130,14 +145,14 @@ cents internally.
 ## Submission
 
 This follows the course repository's `students/<username>/homework-4` layout.
-The branch and commits are local; the student will publish and open the PR.
-The final submission is tagged `hw4-final`. Review the reflection, then submit
+The branch is published for the student's PR. The `hw4-final` tag identifies
+the initial submission; subsequent code-quality corrections are on the branch
+without rewriting that published tag. Review the reflection, then submit
 the required repository/PR link, design PDF, analysis PDF, and reflection through
 Canvas. No CI bonus or visual-diagram bonus is included.
 
-PDF export uses the optional `reportlab` package:
+PDF export uses `reportlab`, included in `requirements.txt`:
 
 ```sh
-python -m pip install reportlab
 python scripts/export_pdfs.py
 ```
