@@ -39,26 +39,28 @@
 
 ### **Weeks 4-6: Black Box Testing** (6 sessions)
 
-#### **Week 4: Test Case Design & Equivalence Partitioning**
+#### **Week 4: Black Box Testing**
 
-- **Session 1**: How to design effective test cases
-- **Session 2**: Equivalence partitioning technique
+- **Session 1**: Equivalence partitioning and boundary value analysis
+- **Session 2**: Decision tables and state transition testing
 - **Homework 4**: Due end of Week 5 - Design test cases using EP
 
-#### **Week 5: Boundary Value Analysis & Decision Tables**
+#### **Week 5: Black Box Testing Deep Dive**
 
-- **Session 1**: Boundary value analysis technique
-- **Session 2**: Decision tables and test design
+- **Session 1**: Test case design workshop
+- **Session 2**: Black box testing best practices
 - **Practice**: In-class exercises with real scenarios
 
-#### **Week 6: State Transition & Exam 1**
+#### **Week 6: Exam 1**
 
-- **Session 1**: State transition testing technique
-- **Session 2**: **EXAM 1** - Practical exam covering Modules 1-3
-  - Git operations (30%)
-  - Testing concepts application (30%)
-  - Static testing setup and configuration (40%)
-  - Duration: Full 2-hour session
+- **Session 1**: **Review session for Exam 1** - Q&A plus hands-on practice. All four black box techniques are already covered by this point, so nothing new is introduced.
+- **Session 2**: **EXAM 1** - Practical exam covering Modules 1, 3 and 4
+  - Git: branching, merge conflicts, Conventional Commits (25%)
+  - Static testing: pre-commit and linter configuration, fixing findings (30%)
+  - Black box test design: EP, BVA, decision tables, state transition (45%)
+  - Duration: 90 minutes within the 2-hour session. Submission: ZIP file on Canvas
+  - You **design and document** tests; you do not write automated tests
+  - Statement and exercises are published in the Canvas assignment
 
 ---
 
@@ -81,7 +83,7 @@
 
 - **Session 1**: Introduction to mocking, when to use mocks
 - **Session 2**: Mocking frameworks (unittest.mock, Jest mocks)
-- **Homework 6**: Due end of Week 10 - Write tests using mocks
+- **Practice**: Add mocks to the tests you wrote for Homework 5 (no separate homework this week)
 
 ---
 
@@ -92,7 +94,7 @@
 - **Session 1**: TDD cycle (Red-Green-Refactor), getting started
 - **Session 2**: Writing clean tests, TDD best practices
 - **Materials**: TDD Manifesto PDFs, live coding demos
-- **Homework 7**: Due end of Week 11 - Develop feature using TDD
+- **Homework 6**: Due end of Week 11 - Develop feature using TDD
 
 #### **Week 11: TDD Practice & Exam 2**
 
@@ -101,7 +103,7 @@
   - Black box test design (30%)
   - White box testing with coverage (40%)
   - TDD implementation (30%)
-  - Duration: Full 2-hour session
+  - Duration: 90 minutes within the 2-hour session
 
 ---
 
@@ -112,7 +114,7 @@
 - **Session 1**: Parameterized tests (pytest.mark.parametrize, Jest each)
 - **Session 2**: Test data management, CSV/JSON data files
 - **Materials**: Examples with multiple data sources
-- **Homework 8**: Due end of Week 13 - Create data-driven test suite
+- **Homework 7**: Due end of Week 13 - Create data-driven test suite
 
 ---
 
@@ -128,7 +130,7 @@
 
 - **Session 1**: Selenium WebDriver basics, locators
 - **Session 2**: Page Object Model, test automation patterns
-- **Homework 9**: Due end of Week 15 - Automate web application tests
+- **Homework 8**: Due end of Week 15 - Automate web application tests
 
 #### **Week 15: Playwright & Advanced E2E**
 
@@ -143,11 +145,12 @@
 #### **Week 16: Performance Testing & Wrap-up**
 
 - **Session 1**: JMeter basics, load testing, stress testing
+- **Homework 9**: Due before Exam 3 (Week 16) - Performance test strategy and execution
 - **Session 2**: **EXAM 3** - Comprehensive practical exam
   - System-level testing (BDD, Selenium/Playwright) (50%)
   - Performance testing with JMeter (25%)
   - Integration challenge (25%)
-  - Duration: Full 2-hour session
+  - Duration: 90 minutes within the 2-hour session
 
 ---
 
@@ -172,7 +175,7 @@ The team project runs throughout the semester with incremental deliverables:
 | **Component**            | **Weight** | **Details**                      |
 | ------------------------ | ---------- | -------------------------------- |
 | Homework (9 assignments) | 25%        | ~2.8% each                       |
-| Exam 1                   | 15%        | Modules 1-3                      |
+| Exam 1                   | 15%        | Modules 1, 3, 4                  |
 | Exam 2                   | 15%        | Modules 4-6                      |
 | Exam 3                   | 15%        | Modules 7-9                      |
 | Team Project             | 30%        | 7 milestones throughout semester |
@@ -188,10 +191,10 @@ The team project runs throughout the semester with incremental deliverables:
 3. **HW3 (Static Testing)**: End of Week 4
 4. **HW4 (Black Box)**: End of Week 5
 5. **HW5 (White Box Coverage)**: End of Week 8
-6. **HW6 (Mocking)**: End of Week 10
-7. **HW7 (TDD)**: End of Week 11
-8. **HW8 (Data-Driven)**: End of Week 13
-9. **HW9 (System Testing)**: End of Week 15
+6. **HW6 (TDD)**: End of Week 11
+7. **HW7 (Data-Driven)**: End of Week 13
+8. **HW8 (System Testing)**: End of Week 15
+9. **HW9 (Performance Testing)**: Before Exam 3 (Week 16)
 
 ---
 
