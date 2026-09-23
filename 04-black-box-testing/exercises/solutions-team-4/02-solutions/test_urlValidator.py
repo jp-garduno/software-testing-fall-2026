@@ -27,3 +27,38 @@ def test_InBVTLDMoreThan6():
 def test_VBVTLDExactly6():
 	assert validateUrl("https://slowApi.slowly") == "Valid"
 
+def test_VBContainsPath():
+	assert validateUrl("http://amazon.net/ec2/create") == "Valid"
+
+
+def test_InBContainsPath1():
+	assert validateUrl("https://netflix.com//") == "Invalid"
+
+
+def test_InContainsPath2():
+	assert validateUrl("https://mail.google.com/mail//0/#inbox") == "Invalid"
+
+
+def test_VDomain2():
+	assert validateUrl("https://various.example.com/substantial/pricey") == "Valid"
+
+
+def test_InDomain2():
+	assert validateUrl("https://slim.exam-ple.org/bottle") == "Invalid"
+
+
+def test_VContainsQuery():
+	assert validateUrl("https://music.youtube.com/watch?v=_qur4p4qV7E&list=RDAMVM_qur4p4qV7E") == "Valid"
+
+
+def test_InContainsEmptyQuery():
+	assert validateUrl("https://netflix.com/watch?") == "Invalid"
+
+
+def test_VContainsFragment():
+	assert validateUrl("https://mail.google.com/mail/u/0#trash") == "Valid"
+
+
+def test_InContainsEmptyFragment():
+	assert validateUrl("https://pomofocus.io/start#") == "Invalid"
+
