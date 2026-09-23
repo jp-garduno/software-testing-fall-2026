@@ -1,7 +1,7 @@
 # SecureBank black box test design
 
-Author: Aldo Ramon Velazquez Fonseca (A4ld0)  
-Assignment: Homework 4, Module 4  
+Author: Aldo Ramon Velazquez Fonseca (A4ld0)
+Assignment: Homework 4, Module 4
 Scope: required assignment plus the dual-language bonus only.
 
 ## Specification and explicit assumptions

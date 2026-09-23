@@ -1,0 +1,186 @@
+PASS tests/stateTransitions.test.js
+  √ ST01: transfer below minimum suspends (9 ms)
+  √ ST02: exact deposit restoration reactivates (1 ms)
+  √ ST03: partial restoration remains suspended (1 ms)
+  √ ST04: Frozen rejects monetary operations and repeated freeze (5 ms)
+  √ ST05: unfreeze restores transfers (1 ms)
+  √ ST06: Closed is terminal and viewable (3 ms)
+  √ ST07: Suspended may close (1 ms)
+  √ ST08: Frozen may close (1 ms)
+  √ ST09: Suspended rejects outgoing transactions and invalid transitions (2 ms)
+  √ ST10: Active cannot unfreeze (2 ms)
+  √ ST11: unaffordable fee suspends without overdraft (1 ms)
+  √ ST12: fee suspension followed by deposit recovery (2 ms)
+  √ ST13: bill debit can suspend Savings
+  √ ST14: Suspended owner update is allowed (1 ms)
+  √ ST15: Closed rejects scheduled queue processing (1 ms)
+
+PASS tests/equivalencePartitioning.test.js
+  √ EP01: valid transfer amount (1 ms)
+  √ EP02: invalid transfer representative 0 (1 ms)
+  √ EP03: invalid transfer representative -100 (2 ms)
+  √ EP04: invalid transfer representative 5001 (1 ms)
+  √ EP05: invalid transfer representative 501
+  √ EP06: invalid transfer representative '10' (1 ms)
+  √ EP07: invalid transfer representative True
+  √ EP08: invalid transfer representative 0.001 (1 ms)
+  √ EP09: supported type Savings
+  √ EP10: supported type Checking
+  √ EP11: supported type Premium
+  √ EP12: unsupported account type Business (1 ms)
+  √ EP13: unsupported account type None
+  √ EP14: opening below minimum
+  √ EP15: opening above minimum (1 ms)
+  √ EP16: invalid opening balance -1
+  √ EP17: invalid opening balance '100' (2 ms)
+  √ EP18: invalid opening balance 0.001 (1 ms)
+  √ EP19: registered payee
+  √ EP20: invalid payee 'stranger' (1 ms)
+  √ EP21: invalid payee ''
+  √ EP22: invalid payee None (1 ms)
+  √ EP23: history range contains activity
+  √ EP24: history range without activity
+  √ EP25: reversed history dates
+  √ EP26: invalid history start '09/22/2026'
+  √ EP27: invalid history start '2026-02-30'
+  √ EP28: invalid history start None (1 ms)
+  √ EP29: invalid destination ''
+  √ EP30: invalid destination '   '
+  √ EP31: invalid destination None (1 ms)
+  √ EP32: invalid destination 12
+  √ EP33: named own-account destination
+  √ EP34: valid owner update trims whitespace (1 ms)
+  √ EP35: invalid owner ''
+  √ EP36: invalid owner '  '
+  √ EP37: invalid owner 100
+  √ EP38: invalid owner None
+  √ EP39: invalid bill amount 0 (1 ms)
+  √ EP40: invalid bill amount -1
+  √ EP41: invalid bill amount '5'
+  √ EP42: invalid bill amount 0.001 (1 ms)
+  √ EP43: invalid deposit 0
+  √ EP44: invalid deposit -1 (1 ms)
+  √ EP45: invalid deposit '5'
+  √ EP46: invalid deposit 0.001
+  √ EP47: nonfinite transfer NaN
+  √ EP48: nonfinite opening NaN
+  √ EP49: nonfinite transfer Infinity (1 ms)
+  √ EP50: nonfinite opening Infinity
+  √ EP51: nonfinite transfer -Infinity (1 ms)
+  √ EP52: nonfinite opening -Infinity
+  √ EP53: amount exceeds arithmetic cap
+  √ EP54: deposit would exceed balance cap
+  √ EP55: invalid payment date
+  √ EP56: history returns independent records (1 ms)
+  √ EP57: CSV escapes comma and quotes
+  √ EP58: empty CSV retains header (1 ms)
+  √ EP59: CSV rejects reversed range
+  √ EP60: invalid date edge '2026-09-22\n'
+  √ EP61: invalid date edge '0000-01-01'
+  √ EP62: invalid date edge '2026-02-29'
+  √ EP63: invalid date edge '2026-09-31' (1 ms)
+  √ EP64: history validates end date too
+  √ EP65: boolean opening balance rejected (1 ms)
+  √ EP66: account type object rejected
+
+PASS tests/boundaryValues.test.js
+  √ BV01: Checking transfer boundary 0 (2 ms)
+  √ BV02: Checking transfer boundary 0.01
+  √ BV03: Checking transfer boundary 4999.99
+  √ BV04: Checking transfer boundary 5000 (1 ms)
+  √ BV05: Checking transfer boundary 5000.01 (1 ms)
+  √ BV06: Checking transfer boundary 10000
+  √ BV07: Savings transfer boundary 0 (1 ms)
+  √ BV08: Savings transfer boundary 0.01
+  √ BV09: Savings transfer boundary 1999.99
+  √ BV10: Savings transfer boundary 2000
+  √ BV11: Savings transfer boundary 2000.01
+  √ BV12: Savings transfer boundary 4000
+  √ BV13: Savings minimum 0 (1 ms)
+  √ BV14: Savings minimum 99.98
+  √ BV15: Savings minimum 99.99 (1 ms)
+  √ BV16: Savings minimum 100 (1 ms)
+  √ BV17: Savings minimum 100.01
+  √ BV18: Savings minimum 200
+  √ BV19: Savings fee threshold 999.98 (1 ms)
+  √ BV20: Savings fee threshold 999.99
+  √ BV21: Savings fee threshold 1000
+  √ BV22: Savings fee threshold 1000.01 (1 ms)
+  √ BV23: Savings fee threshold 1000.02
+  √ BV24: Savings fee threshold 2000
+  √ BV25: Checking fee threshold 4999.98 (1 ms)
+  √ BV26: Checking fee threshold 4999.99
+  √ BV27: Checking fee threshold 5000
+  √ BV28: Checking fee threshold 5000.01 (1 ms)
+  √ BV29: Checking fee threshold 5000.02 (1 ms)
+  √ BV30: Checking fee threshold 10000 (2 ms)
+  √ BV31: cumulative remaining allowance 0 (1 ms)
+  √ BV32: cumulative remaining allowance 0.01
+  √ BV33: cumulative remaining allowance 99.99
+  √ BV34: cumulative remaining allowance 100 (1 ms)
+  √ BV35: cumulative remaining allowance 100.01
+  √ BV36: cumulative remaining allowance 200 (1 ms)
+  √ BV37: available funds 0
+  √ BV38: available funds 0.01 (1 ms)
+  √ BV39: available funds 99.99 (1 ms)
+  √ BV40: available funds 100 (1 ms)
+  √ BV41: available funds 100.01 (1 ms)
+  √ BV42: available funds 101 (1 ms)
+  √ BV43: Premium minimum 0
+  √ BV44: Premium minimum 9999.98
+  √ BV45: Premium minimum 9999.99 (1 ms)
+  √ BV46: Premium minimum 10000
+  √ BV47: Premium minimum 10000.01
+  √ BV48: Premium minimum 20000
+  √ BV49: UTC midnight resets cumulative limit (1 ms)
+  √ BV50: history includes both endpoints only
+  √ BV51: payment yesterday rejected
+  √ BV52: payment today debits immediately
+  √ BV53: payment tomorrow executes once when due (1 ms)
+  √ BV54: valid leap-day history interval
+  √ BV55: fee only on first and once per month (1 ms)
+  √ BV56: cent arithmetic does not accumulate binary drift
+  √ BV57: exact maximum balance deposit allowed (1 ms)
+  √ BV58: Premium daily limit inclusive
+
+PASS tests/decisionTables.test.js
+  √ DT01: transfer active=True funds=True within-limit=True (1 ms)
+  √ DT02: transfer active=True funds=True within-limit=False
+  √ DT03: transfer active=True funds=False within-limit=True
+  √ DT04: transfer active=True funds=False within-limit=False
+  √ DT05: transfer active=False funds=True within-limit=True
+  √ DT06: transfer active=False funds=True within-limit=False (1 ms)
+  √ DT07: transfer active=False funds=False within-limit=True
+  √ DT08: transfer active=False funds=False within-limit=False (1 ms)
+  √ DT09: monthly fee Savings balance=1000.01
+  √ DT10: monthly fee Savings balance=1000
+  √ DT11: monthly fee Savings balance=100
+  √ DT12: monthly fee Savings balance=5
+  √ DT13: monthly fee Savings balance=4.99
+  √ DT14: monthly fee Checking balance=5000.01 (1 ms)
+  √ DT15: monthly fee Checking balance=5000
+  √ DT16: monthly fee Checking balance=10
+  √ DT17: monthly fee Checking balance=9.99 (1 ms)
+  √ DT18: monthly fee Premium balance=10000
+  √ DT19: monthly fee Premium balance=9999
+  √ DT20: bill active=True payee=True funds=True
+  √ DT21: bill active=True payee=True funds=False (1 ms)
+  √ DT22: bill active=True payee=False funds=True
+  √ DT23: bill active=True payee=False funds=False
+  √ DT24: bill active=False payee=True funds=True (1 ms)
+  √ DT25: bill active=False payee=True funds=False
+  √ DT26: bill active=False payee=False funds=True (1 ms)
+  √ DT27: bill active=False payee=False funds=False
+  √ DT28: failed fee attempt is consumed for the month (2 ms)
+  √ DT29: waiver checked at fee time and processed once (1 ms)
+  √ DT30: scheduled payment rechecks funds and fails once (1 ms)
+  √ DT31: scheduled payment rechecks Frozen state (1 ms)
+  √ DT32: scheduled payments run in insertion order (1 ms)
+  √ DT33: invalid scheduling does not enqueue payment
+
+Test Suites: 4 passed, 4 total
+Tests:       172 passed, 172 total
+Snapshots:   0 total
+Time:        0.899 s, estimated 11 s
+Ran all test suites.
+Test results written to: reports\javascript-results.json
