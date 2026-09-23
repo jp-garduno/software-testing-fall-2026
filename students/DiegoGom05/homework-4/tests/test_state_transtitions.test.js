@@ -52,4 +52,42 @@ describe("State Transition Tests", () => {
     expect(depositResult.success).toBe(false);
     expect(depositResult.error).toContain("closed");
   });
+
+  test("ST_COVERAGE: Unfreeze rejected when isApproved is false", () => {
+    const account = new BankAccount("Checking", 1000);
+    account.changeState("Frozen");
+    const result = account.changeState("Active", false);
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Unfreeze not approved");
+  });
+
+  test("ST_COVERAGE: Invalid state transition", () => {
+    const account = new BankAccount("Checking", 1000);
+    const result = account.changeState("Suspended");
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Invalid transition");
+  });
+
+  test("ST_COVERAGE: Deposit on closed account fails", () => {
+    const account = new BankAccount("Checking", 1000);
+    account.changeState("Closed");
+    const result = account.deposit(100);
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("closed");
+  });
+
+  test("ST_COVERAGE: Deposit with negative or invalid amount fails", () => {
+    const account = new BankAccount("Checking", 1000);
+    const result = account.deposit(-50);
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("must be positive");
+  });
+
+  test("ST_COVERAGE: changeState on an already closed account fails", () => {
+    const account = new BankAccount("Checking", 1000);
+    account.changeState("Closed");
+    const result = account.changeState("Active");
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Account closed");
+  });
 });

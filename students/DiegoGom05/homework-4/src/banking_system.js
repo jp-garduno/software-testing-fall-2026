@@ -48,15 +48,15 @@ class BankAccount {
       return { success: false, error: "Error: Amount must be positive" };
     }
 
+    // Validación de Fondos Disponibles
+    if (parsedAmount > this.balance) {
+      return { success: false, error: "Error: Insufficient funds" };
+    }
+
     // Validación de Límite Diario acumulado
     const dailyLimit = this.getDailyLimit();
     if (this.dailyTransferTotal + parsedAmount > dailyLimit) {
       return { success: false, error: "Error: Exceeds daily limit" };
-    }
-
-    // Validación de Fondos Disponibles
-    if (parsedAmount > this.balance) {
-      return { success: false, error: "Error: Insufficient funds" };
     }
 
     // Ejecución de la transferencia

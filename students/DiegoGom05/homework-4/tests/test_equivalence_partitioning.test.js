@@ -49,4 +49,28 @@ describe("Equivalence Partitioning (EP) Tests", () => {
     expect(result.success).toBe(false);
     expect(result.error).toContain("Payee not found");
   });
+
+  test("EP5_TA: Transfer exceeding current balance fails", () => {
+    // Cuenta Checking con $1,000 de saldo. Intentamos transferir $2,000 (menor al límite diario de $5,000 pero mayor al saldo).
+    const account = new BankAccount("Checking", 1000);
+    const result = account.transfer(2000.0);
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Insufficient funds");
+  });
+
+  test("EP_COVERAGE: Format bill payment invalid payee", () => {
+    const account = new BankAccount("Checking", 1000);
+    const result = account.processBillPayment("CFE-123", 100);
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Invalid payee format");
+  });
+
+  test("EP_COVERAGE: Successful bill payment executes transfer", () => {
+    const account = new BankAccount("Checking", 1000);
+    // Payee válido, activo y dentro de los límites
+    const result = account.processBillPayment("CFE123", 200);
+
+    expect(result.success).toBe(true);
+    expect(account.balance).toBe(800);
+  });
 });

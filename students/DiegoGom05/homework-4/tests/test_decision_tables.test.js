@@ -45,4 +45,18 @@ describe("Decision Table Tests", () => {
     expect(result.success).toBe(false);
     expect(result.error).toContain("Payee not found");
   });
+
+  test("DT_COVERAGE: Checking fee charged when balance <= $1000", () => {
+    const account = new BankAccount("Checking", 500);
+    const result = account.processMonthlyFee();
+    expect(result.success).toBe(true);
+    expect(result.feeCharged).toBe(12.0);
+  });
+
+  test("DT_COVERAGE: Premium account processMonthlyFee returns 0 fee", () => {
+    const account = new BankAccount("Premium", 5000);
+    const result = account.processMonthlyFee();
+    expect(result.success).toBe(true);
+    expect(result.feeCharged).toBe(0.0);
+  });
 });
