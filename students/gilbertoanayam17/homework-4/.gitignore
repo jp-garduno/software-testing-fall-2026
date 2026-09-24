@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+
+# Generado por: npm test -- --coverage
+coverage/
+
+# Generado por: pytest --cov=src --cov-report=html
+htmlcov/
+.coverage
+
+# Generado por: pytest
+.pytest_cache/
+__pycache__/
