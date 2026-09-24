@@ -1,0 +1,32 @@
+....................FF..FF............                                   [100%]
+================================== FAILURES ===================================
+___________________ test_bill_payment_decision_rules[DT-P3] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+___________________ test_bill_payment_decision_rules[DT-P4] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+___________________ test_bill_payment_decision_rules[DT-P7] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'positive'
+E     Actual message: 'Invalid payee'
+___________________ test_bill_payment_decision_rules[DT-P8] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'positive'
+E     Actual message: 'Invalid payee'
+=========================== short test summary info ===========================
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P3]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P4]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P7]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P8]
+4 failed, 34 passed in 0.24s

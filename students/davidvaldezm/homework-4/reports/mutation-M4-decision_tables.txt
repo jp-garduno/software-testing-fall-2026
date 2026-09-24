@@ -1,0 +1,101 @@
+.F.F.F.F..................FFFFFFFF..F.                                   [100%]
+================================== FAILURES ===================================
+_____________________ test_transfer_decision_rules[DT-T2] _____________________
+tests\test_decision_tables.py:36: in test_transfer_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+_____________________ test_transfer_decision_rules[DT-T4] _____________________
+tests\test_decision_tables.py:36: in test_transfer_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Exceeds daily limit'
+_____________________ test_transfer_decision_rules[DT-T6] _____________________
+tests\test_decision_tables.py:36: in test_transfer_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Insufficient funds'
+_____________________ test_transfer_decision_rules[DT-T8] _____________________
+tests\test_decision_tables.py:36: in test_transfer_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Insufficient funds'
+___________________ test_bill_payment_decision_rules[DT-P9] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+__________________ test_bill_payment_decision_rules[DT-P10] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Insufficient funds'
+__________________ test_bill_payment_decision_rules[DT-P11] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Amount must be positive'
+__________________ test_bill_payment_decision_rules[DT-P12] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Amount must be positive'
+__________________ test_bill_payment_decision_rules[DT-P13] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Invalid payee'
+__________________ test_bill_payment_decision_rules[DT-P14] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Insufficient funds'
+__________________ test_bill_payment_decision_rules[DT-P15] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Amount must be positive'
+__________________ test_bill_payment_decision_rules[DT-P16] ___________________
+tests\test_decision_tables.py:93: in test_bill_payment_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'Active'
+E     Actual message: 'Amount must be positive'
+_________________ test_scheduled_payment_revalidation[DT-S3] __________________
+tests\test_decision_tables.py:128: in test_scheduled_payment_revalidation
+    assert results == [] if reason == "closed" else results[0]["success"] is False
+E   assert False
+=========================== short test summary info ===========================
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T2] - F...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T4] - A...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T6] - A...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T8] - A...
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P9]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P10]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P11]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P12]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P13]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P14]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P15]
+FAILED tests/test_decision_tables.py::test_bill_payment_decision_rules[DT-P16]
+FAILED tests/test_decision_tables.py::test_scheduled_payment_revalidation[DT-S3]
+13 failed, 25 passed in 0.28s

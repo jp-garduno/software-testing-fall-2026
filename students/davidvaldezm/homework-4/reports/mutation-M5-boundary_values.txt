@@ -1,0 +1,84 @@
+.....................FFFF....FFFF....                                    [100%]
+================================== FAILURES ===================================
+_____________________ test_cumulative_daily_limit[BV-C1] ______________________
+tests\test_boundary_values.py:81: in test_cumulative_daily_limit
+    bank.transfer(amount)
+src\banking_system.py:94: in transfer
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_cumulative_daily_limit[BV-C2] ______________________
+tests\test_boundary_values.py:81: in test_cumulative_daily_limit
+    bank.transfer(amount)
+src\banking_system.py:94: in transfer
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_cumulative_daily_limit[BV-C3] ______________________
+tests\test_boundary_values.py:84: in test_cumulative_daily_limit
+    with pytest.raises(ValueError, match="daily limit"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'daily limit'
+E     Actual message: 'Account is not Active'
+_____________________ test_cumulative_daily_limit[BV-C4] ______________________
+tests\test_boundary_values.py:84: in test_cumulative_daily_limit
+    with pytest.raises(ValueError, match="daily limit"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'daily limit'
+E     Actual message: 'Account is not Active'
+_____________________ test_midnight_reset_boundary[BV-N1] _____________________
+tests\test_boundary_values.py:122: in test_midnight_reset_boundary
+    with pytest.raises(ValueError, match="daily limit"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'daily limit'
+E     Actual message: 'Account is not Active'
+_____________________ test_midnight_reset_boundary[BV-N2] _____________________
+tests\test_boundary_values.py:122: in test_midnight_reset_boundary
+    with pytest.raises(ValueError, match="daily limit"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'daily limit'
+E     Actual message: 'Account is not Active'
+_____________________ test_midnight_reset_boundary[BV-N3] _____________________
+tests\test_boundary_values.py:119: in test_midnight_reset_boundary
+    bank.transfer("0.01")
+src\banking_system.py:94: in transfer
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_midnight_reset_boundary[BV-N4] _____________________
+tests\test_boundary_values.py:119: in test_midnight_reset_boundary
+    bank.transfer("0.01")
+src\banking_system.py:94: in transfer
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+=========================== short test summary info ===========================
+FAILED tests/test_boundary_values.py::test_cumulative_daily_limit[BV-C1] - Va...
+FAILED tests/test_boundary_values.py::test_cumulative_daily_limit[BV-C2] - Va...
+FAILED tests/test_boundary_values.py::test_cumulative_daily_limit[BV-C3] - As...
+FAILED tests/test_boundary_values.py::test_cumulative_daily_limit[BV-C4] - As...
+FAILED tests/test_boundary_values.py::test_midnight_reset_boundary[BV-N1] - A...
+FAILED tests/test_boundary_values.py::test_midnight_reset_boundary[BV-N2] - A...
+FAILED tests/test_boundary_values.py::test_midnight_reset_boundary[BV-N3] - V...
+FAILED tests/test_boundary_values.py::test_midnight_reset_boundary[BV-N4] - V...
+8 failed, 29 passed in 0.30s

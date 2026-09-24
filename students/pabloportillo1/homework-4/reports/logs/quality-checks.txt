@@ -1,0 +1,8 @@
+$ pylint --rcfile=.pylintrc src tests
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+$ eslint js --ext .js   -> exit 0, no findings
+$ prettier --check js
+Checking formatting...
+All matched files use Prettier code style!
