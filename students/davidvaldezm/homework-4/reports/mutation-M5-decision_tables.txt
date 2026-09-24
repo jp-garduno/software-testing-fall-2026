@@ -1,0 +1,108 @@
+FFFFFFFF.F..F....F....................                                   [100%]
+================================== FAILURES ===================================
+_____________________ test_transfer_decision_rules[DT-T1] _____________________
+tests\test_decision_tables.py:31: in test_transfer_decision_rules
+    bank.transfer(amount)
+src\banking_system.py:94: in transfer
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_transfer_decision_rules[DT-T2] _____________________
+tests\test_decision_tables.py:20: in test_transfer_decision_rules
+    bank.freeze()
+src\banking_system.py:132: in freeze
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_transfer_decision_rules[DT-T3] _____________________
+tests\test_decision_tables.py:36: in test_transfer_decision_rules
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'daily limit'
+E     Actual message: 'Account is not Active'
+_____________________ test_transfer_decision_rules[DT-T4] _____________________
+tests\test_decision_tables.py:20: in test_transfer_decision_rules
+    bank.freeze()
+src\banking_system.py:132: in freeze
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_transfer_decision_rules[DT-T5] _____________________
+tests\test_decision_tables.py:24: in test_transfer_decision_rules
+    bank.pay_bill("water", "100")
+src\banking_system.py:150: in pay_bill
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_transfer_decision_rules[DT-T6] _____________________
+tests\test_decision_tables.py:20: in test_transfer_decision_rules
+    bank.freeze()
+src\banking_system.py:132: in freeze
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_transfer_decision_rules[DT-T7] _____________________
+tests\test_decision_tables.py:24: in test_transfer_decision_rules
+    bank.pay_bill("water", "100")
+src\banking_system.py:150: in pay_bill
+    amount = self._debit_amount(amount)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\banking_system.py:84: in _debit_amount
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+_____________________ test_transfer_decision_rules[DT-T8] _____________________
+tests\test_decision_tables.py:20: in test_transfer_decision_rules
+    bank.freeze()
+src\banking_system.py:132: in freeze
+    self._require_active()
+src\banking_system.py:69: in _require_active
+    raise ValueError("Account is not Active")
+E   ValueError: Account is not Active
+___________________ test_monthly_fee_decision_rules[DT-F2] ____________________
+tests\test_decision_tables.py:65: in test_monthly_fee_decision_rules
+    assert bank.state == state
+E   AssertionError: assert 'Suspended' == 'Active'
+E
+E     - Active
+E     + Suspended
+___________________ test_monthly_fee_decision_rules[DT-F5] ____________________
+tests\test_decision_tables.py:65: in test_monthly_fee_decision_rules
+    assert bank.state == state
+E   AssertionError: assert 'Suspended' == 'Active'
+E
+E     - Active
+E     + Suspended
+___________________ test_monthly_fee_decision_rules[DT-F10] ___________________
+tests\test_decision_tables.py:65: in test_monthly_fee_decision_rules
+    assert bank.state == state
+E   AssertionError: assert 'Suspended' == 'Active'
+E
+E     - Active
+E     + Suspended
+=========================== short test summary info ===========================
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T1] - V...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T2] - V...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T3] - A...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T4] - V...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T5] - V...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T6] - V...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T7] - V...
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T8] - V...
+FAILED tests/test_decision_tables.py::test_monthly_fee_decision_rules[DT-F2]
+FAILED tests/test_decision_tables.py::test_monthly_fee_decision_rules[DT-F5]
+FAILED tests/test_decision_tables.py::test_monthly_fee_decision_rules[DT-F10]
+11 failed, 27 passed in 0.32s

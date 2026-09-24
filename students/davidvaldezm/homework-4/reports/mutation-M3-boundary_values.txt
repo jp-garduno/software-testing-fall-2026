@@ -1,0 +1,12 @@
+..................F..................                                    [100%]
+================================== FAILURES ===================================
+___________________ test_savings_fee_waiver_boundary[BV-F2] ___________________
+tests\test_boundary_values.py:67: in test_savings_fee_waiver_boundary
+    assert bank.process_monthly_fee() == Decimal(fee)
+E   AssertionError: assert Decimal('0') == Decimal('5')
+E    +  where Decimal('0') = process_monthly_fee()
+E    +    where process_monthly_fee = <banking_system.BankAccount object at 0x0000027683BFE390>.process_monthly_fee
+E    +  and   Decimal('5') = Decimal('5')
+=========================== short test summary info ===========================
+FAILED tests/test_boundary_values.py::test_savings_fee_waiver_boundary[BV-F2]
+1 failed, 36 passed in 0.20s
