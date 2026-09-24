@@ -43,6 +43,20 @@ def test_transicion_pago_pendiente_a_aceptada():
     assert solicitud.pago_realizado is True
 
 
+def test_transicion_pago_pendiente_a_lista_espera_sin_cupo():
+    """Verifica que confirmar el pago sin cupo envíe a lista de espera."""
+    solicitud = SolicitudInscripcion(25, 85, 1, False)
+
+    procesar_inscripcion(solicitud)
+    solicitud.cupo_disponible = 0
+
+    estado = confirmar_pago(solicitud)
+
+    assert estado == EstadoInscripcion.LISTA_ESPERA
+    assert solicitud.estado == EstadoInscripcion.LISTA_ESPERA
+    assert solicitud.pago_realizado is True
+
+
 def test_transicion_pendiente_a_lista_espera():
     """Verifica la transición de pendiente a lista de espera sin cupo."""
     solicitud = SolicitudInscripcion(25, 85, 0, True)
