@@ -1,0 +1,77 @@
+name: Homework 4 Black Box Suite (pabloportillo1)
+
+# Scoped to one submission directory so it never runs for other students' work.
+on:
+  pull_request:
+    paths:
+      - "students/pabloportillo1/homework-4/**"
+      - ".github/workflows/homework-4-pabloportillo.yml"
+  push:
+    paths:
+      - "students/pabloportillo1/homework-4/**"
+      - ".github/workflows/homework-4-pabloportillo.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python suite (pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: students/pabloportillo1/homework-4
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pylint black isort
+
+      - name: Pylint
+        run: pylint --rcfile=.pylintrc src tests
+
+      - name: Black
+        run: black --check --line-length=120 src tests
+
+      - name: isort
+        run: isort --check-only --profile=black --line-length=120 src tests
+
+      - name: Pytest with coverage
+        run: pytest -v --cov=src --cov-branch --cov-report=term-missing --cov-report=xml --cov-fail-under=90
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: homework-4-python-coverage
+          path: students/pabloportillo1/homework-4/coverage.xml
+
+  javascript:
+    name: JavaScript mirror suite (Jest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: students/pabloportillo1/homework-4/js
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Jest
+        run: npm install --no-save jest@29
+
+      - name: Jest with coverage
+        run: npx jest --config jest.config.js --coverage --verbose
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: homework-4-js-coverage
+          path: students/pabloportillo1/homework-4/js/coverage/lcov.info
