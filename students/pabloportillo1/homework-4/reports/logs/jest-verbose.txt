@@ -1,0 +1,154 @@
+PASS students/pabloportillo1/homework-4/js/tests/equivalencePartitioning.test.js
+  EP - transfer amount partitions
+    ✓ EP1: a $500 transfer inside every rule succeeds (1 ms)
+    ✓ EP2: $0.00 is rejected as non-positive
+    ✓ EP3: -$100 is rejected as non-positive
+    ✓ EP4: $100,000 exceeds the Checking daily limit
+    ✓ EP5: $1,500 fits the limit but not the balance
+    ✓ EP6: a text amount is not numeric
+    ✓ EP7: $0.001 carries sub-cent precision
+    ✓ EP2-EP7: no invalid partition moves money
+  EP - account type partitions
+    ✓ EP8: Savings is created with its own limit and minimum
+    ✓ EP9: Checking is created with its own limit and minimum
+    ✓ EP10: Premium is created with its own limit and minimum
+    ✓ EP11: an unsupported type cannot be opened
+    ✓ EP12: an empty type name is invalid
+  EP - opening balance partitions
+    ✓ EP13: $500 clears the $100 Savings minimum
+    ✓ EP14: $50 is under the Savings minimum
+    ✓ EP15: a negative opening deposit is rejected
+    ✓ EP16: $9,000 is under the Premium minimum
+  EP - payee partitions
+    ✓ EP17: a registered active payee is paid
+    ✓ EP18: an unknown payee is rejected
+    ✓ EP19: a deactivated payee is its own partition (1 ms)
+  EP - scheduled date partitions
+    ✓ EP20: a payment without a date is immediate
+    ✓ EP21: a future date schedules without debiting
+    ✓ EP22: a past date is rejected
+  EP - history date range partitions
+    ✓ EP23: a partial range filters the history
+    ✓ EP24: no range returns the whole statement
+    ✓ EP25: an empty result is valid, not an error
+    ✓ EP26: an inverted range is rejected
+    ✓ EP27: a string is not a date object
+  EP - amount partitions across operations
+    ✓ EP28: deposit applies the same precision rule
+    ✓ EP29: a $0 deposit moves no money
+    ✓ EP30: bill payment rejects a text amount
+    ✓ EP31: the opening deposit follows the amount partitions
+    ✓ EP32: infinity is not a finite amount of money
+    ✓ EP33: the constructor rejects an unknown type (7 ms)
+    ✓ EP34: a structured value is not an amount
+    ✓ EP35: 1e-7 is a legal literal but still a sub-cent amount
+
+PASS students/pabloportillo1/homework-4/js/tests/decisionTables.test.js
+  DT1 - transfer validation
+    ✓ R1: Active + valid + within limit + funded succeeds
+    ✓ R2: a Suspended account can still transfer
+    ✓ R3: a Frozen account is blocked (1 ms)
+    ✓ R4: a Closed account reports its own error
+    ✓ R5: a non-positive amount is rejected
+    ✓ R6: a non-numeric amount is rejected
+    ✓ R7: the daily limit is checked before the balance
+    ✓ R8: within the limit but unfunded
+    ✓ R9: the state check wins over an invalid amount
+    ✓ R10: Suspended still needs funds
+  DT2 - monthly fee processing
+    ✓ R1: Premium never pays a fee
+    ✓ R2: Savings above the threshold is waived
+    ✓ R3: Savings below the threshold is charged $5
+    ✓ R4: Checking above the threshold is waived
+    ✓ R5: Checking below the threshold is charged $10
+    ✓ R6: an unaffordable fee suspends the account and charges nothing (1 ms)
+    ✓ R3 + A4: a charged fee that crosses the minimum also suspends
+  DT3 - bill payment validation
+    ✓ R1: every condition satisfied pays immediately
+    ✓ R2: a valid payee cannot be paid without funds
+    ✓ R3: unknown payee
+    ✓ R4: inactive payee
+    ✓ R5: the payee is checked before the amount
+    ✓ R6: a payment cannot be scheduled into the past
+    ✓ R7: the state check precedes every payment condition
+    ✓ R8: a future date schedules without debiting
+  DT4 - account creation
+    ✓ R1: supported type with a deposit above the minimum
+    ✓ R2: a deposit under the type minimum is rejected
+    ✓ R3: a negative deposit is rejected before the minimum is considered
+    ✓ R4: type "Crypto" is unsupported
+    ✓ R4: type "savings" is unsupported
+    ✓ R4: type "" is unsupported (1 ms)
+
+PASS students/pabloportillo1/homework-4/js/tests/stateTransitions.test.js
+  State transitions
+    ✓ ST1: Active -> Suspended when a transfer drops below the minimum
+    ✓ ST2: Suspended -> Active when a deposit restores the minimum
+    ✓ ST3: Suspended -> Suspended when the deposit is not enough
+    ✓ ST4: Active -> Frozen blocks money movement (1 ms)
+    ✓ ST5: Frozen -> Active when the balance meets the minimum
+    ✓ ST6: Frozen -> Suspended when the balance is below the minimum
+    ✓ ST7: Frozen -> Closed returns the final statement
+    ✓ ST8: a Closed account rejects transfer
+    ✓ ST8: a Closed account rejects deposit
+    ✓ ST8: a Closed account rejects close
+    ✓ ST9: Active -> Suspended when the monthly fee cannot be charged
+    ✓ ST10: Suspended -> Suspended; the state warns but does not block
+    ✓ ST11: Active -> Closed generates a CSV statement of the history (1 ms)
+    ✓ ST12: landing exactly on the minimum is not a drop
+    ✓ ST13: unfreeze is not a valid event for an Active account
+    ✓ ST8 (extra): no event may move an account out of Closed
+
+PASS students/pabloportillo1/homework-4/js/tests/boundaryValues.test.js
+  BVA - Checking daily limit ($5,000)
+    ✓ BV1: $0 is rejected
+    ✓ BV5: $5000.01 is rejected
+    ✓ BV6: $10000 is rejected
+    ✓ BV2: $0.01 is accepted
+    ✓ BV3: $4999.99 is accepted
+    ✓ BV4: $5000 is accepted
+    ✓ BV2: $0.01 debits exactly one cent with no floating point drift
+  BVA - Savings daily limit ($2,000)
+    ✓ BV7: $0.01
+    ✓ BV8: $1999.99
+    ✓ BV9: $2000
+    ✓ BV10: $2000.01
+  BVA - cumulative daily limit (Premium $50,000)
+    ✓ BV11: second transfer of $0.99
+    ✓ BV12: second transfer of $1
+    ✓ BV13: second transfer of $1.01
+    ✓ BV14: the limit resets at midnight
+  BVA - balance vs Savings minimum ($100)
+    ✓ BV15: transferring $50 leaves $150 and state Active
+    ✓ BV16: transferring $99.99 leaves $100.01 and state Active
+    ✓ BV17: transferring $100 leaves $100 and state Active
+    ✓ BV18: transferring $100.01 leaves $99.99 and state Suspended
+    ✓ BV19: transferring $200 leaves $0 and state Suspended
+    ✓ BV18: crossing the minimum raises a warning (1 ms)
+  BVA - Savings fee waiver threshold ($1,000)
+    ✓ BV20: balance $999.99
+    ✓ BV21: balance $1000
+    ✓ BV22: balance $1000.01
+    ✓ BV23: balance $5000
+  BVA - Checking fee affordability ($10 fee)
+    ✓ BV24: balance $10.01 covers the fee
+    ✓ BV25: balance $10 covers the fee
+    ✓ BV26: balance $9.99 cannot cover the fee
+    ✓ BV27: balance $0 cannot cover the fee
+  BVA - inclusive history range ends
+    ✓ BV28: range returns 0 (1 ms)
+    ✓ BV29: range returns 1
+    ✓ BV30: range returns 2
+    ✓ BV31: range returns 3
+
+------------------|---------|----------|---------|---------|-------------------
+File              | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+------------------|---------|----------|---------|---------|-------------------
+All files         |     100 |    99.15 |     100 |     100 |                   
+ bankingSystem.js |     100 |    99.15 |     100 |     100 | 106               
+------------------|---------|----------|---------|---------|-------------------
+Test Suites: 4 passed, 4 total
+Tests:       116 passed, 116 total
+Snapshots:   0 total
+Time:        0.423 s, estimated 1 s
+Ran all test suites.
