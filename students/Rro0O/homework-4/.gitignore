@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.venv/
+venv/
+node_modules/
+coverage/
+js-results.json
+python-results.xml
+python-test-output.txt
+js-test-output.txt
+coverage.json

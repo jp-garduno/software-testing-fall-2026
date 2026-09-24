@@ -1,0 +1,14 @@
+{
+  "name": "gilbertoanayam17-homework-4",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Homework 4: Black Box Testing Suite for the SecureBank online banking system",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

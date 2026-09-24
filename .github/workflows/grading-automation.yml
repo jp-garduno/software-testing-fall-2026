@@ -244,13 +244,41 @@ jobs:
             COV_SOURCE="."
           fi
 
+          # Make both import styles resolvable: `from banking_system import ...`
+          # (the one homework 4's own example uses) needs src/ on the path, and
+          # `from src.banking_system import ...` needs the assignment root. The
+          # pytest console script puts neither there - only `python -m pytest`
+          # adds the working directory - so a suite that passes on the
+          # student's machine died here at import time and scored 0 in tests
+          # and coverage: PRs #152 and #154, 75 and 39 passing tests.
+          PYTHONPATH_EXTRA="$PWD"
+          if [ "$COV_SOURCE" != "." ]; then
+            PYTHONPATH_EXTRA="$PYTHONPATH_EXTRA:$PWD/$COV_SOURCE"
+          fi
+          export PYTHONPATH="$PYTHONPATH_EXTRA${PYTHONPATH:+:$PYTHONPATH}"
+
           # Run tests with detailed output
           pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
-          # Extract metrics
-          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
-          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1 || echo "0")
+          # Extract metrics. The defaults are needed because `|| echo "0"` after
+          # a pipeline ending in `head` never fires: head succeeds on empty
+          # input, so a run with no summary line used to publish an empty count.
+          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1)
+          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1)
+          TESTS_PASSED=${TESTS_PASSED:-0}
+          TESTS_FAILED=${TESTS_FAILED:-0}
+
+          # Exit codes 2-4 mean pytest stopped before running anything
+          # (collection error, internal error, bad usage). Keep the start of
+          # its output so the report can show the student why, instead of a
+          # bare 0.
+          if [ "$PYTEST_EXIT" -ge 2 ] && [ "$PYTEST_EXIT" -le 4 ]; then
+            mkdir -p "$GITHUB_WORKSPACE/grading-artifacts"
+            grep -vE '^(platform|cachedir|metadata|rootdir|configfile|plugins|testpaths): ' python-test-output.txt \
+              | grep -vE '^=+ test session starts =+$' \
+              | head -40 > "$GITHUB_WORKSPACE/grading-artifacts/pytest-startup-error.txt"
+          fi
           COVERAGE=$(python -c "import json; data=json.load(open('coverage.json')); print(data['totals']['percent_covered'])" 2>/dev/null)
 
           # A missing coverage.json and a genuine 0% are different things: the
@@ -1358,11 +1386,41 @@ jobs:
             else
               JS_COV_LINE="- 📊 Coverage: not measured, so JavaScript is left out of the coverage grade"
             fi
+            COVERAGE_BASIS_LINE="- Graded figure: **${{ steps.calculate-grade.outputs.coverage_measured }}%**, the average of the languages above that produced a report."
+
+            # With no report in either language there is nothing to leave out:
+            # "Calculate final grade" scores the category 0, and the lines above
+            # would tell the student the opposite.
+            if [ "${{ steps.python-tests.outputs.coverage_status }}" != "ok" ] && [ "${{ steps.js-tests.outputs.coverage_status }}" != "ok" ]; then
+              PY_COV_LINE="- 📊 Coverage: not measured"
+              JS_COV_LINE="- 📊 Coverage: not measured"
+              COVERAGE_BASIS_LINE="- Graded figure: **0%**. No test suite produced a coverage report in either language, so there is nothing to average and the category scores 0."
+            fi
+
+            # pytest stopping before it ran anything reads as "0 passed" above,
+            # which looks like a suite with no tests. Say what happened and show
+            # the error. Read from the file for the same reason as the findings:
+            # the output quotes the student's code.
+            PY_STARTUP_BLOCK=""
+            if [ -s "$FINDINGS_DIR/pytest-startup-error.txt" ]; then
+              PY_STARTUP_OUTPUT=$(tr '\140' "'" < "$FINDINGS_DIR/pytest-startup-error.txt")
+              PY_STARTUP_BLOCK="
+          - ⚠️ pytest stopped before running any test (exit code ${{ steps.python-tests.outputs.exit_code }}), so none were counted. Usually an import that fails on a clean checkout - run \`pytest\` from your assignment folder, not \`python -m pytest\`, to reproduce it.
+
+          <details>
+          <summary>What pytest printed</summary>
+
+          \`\`\`text
+          $PY_STARTUP_OUTPUT
+          \`\`\`
+          </details>
+          "
+            fi
 
             DYNAMIC_SECTION="#### Python Tests
           - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
           - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
-          $PY_COV_LINE
+          $PY_COV_LINE$PY_STARTUP_BLOCK
 
           #### JavaScript Tests
           - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
@@ -1371,7 +1429,7 @@ jobs:
 
           #### How coverage is scored
           - The target is **${{ steps.calculate-grade.outputs.coverage_target }}%**, not 100%. At or above it you get the whole category; below it the score scales down proportionally, so 60% covered scores 75/100.
-          - Graded figure: **${{ steps.calculate-grade.outputs.coverage_measured }}%**, the average of the languages above that produced a report."
+          $COVERAGE_BASIS_LINE"
             NEXT_STEPS="1. Review the detailed test output in the Actions tab
           2. Fix any failing tests or linting issues
           3. Ensure coverage meets the minimum threshold (80%)
