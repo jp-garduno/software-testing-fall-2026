@@ -222,10 +222,10 @@ File: `tests/test_state_transitions.py`
 
 ![coverage report](screenshots/coverage-report.png)
 
-The raw output behind both images is committed alongside them, in
-`reports/logs/pytest-verbose.txt`, `reports/logs/coverage-term.txt` and
-`reports/logs/pylint.txt`, so the numbers can be checked without trusting the
-picture.
+Both images are screenshots of the run on my machine. The raw output behind
+them is committed alongside, in `reports/logs/pytest-verbose.txt`,
+`reports/logs/coverage-term.txt` and `reports/logs/pylint.txt`, so the numbers
+can be checked without trusting the picture.
 
 ---
 
