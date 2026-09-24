@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /private/tmp/claude-501/-Users-emmanuelarias-Documents-Projects-software-testing-fall-2026/3a6dff70-69a8-453f-a292-8e7401b0d78e/scratchpad/hw4env/bin/python3
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/emmanuelarias/Documents/Projects/software-testing-fall-2026/students/yair91/homework-4/venv/bin/python3
 cachedir: .pytest_cache
 rootdir: /Users/emmanuelarias/Documents/Projects/software-testing-fall-2026/students/yair91/homework-4
 configfile: pytest.ini
