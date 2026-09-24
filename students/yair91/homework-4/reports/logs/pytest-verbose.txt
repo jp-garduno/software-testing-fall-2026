@@ -1,0 +1,107 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /private/tmp/claude-501/-Users-emmanuelarias-Documents-Projects-software-testing-fall-2026/3a6dff70-69a8-453f-a292-8e7401b0d78e/scratchpad/hw4env/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/emmanuelarias/Documents/Projects/software-testing-fall-2026/students/yair91/homework-4
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.1.0
+collecting ... collected 87 items
+
+tests/test_boundary_values.py::TestCheckingTransferLimitBoundary::test_below_minimum_transfer PASSED [  1%]
+tests/test_boundary_values.py::TestCheckingTransferLimitBoundary::test_at_minimum_transfer PASSED [  2%]
+tests/test_boundary_values.py::TestCheckingTransferLimitBoundary::test_just_below_daily_limit PASSED [  3%]
+tests/test_boundary_values.py::TestCheckingTransferLimitBoundary::test_at_daily_limit PASSED [  4%]
+tests/test_boundary_values.py::TestCheckingTransferLimitBoundary::test_just_above_daily_limit PASSED [  5%]
+tests/test_boundary_values.py::TestCheckingTransferLimitBoundary::test_far_above_daily_limit PASSED [  6%]
+tests/test_boundary_values.py::TestSavingsTransferLimitBoundary::test_below_minimum_transfer PASSED [  8%]
+tests/test_boundary_values.py::TestSavingsTransferLimitBoundary::test_at_minimum_transfer PASSED [  9%]
+tests/test_boundary_values.py::TestSavingsTransferLimitBoundary::test_just_below_daily_limit PASSED [ 10%]
+tests/test_boundary_values.py::TestSavingsTransferLimitBoundary::test_at_daily_limit PASSED [ 11%]
+tests/test_boundary_values.py::TestSavingsTransferLimitBoundary::test_just_above_daily_limit PASSED [ 12%]
+tests/test_boundary_values.py::TestSavingsMinimumBalanceBoundary::test_leaves_one_cent_above_minimum PASSED [ 13%]
+tests/test_boundary_values.py::TestSavingsMinimumBalanceBoundary::test_leaves_exactly_the_minimum PASSED [ 14%]
+tests/test_boundary_values.py::TestSavingsMinimumBalanceBoundary::test_leaves_one_cent_below_minimum PASSED [ 16%]
+tests/test_boundary_values.py::TestSavingsMinimumBalanceBoundary::test_leaves_the_account_empty PASSED [ 17%]
+tests/test_boundary_values.py::TestPremiumMinimumBalanceBoundary::test_leaves_one_cent_above_minimum PASSED [ 18%]
+tests/test_boundary_values.py::TestPremiumMinimumBalanceBoundary::test_leaves_exactly_the_minimum PASSED [ 19%]
+tests/test_boundary_values.py::TestPremiumMinimumBalanceBoundary::test_leaves_one_cent_below_minimum PASSED [ 20%]
+tests/test_boundary_values.py::TestPremiumMinimumBalanceBoundary::test_leaves_the_balance_far_below_minimum PASSED [ 21%]
+tests/test_boundary_values.py::TestCumulativeDailyLimitBoundary::test_two_transfers_just_below_the_limit PASSED [ 22%]
+tests/test_boundary_values.py::TestCumulativeDailyLimitBoundary::test_two_transfers_reaching_the_limit_exactly PASSED [ 24%]
+tests/test_boundary_values.py::TestCumulativeDailyLimitBoundary::test_second_transfer_crossing_the_limit PASSED [ 25%]
+tests/test_boundary_values.py::TestCumulativeDailyLimitBoundary::test_limit_resets_at_midnight PASSED [ 26%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_1_all_conditions_met PASSED [ 27%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_2_frozen_account PASSED [ 28%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_3_above_daily_limit PASSED [ 29%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_4_above_limit_and_frozen PASSED [ 31%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_5_insufficient_funds PASSED [ 32%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_6_insufficient_and_frozen PASSED [ 33%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_7_insufficient_and_above_limit PASSED [ 34%]
+tests/test_decision_tables.py::TestTransferValidationTable::test_rule_8_all_conditions_failed PASSED [ 35%]
+tests/test_decision_tables.py::TestMonthlyFeeTable::test_rule_1_savings_above_waiver PASSED [ 36%]
+tests/test_decision_tables.py::TestMonthlyFeeTable::test_rule_2_savings_below_waiver PASSED [ 37%]
+tests/test_decision_tables.py::TestMonthlyFeeTable::test_rule_3_savings_cannot_cover_the_fee PASSED [ 39%]
+tests/test_decision_tables.py::TestMonthlyFeeTable::test_rule_4_checking_above_waiver PASSED [ 40%]
+tests/test_decision_tables.py::TestMonthlyFeeTable::test_rule_5_checking_below_waiver PASSED [ 41%]
+tests/test_decision_tables.py::TestMonthlyFeeTable::test_rule_6_premium_never_pays PASSED [ 42%]
+tests/test_decision_tables.py::TestBillPaymentTable::test_rule_1_valid_immediate_payment PASSED [ 43%]
+tests/test_decision_tables.py::TestBillPaymentTable::test_rule_2_invalid_payee PASSED [ 44%]
+tests/test_decision_tables.py::TestBillPaymentTable::test_rule_3_non_positive_amount PASSED [ 45%]
+tests/test_decision_tables.py::TestBillPaymentTable::test_rule_4_insufficient_funds PASSED [ 47%]
+tests/test_decision_tables.py::TestBillPaymentTable::test_rule_5_future_dated_payment_is_scheduled PASSED [ 48%]
+tests/test_decision_tables.py::TestBillPaymentTable::test_rule_6_past_dated_payment_is_rejected PASSED [ 49%]
+tests/test_decision_tables.py::TestBillPaymentGuardRules::test_rule_7_frozen_account PASSED [ 50%]
+tests/test_decision_tables.py::TestBillPaymentGuardRules::test_rule_8_non_numeric_amount PASSED [ 51%]
+tests/test_decision_tables.py::TestMonthlyFeeOnNonActiveAccounts::test_closed_account_is_not_charged PASSED [ 52%]
+tests/test_decision_tables.py::TestMonthlyFeeOnNonActiveAccounts::test_frozen_account_is_still_charged_and_stays_frozen PASSED [ 54%]
+tests/test_equivalence_partitioning.py::TestTransferAmountPartitions::test_valid_amount_within_limits PASSED [ 55%]
+tests/test_equivalence_partitioning.py::TestTransferAmountPartitions::test_zero_amount_is_rejected PASSED [ 56%]
+tests/test_equivalence_partitioning.py::TestTransferAmountPartitions::test_negative_amount_is_rejected PASSED [ 57%]
+tests/test_equivalence_partitioning.py::TestTransferAmountPartitions::test_amount_above_daily_limit_is_rejected PASSED [ 58%]
+tests/test_equivalence_partitioning.py::TestTransferAmountPartitions::test_amount_above_balance_is_rejected PASSED [ 59%]
+tests/test_equivalence_partitioning.py::TestTransferAmountPartitions::test_non_numeric_amount_is_rejected PASSED [ 60%]
+tests/test_equivalence_partitioning.py::TestAccountTypePartitions::test_savings_daily_limit PASSED [ 62%]
+tests/test_equivalence_partitioning.py::TestAccountTypePartitions::test_checking_daily_limit PASSED [ 63%]
+tests/test_equivalence_partitioning.py::TestAccountTypePartitions::test_premium_daily_limit PASSED [ 64%]
+tests/test_equivalence_partitioning.py::TestAccountTypePartitions::test_unknown_account_type_is_rejected PASSED [ 65%]
+tests/test_equivalence_partitioning.py::TestAccountBalancePartitions::test_balance_at_or_above_minimum_keeps_account_active PASSED [ 66%]
+tests/test_equivalence_partitioning.py::TestAccountBalancePartitions::test_balance_below_minimum_suspends_account PASSED [ 67%]
+tests/test_equivalence_partitioning.py::TestPayeePartitions::test_valid_payee_is_accepted PASSED [ 68%]
+tests/test_equivalence_partitioning.py::TestPayeePartitions::test_empty_payee_is_rejected PASSED [ 70%]
+tests/test_equivalence_partitioning.py::TestDateRangePartitions::test_range_containing_transactions_returns_them PASSED [ 71%]
+tests/test_equivalence_partitioning.py::TestDateRangePartitions::test_inverted_range_is_rejected PASSED [ 72%]
+tests/test_equivalence_partitioning.py::TestAccountStatePartitions::test_known_state_is_accepted PASSED [ 73%]
+tests/test_equivalence_partitioning.py::TestAccountStatePartitions::test_unknown_state_is_rejected PASSED [ 74%]
+tests/test_equivalence_partitioning.py::TestDepositAmountPartitions::test_valid_deposit PASSED [ 75%]
+tests/test_equivalence_partitioning.py::TestDepositAmountPartitions::test_zero_deposit_is_rejected PASSED [ 77%]
+tests/test_equivalence_partitioning.py::TestDepositAmountPartitions::test_deposit_into_closed_account_is_rejected PASSED [ 78%]
+tests/test_equivalence_partitioning.py::TestHistoryExport::test_export_includes_header_and_rows PASSED [ 79%]
+tests/test_equivalence_partitioning.py::TestHistoryExport::test_export_of_an_empty_history PASSED [ 80%]
+tests/test_state_transitions.py::TestValidTransitions::test_active_to_suspended_on_low_balance PASSED [ 81%]
+tests/test_state_transitions.py::TestValidTransitions::test_suspended_to_active_on_deposit PASSED [ 82%]
+tests/test_state_transitions.py::TestValidTransitions::test_active_to_frozen_on_request PASSED [ 83%]
+tests/test_state_transitions.py::TestValidTransitions::test_frozen_to_active_on_unfreeze PASSED [ 85%]
+tests/test_state_transitions.py::TestValidTransitions::test_active_to_closed_on_request PASSED [ 86%]
+tests/test_state_transitions.py::TestValidTransitions::test_suspended_to_closed_on_request PASSED [ 87%]
+tests/test_state_transitions.py::TestValidTransitions::test_frozen_to_closed_on_request PASSED [ 88%]
+tests/test_state_transitions.py::TestValidTransitions::test_active_to_suspended_when_the_fee_cannot_be_paid PASSED [ 89%]
+tests/test_state_transitions.py::TestValidTransitions::test_unfreeze_re_evaluates_the_balance PASSED [ 90%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_closed_account_refuses_transfers PASSED [ 91%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_closed_account_cannot_be_reopened PASSED [ 93%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_closed_account_cannot_be_closed_twice PASSED [ 94%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_closed_account_cannot_be_frozen PASSED [ 95%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_frozen_account_refuses_transfers PASSED [ 96%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_frozen_account_refuses_deposits PASSED [ 97%]
+tests/test_state_transitions.py::TestInvalidTransitions::test_unfreeze_on_an_active_account_is_rejected PASSED [ 98%]
+tests/test_state_transitions.py::TestSuspendedBehaviour::test_suspended_account_still_transfers_with_a_warning PASSED [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.9.6-final-0 ________________
+
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+src/__init__.py             0      0   100%
+src/banking_system.py     139      0   100%
+-----------------------------------------------------
+TOTAL                     139      0   100%
+============================== 87 passed in 0.10s ==============================
