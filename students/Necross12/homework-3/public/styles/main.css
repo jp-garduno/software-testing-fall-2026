@@ -1,0 +1,64 @@
+body {
+  background-color: #f4f7f6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p,
+li {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+}
+
+h2 {
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+/* =================================================================== */
+
+.contador-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.barra-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+progress {
+  width: 300px;
+  height: 20px;
+}
+
+progress.rojo::-webkit-progress-value {
+  background-color: #e74c3c;
+}
+
+progress.amarillo::-webkit-progress-value {
+  background-color: #f1c40f;
+}
+
+progress.verde::-webkit-progress-value {
+  background-color: #2ecc71;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.botones button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}

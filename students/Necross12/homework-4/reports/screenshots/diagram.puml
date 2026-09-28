@@ -1,0 +1,18 @@
+@startuml
+title Cuenta SecureBank
+hide empty description
+
+[*] --> Activo: Apertura de cuenta
+
+Activo --> Suspendido: Saldo por debajo del mínimo
+Activo --> Congelado: Dectecion de fraude
+Activo --> Cerrado
+
+Suspendido --> Activo: mino <= saldo
+Suspendido --> Cerrado
+
+Congelado --> Activo: Desbloqueado
+Congelado --> Cerrado
+
+Cerrado --> Cerrado: Todos pueden llegar, pero nadie puede salir.
+@enduml
