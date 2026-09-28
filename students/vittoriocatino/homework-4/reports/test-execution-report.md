@@ -4,7 +4,7 @@
 
 - **Fecha:** 28 de septiembre de 2026
 - **Sistema:** SecureBank Online Banking
-- **Framework:** pytest 8.4.2
+- **Framework:** pytest 9.0.3
 - **Python:** 3.12.14
 - **Total de pruebas:** 73
 - **Aprobadas:** 73

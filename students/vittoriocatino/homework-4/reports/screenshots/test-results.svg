@@ -8,7 +8,7 @@
   <g fill="#c9d1d9" font-family="Menlo, monospace" font-size="22">
     <text x="32" y="100" fill="#7ee787">$ pytest -v</text>
     <text x="32" y="142">============================= test session starts ==============================</text>
-    <text x="32" y="180">platform darwin -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0</text>
+    <text x="32" y="180">platform darwin -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0</text>
     <text x="32" y="218">rootdir: students/vittoriocatino/homework-4</text>
     <text x="32" y="256">configfile: pyproject.toml</text>
     <text x="32" y="294">collecting ... collected 73 items</text>
