@@ -230,6 +230,13 @@ jobs:
       - name: Check code quality
         id: code-quality
         run: |
+          # Linter output goes here, not into the submission. The previous
+          # version wrote pylint-report.json and eslint-report.txt inside the
+          # student directory, which overwrote files students had committed and
+          # inflated the homework-1 file count.
+          QUALITY_OUT="$GITHUB_WORKSPACE/grading-artifacts"
+          mkdir -p "$QUALITY_OUT"
+
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
             cd "$STUDENT_DIR"
@@ -237,29 +244,108 @@ jobs:
 
           set +e
 
-          # Python linting
-          find . -name "*.py" -type f -not -path "*/\.*" | head -1 > /dev/null 2>&1
-          if [ $? -eq 0 ]; then
-            find . -name "*.py" -type f -not -path "*/\.*" -exec pylint --exit-zero --output-format=json {} + > pylint-report.json 2>&1 || true
-            # Parse Pylint JSON safely
-            if [ -s pylint-report.json ]; then
-              PYLINT_SCORE=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('score',0) if isinstance(d,dict) else 0)" < pylint-report.json 2>/dev/null || echo "0")
+          # Each linter reports a status alongside its numbers so that
+          # "Calculate final grade" can tell three different situations apart:
+          #   ok             - the linter ran and its result is the student's
+          #   not_applicable - no source files of that language to lint
+          #   no_config      - source files, but no linter configuration committed
+          #   error_running  - the linter itself failed; never charge this to the student
+          PYLINT_SCORE="0"
+          PYLINT_STATUS="not_applicable"
+          ESLINT_ERRORS=0
+          ESLINT_WARNINGS=0
+          ESLINT_STATUS="not_applicable"
+
+          FIND_PRUNE=(-not -path "*/node_modules/*" -not -path "*/__pycache__/*" -not -path "*/.git/*" -not -path "*/venv/*" -not -path "*/.venv/*")
+
+          # ---------------------------------------------------------------
+          # Python
+          # ---------------------------------------------------------------
+          PY_FILE_COUNT=$(find . -type f -name "*.py" "${FIND_PRUNE[@]}" | wc -l)
+          if [ "$PY_FILE_COUNT" -gt 0 ]; then
+            echo "Linting $PY_FILE_COUNT Python file(s) with pylint..."
+            find . -type f -name "*.py" "${FIND_PRUNE[@]}" \
+              -exec pylint --exit-zero {} + > "$QUALITY_OUT/pylint-report.txt" 2>&1
+
+            # Read the score off pylint's own summary line ("Your code has been
+            # rated at 8.57/10"). The old code parsed --output-format=json for a
+            # "score" key, but that format emits a bare list of messages with no
+            # score in it, so PYLINT_SCORE was always 0 even for clean code.
+            # awk rather than grep -oP: POSIX ERE needs no PCRE support, and the
+            # last match wins so a "(previous run: ...)" suffix cannot confuse it.
+            PYLINT_SCORE=$(awk 'match($0, /rated at -?[0-9]+(\.[0-9]+)?/) { score = substr($0, RSTART + 9, RLENGTH - 9) } END { if (score != "") print score }' "$QUALITY_OUT/pylint-report.txt")
+            if [ -n "$PYLINT_SCORE" ]; then
+              PYLINT_STATUS="ok"
+              echo "✅ Pylint score: $PYLINT_SCORE/10"
             else
               PYLINT_SCORE="0"
+              PYLINT_STATUS="error_running"
+              echo "⚠️  Pylint produced no score - excluding Python from the quality grade"
+              tail -20 "$QUALITY_OUT/pylint-report.txt"
             fi
           else
-            PYLINT_SCORE="0"
+            echo "No Python files in the submission - skipping pylint"
           fi
 
-          # JavaScript linting
-          npm run lint > eslint-report.txt 2>&1 || true
-          # grep -c prints "0" AND exits 1 when there are no matches, so a
-          # "|| echo 0" fallback would append a second line. Pipe to head instead.
-          ESLINT_ERRORS=$(grep -c "error" eslint-report.txt 2>/dev/null | head -1)
-          ESLINT_ERRORS=${ESLINT_ERRORS:-0}
+          # ---------------------------------------------------------------
+          # JavaScript / TypeScript
+          # ---------------------------------------------------------------
+          JS_FILE_COUNT=$(find . -type f \( -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \) "${FIND_PRUNE[@]}" | wc -l)
+          if [ "$JS_FILE_COUNT" -gt 0 ]; then
+            ESLINT_CONFIG=""
+            for CANDIDATE in eslint.config.js eslint.config.mjs eslint.config.cjs eslint.config.ts \
+                             .eslintrc.js .eslintrc.cjs .eslintrc.json .eslintrc.yml .eslintrc.yaml .eslintrc; do
+              if [ -f "$CANDIDATE" ]; then
+                ESLINT_CONFIG="$CANDIDATE"
+                break
+              fi
+            done
+
+            if [ -z "$ESLINT_CONFIG" ]; then
+              ESLINT_STATUS="no_config"
+              echo "⚠️  $JS_FILE_COUNT JavaScript file(s) but no ESLint configuration committed"
+            else
+              echo "Linting $JS_FILE_COUNT JavaScript file(s) with $ESLINT_CONFIG..."
+
+              # Install the submission's own toolchain when it declares one: a
+              # flat config written against ESLint 9/10 cannot be loaded by the
+              # course repository's ESLint 8.
+              if [ -f "package.json" ] && [ ! -d "node_modules" ]; then
+                npm install --no-audit --no-fund --no-save > "$QUALITY_OUT/npm-install.log" 2>&1 \
+                  || echo "⚠️  npm install failed - falling back to the course repository's ESLint"
+              fi
+
+              # Invoke ESLint directly instead of `npm run lint`: the assignment
+              # never asks for a lint script, and when there was none npm printed
+              # "Missing script: lint" and the old `grep -c error` counted the 8
+              # lines of that message as 8 ESLint errors.
+              npx --no-install eslint . --format json > "$QUALITY_OUT/eslint-report.json" 2> "$QUALITY_OUT/eslint-stderr.txt"
+
+              # Count real problems from ESLint's own per-file errorCount and
+              # warningCount, which tally severity 2 and severity 1 results.
+              # Printing nothing (invalid or missing JSON) means ESLint crashed.
+              ESLINT_COUNTS=$(node -e 'const r = require(process.argv[1]); if (!Array.isArray(r)) process.exit(1); console.log(r.reduce((a, f) => a + (f.errorCount || 0), 0), r.reduce((a, f) => a + (f.warningCount || 0), 0));' "$QUALITY_OUT/eslint-report.json" 2>/dev/null)
+
+              if [ -n "$ESLINT_COUNTS" ]; then
+                ESLINT_ERRORS=$(echo "$ESLINT_COUNTS" | awk '{print $1}')
+                ESLINT_WARNINGS=$(echo "$ESLINT_COUNTS" | awk '{print $2}')
+                ESLINT_STATUS="ok"
+                echo "✅ ESLint: $ESLINT_ERRORS error(s), $ESLINT_WARNINGS warning(s)"
+              else
+                ESLINT_STATUS="error_running"
+                echo "⚠️  ESLint did not produce a usable report - excluding JavaScript from the quality grade"
+                head -20 "$QUALITY_OUT/eslint-stderr.txt"
+              fi
+            fi
+          else
+            echo "No JavaScript files in the submission - skipping ESLint"
+          fi
 
           echo "pylint_score=$PYLINT_SCORE" >> $GITHUB_OUTPUT
+          echo "pylint_status=$PYLINT_STATUS" >> $GITHUB_OUTPUT
           echo "eslint_errors=$ESLINT_ERRORS" >> $GITHUB_OUTPUT
+          echo "eslint_warnings=$ESLINT_WARNINGS" >> $GITHUB_OUTPUT
+          echo "eslint_status=$ESLINT_STATUS" >> $GITHUB_OUTPUT
         continue-on-error: true
 
       - name: Check required files
@@ -497,9 +583,15 @@ jobs:
             # testing, and its rubric awards no points for tests or coverage.
           else
             # Code-based homework: check for tests and structure
-            if ls test_*.py 1> /dev/null 2>&1 || ls *.test.js 1> /dev/null 2>&1; then
+            # Search recursively: these assignments ask for the tests in a
+            # tests/ subdirectory, so a root-only `ls test_*.py` would miss
+            # every submission that follows the required structure. Accept both
+            # Python and JavaScript naming.
+            TEST_FILES=$(find . -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l)
+            TEST_FILES=${TEST_FILES:-0}
+            if [ "$TEST_FILES" -ge 1 ]; then
               SCORE=$((SCORE + 4))
-              echo "✅ Test files found (+4)"
+              echo "✅ Test files found: $TEST_FILES (+4)"
             else
               echo "❌ No test files found"
             fi
@@ -578,23 +670,68 @@ jobs:
             COVERAGE_SCORE=100
           fi
 
-          # Code quality score (simplified)
+          # Code quality score, averaged over the languages that were actually
+          # linted. The guiding rule is that a tooling failure must never cost
+          # the student points: a linter that could not run is left out of the
+          # average instead of scoring 0. The previous version ran
+          # `npm run lint`, and for a submission with no lint script npm printed
+          # "Missing script: lint" while `grep -c error` counted the 8 lines of
+          # that message as 8 ESLint errors - a silent 30-point penalty.
           PYLINT_SCORE=${{ steps.code-quality.outputs.pylint_score || '0' }}
+          PYLINT_STATUS="${{ steps.code-quality.outputs.pylint_status || 'error_running' }}"
           ESLINT_ERRORS=${{ steps.code-quality.outputs.eslint_errors || '0' }}
+          ESLINT_STATUS="${{ steps.code-quality.outputs.eslint_status || 'error_running' }}"
 
           # Special case: Homework 1 & 2 are not code-based assignments
           # Give full credit for code quality
           if [ "$ASSIGNMENT" = "1" ] || [ "$ASSIGNMENT" = "2" ]; then
             echo "Homework $ASSIGNMENT detected - giving full credit for code quality (non-code assignment)"
             QUALITY_SCORE=100
-          elif [ $ESLINT_ERRORS -gt 10 ]; then
-            QUALITY_SCORE=50
-          elif [ $ESLINT_ERRORS -gt 5 ]; then
-            QUALITY_SCORE=70
-          elif [ $ESLINT_ERRORS -gt 0 ]; then
-            QUALITY_SCORE=85
           else
-            QUALITY_SCORE=100
+            QUALITY_TOTAL=0
+            QUALITY_PARTS=0
+
+            if [ "$PYLINT_STATUS" = "ok" ]; then
+              # Pylint already rates code out of 10; scale it to 100 and clamp,
+              # since a badly rated file can score below zero.
+              PY_QUALITY=$(awk "BEGIN {s = $PYLINT_SCORE * 10; if (s < 0) s = 0; if (s > 100) s = 100; printf \"%.2f\", s}")
+              QUALITY_TOTAL=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL + $PY_QUALITY}")
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "Python: pylint rated the code $PYLINT_SCORE/10 -> $PY_QUALITY/100"
+            fi
+
+            if [ "$ESLINT_STATUS" = "ok" ]; then
+              # Same thresholds the workflow has always used; only the error
+              # count feeding them is now ESLint's own tally instead of a
+              # substring match. Warnings are reported but not penalized:
+              # homework 3 deliberately asks students to leave issues in.
+              if [ "$ESLINT_ERRORS" -gt 10 ]; then
+                JS_QUALITY=50
+              elif [ "$ESLINT_ERRORS" -gt 5 ]; then
+                JS_QUALITY=70
+              elif [ "$ESLINT_ERRORS" -gt 0 ]; then
+                JS_QUALITY=85
+              else
+                JS_QUALITY=100
+              fi
+              QUALITY_TOTAL=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL + $JS_QUALITY}")
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: ESLint reported $ESLINT_ERRORS error(s) -> $JS_QUALITY/100"
+            elif [ "$ESLINT_STATUS" = "no_config" ] && [ "$ASSIGNMENT" = "3" ]; then
+              # Only homework 3 grades this: configuring a linter is Part 3 of
+              # that assignment, so a missing config is a missing deliverable.
+              # Every other assignment gets a pass, because none of them ask
+              # the student to set a linter up.
+              QUALITY_PARTS=$((QUALITY_PARTS + 1))
+              echo "JavaScript: no ESLint configuration committed -> 0/100 (homework 3 requires one)"
+            fi
+
+            if [ "$QUALITY_PARTS" -eq 0 ]; then
+              QUALITY_SCORE=100
+              echo "No linter produced a usable result (pylint: $PYLINT_STATUS, eslint: $ESLINT_STATUS) - full credit rather than a penalty for a tooling problem"
+            else
+              QUALITY_SCORE=$(awk "BEGIN {printf \"%.2f\", $QUALITY_TOTAL / $QUALITY_PARTS}")
+            fi
           fi
 
           # Structure score
@@ -627,6 +764,48 @@ jobs:
         id: report
         run: |
           ASSIGNMENT="${{ steps.extract-info.outputs.assignment }}"
+
+          # Report each linter only when it has something to say. The old report
+          # always printed "Pylint Score: 0/10", which looked like a failing
+          # grade to every JavaScript student even though no Python was involved.
+          PYLINT_STATUS="${{ steps.code-quality.outputs.pylint_status || 'error_running' }}"
+          ESLINT_STATUS="${{ steps.code-quality.outputs.eslint_status || 'error_running' }}"
+          QUALITY_LINES=""
+
+          case "$PYLINT_STATUS" in
+            ok) QUALITY_LINES="- Pylint: ${{ steps.code-quality.outputs.pylint_score }}/10" ;;
+            error_running) QUALITY_LINES="- Pylint could not run, so Python was left out of the quality grade (this is not counted against you)" ;;
+          esac
+
+          case "$ESLINT_STATUS" in
+            ok)
+              ESLINT_LINE="- ESLint: ${{ steps.code-quality.outputs.eslint_errors }} error(s), ${{ steps.code-quality.outputs.eslint_warnings }} warning(s)"
+              ;;
+            no_config)
+              if [ "$ASSIGNMENT" = "3" ]; then
+                ESLINT_LINE="- ESLint: no configuration file found in your submission. Part 3 of this homework asks you to add one (\`eslint.config.mjs\` or \`.eslintrc.js\`)."
+              else
+                ESLINT_LINE="- ESLint: no configuration file found, so JavaScript was left out of the quality grade (this is not counted against you)"
+              fi
+              ;;
+            error_running)
+              ESLINT_LINE="- ESLint could not run, so JavaScript was left out of the quality grade (this is not counted against you)"
+              ;;
+            *) ESLINT_LINE="" ;;
+          esac
+
+          if [ -n "$ESLINT_LINE" ]; then
+            if [ -n "$QUALITY_LINES" ]; then
+              QUALITY_LINES="$QUALITY_LINES
+          $ESLINT_LINE"
+            else
+              QUALITY_LINES="$ESLINT_LINE"
+            fi
+          fi
+
+          if [ -z "$QUALITY_LINES" ]; then
+            QUALITY_LINES="- No lintable source files were found in your submission."
+          fi
 
           # Homework 3 grades static testing only, so leave the dynamic
           # categories out of the report entirely rather than printing rows
@@ -681,8 +860,7 @@ jobs:
           $DYNAMIC_SECTION
 
           #### Code Quality
-          - Pylint Score: ${{ steps.code-quality.outputs.pylint_score }}/10
-          - ESLint Errors: ${{ steps.code-quality.outputs.eslint_errors }}
+          $QUALITY_LINES
 
           #### Required Files
           - Score: ${{ steps.required-files.outputs.score }}/${{ steps.required-files.outputs.max_score }}
@@ -769,8 +947,9 @@ jobs:
             grading-report.md
             python-results.xml
             coverage.json
-            pylint-report.json
+            grading-artifacts/
           retention-days: 90
+          if-no-files-found: ignore
 
       - name: Create Canvas-ready CSV
         run: |

@@ -1,0 +1,45 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        files: ^students/Luis-045/homework-3/
+      - id: end-of-file-fixer
+        files: ^students/Luis-045/homework-3/
+      - id: check-yaml
+        files: ^students/Luis-045/homework-3/
+      - id: check-json
+        files: ^students/Luis-045/homework-3/
+      - id: check-added-large-files
+        files: ^students/Luis-045/homework-3/
+      - id: check-merge-conflict
+        files: ^students/Luis-045/homework-3/
+      - id: detect-private-key
+        files: ^students/Luis-045/homework-3/
+
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        files: ^students/Luis-045/homework-3/
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black]
+        files: ^students/Luis-045/homework-3/
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v3.0.3
+    hooks:
+      - id: pylint
+        files: ^students/Luis-045/homework-3/
+        args:
+          - --rcfile=students/Luis-045/homework-3/.pylintrc
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
