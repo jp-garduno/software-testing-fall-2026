@@ -1,0 +1,34 @@
+# Pylint configuration for Homework 4, kept in the same spirit as Homework 3:
+# only rules that fight the pytest idiom or the course style guide are disabled.
+
+[MAIN]
+ignore = venv,node_modules,.git
+jobs = 0
+persistent = yes
+
+[MESSAGES CONTROL]
+disable =
+    too-few-public-methods,
+    duplicate-code,
+    redefined-outer-name
+
+[FORMAT]
+max-line-length = 120
+indent-string = "    "
+
+[BASIC]
+good-names = i,j,k,id,db,ok,_
+argument-naming-style = snake_case
+variable-naming-style = snake_case
+function-naming-style = snake_case
+class-naming-style = PascalCase
+
+[DESIGN]
+max-args = 6
+max-locals = 15
+max-branches = 12
+max-returns = 10
+max-statements = 50
+
+[REPORTS]
+score = yes
