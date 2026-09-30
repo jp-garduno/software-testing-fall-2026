@@ -1,0 +1,10 @@
+# Operating-system and editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Local development artifacts
+node_modules/
+dist/
+coverage/
+*.log

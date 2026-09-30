@@ -1,0 +1,54 @@
+# Configuracion de pylint para el cotizador de camaras de reversa.
+#
+# Criterio: se desactiva lo minimo indispensable y cada exclusion lleva su
+# razon escrita. Desactivar reglas en masa convierte al linter en decoracion.
+
+[MAIN]
+# El paquete src se importa como "src.modulo" desde las pruebas.
+init-hook='import sys; sys.path.insert(0, ".")'
+# 0 = usar todos los nucleos disponibles.
+jobs=0
+
+[MESSAGES CONTROL]
+disable=
+    # El curso permite lineas de hasta 120; aqui se fija 100 en [FORMAT] y se
+    # deja que black sea la autoridad sobre el formato, no pylint.
+    format,
+    # Las pruebas usan fixtures y nombres largos y descriptivos por diseno.
+    too-few-public-methods
+
+enable=
+    useless-suppression
+
+[FORMAT]
+max-line-length=100
+indent-string='    '
+
+[BASIC]
+# Nombres cortos aceptados: contadores de bucle y excepciones capturadas.
+good-names=i,j,k,e,ex,_,sku,iva
+# snake_case para funciones, metodos y variables; PascalCase para clases.
+function-naming-style=snake_case
+method-naming-style=snake_case
+variable-naming-style=snake_case
+argument-naming-style=snake_case
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+# Toda funcion, clase y modulo publico debe llevar docstring.
+no-docstring-rgx=^_
+
+[DESIGN]
+max-args=6
+max-locals=15
+max-returns=6
+max-branches=12
+max-statements=50
+
+[SIMILARITIES]
+min-similarity-lines=6
+ignore-imports=yes
+
+[REPORTS]
+# Deja visible la calificacion global: es la metrica que se compara
+# antes y despues de las correcciones.
+score=yes
