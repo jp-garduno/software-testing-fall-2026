@@ -1,0 +1,24 @@
+name: Test Suite
+
+on:
+  pull_request:
+    paths:
+      - "students/Necross12/homework-3/**"
+      - ".github/workflows/homework-3-diegomolgora.yml"
+
+jobs:
+  test-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: students/Necross12/homework-3/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: students/Necross12/homework-3
+      - name: Run homework tests
+        run: npm test
+        working-directory: students/Necross12/homework-3
