@@ -127,4 +127,71 @@ describe("Calculator", () => {
           }).toThrow("Cannot calculate square root of negative number");
         });
     });
+
+    // test modulo
+    describe("modulo", () => {
+      test("should return remainder of positive numbers", () => {
+        const result = calc.modulo(10, 3);
+        expect(result).toBe(1);
+      });
+
+      test("should return remainder of negative numbers", () => {
+        const result = calc.modulo(-10, 3);
+        expect(result).toBe(-1);
+      });
+
+      test("should throw error when dividing by zero", () => {
+        expect(() => {
+          calc.modulo(10, 0);
+        }).toThrow("Cannot divide by zero");
+      });
+    });
+
+    // test valore absoluto
+    describe("absolute", () => {
+      test("should return absolute value of positive number", () => {
+        const result = calc.absolute(5);
+        expect(result).toBe(5);
+      });
+
+      test("should return absolute value of negative number", () => {
+        const result = calc.absolute(-5);
+        expect(result).toBe(5);
+      });
+
+      test("should return zero for zero", () => {
+        const result = calc.absolute(0);
+        expect(result).toBe(0);
+      });
+    });
+
+    // test factorial
+    describe("factorial", () => {
+      test("should calculate factorial of positive integer", () => {
+        const result = calc.factorial(5);
+        expect(result).toBe(120);
+      });
+
+      test("should return 1 for factorial of 0", () => {
+        const result = calc.factorial(0);
+        expect(result).toBe(1);
+      });
+
+      test("should return 1 for factorial of 1", () => {
+        const result = calc.factorial(1);
+        expect(result).toBe(1);
+      });
+
+      test("should throw error for negative integer", () => {
+        expect(() => {
+          calc.factorial(-5);
+        }).toThrow("Factorial not defined for negative numbers");
+      });
+
+      test("should throw error for non-integer", () => {
+        expect(() => {
+          calc.factorial(5.5);
+        }).toThrow("Factorial requires an integer");
+      });
+    });
 });
