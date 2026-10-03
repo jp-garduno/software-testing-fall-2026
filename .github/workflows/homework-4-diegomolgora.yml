@@ -3,8 +3,8 @@ name: Test Suite
 on:
   pull_request:
     paths:
-      - "students/Necross12/homework-3/**"
-      - ".github/workflows/homework-3-diegomolgora.yml"
+      - "students/Necross12/homework-4/**"
+      - ".github/workflows/homework-4-diegomolgora.yml"
 
 jobs:
   test-js:
@@ -15,10 +15,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: students/Necross12/homework-3/package-lock.json
+          cache-dependency-path: students/Necross12/homework-4/package-lock.json
       - name: Install dependencies
         run: npm ci
-        working-directory: students/Necross12/homework-3
+        working-directory: students/Necross12/homework-4
       - name: Run homework tests
         run: npm test
-        working-directory: students/Necross12/homework-3
+        working-directory: students/Necross12/homework-4
