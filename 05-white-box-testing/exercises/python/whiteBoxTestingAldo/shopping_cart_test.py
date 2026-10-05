@@ -1,5 +1,5 @@
 import pytest
-from shopping_cart import Item, ShoppingCart
+from whiteBoxTestingAldo.shopping_cart import Item, ShoppingCart
 
 class TestItem:
     """Test suite for Item class."""

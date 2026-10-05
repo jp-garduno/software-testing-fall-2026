@@ -1,5 +1,5 @@
 import pytest
-from calculator import Calculator
+from whiteBoxTestingAldo.calculator import Calculator
 
 class TestCalculator:
     """Test suite for Calculator class."""
