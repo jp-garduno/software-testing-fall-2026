@@ -1,0 +1,7 @@
+# Reflection
+
+The most challenging part of this homework was translating banking requirements into a test design that was complete without creating unnecessary duplicate cases. Decision tables required the most attention because transfer validation depends on several conditions at the same time: available funds, the daily limit, the transfer amount, and the current account state. State-transition testing was also important because the same operation behaves differently when an account is Active, Suspended, Frozen, or Closed.
+
+I learned that black-box testing is not only about trying valid and invalid data. Each technique looks at the system from a different perspective. Equivalence Partitioning reduces the number of inputs while still representing meaningful groups. Boundary Value Analysis focuses on exact thresholds where defects are likely to occur. Decision Tables help verify combinations of business rules, and State Transition Testing verifies behavior that depends on previous events.
+
+After implementing and running the automated suite, I am reasonably confident in the functional quality of the behaviors covered by the assignment. The tests exercise transfer limits, minimum balances, monthly-fee rules, bill-payment validation, and account lifecycle changes. However, this confidence is limited to the specified functional rules. A production banking system would still require additional security, performance, concurrency, usability, and integration testing before it could be considered ready for real customers.
