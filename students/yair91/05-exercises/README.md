@@ -7,6 +7,12 @@ Exercises 1 and 2 of the white box testing module, in Python.
 | 1. Calculator | `01-calculator/` | 37 | 100% | 100% |
 | 2. Shopping Cart | `02-shopping-cart/` | 40 | 100% | 100% |
 
+## Coverage reports
+
+![Exercise 1 coverage](screenshots/01-calculator-coverage.png)
+
+![Exercise 2 coverage](screenshots/02-shopping-cart-coverage.png)
+
 ## Setup
 
 ```bash
