@@ -1,0 +1,41 @@
+﻿************* Module .pylintrc
+.pylintrc:1:0: E0015: Unrecognized option found: suggestion-mode (unrecognized-option)
+************* Module src.catalogo
+src\catalogo.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\catalogo.py:16:0: C0115: Missing class docstring (missing-class-docstring)
+src\catalogo.py:18:4: W0102: Dangerous default value PRODUCTOS (builtins.list) as argument (dangerous-default-value)
+src\catalogo.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\catalogo.py:21:4: C0103: Method name "ObtenerProducto" doesn't conform to snake_case naming style (invalid-name)
+src\catalogo.py:27:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\catalogo.py:34:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\catalogo.py:36:11: C0121: Comparison 'producto == None' should be 'producto is None' (singleton-comparison)
+src\catalogo.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\catalogo.py:41:12: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+src\catalogo.py:41:12: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+src\catalogo.py:2:0: W0611: Unused import os (unused-import)
+src\catalogo.py:3:0: W0611: Unused List imported from typing (unused-import)
+************* Module src.cotizador
+src\cotizador.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\cotizador.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+src\cotizador.py:10:11: C0121: Comparison 'catalogo == None' should be 'catalogo is None' (singleton-comparison)
+src\cotizador.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\cotizador.py:14:4: W0102: Dangerous default value [] as argument (dangerous-default-value)
+src\cotizador.py:20:11: C0121: Comparison 'producto == None' should be 'producto is None' (singleton-comparison)
+src\cotizador.py:25:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\cotizador.py:31:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\cotizador.py:37:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\cotizador.py:37:70: W0613: Unused argument 'cliente' (unused-argument)
+************* Module src.validaciones
+src\validaciones.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\validaciones.py:1:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\validaciones.py:2:7: C0121: Comparison 'sku == None' should be 'sku is None' (singleton-comparison)
+src\validaciones.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\validaciones.py:12:4: W0702: No exception type(s) specified (bare-except)
+src\validaciones.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\validaciones.py:20:14: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+src\validaciones.py:20:4: W0612: Unused variable 'mensaje' (unused-variable)
+src\validaciones.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 6.70/10 (previous run: 6.70/10, +0.00)
+

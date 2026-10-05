@@ -1,0 +1,53 @@
+files: ^(students/davidvaldezm/homework-3/|\.github/workflows/static-testing-davidvaldezm\.yml$)
+repos:
+  - repo: local
+    hooks:
+      - id: trailing-whitespace
+        name: trailing-whitespace
+        entry: python -m pre_commit_hooks.trailing_whitespace_fixer
+        language: system
+        types: [text]
+      - id: end-of-file-fixer
+        name: end-of-file-fixer
+        entry: python -m pre_commit_hooks.end_of_file_fixer
+        language: system
+        types: [text]
+      - id: check-yaml
+        name: check-yaml
+        entry: python -m pre_commit_hooks.check_yaml
+        language: system
+        types: [yaml]
+      - id: check-json
+        name: check-json
+        entry: python -m pre_commit_hooks.check_json
+        language: system
+        types: [json]
+      - id: check-added-large-files
+        name: check-added-large-files
+        entry: python -m pre_commit_hooks.check_added_large_files
+        language: system
+        args: [--maxkb=500]
+      - id: black
+        name: black
+        entry: python -m black
+        language: system
+        types: [python]
+        args: [--config=students/davidvaldezm/homework-3/pyproject.toml]
+      - id: isort
+        name: isort
+        entry: python -m isort
+        language: system
+        types: [python]
+        args: [--settings-path=students/davidvaldezm/homework-3/pyproject.toml]
+      - id: pylint
+        name: pylint
+        entry: python -m pylint
+        language: system
+        types: [python]
+        args: [--rcfile=students/davidvaldezm/homework-3/.pylintrc]
+      - id: bandit
+        name: bandit
+        entry: python -m bandit -r students/davidvaldezm/homework-3/src
+        language: system
+        pass_filenames: false
+        types: [python]

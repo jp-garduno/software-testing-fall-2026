@@ -1,16 +1,20 @@
 # Exams Overview
 
-This course includes **three practical exams** throughout the semester. All exams are hands-on coding exercises, not multiple-choice or theoretical questions.
+This course includes **three practical exams** throughout the semester. All exams are hands-on practical exercises, not multiple-choice or theoretical questions.
 
 ## 📅 Exam Schedule
 
-| **Exam**   | **Week** | **Session** | **Coverage** | **Duration** | **Weight** |
-| ---------- | -------- | ----------- | ------------ | ------------ | ---------- |
-| **Exam 1** | Week 6   | Session 2   | Modules 1-3  | 2 hours      | 15%        |
-| **Exam 2** | Week 11  | Session 2   | Modules 4-6  | 2 hours      | 15%        |
-| **Exam 3** | Week 16  | Session 2   | Modules 7-9  | 2 hours      | 15%        |
+| **Exam**   | **Week** | **Session** | **Coverage**    | **Duration** | **Submission**   | **Weight** |
+| ---------- | -------- | ----------- | --------------- | ------------ | ---------------- | ---------- |
+| **Exam 1** | Week 6   | Session 2   | Modules 1, 3, 4 | 90 minutes   | ZIP file, Canvas | 15%        |
+| **Exam 2** | Week 11  | Session 2   | Modules 4-6     | 90 minutes   | GitHub repo URL  | 15%        |
+| **Exam 3** | Week 16  | Session 2   | Modules 7-9     | 90 minutes   | GitHub repo URL  | 15%        |
+
+All three exams are **90 minutes**, taken inside a 2-hour class session. The extra time is deliberate slack, not exam time.
 
 **Total Exam Weight**: 45% of final grade
+
+> Each exam's full statement, exercises and rubric are published in the corresponding **Canvas assignment**, not in this repository. The details below are a preview so you know what to prepare for.
 
 ---
 
@@ -57,27 +61,29 @@ All exams follow a similar structure:
 
 ## 📋 Exam Details
 
-### [Exam 1: Git, Testing Concepts & Static Testing](./exam-1/README.md)
+### Exam 1: Git, Static Testing & Black Box Testing
 
-**Week 6, Session 2**
+**Week 6, Session 2 — 90 minutes — 3 exercises, 100 points**
 
 **Coverage**:
 
-- Git operations and workflows (30%)
-- Testing concepts application (30%)
-- Static testing setup (40%)
+- Git: branching, merge conflicts, Conventional Commits (25%)
+- Static testing: pre-commit and linter configuration, fixing findings (30%)
+- Black box test design: EP, BVA, decision tables, state transition (45%)
 
 **Sample Tasks**:
 
-- Create repository with proper Git workflow
-- Set up pre-commit hooks
-- Configure linting
-- Fix static analysis issues
-- Write proper commit messages
+- Build a local repository, produce a merge conflict and resolve it
+- Write commit messages with the correct Conventional Commits type
+- Configure `.pre-commit-config.yaml` and a linter config
+- Take a module from a failing lint score to a clean one, without silencing checks
+- Design equivalence partitions, boundary values, a decision table and state transition test cases from a written specification
+
+**Note**: in Exam 1 you **design and document** tests; you do not write automated tests. Choose Python **or** JavaScript and use it throughout. You deliver a ZIP file on Canvas, not a repository URL.
 
 ---
 
-### [Exam 2: Black Box, White Box & TDD](./exam-2/README.md)
+### Exam 2: Black Box, White Box & TDD
 
 **Week 11, Session 2**
 
@@ -96,7 +102,7 @@ All exams follow a similar structure:
 
 ---
 
-### [Exam 3: Data-Driven, System & Performance Testing](./exam-3/README.md)
+### Exam 3: Data-Driven, System & Performance Testing
 
 **Week 16, Session 2**
 
@@ -130,7 +136,7 @@ All exams follow a similar structure:
 
 1. **Read everything first** - Understand all requirements before coding
 2. **Start with what you know** - Don't get stuck on one problem
-3. **Manage your time** - 2 hours goes quickly
+3. **Manage your time** - follow the time budget in the exam statement; it is shorter than you think
 4. **Test your code** - Make sure it runs before submitting
 5. **Comment your code** - Explain your thinking
 6. **Submit early** - Don't wait until the last second
@@ -140,7 +146,7 @@ All exams follow a similar structure:
 - ❌ Not reading instructions carefully
 - ❌ Spending too much time on one problem
 - ❌ Not testing your code before submission
-- ❌ Forgetting to commit and push your work
+- ❌ Forgetting to commit and push your work, or zipping the wrong folder
 - ❌ Not including required files or documentation
 - ❌ Leaving code in broken state
 
@@ -148,7 +154,16 @@ All exams follow a similar structure:
 
 ## 📤 Submission Requirements
 
-### For All Exams
+Submission differs by exam. The exact file names, folder structure and checklist are in the Canvas assignment — follow that, not a generic rule.
+
+### Exam 1 — ZIP file on Canvas
+
+- One folder named after you, containing one subfolder per exercise
+- Zipped and uploaded to the Canvas assignment; **no repository URL**
+- The Git exercise requires the hidden `.git/` folder to be inside the ZIP
+- Evidence files (linter and Git output) included as specified in the statement
+
+### Exams 2 and 3 — GitHub repository URL
 
 1. **GitHub Repository**:
 
@@ -170,7 +185,7 @@ All exams follow a similar structure:
    - Test execution results
 
 4. **Submission**:
-   - Submit repository URL on LMS
+   - Submit repository URL on Canvas
    - Ensure repository is accessible
    - Submit before deadline (no late submissions)
 
@@ -178,7 +193,9 @@ All exams follow a similar structure:
 
 ## 🎯 Grading Criteria
 
-Exams are graded on:
+**The authoritative rubric is the one published with each exam in Canvas**, broken down per exercise. Exam 1, for example, is graded with a per-criterion rubric inside each of its three exercises, and it does not use the breakdown below — it has no code to run and no automated tests to write.
+
+The following is the default breakdown for exams whose deliverable is a working, tested codebase (Exams 2 and 3):
 
 ### Functionality (40%)
 
@@ -215,15 +232,17 @@ Before each exam, ensure you have:
 ### For All Exams
 
 - [ ] Git installed and configured
-- [ ] GitHub account set up
+- [ ] GitHub account set up (Exams 2 and 3)
 - [ ] Code editor (VS Code recommended)
 - [ ] Internet connection
 
 ### For Exam 1
 
-- [ ] Pre-commit framework installed
-- [ ] Pylint and ESLint configured
-- [ ] Basic project structure ready
+- [ ] Pylint (Python) or ESLint (JavaScript) installed and runnable from the command line
+- [ ] A tool that can create a ZIP **including hidden folders** like `.git/`
+- [ ] Practice resolving a merge conflict from the command line
+
+You do **not** need to install or run pre-commit for Exam 1: the configuration file is graded by inspection.
 
 ### For Exam 2
 

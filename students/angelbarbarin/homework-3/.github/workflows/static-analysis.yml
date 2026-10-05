@@ -1,0 +1,55 @@
+# Bonus: integracion CI/CD del analisis estatico.
+#
+# Este workflow esta dentro de la carpeta de la tarea para que se evalue junto
+# con el resto de la entrega. Para que GitHub Actions lo ejecute de verdad,
+# el archivo debe vivir en .github/workflows/ en la raiz del repositorio; no se
+# coloca ahi para no modificar la configuracion de CI del repo del curso.
+ 
+name: Analisis estatico (homework-3)
+ 
+on:
+  pull_request:
+    paths:
+      - "students/angelbarbarin/homework-3/**"
+  push:
+    paths:
+      - "students/angelbarbarin/homework-3/**"
+ 
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: students/angelbarbarin/homework-3
+ 
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+ 
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+ 
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+ 
+      - name: Verificar formato con black
+        run: black --check --diff src tests
+ 
+      - name: Verificar orden de imports con isort
+        run: isort --check-only --diff --profile=black src tests
+ 
+      - name: Analisis estatico con pylint
+        # --fail-under detiene el pipeline si la calificacion baja del umbral.
+        # Es lo que convierte al linter en una compuerta y no en una sugerencia.
+        run: pylint src --rcfile=.pylintrc --fail-under=9.0
+ 
+      - name: Linting de seguridad con bandit
+        run: bandit -q -r src --skip=B101
+ 
+      - name: Ejecutar pruebas
+        run: python -m pytest -q
+        env:
+          PYTHONPATH: .
