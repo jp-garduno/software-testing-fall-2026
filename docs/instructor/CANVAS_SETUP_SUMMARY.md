@@ -338,15 +338,17 @@ For each homework (1-9):
 
 **Assignment Titles**:
 
-- Homework 1: Git Workflow Project (Week 4)
-- Homework 2: Testing Analysis Report (Week 5)
-- Homework 3: Static Testing Setup (Week 7)
-- Homework 4: Black Box Test Design (Week 9)
-- Homework 5: White Box Testing (Week 10)
-- Homework 6: TDD Implementation (Week 12)
-- Homework 7: Data-Driven Testing (Week 13)
-- Homework 8: System-Level Testing (Week 15)
-- Homework 9: Performance Testing (Week 16)
+Due dates below are the ones stated inside each `homework-X.md` file and in each module README — use them as given:
+
+- Homework 1: Git Workflow Project (due end of Week 2)
+- Homework 2: Testing Analysis Report (due end of Week 3)
+- Homework 3: Static Testing Setup (due end of Week 4)
+- Homework 4: Black Box Test Design (due end of Week 5)
+- Homework 5: White Box Testing (due end of Week 8)
+- Homework 6: TDD Implementation (due end of Week 11)
+- Homework 7: Data-Driven Testing (due end of Week 13)
+- Homework 8: System-Level Testing (due end of Week 15)
+- Homework 9: Performance Testing (due before Exam 3, Week 16)
 
 ---
 
@@ -376,8 +378,8 @@ For each milestone:
 ### Phase 8: Exams (15 minutes)
 
 1. Create Exam 1 assignment (Week 6, 15%)
-2. Create Exam 2 assignment (Week 11, 20%)
-3. Create Exam 3 assignment (Week 16, 20%)
+2. Create Exam 2 assignment (Week 11, 15%)
+3. Create Exam 3 assignment (Week 16, 15%)
 
 **Note**: Exam specifications are kept local (not in repository for security)
 
@@ -391,37 +393,37 @@ Canvas Course
 ├── 📘 Week 1: Git Fundamentals (ASYNC)
 │   ├── 📄 Session 1: Git Basics [PAGE]
 │   ├── 📄 Session 2: Git Collaboration [PAGE]
-│   └── 📝 Homework 1: Git Workflow [ASSIGNMENT - Due Week 4]
+│   └── 📝 Homework 1: Git Workflow [ASSIGNMENT - Due Week 2]
 │
 ├── 📘 Week 2: Testing Concepts (ASYNC)
 │   ├── 📄 Session 1: Testing Introduction [PAGE]
 │   ├── 📄 Session 2: Testing Levels [PAGE]
-│   └── 📝 Homework 2: Testing Analysis [ASSIGNMENT - Due Week 5]
+│   └── 📝 Homework 2: Testing Analysis [ASSIGNMENT - Due Week 3]
 │
 ├── 📘 Week 3: Static Testing (ASYNC)
 │   ├── 📄 Session 1: Static Testing Intro [PAGE]
 │   ├── 📄 Session 2: Pre-commit Setup [PAGE]
-│   └── 📝 Homework 3: Static Testing Setup [ASSIGNMENT - Due Week 7]
+│   └── 📝 Homework 3: Static Testing Setup [ASSIGNMENT - Due Week 4]
 │
 ├── 📘 Week 4: Black Box Testing (IN-PERSON)
-│   ├── 📄 Session 1: Equivalence Partitioning [LECTURE]
-│   ├── 📄 Session 2: Boundary Value Analysis [LECTURE]
-│   ├── 📝 Homework 4: Black Box Design [ASSIGNMENT - Due Week 9]
+│   ├── 📄 Session 1: Equivalence Partitioning & Boundary Value Analysis [LECTURE]
+│   ├── 📄 Session 2: Decision Tables & State Transition Testing [LECTURE]
+│   ├── 📝 Homework 4: Black Box Design [ASSIGNMENT - Due Week 5]
 │   └── 📝 M1: Project Proposal [ASSIGNMENT - Due Week 4]
 │
-├── 📘 Week 5: Black Box Testing (continued)
-│   ├── 📄 Session 1: Decision Tables [LECTURE]
-│   └── 📄 Session 2: State Transition Testing [LECTURE]
+├── 📘 Week 5: Black Box Testing Deep Dive
+│   ├── 📄 Session 1: Test Case Design Workshop [LECTURE]
+│   └── 📄 Session 2: Black Box Testing Best Practices [LECTURE]
 │
 ├── 📘 Week 6: Exam 1 Week
 │   ├── 📄 Session 1: Review Session [LECTURE]
-│   ├── 🎯 Exam 1: Modules 1-3 [EXAM - 15%]
+│   ├── 🎯 Exam 1: Modules 1, 3, 4 [EXAM - 15% - 90 min - ZIP upload]
 │   └── 📝 M2: Foundation & Git Setup [ASSIGNMENT - Due Week 6]
 │
 ├── 📘 Week 7: White Box Testing
 │   ├── 📄 Session 1: Coverage Criteria [LECTURE]
 │   ├── 📄 Session 2: Unit Testing [LECTURE]
-│   └── 📝 Homework 5: White Box Testing [ASSIGNMENT - Due Week 10]
+│   └── 📝 Homework 5: White Box Testing [ASSIGNMENT - Due Week 8]
 │
 ├── 📘 Week 8: White Box Testing (continued)
 │   ├── 📄 Session 1: Integration Testing [LECTURE]
@@ -431,7 +433,7 @@ Canvas Course
 ├── 📘 Week 9: Test-Driven Development
 │   ├── 📄 Session 1: TDD Intro [LECTURE]
 │   ├── 📄 Session 2: Red-Green-Refactor [LECTURE]
-│   └── 📝 Homework 6: TDD Implementation [ASSIGNMENT - Due Week 12]
+│   └── 📝 Homework 6: TDD Implementation [ASSIGNMENT - Due Week 11]
 │
 ├── 📘 Week 10: TDD (continued)
 │   ├── 📄 Session 1: TDD Best Practices [LECTURE]
@@ -440,7 +442,7 @@ Canvas Course
 │
 ├── 📘 Week 11: Exam 2 Week
 │   ├── 📄 Session 1: Review Session [LECTURE]
-│   └── 🎯 Exam 2: Modules 4-6 [EXAM - 20%]
+│   └── 🎯 Exam 2: Modules 4-6 [EXAM - 15% - 90 min]
 │
 ├── 📘 Week 12: Data-Driven Testing
 │   ├── 📄 Session 1: Parameterized Tests [LECTURE]
@@ -465,7 +467,7 @@ Canvas Course
 │
 └── 📘 Week 16: Final Week
     ├── 📄 Session 1: Course Review [LECTURE]
-    ├── 🎯 Exam 3: Modules 7-9 [EXAM - 20%]
+    ├── 🎯 Exam 3: Modules 7-9 [EXAM - 15% - 90 min]
     └── 📝 M7: Final Presentation [ASSIGNMENT - Due Week 16]
 ```
 
@@ -485,21 +487,21 @@ Canvas Course
 
 - [ ] Copy Session 1 instructions from CANVAS_ASYNC_INSTRUCTIONS.md
 - [ ] Copy Session 2 instructions from CANVAS_ASYNC_INSTRUCTIONS.md
-- [ ] Create Homework 1 assignment (due Week 4)
+- [ ] Create Homework 1 assignment (due end of Week 2)
 - [ ] Publish all Week 1 content
 
 ### Week 2 (ASYNC)
 
 - [ ] Copy Session 1 instructions from CANVAS_ASYNC_INSTRUCTIONS.md
 - [ ] Copy Session 2 instructions from CANVAS_ASYNC_INSTRUCTIONS.md
-- [ ] Create Homework 2 assignment (due Week 5)
+- [ ] Create Homework 2 assignment (due end of Week 3)
 - [ ] Publish all Week 2 content
 
 ### Week 3 (ASYNC)
 
 - [ ] Copy Session 1 instructions from CANVAS_ASYNC_INSTRUCTIONS.md
 - [ ] Copy Session 2 instructions from CANVAS_ASYNC_INSTRUCTIONS.md
-- [ ] Create Homework 3 assignment (due Week 7)
+- [ ] Create Homework 3 assignment (due end of Week 4)
 - [ ] Publish all Week 3 content
 
 ### Weeks 4-16 (IN-PERSON)

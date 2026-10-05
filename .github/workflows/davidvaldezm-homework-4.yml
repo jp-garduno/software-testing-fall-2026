@@ -1,0 +1,35 @@
+name: SecureBank - David Valdez Homework 4
+on:
+  pull_request:
+    paths:
+      - "students/davidvaldezm/homework-4/**"
+      - ".github/workflows/davidvaldezm-homework-4.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  black-box-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    defaults:
+      run:
+        working-directory: students/davidvaldezm/homework-4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -r requirements.txt pylint==4.0.9 black==26.5.1
+      - run: python -m black --check src tests
+      - run: python -m pylint src tests
+      - run: python -m pytest -v --cov=src --cov-branch --cov-fail-under=90 --cov-report=html --cov-report=json:reports/ci-coverage.json --junitxml=reports/ci-results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: securebank-python-${{ matrix.python }}
+          path: |
+            students/davidvaldezm/homework-4/htmlcov
+            students/davidvaldezm/homework-4/reports/ci-*.json
+            students/davidvaldezm/homework-4/reports/ci-*.xml

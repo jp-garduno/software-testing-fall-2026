@@ -294,7 +294,7 @@ Create these assignment categories:
 
 2. **Exams** (45%)
 
-   - Exam 1 (15%) - Modules 1-3
+   - Exam 1 (15%) - Modules 1, 3, 4 - 90 min, ZIP upload
    - Exam 2 (15%) - Modules 4-6
    - Exam 3 (15%) - Modules 7-9
 
