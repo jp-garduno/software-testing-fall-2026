@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="720" viewBox="0 0 1500 720">
+  <rect width="1500" height="720" rx="18" fill="#0d1117"/>
+  <rect width="1500" height="58" rx="18" fill="#21262d"/>
+  <circle cx="30" cy="29" r="9" fill="#ff5f56"/>
+  <circle cx="58" cy="29" r="9" fill="#ffbd2e"/>
+  <circle cx="86" cy="29" r="9" fill="#27c93f"/>
+  <text x="750" y="36" text-anchor="middle" fill="#c9d1d9" font-family="Menlo, monospace" font-size="18">Terminal — coverage.py 7.10.7</text>
+  <g fill="#c9d1d9" font-family="Menlo, monospace" font-size="22">
+    <text x="32" y="104" fill="#7ee787">$ coverage run --branch -m pytest -q</text>
+    <text x="32" y="150">........................................................................ [ 98%]</text>
+    <text x="32" y="190">.                                                                        [100%]</text>
+    <text x="32" y="230" fill="#7ee787">73 passed in 0.17s</text>
+    <text x="32" y="294" fill="#7ee787">$ coverage report -m</text>
+    <text x="32" y="346">Name                    Stmts   Miss Branch BrPart  Cover   Missing</text>
+    <text x="32" y="386">-------------------------------------------------------------------</text>
+    <text x="32" y="426">src/__init__.py             2      0      0      0</text>
+    <text x="800" y="426" fill="#7ee787">100%</text>
+    <text x="32" y="466">src/banking_system.py     114      0     42      0</text>
+    <text x="800" y="466" fill="#7ee787">100%</text>
+    <text x="32" y="506">-------------------------------------------------------------------</text>
+    <text x="32" y="546" font-weight="bold">TOTAL                     116      0     42      0</text>
+    <text x="800" y="546" fill="#7ee787" font-weight="bold">100%</text>
+    <text x="32" y="624" fill="#58a6ff">Wrote HTML report to htmlcov/index.html</text>
+  </g>
+</svg>
