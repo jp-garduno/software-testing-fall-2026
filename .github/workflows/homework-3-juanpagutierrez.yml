@@ -1,0 +1,47 @@
+name: Homework 3 Static Testing (juanpagutierrez)
+
+on:
+  push:
+    paths:
+      - "students/juanpagutierrez/homework-3/**"
+  pull_request:
+    paths:
+      - "students/juanpagutierrez/homework-3/**"
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: students/juanpagutierrez/homework-3
+
+jobs:
+  static-analysis:
+    name: Lint, format-check and security-scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: students/juanpagutierrez/homework-3/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check formatting with Black
+        run: black --check --line-length=100 src/
+
+      - name: Check import order with isort
+        run: isort --check-only --profile=black src/
+
+      - name: Lint with Pylint
+        run: pylint --rcfile=.pylintrc src/*.py
+
+      - name: Security scan with Bandit
+        run: bandit -r src/

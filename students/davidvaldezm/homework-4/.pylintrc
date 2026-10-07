@@ -1,0 +1,12 @@
+[MAIN]
+init-hook=import sys; sys.path.insert(0, 'src')
+persistent=no
+
+[DESIGN]
+# BankAccount holds the ledger, schedule, policy and clock; table rows have seven columns.
+max-attributes=12
+max-args=8
+max-positional-arguments=8
+
+[FORMAT]
+max-line-length=120
