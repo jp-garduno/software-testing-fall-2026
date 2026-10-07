@@ -1,0 +1,17 @@
+[MAIN]
+py-version=3.11
+persistent=no
+
+[FORMAT]
+max-line-length=88
+
+[REPORTS]
+reports=no
+score=yes
+
+[DESIGN]
+max-args=5
+max-branches=12
+
+[BASIC]
+good-names=argv

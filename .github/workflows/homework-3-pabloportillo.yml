@@ -1,0 +1,46 @@
+name: Homework 3 Static Analysis (pabloportillo1)
+
+# Scoped to one submission directory so it never runs for other students' work.
+on:
+  pull_request:
+    paths:
+      - "students/pabloportillo1/homework-3/**"
+  push:
+    paths:
+      - "students/pabloportillo1/homework-3/**"
+
+permissions:
+  contents: read
+
+jobs:
+  static-analysis:
+    name: Lint and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: students/pabloportillo1/homework-3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pylint
+        run: pylint --rcfile=.pylintrc src
+
+      - name: Black
+        run: black --check --line-length=120 src test_*.py
+
+      - name: isort
+        run: isort --check-only --profile=black --line-length=120 src test_*.py
+
+      - name: Bandit
+        run: bandit -q -r src
+
+      - name: Pytest
+        run: pytest -v --cov=src --cov-report=term

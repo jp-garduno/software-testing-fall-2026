@@ -1,0 +1,32 @@
+************* Module cli
+src\cli.py:3:0: W0401: Wildcard import task_manager (wildcard-import)
+src\cli.py:7:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\cli.py:27:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\cli.py:1:0: W0611: Unused import sys (unused-import)
+src\cli.py:3:0: W0614: Unused import(s) datetime, PRIORITY_LEVELS, loadTasks and saveTasks from wildcard import of task_manager (unused-wildcard-import)
+************* Module storage
+src\storage.py:37:0: C0301: Line too long (151/100) (line-too-long)
+src\storage.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\storage.py:9:0: C0103: Function name "loadTasks" doesn't conform to snake_case naming style (invalid-name)
+src\storage.py:16:4: W0702: No exception type(s) specified (bare-except)
+src\storage.py:13:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+src\storage.py:20:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\storage.py:20:0: C0103: Function name "saveTasks" doesn't conform to snake_case naming style (invalid-name)
+src\storage.py:21:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+src\storage.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\storage.py:26:0: C0103: Function name "deleteStorageFile" doesn't conform to snake_case naming style (invalid-name)
+src\storage.py:33:0: C0116: Missing function or method docstring (missing-function-docstring)
+src\storage.py:35:36: C0121: Comparison 't.get('completed') == True' should be 't.get('completed') is True' if checking for the singleton value True, or 't.get('completed')' if testing for truthiness (singleton-comparison)
+src\storage.py:3:0: W0611: Unused import sys (unused-import)
+************* Module task_manager
+src\task_manager.py:9:4: W0102: Dangerous default value [] as argument (dangerous-default-value)
+src\task_manager.py:13:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\task_manager.py:14:44: C0321: More than one statement on a single line (multiple-statements)
+src\task_manager.py:28:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\task_manager.py:36:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\task_manager.py:45:4: C0116: Missing function or method docstring (missing-function-docstring)
+src\task_manager.py:55:4: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 7.73/10
+

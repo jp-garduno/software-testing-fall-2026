@@ -1,0 +1,12 @@
+[MAIN]
+py-version=3.11
+persistent=no
+
+[FORMAT]
+max-line-length=88
+
+[BASIC]
+good-names=cls
+
+[REPORTS]
+score=yes

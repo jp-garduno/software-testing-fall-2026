@@ -1,0 +1,64 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.5, pytest-9.0.2, pluggy-1.6.0 -- /opt/pyvenv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.13.5', 'Platform': 'Linux-6.18.44-x86_64-with-glibc2.41', 'Packages': {'pytest': '9.0.2', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.13.0', 'ddtrace': '4.4.0', 'Faker': '40.1.2', 'asyncio': '1.3.0', 'cov': '7.0.0', 'json-report': '1.5.0', 'metadata': '3.1.1'}, 'PLATFORM': 'linux/amd64', 'CI': 'true'}
+rootdir: /mnt/data/homework-4
+plugins: anyio-4.13.0, ddtrace-4.4.0, Faker-40.1.2, asyncio-1.3.0, cov-7.0.0, json-report-1.5.0, metadata-3.1.1
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 43 items
+
+tests/test_boundary_values.py::TestBoundaryValues::test_bv1_transfer_zero PASSED [  2%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv2_transfer_minimum_valid PASSED [  4%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv3_checking_just_below_daily_limit PASSED [  6%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv4_checking_at_daily_limit PASSED [  9%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv5_checking_just_above_daily_limit PASSED [ 11%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv6_savings_just_below_daily_limit PASSED [ 13%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv7_savings_at_daily_limit PASSED [ 16%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv8_savings_just_above_daily_limit PASSED [ 18%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv9_savings_balance_below_minimum PASSED [ 20%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv10_savings_balance_at_minimum PASSED [ 23%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv11_savings_fee_threshold_at_1000_is_not_waived PASSED [ 25%]
+tests/test_boundary_values.py::TestBoundaryValues::test_bv12_savings_fee_threshold_just_above_is_waived PASSED [ 27%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt1_transfer_all_conditions_valid PASSED [ 30%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt2_transfer_insufficient_funds PASSED [ 32%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt3_transfer_exceeds_limit PASSED [ 34%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt4_transfer_frozen_account PASSED [ 37%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt5_savings_fee_waived PASSED [ 39%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt6_checking_fee_charged PASSED [ 41%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt7_premium_never_charged_fee PASSED [ 44%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt8_bill_valid_payee_positive_amount_and_funds PASSED [ 46%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt9_bill_invalid_payee PASSED [ 48%]
+tests/test_decision_tables.py::TestDecisionTables::test_dt10_bill_insufficient_funds PASSED [ 51%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep1_valid_transfer_amount PASSED [ 53%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep2_zero_transfer_amount PASSED [ 55%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep3_negative_transfer_amount PASSED [ 58%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep4_transfer_exceeds_daily_limit PASSED [ 60%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep5_transfer_exceeds_balance PASSED [ 62%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep6_valid_account_types[Savings] PASSED [ 65%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep6_valid_account_types[Checking] PASSED [ 67%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep6_valid_account_types[Premium] PASSED [ 69%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep7_invalid_account_type PASSED [ 72%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep8_valid_payee PASSED [ 74%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep9_invalid_payee PASSED [ 76%]
+tests/test_equivalence_partitioning.py::TestEquivalencePartitioning::test_ep10_invalid_date_range PASSED [ 79%]
+tests/test_state_transitions.py::TestStateTransitions::test_st1_active_to_suspended_when_transfer_drops_below_minimum PASSED [ 81%]
+tests/test_state_transitions.py::TestStateTransitions::test_st2_suspended_to_active_after_deposit_restores_minimum PASSED [ 83%]
+tests/test_state_transitions.py::TestStateTransitions::test_st3_active_to_frozen PASSED [ 86%]
+tests/test_state_transitions.py::TestStateTransitions::test_st4_frozen_to_active_after_unfreeze PASSED [ 88%]
+tests/test_state_transitions.py::TestStateTransitions::test_st5_active_to_closed PASSED [ 90%]
+tests/test_state_transitions.py::TestStateTransitions::test_st6_suspended_to_closed PASSED [ 93%]
+tests/test_state_transitions.py::TestStateTransitions::test_st7_frozen_to_closed PASSED [ 95%]
+tests/test_state_transitions.py::TestStateTransitions::test_st8_closed_cannot_reopen PASSED [ 97%]
+tests/test_state_transitions.py::TestStateTransitions::test_st9_closed_rejects_deposit PASSED [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.5-final-0 ________________
+
+Name                    Stmts   Miss  Cover   Missing
+-----------------------------------------------------
+src/__init__.py             0      0   100%
+src/banking_system.py     120     15    88%   75, 89, 96, 98, 102, 106, 113, 117, 123, 125, 127, 137, 152, 171-175
+-----------------------------------------------------
+TOTAL                     120     15    88%
+Coverage HTML written to dir htmlcov
+============================== 43 passed in 0.14s ==============================

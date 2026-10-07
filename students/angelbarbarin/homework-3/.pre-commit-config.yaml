@@ -1,0 +1,71 @@
+# Pre-commit hooks para students/angelbarbarin/homework-3
+#
+# Las versiones (rev) estan fijadas a las mismas que usa el repo del curso, de
+# modo que pre-commit reutilice los entornos ya cacheados y no vuelva a
+# descargarlos. Fijar la version es deliberado: un hook sin rev fijo puede
+# cambiar de comportamiento entre dos ejecuciones del mismo commit.
+ 
+repos:
+  # ---------------------------------------------------------------------
+  # Comprobaciones generales de archivos
+  # ---------------------------------------------------------------------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        args: ["--markdown-linebreak-ext=md"]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-merge-conflict
+      - id: detect-private-key
+ 
+  # ---------------------------------------------------------------------
+  # Formato de codigo Python
+  # ---------------------------------------------------------------------
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        language_version: python3
+        files: ^students/angelbarbarin/homework-3/.*\.py$
+ 
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile=black"]
+        files: ^students/angelbarbarin/homework-3/.*\.py$
+ 
+  # ---------------------------------------------------------------------
+  # Analisis estatico
+  # ---------------------------------------------------------------------
+  - repo: https://github.com/PyCQA/pylint
+    rev: v3.0.3
+    hooks:
+      - id: pylint
+        args: ["--rcfile=students/angelbarbarin/homework-3/.pylintrc"]
+        files: ^students/angelbarbarin/homework-3/.*\.py$
+        additional_dependencies:
+          - pytest
+ 
+  # ---------------------------------------------------------------------
+  # Linting de seguridad (bonus)
+  # ---------------------------------------------------------------------
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.7
+    hooks:
+      - id: bandit
+        args: ["-q", "--skip=B101"]
+        files: ^students/angelbarbarin/homework-3/src/.*\.py$
+ 
+  # ---------------------------------------------------------------------
+  # Mensajes de commit convencionales
+  # ---------------------------------------------------------------------
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]

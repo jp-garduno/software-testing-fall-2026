@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "limit": "100.00",
+  "transactions": [
+    {"amount": "12.30", "category": "food", "description": "Lunch"}
+  ]
+}

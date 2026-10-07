@@ -1,0 +1,36 @@
+# Pylint configuration for Homework 3.
+# Generated with `pylint --generate-rcfile` and then trimmed to the options I
+# actually changed, so the diff against the defaults stays readable.
+
+[MAIN]
+ignore = venv,node_modules,.git
+jobs = 0
+persistent = yes
+
+[MESSAGES CONTROL]
+# Kept deliberately small. Only rules that fight the course style guide or the
+# pytest idiom are disabled; nothing is silenced just to raise the score.
+disable =
+    too-few-public-methods,
+    duplicate-code
+
+[FORMAT]
+# Course standard (CLAUDE.md): 120 characters, matching black's configuration.
+max-line-length = 120
+indent-string = "    "
+
+[BASIC]
+good-names = i,j,k,id,db,ok,_
+argument-naming-style = snake_case
+variable-naming-style = snake_case
+function-naming-style = snake_case
+class-naming-style = PascalCase
+
+[DESIGN]
+max-args = 6
+max-locals = 15
+max-branches = 12
+max-statements = 50
+
+[REPORTS]
+score = yes

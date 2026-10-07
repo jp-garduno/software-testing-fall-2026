@@ -1,0 +1,9 @@
+{
+  "name": "a4ld0-banking-black-box-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Homework 4: equivalent SecureBank black box suites",
+  "engines": {"node": ">=22"},
+  "scripts": {"test": "jest --runInBand", "test:coverage": "jest --runInBand --coverage --verbose"},
+  "devDependencies": {"jest": "30.1.3"}
+}

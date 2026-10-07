@@ -1,0 +1,4894 @@
+[
+  {
+    "id": "EP01",
+    "technique": "EP",
+    "name": "valid transfer amount",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          500
+        ],
+        "expect": {
+          "success": true,
+          "amount": 500
+        },
+        "snapshot": {
+          "balance": 500,
+          "daily_transfer_total": 500,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "EP02",
+    "technique": "EP",
+    "name": "invalid transfer representative 0",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP03",
+    "technique": "EP",
+    "name": "invalid transfer representative -100",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          -100
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP04",
+    "technique": "EP",
+    "name": "invalid transfer representative 5001",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          5001
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP05",
+    "technique": "EP",
+    "name": "invalid transfer representative 501",
+    "account": [
+      "Checking",
+      500
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          501
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP06",
+    "technique": "EP",
+    "name": "invalid transfer representative '10'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          "10"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP07",
+    "technique": "EP",
+    "name": "invalid transfer representative True",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          true
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP08",
+    "technique": "EP",
+    "name": "invalid transfer representative 0.001",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0.001
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP09",
+    "technique": "EP",
+    "name": "supported type Savings",
+    "account": [
+      "Savings",
+      100
+    ],
+    "steps": [],
+    "initial": {
+      "account_type": "Savings",
+      "daily_limit": 2000,
+      "state": "Active"
+    }
+  },
+  {
+    "id": "EP10",
+    "technique": "EP",
+    "name": "supported type Checking",
+    "account": [
+      "Checking",
+      0
+    ],
+    "steps": [],
+    "initial": {
+      "account_type": "Checking",
+      "daily_limit": 5000,
+      "state": "Active"
+    }
+  },
+  {
+    "id": "EP11",
+    "technique": "EP",
+    "name": "supported type Premium",
+    "account": [
+      "Premium",
+      10000
+    ],
+    "steps": [],
+    "initial": {
+      "account_type": "Premium",
+      "daily_limit": 50000,
+      "state": "Active"
+    }
+  },
+  {
+    "id": "EP12",
+    "technique": "EP",
+    "name": "unsupported account type Business",
+    "account": [
+      "Business",
+      100
+    ],
+    "steps": [],
+    "constructor_error": "Invalid account type"
+  },
+  {
+    "id": "EP13",
+    "technique": "EP",
+    "name": "unsupported account type None",
+    "account": [
+      null,
+      100
+    ],
+    "steps": [],
+    "constructor_error": "Invalid account type"
+  },
+  {
+    "id": "EP14",
+    "technique": "EP",
+    "name": "opening below minimum",
+    "account": [
+      "Savings",
+      50
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 50,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "EP15",
+    "technique": "EP",
+    "name": "opening above minimum",
+    "account": [
+      "Savings",
+      200
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 200,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "EP16",
+    "technique": "EP",
+    "name": "invalid opening balance -1",
+    "account": [
+      "Checking",
+      -1
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP17",
+    "technique": "EP",
+    "name": "invalid opening balance '100'",
+    "account": [
+      "Checking",
+      "100"
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP18",
+    "technique": "EP",
+    "name": "invalid opening balance 0.001",
+    "account": [
+      "Checking",
+      0.001
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP19",
+    "technique": "EP",
+    "name": "registered payee",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          20
+        ],
+        "expect": {
+          "success": true,
+          "status": "paid"
+        },
+        "snapshot": {
+          "balance": 980,
+          "daily_transfer_total": 0,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "EP20",
+    "technique": "EP",
+    "name": "invalid payee 'stranger'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "stranger",
+          20
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid payee"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP21",
+    "technique": "EP",
+    "name": "invalid payee ''",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "",
+          20
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid payee"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP22",
+    "technique": "EP",
+    "name": "invalid payee None",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          null,
+          20
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid payee"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP23",
+    "technique": "EP",
+    "name": "history range contains activity",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10
+        ],
+        "expect": {
+          "success": true,
+          "amount": 10
+        },
+        "snapshot": {
+          "balance": 990,
+          "daily_transfer_total": 10,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "history",
+        "args": [
+          "2026-09-01",
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": [
+            {
+              "date": "2026-09-22",
+              "kind": "transfer",
+              "amount": 10,
+              "balance": 990,
+              "detail": "external"
+            }
+          ]
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP24",
+    "technique": "EP",
+    "name": "history range without activity",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10
+        ],
+        "expect": {
+          "success": true,
+          "amount": 10
+        },
+        "snapshot": {
+          "balance": 990,
+          "daily_transfer_total": 10,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "history",
+        "args": [
+          "2026-08-01",
+          "2026-08-31"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": []
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP25",
+    "technique": "EP",
+    "name": "reversed history dates",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2026-09-30",
+          "2026-09-01"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date range"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP26",
+    "technique": "EP",
+    "name": "invalid history start '09/22/2026'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "09/22/2026",
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP27",
+    "technique": "EP",
+    "name": "invalid history start '2026-02-30'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2026-02-30",
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP28",
+    "technique": "EP",
+    "name": "invalid history start None",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          null,
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP29",
+    "technique": "EP",
+    "name": "invalid destination ''",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          1,
+          ""
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid destination"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP30",
+    "technique": "EP",
+    "name": "invalid destination '   '",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          1,
+          "   "
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid destination"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP31",
+    "technique": "EP",
+    "name": "invalid destination None",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          1,
+          null
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid destination"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP32",
+    "technique": "EP",
+    "name": "invalid destination 12",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          1,
+          12
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid destination"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP33",
+    "technique": "EP",
+    "name": "named own-account destination",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10,
+          "own-savings"
+        ],
+        "expect": {
+          "success": true,
+          "amount": 10
+        },
+        "snapshot": {
+          "balance": 990,
+          "daily_transfer_total": 10,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "history",
+        "args": [
+          "2026-09-22",
+          "2026-09-22"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": [
+            {
+              "date": "2026-09-22",
+              "kind": "transfer",
+              "amount": 10,
+              "balance": 990,
+              "detail": "own-savings"
+            }
+          ]
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP34",
+    "technique": "EP",
+    "name": "valid owner update trims whitespace",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "update_info",
+        "args": [
+          " Aldo "
+        ],
+        "expect": {
+          "success": true,
+          "owner": "Aldo"
+        },
+        "snapshot": {
+          "owner": "Aldo"
+        }
+      }
+    ]
+  },
+  {
+    "id": "EP35",
+    "technique": "EP",
+    "name": "invalid owner ''",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "update_info",
+        "args": [
+          ""
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid owner"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP36",
+    "technique": "EP",
+    "name": "invalid owner '  '",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "update_info",
+        "args": [
+          "  "
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid owner"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP37",
+    "technique": "EP",
+    "name": "invalid owner 100",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "update_info",
+        "args": [
+          100
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid owner"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP38",
+    "technique": "EP",
+    "name": "invalid owner None",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "update_info",
+        "args": [
+          null
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid owner"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP39",
+    "technique": "EP",
+    "name": "invalid bill amount 0",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP40",
+    "technique": "EP",
+    "name": "invalid bill amount -1",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          -1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP41",
+    "technique": "EP",
+    "name": "invalid bill amount '5'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          "5"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP42",
+    "technique": "EP",
+    "name": "invalid bill amount 0.001",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          0.001
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP43",
+    "technique": "EP",
+    "name": "invalid deposit 0",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP44",
+    "technique": "EP",
+    "name": "invalid deposit -1",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          -1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP45",
+    "technique": "EP",
+    "name": "invalid deposit '5'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          "5"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP46",
+    "technique": "EP",
+    "name": "invalid deposit 0.001",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          0.001
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP47",
+    "technique": "EP",
+    "name": "nonfinite transfer NaN",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          {
+            "$number": "NaN"
+          }
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP48",
+    "technique": "EP",
+    "name": "nonfinite opening NaN",
+    "account": [
+      "Checking",
+      {
+        "$number": "NaN"
+      }
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP49",
+    "technique": "EP",
+    "name": "nonfinite transfer Infinity",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          {
+            "$number": "Infinity"
+          }
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP50",
+    "technique": "EP",
+    "name": "nonfinite opening Infinity",
+    "account": [
+      "Checking",
+      {
+        "$number": "Infinity"
+      }
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP51",
+    "technique": "EP",
+    "name": "nonfinite transfer -Infinity",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          {
+            "$number": "-Infinity"
+          }
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP52",
+    "technique": "EP",
+    "name": "nonfinite opening -Infinity",
+    "account": [
+      "Checking",
+      {
+        "$number": "-Infinity"
+      }
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP53",
+    "technique": "EP",
+    "name": "amount exceeds arithmetic cap",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          1000000000.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid amount"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP54",
+    "technique": "EP",
+    "name": "deposit would exceed balance cap",
+    "account": [
+      "Checking",
+      1000000000
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Balance exceeds maximum"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP55",
+    "technique": "EP",
+    "name": "invalid payment date",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10,
+          "2026-13-01"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP56",
+    "technique": "EP",
+    "name": "history returns independent records",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10
+        ],
+        "expect": {
+          "success": true,
+          "amount": 10
+        },
+        "snapshot": {
+          "balance": 990,
+          "daily_transfer_total": 10,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "history",
+        "args": [
+          "2026-09-01",
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": [
+            {
+              "date": "2026-09-22",
+              "kind": "transfer",
+              "amount": 10,
+              "balance": 990,
+              "detail": "external"
+            }
+          ]
+        },
+        "snapshot": {},
+        "mutate_return": true
+      }
+    ]
+  },
+  {
+    "id": "EP57",
+    "technique": "EP",
+    "name": "CSV escapes comma and quotes",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10,
+          "own,\"savings\""
+        ],
+        "expect": {
+          "success": true,
+          "amount": 10
+        },
+        "snapshot": {
+          "balance": 990,
+          "daily_transfer_total": 10,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "export_csv",
+        "args": [
+          "2026-09-22",
+          "2026-09-22"
+        ],
+        "expect": {
+          "success": true,
+          "csv": "date,kind,amount,balance,detail\n2026-09-22,transfer,10.00,990.00,\"own,\"\"savings\"\"\"\n"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP58",
+    "technique": "EP",
+    "name": "empty CSV retains header",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "export_csv",
+        "args": [
+          "2026-09-01",
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": true,
+          "csv": "date,kind,amount,balance,detail\n"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP59",
+    "technique": "EP",
+    "name": "CSV rejects reversed range",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "export_csv",
+        "args": [
+          "2026-09-30",
+          "2026-09-01"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date range"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP60",
+    "technique": "EP",
+    "name": "invalid date edge '2026-09-22\\n'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2026-09-22\n",
+          "2026-12-31"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP61",
+    "technique": "EP",
+    "name": "invalid date edge '0000-01-01'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "0000-01-01",
+          "2026-12-31"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP62",
+    "technique": "EP",
+    "name": "invalid date edge '2026-02-29'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2026-02-29",
+          "2026-12-31"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP63",
+    "technique": "EP",
+    "name": "invalid date edge '2026-09-31'",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2026-09-31",
+          "2026-12-31"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP64",
+    "technique": "EP",
+    "name": "history validates end date too",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2026-01-01",
+          "bad"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid date"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "EP65",
+    "technique": "EP",
+    "name": "boolean opening balance rejected",
+    "account": [
+      "Checking",
+      true
+    ],
+    "steps": [],
+    "constructor_error": "Invalid opening balance"
+  },
+  {
+    "id": "EP66",
+    "technique": "EP",
+    "name": "account type object rejected",
+    "account": [
+      {},
+      100
+    ],
+    "steps": [],
+    "constructor_error": "Invalid account type"
+  },
+  {
+    "id": "BV01",
+    "technique": "BV",
+    "name": "Checking transfer boundary 0",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV02",
+    "technique": "BV",
+    "name": "Checking transfer boundary 0.01",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.01
+        },
+        "snapshot": {
+          "balance": 19999.99,
+          "daily_transfer_total": 0.01,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV03",
+    "technique": "BV",
+    "name": "Checking transfer boundary 4999.99",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4999.99
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4999.99
+        },
+        "snapshot": {
+          "balance": 15000.01,
+          "daily_transfer_total": 4999.99,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV04",
+    "technique": "BV",
+    "name": "Checking transfer boundary 5000",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          5000
+        ],
+        "expect": {
+          "success": true,
+          "amount": 5000
+        },
+        "snapshot": {
+          "balance": 15000,
+          "daily_transfer_total": 5000,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV05",
+    "technique": "BV",
+    "name": "Checking transfer boundary 5000.01",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          5000.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV06",
+    "technique": "BV",
+    "name": "Checking transfer boundary 10000",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10000
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV07",
+    "technique": "BV",
+    "name": "Savings transfer boundary 0",
+    "account": [
+      "Savings",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV08",
+    "technique": "BV",
+    "name": "Savings transfer boundary 0.01",
+    "account": [
+      "Savings",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.01
+        },
+        "snapshot": {
+          "balance": 9999.99,
+          "daily_transfer_total": 0.01,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV09",
+    "technique": "BV",
+    "name": "Savings transfer boundary 1999.99",
+    "account": [
+      "Savings",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          1999.99
+        ],
+        "expect": {
+          "success": true,
+          "amount": 1999.99
+        },
+        "snapshot": {
+          "balance": 8000.01,
+          "daily_transfer_total": 1999.99,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV10",
+    "technique": "BV",
+    "name": "Savings transfer boundary 2000",
+    "account": [
+      "Savings",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          2000
+        ],
+        "expect": {
+          "success": true,
+          "amount": 2000
+        },
+        "snapshot": {
+          "balance": 8000,
+          "daily_transfer_total": 2000,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV11",
+    "technique": "BV",
+    "name": "Savings transfer boundary 2000.01",
+    "account": [
+      "Savings",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          2000.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV12",
+    "technique": "BV",
+    "name": "Savings transfer boundary 4000",
+    "account": [
+      "Savings",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4000
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV13",
+    "technique": "BV",
+    "name": "Savings minimum 0",
+    "account": [
+      "Savings",
+      0
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 0,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "BV14",
+    "technique": "BV",
+    "name": "Savings minimum 99.98",
+    "account": [
+      "Savings",
+      99.98
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 99.98,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "BV15",
+    "technique": "BV",
+    "name": "Savings minimum 99.99",
+    "account": [
+      "Savings",
+      99.99
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 99.99,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "BV16",
+    "technique": "BV",
+    "name": "Savings minimum 100",
+    "account": [
+      "Savings",
+      100
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 100,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "BV17",
+    "technique": "BV",
+    "name": "Savings minimum 100.01",
+    "account": [
+      "Savings",
+      100.01
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 100.01,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "BV18",
+    "technique": "BV",
+    "name": "Savings minimum 200",
+    "account": [
+      "Savings",
+      200
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 200,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "BV19",
+    "technique": "BV",
+    "name": "Savings fee threshold 999.98",
+    "account": [
+      "Savings",
+      999.98
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "balance": 994.98,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV20",
+    "technique": "BV",
+    "name": "Savings fee threshold 999.99",
+    "account": [
+      "Savings",
+      999.99
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "balance": 994.99,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV21",
+    "technique": "BV",
+    "name": "Savings fee threshold 1000",
+    "account": [
+      "Savings",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "balance": 995,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV22",
+    "technique": "BV",
+    "name": "Savings fee threshold 1000.01",
+    "account": [
+      "Savings",
+      1000.01
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 1000.01,
+          "transaction_count": 0
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV23",
+    "technique": "BV",
+    "name": "Savings fee threshold 1000.02",
+    "account": [
+      "Savings",
+      1000.02
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 1000.02,
+          "transaction_count": 0
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV24",
+    "technique": "BV",
+    "name": "Savings fee threshold 2000",
+    "account": [
+      "Savings",
+      2000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 2000,
+          "transaction_count": 0
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV25",
+    "technique": "BV",
+    "name": "Checking fee threshold 4999.98",
+    "account": [
+      "Checking",
+      4999.98
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 4989.98,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV26",
+    "technique": "BV",
+    "name": "Checking fee threshold 4999.99",
+    "account": [
+      "Checking",
+      4999.99
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 4989.99,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV27",
+    "technique": "BV",
+    "name": "Checking fee threshold 5000",
+    "account": [
+      "Checking",
+      5000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 4990,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV28",
+    "technique": "BV",
+    "name": "Checking fee threshold 5000.01",
+    "account": [
+      "Checking",
+      5000.01
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 5000.01,
+          "transaction_count": 0
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV29",
+    "technique": "BV",
+    "name": "Checking fee threshold 5000.02",
+    "account": [
+      "Checking",
+      5000.02
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 5000.02,
+          "transaction_count": 0
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV30",
+    "technique": "BV",
+    "name": "Checking fee threshold 10000",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 10000,
+          "transaction_count": 0
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "BV31",
+    "technique": "BV",
+    "name": "cumulative remaining allowance 0",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 5100,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV32",
+    "technique": "BV",
+    "name": "cumulative remaining allowance 0.01",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 5100,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.01
+        },
+        "snapshot": {
+          "balance": 5099.99,
+          "daily_transfer_total": 4900.01,
+          "transaction_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV33",
+    "technique": "BV",
+    "name": "cumulative remaining allowance 99.99",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 5100,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          99.99
+        ],
+        "expect": {
+          "success": true,
+          "amount": 99.99
+        },
+        "snapshot": {
+          "balance": 5000.01,
+          "daily_transfer_total": 4999.99,
+          "transaction_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV34",
+    "technique": "BV",
+    "name": "cumulative remaining allowance 100",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 5100,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          100
+        ],
+        "expect": {
+          "success": true,
+          "amount": 100
+        },
+        "snapshot": {
+          "balance": 5000,
+          "daily_transfer_total": 5000,
+          "transaction_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV35",
+    "technique": "BV",
+    "name": "cumulative remaining allowance 100.01",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 5100,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          100.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV36",
+    "technique": "BV",
+    "name": "cumulative remaining allowance 200",
+    "account": [
+      "Checking",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 5100,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          200
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV37",
+    "technique": "BV",
+    "name": "available funds 0",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0
+        ],
+        "expect": {
+          "success": false,
+          "error": "Amount must be positive"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV38",
+    "technique": "BV",
+    "name": "available funds 0.01",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.01
+        },
+        "snapshot": {
+          "balance": 99.99,
+          "daily_transfer_total": 0.01,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV39",
+    "technique": "BV",
+    "name": "available funds 99.99",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          99.99
+        ],
+        "expect": {
+          "success": true,
+          "amount": 99.99
+        },
+        "snapshot": {
+          "balance": 0.01,
+          "daily_transfer_total": 99.99,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV40",
+    "technique": "BV",
+    "name": "available funds 100",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          100
+        ],
+        "expect": {
+          "success": true,
+          "amount": 100
+        },
+        "snapshot": {
+          "balance": 0,
+          "daily_transfer_total": 100,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV41",
+    "technique": "BV",
+    "name": "available funds 100.01",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          100.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV42",
+    "technique": "BV",
+    "name": "available funds 101",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          101
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV43",
+    "technique": "BV",
+    "name": "Premium minimum 0",
+    "account": [
+      "Premium",
+      0
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 0,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "BV44",
+    "technique": "BV",
+    "name": "Premium minimum 9999.98",
+    "account": [
+      "Premium",
+      9999.98
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 9999.98,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "BV45",
+    "technique": "BV",
+    "name": "Premium minimum 9999.99",
+    "account": [
+      "Premium",
+      9999.99
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 9999.99,
+      "state": "Suspended",
+      "warning": true
+    }
+  },
+  {
+    "id": "BV46",
+    "technique": "BV",
+    "name": "Premium minimum 10000",
+    "account": [
+      "Premium",
+      10000
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 10000,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "BV47",
+    "technique": "BV",
+    "name": "Premium minimum 10000.01",
+    "account": [
+      "Premium",
+      10000.01
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 10000.01,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "BV48",
+    "technique": "BV",
+    "name": "Premium minimum 20000",
+    "account": [
+      "Premium",
+      20000
+    ],
+    "steps": [],
+    "initial": {
+      "balance": 20000,
+      "state": "Active",
+      "warning": false
+    }
+  },
+  {
+    "id": "BV49",
+    "technique": "BV",
+    "name": "UTC midnight resets cumulative limit",
+    "account": [
+      "Checking",
+      20000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          5000
+        ],
+        "expect": {
+          "success": true,
+          "amount": 5000
+        },
+        "snapshot": {
+          "balance": 15000,
+          "daily_transfer_total": 5000,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "transfer",
+        "args": [
+          5000
+        ],
+        "expect": {
+          "success": true,
+          "amount": 5000
+        },
+        "snapshot": {
+          "balance": 10000,
+          "daily_transfer_total": 5000,
+          "transaction_count": 2
+        },
+        "date": "2026-09-23"
+      }
+    ]
+  },
+  {
+    "id": "BV50",
+    "technique": "BV",
+    "name": "history includes both endpoints only",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          10
+        ],
+        "expect": {
+          "success": true,
+          "amount": 10
+        },
+        "snapshot": {
+          "balance": 990,
+          "daily_transfer_total": 10,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          20
+        ],
+        "expect": {
+          "success": true,
+          "amount": 20
+        },
+        "snapshot": {
+          "balance": 970,
+          "daily_transfer_total": 20,
+          "transaction_count": 2
+        },
+        "date": "2026-09-23"
+      },
+      {
+        "call": "transfer",
+        "args": [
+          30
+        ],
+        "expect": {
+          "success": true,
+          "amount": 30
+        },
+        "snapshot": {
+          "balance": 940,
+          "daily_transfer_total": 30,
+          "transaction_count": 3
+        },
+        "date": "2026-09-24"
+      },
+      {
+        "call": "history",
+        "args": [
+          "2026-09-22",
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": [
+            {
+              "date": "2026-09-22",
+              "kind": "transfer",
+              "amount": 10,
+              "balance": 990,
+              "detail": "external"
+            },
+            {
+              "date": "2026-09-23",
+              "kind": "transfer",
+              "amount": 20,
+              "balance": 970,
+              "detail": "external"
+            }
+          ]
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV51",
+    "technique": "BV",
+    "name": "payment yesterday rejected",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10,
+          "2026-09-21"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Payment date is in the past"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV52",
+    "technique": "BV",
+    "name": "payment today debits immediately",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10,
+          "2026-09-22"
+        ],
+        "expect": {
+          "success": true,
+          "status": "paid"
+        },
+        "snapshot": {
+          "balance": 990,
+          "pending_count": 0,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV53",
+    "technique": "BV",
+    "name": "payment tomorrow executes once when due",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "status": "scheduled"
+        },
+        "snapshot": {
+          "balance": 1000,
+          "pending_count": 1,
+          "transaction_count": 0
+        }
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": []
+        },
+        "snapshot": {
+          "pending_count": 1
+        }
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": [
+            {
+              "date": "2026-09-23",
+              "payee": "utilities",
+              "amount": 10,
+              "result": {
+                "success": true,
+                "status": "paid"
+              }
+            }
+          ]
+        },
+        "snapshot": {
+          "balance": 990,
+          "pending_count": 0,
+          "transaction_count": 1
+        },
+        "date": "2026-09-23"
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": []
+        },
+        "snapshot": {
+          "balance": 990,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV54",
+    "technique": "BV",
+    "name": "valid leap-day history interval",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "history",
+        "args": [
+          "2024-02-29",
+          "2024-03-01"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": []
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "BV55",
+    "technique": "BV",
+    "name": "fee only on first and once per month",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 100,
+          "transaction_count": 0
+        }
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 90,
+          "transaction_count": 1
+        },
+        "date": "2026-10-01"
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 90,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 90,
+          "transaction_count": 1
+        },
+        "date": "2026-10-02"
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 80,
+          "transaction_count": 2
+        },
+        "date": "2026-11-01"
+      }
+    ],
+    "date": "2026-09-30"
+  },
+  {
+    "id": "BV56",
+    "technique": "BV",
+    "name": "cent arithmetic does not accumulate binary drift",
+    "account": [
+      "Checking",
+      0.3
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0.1
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.1
+        },
+        "snapshot": {
+          "balance": 0.2,
+          "daily_transfer_total": 0.1,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          0.2
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.2
+        },
+        "snapshot": {
+          "balance": 0,
+          "daily_transfer_total": 0.3,
+          "transaction_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV57",
+    "technique": "BV",
+    "name": "exact maximum balance deposit allowed",
+    "account": [
+      "Checking",
+      999999999.99
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.01
+        },
+        "snapshot": {
+          "balance": 1000000000,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "BV58",
+    "technique": "BV",
+    "name": "Premium daily limit inclusive",
+    "account": [
+      "Premium",
+      100000
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          50000
+        ],
+        "expect": {
+          "success": true,
+          "amount": 50000
+        },
+        "snapshot": {
+          "balance": 50000,
+          "daily_transfer_total": 50000,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT01",
+    "technique": "DT",
+    "name": "transfer active=True funds=True within-limit=True",
+    "account": [
+      "Checking",
+      5900
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 1000,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          50
+        ],
+        "expect": {
+          "success": true,
+          "amount": 50
+        },
+        "snapshot": {
+          "balance": 950,
+          "daily_transfer_total": 4950,
+          "transaction_count": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "DT02",
+    "technique": "DT",
+    "name": "transfer active=True funds=True within-limit=False",
+    "account": [
+      "Checking",
+      5900
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 1000,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          200
+        ],
+        "expect": {
+          "success": false,
+          "error": "Exceeds daily limit"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT03",
+    "technique": "DT",
+    "name": "transfer active=True funds=False within-limit=True",
+    "account": [
+      "Checking",
+      4925
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 25,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          50
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT04",
+    "technique": "DT",
+    "name": "transfer active=True funds=False within-limit=False",
+    "account": [
+      "Checking",
+      4925
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 25,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          200
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT05",
+    "technique": "DT",
+    "name": "transfer active=False funds=True within-limit=True",
+    "account": [
+      "Checking",
+      5900
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 1000,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          50
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT06",
+    "technique": "DT",
+    "name": "transfer active=False funds=True within-limit=False",
+    "account": [
+      "Checking",
+      5900
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 1000,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          200
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT07",
+    "technique": "DT",
+    "name": "transfer active=False funds=False within-limit=True",
+    "account": [
+      "Checking",
+      4925
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 25,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          50
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT08",
+    "technique": "DT",
+    "name": "transfer active=False funds=False within-limit=False",
+    "account": [
+      "Checking",
+      4925
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          4900
+        ],
+        "expect": {
+          "success": true,
+          "amount": 4900
+        },
+        "snapshot": {
+          "balance": 25,
+          "daily_transfer_total": 4900,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          200
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT09",
+    "technique": "DT",
+    "name": "monthly fee Savings balance=1000.01",
+    "account": [
+      "Savings",
+      1000.01
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 1000.01,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 0
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT10",
+    "technique": "DT",
+    "name": "monthly fee Savings balance=1000",
+    "account": [
+      "Savings",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "balance": 995,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 1
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT11",
+    "technique": "DT",
+    "name": "monthly fee Savings balance=100",
+    "account": [
+      "Savings",
+      100
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "balance": 95,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 1
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT12",
+    "technique": "DT",
+    "name": "monthly fee Savings balance=5",
+    "account": [
+      "Savings",
+      5
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "balance": 0,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 1
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT13",
+    "technique": "DT",
+    "name": "monthly fee Savings balance=4.99",
+    "account": [
+      "Savings",
+      4.99
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Insufficient fee funds"
+        },
+        "snapshot": {
+          "balance": 4.99,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 0
+        },
+        "allows_state_change": true
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT14",
+    "technique": "DT",
+    "name": "monthly fee Checking balance=5000.01",
+    "account": [
+      "Checking",
+      5000.01
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 5000.01,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 0
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT15",
+    "technique": "DT",
+    "name": "monthly fee Checking balance=5000",
+    "account": [
+      "Checking",
+      5000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 4990,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 1
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT16",
+    "technique": "DT",
+    "name": "monthly fee Checking balance=10",
+    "account": [
+      "Checking",
+      10
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 10
+        },
+        "snapshot": {
+          "balance": 0,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 1
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT17",
+    "technique": "DT",
+    "name": "monthly fee Checking balance=9.99",
+    "account": [
+      "Checking",
+      9.99
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Insufficient fee funds"
+        },
+        "snapshot": {
+          "balance": 9.99,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 0
+        },
+        "allows_state_change": true
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT18",
+    "technique": "DT",
+    "name": "monthly fee Premium balance=10000",
+    "account": [
+      "Premium",
+      10000
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 10000,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 0
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT19",
+    "technique": "DT",
+    "name": "monthly fee Premium balance=9999",
+    "account": [
+      "Premium",
+      9999
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 9999,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 0
+        },
+        "allows_state_change": false
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT20",
+    "technique": "DT",
+    "name": "bill active=True payee=True funds=True",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10
+        ],
+        "expect": {
+          "success": true,
+          "status": "paid"
+        },
+        "snapshot": {
+          "balance": 90,
+          "transaction_count": 1,
+          "daily_transfer_total": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "DT21",
+    "technique": "DT",
+    "name": "bill active=True payee=True funds=False",
+    "account": [
+      "Checking",
+      5
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT22",
+    "technique": "DT",
+    "name": "bill active=True payee=False funds=True",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "unknown",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid payee"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT23",
+    "technique": "DT",
+    "name": "bill active=True payee=False funds=False",
+    "account": [
+      "Checking",
+      5
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "unknown",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Invalid payee"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT24",
+    "technique": "DT",
+    "name": "bill active=False payee=True funds=True",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT25",
+    "technique": "DT",
+    "name": "bill active=False payee=True funds=False",
+    "account": [
+      "Checking",
+      5
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT26",
+    "technique": "DT",
+    "name": "bill active=False payee=False funds=True",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "unknown",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT27",
+    "technique": "DT",
+    "name": "bill active=False payee=False funds=False",
+    "account": [
+      "Checking",
+      5
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "unknown",
+          10
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT28",
+    "technique": "DT",
+    "name": "failed fee attempt is consumed for the month",
+    "account": [
+      "Checking",
+      9
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Insufficient fee funds"
+        },
+        "snapshot": {
+          "state": "Suspended",
+          "balance": 9
+        },
+        "allows_state_change": true
+      },
+      {
+        "call": "deposit",
+        "args": [
+          100
+        ],
+        "expect": {
+          "success": true,
+          "amount": 100
+        },
+        "snapshot": {
+          "balance": 109,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 109,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT29",
+    "technique": "DT",
+    "name": "waiver checked at fee time and processed once",
+    "account": [
+      "Savings",
+      1000.01
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "transfer",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": true,
+          "amount": 1
+        },
+        "snapshot": {
+          "balance": 999.01,
+          "daily_transfer_total": 1,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 0
+        },
+        "snapshot": {
+          "balance": 999.01,
+          "transaction_count": 1
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "DT30",
+    "technique": "DT",
+    "name": "scheduled payment rechecks funds and fails once",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "internet",
+          90,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "status": "scheduled"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "transfer",
+        "args": [
+          50
+        ],
+        "expect": {
+          "success": true,
+          "amount": 50
+        },
+        "snapshot": {
+          "balance": 50,
+          "daily_transfer_total": 50,
+          "transaction_count": 1
+        }
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": [
+            {
+              "date": "2026-09-23",
+              "payee": "internet",
+              "amount": 90,
+              "result": {
+                "success": false,
+                "error": "Insufficient funds"
+              }
+            }
+          ]
+        },
+        "snapshot": {
+          "balance": 50,
+          "pending_count": 0,
+          "transaction_count": 1
+        },
+        "date": "2026-09-23"
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": []
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "DT31",
+    "technique": "DT",
+    "name": "scheduled payment rechecks Frozen state",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "credit-card",
+          10,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "status": "scheduled"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": [
+            {
+              "date": "2026-09-23",
+              "payee": "credit-card",
+              "amount": 10,
+              "result": {
+                "success": false,
+                "error": "Account frozen"
+              }
+            }
+          ]
+        },
+        "snapshot": {
+          "balance": 1000,
+          "pending_count": 0,
+          "transaction_count": 0
+        },
+        "date": "2026-09-23"
+      }
+    ]
+  },
+  {
+    "id": "DT32",
+    "technique": "DT",
+    "name": "scheduled payments run in insertion order",
+    "account": [
+      "Checking",
+      100
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          80,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "status": "scheduled"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "internet",
+          80,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "status": "scheduled"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": true,
+          "payments": [
+            {
+              "date": "2026-09-23",
+              "payee": "utilities",
+              "amount": 80,
+              "result": {
+                "success": true,
+                "status": "paid"
+              }
+            },
+            {
+              "date": "2026-09-23",
+              "payee": "internet",
+              "amount": 80,
+              "result": {
+                "success": false,
+                "error": "Insufficient funds"
+              }
+            }
+          ]
+        },
+        "snapshot": {
+          "balance": 20,
+          "transaction_count": 1,
+          "pending_count": 0
+        },
+        "date": "2026-09-23"
+      }
+    ]
+  },
+  {
+    "id": "DT33",
+    "technique": "DT",
+    "name": "invalid scheduling does not enqueue payment",
+    "account": [
+      "Checking",
+      1
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Insufficient funds"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "ST01",
+    "technique": "ST",
+    "name": "transfer below minimum suspends",
+    "account": [
+      "Savings",
+      100
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          0.01
+        ],
+        "expect": {
+          "success": true,
+          "amount": 0.01
+        },
+        "snapshot": {
+          "balance": 99.99,
+          "state": "Suspended",
+          "warning": true,
+          "daily_transfer_total": 0.01
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST02",
+    "technique": "ST",
+    "name": "exact deposit restoration reactivates",
+    "account": [
+      "Savings",
+      99
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": true,
+          "amount": 1
+        },
+        "snapshot": {
+          "balance": 100,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST03",
+    "technique": "ST",
+    "name": "partial restoration remains suspended",
+    "account": [
+      "Savings",
+      50
+    ],
+    "steps": [
+      {
+        "call": "deposit",
+        "args": [
+          49
+        ],
+        "expect": {
+          "success": true,
+          "amount": 49
+        },
+        "snapshot": {
+          "balance": 99,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST04",
+    "technique": "ST",
+    "name": "Frozen rejects monetary operations and repeated freeze",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "deposit",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "update_info",
+        "args": [
+          "Aldo"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "ST05",
+    "technique": "ST",
+    "name": "unfreeze restores transfers",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "unfreeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Active"
+        },
+        "snapshot": {
+          "state": "Active"
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": true,
+          "amount": 1
+        },
+        "snapshot": {
+          "balance": 999,
+          "daily_transfer_total": 1,
+          "transaction_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST06",
+    "technique": "ST",
+    "name": "Closed is terminal and viewable",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "close",
+        "args": [],
+        "expect": {
+          "success": true,
+          "balance": 1000
+        },
+        "snapshot": {
+          "state": "Closed",
+          "balance": 1000
+        }
+      },
+      {
+        "call": "transfer",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "deposit",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "unfreeze",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "update_info",
+        "args": [
+          "Aldo"
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "close",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "history",
+        "args": [
+          "2026-09-01",
+          "2026-09-30"
+        ],
+        "expect": {
+          "success": true,
+          "transactions": []
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "ST07",
+    "technique": "ST",
+    "name": "Suspended may close",
+    "account": [
+      "Savings",
+      50
+    ],
+    "steps": [
+      {
+        "call": "close",
+        "args": [],
+        "expect": {
+          "success": true,
+          "balance": 50
+        },
+        "snapshot": {
+          "state": "Closed",
+          "balance": 50
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST08",
+    "technique": "ST",
+    "name": "Frozen may close",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": true,
+          "state": "Frozen"
+        },
+        "snapshot": {
+          "state": "Frozen"
+        }
+      },
+      {
+        "call": "close",
+        "args": [],
+        "expect": {
+          "success": true,
+          "balance": 1000
+        },
+        "snapshot": {
+          "state": "Closed",
+          "balance": 1000
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST09",
+    "technique": "ST",
+    "name": "Suspended rejects outgoing transactions and invalid transitions",
+    "account": [
+      "Savings",
+      50
+    ],
+    "steps": [
+      {
+        "call": "transfer",
+        "args": [
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account suspended"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          1
+        ],
+        "expect": {
+          "success": false,
+          "error": "Account suspended"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "freeze",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account suspended"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "unfreeze",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account is not frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "ST10",
+    "technique": "ST",
+    "name": "Active cannot unfreeze",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "unfreeze",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account is not frozen"
+        },
+        "snapshot": {}
+      }
+    ]
+  },
+  {
+    "id": "ST11",
+    "technique": "ST",
+    "name": "unaffordable fee suspends without overdraft",
+    "account": [
+      "Checking",
+      9
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Insufficient fee funds"
+        },
+        "snapshot": {
+          "balance": 9,
+          "state": "Suspended",
+          "warning": true,
+          "transaction_count": 0
+        },
+        "allows_state_change": true
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "ST12",
+    "technique": "ST",
+    "name": "fee suspension followed by deposit recovery",
+    "account": [
+      "Savings",
+      100
+    ],
+    "steps": [
+      {
+        "call": "process_fee",
+        "args": [],
+        "expect": {
+          "success": true,
+          "charged": 5
+        },
+        "snapshot": {
+          "state": "Suspended",
+          "balance": 95,
+          "warning": true
+        }
+      },
+      {
+        "call": "deposit",
+        "args": [
+          5
+        ],
+        "expect": {
+          "success": true,
+          "amount": 5
+        },
+        "snapshot": {
+          "balance": 100,
+          "state": "Active",
+          "warning": false,
+          "transaction_count": 2
+        }
+      }
+    ],
+    "date": "2026-10-01"
+  },
+  {
+    "id": "ST13",
+    "technique": "ST",
+    "name": "bill debit can suspend Savings",
+    "account": [
+      "Savings",
+      100
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          1
+        ],
+        "expect": {
+          "success": true,
+          "status": "paid"
+        },
+        "snapshot": {
+          "balance": 99,
+          "state": "Suspended",
+          "warning": true
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST14",
+    "technique": "ST",
+    "name": "Suspended owner update is allowed",
+    "account": [
+      "Savings",
+      50
+    ],
+    "steps": [
+      {
+        "call": "update_info",
+        "args": [
+          "Aldo"
+        ],
+        "expect": {
+          "success": true,
+          "owner": "Aldo"
+        },
+        "snapshot": {
+          "state": "Suspended",
+          "owner": "Aldo"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ST15",
+    "technique": "ST",
+    "name": "Closed rejects scheduled queue processing",
+    "account": [
+      "Checking",
+      1000
+    ],
+    "steps": [
+      {
+        "call": "pay_bill",
+        "args": [
+          "utilities",
+          10,
+          "2026-09-23"
+        ],
+        "expect": {
+          "success": true,
+          "status": "scheduled"
+        },
+        "snapshot": {}
+      },
+      {
+        "call": "close",
+        "args": [],
+        "expect": {
+          "success": true,
+          "balance": 1000
+        },
+        "snapshot": {
+          "state": "Closed",
+          "balance": 1000
+        }
+      },
+      {
+        "call": "process_scheduled",
+        "args": [],
+        "expect": {
+          "success": false,
+          "error": "Account closed"
+        },
+        "snapshot": {
+          "balance": 1000,
+          "state": "Closed",
+          "pending_count": 1,
+          "transaction_count": 0
+        },
+        "date": "2026-09-23"
+      }
+    ]
+  }
+]

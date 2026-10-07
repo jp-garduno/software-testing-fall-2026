@@ -118,7 +118,7 @@ Types: feat, fix, docs, style, refactor, test, chore
 ## Course Timeline
 
 - **Weeks 1-3**: Async (Git, Concepts, Static Testing)
-- **Week 6**: Exam 1 (Modules 1-3)
+- **Week 6**: Exam 1 (Modules 1, 3, 4 — 90 minutes, 15%, ZIP submission on Canvas)
 - **Week 11**: Exam 2 (Modules 4-6)
 - **Week 16**: Exam 3 (Modules 7-9) + Final presentations
 
@@ -145,6 +145,12 @@ Types: feat, fix, docs, style, refactor, test, chore
 - 9 homework assignments (one per module)
 - Team project with 7 milestones
 - All grading rubrics included in assignment files
+
+### Exam materials are deliberately untracked
+
+`exams/exam-1/` exists on the instructor's machine but is **intentionally never committed**, and is listed in `.git/info/exclude`. It contains `clave-calificacion.md` (the answer key) and `material-reservado/` (code with seeded defects reserved for Exam 2). Publishing either would compromise the exam.
+
+**Never `git add` anything under `exams/exam-1/`.** Exam statements are distributed through Canvas, not this repository. `exams/README.md` gives students a preview only.
 
 ## Common Patterns
 
