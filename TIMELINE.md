@@ -71,7 +71,7 @@
 - **Session 1**: Statement coverage, branch coverage
 - **Session 2**: Path coverage, calculating coverage
 - **Materials**: Code examples in Python and JavaScript
-- **Homework 5**: Due end of Week 8 - Write tests achieving 100% coverage
+- **Homework 5**: Due end of Week 8 - Write tests achieving at least 80% statement and 80% branch coverage
 
 #### **Week 8: Code Coverage Tools**
 
