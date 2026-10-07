@@ -2,7 +2,7 @@
 
 **Module**: 5 - White Box Testing & Coverage  
 **Due Date**: End of Week 8  
-**Points**: 110 (100 base + 10 bonus)  
+**Points**: 110 (100 base + 10 bonus: Documentation & Quality and Code Quality, 5 each)  
 **Estimated Time**: 5-6 hours
 
 ---
@@ -161,7 +161,7 @@ Write comprehensive unit tests for individual methods and functions with complet
 - Test validation logic thoroughly
 - Test priority comparisons
 - Test overdue detection
-- > 90% statement coverage on model classes
+- > 80% statement coverage on model classes
 - All tests completely isolated (no external dependencies)
 
 ### 1.2 What to Test
@@ -483,7 +483,7 @@ describe("Status Transitions", () => {
 
 ### 1.4 Grading Criteria (20 points)
 
-- **Test Coverage** (8 pts): At least 15 tests, >90% statement coverage on models
+- **Test Coverage** (8 pts): At least 15 tests, >80% statement coverage on models
 - **Test Quality** (7 pts): Clear names, proper assertions, good test data
 - **Isolation** (5 pts): No external dependencies, tests run independently
 
@@ -503,7 +503,7 @@ Write integration tests that verify multiple components working together with pr
 - Test business rule enforcement across components
 - Mock NotificationService (external dependency)
 - Mock TaskRepository (database operations)
-- > 85% branch coverage overall
+- > 80% branch coverage overall
 - All tests pass and are meaningful
 
 ### 2.2 What to Test
@@ -909,7 +909,7 @@ describe("TaskService Integration Tests", () => {
 
 ### 2.4 Grading Criteria (25 points)
 
-- **Test Coverage** (10 pts): At least 10 tests, complete workflows, >85% branch coverage
+- **Test Coverage** (10 pts): At least 10 tests, complete workflows, >80% branch coverage
 - **Mocking Quality** (8 pts): Proper use of mocks, verify interactions, test isolation
 - **Business Logic** (7 pts): Test business rules, error scenarios, edge cases
 
@@ -923,9 +923,9 @@ Generate and analyze code coverage reports to achieve comprehensive testing.
 
 **Coverage Goals**:
 
-- > 85% statement coverage overall
+- > 80% statement coverage overall
 - > 80% branch coverage overall
-- > 90% function coverage
+- > 80% function coverage
 - Generate HTML coverage reports
 - Document untested code paths
 - Justify why certain paths aren't tested (if any)
@@ -966,10 +966,10 @@ Create a document (`coverage-analysis.md`) with:
 
 | Metric             | Threshold | Achieved | Status  |
 | ------------------ | --------- | -------- | ------- |
-| Statement Coverage | 85%       | 91%      | ✅ Pass |
+| Statement Coverage | 80%       | 91%      | ✅ Pass |
 | Branch Coverage    | 80%       | 84%      | ✅ Pass |
-| Function Coverage  | 90%       | 95%      | ✅ Pass |
-| Line Coverage      | 85%       | 90%      | ✅ Pass |
+| Function Coverage  | 80%       | 95%      | ✅ Pass |
+| Line Coverage      | 80%       | 90%      | ✅ Pass |
 
 ## Coverage by File
 
@@ -1058,7 +1058,7 @@ Systematic addition of 12 additional tests targeting specific uncovered branches
 
 ### 3.4 Grading Criteria (25 points)
 
-- **Coverage Metrics** (10 pts): Achieve >85% statement, >80% branch coverage
+- **Coverage Metrics** (10 pts): Achieve >80% statement, >80% branch coverage
 - **Reports** (8 pts): Complete HTML reports, clear screenshots, well-documented
 - **Analysis** (7 pts): Identify gaps, justify untested paths, improvement strategy
 
@@ -1265,7 +1265,7 @@ This report reflects on the experience of achieving high code coverage through s
 
 ## Coverage Metrics Achievement
 
-To achieve the target of >85% statement coverage and >80% branch coverage, I employed a systematic approach:
+To achieve the target of >80% statement coverage and >80% branch coverage, I employed a systematic approach:
 
 First, I wrote comprehensive unit tests covering all public methods in the Task model. This immediately achieved 92% coverage on the model itself. Next, I focused on branch coverage by identifying all conditional statements (if/else, switch cases) and ensuring both paths were tested.
 
@@ -1312,12 +1312,16 @@ White box testing with code coverage metrics provides valuable feedback, but mus
 
 ## 📤 Deliverables
 
-### GitHub Repository Structure
+### Submission Structure
+
+Everything goes in **this course repository**, inside
+`students/<your-github-username>/homework-5/`:
 
 ```
-homework-5-taskflow/
+students/<your-github-username>/homework-5/
 ├── README.md
 ├── requirements.txt (or package.json)
+├── pytest.ini (Python - see the note below)
 ├── .gitignore
 ├── src/
 │   ├── task.py (or task.js)
@@ -1331,19 +1335,40 @@ homework-5-taskflow/
 │   ├── test_coverage_edge_cases.py (or coverageEdgeCases.test.js)
 │   ├── test_mocking.py (or mocking.test.js)
 │   └── conftest.py (or jest.config.js)
-├── reports/
-│   ├── coverage-analysis.md
-│   ├── analysis-report.md
-│   └── screenshots/
-│       ├── coverage-summary.png
-│       ├── coverage-html-report.png
-│       └── test-execution.png
-├── htmlcov/ (or coverage/)
-│   └── index.html (generated)
-└── .github/
-    └── workflows/
-        └── tests.yml (optional - for bonus)
+└── reports/
+    ├── coverage-analysis.md
+    ├── analysis-report.md
+    ├── reflection.md
+    └── screenshots/
+        ├── coverage-summary.png
+        ├── coverage-html-report.png
+        └── test-execution.png
 ```
+
+Notes on the structure:
+
+- **The grading system relies on it.** It looks for your work in
+  `students/<your-github-username>/homework-5/`, runs every test under `tests/`,
+  and measures coverage of `src/`.
+- **Python: add a `pytest.ini`** so `pytest` can import your code from `tests/`
+  exactly as the grading system does:
+
+  ```ini
+  [pytest]
+  testpaths = tests
+  pythonpath = . src
+  ```
+
+  Without it, `from task import Task` works under `python -m pytest` but fails
+  with `ModuleNotFoundError` under plain `pytest`.
+
+- **Do not commit `htmlcov/` or `coverage/`.** They are generated on every run
+  and belong in `.gitignore`; the screenshots in `reports/screenshots/` are the
+  evidence of your coverage. The grading system measures coverage again itself.
+- **Do not add a `.github/workflows/` folder** inside your submission. GitHub
+  only runs workflows from the root of the repository, so it would never run.
+  The grading system already runs your tests and measures coverage on every
+  push to your pull request.
 
 ### README Requirements
 
@@ -1369,7 +1394,7 @@ Comprehensive white box test suite for a task management system demonstrating un
 
 ## Objectives
 
-- Achieve >85% statement coverage and >80% branch coverage
+- Achieve >80% statement coverage and >80% branch coverage
 - Implement isolated unit tests for all model methods
 - Create integration tests with proper mocking
 - Analyze and document coverage gaps
@@ -1464,26 +1489,80 @@ open coverage/lcov-report/index.html
 
 ## 📤 Submission Requirements
 
-### GitHub Repository
+**To receive automated grading and credit**, you must submit your work in this
+course repository. Do not create a separate repository: the grading system only
+runs on pull requests opened here.
 
-1. Create a new public repository named `taskflow-white-box-tests` or similar
-2. Include all files listed in the Deliverables structure
-3. Ensure all tests pass: `pytest` or `npm test`
-4. Generate final coverage report
-5. Commit frequently with meaningful messages
-6. Tag your final submission: `git tag -a hw5-final -m "Homework 5 submission"`
+### Submission Process
+
+1. **Create your branch**:
+
+   ```bash
+   git checkout main
+   git pull
+   git checkout -b feat/<your-username>/homework-5
+   ```
+
+2. **Create your directory**:
+
+   ```bash
+   mkdir -p students/<your-username>/homework-5
+   cd students/<your-username>/homework-5
+   ```
+
+3. **Complete all five parts in this directory**, following the
+   [Submission Structure](#submission-structure)
+
+4. **Make sure every test passes and coverage meets the targets**, running from
+   your `homework-5/` directory:
+
+   ```bash
+   # Python
+   pytest -v --cov=src --cov-branch --cov-report=term-missing
+
+   # JavaScript
+   npm test -- --coverage
+   ```
+
+5. **Commit with conventional commits** (at least 5 commits required):
+
+   ```bash
+   git add .
+   git commit -m "feat: add task model with validation and status transitions"
+   git commit -m "test: add unit tests for the task model"
+   git commit -m "feat: add task service, repository and notification interfaces"
+   git commit -m "test: add integration and mocking tests for the task service"
+   git commit -m "docs: add coverage analysis, analysis report and reflection"
+   ```
+
+6. **Push your branch**:
+
+   ```bash
+   git push -u origin feat/<your-username>/homework-5
+   ```
+
+7. **Create a Pull Request**:
+
+   - Title: `Homework 5: White Box Testing - <Your Name>`
+   - Base branch: `main`
+   - **Add the `homework` label** to your PR — without it the automated
+     grading does not run
+   - Fill out the PR description using the template
+
+8. **Check your grade**: a bot comments the breakdown on your PR within a few
+   minutes. If something is wrong, fix it, push again, and it re-grades.
 
 ### Canvas Submission
 
-Submit:
+Submit the **URL of your pull request**. Everything else is read from the pull
+request, so no PDF exports are needed:
 
-1. **GitHub Repository URL** (including tag)
-2. **Coverage Analysis Report** (PDF export)
-3. **Analysis Report** (PDF)
-4. **Brief Reflection** (200-300 words):
-   - What was most challenging about achieving high coverage?
-   - How does white box testing differ from black box testing?
-   - Will you use code coverage in your future projects?
+- **Coverage Analysis Report**: `reports/coverage-analysis.md`
+- **Analysis Report**: `reports/analysis-report.md`
+- **Brief Reflection** (200-300 words): `reports/reflection.md`, answering:
+  - What was most challenging about achieving high coverage?
+  - How does white box testing differ from black box testing?
+  - Will you use code coverage in your future projects?
 
 ---
 
@@ -1491,9 +1570,9 @@ Submit:
 
 | **Category**                | **Points** | **Criteria**                                                              |
 | --------------------------- | ---------- | ------------------------------------------------------------------------- |
-| **Unit Tests**              | 20         | 15+ tests, >90% model coverage, complete isolation, proper assertions     |
-| **Integration Tests**       | 25         | 10+ tests, workflows, mocking, >85% branch coverage, error scenarios      |
-| **Coverage Analysis**       | 25         | >85% statement, >80% branch, HTML reports, gap analysis, justification    |
+| **Unit Tests**              | 20         | 15+ tests, >80% model coverage, complete isolation, proper assertions     |
+| **Integration Tests**       | 25         | 10+ tests, workflows, mocking, >80% branch coverage, error scenarios      |
+| **Coverage Analysis**       | 25         | >80% statement, >80% branch, HTML reports, gap analysis, justification    |
 | **Mocking & Isolation**     | 20         | Proper mocks, test doubles, error scenarios, fast execution, verification |
 | **Analysis Report**         | 10         | 400-600 words, addresses all sections, thoughtful insights                |
 | **Documentation & Quality** | 5          | Clean code, good README, organization, commit messages                    |
@@ -1537,97 +1616,6 @@ Submit:
 - Superficial analysis
 - Code quality issues
 - Inadequate documentation
-
----
-
-## 🎁 Bonus Opportunities (+10 points)
-
-### Bonus Option 1: Dual Implementation (+5 points)
-
-Implement the system in **BOTH Python AND JavaScript**:
-
-- Both must have equivalent functionality
-- Both must have equivalent test suites
-- Both must achieve coverage targets
-- Document implementation differences
-- Compare testing frameworks (pytest vs Jest)
-
-### Bonus Option 2: CI/CD with Coverage Tracking (+3 points)
-
-Set up GitHub Actions for automated testing and coverage:
-
-- Create `.github/workflows/tests.yml`
-- Run tests on every push and pull request
-- Generate coverage reports automatically
-- Upload to Codecov or Coveralls
-- Add coverage badge to README
-- Enforce minimum coverage thresholds
-
-Example workflow:
-
-```yaml
-name: Tests
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Run tests with coverage
-        run: |
-          pytest --cov=src --cov-report=xml --cov-report=term
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage.xml
-          fail_ci_if_error: true
-
-      - name: Check coverage thresholds
-        run: |
-          pytest --cov=src --cov-fail-under=85
-```
-
-### Bonus Option 3: Mutation Testing (+2 points)
-
-Use mutation testing to verify test quality:
-
-- Install mutation testing framework (mutmut for Python or Stryker for JavaScript)
-- Run mutation tests on your code
-- Document mutation score (target >80%)
-- Analyze surviving mutants
-- Explain why some mutants survived
-
-**Python**:
-
-```bash
-pip install mutmut
-mutmut run
-mutmut results
-mutmut html
-```
-
-**JavaScript**:
-
-```bash
-npm install --save-dev @stryker-mutator/core @stryker-mutator/jest-runner
-npx stryker run
-```
-
-Include mutation testing report in your submission.
 
 ---
 
@@ -1749,7 +1737,7 @@ Before submitting, verify:
 - [ ] Priority comparison tests
 - [ ] Overdue detection tests
 - [ ] All unit tests passing
-- [ ] > 90% statement coverage on models
+- [ ] > 80% statement coverage on models
 
 ### Integration Tests (Part 2)
 
@@ -1761,12 +1749,12 @@ Before submitting, verify:
 - [ ] TaskRepository properly mocked
 - [ ] Error scenarios tested (database failures, API failures)
 - [ ] All integration tests passing
-- [ ] > 85% branch coverage overall
+- [ ] > 80% branch coverage overall
 
 ### Coverage Analysis (Part 3)
 
 - [ ] Coverage reports generated (HTML + terminal)
-- [ ] > 85% statement coverage achieved
+- [ ] > 80% statement coverage achieved
 - [ ] > 80% branch coverage achieved
 - [ ] Screenshots of coverage reports included
 - [ ] Untested code paths identified and documented
@@ -1797,7 +1785,9 @@ Before submitting, verify:
 - [ ] All files organized in correct structure
 - [ ] requirements.txt or package.json with all dependencies
 - [ ] .gitignore configured properly (exclude htmlcov/, coverage/, **pycache**, node_modules/)
-- [ ] Repository is public and accessible
+- [ ] Everything is inside `students/<your-username>/homework-5/` in the course repository
+- [ ] `htmlcov/`, `coverage/` and `.github/` are **not** in your submission
+- [ ] Python: `pytest.ini` with `pythonpath = . src`, so plain `pytest` finds your code
 - [ ] Meaningful commit messages throughout
 - [ ] Code is clean and well-formatted
 
@@ -1807,9 +1797,10 @@ Before submitting, verify:
 - [ ] Coverage meets targets: `pytest --cov=src` or `npm test -- --coverage`
 - [ ] No skipped or xfail tests
 - [ ] Coverage reports generated successfully
-- [ ] Final commit tagged (hw5-final)
-- [ ] Repository URL ready for submission
-- [ ] Reflection document written (200-300 words)
+- [ ] Reflection written in `reports/reflection.md` (200-300 words)
+- [ ] Pull request opened against `main` with the `homework` label
+- [ ] Grading bot comment checked on the pull request
+- [ ] Pull request URL submitted on Canvas
 
 ---
 

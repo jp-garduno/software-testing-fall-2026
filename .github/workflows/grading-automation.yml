@@ -45,6 +45,10 @@ jobs:
         with:
           ref: ${{ steps.pr-info.outputs.sha || github.event.pull_request.head.sha || github.sha }}
           allow-unsafe-pr-checkout: true
+          # The submission's code runs in this job. Nothing here needs git
+          # credentials - the API calls use GH_TOKEN - so keep the token out of
+          # .git/config where that code could read it.
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -55,7 +59,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          # The course minimum (README, CLAUDE.md, homework 4 and 5: Node 22+).
+          node-version: "22.x"
           cache: "npm"
 
       - name: Install dependencies
@@ -67,6 +72,13 @@ jobs:
         id: extract-info
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Through the environment, never as ${{ }} inside the script: the
+          # expression is pasted into the script text before bash parses it, so a
+          # title like  x"; curl ... #  would run as a command with this job's
+          # write token.
+          EVENT_PR_TITLE: ${{ github.event.pull_request.title }}
+          EVENT_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_NUMBER: ${{ github.event_name == 'workflow_dispatch' && inputs.pr_number || github.event.pull_request.number }}
         run: |
           # Extract student name and assignment from PR title or branch name
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -76,12 +88,15 @@ jobs:
             BRANCH=$(echo "$PR_INFO" | jq -r '.headRefName')
           else
             # Automatic trigger - use event data
-            PR_TITLE="${{ github.event.pull_request.title }}"
-            BRANCH="${{ github.event.pull_request.head.ref }}"
+            PR_TITLE="$EVENT_PR_TITLE"
+            BRANCH="$EVENT_BRANCH"
           fi
 
-          # Try to extract homework/exam number
-          ASSIGNMENT=$(echo "$PR_TITLE $BRANCH" | grep -oP '(homework|hw|exam|project)-?\K\d+' | head -1 || echo "unknown")
+          # Try to extract homework/exam number. The branch is read first, as it
+          # always effectively was; case-insensitive and allowing a space so the
+          # documented title "Homework 5: ..." still works when the branch does not.
+          ASSIGNMENT=$(echo "$BRANCH $PR_TITLE" | grep -ioP '(homework|hw|exam|project)[- ]?\K\d+' | head -1)
+          ASSIGNMENT=${ASSIGNMENT:-unknown}
 
           # Try multiple patterns to extract student name from branch
           STUDENT=""
@@ -101,12 +116,19 @@ jobs:
             STUDENT=$(echo "$BRANCH" | grep -oP 'feat/\K[^/]+(?=/homework)' | head -1 || echo "")
           fi
 
-          # Fallback: try to extract from changed files
+          # Fallback: try to extract from changed files. Asked of the API because
+          # the checkout is shallow and has no origin/main to diff against.
           if [ -z "$STUDENT" ]; then
-            STUDENT=$(git diff --name-only origin/main | grep -oP 'students/\K[^/]+' | head -1 || echo "unknown")
+            STUDENT=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path' 2>/dev/null | grep -oP '^students/\K[^/]+' | head -1)
           fi
 
-          [ -z "$STUDENT" ] && STUDENT="unknown"
+          # Later steps paste this name into their scripts, and a branch such as
+          # feat/$(cmd)/homework-5 is a valid ref. GitHub usernames are letters,
+          # digits and hyphens, so anything else is not a name to trust.
+          if ! printf '%s' "$STUDENT" | grep -qE '^[A-Za-z0-9._-]+$'; then
+            [ -n "$STUDENT" ] && echo "⚠️  Ignoring student name with unexpected characters"
+            STUDENT="unknown"
+          fi
 
           echo "assignment=$ASSIGNMENT" >> $GITHUB_OUTPUT
           echo "student_name=$STUDENT" >> $GITHUB_OUTPUT
@@ -210,6 +232,17 @@ jobs:
             STUDENT_DIR="$STUDENT_DIR/$SUBDIR_NAME"
           fi
 
+          # The directory can come from the PR's own file list, so it is as
+          # student-controlled as the branch name, and the report pastes it into
+          # a script. Ordinary paths only.
+          if ! printf '%s' "$STUDENT_DIR" | grep -qE '^[A-Za-z0-9._/-]+$'; then
+            echo "❌ Submission path contains unexpected characters - refusing to grade"
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "expected_dir=$EXPECTED" >> $GITHUB_OUTPUT
+            echo "SUBMISSION_FOUND=false" >> $GITHUB_ENV
+            exit 0
+          fi
+
           echo "✅ Working directory: $(pwd)"
           echo "STUDENT_DIR=$STUDENT_DIR" >> $GITHUB_ENV
           echo "SUBMISSION_FOUND=true" >> $GITHUB_ENV
@@ -225,6 +258,8 @@ jobs:
         # no directory to inspect these would silently run against the
         # repository root and grade the course material instead.
         if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
+        env:
+          BRANCH_COVERAGE: ${{ steps.extract-info.outputs.assignment == '5' }}
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -232,6 +267,13 @@ jobs:
           fi
 
           set +e  # Don't fail on test failures
+
+          # The submission's own dependencies (homework 5 asks for a requirements.txt or
+          # package.json). Only the course's requirements.txt was
+          # installed, so a suite that imports anything else died at collection.
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt > pip-install-output.txt 2>&1 || cat pip-install-output.txt
+          fi
 
           # Determine coverage source (prefer src/ to exclude test files from coverage)
           if [ -d "src" ]; then
@@ -257,8 +299,17 @@ jobs:
           fi
           export PYTHONPATH="$PYTHONPATH_EXTRA${PYTHONPATH:+:$PYTHONPATH}"
 
+          # Homework 5 is white-box testing and asks for branch coverage, so it
+          # is measured there. With --cov-branch coverage.py's percent_covered
+          # is the combined figure, (covered statements + covered branches) /
+          # (statements + branches), which is what gets graded.
+          COV_BRANCH_FLAG=""
+          if [ "$BRANCH_COVERAGE" = "true" ]; then
+            COV_BRANCH_FLAG="--cov-branch"
+          fi
+
           # Run tests with detailed output
-          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE $COV_BRANCH_FLAG --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
           # Extract metrics. The defaults are needed because `|| echo "0"` after
@@ -295,6 +346,21 @@ jobs:
             echo "ℹ️  No Python coverage report - Python is left out of the coverage grade"
           fi
 
+          # The two parts of the combined figure, for the report. "n/a" when
+          # the code has no branches at all.
+          if [ "$BRANCH_COVERAGE" = "true" ] && [ "$COVERAGE_STATUS" = "ok" ]; then
+            COV_PARTS=$(python -c "
+          import json
+          t = json.load(open('coverage.json'))['totals']
+          s = '%.2f%%' % (100 * t['covered_lines'] / t['num_statements']) if t['num_statements'] else 'n/a'
+          b = '%.2f%%' % (100 * t['covered_branches'] / t['num_branches']) if t.get('num_branches') else 'n/a'
+          print(s, b)
+          " 2>/dev/null)
+            echo "statement_coverage=$(echo "$COV_PARTS" | awk '{print $1}')" >> $GITHUB_OUTPUT
+            echo "branch_coverage=$(echo "$COV_PARTS" | awk '{print $2}')" >> $GITHUB_OUTPUT
+            echo "📊 Python statements / branches: $COV_PARTS"
+          fi
+
           echo "tests_passed=$TESTS_PASSED" >> $GITHUB_OUTPUT
           echo "tests_failed=$TESTS_FAILED" >> $GITHUB_OUTPUT
           echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
@@ -308,6 +374,8 @@ jobs:
         id: js-tests
         # Homework 3 is graded on static testing only, so skip the dynamic run.
         if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
+        env:
+          BRANCH_COVERAGE: ${{ steps.extract-info.outputs.assignment == '5' }}
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -315,6 +383,29 @@ jobs:
           fi
 
           set +e
+
+          # npm walks up the tree looking for a package.json, so in a Python-only
+          # submission "npm test" found the repository's own and ran the course's
+          # Jest suite: PRs #152 and #154 were credited with 711 JavaScript tests
+          # none of which they wrote. No package.json here means no JavaScript.
+          if [ ! -f package.json ]; then
+            echo "ℹ️  No package.json in $STUDENT_DIR - no JavaScript submission to test"
+            echo "present=false" >> $GITHUB_OUTPUT
+            echo "tests_passed=0" >> $GITHUB_OUTPUT
+            echo "tests_failed=0" >> $GITHUB_OUTPUT
+            echo "coverage=0" >> $GITHUB_OUTPUT
+            echo "coverage_status=none" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "present=true" >> $GITHUB_OUTPUT
+
+          # The submission's own dependencies; the root npm ci only covers the
+          # course's. Without a lockfile npm ci refuses, so fall back to install.
+          if [ -f package-lock.json ]; then
+            npm ci --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+          else
+            npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+          fi
 
           # Run tests with coverage
           npm test -- --coverage --json --outputFile=js-results.json > js-test-output.txt 2>&1
@@ -351,31 +442,51 @@ jobs:
           # the coverage grade came from coverage.py alone, so a submission written
           # in JavaScript scored 0/100 on 30% of its grade with nothing it could do
           # about it. Statement coverage is read here so it matches what coverage.py
-          # reports for Python and the two can be averaged honestly.
-          JS_COVERAGE=$(node -e '
+          # reports for Python and the two can be averaged honestly. For homework 5
+          # branches are added the way coverage.py --cov-branch combines them,
+          # (covered statements + covered branches) / (statements + branches).
+          # Istanbul always records branches, so nothing changes in the run itself.
+          # Prints "<graded> <statements> <branches>", "n/a" for a part with none.
+          JS_COV_RESULT=$(node -e '
           const fs = require("fs");
-          let pct = null;
+          let st = null, br = null;
           try {
-            const s = JSON.parse(fs.readFileSync("coverage/coverage-summary.json", "utf8"));
-            if (s.total && s.total.statements && typeof s.total.statements.pct === "number") pct = s.total.statements.pct;
+            const t = JSON.parse(fs.readFileSync("coverage/coverage-summary.json", "utf8")).total;
+            if (t && t.statements && typeof t.statements.total === "number") {
+              st = { covered: t.statements.covered, total: t.statements.total };
+              br = { covered: t.branches.covered, total: t.branches.total };
+            }
           } catch (e) { /* the json-summary reporter is not configured; fall through */ }
-          if (pct === null) {
+          if (st === null) {
             // coverage-final.json comes from the "json" reporter, which is one of
             // Jest defaults, so this is the branch that usually runs.
             const f = JSON.parse(fs.readFileSync("coverage/coverage-final.json", "utf8"));
-            let covered = 0, total = 0;
+            st = { covered: 0, total: 0 }; br = { covered: 0, total: 0 };
             for (const file of Object.values(f)) {
-              for (const hits of Object.values(file.s || {})) { total++; if (hits > 0) covered++; }
+              for (const hits of Object.values(file.s || {})) { st.total++; if (hits > 0) st.covered++; }
+              for (const paths of Object.values(file.b || {})) {
+                for (const hits of paths) { br.total++; if (hits > 0) br.covered++; }
+              }
             }
-            if (total === 0) throw new Error("no statements instrumented");
-            pct = (covered / total) * 100;
           }
-          console.log(pct.toFixed(2));
+          if (st.total === 0) throw new Error("no statements instrumented");
+          const pct = (c, t) => t ? (100 * c / t).toFixed(2) : "n/a";
+          const graded = process.env.BRANCH_COVERAGE === "true"
+            ? pct(st.covered + br.covered, st.total + br.total)
+            : pct(st.covered, st.total);
+          const part = (c, t) => t ? pct(c, t) + "%" : "n/a";
+          console.log(graded, part(st.covered, st.total), part(br.covered, br.total));
           ' 2>/dev/null)
+          JS_COVERAGE=$(echo "$JS_COV_RESULT" | awk '{print $1}')
 
           if [ -n "$JS_COVERAGE" ]; then
             JS_COVERAGE_STATUS="ok"
             echo "📊 JavaScript coverage: $JS_COVERAGE%"
+            if [ "$BRANCH_COVERAGE" = "true" ]; then
+              echo "statement_coverage=$(echo "$JS_COV_RESULT" | awk '{print $2}')" >> $GITHUB_OUTPUT
+              echo "branch_coverage=$(echo "$JS_COV_RESULT" | awk '{print $3}')" >> $GITHUB_OUTPUT
+              echo "📊 JavaScript statements / branches: $(echo "$JS_COV_RESULT" | awk '{print $2, $3}')"
+            fi
           else
             JS_COVERAGE="0"
             JS_COVERAGE_STATUS="none"
@@ -1388,6 +1499,19 @@ jobs:
             fi
             COVERAGE_BASIS_LINE="- Graded figure: **${{ steps.calculate-grade.outputs.coverage_measured }}%**, the average of the languages above that produced a report."
 
+            # Homework 5 grades statements and branches together; show both parts
+            # so a student can see which one is holding the figure down.
+            if [ "${{ steps.extract-info.outputs.assignment }}" = "5" ]; then
+              if [ "${{ steps.python-tests.outputs.coverage_status }}" = "ok" ]; then
+                PY_COV_LINE="- 📊 Coverage: ${{ steps.python-tests.outputs.coverage }}% (statements ${{ steps.python-tests.outputs.statement_coverage }}, branches ${{ steps.python-tests.outputs.branch_coverage }})"
+              fi
+              if [ "${{ steps.js-tests.outputs.coverage_status }}" = "ok" ]; then
+                JS_COV_LINE="- 📊 Coverage: ${{ steps.js-tests.outputs.coverage }}% (statements ${{ steps.js-tests.outputs.statement_coverage }}, branches ${{ steps.js-tests.outputs.branch_coverage }})"
+              fi
+              COVERAGE_BASIS_LINE="- Each language's figure counts statements and branches together: (covered statements + covered branches) / (statements + branches).
+          $COVERAGE_BASIS_LINE"
+            fi
+
             # With no report in either language there is nothing to leave out:
             # "Calculate final grade" scores the category 0, and the lines above
             # would tell the student the opposite.
@@ -1417,15 +1541,22 @@ jobs:
           "
             fi
 
+            if [ "${{ steps.js-tests.outputs.present }}" = "false" ]; then
+              JS_SECTION="#### JavaScript Tests
+          - No \`package.json\` in the graded directory, so there was no JavaScript to test."
+            else
+              JS_SECTION="#### JavaScript Tests
+          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
+          $JS_COV_LINE"
+            fi
+
             DYNAMIC_SECTION="#### Python Tests
           - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
           - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
           $PY_COV_LINE$PY_STARTUP_BLOCK
 
-          #### JavaScript Tests
-          - ✅ Passed: ${{ steps.js-tests.outputs.tests_passed }}
-          - ❌ Failed: ${{ steps.js-tests.outputs.tests_failed }}
-          $JS_COV_LINE
+          $JS_SECTION
 
           #### How coverage is scored
           - The target is **${{ steps.calculate-grade.outputs.coverage_target }}%**, not 100%. At or above it you get the whole category; below it the score scales down proportionally, so 60% covered scores 75/100.
