@@ -15,95 +15,212 @@ jobs:
   validate-submission:
     name: Validate Student Work
     runs-on: ubuntu-latest
+    # Student tests run here; one that hangs should not hold a runner for the
+    # default six hours.
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
           allow-unsafe-pr-checkout: true
+          # The submission's code runs in this job and nothing here needs git
+          # credentials, so keep the token out of .git/config.
+          persist-credentials: false
 
+      # No dependency cache: this runs untrusted code in the base repository's
+      # context, and a cache it saved would be restored by the trusted workflows.
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "npm"
+          node-version: "22.x"
 
-      - name: Install Python dependencies
+      - name: Install course dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          npm ci
 
-      - name: Install JavaScript dependencies
-        run: npm ci
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v41
-        with:
-          files: |
-            students/**/*.py
-            students/**/*.js
-            students/**/*.ts
-
-      - name: Run tests on changed Python files
-        if: contains(steps.changed-files.outputs.all_changed_files, '.py')
+      - name: Find submission directories
+        id: dirs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ $file == *.py ]]; then
-              echo "Testing $file"
-              pytest "$file" -v || true
+          # The PR's own file list, from the API: the old tj-actions/changed-files
+          # step was the action compromised in March 2025, and its output was
+          # pasted into the scripts below, where a file named $(cmd).py ran.
+          gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/files" --jq '.[] | select(.status != "removed") | .filename' \
+            > "$RUNNER_TEMP/pr-files.txt"
+
+          # One directory per assignment: students/<user>/<assignment>.
+          : > "$RUNNER_TEMP/submission-dirs.txt"
+          grep -E '^students/[^/]+/[^/]+/' "$RUNNER_TEMP/pr-files.txt" | cut -d/ -f1-3 | sort -u \
+            | while read -r DIR; do
+                # Ordinary paths only - the names come from the student.
+                if ! printf '%s' "$DIR" | grep -qE '^[A-Za-z0-9._/-]+$'; then
+                  echo "⚠️  Skipping a directory with unexpected characters in its name"
+                elif [ -d "$DIR" ]; then
+                  echo "$DIR" >> "$RUNNER_TEMP/submission-dirs.txt"
+                fi
+              done
+
+          echo "Submission directories:"
+          cat "$RUNNER_TEMP/submission-dirs.txt"
+
+      - name: Run tests and style checks
+        id: validate
+        run: |
+          set +e
+          COURSE_PYLINTRC="$GITHUB_WORKSPACE/.github/grading/pylintrc"
+          COURSE_ESLINTRC="$GITHUB_WORKSPACE/.github/grading/eslintrc.json"
+          RESULTS="$RUNNER_TEMP/validation.md"
+          LOGS="$RUNNER_TEMP/logs"
+          mkdir -p "$LOGS"
+          STATUS="none"   # none -> no tests found, ok -> all passed, failed
+
+          echo "| Directory | Python tests | JavaScript tests | Pylint | ESLint |" > "$RESULTS"
+          echo "| --- | --- | --- | --- | --- |" >> "$RESULTS"
+
+          # fd 3, so pip, npm and the tests cannot swallow the rest of the list.
+          while read -r DIR <&3; do
+            [ -z "$DIR" ] && continue
+            echo "::group::$DIR"
+            cd "$GITHUB_WORKSPACE/$DIR"
+            LOG="$LOGS/$(echo "$DIR" | tr '/' '_')"
+            PY_CELL="-"; JS_CELL="-"; PYLINT_CELL="-"; ESLINT_CELL="-"
+
+            # Python: run the suite the way the grading workflow does - from the
+            # assignment folder, with the folder and src/ importable - rather
+            # than pytest on each changed file from the repository root, which
+            # ran source files as tests and failed every `from src...` import.
+            if [ -n "$(find . -path ./node_modules -prune -o \( -name 'test_*.py' -o -name '*_test.py' \) -print -quit)" ]; then
+              [ -f requirements.txt ] && pip install -r requirements.txt > "$LOG-pip.txt" 2>&1
+              PYTHONPATH_EXTRA="$PWD"
+              [ -d src ] && PYTHONPATH_EXTRA="$PYTHONPATH_EXTRA:$PWD/src"
+              PYTHONPATH="$PYTHONPATH_EXTRA" timeout 600 pytest -q -p no:cacheprovider > "$LOG-pytest.txt" 2>&1
+              PY_EXIT=$?
+              cat "$LOG-pytest.txt"
+              PASSED=$(grep -oE '[0-9]+ passed' "$LOG-pytest.txt" | tail -1 | grep -oE '[0-9]+')
+              FAILED=$(grep -oE '[0-9]+ failed' "$LOG-pytest.txt" | tail -1 | grep -oE '[0-9]+')
+              ERRORS=$(grep -oE '[0-9]+ errors?' "$LOG-pytest.txt" | tail -1 | grep -oE '[0-9]+')
+              if [ "$PY_EXIT" -eq 0 ]; then
+                PY_CELL="✅ ${PASSED:-0} passed"
+                [ "$STATUS" = "none" ] && STATUS="ok"
+              else
+                PY_CELL="❌ ${PASSED:-0} passed, ${FAILED:-0} failed"
+                [ -n "$ERRORS" ] && PY_CELL="$PY_CELL, $ERRORS errors"
+                [ "$PY_EXIT" -eq 124 ] && PY_CELL="❌ timed out after 10 minutes"
+                STATUS="failed"
+              fi
             fi
-          done
-        continue-on-error: true
 
-      - name: Run tests on changed JavaScript files
-        if: contains(steps.changed-files.outputs.all_changed_files, '.js') || contains(steps.changed-files.outputs.all_changed_files, '.ts')
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ $file == *.test.js ]] || [[ $file == *.spec.js ]]; then
-              echo "Testing $file"
-              npm test -- "$file" || true
+            # JavaScript: only with the submission's own package.json. Without
+            # one npm walks up to the repository's and runs the course's suite.
+            if [ -f package.json ]; then
+              if [ -f package-lock.json ]; then
+                npm ci --no-audit --no-fund > "$LOG-npm.txt" 2>&1
+              else
+                npm install --no-audit --no-fund > "$LOG-npm.txt" 2>&1
+              fi
+              CI=true timeout 600 npm test > "$LOG-jest.txt" 2>&1
+              JS_EXIT=$?
+              cat "$LOG-jest.txt"
+              # "Tests:" rather than the first "N passed", which is the suite count.
+              PASSED=$(awk '/^Tests:/ && match($0, /[0-9]+ passed/) { print substr($0, RSTART, RLENGTH); exit }' "$LOG-jest.txt" | grep -oE '[0-9]+')
+              FAILED=$(awk '/^Tests:/ && match($0, /[0-9]+ failed/) { print substr($0, RSTART, RLENGTH); exit }' "$LOG-jest.txt" | grep -oE '[0-9]+')
+              if [ "$JS_EXIT" -eq 0 ]; then
+                JS_CELL="✅ ${PASSED:-0} passed"
+                [ "$STATUS" = "none" ] && STATUS="ok"
+              else
+                JS_CELL="❌ ${PASSED:-0} passed, ${FAILED:-0} failed"
+                [ "$JS_EXIT" -eq 124 ] && JS_CELL="❌ timed out after 10 minutes"
+                STATUS="failed"
+              fi
             fi
-          done
-        continue-on-error: true
 
-      - name: Check code style
-        run: |
-          echo "Checking Python code style..."
-          pylint ${{ steps.changed-files.outputs.all_changed_files }} --exit-zero || true
+            # Style, with the configurations the grading workflow uses, on this
+            # directory's files only - pylint used to be handed .js files and
+            # `npm run lint` linted the whole repository. Informational: the
+            # grade itself comes from the Automated Grading workflow.
+            if [ -n "$(find . -path ./node_modules -prune -o -name '*.py' -print -quit)" ]; then
+              find . -path ./node_modules -prune -o -name '*.py' -print0 \
+                | xargs -0 pylint --exit-zero --rcfile "$COURSE_PYLINTRC" > "$LOG-pylint.txt" 2>&1
+              cat "$LOG-pylint.txt"
+              ISSUES=$(grep -cE '^[^ ]+:[0-9]+:[0-9]+: [CRWEF][0-9]{4}' "$LOG-pylint.txt")
+              SCORE=$(grep -oE 'rated at -?[0-9.]+/10' "$LOG-pylint.txt" | grep -oE -- '-?[0-9.]+/10')
+              PYLINT_CELL="$ISSUES issues${SCORE:+ ($SCORE)}"
+            fi
+            if [ -n "$(find . -path ./node_modules -prune -o \( -name '*.js' -o -name '*.mjs' -o -name '*.cjs' -o -name '*.jsx' \) -print -quit)" ]; then
+              "$GITHUB_WORKSPACE/node_modules/.bin/eslint" . --no-eslintrc --config "$COURSE_ESLINTRC" \
+                --ext .js,.mjs,.cjs,.jsx --format json > "$LOG-eslint.json" 2> "$LOG-eslint-stderr.txt"
+              COUNTS=$(node -e 'const r = require(process.argv[1]); console.log(r.reduce((a, f) => a + f.errorCount, 0), r.reduce((a, f) => a + f.warningCount, 0));' "$LOG-eslint.json" 2>/dev/null)
+              if [ -n "$COUNTS" ]; then
+                ESLINT_CELL="$(echo "$COUNTS" | awk '{print $1 " errors, " $2 " warnings"}')"
+              else
+                ESLINT_CELL="could not run"
+                cat "$LOG-eslint-stderr.txt"
+              fi
+            fi
 
-          echo "Checking JavaScript code style..."
-          npm run lint || true
-        continue-on-error: true
+            echo "| \`$DIR\` | $PY_CELL | $JS_CELL | $PYLINT_CELL | $ESLINT_CELL |" >> "$RESULTS"
+            echo "::endgroup::"
+          done 3< "$RUNNER_TEMP/submission-dirs.txt"
+
+          if [ ! -s "$RUNNER_TEMP/submission-dirs.txt" ]; then
+            echo "| _no assignment directory under students/<user>/ in this PR_ | - | - | - | - |" >> "$RESULTS"
+          fi
+
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          cat "$RESULTS"
 
       - name: Comment on PR
         uses: actions/github-script@v7
+        env:
+          RESULTS_FILE: ${{ runner.temp }}/validation.md
+          STATUS: ${{ steps.validate.outputs.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
-            const message = '✅ Submission validated! Your tests have been run. Check the Actions tab for detailed results.';
+            const fs = require('fs');
+            const marker = '<!-- student-submission-validator -->';
+            const headline = {
+              ok: '✅ All tests passed.',
+              failed: '❌ Some tests failed or could not run. See the table and the run log.',
+            }[process.env.STATUS] || 'ℹ️ No tests were found in the submitted directories.';
+            const table = fs.existsSync(process.env.RESULTS_FILE)
+              ? fs.readFileSync(process.env.RESULTS_FILE, 'utf8')
+              : '_The validation step did not produce results._';
 
-            // Find all existing bot validation comments
-            const { data: comments } = await github.rest.issues.listComments({
+            const message = [
+              marker,
+              '## Submission check',
+              '',
+              headline,
+              '',
+              table,
+              '',
+              `Full output: [workflow run](${process.env.RUN_URL}). This check fails while any test fails, but it does not set your grade; that comes from the Automated Grading report.`,
+            ].join('\n');
+
+            // Replace this workflow's previous comments, including the ones
+            // posted before the marker existed.
+            const comments = await github.paginate(github.rest.issues.listComments, {
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-
-            // Find all validation comments from the bot
             const botComments = comments.filter(comment =>
               comment.user.type === 'Bot' &&
-              comment.body.includes('Submission validated')
+              (comment.body.includes(marker) || comment.body.includes('Submission validated'))
             );
-
-            // Delete all existing validation comments
             for (const comment of botComments) {
               await github.rest.issues.deleteComment({
                 owner: context.repo.owner,
@@ -112,10 +229,17 @@ jobs:
               });
             }
 
-            // Create new comment
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: message
             });
+
+      # After the comment, so the student gets the table either way; a red
+      # check on the PR is what makes a failing suite hard to miss.
+      - name: Fail when tests fail
+        if: steps.validate.outputs.status == 'failed'
+        run: |
+          echo "❌ Some tests failed or could not run - see the PR comment for the breakdown."
+          exit 1
