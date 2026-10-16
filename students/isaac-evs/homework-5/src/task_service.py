@@ -21,7 +21,7 @@ class TaskService:
         clock=datetime.now,
         recipient=DEFAULT_RECIPIENT,
         phone_number=DEFAULT_PHONE_NUMBER,
-    ):  # pylint: disable=too-many-arguments
+    ):  # pylint: disable=too-many-arguments,too-many-positional-arguments
         self.repository = repository
         self.notification_service = notification_service
         self.clock = clock
@@ -57,15 +57,12 @@ class TaskService:
         if existing is None:
             return
         is_same_task = current_task is not None and (
-            existing is current_task
-            or (existing.id is not None and existing.id == current_task.id)
+            existing is current_task or (existing.id is not None and existing.id == current_task.id)
         )
         if not is_same_task:
             raise ValueError(f"Task with title '{title}' already exists")
 
-    def create_task(
-        self, title, description="", priority=TaskPriority.LOW, due_date=None
-    ):
+    def create_task(self, title, description="", priority=TaskPriority.LOW, due_date=None):
         """Create a task, enforcing unique titles, and notify the user."""
         task = Task(title, description, priority, due_date, now=self.clock())
         self._ensure_title_available(title)
@@ -73,9 +70,7 @@ class TaskService:
         self._notify_email("New Task Created", f"Task '{title}' has been created")
         return task
 
-    def create_task_with_sms(
-        self, title, description="", priority=TaskPriority.LOW, due_date=None
-    ):
+    def create_task_with_sms(self, title, description="", priority=TaskPriority.LOW, due_date=None):
         """Create a task; URGENT tasks additionally trigger an SMS alert."""
         task = self.create_task(title, description, priority, due_date)
         if task.priority == TaskPriority.URGENT:
@@ -88,7 +83,7 @@ class TaskService:
 
     def update_task(
         self, task_id, title=None, description=None, priority=None, due_date=None
-    ):  # pylint: disable=too-many-arguments
+    ):  # pylint: disable=too-many-arguments,too-many-positional-arguments
         """Update editable fields. All changes are validated before any is applied."""
         task = self._get_existing(task_id)
         if task.status == TaskStatus.ARCHIVED:
@@ -121,9 +116,7 @@ class TaskService:
             raise ValueError(f"Invalid status: {new_status!r}")
         task = self._get_existing(task_id)
         if not task.can_transition(new_status):
-            raise ValueError(
-                f"Invalid transition from {task.status.value} to {new_status.value}"
-            )
+            raise ValueError(f"Invalid transition from {task.status.value} to {new_status.value}")
 
         old_status = task.status
         task.status = new_status
@@ -149,9 +142,7 @@ class TaskService:
     def check_overdue_tasks(self):
         """Find overdue tasks and notify the user about each one."""
         now = self.clock()
-        overdue_tasks = [
-            task for task in self.repository.find_all() if task.is_overdue(now)
-        ]
+        overdue_tasks = [task for task in self.repository.find_all() if task.is_overdue(now)]
         for task in overdue_tasks:
             self._notify_email("Task Overdue", f"Task '{task.title}' is overdue!")
         return overdue_tasks
@@ -163,7 +154,7 @@ class TaskService:
         due_from=None,
         due_to=None,
         title_contains=None,
-    ):  # pylint: disable=too-many-arguments
+    ):  # pylint: disable=too-many-arguments,too-many-positional-arguments
         """Search with any combination of filters; results are ordered by priority."""
         matches = self.repository.search(
             status=status,

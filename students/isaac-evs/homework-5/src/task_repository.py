@@ -48,7 +48,7 @@ class TaskRepository:
         due_from=None,
         due_to=None,
         title_contains=None,
-    ):  # pylint: disable=too-many-arguments
+    ):  # pylint: disable=too-many-arguments,too-many-positional-arguments
         """Return tasks matching ALL of the supplied filters (None means 'ignore')."""
         results = []
         for task in self.find_all():

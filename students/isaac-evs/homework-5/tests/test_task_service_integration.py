@@ -13,9 +13,7 @@ from task_service import TaskService
 
 
 class TestCreateTask:
-    def test_create_task_success_with_notification(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_create_task_success_with_notification(self, task_service, mock_repository, mock_notification_service):
         mock_repository.find_by_title.return_value = None
 
         task = task_service.create_task("Write tests", "Unit and integration", TaskPriority.HIGH)
@@ -27,9 +25,7 @@ class TestCreateTask:
         subject = mock_notification_service.send_email.call_args[0][1]
         assert subject == "New Task Created"
 
-    def test_create_task_with_duplicate_title_fails(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_create_task_with_duplicate_title_fails(self, task_service, mock_repository, mock_notification_service):
         mock_repository.find_by_title.return_value = Task("Existing Task")
 
         with pytest.raises(ValueError, match="already exists"):
@@ -53,9 +49,7 @@ class TestCreateTask:
 
         mock_repository.save.assert_not_called()
 
-    def test_create_task_uses_real_clock_when_none_is_injected(
-        self, mock_repository, mock_notification_service
-    ):
+    def test_create_task_uses_real_clock_when_none_is_injected(self, mock_repository, mock_notification_service):
         from datetime import datetime
 
         mock_repository.find_by_title.return_value = None
@@ -65,9 +59,7 @@ class TestCreateTask:
 
         assert task.due_date is not None
 
-    def test_urgent_task_also_sends_sms(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_urgent_task_also_sends_sms(self, task_service, mock_repository, mock_notification_service):
         mock_repository.find_by_title.return_value = None
 
         task_service.create_task_with_sms("Server down", priority=TaskPriority.URGENT)
@@ -75,9 +67,7 @@ class TestCreateTask:
         mock_notification_service.send_email.assert_called_once()
         mock_notification_service.send_sms.assert_called_once()
 
-    def test_non_urgent_task_does_not_send_sms(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_non_urgent_task_does_not_send_sms(self, task_service, mock_repository, mock_notification_service):
         mock_repository.find_by_title.return_value = None
 
         task_service.create_task_with_sms("Water plants", priority=TaskPriority.LOW)
@@ -87,9 +77,7 @@ class TestCreateTask:
 
 
 class TestStatusWorkflow:
-    def test_update_task_status_triggers_notification(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_update_task_status_triggers_notification(self, task_service, mock_repository, mock_notification_service):
         task = Task("Test Task")
         mock_repository.find_by_id.return_value = task
 
@@ -102,9 +90,7 @@ class TestStatusWorkflow:
         assert subject == "Task Status Updated"
         assert "TODO" in body and "IN_PROGRESS" in body
 
-    def test_complete_workflow_todo_to_done(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_complete_workflow_todo_to_done(self, task_service, mock_repository, mock_notification_service):
         task = Task("Complete workflow task")
         mock_repository.find_by_id.return_value = task
 
@@ -115,9 +101,7 @@ class TestStatusWorkflow:
         assert mock_repository.save.call_count == 2
         assert mock_notification_service.send_email.call_count == 2
 
-    def test_update_task_with_invalid_transition_fails(
-        self, task_service, mock_repository, mock_notification_service
-    ):
+    def test_update_task_with_invalid_transition_fails(self, task_service, mock_repository, mock_notification_service):
         task = Task("Test Task")
         task.status = TaskStatus.DONE
         mock_repository.find_by_id.return_value = task
@@ -351,15 +335,12 @@ class TestSearchAndFilter:
 
     def test_filter_by_due_date_range(self, populated, now):
         titles = [
-            t.title
-            for t in populated.search_tasks(due_from=now + timedelta(days=1), due_to=now + timedelta(days=5))
+            t.title for t in populated.search_tasks(due_from=now + timedelta(days=1), due_to=now + timedelta(days=5))
         ]
         assert titles == ["Write report"]
 
     def test_combined_filters_must_all_match(self, populated):
-        results = populated.search_tasks(
-            title_contains="write", priority=TaskPriority.URGENT, status=TaskStatus.TODO
-        )
+        results = populated.search_tasks(title_contains="write", priority=TaskPriority.URGENT, status=TaskStatus.TODO)
         assert [t.title for t in results] == ["Write tests"]
 
     def test_results_are_ordered_by_priority(self, populated):

@@ -36,9 +36,9 @@ VALID_TRANSITIONS = {
 class Task:  # pylint: disable=too-many-instance-attributes
     """A single task with validated fields and a guarded status lifecycle."""
 
-    def __init__(
-        self, title, description="", priority=TaskPriority.LOW, due_date=None, now=None
-    ):
+    # Positional signature is dictated by the assignment spec.
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
+    def __init__(self, title, description="", priority=TaskPriority.LOW, due_date=None, now=None):
         now = now or datetime.now()
         self.validate_title(title)
         self.validate_priority(priority)

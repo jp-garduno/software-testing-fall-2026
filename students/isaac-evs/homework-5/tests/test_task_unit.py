@@ -101,9 +101,7 @@ class TestStatusTransitions:
         task.status = TaskStatus.IN_PROGRESS
         assert task.can_transition(TaskStatus.TODO) is False
 
-    @pytest.mark.parametrize(
-        "origin", [TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.DONE]
-    )
+    @pytest.mark.parametrize("origin", [TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.DONE])
     def test_can_transition_any_open_state_to_archived(self, origin):
         task = Task("Test task")
         task.status = origin
