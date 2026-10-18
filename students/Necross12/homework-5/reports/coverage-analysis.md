@@ -1,60 +1,75 @@
+# Coverage Analysis
+
 ## Coverage Summary
 
-| Metric             | Threshold | Achieved | Status |
-|--------------------|-----------|----------|--------|
-| Statement Coverage | 80%       | 100%     | ✅ Pass |
-| Branch Coverage    | 80%       | 97.36%   | ✅ Pass |
-| Function Coverage  | 80%       | 100%     | ✅ Pass |
-| Line Coverage      | 80%       | 100%     | ✅ Pass |
+| Metric             | Threshold | Initial run | Final run | Status  |
+| ------------------ | --------- | ----------- | --------- | ------- |
+| Statement Coverage | 80%       | 100%        | 100%      | ✅ Pass |
+| Branch Coverage    | 80%       | 97.36%      | 100%      | ✅ Pass |
+| Function Coverage  | 80%       | 100%        | 100%      | ✅ Pass |
+| Line Coverage      | 80%       | 100%        | 100%      | ✅ Pass |
 
 ## Coverage by File
 
-| File           | Statements | Branches | Functions | Lines |
-|----------------|------------|----------|-----------|-------|
-| task.js        | 100%       | 96.55%   | 100%      | 100%  |
-| taskService.js | 100%       | 100%     | 100%      | 100%  |
+| File                   | Statements | Branches | Functions | Lines |
+| ---------------------- | ---------- | -------- | --------- | ----- |
+| task.js                | 100%       | 100%     | 100%      | 100%  |
+| taskService.js         | 100%       | 100%     | 100%      | 100%  |
+| taskRepository.js      | 100%       | 100%     | 100%      | 100%  |
+| notificationService.js | 100%       | 100%     | 100%      | 100%  |
 
 ## Untested Code Paths
 
-### task.js - Línea 60
+En la corrida final no queda código sin cubrir. En la corrida inicial quedó una rama sin cubrir, que documento aquí junto con su solución.
+
+### task.js - Line 60 (initial run)
 
 **Code**:
 
-```JavaScript
+```javascript
 return (transitions[this.status] || []).includes(newStatus);
 ```
-Motivo
-El 96.55% de cobertura en ramas (branches) se debe a que el programa nunca evalúa la segunda parte del operador || []. Dado que los estados están controlados por el sistema, transitions[this.status] siempre encuentra un arreglo válido y nunca llega a utilizar el arreglo vacío de respaldo. Esto significa que la línea de código sí se ejecuta, pero nunca se llega a probar el caso donde el primer resultado es inválido o indefinido.
 
-Riesgo
-Bajo - No representa ningún problema real, ya que superamos con creces el estándar del 80% requerido en la revisión de ramas. Además, no es un punto crítico, sino una contramedida defensiva por si llegara a fallar.
+**Reason**: El 96.55% de ramas de `task.js` (28 de 29) se debía a que nunca se evaluaba la segunda parte del operador `|| []`. Los estados los controla el sistema, así que `transitions[this.status]` siempre encuentra un arreglo y nunca usa el arreglo vacío de respaldo. La línea sí se ejecutaba, pero no se probaba el caso en el que el primer valor es `undefined`.
 
-**3. Screenshots**:
-**Salida de la terminal con los porcentajes de cobertura:**
-![img.png](screenshots/terminal.png)
+**Risk**: Bajo. Es una protección defensiva que solo actúa si el estado es inválido, algo que el sistema no produce por sí solo.
 
-**Reporte HTML de todos los archivos:**
-![alt text](screenshots/allFiles.png)
+**Resolution**: Se agregó una prueba unitaria que asigna un estado inexistente y comprueba que `canTransition` devuelve `false` (ver Coverage Improvement Strategy).
 
-**Reporte HTML de task.js, con la rama sin cubrir:**
-![alt text](screenshots/task.png)
-![problema.png](screenshots/problema.png)
+## Screenshots
 
-**4. Coverage Improvement Strategy**:
+**Salida de la terminal con los porcentajes de cobertura (corrida inicial):**
 
-```markdown
-## How Coverage Goals Were Achieved
+![Salida de la terminal de la corrida inicial, con 97.36% de ramas](screenshots/test-execution.png)
 
-### Initial Coverage: 92%%
+**Reporte HTML de todos los archivos (corrida inicial):**
 
-Initial test run showed gaps in:
-- Un tipo de resultado sin cubrir
+![Reporte HTML de todos los archivos con 97.36% de ramas](screenshots/coverage-html-report.png)
+
+**Reporte HTML de `task.js`, con la rama sin cubrir:**
+
+![Reporte HTML de task.js](screenshots/coverage-summary.png)
+
+![Línea 60 de task.js resaltada: la rama sin cubrir](screenshots/problema.png)
+
+**Corrida final con la corrección aplicada (100% en todas las métricas):**
+
+![Corrida final con 100% en todas las métricas](screenshots/correcion.png)
+
+## Coverage Improvement Strategy
+
+### Initial Coverage: 100% statements, 97.36% branches
+
+La corrida inicial mostró un solo hueco:
+
+- Una rama sin cubrir: el `|| []` de respaldo en `canTransition` (línea 60 de `task.js`).
 
 ### Strategy Applied
 
-1. Prueba de integracion que valide que si regrese una lista basia
-   - Improved validation coverage from 92% to 100%
+1. Se agregó una prueba unitaria (`tests/coverageEdgeCases.test.js`) que asigna un estado inexistente a una tarea y verifica que `canTransition` devuelva `false`, usando así el arreglo vacío de respaldo.
+   - Ramas de `task.js`: de 96.55% a 100%.
+   - Ramas totales: de 97.36% a 100%.
 
 ### Final Coverage: 100%
 
-Añadir una pruba mas para poder validar todo el codigo y ver que la contencion con la lista basi si se haga como esta prevista.
+Con esa única prueba se cubrió todo el código y se confirmó que el arreglo vacío de respaldo se comporta como estaba previsto.
