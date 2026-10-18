@@ -152,21 +152,19 @@ describe("TaskService Integration Tests", () => {
   });
 
   test("Integración: Crear tarea pasando con todos los parámetros", async () => {
-    mockRepository.findByTitle.mockResolvedValue(null);
-    dia = 24 * 60 * 60 * 1000
-    mañana = Date.now() + dia
-
-    const task = await taskService.createTask(
-      title = "Tarea completa",
-      description = "Descripción dessscriptiva, asi bien descritiva",
-      priority = TaskPriority.URGENT,
-      dueDate = mañana,
-    );
+      const UN_DIA = 24 * 60 * 60 * 1000;
+      const manana = new Date(Date.now() + UN_DIA);
+      const task = await taskService.createTask(
+        "Tarea completa",
+        "Descripción dessscriptiva, asi bien descritiva",
+        TaskPriority.URGENT,
+        manana,
+      );
 
     expect(task.title).toBe("Tarea completa");
     expect(task.description).toBe('Descripción dessscriptiva, asi bien descritiva');
     expect(task.priority).toBe(TaskPriority.URGENT);
-    expect(task.dueDate).toBe(mañana);
+    expect(task.dueDate).toBe(manana);
     expect(mockRepository.save).toHaveBeenCalledWith(task);
     expect(mockNotificationService.sendEmail).toHaveBeenCalledTimes(1);
   });
@@ -184,5 +182,3 @@ describe("TaskService Integration Tests", () => {
     expect(mockNotificationService.sendEmail).not.toHaveBeenCalled();
   });
 });
-
-// Start-Process coverage/lcov-report/index.html
