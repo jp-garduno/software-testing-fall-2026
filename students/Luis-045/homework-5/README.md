@@ -135,10 +135,6 @@ Las notificaciones de correo usan el destinatario de ejemplo del enunciado. Si s
 
 Se usa la configuración compartida de Pylint únicamente para lectura. Las dos excepciones locales documentadas corresponden a los atributos exigidos del modelo y a los cinco filtros independientes del servicio.
 
-## Entrega
-
-Rama: `feat/Luis-045/homework-5`. Todos los cambios de contenido pertenecen a esta carpeta. El PR debe apuntar a `main`, usar el título `Homework 5: White Box Testing - Luis-045` y llevar la etiqueta `homework` para activar la calificación. La referencia para Canvas es la URL del PR.
-
 ## Autor
 
 Luis-045 - Software Testing Fall 2026.
