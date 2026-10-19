@@ -10,3 +10,7 @@ def test_single_number_returns_itself():
 class StringCalculator:
     def add(self, numbers: str) -> int:
         return 0
+    def add(self, numbers: str) -> int:
+        if numbers == "":
+            return 0
+        return int(numbers)
