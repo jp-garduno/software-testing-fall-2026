@@ -11,7 +11,7 @@ Las pruebas usan el modelo y el servicio reales. El repositorio y el envío de c
 - Superar el 80% de cobertura requerido, con aserciones sobre resultados e interacciones.
 - Documentar las métricas, sus límites y las decisiones de implementación.
 
-Resultado verificado con Python 3.13.9: **124 casos aprobados, sin pruebas omitidas ni xfail**. La ejecución sin cobertura tomó **0.38 segundos** en el equipo de desarrollo; la duración depende del equipo y del instrumentado de cobertura.
+Resultado verificado con Python 3.13.9: **124 casos aprobados, sin pruebas omitidas ni xfail**. La ejecución capturada sin cobertura tomó **0.45 segundos** en el equipo de desarrollo; la duración depende del equipo y del instrumentado de cobertura.
 
 | Métrica | Resultado |
 | --- | --- |
@@ -73,13 +73,13 @@ Start-Process .\htmlcov\index.html
 
 El comando mide únicamente `src/`, produce la tabla de terminal, `coverage.json` y un reporte navegable en `htmlcov/`. Los archivos generados y `.venv/` están excluidos de Git.
 
-Las capturas reales se incorporan manualmente en `reports/screenshots/`:
+Las capturas reales están incluidas en `reports/screenshots/`:
 
-- `test-execution.png`: salida de `pytest.exe -q` con todos los casos aprobados.
-- `coverage-summary.png`: tabla de cobertura de la terminal.
-- `coverage-html-report.png`: reporte HTML abierto en el navegador, mostrando el detalle de un archivo.
+- [test-execution.png](reports/screenshots/test-execution.png): salida de pytest con los 124 casos aprobados.
+- [coverage-summary.png](reports/screenshots/coverage-summary.png): tabla de cobertura de la terminal.
+- [coverage-html-report.png](reports/screenshots/coverage-html-report.png): resumen HTML con cobertura de sentencias y ramas por archivo.
 
-Las capturas están pendientes de incorporación por el autor; no se reemplazan con imágenes fabricadas ni se incluyen los reportes HTML generados en el commit.
+Las imágenes fueron tomadas por el autor sobre las ejecuciones reales. Los reportes HTML generados se conservan fuera de Git y pueden regenerarse con el comando indicado.
 
 ## Estructura
 

@@ -10,7 +10,7 @@ Comando, ejecutado desde la carpeta de la entrega:
 .\.venv\Scripts\pytest.exe -v --cov=src --cov-branch --cov-report=term-missing --cov-report=html --cov-report=json
 ```
 
-Resultado: **124 casos aprobados**. No hay pruebas omitidas ni marcadas xfail. Una ejecución sin cobertura tomó **0.38 segundos**; la ejecución que generó inicialmente el HTML y JSON final tomó **0.97 segundos** según pytest. Son mediciones locales, no garantías de rendimiento en otros equipos.
+Resultado: **124 casos aprobados**. No hay pruebas omitidas ni marcadas xfail. Las capturas incluidas muestran **0.45 segundos** sin cobertura y **0.88 segundos** al generar el HTML y JSON con cobertura. Son mediciones locales, no garantías de rendimiento en otros equipos.
 
 ## Resumen
 
@@ -80,10 +80,24 @@ Como mejora futura, los adaptadores reales requerirían pruebas de contrato cont
 
 ## Evidencias visuales
 
-Capturas pendientes de incorporación por el autor en `reports/screenshots/`:
+Capturas tomadas por el autor sobre ejecuciones reales e incluidas en `reports/screenshots/`:
 
-- `test-execution.png`: suite completa aprobada.
-- `coverage-summary.png`: tabla de terminal con los porcentajes.
-- `coverage-html-report.png`: reporte HTML con el detalle de cobertura.
+### Ejecución de pruebas
+
+La salida muestra 124 casos aprobados en 0.45 segundos.
+
+![Ejecución de los 124 casos de prueba](screenshots/test-execution.png)
+
+### Resumen de terminal
+
+La tabla muestra 196 sentencias ejecutadas, ninguna faltante y 66 ramas cubiertas, con un total de 100%.
+
+![Resumen de cobertura de la terminal](screenshots/coverage-summary.png)
+
+### Reporte HTML
+
+El resumen muestra las métricas de sentencias y ramas por archivo. Las 14 líneas excluidas corresponden a las declaraciones con `...` de los contratos, como se explicó en el alcance.
+
+![Resumen del reporte HTML de cobertura](screenshots/coverage-html-report.png)
 
 `htmlcov/`, `coverage.json` y `.coverage` se regeneran con el comando indicado y permanecen fuera de Git.

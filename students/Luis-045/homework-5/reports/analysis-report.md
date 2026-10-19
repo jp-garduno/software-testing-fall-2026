@@ -2,7 +2,7 @@
 
 ## Resultados de cobertura
 
-La suite final contiene 124 casos aprobados, organizados en pruebas unitarias, integración, mocking y límites. La medición sobre src registra 196 de 196 sentencias y 66 de 66 salidas de ramas ejecutadas. Las veinte funciones con cuerpo ejecutable también fueron invocadas, según los datos por función del JSON de coverage.py. La ejecución sin instrumentación de cobertura tomó 0.38 segundos en el equipo de desarrollo. Estos resultados superan los mínimos de la tarea, pero describen exclusivamente el código medido y no certifican la ausencia de defectos.
+La suite final contiene 124 casos aprobados, organizados en pruebas unitarias, integración, mocking y límites. La medición sobre src registra 196 de 196 sentencias y 66 de 66 salidas de ramas ejecutadas. Las veinte funciones con cuerpo ejecutable también fueron invocadas, según los datos por función del JSON de coverage.py. La ejecución sin instrumentación de cobertura tomó 0.45 segundos en la captura del autor. Estos resultados superan los mínimos de la tarea, pero describen exclusivamente el código medido y no certifican la ausencia de defectos.
 
 ## Dificultades para alcanzar los objetivos
 
