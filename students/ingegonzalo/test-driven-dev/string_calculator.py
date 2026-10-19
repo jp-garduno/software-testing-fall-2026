@@ -5,4 +5,10 @@ def add(numbers: str) -> int:
         header, numbers = numbers.split("\n", 1)
         numbers = numbers.replace(header[2:], ",")
     numbers = numbers.replace("\n", ",")
-    return sum(int(n) for n in numbers.split(","))
+    values = [int(n) for n in numbers.split(",")]
+    negatives = [v for v in values if v < 0]
+    if negatives:
+        raise ValueError(
+            "negatives not allowed: " + ", ".join(str(v) for v in negatives)
+        )
+    return sum(values)
