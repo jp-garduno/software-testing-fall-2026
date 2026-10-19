@@ -6,3 +6,6 @@ def test_returns_fizz():
 
 def test_returns_fizz_for_multiple_of_three():
     assert fizzbuzz(6) == "Fizz"
+
+def test_returns_buzz():
+    assert fizzbuzz(5) == "Buzz"
