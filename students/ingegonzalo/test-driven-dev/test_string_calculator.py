@@ -11,3 +11,7 @@ def test_single_number_returns_the_number():
 def test_two_numbers_separated_by_comma():
     assert add("1,2") == 3
     assert add("5,10") == 15
+
+def test_unknown_amount_of_numbers():
+    assert add("1,2,3") == 6
+    assert add("1,2,3,4,5") == 15
