@@ -1,12 +1,11 @@
 export function fizzbuzz(n) {
-  if (n % 3 === 0 && n % 5 === 0)
-    return "FizzBuzz";
+  let result = "";
 
   if (n % 3 === 0)
-    return "Fizz";
+    result += "Fizz";
 
   if (n % 5 === 0)
-    return "Buzz";
+    result += "Buzz";
 
-  return n.toString();
+  return result || String(n);
 }
