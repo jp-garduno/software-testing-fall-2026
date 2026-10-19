@@ -15,3 +15,6 @@ def test_returns_buzz_for_multiple_of_five():
 
 def test_returns_fizzbuzz():
     assert fizzbuzz(15) == "FizzBuzz"
+
+def test_returns_fizzbuzz_for_multiple_of_three_and_five():
+    assert fizzbuzz(30) == "FizzBuzz"
