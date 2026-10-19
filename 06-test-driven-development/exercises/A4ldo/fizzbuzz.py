@@ -3,3 +3,6 @@ def test_returns_one():
 
 def test_returns_fizz():
     assert fizzbuzz(3) == "Fizz"
+
+def test_returns_fizz_for_multiple_of_three():
+    assert fizzbuzz(6) == "Fizz"
