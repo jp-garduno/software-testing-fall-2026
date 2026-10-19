@@ -185,3 +185,176 @@ def test_lower_priority_tasks_do_not_trigger_sms(
     )
     service.create_task("Normal task", priority=TaskPriority.HIGH)
     mock_notification.send_sms.assert_not_called()
+
+
+def test_field_update_preserves_identity_and_creation_time(
+    memory_repository, mock_notification, clock, now
+):
+    service = TaskService(memory_repository, mock_notification, clock=clock)
+    original = service.create_task("Original title")
+    clock.return_value = now + timedelta(minutes=1)
+    updated = service.update_task(
+        original.id,
+        title="New title",
+        description="New description",
+        priority=TaskPriority.HIGH,
+        due_date=now + timedelta(days=1),
+    )
+    stored = memory_repository.find_by_id(original.id)
+    assert stored.title == updated.title == "New title"
+    assert stored.description == "New description"
+    assert stored.priority is TaskPriority.HIGH
+    assert stored.due_date == now + timedelta(days=1)
+    assert updated.id == original.id
+    assert updated.created_at == original.created_at
+    assert updated.updated_at == clock.return_value
+    assert original.title == "Original title"
+
+
+def test_updating_title_to_another_tasks_title_is_rejected(
+    memory_repository, mock_notification, clock
+):
+    service = TaskService(memory_repository, mock_notification, clock=clock)
+    first = service.create_task("First task")
+    service.create_task("Second task")
+    with pytest.raises(ValueError, match="already exists"):
+        service.update_task(first.id, title="Second task")
+    assert memory_repository.find_by_id(first.id).title == "First task"
+
+
+def test_keeping_the_same_title_is_valid(service, mock_repository, clock):
+    original = Task("Same title", clock=clock)
+    mock_repository.find_by_id.return_value = original
+    updated = service.update_task(
+        original.id, title=original.title, description="Changed"
+    )
+    assert updated.title == original.title
+    assert updated.description == "Changed"
+    mock_repository.find_by_title.assert_not_called()
+
+
+def test_soft_delete_archives_instead_of_removing_storage(
+    service, mock_repository, clock
+):
+    original = Task("Soft delete", clock=clock)
+    mock_repository.find_by_id.return_value = original
+    archived = service.delete_task(original.id)
+    assert archived.status is TaskStatus.ARCHIVED
+    mock_repository.save.assert_called_once_with(archived)
+    mock_repository.delete.assert_not_called()
+
+
+def test_archived_tasks_cannot_be_edited(
+    service, mock_repository, mock_notification, clock
+):
+    original = Task("Archived task", clock=clock)
+    original.status = TaskStatus.ARCHIVED
+    mock_repository.find_by_id.return_value = original
+    with pytest.raises(ValueError, match="Archived"):
+        service.update_task(original.id, description="Should not change")
+    mock_repository.save.assert_not_called()
+    mock_notification.send_email.assert_not_called()
+
+
+def test_archiving_cannot_be_combined_with_field_changes(
+    service, mock_repository, clock
+):
+    original = Task("Archive only", clock=clock)
+    mock_repository.find_by_id.return_value = original
+    with pytest.raises(ValueError, match="archiving"):
+        service.update_task(
+            original.id, status=TaskStatus.ARCHIVED, title="Changed title"
+        )
+    assert original.title == "Archive only"
+    mock_repository.save.assert_not_called()
+
+
+def test_due_date_can_be_cleared(service, mock_repository, clock, now):
+    original = Task("Clear due date", due_date=now + timedelta(days=1), clock=clock)
+    mock_repository.find_by_id.return_value = original
+    assert service.update_task(original.id, due_date=None).due_date is None
+
+
+def test_invalid_update_is_atomic(
+    service, mock_repository, mock_notification, clock, now
+):
+    original = Task("Original task", clock=clock)
+    mock_repository.find_by_id.return_value = original
+    with pytest.raises(ValueError, match="future"):
+        service.update_task(original.id, title="Changed title", due_date=now)
+    assert original.title == "Original task"
+    mock_repository.save.assert_not_called()
+    mock_notification.send_email.assert_not_called()
+
+
+def test_unknown_fields_are_rejected(service, mock_repository, clock):
+    original = Task("Protected fields", clock=clock)
+    mock_repository.find_by_id.return_value = original
+    with pytest.raises(ValueError, match="Unknown fields"):
+        service.update_task(original.id, id="replacement")
+    mock_repository.save.assert_not_called()
+
+
+def test_empty_update_is_a_read_without_side_effects(
+    service, mock_repository, mock_notification, clock
+):
+    original = Task("No changes", clock=clock)
+    mock_repository.find_by_id.return_value = original
+    result = service.update_task(original.id)
+    assert result == original
+    assert result is not original
+    mock_repository.save.assert_not_called()
+    mock_notification.send_email.assert_not_called()
+
+
+def test_combined_filters_apply_together_inclusively(
+    memory_repository, mock_notification, clock, now
+):
+    service = TaskService(memory_repository, mock_notification, clock=clock)
+    target = service.create_task(
+        "Write unit tests", priority=TaskPriority.HIGH, due_date=now + timedelta(days=2)
+    )
+    other = service.create_task(
+        "Write more tests", priority=TaskPriority.HIGH, due_date=now + timedelta(days=2)
+    )
+    service.update_task_status(target.id, TaskStatus.IN_PROGRESS)
+    assert (
+        service.search_tasks(
+            status=TaskStatus.IN_PROGRESS,
+            priority=TaskPriority.HIGH,
+            title="UNIT",
+            start_date=now + timedelta(days=2),
+            end_date=now + timedelta(days=2),
+        )[0].id
+        == target.id
+    )
+    assert other.id != target.id
+
+
+@pytest.mark.parametrize("filter_name", ["start_date", "end_date"])
+def test_date_filters_exclude_tasks_without_due_dates(
+    filter_name, service, mock_repository, clock, now
+):
+    mock_repository.find_all.return_value = [Task("No due date", clock=clock)]
+    assert service.search_tasks(**{filter_name: now}) == []
+
+
+def test_unfiltered_search_returns_all_tasks(service, mock_repository, clock):
+    tasks = [Task("First task", clock=clock), Task("Second task", clock=clock)]
+    mock_repository.find_all.return_value = tasks
+    assert service.search_tasks() == tasks
+
+
+def test_date_range_with_start_after_end_is_rejected(service, now, mock_repository):
+    with pytest.raises(ValueError, match="range"):
+        service.search_tasks(start_date=now + timedelta(days=1), end_date=now)
+    mock_repository.find_all.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "filters", [{"status": "TODO"}, {"priority": "HIGH"}, {"title": 42}]
+)
+def test_invalid_filter_types_are_rejected(filters, service, mock_repository):
+    with pytest.raises(ValueError):
+        service.search_tasks(**filters)
+    mock_repository.find_all.assert_not_called()
