@@ -22,7 +22,7 @@ def test_returns_fizzbuzz_for_multiple_of_three_and_five():
 def test_returns_number_for_non_multiple_of_three_or_five():
     assert fizzbuzz(7) == 7
 
-def FizzBuzz(n):
+def fizzbuzz(n):
     if n % 3 == 0 and n % 5 == 0:
         return "FizzBuzz"
     elif n % 3 == 0:
