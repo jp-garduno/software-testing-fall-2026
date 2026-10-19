@@ -23,8 +23,6 @@ def test_handles_multiple_numbers():
 class StringCalculator:
     def add(self, numbers: str) -> int:
         if numbers == "":
-             return 0
-        if "," in numbers:
-            parts = numbers.split(",")
-            return int(parts[0]) + int(parts[1])
-        return int(numbers)
+            return 0
+        parts = numbers.split(",")
+        return sum(int(part) for part in parts)
