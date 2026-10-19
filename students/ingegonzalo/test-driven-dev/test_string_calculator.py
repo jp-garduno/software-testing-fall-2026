@@ -24,3 +24,9 @@ def test_custom_single_char_delimiter():
     assert add("//;\n1;2") == 3
     assert add("//|\n1|2|3") == 6
     assert add("//*\n1*2*3") == 6
+
+def test_negative_numbers_raise_exception():
+    with pytest.raises(ValueError, match="negatives not allowed: -1"):
+        add("-1,2")
+    with pytest.raises(ValueError, match="negatives not allowed: -2, -3"):
+        add("1,-2,-3")
