@@ -76,6 +76,11 @@ class TaskCreationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "compatible time zones"):
             Task.validate_due_date(datetime(2030, 1, 2), now)
 
+    def test_due_date_validation_rejects_aware_due_date_with_naive_now(self) -> None:
+        due_date = datetime(2030, 1, 2, tzinfo=timezone.utc)
+        with self.assertRaisesRegex(ValueError, "compatible time zones"):
+            Task.validate_due_date(due_date, datetime(2030, 1, 1))
+
 
 class TaskTransitionTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -153,6 +158,13 @@ class TaskOverdueTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "compatible time zones"):
             task.is_overdue(datetime.now())
+
+    def test_overdue_detection_rejects_naive_deadline_with_aware_now(self) -> None:
+        task = Task("Naive deadline")
+        task.due_date = datetime(2030, 1, 2)
+
+        with self.assertRaisesRegex(ValueError, "compatible time zones"):
+            task.is_overdue(datetime(2030, 1, 1, tzinfo=timezone.utc))
 
 
 class TaskPriorityTests(unittest.TestCase):
