@@ -5,5 +5,7 @@ describe("FizzBuzz", () => {
     expect(fizzbuzz(1)).toBe("1");
   });
 
-
+  test("returns 2 for input 2", () => {
+    expect(fizzbuzz(2)).toBe("2");
+  });
 })
