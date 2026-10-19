@@ -1,0 +1,2 @@
+# Reflection
+Alcancé a notar que la diferencia más grande con las pruebas de caja negra es que aquí me preocupo muchísimo por la estructura del código y los caminos que toma (if/else). Lo más complejo de lograr fue el Branch Coverage. Definitivamente usaré métricas de cobertura en el futuro porque te delatan los flujos que omitiste probar.
