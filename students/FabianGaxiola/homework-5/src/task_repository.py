@@ -9,7 +9,7 @@ class RepositoryError(Exception):
     """Base error for repository operations."""
 
 
-class DuplicateTaskError(RepositoryError):
+class DuplicateTaskError(ValueError):
     """Raised when a task title or identifier is already in use."""
 
 
