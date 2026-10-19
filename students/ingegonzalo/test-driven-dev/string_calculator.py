@@ -3,7 +3,10 @@ def add(numbers: str) -> int:
         return 0
     if numbers.startswith("//"):
         header, numbers = numbers.split("\n", 1)
-        numbers = numbers.replace(header[2:], ",")
+        delimiter = header[2:]
+        if delimiter.startswith("[") and delimiter.endswith("]"):
+            delimiter = delimiter[1:-1]
+        numbers = numbers.replace(delimiter, ",")
     numbers = numbers.replace("\n", ",")
     values = [int(n) for n in numbers.split(",")]
     negatives = [v for v in values if v < 0]
