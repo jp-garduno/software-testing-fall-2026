@@ -15,3 +15,7 @@ def test_two_numbers_separated_by_comma():
 def test_unknown_amount_of_numbers():
     assert add("1,2,3") == 6
     assert add("1,2,3,4,5") == 15
+
+def test_newline_as_delimiter():
+    assert add("1\n2,3") == 6
+    assert add("1\n2\n3") == 6
