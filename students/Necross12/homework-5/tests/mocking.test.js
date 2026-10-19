@@ -108,7 +108,11 @@ describe("Mocking y aislamiento de pruebas", () => {
     test("Integración: sendEmail recibe destinatario, asunto y cuerpo exactos", async () => {
       mockRepository.findByTitle.mockResolvedValue(null);
       await taskService.createTask("Write tests");
-      expect(mockNotificationService.sendEmail).toHaveBeenCalledWith("user@example.com", "New Task Created", "Task 'Write tests' has been created",);
+      expect(mockNotificationService.sendEmail).toHaveBeenCalledWith(
+        "user@example.com",
+        "New Task Created",
+        "Task 'Write tests' has been created",
+      );
       expect(mockNotificationService.sendSms).not.toHaveBeenCalled();
     });
 
@@ -129,8 +133,18 @@ describe("Mocking y aislamiento de pruebas", () => {
       await taskService.updateTaskStatus(1, TaskStatus.DONE);
 
       expect(mockNotificationService.sendEmail).toHaveBeenCalledTimes(2);
-      expect(mockNotificationService.sendEmail).toHaveBeenNthCalledWith(1, "user@example.com", "Task Status Updated", "Task 'Flujo' changed from TODO to IN_PROGRESS");
-      expect(mockNotificationService.sendEmail).toHaveBeenNthCalledWith(2, "user@example.com", "Task Status Updated", "Task 'Flujo' changed from IN_PROGRESS to DONE");
+      expect(mockNotificationService.sendEmail).toHaveBeenNthCalledWith(
+        1,
+        "user@example.com",
+        "Task Status Updated",
+        "Task 'Flujo' changed from TODO to IN_PROGRESS",
+      );
+      expect(mockNotificationService.sendEmail).toHaveBeenNthCalledWith(
+        2,
+        "user@example.com",
+        "Task Status Updated",
+        "Task 'Flujo' changed from IN_PROGRESS to DONE",
+      );
     });
   });
 

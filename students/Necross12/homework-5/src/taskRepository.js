@@ -5,14 +5,17 @@ class TaskRepository {
   }
 
   async save(task) {
+    void task;
     throw new Error("Must be mocked in tests");
   }
 
   async findById(taskId) {
+    void taskId;
     throw new Error("Must be mocked in tests");
   }
 
   async findByTitle(title) {
+    void title;
     throw new Error("Must be mocked in tests");
   }
 
@@ -21,6 +24,7 @@ class TaskRepository {
   }
 
   async delete(taskId) {
+    void taskId;
     throw new Error("Must be mocked in tests");
   }
 }
