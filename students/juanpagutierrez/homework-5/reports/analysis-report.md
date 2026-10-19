@@ -1,75 +1,72 @@
-# White Box Testing & Coverage Analysis Report
+# Reporte de Pruebas de Caja Blanca y Análisis de Cobertura
 
-## Executive Summary
+## Resumen Ejecutivo
 
-TaskFlow's 142-test suite reaches 100% statement and branch coverage in about
-0.3 seconds, mostly thanks to design decisions made before any test.
+Las 142 pruebas de TaskFlow alcanzan 100% de cobertura de sentencias y ramas
+en unos 0.3 segundos, gracias sobre todo a decisiones de diseño previas.
 
-## Coverage Metrics Achievement
+## Logro de las Métricas de Cobertura
 
-I measured after each suite. Unit tests alone gave 50%: the `Task` model was
-fully covered, but the other three modules were barely touched. Integration
-tests with a mocked repository took the total to 76%, and the mocking suite
-took it to 90%. The last 10% came from reading the `BrPart` (partial branch)
-column rather than the overall percentage. It pointed to specific conditions,
-such as date-range filters, that had only ever been evaluated one way.
+Medí la cobertura después de cada suite. Las pruebas unitarias dieron 50%:
+`Task` quedó cubierto, pero los otros módulos apenas. La integración subió a
+76% y los mocks a 90%. El último 10% salió de la columna `BrPart` (ramas
+parciales), que señaló condiciones, como los filtros por rango de fechas,
+evaluadas en un solo sentido.
 
-The most effective strategies were boundary values (titles of 2, 3, 100 and
-101 characters; a due date exactly equal to "now") and a parametrized table
-of status transitions. The hardest code to cover was the `except` blocks
-around the database and the email/SMS providers, because no happy-path test
-can ever reach them.
+Lo más efectivo fueron los valores límite (títulos de 2, 3, 100 y 101
+caracteres; una fecha igual a "ahora") y una tabla parametrizada de
+transiciones. Lo más difícil fueron los bloques `except` de la base de datos y
+los proveedores, inalcanzables desde el camino feliz.
 
-## Challenges in Reaching Coverage Goals
+## Retos para Alcanzar las Metas de Cobertura
 
-The first obstacle was time. `is_overdue` depends on `datetime.now()`, so any
-test near a boundary could flake. I added an optional `now` argument to `Task`
-and a `clock` to `TaskService`, and pinned every test to a fixed instant.
+El primer obstáculo fue el tiempo. `is_overdue` depende de `datetime.now()`,
+así que las pruebas cerca de un límite podían fallar al azar. Agregué `now` a
+`Task` y `clock` a `TaskService` y fijé todas las pruebas a un instante.
 
-The second obstacle was the `NotImplementedError` stubs from the example
-repository. Code that only raises cannot be meaningfully covered. I gave
-`TaskRepository` real logic on top of a `database` client, so the repository
-itself is tested and only the client is mocked.
+El segundo obstáculo fueron los stubs con `NotImplementedError` del repositorio
+de ejemplo. Código que solo lanza excepciones no se cubre de forma útil, así que
+`TaskRepository` tiene lógica real sobre un cliente `database` y solo se simula
+el cliente.
 
-Returns diminished: the last 10% took 46 tests, a third of the suite, for
-21 statements and 11 partial branches.
+Los rendimientos fueron decrecientes: el último 10% requirió 46 pruebas, un
+tercio de la suite, para 21 sentencias y 11 ramas parciales.
 
-## Benefits of Mocking External Dependencies
+## Beneficios de Simular Dependencias Externas
 
-Mocks let me produce failures on demand. A single `side_effect` simulates a
-database outage or an SMTP timeout, and I could prove two rules that are
-hard to show any other way. First, a failed save sends no notification.
-Second, a failed notification never undoes a save. Asserting call order with
-`attach_mock` showed that the save happens before the email.
+Los mocks permiten provocar fallas a voluntad. Un `side_effect` simula una
+caída de la base de datos o un timeout de SMTP, y así demostré dos reglas: si
+falla el guardado no se notifica, y si falla la notificación no se revierte el
+guardado. Con `attach_mock` verifiqué que el guardado ocurre antes del correo.
 
-Without mocks, the suite would need a database and a mail server, run in
-seconds, and could not reliably reproduce outages.
-Mocking also cost something. A mock only encodes my assumption about an
-interface. `Mock(spec=...)` helped by rejecting methods that do not exist, and
-the fake repository caught state bugs that per-call stubs could not, such as
-a rename freeing the old title.
+Sin mocks, la suite necesitaría una base de datos y un servidor de correo,
+tardaría segundos y no reproduciría caídas de forma confiable. Pero tienen un
+costo. Un mock solo refleja mi suposición
+sobre una interfaz. `Mock(spec=...)` ayudó al rechazar métodos que no existen,
+y el repositorio falso detectó errores de estado que los stubs por llamada no
+podían, como que al renombrar una tarea se liberara el título anterior.
 
-## Trade-offs Between Coverage and Test Quality
+## Balance entre Cobertura y Calidad de las Pruebas
 
-100% was cheap here because the codebase is small and designed for testing.
-On a larger system I would not chase it. Every test asserts an outcome, but a
-few edge-case tests, such as checking that `repr` contains the title, are
-closer to coverage-driven than risk-driven. Meanwhile, the duplicate-title
-race condition is fully "covered" and still broken under concurrency.
-Coverage shows which code ran, not whether the behavior is right. I balanced
-this by requiring every test to assert something a user would notice.
+El 100% fue barato porque el código es pequeño y diseñado para probarse; en un
+sistema grande no lo perseguiría. Todas las pruebas validan
+un resultado, pero algunas de casos borde, como verificar que `repr` contenga el
+título, están más motivadas por la cobertura que por el riesgo. Mientras tanto,
+la condición de carrera de títulos duplicados está totalmente "cubierta" y aun
+así falla bajo concurrencia. La cobertura muestra qué código se ejecutó, no si
+el comportamiento es correcto. Lo equilibré exigiendo que cada prueba validara
+algo que un usuario notaría.
 
-## Lessons Learned About White Box Testing
+## Lecciones Aprendidas sobre Pruebas de Caja Blanca
 
-What surprised me was how much testing influenced the design: dependency
-injection, an injectable clock and one error type per layer exist mainly
-because they made branches reachable. Next time I would add the clock from
-the first line of code instead of retrofitting it. In future projects I will
-use branch coverage, specifically the partial-branch list, as a map of what is
-untested rather than as a target, and I will pair it with contract tests for
-anything I mock.
+Me sorprendió cuánto influyeron las pruebas en el diseño: la inyección de
+dependencias, el reloj inyectable y un tipo de error por capa existen porque
+hacían alcanzables las ramas. La próxima vez agregaría el reloj desde el
+inicio. En proyectos futuros voy a usar la cobertura de ramas, en particular
+la lista de ramas parciales, como un mapa de lo que falta probar y no como una
+meta, y la voy a complementar con pruebas de contrato para todo lo que simule.
 
-## Conclusion
+## Conclusión
 
-Coverage showed precisely what was unexercised; the remaining risks (real
-drivers, concurrency, timezones) appear in no percentage.
+La cobertura mostró con precisión qué quedó sin ejecutar; los riesgos restantes
+(drivers reales, concurrencia, zonas horarias) no aparecen en ningún porcentaje.

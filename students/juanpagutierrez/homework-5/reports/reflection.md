@@ -1,32 +1,29 @@
-# Reflection - Homework 5
+# Reflexión - Tarea 5
 
-## What was most challenging about achieving high coverage?
+## ¿Qué fue lo más difícil de alcanzar una cobertura alta?
 
-The statements were easy; the branches were not. After the integration and
-mocking suites, statement coverage looked fine, but coverage.py still reported
-eleven partial branches: filter conditions that were only ever true, and error
-handlers that no normal input could reach. Covering them meant thinking about
-inputs I would not naturally try, such as a task with no due date inside a date
-range, or an SMS of exactly 160 characters, and using mocks with `side_effect`
-to force database and provider failures. Time was the other challenge: overdue
-logic depends on the current time, so I had to make the clock injectable before
-the tests became deterministic.
+Las sentencias fueron fáciles; las ramas no. Tras las suites de integración y
+mocks, coverage.py aún reportaba once ramas parciales: filtros siempre
+verdaderos y manejadores de errores inalcanzables con entradas normales.
+Cubrirlas exigió entradas poco obvias, como una tarea sin fecha dentro de un
+rango o un SMS de exactamente 160 caracteres, y mocks con `side_effect` para
+forzar fallas. El otro reto fue el tiempo: tuve que hacer el reloj inyectable
+para que las pruebas de tareas vencidas fueran deterministas.
 
-## How does white box testing differ from black box testing?
+## ¿En qué se diferencian las pruebas de caja blanca de las de caja negra?
 
-Black box testing designs cases from the specification: given these inputs,
-the documented output should appear. It cannot know whether a test reached
-every path in the implementation. White box testing designs cases from the code
-itself: each `if`, loop and `except` becomes something to reach. In practice
-the two complement each other. The specification told me *what* TaskFlow should
-do, and the coverage report told me *which parts of my implementation* had
-never been exercised. Neither alone would have found the inclusive date-range
-boundary.
+La caja negra diseña casos desde la especificación y no sabe si recorrió todos
+los caminos de la implementación. La caja blanca los diseña desde el código:
+cada `if`, ciclo y `except` es algo que alcanzar. Se complementan. La especificación me dijo *qué* debía hacer TaskFlow, y el
+reporte de cobertura me dijo *qué partes de mi implementación* nunca se habían
+ejecutado. Ninguna de las dos por sí sola habría encontrado el límite inclusivo
+del rango de fechas.
 
-## Will you use code coverage in future projects?
+## ¿Vas a usar cobertura de código en proyectos futuros?
 
-Yes, but as a diagnostic tool rather than a goal. I will run branch coverage
-in CI and read the missing and partial lines to find untested logic, without
-chasing 100%. This assignment also showed me that a covered line can still be
-wrong, as the duplicate-title race condition shows, so coverage will sit
-alongside code review and contract tests, not replace them.
+Sí, como diagnóstico y no como meta: correré cobertura de ramas en CI y
+revisaré las líneas faltantes y parciales, sin obsesionarme con el 100%. Esta tarea también
+me enseñó que una línea cubierta puede estar mal, como lo demuestra la
+condición de carrera de títulos duplicados, así que la cobertura va a
+acompañar a la revisión de código y a las pruebas de contrato, no a
+reemplazarlas.
