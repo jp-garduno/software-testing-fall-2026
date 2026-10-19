@@ -15,6 +15,11 @@ def test_two_numbers_comma_separated():
     assert calculator.add("1,2") == 3
     assert calculator.add("5,10") == 15
 
+def test_handles_multiple_numbers():
+    calculator = StringCalculator()
+    assert calculator.add("1,2,3") == 6
+    assert calculator.add("1,2,3,4,5") == 15
+
 class StringCalculator:
     def add(self, numbers: str) -> int:
         if numbers == "":
