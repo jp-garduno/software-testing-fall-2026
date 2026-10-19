@@ -28,4 +28,8 @@ describe("FizzBuzz", () => {
   test("returns FizzBuzz for 15", () => {
     expect(fizzbuzz(15)).toBe("FizzBuzz");
   });
+
+  test("returns FizzBuzz for 30", () => {
+    expect(fizzbuzz(30)).toBe("FizzBuzz");
+  });
 })
