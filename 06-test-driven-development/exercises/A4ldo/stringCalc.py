@@ -1,3 +1,6 @@
+import numbers
+
+
 def test_empty_string_returns_zero():
     calculator = StringCalculator()
     assert calculator.add("") == 0
@@ -15,5 +18,8 @@ def test_two_numbers_comma_separated():
 class StringCalculator:
     def add(self, numbers: str) -> int:
         if numbers == "":
-            return 0
+             return 0
+        if "," in numbers:
+            parts = numbers.split(",")
+            return int(parts[0]) + int(parts[1])
         return int(numbers)
