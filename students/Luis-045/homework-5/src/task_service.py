@@ -124,8 +124,9 @@ class TaskService:
 
     def check_overdue_tasks(self) -> list[Task]:
         """Find overdue tasks on demand and notify through configured channels."""
+        current = as_utc(self.clock())
         overdue_tasks = [
-            task for task in self.repository.find_all() if task.is_overdue()
+            task for task in self.repository.find_all() if task.is_overdue(now=current)
         ]
         for task in overdue_tasks:
             self._notify(task, "Task Overdue", f"Task '{task.title}' is overdue!")

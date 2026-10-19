@@ -57,6 +57,7 @@ class Task:  # pylint: disable=too-many-instance-attributes
     updated_at: datetime = field(init=False)
 
     def __post_init__(self) -> None:
+        """Validate fields and initialize identity and timestamps consistently."""
         self.validate_title(self.title)
         self.description = self.validate_description(self.description)
         self.validate_priority(self.priority)
@@ -114,11 +115,12 @@ class Task:  # pylint: disable=too-many-instance-attributes
         }
         return new_status in transitions[self.status]
 
-    def is_overdue(self) -> bool:
-        """Only unfinished, unarchived tasks with past due dates are overdue."""
+    def is_overdue(self, *, now: datetime | None = None) -> bool:
+        """Check an unfinished task against an explicit instant or its own clock."""
         if self.status in (TaskStatus.DONE, TaskStatus.ARCHIVED):
             return False
-        return self.due_date is not None and as_utc(self.clock()) > self.due_date
+        current = as_utc(self.clock()) if now is None else as_utc(now)
+        return self.due_date is not None and current > self.due_date
 
     def compare_priority(self, other_task: "Task") -> int:
         """Return 1, -1 or 0 when this priority is higher, lower or equal."""
