@@ -1,0 +1,36 @@
+## Project: Solve this coding problem
+
+### [coding problem description](./coding-problem)
+
+### [Workflow steps](for c++)
+
+1. Write Code
+   ↓
+2. Save File
+   ↓
+3. Linter Runs (cpplint)
+```
+python -m cpplint --filter=-legal/copyright .\main.cpp
+```
+   ↓ (finds issues)
+4. Fix Issues (clang-format)
+```
+& "$env:APPDATA\Python\Python314\Scripts\clang-format.exe" -i -style=Google .\main.cpp
+```
+   ↓
+5. Stage for Commit (git add)
+   ↓
+6. Pre-commit Hooks Run (cpp_linter_hooks)
+```
+python -m pre_commit run --files .\main.cpp
+```
+   ↓ (finds issues)
+7. Fix Issues
+   ↓
+8. Commit (with conventional message)
+   ↓
+9. Code Review
+   ↓ (finds issues)
+10. Fix Issues
+   ↓
+11. Merge
