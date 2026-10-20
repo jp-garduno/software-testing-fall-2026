@@ -3,27 +3,42 @@ export class StringCalculator {
         if (numbers === "")
             return 0;
 
-        let delimiter = /[,\n]/;
-        let input = numbers;
+        let delimiters = [","];
 
+        // Parse custom delimiter(s)
         if (numbers.startsWith("//")) {
             const delimiterEnd = numbers.indexOf("\n");
             const delimiterSpec = numbers.substring(2, delimiterEnd);
 
-            if (delimiterSpec.startsWith("[") && delimiterSpec.endsWith("]"))
-                delimiter = delimiterSpec.slice(1, -1);
+            // Multiple delimiters in brackets
+            const bracketPattern = /\[([^\]]+)\]/g;
+            const matches = [...delimiterSpec.matchAll(bracketPattern)];
+
+            if (matches.length > 0)
+                delimiters = matches.map((m) => m[1]);
             else
-                delimiter = delimiterSpec;
-            input = numbers.substring(delimiterEnd + 1);
+                delimiters = [delimiterSpec];
+            numbers = numbers.substring(delimiterEnd + 1);
         }
 
-        const intParts = input.split(delimiter).map((part) => parseInt(part));
+        // Replace all delimiters with commas
+        numbers = numbers.replace(/\n/g, ",");
+        delimiters.forEach((delimiter) => {
+            const escapedDelimiter = delimiter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            numbers = numbers.replace(new RegExp(escapedDelimiter, "g"), ",");
+        });
+
+        // Parse numbers
+        const parts = numbers.split(",").filter((p) => p !== "");
+        const intParts = parts.map((p) => parseInt(p));
+
+        // Check for negatives
         const negatives = intParts.filter((n) => n < 0);
         if (negatives.length > 0)
             throw new Error(`negatives not allowed: ${negatives.join(", ")}`);
 
+        // Ignore numbers > 1000
         const validNumbers = intParts.filter((n) => n <= 1000);
-
         return validNumbers.reduce((sum, n) => sum + n, 0);
     }
 }
