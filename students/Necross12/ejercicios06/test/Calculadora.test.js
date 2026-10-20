@@ -11,4 +11,10 @@ describe("Calculadora", () => {
         expect(calculator.add("1")).toBe(1);
         expect(calculator.add("5")).toBe(5);
     });
+
+    test("two numbers separated by comma", () => {
+        const calculator = new StringCalculator();
+        expect(calculator.add("1,2")).toBe(3);
+        expect(calculator.add("5,10")).toBe(15);
+    });
 });
