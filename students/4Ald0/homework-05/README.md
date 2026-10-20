@@ -1,6 +1,6 @@
 # Homework 5: TaskFlow — White Box Testing
 
-Autor: Aldo Ramon Velazquez Fonseca. Entrega en `students/4Ald0/homework-5/`.
+Autor: Aldo Ramon Velazquez Fonseca. Entrega en `students/4Ald0/homework-05/`.
 
 TaskFlow implementa el ciclo de vida de tareas, validación de datos, búsquedas,
 persistencia mediante un cliente inyectado y notificaciones por correo y SMS.
@@ -15,14 +15,14 @@ pytest 8.4.2, pytest-cov 7.1.0 y coverage.py 7.16.2 en Windows.
 Desde la raíz del repositorio:
 
 ```powershell
-cd students/4Ald0/homework-5
+cd students/4Ald0/homework-05
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 ```
 
 En Linux/macOS, la activación es `source .venv/bin/activate`. Todas las
-instrucciones siguientes se ejecutan desde `homework-5/` con el entorno activo.
+instrucciones siguientes se ejecutan desde `homework-05/` con el entorno activo.
 El archivo `pytest.ini` permite importar `src/` también usando `pytest` directamente.
 
 ## Pruebas y cobertura
@@ -59,7 +59,7 @@ no incluye el cuerpo del módulo ni funciones generadas por `dataclass`.
 ## Estructura
 
 ```text
-homework-5/
+homework-05/
 ├── README.md, requirements.txt, pytest.ini, .gitignore
 ├── src/
 │   ├── __init__.py
@@ -119,6 +119,10 @@ contra ese almacén. Los destinatarios de ejemplo son configurables.
 - [Reflexión](reports/reflection.md)
 - [Salida real de pytest con cobertura](reports/test-execution.txt)
 - [Resumen de cobertura medido](reports/coverage-summary.json)
+- [Verificación después de corregir la carpeta](reports/path-migration-verification.txt):
+  112 pruebas aprobadas y 100% de cobertura de sentencias y ramas desde
+  `students/4Ald0/homework-05/` (1.09 s con instrumentación). Las capturas y
+  `test-execution.txt` conservan la evidencia original anterior al cambio de ruta.
 
 La entrega requiere una rama y al menos cinco commits convencionales.
 Para la calificación posterior, el enunciado solicita un PR hacia `main` con
