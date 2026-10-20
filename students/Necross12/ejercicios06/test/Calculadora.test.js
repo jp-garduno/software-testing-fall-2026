@@ -35,4 +35,11 @@ describe("Calculadora", () => {
         expect(calculator.add("//;\n1;2")).toBe(3);
         expect(calculator.add("//|\n1|2|3")).toBe(6);
     });
+
+    test("negative numbers throw exception", () => {
+        const calculator = new StringCalculator();
+
+        expect(() => calculator.add("-1,2")).toThrow("negatives not allowed: -1");
+        expect(() => calculator.add("1,-2,-3")).toThrow("negatives not allowed: -2, -3");
+    });
 });
