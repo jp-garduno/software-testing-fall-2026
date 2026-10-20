@@ -29,4 +29,10 @@ describe("Calculadora", () => {
         expect(calculator.add("1\n2,3")).toBe(6);
         expect(calculator.add("1\n2\n3")).toBe(6);
     });
+
+    test("delimitador personalizado", () => {
+        const calculator = new StringCalculator();
+        expect(calculator.add("//;\n1;2")).toBe(3);
+        expect(calculator.add("//|\n1|2|3")).toBe(6);
+    });
 });
