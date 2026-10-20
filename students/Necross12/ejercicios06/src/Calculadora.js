@@ -7,11 +7,14 @@ export class StringCalculator {
         let input = numbers;
 
         if (numbers.startsWith("//")) {
-            const [delimiterLine, ...inputLines] = numbers.split("\n");
-            const customDelimiter = delimiterLine.slice(2);
-            const escapedDelimiter = customDelimiter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-            delimiter = new RegExp(`${escapedDelimiter}|\n`);
-            input = inputLines.join("\n");
+            const delimiterEnd = numbers.indexOf("\n");
+            const delimiterSpec = numbers.substring(2, delimiterEnd);
+
+            if (delimiterSpec.startsWith("[") && delimiterSpec.endsWith("]"))
+                delimiter = delimiterSpec.slice(1, -1);
+            else
+                delimiter = delimiterSpec;
+            input = numbers.substring(delimiterEnd + 1);
         }
 
         const intParts = input.split(delimiter).map((part) => parseInt(part));
