@@ -1,0 +1,16 @@
+Notification Service
+
+
+Send Email
+test_task_creation_sends_email_notification
+
+Send SMS
+test_overdue_task_sends_sms_notification
+
+Trigger on status changes
+test_status_change_sends_email_notification
+
+Trigger on overdue tasks
+test_overdue_task_triggers_notification
+
+External APIs calls
