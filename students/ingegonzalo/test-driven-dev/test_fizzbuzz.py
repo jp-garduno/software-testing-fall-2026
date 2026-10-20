@@ -27,3 +27,13 @@ class TestFizzBuzz:
         
     def test_fizzbuzz_on_thirty(self):
         assert fizzbuzz(30) == 'FizzBuzz'
+
+    # No divisible entre 3 ni 5
+    def test_fizzbuzz_on_four(self):
+        assert fizzbuzz(4) == '4'
+    
+    def test_fizzbuzz_on_seven(self):
+        assert fizzbuzz(7) == '7'
+    
+    def test_fizzbuzz_on_eleven(self):
+        assert fizzbuzz(11) == '11'
