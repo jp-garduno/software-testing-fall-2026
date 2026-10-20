@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import copy
 from datetime import datetime
 from unittest.mock import Mock
 
@@ -23,13 +23,14 @@ class FakeDatabase:
         self.tasks = {}
 
     def save(self, task):
-        self.tasks[task.id] = deepcopy(task)
+        self.tasks[task.id] = copy(task)
 
     def find_by_id(self, task_id):
-        return deepcopy(self.tasks.get(task_id))
+        task = self.tasks.get(task_id)
+        return None if task is None else copy(task)
 
     def find_all(self):
-        return deepcopy(list(self.tasks.values()))
+        return [copy(task) for task in self.tasks.values()]
 
     def delete(self, task_id):
         del self.tasks[task_id]
