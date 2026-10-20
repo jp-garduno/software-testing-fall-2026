@@ -1,0 +1,49 @@
+name: TaskFlow - David Valdez Homework 5
+
+on:
+  pull_request:
+    paths:
+      - "students/davidvaldezm/homework-5/**"
+      - ".github/workflows/davidvaldezm-homework-5.yml"
+  push:
+    paths:
+      - "students/davidvaldezm/homework-5/**"
+      - ".github/workflows/davidvaldezm-homework-5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  white-box-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    defaults:
+      run:
+        working-directory: students/davidvaldezm/homework-5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt black pylint
+      - name: Check formatting
+        run: python -m black --check src tests
+      - name: Run static analysis
+        run: python -m pylint src tests
+      - name: Run white-box suite with coverage
+        run: >-
+          python -m pytest -v --cov=src --cov-branch --cov-fail-under=90
+          --cov-report=html --cov-report=xml:reports/coverage.xml
+          --junitxml=reports/results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: taskflow-python-${{ matrix.python }}
+          path: |
+            students/davidvaldezm/homework-5/htmlcov
+            students/davidvaldezm/homework-5/reports/coverage.xml
+            students/davidvaldezm/homework-5/reports/results.xml

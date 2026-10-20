@@ -1,0 +1,10 @@
+[MAIN]
+py-version=3.11
+
+[MESSAGES CONTROL]
+# Pytest test functions and small protocol types are self-explanatory by name;
+# forcing boilerplate docstrings makes the tests less readable.
+disable=
+    missing-class-docstring,
+    missing-function-docstring,
+    redefined-outer-name
