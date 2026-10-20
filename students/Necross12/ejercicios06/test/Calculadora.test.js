@@ -50,4 +50,9 @@ describe("Calculadora", () => {
         expect(calculator.add("//[***]\n1***2***3")).toBe(6);
         expect(calculator.add("//[---]\n1---2---3")).toBe(6);
     });
+
+    test("multiples delimitaciones", () => {
+        expect(calculator.add("//[*][%]\n1*2%3")).toBe(6);
+        expect(calculator.add("//[**][%%]\n1**2%%3")).toBe(6);
+    });
 });
