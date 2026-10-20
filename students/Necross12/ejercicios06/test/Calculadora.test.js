@@ -23,4 +23,10 @@ describe("Calculadora", () => {
         expect(calculator.add("1,2,3")).toBe(6);
         expect(calculator.add("1,2,3,4,5")).toBe(15);
     });
+
+    test("manejar fin de linea", () => {
+        const calculator = new StringCalculator();
+        expect(calculator.add("1\n2,3")).toBe(6);
+        expect(calculator.add("1\n2\n3")).toBe(6);
+    });
 });
