@@ -15,10 +15,12 @@ export class StringCalculator {
         }
 
         const intParts = input.split(delimiter).map((part) => parseInt(part));
-        const negatives = intParts.filter((number) => number < 0);
+        const negatives = intParts.filter((n) => n < 0);
         if (negatives.length > 0)
             throw new Error(`negatives not allowed: ${negatives.join(", ")}`);
 
-        return intParts.reduce((sum, number) => sum + number, 0);
+        const validNumbers = intParts.filter((n) => n <= 1000);
+
+        return validNumbers.reduce((sum, n) => sum + n, 0);
     }
 }
