@@ -3,26 +3,22 @@ export class StringCalculator {
         if (numbers === "")
             return 0;
 
-        let delimiter = ",";
+        let delimiter = /[,\n]/;
+        let input = numbers;
 
-        // Check for custom delimiter
         if (numbers.startsWith("//")) {
-            const delimiterEnd = numbers.indexOf("\n");
-            delimiter = numbers.substring(2, delimiterEnd);
-            numbers = numbers.substring(delimiterEnd + 1);
+            const [delimiterLine, ...inputLines] = numbers.split("\n");
+            const customDelimiter = delimiterLine.slice(2);
+            const escapedDelimiter = customDelimiter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            delimiter = new RegExp(`${escapedDelimiter}|\n`);
+            input = inputLines.join("\n");
         }
 
-        // Replace newlines and custom delimiter
-        numbers = numbers.replace(/\n/g, ",");
-        if (delimiter !== ",") {
-            const delimiterRegex = new RegExp(
-                delimiter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-                "g"
-            );
-            numbers = numbers.replace(delimiterRegex, ",");
-        }
+        const intParts = input.split(delimiter).map((part) => parseInt(part));
+        const negatives = intParts.filter((number) => number < 0);
+        if (negatives.length > 0)
+            throw new Error(`negatives not allowed: ${negatives.join(", ")}`);
 
-        const parts = numbers.split(",");
-        return parts.reduce((sum, part) => sum + parseInt(part), 0);
+        return intParts.reduce((sum, number) => sum + number, 0);
     }
 }
