@@ -17,4 +17,10 @@ describe("Calculadora", () => {
         expect(calculator.add("1,2")).toBe(3);
         expect(calculator.add("5,10")).toBe(15);
     });
+
+    test("manejar varios números", () => {
+        const calculator = new StringCalculator();
+        expect(calculator.add("1,2,3")).toBe(6);
+        expect(calculator.add("1,2,3,4,5")).toBe(15);
+    });
 });
