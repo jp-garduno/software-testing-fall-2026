@@ -55,4 +55,59 @@ describe("Calculadora", () => {
         expect(calculator.add("//[*][%]\n1*2%3")).toBe(6);
         expect(calculator.add("//[**][%%]\n1**2%%3")).toBe(6);
     });
+
+    // 13 prubas
+    test("ejercicio clase 1", () => {
+        expect(calculator.add("//;\n1;2\n3")).toBe(6);
+    });
+
+    test("ejercicio clase 2", () => {
+        expect(() => calculator.add("//;\n-1;2")).toThrow("negatives not allowed: -1");
+    });
+
+    test("ejercicio clase 3", () => {
+        expect(() => calculator.add("1001,-1")).toThrow("negatives not allowed: -1");
+    });
+
+    // explota
+    test("ejercicio clase 4", () => {
+        expect(() => calculator.add("-1001")).toThrow("negatives not allowed: -1001");
+    });
+
+    test("ejercicio clase 5", () => {
+        expect(calculator.add("1001")).toBe(0);
+    });
+
+    test("ejercicio clase 6", () => {
+        expect(calculator.add("//[*][%][#]\n1*2%3#4")).toBe(10);
+    });
+
+    test("ejercicio clase 7", () => {
+        expect(calculator.add("//;\n")).toBe(0);
+    });
+
+    // explota
+    test("ejercicio clase 8", () => {
+        expect(calculator.add("//-\n-1-2")).toBe(3);
+    });
+
+    test("ejercicio clase 9", () => {
+        expect(calculator.add("1,2,")).toBe(3);
+    });
+
+    test("ejercicio clase 10", () => {
+        expect(calculator.add("1,\n2")).toBe(3);
+    });
+
+    test("ejercicio clase 11", () => {
+        expect(calculator.add("a,1")).toBe(1);
+    });
+
+    test("ejercicio clase 12", () => {
+        expect(calculator.add("1.5,2")).toBe(3);
+    });
+
+    test("ejercicio clase 13", () => {
+        expect(() => calculator.add("//;1;2")).toThrow();
+    });
 });
