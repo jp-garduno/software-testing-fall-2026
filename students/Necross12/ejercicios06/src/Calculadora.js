@@ -8,6 +8,8 @@ export class StringCalculator {
         // Parse custom delimiter(s)
         if (numbers.startsWith("//")) {
             const delimiterEnd = numbers.indexOf("\n");
+            if (delimiterEnd === -1)
+                throw new Error("invalid delimiter format: missing newline after delimiter");
             const delimiterSpec = numbers.substring(2, delimiterEnd);
 
             // Multiple delimiters in brackets
