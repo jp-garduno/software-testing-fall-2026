@@ -1,3 +1,6 @@
-export function add() {
-	return 0;
+export function add(s) {
+	if (s === "")
+		return 0;
+
+	return parseInt(s)
 }
