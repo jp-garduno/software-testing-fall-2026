@@ -1,6 +1,6 @@
 const { Books } = require("../src/book");
 
-describe("Libro: ISBN", () => {
+describe("Libro", () => {
   test("(inválida) crear libro con ISBN de 9 dígitos", () => {
     expect(() => new Books("123456789", "Libro de prueba", "Autor")).toThrow(
       "El ISBN debe tener 10 o 13 dígitos",
@@ -28,5 +28,17 @@ describe("Libro: ISBN", () => {
   test("crear libro con ISBN de 13 dígitos", () => {
     const books = new Books("1234567890123", "Libro de prueba", "Autor");
     expect(books.isbn).toBe("1234567890123");
+  });
+
+  test("(inválida) crear libro sin título", () => {
+    expect(() => new Books("1234567890", "", "Autor")).toThrow(
+      "El título es requerido",
+    );
+  });
+
+  test("(inválida) crear libro sin autor", () => {
+    expect(() => new Books("1234567890", "Libro de prueba", "")).toThrow(
+      "El autor es requerido",
+    );
   });
 });
