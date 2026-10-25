@@ -41,4 +41,24 @@ describe("Libro", () => {
       "El autor es requerido",
     );
   });
+
+  test("tiene 1 copia por defecto", () => {
+    const books = new Books("1234567890", "Libro de prueba", "Autor");
+    expect(books.copias).toBe(1);
+  });
+
+  test("las copias disponibles inician igual a las copias totales", () => {
+    const books = new Books("1234567890", "Libro de prueba", "Autor", 5);
+    expect(books.copiasDisponibles).toBe(5);
+  });
+
+  test("está disponible cuando hay ejemplares", () => {
+    const books = new Books("1234567890", "Libro de prueba", "Autor", 1);
+    expect(books.estaDisponible()).toBe(true);
+  });
+
+  test("(inválida) está disponible cuando tiene 0 copias", () => {
+    const books = new Books("1234567890", "Libro de prueba", "Autor", 0);
+    expect(books.estaDisponible()).toBe(false);
+  });
 });
