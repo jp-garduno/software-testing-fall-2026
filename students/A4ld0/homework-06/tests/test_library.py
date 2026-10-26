@@ -85,3 +85,8 @@ def test_library_return_updates_book_and_member(library):
 def test_search_by_title(library):
     library.add_book(Book("1234567890123", "Dune Messiah", "Frank Herbert"))
     assert [book.title for book in library.search_by_title("DUNE")] == ["Dune", "Dune Messiah"]
+
+
+def test_search_by_author(library):
+    library.add_book(Book("1234567890123", "Foundation", "Isaac Asimov"))
+    assert [book.title for book in library.search_by_author("HERBERT")] == ["Dune"]
