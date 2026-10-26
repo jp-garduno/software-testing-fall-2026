@@ -21,3 +21,8 @@ def test_search_publication_year(library):
 def test_search_exact_rating(library, rating):
     library.add_book(Book("0000000000", "Other", "Author", rating=rating))
     assert [b.isbn for b in library.search_books(rating=rating)] == ["0000000000"]
+
+
+def test_search_default_title_order(library):
+    library.add_book(Book("0000000000", "Atlas", "Author"))
+    assert [b.title for b in library.search_books()] == ["Atlas", "Dune"]
