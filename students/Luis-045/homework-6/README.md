@@ -106,3 +106,19 @@ Entorno: Windows, Python 3.13.9, pytest 9.1.1, pytest-cov 7.1.0 y coverage 7.17.
 | Pylint con reglas de la clase | 10.00/10 |
 
 Los tiempos varían por equipo. Los porcentajes provienen de los contadores separados de sentencias y ramas del JSON, además del reporte HTML.
+
+
+## Evidencia y documentación
+
+- [Cinco ciclos Red-Green-Refactor](docs/tdd-process.md), con pruebas, cambios, resultados y hashes reales.
+- [Reflexión sobre TDD](docs/reflection.md), de 558 palabras incluyendo el título.
+
+Para inspeccionar el historial:
+
+```powershell
+git log --reverse --oneline main..HEAD
+git show 45be341
+git show ebbfcd5
+```
+
+Los commits de código y documentación tienen entre 2 y 20 líneas modificadas. El reporte HTML y sus recursos se incorporan como un artefacto generado en un commit separado de mayor tamaño. No se modifican los hooks heredados ni las configuraciones compartidas; para los mensajes TDD se omite únicamente el validador de Conventional Commits, incompatible con las etiquetas exigidas por este enunciado.
