@@ -68,3 +68,17 @@ def test_book_borrow_raises_when_no_copies_available():
     book.borrow()
     with pytest.raises(RuntimeError, match="No copies available for borrowing"):
         book.borrow()
+
+
+def test_book_return_copy_increments_available_copies():
+    book = Book("1234567890", "Design Patterns", "Gang of Four", total_copies=2)
+    book.borrow()
+    assert book.available_copies == 1
+    book.return_copy()
+    assert book.available_copies == 2
+
+
+def test_book_return_copy_raises_when_exceeding_total_copies():
+    book = Book("1234567890", "Design Patterns", "Gang of Four", total_copies=2)
+    with pytest.raises(ValueError, match="Cannot return more copies than total copies"):
+        book.return_copy()
