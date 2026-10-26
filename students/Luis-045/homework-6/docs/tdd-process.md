@@ -206,3 +206,16 @@ def test_returned_loan_fee_stops_growing():
 ```
 
 Resultado real: `1 failed, 43 passed in 0.10s`.
+
+
+### GREEN
+
+Commit: `a283b63`. Implementación mínima que hizo pasar el caso:
+
+```python
+def fee_on(self, today):
+    end_date = self.returned_on or today
+    return max(0, (end_date - self.due_date).days)
+```
+
+Resultado real: `44 passed in 0.05s`.
