@@ -43,3 +43,9 @@ def test_member_return_unknown_book():
     with pytest.raises(ValueError, match="not borrowed"):
         member.return_book("1234567890")
     assert member.borrowed_books == []
+
+
+@pytest.mark.parametrize("limit", [-1, 1.5, True, "3"])
+def test_member_rejects_invalid_limit(limit):
+    with pytest.raises(ValueError, match="limit"):
+        Member("m1", "Ana", limit)
