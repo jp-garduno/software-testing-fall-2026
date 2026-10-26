@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 from datetime import date, timedelta
 
-
 LOAN_PERIOD_DAYS = 14
 DAILY_LATE_FEE = 1
 

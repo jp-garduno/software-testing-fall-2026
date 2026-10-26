@@ -26,6 +26,5 @@ def test_loan_has_no_fee_on_its_due_date():
 
 
 def test_returned_loan_fee_stops_growing():
-    loan = Loan("m1", "1234567890", date(2026, 10, 1),
-                returned_on=date(2026, 10, 16))
+    loan = Loan("m1", "1234567890", date(2026, 10, 1), returned_on=date(2026, 10, 16))
     assert loan.fee_on(date(2026, 10, 20)) == 1
