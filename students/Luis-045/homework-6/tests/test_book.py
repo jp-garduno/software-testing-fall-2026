@@ -46,3 +46,9 @@ def test_book_with_no_copies_is_unavailable():
 
 def test_book_with_copies_is_available():
     assert Book("1234567890", "Dune", "Frank Herbert").is_available() is True
+
+
+def test_borrow_decreases_available_copies():
+    book = Book("1234567890", "Dune", "Frank Herbert", total_copies=2)
+    book.borrow()
+    assert book.available_copies == 1
