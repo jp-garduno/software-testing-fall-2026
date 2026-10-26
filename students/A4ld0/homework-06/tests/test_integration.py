@@ -54,3 +54,9 @@ def test_member_history_is_a_snapshot(library):
     assert (library.loans[0]["isbn"], snapshot[0]["returned_on"]) == ("1234567890", None)
 
 
+def test_historical_fee_report_excludes_days_after_its_date(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 20))
+    assert library.calculate_late_fees("m1", as_of=date(2026, 10, 17)) == 2
+
+
