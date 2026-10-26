@@ -286,3 +286,12 @@ Código en eb19088:
 
 ```python
     def search_by_author(self, author):
+        return self._search_text("author", author)
+
+    def _search_text(self, field, text):
+        return [book for book in self.catalog.values()
+                if text.casefold() in getattr(book, field).casefold()]
+```
+
+Resultado tras refactorizar: `77 passed in 0.11s`. Código de salida: 0.
+Registros de evidencia: 34 y 60 en el archivo JSONL.
