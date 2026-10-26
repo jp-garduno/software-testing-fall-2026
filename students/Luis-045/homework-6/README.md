@@ -73,3 +73,19 @@ El modo UTF-8 evita problemas de codificación en Windows con la prueba de ISBN 
 - El vencimiento ocurre 14 días después del préstamo. La multa es cero hasta esa fecha y aumenta $1 por cada día posterior.
 - Al devolver un libro se conserva el importe acumulado hasta la devolución. Los totales incluyen multas de préstamos activos y devueltos; no se implementan pagos.
 - `Library(today=...)` permite inyectar un reloj. En producción usa `date.today`; las pruebas controlan las fechas sin esperas ni servicios externos.
+
+
+## Filtros e historial
+
+Los metadatos opcionales se suministran al crear el libro, por ejemplo:
+
+```python
+book = Book("1234567890", "Dune", "Frank Herbert",
+            genre="Science Fiction", publication_year=1965, rating=4.8)
+```
+
+El género se compara completo sin distinguir mayúsculas; el año es exacto y la calificación mínima es inclusiva. Los filtros se combinan con AND. Los libros sin el metadato requerido no satisfacen ese filtro.
+
+La ordenación es ascendente por título de forma predeterminada. Se admiten `title`, `author`, `isbn`, `publication_year` y `rating`; los empates se resuelven por ISBN. Al ordenar datos numéricos ausentes se usa cero.
+
+Las búsquedas básicas admiten subcadenas sin distinguir mayúsculas. El historial conserva el orden de los préstamos, incluyendo repeticiones después de una devolución. El libro más prestado cuenta cada préstamo exitoso; en empate gana el primero prestado y, sin movimientos, devuelve `None`.
