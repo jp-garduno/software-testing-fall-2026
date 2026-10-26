@@ -27,9 +27,7 @@ class Library:
         book = self._get_book(isbn)
         if not member.can_borrow():
             raise ValueError("Member borrowing limit reached")
-        borrowed_on = date.today() if borrowed_on is None else borrowed_on
-        if type(borrowed_on) is not date:
-            raise ValueError("Borrowing date must be a date")
+        borrowed_on = self._resolve_date(borrowed_on, "Borrowing")
         book.borrow()
         member.add_borrowed_book(isbn)
         self.loans.append(dict(member_id=member_id, isbn=isbn,
@@ -54,9 +52,7 @@ class Library:
         loan = next(loan for loan in self.loans
                     if loan["member_id"] == member_id and loan["isbn"] == isbn
                     and loan.get("returned_on") is None)
-        returned_on = date.today() if returned_on is None else returned_on
-        if type(returned_on) is not date:
-            raise ValueError("Return date must be a date")
+        returned_on = self._resolve_date(returned_on, "Return")
         if returned_on < loan["borrowed_on"]:
             raise ValueError("Return cannot be before borrowing")
         member.return_book(isbn)
@@ -74,9 +70,7 @@ class Library:
 
     def calculate_late_fees(self, member_id, as_of=None):
         self._get_member(member_id)
-        as_of = date.today() if as_of is None else as_of
-        if type(as_of) is not date:
-            raise ValueError("Report date must be a date")
+        as_of = self._resolve_date(as_of, "Report")
         return sum(self._loan_fee(loan, as_of)
                    for loan in self.loans if loan["member_id"] == member_id)
 
@@ -112,3 +106,11 @@ class Library:
     def _search_text(self, field, text):
         return [book for book in self.catalog.values()
                 if text.casefold() in getattr(book, field).casefold()]
+
+    @staticmethod
+    def _resolve_date(value, name):
+        if value is None:
+            return date.today()
+        if type(value) is not date:
+            raise ValueError(f"{name} date must be a date")
+        return value
