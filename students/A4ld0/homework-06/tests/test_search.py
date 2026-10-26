@@ -35,3 +35,8 @@ def test_search_configurable_sort(library, field):
     expected = ["1111111111", "1234567890", "0000000000"] if field == "author" else [
         "1111111111", "0000000000", "1234567890"]
     assert [b.isbn for b in library.search_books(sort_by=field)] == expected
+
+
+def test_search_invalid_sort(library):
+    with pytest.raises(ValueError, match="sort"):
+        library.search_books(sort_by="available_copies")
