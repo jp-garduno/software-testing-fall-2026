@@ -62,3 +62,10 @@ def test_unavailable_book_does_not_change_member_loans(stocked_library):
     with pytest.raises(ValueError, match="available"):
         stocked_library.borrow_book("m2", "1234567890")
     assert stocked_library.members["m2"].borrowed_books == []
+
+
+def test_limit_failure_leaves_inventory_unchanged(stocked_library):
+    stocked_library.members["m1"].max_borrow_limit = 0
+    with pytest.raises(ValueError, match="limit"):
+        stocked_library.borrow_book("m1", "1234567890")
+    assert stocked_library.catalog["1234567890"].available_copies == 1
