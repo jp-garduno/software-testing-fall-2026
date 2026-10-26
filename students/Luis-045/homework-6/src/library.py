@@ -89,17 +89,25 @@ class Library:
             if loan.member_id == member.member_id
         )
 
-    def search_with_filters(self, *, genre=None, publication_year=None, min_rating=None, sort_by="title"):
+    def search_with_filters(
+        self, *, genre=None, publication_year=None, min_rating=None, sort_by="title"
+    ):
         """Filter the catalog using book metadata."""
         if sort_by not in ("title", "author", "isbn", "publication_year", "rating"):
             raise ValueError("Unknown sort field")
         books = list(self.catalog.values())
         if genre is not None:
-            books = [book for book in books
-                     if book.metadata.get("genre", "").casefold() == genre.casefold()]
+            books = [
+                book
+                for book in books
+                if book.metadata.get("genre", "").casefold() == genre.casefold()
+            ]
         if publication_year is not None:
-            books = [book for book in books
-                     if book.metadata.get("publication_year") == publication_year]
+            books = [
+                book
+                for book in books
+                if book.metadata.get("publication_year") == publication_year
+            ]
         if min_rating is not None:
             books = [book for book in books if book.metadata.get("rating", -1) >= min_rating]
         return sorted(books, key=lambda book: (
