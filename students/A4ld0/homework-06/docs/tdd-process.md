@@ -178,3 +178,21 @@ Código en c75e845:
     def borrow_book(self, member_id, isbn):
         member = self._get_member(member_id)
         book = self._get_book(isbn)
+        if not member.can_borrow():
+            raise ValueError("Member borrowing limit reached")
+        book.borrow()
+        member.add_borrowed_book(isbn)
+
+    def _get_member(self, member_id):
+        if member_id not in self.members:
+            raise ValueError("Unknown member")
+        return self.members[member_id]
+
+    def _get_book(self, isbn):
+        if isbn not in self.catalog:
+            raise ValueError("Unknown ISBN")
+        return self.catalog[isbn]
+```
+
+Resultado tras refactorizar: `45 passed in 0.07s`. Código de salida: 0.
+Registros de evidencia: 30 y 31 en el archivo JSONL.
