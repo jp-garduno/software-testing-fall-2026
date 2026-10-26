@@ -74,3 +74,8 @@ def test_limit_failure_leaves_inventory_unchanged(stocked_library):
 def test_unknown_member_cannot_borrow(stocked_library):
     with pytest.raises(KeyError):
         stocked_library.borrow_book("missing", "1234567890")
+
+
+def test_unknown_book_cannot_be_borrowed(stocked_library):
+    with pytest.raises(KeyError):
+        stocked_library.borrow_book("m1", "0000000000")
