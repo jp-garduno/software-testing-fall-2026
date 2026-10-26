@@ -26,4 +26,6 @@ class Book:
 
     def borrow(self):
         """Lend one available copy."""
+        if self.available_copies == 0:
+            raise ValueError("No copies available")
         self.available_copies -= 1
