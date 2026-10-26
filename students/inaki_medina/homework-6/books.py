@@ -4,5 +4,7 @@ class Book:
 		self.title = title
 		self.author = author
 		self.copies = copies
+		self.available_copies = copies
+
 
 
