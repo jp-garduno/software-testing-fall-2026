@@ -34,3 +34,12 @@ pytest_run(["-p", "pytest_cov", "-q", "--cov=src", "--cov-branch",
 totals = json.loads((EVIDENCE / "coverage.json").read_text(encoding="utf-8"))["totals"]
 statements = 100 * totals["covered_lines"] / totals["num_statements"]
 branches = 100 * totals["covered_branches"] / totals["num_branches"]
+quality = dict(python=platform.python_version(), statement_percent=statements,
+               branch_percent=branches, suite_process_seconds=round(duration, 4),
+               statement_requirement_met=statements > 90,
+               branch_requirement_met=branches > 85, speed_requirement_met=duration < 2)
+(EVIDENCE / "quality.json").write_text(json.dumps(quality, indent=2) + "\n", encoding="utf-8")
+print(json.dumps(quality, indent=2))
+if not all(quality[key] for key in ("statement_requirement_met", "branch_requirement_met",
+                                   "speed_requirement_met")):
+    raise SystemExit("Quality thresholds were not met; see docs/evidence/quality.json")
