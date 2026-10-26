@@ -43,12 +43,17 @@ class Library:
     def return_book(self, member_id, isbn, returned_on=None):
         member = self._get_member(member_id)
         book = self._get_book(isbn)
-        member.return_book(isbn)
-        book.return_copy()
+        if isbn not in member.borrowed_books:
+            raise ValueError("Book not borrowed by this member")
         loan = next(loan for loan in self.loans
                     if loan["member_id"] == member_id and loan["isbn"] == isbn
                     and loan.get("returned_on") is None)
-        loan["returned_on"] = returned_on or date.today()
+        returned_on = returned_on or date.today()
+        if returned_on < loan["borrowed_on"]:
+            raise ValueError("Return cannot be before borrowing")
+        member.return_book(isbn)
+        book.return_copy()
+        loan["returned_on"] = returned_on
 
     def search_by_title(self, title):
         return [book for book in self.catalog.values()
