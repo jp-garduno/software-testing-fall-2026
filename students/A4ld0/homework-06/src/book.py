@@ -3,7 +3,11 @@
 
 class Book:
     def __init__(self, isbn, title, author, total_copies=1):
-        if not isinstance(isbn, str) or not isbn.isascii() or not isbn.isdigit() or len(isbn) not in (10, 13):
+        valid_isbn = (
+            isinstance(isbn, str) and isbn.isascii()
+            and isbn.isdigit() and len(isbn) in (10, 13)
+        )
+        if not valid_isbn:
             raise ValueError("ISBN must have 10 or 13 digits")
         self.isbn = isbn
         if not isinstance(title, str) or not title.strip():
