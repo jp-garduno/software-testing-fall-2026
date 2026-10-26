@@ -36,3 +36,10 @@ def test_member_returns_book():
     member.add_borrowed_book("1234567890")
     member.return_book("1234567890")
     assert member.borrowed_books == []
+
+
+def test_member_return_unknown_book():
+    member = Member("m1", "Ana")
+    with pytest.raises(ValueError, match="not borrowed"):
+        member.return_book("1234567890")
+    assert member.borrowed_books == []
