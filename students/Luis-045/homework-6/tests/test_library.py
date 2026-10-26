@@ -42,8 +42,8 @@ def test_register_member_rejects_a_duplicate_id():
         library.register_member(Member("m1", "Other"))
 
 
-@pytest.fixture
-def stocked_library():
+@pytest.fixture(name="stocked_library")
+def _stocked_library():
     library = Library()
     library.add_book(Book("1234567890", "Dune", "Frank Herbert"))
     library.register_member(Member("m1", "Luis"))
@@ -135,8 +135,8 @@ def test_get_due_date_rejects_a_book_not_borrowed(stocked_library):
         stocked_library.get_due_date("m1", "1234567890")
 
 
-@pytest.fixture
-def dated_library():
+@pytest.fixture(name="dated_library")
+def _dated_library():
     clock = [date(2026, 10, 1)]
     library = Library(today=lambda: clock[0])
     library.add_book(Book("1234567890", "Dune", "Frank Herbert"))

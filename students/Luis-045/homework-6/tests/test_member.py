@@ -39,7 +39,7 @@ def test_return_book_removes_the_borrowed_isbn():
     member = Member("m1", "Luis")
     member.add_borrowed_book("1234567890")
     member.return_book("1234567890")
-    assert member.borrowed_books == []
+    assert not member.borrowed_books
 
 
 def test_return_book_rejects_an_isbn_not_borrowed():
@@ -51,7 +51,7 @@ def test_members_do_not_share_borrowed_book_lists():
     first = Member("m1", "Luis")
     second = Member("m2", "Ana")
     first.add_borrowed_book("1234567890")
-    assert second.borrowed_books == []
+    assert not second.borrowed_books
 
 
 def test_member_at_limit_cannot_borrow():
