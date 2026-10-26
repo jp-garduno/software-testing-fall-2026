@@ -25,6 +25,14 @@ class Member {
     this.listaLibros.push(isbn);
     return true;
   }
+
+  regresar(isbn) {
+    const posicion = this.listaLibros.indexOf(isbn);
+    if (posicion === -1)
+      throw new Error("No puedes regresar un libro que no tienes.");
+    this.listaLibros.splice(posicion, 1);
+    return true;
+  }
 }
 
 module.exports = { Member };
