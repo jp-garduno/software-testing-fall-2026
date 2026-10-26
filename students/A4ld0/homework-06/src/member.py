@@ -6,6 +6,8 @@ class Member:
         self.member_id = member_id
         self.name = name
         self.borrowed_books = []
+        if type(max_borrow_limit) is not int or max_borrow_limit < 0:
+            raise ValueError("Borrow limit must be a nonnegative integer")
         self.max_borrow_limit = max_borrow_limit
 
     def can_borrow(self):
