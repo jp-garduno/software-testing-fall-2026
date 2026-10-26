@@ -55,3 +55,16 @@ def test_book_is_available_when_copies_exist():
 def test_book_is_not_available_when_zero_copies():
     book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=0)
     assert book.is_available() is False
+
+
+def test_book_borrow_decrements_available_copies():
+    book = Book("1234567890", "Design Patterns", "Gang of Four", total_copies=2)
+    assert book.borrow() is True
+    assert book.available_copies == 1
+
+
+def test_book_borrow_raises_when_no_copies_available():
+    book = Book("1234567890", "Design Patterns", "Gang of Four", total_copies=1)
+    book.borrow()
+    with pytest.raises(RuntimeError, match="No copies available for borrowing"):
+        book.borrow()
