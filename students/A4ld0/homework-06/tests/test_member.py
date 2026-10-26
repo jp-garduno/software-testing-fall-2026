@@ -15,3 +15,9 @@ def test_custom_borrow_limit():
 @pytest.mark.parametrize("limit, expected", [(0, False), (3, True)])
 def test_member_can_borrow(limit, expected):
     assert Member("m1", "Ana", limit).can_borrow() is expected
+
+
+def test_add_borrowed_book():
+    member = Member("m1", "Ana")
+    member.add_borrowed_book("1234567890")
+    assert member.borrowed_books == ["1234567890"]
