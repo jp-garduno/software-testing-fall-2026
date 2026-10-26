@@ -206,11 +206,20 @@ def test_minimum_rating_is_inclusive_and_excludes_unrated_books(stocked_library)
 
 def test_combined_filters_require_every_condition():
     library = Library()
-    match = Book("1234567890", "Dune", "Herbert", genre="SF",
-                 publication_year=1965, rating=4.8)
+    match = Book(
+        "1234567890", "Dune", "Herbert", genre="SF", publication_year=1965, rating=4.8
+    )
     library.add_book(match)
-    library.add_book(Book("1234567891", "Other", "Writer", genre="SF",
-                          publication_year=1965, rating=4.0))
+    library.add_book(
+        Book(
+            "1234567891",
+            "Other",
+            "Writer",
+            genre="SF",
+            publication_year=1965,
+            rating=4.0,
+        )
+    )
     library.add_book(Book("1234567892", "Wrong genre", "Writer", genre="Fantasy",
                           publication_year=1965, rating=4.9))
     assert library.search_with_filters(
