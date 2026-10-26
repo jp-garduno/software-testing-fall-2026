@@ -96,3 +96,20 @@ def borrow(self):
 La operación reutiliza is_available() para mantener una sola definición de disponibilidad. Se conserva la excepción y se evita modificar las existencias cuando la operación falla.
 
 Resultado real: `10 passed in 0.04s`.
+
+
+## Ciclo 3. Límite del miembro
+
+### RED
+
+Commit: `26ebf00`. La lista aceptaba un segundo libro aunque el límite personalizado era uno.
+
+```python
+def test_member_cannot_exceed_a_custom_borrow_limit():
+    member = Member("m1", "Luis", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567891")
+```
+
+Resultado real: `1 failed, 17 passed in 0.09s`.
