@@ -1,5 +1,6 @@
 """Catalog and lending operations."""
 from datetime import date, timedelta
+from collections import Counter
 
 
 class Library:
@@ -80,3 +81,7 @@ class Library:
     def member_history(self, member_id):
         self._get_member(member_id)
         return [dict(loan) for loan in self.loans if loan["member_id"] == member_id]
+
+    def most_borrowed_book(self):
+        counts = Counter(loan["isbn"] for loan in self.loans)
+        return self.catalog[max(counts, key=counts.get)]
