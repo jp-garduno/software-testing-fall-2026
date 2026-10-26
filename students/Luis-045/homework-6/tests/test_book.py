@@ -103,3 +103,8 @@ def test_book_rejects_boolean_inventory():
 def test_book_rejects_a_nonstring_isbn_with_a_validation_error():
     with pytest.raises(ValueError, match="ISBN"):
         Book(1234567890, "Dune", "Frank Herbert")
+
+
+def test_book_rejects_non_ascii_isbn_digits():
+    with pytest.raises(ValueError, match="ISBN"):
+        Book("１２３４５６７８９０", "Dune", "Frank Herbert")
