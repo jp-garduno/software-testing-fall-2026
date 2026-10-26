@@ -20,3 +20,15 @@ def test_book_rejects_an_isbn_containing_letters():
 ```
 
 Resultado real: `1 failed, 3 passed in 0.06s`.
+
+
+### GREEN
+
+Commit: `5b65e35`. Implementación mínima que hizo pasar el caso:
+
+```python
+if len(isbn) not in (10, 13) or not isbn.isdigit():
+    raise ValueError("ISBN must contain 10 or 13 digits")
+```
+
+Resultado real: `4 passed in 0.01s`.
