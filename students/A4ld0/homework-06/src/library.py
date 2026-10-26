@@ -4,6 +4,9 @@ from collections import Counter
 
 
 class Library:
+    LOAN_PERIOD_DAYS = 14
+    DAILY_LATE_FEE = 1
+
     def __init__(self):
         self.catalog = {}
         self.members = {}
@@ -31,7 +34,7 @@ class Library:
         member.add_borrowed_book(isbn)
         self.loans.append(dict(member_id=member_id, isbn=isbn,
                                borrowed_on=borrowed_on,
-                               due_on=borrowed_on + timedelta(days=14), returned_on=None))
+                               due_on=borrowed_on + timedelta(days=self.LOAN_PERIOD_DAYS), returned_on=None))
 
     def _get_member(self, member_id):
         if member_id not in self.members:
@@ -80,7 +83,7 @@ class Library:
     @staticmethod
     def _loan_fee(loan, as_of):
         end = min(as_of, loan.get("returned_on") or as_of)
-        return max(0, (end - loan["due_on"]).days)
+        return max(0, (end - loan["due_on"]).days) * Library.DAILY_LATE_FEE
 
     def member_history(self, member_id):
         self._get_member(member_id)
