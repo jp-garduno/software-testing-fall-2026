@@ -2,6 +2,19 @@
 import re
 
 
+def _normalize_and_validate_isbn(isbn: str) -> str:
+    cleaned = re.sub(r"[\s-]", "", str(isbn))
+    if not cleaned.isdigit() or len(cleaned) not in (10, 13):
+        raise ValueError("ISBN must be 10 or 13 digits")
+    return cleaned
+
+
+def _validate_non_empty_string(value: str, field_name: str) -> str:
+    if not value or not str(value).strip():
+        raise ValueError(f"{field_name} is required")
+    return str(value).strip()
+
+
 class Book:
     """Represents a book in the library catalog."""
 
@@ -12,20 +25,12 @@ class Book:
         author: str,
         total_copies: int = 1,
     ) -> None:
-        if not title or not str(title).strip():
-            raise ValueError("Title is required")
-        if not author or not str(author).strip():
-            raise ValueError("Author is required")
-
-        cleaned_isbn = re.sub(r"[\s-]", "", str(isbn))
-        if not cleaned_isbn.isdigit() or len(cleaned_isbn) not in (10, 13):
-            raise ValueError("ISBN must be 10 or 13 digits")
+        self.title = _validate_non_empty_string(title, "Title")
+        self.author = _validate_non_empty_string(author, "Author")
+        self.isbn = _normalize_and_validate_isbn(isbn)
 
         if int(total_copies) < 0:
             raise ValueError("Total copies cannot be negative")
 
-        self.isbn = cleaned_isbn
-        self.title = str(title).strip()
-        self.author = str(author).strip()
         self.total_copies = int(total_copies)
         self.available_copies = self.total_copies
