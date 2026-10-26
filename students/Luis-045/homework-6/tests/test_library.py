@@ -246,3 +246,12 @@ def test_rating_sort_places_unrated_books_before_rated_books(stocked_library):
             stocked_library.search_with_filters(sort_by="rating")] == [
                 "1234567890", "1234567891"
             ]
+
+
+def test_member_history_reports_the_borrow_date(dated_library):
+    library, _ = dated_library
+    library.borrow_book("m1", "1234567890")
+    history = library.get_member_history("m1")
+    assert [(loan.isbn, loan.borrowed_on, loan.returned_on) for loan in history] == [
+        ("1234567890", date(2026, 10, 1), None)
+    ]
