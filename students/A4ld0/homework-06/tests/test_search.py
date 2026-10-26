@@ -40,3 +40,8 @@ def test_search_configurable_sort(library, field):
 def test_search_invalid_sort(library):
     with pytest.raises(ValueError, match="sort"):
         library.search_books(sort_by="available_copies")
+
+
+def test_search_text_order_ignores_case(library):
+    library.add_book(Book("0000000000", "atlas", "Author"))
+    assert [b.title for b in library.search_books()] == ["atlas", "Dune"]
