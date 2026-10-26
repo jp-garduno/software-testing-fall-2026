@@ -94,9 +94,10 @@ class Library:
             return None
         return self.catalog[max(sorted(counts), key=counts.get)]
 
-    def search_books(self, *, genre=None, publication_year=None, rating=None):
+    def search_books(self, *, genre=None, publication_year=None, rating=None, sort_by="title"):
         matches = [book for book in self.catalog.values()
                 if (genre is None or book.genre == genre)
                 and (publication_year is None or book.publication_year == publication_year)
                 and (rating is None or book.rating == rating)]
-        return sorted(matches, key=lambda book: book.title)
+        return sorted(matches, key=lambda book: (
+            getattr(book, sort_by) is None, getattr(book, sort_by), book.isbn))
