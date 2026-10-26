@@ -24,3 +24,10 @@ def test_register_member_indexes_the_member_by_id():
     member = Member("m1", "Luis")
     library.register_member(member)
     assert library.members[member.member_id] is member
+
+
+def test_add_book_rejects_a_duplicate_isbn():
+    library = Library()
+    library.add_book(Book("1234567890", "Dune", "Frank Herbert"))
+    with pytest.raises(ValueError, match="already"):
+        library.add_book(Book("1234567890", "Replacement", "Other"))
