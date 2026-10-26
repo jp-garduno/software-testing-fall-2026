@@ -18,4 +18,6 @@ class Member:
         """Record another book borrowed by this member."""
         if not self.can_borrow():
             raise ValueError("Borrow limit reached")
+        if isbn in self.borrowed_books:
+            raise ValueError("Book already borrowed by this member")
         self.borrowed_books.append(isbn)
