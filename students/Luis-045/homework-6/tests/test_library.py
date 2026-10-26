@@ -182,3 +182,9 @@ def test_returned_book_no_longer_has_an_active_due_date(stocked_library):
     stocked_library.return_book("m1", "1234567890")
     with pytest.raises(ValueError, match="active"):
         stocked_library.get_due_date("m1", "1234567890")
+
+
+def test_genre_filter_matches_without_case_sensitivity(stocked_library):
+    book = Book("1234567891", "Foundation", "Isaac Asimov", genre="Science Fiction")
+    stocked_library.add_book(book)
+    assert stocked_library.search_with_filters(genre="science fiction") == [book]
