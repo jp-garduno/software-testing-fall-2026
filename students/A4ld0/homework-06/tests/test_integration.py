@@ -46,3 +46,11 @@ def test_returning_and_reborrowing_creates_a_new_history_entry(library):
         date(2026, 10, 17), date(2026, 10, 19)]
 
 
+def test_member_history_is_a_snapshot(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    snapshot = library.member_history("m1")
+    snapshot[0]["isbn"] = "0000000000"
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 2))
+    assert (library.loans[0]["isbn"], snapshot[0]["returned_on"]) == ("1234567890", None)
+
+
