@@ -20,6 +20,8 @@ class Library:
         if member_id not in self.members:
             raise ValueError("Unknown member")
         member = self.members[member_id]
+        if isbn not in self.catalog:
+            raise ValueError("Unknown ISBN")
         book = self.catalog[isbn]
         book.borrow()
         member.add_borrowed_book(isbn)
