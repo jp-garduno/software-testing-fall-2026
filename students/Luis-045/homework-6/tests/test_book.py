@@ -42,3 +42,7 @@ def test_book_rejects_a_whitespace_title():
 def test_book_with_no_copies_is_unavailable():
     book = Book("1234567890", "Dune", "Frank Herbert", total_copies=0)
     assert book.is_available() is False
+
+
+def test_book_with_copies_is_available():
+    assert Book("1234567890", "Dune", "Frank Herbert").is_available() is True
