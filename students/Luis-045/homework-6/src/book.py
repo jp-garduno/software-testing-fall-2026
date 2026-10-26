@@ -20,7 +20,7 @@ class Book:
     @staticmethod
     def _validate_isbn(isbn):
         """Reject ISBNs outside the assignment's digit format."""
-        if len(isbn) not in (10, 13) or not isbn.isdigit():
+        if not isinstance(isbn, str) or len(isbn) not in (10, 13) or not isbn.isdigit():
             raise ValueError("ISBN must contain 10 or 13 digits")
 
     def is_available(self):
