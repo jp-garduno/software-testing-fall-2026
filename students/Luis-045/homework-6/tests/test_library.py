@@ -118,3 +118,13 @@ def test_get_available_books_excludes_borrowed_out_titles(stocked_library):
 
 def test_search_returns_an_empty_list_when_no_title_matches(stocked_library):
     assert stocked_library.search_by_title("missing") == []
+
+
+def test_library_records_the_due_date_of_a_new_loan():
+    from datetime import date
+
+    library = Library(today=lambda: date(2026, 10, 1))
+    library.add_book(Book("1234567890", "Dune", "Frank Herbert"))
+    library.register_member(Member("m1", "Luis"))
+    library.borrow_book("m1", "1234567890")
+    assert library.get_due_date("m1", "1234567890") == date(2026, 10, 15)
