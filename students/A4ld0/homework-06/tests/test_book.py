@@ -21,3 +21,10 @@ def test_borrow_decrements_copies():
     book = Book("1234567890", "Dune", "Herbert", 2)
     book.borrow()
     assert book.available_copies == 1
+
+
+def test_borrow_unavailable_book():
+    book = Book("1234567890", "Dune", "Herbert", 0)
+    with pytest.raises(ValueError, match="available"):
+        book.borrow()
+    assert book.available_copies == 0
