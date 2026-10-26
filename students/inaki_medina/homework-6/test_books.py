@@ -27,5 +27,14 @@ def test_IBM_nine_digits_invalidated_correctly():
 def test_IBM_fourteen_digits_invalidated_correctly():
     with pytest.raises(ValueError):
         book = Book("83195719123092", "Test Book")
+
+# # Test 5: Borrow method
+def test_book_borrowed_four_times():
+    book = Book("1234567890", "Test Book", "Author", copies=7)
+    book.borrow()
+    book.borrow()
+    book.borrow()
+    book.borrow()
+    assert book.available_copies == 3
     
 
