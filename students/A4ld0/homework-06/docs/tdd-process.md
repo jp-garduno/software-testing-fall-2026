@@ -106,3 +106,21 @@ Implementación en 3920e38:
 ```python
     def add_borrowed_book(self, isbn):
         if len(self.borrowed_books) >= self.max_borrow_limit:
+            raise ValueError("Member borrowing limit reached")
+        self.borrowed_books.append(isbn)
+```
+
+Resultado de la suite completa: `30 passed in 0.05s`. Código de salida: 0.
+
+### REFACTOR
+
+Se reutilizó can_borrow en vez de duplicar la comparación con el límite. Las pruebas de devolución y validación del límite también se incorporaron antes de esta refactorización.
+
+Código en a089a0e:
+
+```python
+    def add_borrowed_book(self, isbn):
+        if not self.can_borrow():
+            raise ValueError("Member borrowing limit reached")
+        self.borrowed_books.append(isbn)
+```
