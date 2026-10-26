@@ -24,9 +24,11 @@ class Library:
         book = self._get_book(isbn)
         if not member.can_borrow():
             raise ValueError("Member borrowing limit reached")
+        borrowed_on = date.today() if borrowed_on is None else borrowed_on
+        if type(borrowed_on) is not date:
+            raise ValueError("Borrowing date must be a date")
         book.borrow()
         member.add_borrowed_book(isbn)
-        borrowed_on = borrowed_on or date.today()
         self.loans.append(dict(member_id=member_id, isbn=isbn,
                                borrowed_on=borrowed_on,
                                due_on=borrowed_on + timedelta(days=14), returned_on=None))
