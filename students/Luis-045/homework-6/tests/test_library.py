@@ -79,3 +79,10 @@ def test_unknown_member_cannot_borrow(stocked_library):
 def test_unknown_book_cannot_be_borrowed(stocked_library):
     with pytest.raises(KeyError):
         stocked_library.borrow_book("m1", "0000000000")
+
+
+def test_return_book_restores_both_member_and_inventory(stocked_library):
+    stocked_library.borrow_book("m1", "1234567890")
+    stocked_library.return_book("m1", "1234567890")
+    assert (stocked_library.members["m1"].borrowed_books,
+            stocked_library.catalog["1234567890"].available_copies) == ([], 1)
