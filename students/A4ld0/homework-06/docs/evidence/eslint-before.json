@@ -1,0 +1,805 @@
+[
+  {
+    "filePath": "coverage/coverage_html_cb_c6c441fc.js",
+    "messages": [
+      {
+        "ruleId": "no-redeclare",
+        "severity": 2,
+        "message": "'document' is already defined as a built-in global variable.",
+        "line": 6,
+        "column": 26,
+        "nodeType": "Block",
+        "messageId": "redeclaredAsBuiltin",
+        "endLine": 6,
+        "endColumn": 34
+      },
+      {
+        "ruleId": "no-redeclare",
+        "severity": 2,
+        "message": "'window' is already defined as a built-in global variable.",
+        "line": 6,
+        "column": 36,
+        "nodeType": "Block",
+        "messageId": "redeclaredAsBuiltin",
+        "endLine": 6,
+        "endColumn": 42
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'$' is defined but never used.",
+        "line": 6,
+        "column": 44,
+        "nodeType": "Program",
+        "messageId": "unusedVar",
+        "endLine": 6,
+        "endColumn": 45
+      },
+      {
+        "ruleId": "no-extra-semi",
+        "severity": 2,
+        "message": "Unnecessary semicolon.",
+        "line": 19,
+        "column": 2,
+        "nodeType": "EmptyStatement",
+        "messageId": "unexpected",
+        "endLine": 19,
+        "endColumn": 3,
+        "fix": {
+          "range": [
+            624,
+            638
+          ],
+          "text": "}\r\n\r\nfunction"
+        }
+      },
+      {
+        "ruleId": "eqeqeq",
+        "severity": 2,
+        "message": "Expected '===' and instead saw '=='.",
+        "line": 38,
+        "column": 32,
+        "nodeType": "BinaryExpression",
+        "messageId": "unexpected",
+        "endLine": 38,
+        "endColumn": 34
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 39,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 39,
+        "endColumn": 44,
+        "fix": {
+          "range": [
+            1252,
+            1255
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "prefer-const",
+        "severity": 2,
+        "message": "'valueA' is never reassigned. Use 'const' instead.",
+        "line": 51,
+        "column": 9,
+        "nodeType": "Identifier",
+        "messageId": "useConst",
+        "endLine": 51,
+        "endColumn": 15,
+        "fix": {
+          "range": [
+            1606,
+            1646
+          ],
+          "text": "const valueA = getCellValue(rowA, column);"
+        }
+      },
+      {
+        "ruleId": "prefer-const",
+        "severity": 2,
+        "message": "'valueB' is never reassigned. Use 'const' instead.",
+        "line": 52,
+        "column": 9,
+        "nodeType": "Identifier",
+        "messageId": "useConst",
+        "endLine": 52,
+        "endColumn": 15,
+        "fix": {
+          "range": [
+            1652,
+            1692
+          ],
+          "text": "const valueB = getCellValue(rowB, column);"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 64,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 64,
+        "endColumn": 19,
+        "fix": {
+          "range": [
+            2182,
+            2185
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "prefer-const",
+        "severity": 2,
+        "message": "'current_direction' is never reassigned. Use 'const' instead.",
+        "line": 86,
+        "column": 13,
+        "nodeType": "Identifier",
+        "messageId": "useConst",
+        "endLine": 86,
+        "endColumn": 30,
+        "fix": {
+          "range": [
+            3037,
+            3071
+          ],
+          "text": "const current_direction = direction;"
+        }
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'event' is defined but never used.",
+        "line": 147,
+        "column": 29,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 147,
+        "endColumn": 34
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 153,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 153,
+        "endColumn": 60,
+        "fix": {
+          "range": [
+            5777,
+            5780
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 163,
+        "column": 13,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 163,
+        "endColumn": 30,
+        "fix": {
+          "range": [
+            6251,
+            6254
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 166,
+        "column": 17,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 166,
+        "endColumn": 21
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 167,
+        "column": 21,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 167,
+        "endColumn": 25
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 168,
+        "column": 21,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 168,
+        "endColumn": 53,
+        "fix": {
+          "range": [
+            6498,
+            6501
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 168,
+        "column": 36,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 168,
+        "endColumn": 40
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 196,
+        "column": 17,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 196,
+        "endColumn": 21
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 197,
+        "column": 21,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 197,
+        "endColumn": 25
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 200,
+        "column": 46,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 200,
+        "endColumn": 50
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 202,
+        "column": 44,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 202,
+        "endColumn": 48
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cell' is not defined.",
+        "line": 207,
+        "column": 48,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 207,
+        "endColumn": 52
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 321,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 321,
+        "endColumn": 30,
+        "fix": {
+          "range": [
+            12527,
+            12530
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-empty",
+        "severity": 2,
+        "message": "Empty block statement.",
+        "line": 349,
+        "column": 18,
+        "nodeType": "BlockStatement",
+        "messageId": "unexpected",
+        "endLine": 349,
+        "endColumn": 20,
+        "suggestions": [
+          {
+            "messageId": "suggestComment",
+            "data": {
+              "type": "block"
+            },
+            "fix": {
+              "range": [
+                13681,
+                13681
+              ],
+              "text": " /* empty */ "
+            },
+            "desc": "Add comment inside empty block statement."
+          }
+        ]
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cls' is not defined.",
+        "line": 358,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 358,
+        "endColumn": 13
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cls' is not defined.",
+        "line": 359,
+        "column": 37,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 359,
+        "endColumn": 40
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'cls' is not defined.",
+        "line": 359,
+        "column": 59,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 359,
+        "endColumn": 62
+      },
+      {
+        "ruleId": "no-empty",
+        "severity": 2,
+        "message": "Empty block statement.",
+        "line": 383,
+        "column": 18,
+        "nodeType": "BlockStatement",
+        "messageId": "unexpected",
+        "endLine": 383,
+        "endColumn": 20,
+        "suggestions": [
+          {
+            "messageId": "suggestComment",
+            "data": {
+              "type": "block"
+            },
+            "fix": {
+              "range": [
+                14865,
+                14865
+              ],
+              "text": " /* empty */ "
+            },
+            "desc": "Add comment inside empty block statement."
+          }
+        ]
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 459,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 459,
+        "endColumn": 27,
+        "fix": {
+          "range": [
+            16981,
+            16984
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 460,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 460,
+        "endColumn": 37,
+        "fix": {
+          "range": [
+            17009,
+            17012
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-constant-condition",
+        "severity": 2,
+        "message": "Unexpected constant condition.",
+        "line": 461,
+        "column": 12,
+        "nodeType": "Literal",
+        "messageId": "unexpected",
+        "endLine": 461,
+        "endColumn": 16
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 474,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 474,
+        "endColumn": 23,
+        "fix": {
+          "range": [
+            17368,
+            17371
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 477,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 477,
+        "endColumn": 42,
+        "fix": {
+          "range": [
+            17430,
+            17433
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 491,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 491,
+        "endColumn": 31,
+        "fix": {
+          "range": [
+            17822,
+            17825
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 492,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 492,
+        "endColumn": 40,
+        "fix": {
+          "range": [
+            17854,
+            17857
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 496,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 496,
+        "endColumn": 57,
+        "fix": {
+          "range": [
+            17943,
+            17946
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 512,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 512,
+        "endColumn": 23,
+        "fix": {
+          "range": [
+            18398,
+            18401
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 585,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 585,
+        "endColumn": 22,
+        "fix": {
+          "range": [
+            21031,
+            21034
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 586,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 586,
+        "endColumn": 41,
+        "fix": {
+          "range": [
+            21054,
+            21057
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 590,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 590,
+        "endColumn": 55,
+        "fix": {
+          "range": [
+            21144,
+            21147
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 594,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 594,
+        "endColumn": 28,
+        "fix": {
+          "range": [
+            21326,
+            21329
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 595,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 595,
+        "endColumn": 39,
+        "fix": {
+          "range": [
+            21355,
+            21358
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 604,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 604,
+        "endColumn": 31,
+        "fix": {
+          "range": [
+            21660,
+            21663
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 716,
+        "column": 5,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 716,
+        "endColumn": 59,
+        "fix": {
+          "range": [
+            25446,
+            25449
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 719,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 719,
+        "endColumn": 42,
+        "fix": {
+          "range": [
+            25561,
+            25564
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 720,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 720,
+        "endColumn": 42,
+        "fix": {
+          "range": [
+            25604,
+            25607
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-var",
+        "severity": 2,
+        "message": "Unexpected var, use let or const instead.",
+        "line": 722,
+        "column": 14,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpectedVar",
+        "endLine": 722,
+        "endColumn": 23,
+        "fix": {
+          "range": [
+            25684,
+            25687
+          ],
+          "text": "let"
+        }
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'key' is not defined.",
+        "line": 723,
+        "column": 13,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 723,
+        "endColumn": 16
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'contexts' is not defined.",
+        "line": 724,
+        "column": 54,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 724,
+        "endColumn": 62
+      },
+      {
+        "ruleId": "no-undef",
+        "severity": 2,
+        "message": "'key' is not defined.",
+        "line": 724,
+        "column": 63,
+        "nodeType": "Identifier",
+        "messageId": "undef",
+        "endLine": 724,
+        "endColumn": 66
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 50,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 28,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": [
+      {
+        "ruleId": "max-len",
+        "replacedBy": []
+      },
+      {
+        "ruleId": "no-extra-semi",
+        "replacedBy": []
+      },
+      {
+        "ruleId": "no-mixed-spaces-and-tabs",
+        "replacedBy": []
+      }
+    ]
+  }
+]

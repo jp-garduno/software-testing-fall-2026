@@ -78,14 +78,27 @@ print(library.most_borrowed_book().title)  # Dune
 
 ## Verificación y entregables
 
-La suite contiene 97 casos: 49 básicos, 28 adicionales de funciones avanzadas
+La suite contiene 105 casos: 53 básicos, 32 adicionales de funciones avanzadas
 y 20 de integración/regresión. No hay pruebas omitidas ni dependencias externas
 durante su ejecución. Los casos de fechas y multas usan fechas explícitas.
 
 `tools/check_quality.py` verifica por separado sentencias >90 %, ramas >85 % y
-duración del proceso completo de pruebas <2 segundos. El tiempo depende del equipo;
+duración de la suite <2 segundos mediante el reporte JUnit. También registra por
+separado el tiempo del proceso, incluido el arranque de Python. El tiempo depende del equipo;
 los resultados medidos están en [quality.json](docs/evidence/quality.json).
 El informe HTML está en [coverage/index.html](coverage/index.html).
+
+Para analizar Python con la configuración del curso, instala requirements-dev.txt
+y ejecuta desde esta carpeta:
+
+```powershell
+.\.venv\Scripts\python.exe -m pylint --rcfile=../../../.github/grading/pylintrc src tests tools
+```
+
+El activo JavaScript del reporte también se verifica con ESLint 8 y la configuración
+del curso, sin excluir archivos ni desactivar reglas. La copia revisada y sus avisos
+de licencia están en [tools/coverage_assets](tools/coverage_assets/README.md).
+El comando de calidad la aplica después de cada generación del HTML.
 
 - [Proceso TDD: cinco ciclos completos](docs/tdd-process.md).
 - [Reflexión técnica, 500–700 palabras](docs/reflection.md).

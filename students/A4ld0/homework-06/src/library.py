@@ -1,5 +1,5 @@
 """Catalog and lending operations."""
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from collections import Counter
 
 
@@ -30,9 +30,9 @@ class Library:
         borrowed_on = self._resolve_date(borrowed_on, "Borrowing")
         book.borrow()
         member.add_borrowed_book(isbn)
-        self.loans.append(dict(member_id=member_id, isbn=isbn,
-                               borrowed_on=borrowed_on,
-                               due_on=borrowed_on + timedelta(days=self.LOAN_PERIOD_DAYS), returned_on=None))
+        self.loans.append({"member_id": member_id, "isbn": isbn,
+                           "borrowed_on": borrowed_on,
+                           "due_on": borrowed_on + timedelta(days=self.LOAN_PERIOD_DAYS), "returned_on": None})
 
     def _get_member(self, member_id):
         if member_id not in self.members:
@@ -111,6 +111,6 @@ class Library:
     def _resolve_date(value, name):
         if value is None:
             return date.today()
-        if type(value) is not date:
+        if not isinstance(value, date) or isinstance(value, datetime):
             raise ValueError(f"{name} date must be a date")
         return value

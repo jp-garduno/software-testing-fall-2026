@@ -62,7 +62,16 @@ def test_reject_blank_title(title):
         Book("1234567890", title, "Herbert")
 
 
-@pytest.mark.parametrize("copies", [-1, 1.5, True, "2"])
+@pytest.mark.parametrize("copies", [-1, 1.5, True, False, "2"])
 def test_reject_invalid_copy_count(copies):
     with pytest.raises(ValueError, match="copies"):
         Book("1234567890", "Dune", "Herbert", copies)
+
+
+def test_reject_unknown_metadata_keyword():
+    with pytest.raises(TypeError):
+        Book("1234567890", "Dune", "Herbert", unknown="value")
+
+
+def test_metadata_remains_keyword_only():
+    pytest.raises(TypeError, Book, "1234567890", "Dune", "Herbert", 1, "Sci-Fi")

@@ -1,9 +1,11 @@
 // Licensed under the Apache License: http://www.apache.org/licenses/LICENSE-2.0
 // For details: https://github.com/coveragepy/coveragepy/blob/main/NOTICE.txt
+// Local derivative of coverage.py 7.16.2, modified 2026-10-26 for course lint rules.
+// Changes: scoped variables, strict equality, modern declarations and explicit storage fallbacks.
 
 // Coverage.py HTML report browser code.
 /*jslint browser: true, sloppy: true, vars: true, plusplus: true, maxerr: 50, indent: 4 */
-/*global coverage: true, document, window, $ */
+/*global coverage: true, contexts */
 
 coverage = {};
 
@@ -16,7 +18,7 @@ function debounce(callback, wait) {
             callback.apply(this, args);
         }, wait);
     };
-};
+}
 
 function checkVisible(element) {
     const rect = element.getBoundingClientRect();
@@ -35,8 +37,8 @@ function on_click(sel, fn) {
 // Helpers for table sorting
 function getCellValue(row, column = 0) {
     const cell = row.cells[column]  // nosemgrep: eslint.detect-object-injection
-    if (cell.childElementCount == 1) {
-        var child = cell.firstElementChild;
+    if (cell.childElementCount === 1) {
+        let child = cell.firstElementChild;
         if (child.tagName === "A") {
             child = child.firstElementChild;
         }
@@ -48,8 +50,8 @@ function getCellValue(row, column = 0) {
 }
 
 function rowComparator(rowA, rowB, column = 0) {
-    let valueA = getCellValue(rowA, column);
-    let valueB = getCellValue(rowB, column);
+    const valueA = getCellValue(rowA, column);
+    const valueB = getCellValue(rowB, column);
     if (!isNaN(valueA) && !isNaN(valueB)) {
         return valueA - valueB;
     }
@@ -61,7 +63,7 @@ function sortColumn(th) {
     // clear state on other headers and then set the new sorting direction.
     const currentSortOrder = th.getAttribute("aria-sort");
     [...th.parentElement.cells].forEach(header => header.setAttribute("aria-sort", "none"));
-    var direction;
+    let direction;
     if (currentSortOrder === "none") {
         direction = th.dataset.defaultSortOrder || "ascending";
     }
@@ -83,7 +85,7 @@ function sortColumn(th) {
     // Save the sort order for next time.
     if (th.id !== "region") {
         let th_id = "file";  // Sort by file if we don't have a column id
-        let current_direction = direction;
+        const current_direction = direction;
         const stored_list = localStorage.getItem(coverage.INDEX_SORT_STORAGE);
         if (stored_list) {
             ({th_id, direction} = JSON.parse(stored_list))
@@ -144,13 +146,13 @@ coverage.wire_up_filter = function () {
     const ratio_columns = Array.from(footer.cells).map(cell => Boolean(cell.dataset.ratio));
 
     // Observe filter keyevents.
-    const filter_handler = (event => {
+    const filter_handler = (() => {
         // Keep running total of each metric, first index contains number of shown rows
         const totals = ratio_columns.map(
             is_ratio => is_ratio ? {"numer": 0, "denom": 0} : 0
         );
 
-        var text = document.getElementById("filter").value;
+        const text = document.getElementById("filter").value;
         // Store filter value
         localStorage.setItem(coverage.FILTER_STORAGE, text);
         const casefold = (text === text.toLowerCase());
@@ -160,12 +162,12 @@ coverage.wire_up_filter = function () {
 
         // Hide / show elements.
         table_body_rows.forEach(row => {
-            var show = false;
+            let show = false;
             // Check the text filter.
             for (let column = 0; column < totals.length; column++) {
-                cell = row.cells[column];
+                const cell = row.cells[column];
                 if (cell.classList.contains("name")) {
-                    var celltext = cell.textContent;
+                    let celltext = cell.textContent;
                     if (casefold) {
                         celltext = celltext.toLowerCase();
                     }
@@ -193,7 +195,7 @@ coverage.wire_up_filter = function () {
 
             for (let column = 0; column < totals.length; column++) {
                 // Accumulate dynamic totals
-                cell = row.cells[column]  // nosemgrep: eslint.detect-object-injection
+                const cell = row.cells[column]  // nosemgrep: eslint.detect-object-injection
                 if (cell.matches(".name, .spacer")) {
                     continue;
                 }
@@ -318,7 +320,7 @@ coverage.LINE_FILTERS_STORAGE = "COVERAGE_LINE_FILTERS";
 
 coverage.pyfile_ready = function () {
     // If we're directed to a particular line number, highlight the line.
-    var frag = location.hash;
+    const frag = location.hash;
     if (frag.length > 2 && frag[1] === "t") {
         document.querySelector(frag).closest(".n").classList.add("highlight");
         coverage.set_sel(parseInt(frag.substr(2), 10));
@@ -346,7 +348,9 @@ coverage.pyfile_ready = function () {
     coverage.filters = undefined;
     try {
         coverage.filters = localStorage.getItem(coverage.LINE_FILTERS_STORAGE);
-    } catch(err) {}
+    } catch(err) {
+        // Browsers may disable storage; use the default line filters.
+    }
 
     if (coverage.filters) {
         coverage.filters = JSON.parse(coverage.filters);
@@ -355,7 +359,7 @@ coverage.pyfile_ready = function () {
         coverage.filters = {run: false, exc: true, mis: true, par: true};
     }
 
-    for (cls in coverage.filters) {
+    for (const cls in coverage.filters) {
         coverage.set_line_visibilty(cls, coverage.filters[cls]);  // nosemgrep: eslint.detect-object-injection
     }
 
@@ -380,7 +384,9 @@ coverage.toggle_lines = function (event) {
     coverage.filters[category] = show;
     try {
         localStorage.setItem(coverage.LINE_FILTERS_STORAGE, JSON.stringify(coverage.filters));
-    } catch(err) {}
+    } catch(err) {
+        // Keep the active filters even if the browser cannot persist them.
+    }
 };
 
 coverage.set_line_visibilty = function (category, should_show) {
@@ -456,9 +462,9 @@ coverage.to_next_chunk = function () {
     const c = coverage;
 
     // Find the start of the next colored chunk.
-    var probe = c.sel_end;
-    var chunk_indicator, probe_line;
-    while (true) {
+    let probe = c.sel_end;
+    let chunk_indicator, probe_line;
+    for (;;) {
         probe_line = c.line_elt(probe);
         if (!probe_line) {
             return;
@@ -471,10 +477,10 @@ coverage.to_next_chunk = function () {
     }
 
     // There's a next chunk, `probe` points to it.
-    var begin = probe;
+    const begin = probe;
 
     // Find the end of this chunk.
-    var next_indicator = chunk_indicator;
+    let next_indicator = chunk_indicator;
     while (next_indicator === chunk_indicator) {
         probe++;
         probe_line = c.line_elt(probe);
@@ -488,12 +494,12 @@ coverage.to_prev_chunk = function () {
     const c = coverage;
 
     // Find the end of the prev colored chunk.
-    var probe = c.sel_begin-1;
-    var probe_line = c.line_elt(probe);
+    let probe = c.sel_begin-1;
+    let probe_line = c.line_elt(probe);
     if (!probe_line) {
         return;
     }
-    var chunk_indicator = c.chunk_indicator(probe_line);
+    let chunk_indicator = c.chunk_indicator(probe_line);
     while (probe > 1 && !chunk_indicator) {
         probe--;
         probe_line = c.line_elt(probe);
@@ -509,7 +515,7 @@ coverage.to_prev_chunk = function () {
     }
 
     // There's a prev chunk, `probe` points to its last line.
-    var end = probe+1;
+    const end = probe+1;
 
     // Find the beginning of this chunk.
     while (probe > 1) {
@@ -582,17 +588,17 @@ coverage.to_prev_chunk_nicely = function () {
 // Select line number lineno, or if it is in a colored chunk, select the
 // entire chunk
 coverage.select_line_or_chunk = function (lineno) {
-    var c = coverage;
-    var probe_line = c.line_elt(lineno);
+    const c = coverage;
+    let probe_line = c.line_elt(lineno);
     if (!probe_line) {
         return;
     }
-    var the_indicator = c.chunk_indicator(probe_line);
+    const the_indicator = c.chunk_indicator(probe_line);
     if (the_indicator) {
         // The line is in a highlighted chunk.
         // Search backward for the first line.
-        var probe = lineno;
-        var indicator = the_indicator;
+        let probe = lineno;
+        let indicator = the_indicator;
         while (probe > 0 && indicator === the_indicator) {
             probe--;
             probe_line = c.line_elt(probe);
@@ -601,7 +607,7 @@ coverage.select_line_or_chunk = function (lineno) {
             }
             indicator = c.chunk_indicator(probe_line);
         }
-        var begin = probe + 1;
+        const begin = probe + 1;
 
         // Search forward for the last line.
         probe = lineno;
@@ -713,14 +719,14 @@ coverage.wire_up_sticky_header = function () {
 };
 
 coverage.expand_contexts = function (e) {
-    var ctxs = e.target.parentNode.querySelector(".ctxs");
+    const ctxs = e.target.parentNode.querySelector(".ctxs");
 
     if (!ctxs.classList.contains("expanded")) {
-        var ctxs_text = ctxs.textContent;
-        var width = Number(ctxs_text[0]);
+        const ctxs_text = ctxs.textContent;
+        const width = Number(ctxs_text[0]);
         ctxs.textContent = "";
-        for (var i = 1; i < ctxs_text.length; i += width) {
-            key = ctxs_text.substring(i, i + width).trim();
+        for (let i = 1; i < ctxs_text.length; i += width) {
+            const key = ctxs_text.substring(i, i + width).trim();
             ctxs.appendChild(document.createTextNode(contexts[key]));
             ctxs.appendChild(document.createElement("br"));
         }

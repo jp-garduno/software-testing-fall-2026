@@ -45,3 +45,11 @@ def test_search_invalid_sort(library):
 def test_search_text_order_ignores_case(library):
     library.add_book(Book("0000000000", "atlas", "Author"))
     assert [b.title for b in library.search_books()] == ["atlas", "Dune"]
+
+
+def test_search_uses_edited_public_metadata(library):
+    book = library.catalog["1234567890"]
+    book.genre = "Sci-Fi"
+    book.publication_year = 1965
+    book.rating = 4.5
+    assert library.search_books(genre="Sci-Fi", publication_year=1965, rating=4.5) == [book]
