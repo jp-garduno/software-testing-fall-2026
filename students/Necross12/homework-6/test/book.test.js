@@ -94,4 +94,16 @@ describe("Pedir y devolver un libro", () => {
     books.pedir();
     expect(() => books.pedir()).toThrow("No hay más libros disponibles");
   });
+
+  test("regresar un libro aumenta las copias disponibles", () => {
+    books.pedir();
+    expect(books.regresar()).toBe(true);
+    expect(books.copiasDisponibles).toBe(3);
+  });
+
+  test("(inválida) regresar más libros de los que existen", () => {
+    expect(() => books.regresar()).toThrow(
+      "No se pueden regresar más libros de los que existen",
+    );
+  });
 });
