@@ -14,3 +14,12 @@ def test_add_book():
     book = Book("1234567890", "Dune", "Frank Herbert")
     library.add_book(book)
     assert library.catalog[book.isbn] is book
+
+
+def test_duplicate_isbn_preserves_catalog():
+    library = Library()
+    original = Book("1234567890", "Dune", "Frank Herbert")
+    library.add_book(original)
+    with pytest.raises(ValueError, match="ISBN"):
+        library.add_book(Book(original.isbn, "Replacement", "Other"))
+    assert library.catalog[original.isbn] is original
