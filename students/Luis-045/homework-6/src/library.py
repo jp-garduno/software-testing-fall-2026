@@ -105,4 +105,4 @@ class Library:
     def most_borrowed_book(self):
         """Return the most borrowed ISBN, breaking ties by first loan."""
         counts = Counter(loan.isbn for loan in self._loans)
-        return counts.most_common(1)[0][0]
+        return counts.most_common(1)[0][0] if counts else None
