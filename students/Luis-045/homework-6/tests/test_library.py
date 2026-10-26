@@ -194,3 +194,9 @@ def test_publication_year_filter_excludes_missing_metadata(stocked_library):
     book = Book("1234567891", "Foundation", "Isaac Asimov", publication_year=1951)
     stocked_library.add_book(book)
     assert stocked_library.search_with_filters(publication_year=1951) == [book]
+
+
+def test_minimum_rating_is_inclusive_and_excludes_unrated_books(stocked_library):
+    book = Book("1234567891", "Foundation", "Isaac Asimov", rating=4.5)
+    stocked_library.add_book(book)
+    assert stocked_library.search_with_filters(min_rating=4.5) == [book]
