@@ -95,6 +95,8 @@ class Library:
         return self.catalog[max(sorted(counts), key=counts.get)]
 
     def search_books(self, *, genre=None, publication_year=None, rating=None, sort_by="title"):
+        if sort_by not in ("title", "author", "publication_year", "rating"):
+            raise ValueError("Unsupported sort field")
         matches = [book for book in self.catalog.values()
                 if (genre is None or book.genre == genre)
                 and (publication_year is None or book.publication_year == publication_year)
