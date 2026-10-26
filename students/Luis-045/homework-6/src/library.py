@@ -11,3 +11,7 @@ class Library:
     def add_book(self, book):
         """Add a new ISBN to the catalog."""
         self.catalog[book.isbn] = book
+
+    def register_member(self, member):
+        """Register a new member identity."""
+        self.members[member.member_id] = member
