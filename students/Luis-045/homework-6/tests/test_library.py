@@ -233,3 +233,8 @@ def test_filtered_search_can_sort_by_publication_year():
             library.search_with_filters(sort_by="publication_year")] == [
                 "1234567891", "1234567890"
             ]
+
+
+def test_filtered_search_rejects_an_unknown_sort_field(stocked_library):
+    with pytest.raises(ValueError, match="sort"):
+        stocked_library.search_with_filters(sort_by="missing")
