@@ -28,7 +28,7 @@ class Library:
         borrowed_on = borrowed_on or date.today()
         self.loans.append(dict(member_id=member_id, isbn=isbn,
                                borrowed_on=borrowed_on,
-                               due_on=borrowed_on + timedelta(days=14)))
+                               due_on=borrowed_on + timedelta(days=14), returned_on=None))
 
     def _get_member(self, member_id):
         if member_id not in self.members:
