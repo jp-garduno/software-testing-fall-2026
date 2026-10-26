@@ -88,3 +88,21 @@ El segundo préstamo superaba el límite y se añadía a la lista. La prueba exi
 
 Prueba escrita primero (1724413):
 
+```python
+def test_member_limit_preserves_list():
+    member = Member("m1", "Ana", 1)
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567890123")
+    assert member.borrowed_books == ["1234567890"]
+```
+
+Resultado observado: `1 failed in 0.08s`. Código de salida: 1.
+
+### GREEN
+
+Implementación en 3920e38:
+
+```python
+    def add_borrowed_book(self, isbn):
+        if len(self.borrowed_books) >= self.max_borrow_limit:
