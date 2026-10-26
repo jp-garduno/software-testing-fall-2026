@@ -12,4 +12,6 @@ class Library:
         self.catalog[book.isbn] = book
 
     def register_member(self, member):
+        if member.member_id in self.members:
+            raise ValueError("Duplicate member ID")
         self.members[member.member_id] = member
