@@ -21,3 +21,11 @@ def test_add_borrowed_book():
     member = Member("m1", "Ana")
     member.add_borrowed_book("1234567890")
     assert member.borrowed_books == ["1234567890"]
+
+
+def test_member_limit_preserves_list():
+    member = Member("m1", "Ana", 1)
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567890123")
+    assert member.borrowed_books == ["1234567890"]
