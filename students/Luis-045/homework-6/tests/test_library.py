@@ -100,3 +100,9 @@ def test_search_by_title_matches_a_case_insensitive_substring(stocked_library):
     assert stocked_library.search_by_title("UN") == [
         stocked_library.catalog["1234567890"]
     ]
+
+
+def test_search_by_author_matches_a_case_insensitive_substring(stocked_library):
+    assert stocked_library.search_by_author("HERB") == [
+        stocked_library.catalog["1234567890"]
+    ]
