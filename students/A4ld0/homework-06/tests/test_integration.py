@@ -84,3 +84,15 @@ def test_return_unknown_isbn(library):
         library.return_book("m1", "0000000000")
 
 
+@pytest.mark.parametrize("genre, year, rating", [
+    ("Sci-Fi", 1965, 4.5), ("Drama", 1965, 4.5),
+    ("Sci-Fi", 2000, 4.5), ("Sci-Fi", 1965, 1),
+])
+def test_combined_search_requires_every_filter(library, genre, year, rating):
+    library.add_book(Book("0000000000", "Other", "Author", genre="Sci-Fi",
+                          publication_year=1965, rating=4.5))
+    matches = library.search_books(genre=genre, publication_year=year, rating=rating)
+    expected = ["0000000000"] if (genre, year, rating) == ("Sci-Fi", 1965, 4.5) else []
+    assert [book.isbn for book in matches] == expected
+
+
