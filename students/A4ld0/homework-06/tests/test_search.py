@@ -26,3 +26,12 @@ def test_search_exact_rating(library, rating):
 def test_search_default_title_order(library):
     library.add_book(Book("0000000000", "Atlas", "Author"))
     assert [b.title for b in library.search_books()] == ["Atlas", "Dune"]
+
+
+@pytest.mark.parametrize("field", ["author", "publication_year", "rating"])
+def test_search_configurable_sort(library, field):
+    library.add_book(Book("0000000000", "Atlas", "Zed", publication_year=2000, rating=5))
+    library.add_book(Book("1111111111", "Zebra", "Abel", publication_year=1900, rating=1))
+    expected = ["1111111111", "1234567890", "0000000000"] if field == "author" else [
+        "1111111111", "0000000000", "1234567890"]
+    assert [b.isbn for b in library.search_books(sort_by=field)] == expected
