@@ -70,3 +70,21 @@ print(library.most_borrowed_book().title)  # Dune
   publication_year y rating. Los textos se ordenan sin distinguir mayúsculas;
   valores ausentes quedan al final y los empates se resuelven por ISBN ascendente.
 - search_by_title y search_by_author buscan subcadenas sin distinguir mayúsculas.
+- member_history devuelve un reporte estructurado como lista de diccionarios:
+  member_id, isbn, borrowed_on, due_on y returned_on (None si sigue activo).
+  Es una instantánea independiente; modificarla no altera los préstamos.
+- most_borrowed_book incluye todos los préstamos, incluso devueltos, devuelve
+  un Book o None si no hay préstamos y resuelve empates por ISBN ascendente.
+
+## Verificación y entregables
+
+La suite contiene 97 casos: 49 básicos, 28 adicionales de funciones avanzadas
+y 20 de integración/regresión. No hay pruebas omitidas ni dependencias externas
+durante su ejecución. Los casos de fechas y multas usan fechas explícitas.
+
+`tools/check_quality.py` verifica por separado sentencias >90 %, ramas >85 % y
+duración del proceso completo de pruebas <2 segundos. El tiempo depende del equipo;
+los resultados medidos están en [quality.json](docs/evidence/quality.json).
+El informe HTML está en [coverage/index.html](coverage/index.html).
+
+- [Proceso TDD: cinco ciclos completos](docs/tdd-process.md).
