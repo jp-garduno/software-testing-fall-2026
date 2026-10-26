@@ -47,3 +47,7 @@ class Library:
     def _search(self, field, query):
         return [book for book in self.catalog.values()
                 if query.casefold() in getattr(book, field).casefold()]
+
+    def get_available_books(self):
+        """List catalog entries with at least one free copy."""
+        return [book for book in self.catalog.values() if book.is_available()]
