@@ -124,3 +124,21 @@ Código en a089a0e:
             raise ValueError("Member borrowing limit reached")
         self.borrowed_books.append(isbn)
 ```
+
+Resultado tras refactorizar: `36 passed in 0.07s`. Código de salida: 0.
+Registros de evidencia: 17 y 21 en el archivo JSONL.
+
+
+## Ciclo 3: Préstamo rechazado sin alterar ejemplares
+
+### RED
+
+Aunque el miembro llegaba a su límite, el primer código descontaba una copia antes de fallar. La prueba observa ambos objetos tras la excepción.
+
+Prueba escrita primero (052b2e2):
+
+```python
+def test_borrow_limit_is_atomic(library):
+    library.members["m1"].max_borrow_limit = 0
+    with pytest.raises(ValueError, match="limit"):
+        library.borrow_book("m1", "1234567890")
