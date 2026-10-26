@@ -127,3 +127,19 @@ def add_borrowed_book(self, isbn):
 ```
 
 Resultado real: `18 passed in 0.04s`.
+
+
+### REFACTOR
+
+Commit: `d2d36b2`.
+
+```python
+def add_borrowed_book(self, isbn):
+    if not self.can_borrow():
+        raise ValueError("Borrow limit reached")
+    self.borrowed_books.append(isbn)
+```
+
+Se sustituyó el cálculo duplicado por can_borrow(). Esto mantiene alineadas la consulta de capacidad y la validación que precede a cada préstamo.
+
+Resultado real: `18 passed in 0.05s`.
