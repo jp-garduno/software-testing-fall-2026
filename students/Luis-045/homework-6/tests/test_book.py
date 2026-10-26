@@ -65,3 +65,9 @@ def test_return_copy_restores_available_inventory():
     book.borrow()
     book.return_copy()
     assert book.available_copies == 1
+
+
+def test_return_copy_rejects_an_extra_copy():
+    book = Book("1234567890", "Dune", "Frank Herbert")
+    with pytest.raises(ValueError, match="borrowed"):
+        book.return_copy()
