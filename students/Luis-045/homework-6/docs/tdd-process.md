@@ -159,3 +159,16 @@ def test_search_by_author_matches_a_case_insensitive_substring(stocked_library):
 ```
 
 Resultado real: `1 failed, 36 passed in 0.11s`.
+
+
+### GREEN
+
+Commit: `74118f9`. Implementación mínima que hizo pasar el caso:
+
+```python
+def search_by_author(self, author):
+    return [book for book in self.catalog.values()
+            if author.casefold() in book.author.casefold()]
+```
+
+Resultado real: `37 passed in 0.06s`.
