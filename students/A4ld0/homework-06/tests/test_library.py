@@ -73,3 +73,10 @@ def test_borrow_limit_is_atomic(library):
         library.borrow_book("m1", "1234567890")
     assert (library.catalog["1234567890"].available_copies,
             library.members["m1"].borrowed_books) == (2, [])
+
+
+def test_library_return_updates_book_and_member(library):
+    library.borrow_book("m1", "1234567890")
+    library.return_book("m1", "1234567890")
+    assert (library.catalog["1234567890"].available_copies,
+            library.members["m1"].borrowed_books) == (2, [])
