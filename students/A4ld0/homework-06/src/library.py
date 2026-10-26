@@ -94,7 +94,8 @@ class Library:
             return None
         return self.catalog[max(sorted(counts), key=counts.get)]
 
-    def search_books(self, *, genre=None, publication_year=None):
+    def search_books(self, *, genre=None, publication_year=None, rating=None):
         return [book for book in self.catalog.values()
                 if (genre is None or book.genre == genre)
-                and (publication_year is None or book.publication_year == publication_year)]
+                and (publication_year is None or book.publication_year == publication_year)
+                and (rating is None or book.rating == rating)]
