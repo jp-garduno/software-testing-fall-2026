@@ -91,3 +91,9 @@ def test_invalid_return_date_is_atomic(library, returned_on):
     with pytest.raises(ValueError, match="date"):
         library.return_book("m1", "1234567890", returned_on=returned_on)
     assert library.catalog["1234567890"].available_copies == 1
+
+
+@pytest.mark.parametrize("as_of", ["2026-10-20", 0])
+def test_invalid_fee_report_date(library, as_of):
+    with pytest.raises(ValueError, match="date"):
+        library.calculate_late_fees("m1", as_of=as_of)
