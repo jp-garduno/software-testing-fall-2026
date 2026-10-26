@@ -28,3 +28,10 @@ def test_borrow_unavailable_book():
     with pytest.raises(ValueError, match="available"):
         book.borrow()
     assert book.available_copies == 0
+
+
+def test_return_copy_restores_availability():
+    book = Book("1234567890", "Dune", "Herbert")
+    book.borrow()
+    book.return_copy()
+    assert book.available_copies == book.total_copies
