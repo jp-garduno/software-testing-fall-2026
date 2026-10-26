@@ -11,6 +11,8 @@ class Book:
             raise ValueError("Book title is required")
         self.title = title
         self.author = author
+        if total_copies < 0:
+            raise ValueError("Total copies must be nonnegative")
         self.total_copies = total_copies
         self.available_copies = total_copies
 
