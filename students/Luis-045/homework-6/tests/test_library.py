@@ -238,3 +238,11 @@ def test_filtered_search_can_sort_by_publication_year():
 def test_filtered_search_rejects_an_unknown_sort_field(stocked_library):
     with pytest.raises(ValueError, match="sort"):
         stocked_library.search_with_filters(sort_by="missing")
+
+
+def test_rating_sort_places_unrated_books_before_rated_books(stocked_library):
+    stocked_library.add_book(Book("1234567891", "Foundation", "Asimov", rating=4.5))
+    assert [book.isbn for book in
+            stocked_library.search_with_filters(sort_by="rating")] == [
+                "1234567890", "1234567891"
+            ]
