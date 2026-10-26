@@ -65,3 +65,7 @@ def test_most_borrowed_book(library):
     library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 3))
     library.borrow_book("m1", "1234567890123", borrowed_on=date(2026, 10, 4))
     assert library.most_borrowed_book().isbn == "1234567890"
+
+
+def test_most_borrowed_without_loans(library):
+    assert library.most_borrowed_book() is None
