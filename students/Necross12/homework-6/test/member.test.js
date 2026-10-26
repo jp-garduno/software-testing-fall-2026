@@ -74,4 +74,15 @@ describe("Miembro: pedir y regresar", () => {
       "El libro debe tener un identificador.",
     );
   });
+
+  test("regresar quita el libro de la lista", () => {
+    expect(miembro.regresar("1234567890")).toBe(true);
+    expect(miembro.listaLibros).toEqual([]);
+  });
+
+  test("(inválida) regresar un libro que no tiene", () => {
+    expect(() => miembro.regresar("0987654321")).toThrow(
+      "No puedes regresar un libro que no tienes.",
+    );
+  });
 });
