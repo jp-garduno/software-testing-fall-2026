@@ -290,3 +290,7 @@ def test_most_borrowed_book_counts_repeat_loans(stocked_library):
     stocked_library.return_book("m1", "1234567891")
     stocked_library.borrow_book("m1", "1234567891")
     assert stocked_library.most_borrowed_book() == "1234567891"
+
+
+def test_most_borrowed_book_is_none_without_loans():
+    assert Library().most_borrowed_book() is None
