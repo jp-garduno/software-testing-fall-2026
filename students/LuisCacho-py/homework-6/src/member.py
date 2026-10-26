@@ -30,11 +30,14 @@ class Member:
         """Add an ISBN to the member's list of borrowed books."""
         if not self.can_borrow():
             raise ValueError("Borrow limit reached")
-        self.borrowed_books.append(str(isbn))
+        self.borrowed_books.append(str(isbn).strip())
 
     def return_book(self, isbn: str) -> None:
         """Remove a borrowed book from the member's list."""
-        cleaned_isbn = str(isbn)
+        cleaned_isbn = str(isbn).strip()
         if cleaned_isbn not in self.borrowed_books:
             raise ValueError("Book was not borrowed by this member")
         self.borrowed_books.remove(cleaned_isbn)
+
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"Member(id='{self.member_id}', name='{self.name}', borrowed={len(self.borrowed_books)}/{self.max_borrow_limit})"
