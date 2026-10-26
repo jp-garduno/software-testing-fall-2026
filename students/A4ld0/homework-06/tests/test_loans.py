@@ -76,3 +76,10 @@ def test_most_borrowed_tie_is_deterministic(library):
     library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
     library.borrow_book("m1", "0000000000", borrowed_on=date(2026, 10, 1))
     assert library.most_borrowed_book().isbn == "0000000000"
+
+
+@pytest.mark.parametrize("borrowed_on", ["2026-10-01", 0])
+def test_invalid_borrow_date_is_atomic(library, borrowed_on):
+    with pytest.raises(ValueError, match="date"):
+        library.borrow_book("m1", "1234567890", borrowed_on=borrowed_on)
+    assert (library.catalog["1234567890"].available_copies, library.loans) == (2, [])
