@@ -84,4 +84,6 @@ class Library:
 
     def most_borrowed_book(self):
         counts = Counter(loan["isbn"] for loan in self.loans)
+        if not counts:
+            return None
         return self.catalog[max(counts, key=counts.get)]
