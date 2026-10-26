@@ -52,3 +52,21 @@ print(library.most_borrowed_book().title)  # Dune
   Un miembro puede tomar varias copias del mismo ISBN, dentro de su límite.
   La devolución cierra el préstamo activo más antiguo de ese miembro e ISBN.
 - Las operaciones deben realizarse mediante Library para mantener coherencia
+  entre las tres estructuras. No hay persistencia ni interfaz de usuario.
+
+## Funciones avanzadas
+
+- Multas: vencimiento 14 días después del préstamo. El día del vencimiento no
+  genera multa; después se cobra $1 por día y ejemplar. Una devolución congela
+  el cargo y el total conserva multas de préstamos devueltos. No se implementan pagos.
+- Las fechas opcionales son datetime.date; al omitirlas se usa la fecha local actual.
+  No se aceptan cadenas ni datetime.datetime. Una devolución anterior al préstamo
+  se rechaza antes de modificar estado. as_of permite consultar multas a una fecha:
+  no incluye días posteriores a esa fecha, aunque el libro se devuelva más tarde.
+- search_books combina género, año y calificación con AND y coincidencia exacta.
+  None omite un filtro; rating=0 sí filtra. Los metadatos son opcionales: género
+  de texto, año entero y calificación numérica, sin imponer una escala de puntuación.
+- El orden ascendente predeterminado es por título; sort_by admite title, author,
+  publication_year y rating. Los textos se ordenan sin distinguir mayúsculas;
+  valores ausentes quedan al final y los empates se resuelven por ISBN ascendente.
+- search_by_title y search_by_author buscan subcadenas sin distinguir mayúsculas.
