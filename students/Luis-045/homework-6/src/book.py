@@ -17,7 +17,7 @@ class Book:
             or isinstance(total_copies, bool)
             or total_copies < 0
         ):
-            raise ValueError("Total copies must be nonnegative")
+            raise ValueError("Total copies must be a nonnegative integer")
         self.total_copies = total_copies
         self.available_copies = total_copies
 
