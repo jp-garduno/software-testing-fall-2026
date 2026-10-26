@@ -65,3 +65,11 @@ def test_borrow_unknown_isbn(library):
     with pytest.raises(ValueError, match="ISBN"):
         library.borrow_book("m1", "0000000000")
     assert library.members["m1"].borrowed_books == []
+
+
+def test_borrow_limit_is_atomic(library):
+    library.members["m1"].max_borrow_limit = 0
+    with pytest.raises(ValueError, match="limit"):
+        library.borrow_book("m1", "1234567890")
+    assert (library.catalog["1234567890"].available_copies,
+            library.members["m1"].borrowed_books) == (2, [])
