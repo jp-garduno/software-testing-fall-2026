@@ -188,3 +188,9 @@ def test_genre_filter_matches_without_case_sensitivity(stocked_library):
     book = Book("1234567891", "Foundation", "Isaac Asimov", genre="Science Fiction")
     stocked_library.add_book(book)
     assert stocked_library.search_with_filters(genre="science fiction") == [book]
+
+
+def test_publication_year_filter_excludes_missing_metadata(stocked_library):
+    book = Book("1234567891", "Foundation", "Isaac Asimov", publication_year=1951)
+    stocked_library.add_book(book)
+    assert stocked_library.search_with_filters(publication_year=1951) == [book]
