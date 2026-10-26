@@ -62,3 +62,36 @@ describe("Libro", () => {
     expect(books.estaDisponible()).toBe(false);
   });
 });
+
+describe("Pedir y devolver un libro", () => {
+  let books;
+
+  beforeEach(() => {
+    books = new Books("1234567890", "Libro de prueba", "Autor", 3);
+  });
+
+  test("pedir un libro reduce las copias disponibles", () => {
+    expect(books.pedir()).toBe(true);
+    expect(books.copiasDisponibles).toBe(2);
+  });
+
+  test("sigue disponible cuando queda al menos una copia", () => {
+    books.pedir();
+    books.pedir();
+    expect(books.estaDisponible()).toBe(true);
+  });
+
+  test("no está disponible cuando todas las copias están pedidas", () => {
+    books.pedir();
+    books.pedir();
+    books.pedir();
+    expect(books.estaDisponible()).toBe(false);
+  });
+
+  test("(inválida) pedir un libro sin copias disponibles", () => {
+    books.pedir();
+    books.pedir();
+    books.pedir();
+    expect(() => books.pedir()).toThrow("No hay más libros disponibles");
+  });
+});
