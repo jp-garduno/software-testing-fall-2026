@@ -59,3 +59,9 @@ def test_borrow_unknown_member(library):
     with pytest.raises(ValueError, match="member"):
         library.borrow_book("missing", "1234567890")
     assert library.catalog["1234567890"].available_copies == 2
+
+
+def test_borrow_unknown_isbn(library):
+    with pytest.raises(ValueError, match="ISBN"):
+        library.borrow_book("m1", "0000000000")
+    assert library.members["m1"].borrowed_books == []
