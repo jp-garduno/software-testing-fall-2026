@@ -35,3 +35,8 @@ class Library:
         book = self.catalog[isbn]
         member.return_book(isbn)
         book.return_copy()
+
+    def search_by_title(self, title):
+        """Find titles containing a case-insensitive query."""
+        return [book for book in self.catalog.values()
+                if title.casefold() in book.title.casefold()]
