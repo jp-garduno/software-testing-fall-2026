@@ -61,5 +61,10 @@ class Library:
 
     def get_due_date(self, member_id, isbn):
         """Get the due date of a current loan."""
-        return next(loan for loan in self._loans
-                    if loan.member_id == member_id and loan.isbn == isbn).due_date
+        return self._active_loan(member_id, isbn).due_date
+
+    def _active_loan(self, member_id, isbn):
+        for loan in self._loans:
+            if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None:
+                return loan
+        raise ValueError("No active loan for this member and ISBN")
