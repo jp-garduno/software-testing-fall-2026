@@ -16,3 +16,21 @@ python -m venv .venv
 
 Si `python` abre la tienda de Windows, usa la ruta de tu intérprete instalado.
 En macOS/Linux, sustituye `.venv\Scripts\python.exe` por `.venv/bin/python`.
+El entorno virtual no se incluye en Git; las dependencias están fijadas.
+
+## Ejemplo
+
+```python
+from datetime import date
+from src.book import Book
+from src.member import Member
+from src.library import Library
+
+library = Library()
+library.add_book(Book("1234567890", "Dune", "Frank Herbert", 2,
+                      genre="Sci-Fi", publication_year=1965, rating=4.5))
+library.register_member(Member("m1", "Ana"))
+library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+print(library.calculate_late_fees("m1", as_of=date(2026, 10, 18)))  # 3
+library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
+print(library.calculate_late_fees("m1", as_of=date(2026, 11, 1)))  # 2
