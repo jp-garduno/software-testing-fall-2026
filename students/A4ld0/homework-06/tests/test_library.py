@@ -23,3 +23,10 @@ def test_duplicate_isbn_preserves_catalog():
     with pytest.raises(ValueError, match="ISBN"):
         library.add_book(Book(original.isbn, "Replacement", "Other"))
     assert library.catalog[original.isbn] is original
+
+
+def test_register_member():
+    library = Library()
+    member = Member("m1", "Ana")
+    library.register_member(member)
+    assert library.members[member.member_id] is member
