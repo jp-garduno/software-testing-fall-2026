@@ -66,3 +66,7 @@ def test_member_fees_do_not_include_other_members(library):
     assert library.calculate_late_fees("m1", as_of=date(2026, 10, 20)) == 0
 
 
+def test_empty_history_and_default_fee_date(library):
+    assert (library.member_history("m1"), library.calculate_late_fees("m1")) == ([], 0)
+
+
