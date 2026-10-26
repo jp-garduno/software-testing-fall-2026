@@ -13,3 +13,8 @@ def test_loan_due_date_is_fourteen_days_after_borrowing():
 def test_loan_charges_one_dollar_for_each_overdue_day():
     loan = Loan("m1", "1234567890", date(2026, 10, 1))
     assert loan.fee_on(date(2026, 10, 18)) == 3
+
+
+def test_loan_has_no_fee_before_the_due_date():
+    loan = Loan("m1", "1234567890", date(2026, 10, 1))
+    assert loan.fee_on(date(2026, 10, 10)) == 0
