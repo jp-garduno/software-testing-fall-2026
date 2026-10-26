@@ -86,3 +86,11 @@ def test_return_book_restores_both_member_and_inventory(stocked_library):
     stocked_library.return_book("m1", "1234567890")
     assert (stocked_library.members["m1"].borrowed_books,
             stocked_library.catalog["1234567890"].available_copies) == ([], 1)
+
+
+def test_wrong_member_return_leaves_inventory_unchanged(stocked_library):
+    stocked_library.borrow_book("m1", "1234567890")
+    stocked_library.register_member(Member("m2", "Ana"))
+    with pytest.raises(ValueError):
+        stocked_library.return_book("m2", "1234567890")
+    assert stocked_library.catalog["1234567890"].available_copies == 0
