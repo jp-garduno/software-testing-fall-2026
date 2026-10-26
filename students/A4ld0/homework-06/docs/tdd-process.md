@@ -214,3 +214,21 @@ def test_returned_fees_stop_growing(library):
 ```
 
 Resultado observado: `1 failed in 0.06s`. Código de salida: 1.
+
+### GREEN
+
+Implementación en 968b149:
+
+```python
+    def calculate_late_fees(self, member_id, as_of=None):
+        as_of = as_of or date.today()
+        return sum(max(0, (min(as_of, loan.get("returned_on") or as_of) - loan["due_on"]).days)
+                   for loan in self.loans if loan["member_id"] == member_id)
+```
+
+Resultado de la suite completa: `53 passed in 0.06s`. Código de salida: 0.
+
+### REFACTOR
+
+Se extrajo _loan_fee: la fecha final es el mínimo entre devolución y consulta, y los días negativos producen cero. El método público conserva la suma por miembro.
+
