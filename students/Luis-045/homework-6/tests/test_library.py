@@ -175,3 +175,10 @@ def test_library_sums_fees_from_multiple_books(dated_library):
     library.borrow_book("m1", "1234567891")
     clock[0] = date(2026, 10, 18)
     assert library.calculate_late_fees("m1") == 6
+
+
+def test_returned_book_no_longer_has_an_active_due_date(stocked_library):
+    stocked_library.borrow_book("m1", "1234567890")
+    stocked_library.return_book("m1", "1234567890")
+    with pytest.raises(ValueError, match="active"):
+        stocked_library.get_due_date("m1", "1234567890")
