@@ -4,13 +4,14 @@
 class Book:
     """A catalog entry with its inventory."""
 
-    def __init__(self, isbn, title, author, total_copies=1):
+    def __init__(self, isbn, title, author, total_copies=1, **metadata):
         self._validate_isbn(isbn)
         self.isbn = isbn
         if not title.strip():
             raise ValueError("Book title is required")
         self.title = title
         self.author = author
+        self.metadata = metadata
         if total_copies < 0:
             raise ValueError("Total copies must be nonnegative")
         self.total_copies = total_copies
