@@ -52,3 +52,14 @@ en que orientan el diseño. Un método ya implementado puede condicionar demasia
 las expectativas de quien lo prueba. Empezar por ejemplos de comportamiento
 reduce ese riesgo, pero no reemplaza aclarar requisitos ambiguos con la persona
 que solicita el sistema.
+
+Para trabajos futuros, este enfoque resulta apropiado en reglas de negocio,
+validaciones y cálculos con límites claros. En exploraciones visuales o prototipos
+todavía indefinidos puede convenir primero entender la interacción y después
+formular contratos comprobables. El aspecto más revelador del ejercicio fue que
+las excepciones también necesitan pruebas de estado: fallar correctamente incluye
+evitar modificaciones parciales. Una siguiente iteración mantendría los ciclos
+pequeños, definiría ejemplos de fechas desde el inicio y reservaría revisiones
+explícitas para invariantes compartidas. Antes de añadir persistencia o concurrencia,
+sería necesario ampliar esas garantías con escenarios específicos, conservando
+la separación entre comportamiento observado, evidencia y decisiones pendientes.
