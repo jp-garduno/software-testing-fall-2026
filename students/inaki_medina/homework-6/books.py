@@ -11,4 +11,7 @@ class Book:
 	def is_available(self): 
 		return self.available_copies > 0
 
+	def borrow(self):
+		self.available_copies -= 1
+
 
