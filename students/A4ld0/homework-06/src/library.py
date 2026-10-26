@@ -40,11 +40,15 @@ class Library:
             raise ValueError("Unknown ISBN")
         return self.catalog[isbn]
 
-    def return_book(self, member_id, isbn):
+    def return_book(self, member_id, isbn, returned_on=None):
         member = self._get_member(member_id)
         book = self._get_book(isbn)
         member.return_book(isbn)
         book.return_copy()
+        loan = next(loan for loan in self.loans
+                    if loan["member_id"] == member_id and loan["isbn"] == isbn
+                    and loan.get("returned_on") is None)
+        loan["returned_on"] = returned_on or date.today()
 
     def search_by_title(self, title):
         return [book for book in self.catalog.values()
