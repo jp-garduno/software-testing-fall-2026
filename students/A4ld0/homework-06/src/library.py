@@ -67,6 +67,7 @@ class Library:
         return [book for book in self.catalog.values() if book.is_available()]
 
     def calculate_late_fees(self, member_id, as_of=None):
+        self._get_member(member_id)
         as_of = as_of or date.today()
         return sum(self._loan_fee(loan, as_of)
                    for loan in self.loans if loan["member_id"] == member_id)
