@@ -73,7 +73,9 @@ class Library:
 
     def calculate_late_fees(self, member_id, as_of=None):
         self._get_member(member_id)
-        as_of = as_of or date.today()
+        as_of = date.today() if as_of is None else as_of
+        if type(as_of) is not date:
+            raise ValueError("Report date must be a date")
         return sum(self._loan_fee(loan, as_of)
                    for loan in self.loans if loan["member_id"] == member_id)
 
