@@ -34,3 +34,21 @@ de ejecuciones permite contrastarlos. También distingue los casos adicionales
 de integración, escritos después, de los ciclos originales. Esta separación
 evita presentar toda prueba aprobada como evidencia automática de desarrollo
 guiado por pruebas.
+
+Entre los beneficios se observa una API centrada en operaciones reconocibles:
+prestar, devolver, buscar y consultar historial. Las pruebas de miembros, libros
+y biblioteca mantienen responsabilidades distintas, y las pruebas de integración
+comprueban su colaboración. Las instantáneas del historial protegen los registros
+internos frente a cambios en un reporte. Las pruebas parametrizadas expresan
+familias de entradas inválidas o fechas límite sin repetir escenarios completos.
+La cobertura ayuda a localizar caminos pendientes, aunque su porcentaje por sí
+solo no demuestra que las expectativas representen correctamente el dominio.
+
+En comparación con escribir pruebas al terminar, TDD obliga a concretar antes
+qué resultado define el éxito y qué debe permanecer intacto cuando hay errores.
+Las pruebas posteriores siguen siendo útiles para ampliar escenarios y detectar
+regresiones; esta entrega también las incluye. La diferencia está en el momento
+en que orientan el diseño. Un método ya implementado puede condicionar demasiado
+las expectativas de quien lo prueba. Empezar por ejemplos de comportamiento
+reduce ese riesgo, pero no reemplaza aclarar requisitos ambiguos con la persona
+que solicita el sistema.
