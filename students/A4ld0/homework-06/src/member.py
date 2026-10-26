@@ -7,3 +7,6 @@ class Member:
         self.name = name
         self.borrowed_books = []
         self.max_borrow_limit = max_borrow_limit
+
+    def can_borrow(self):
+        return len(self.borrowed_books) < self.max_borrow_limit
