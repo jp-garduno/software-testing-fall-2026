@@ -32,3 +32,21 @@ if len(isbn) not in (10, 13) or not isbn.isdigit():
 ```
 
 Resultado real: `4 passed in 0.01s`.
+
+
+### REFACTOR
+
+Commit: `16dff0b`.
+
+```python
+self._validate_isbn(isbn)
+
+@staticmethod
+def _validate_isbn(isbn):
+    if len(isbn) not in (10, 13) or not isbn.isdigit():
+        raise ValueError("ISBN must contain 10 or 13 digits")
+```
+
+Se separó la regla del constructor para que la validación tuviera un nombre y pudiera evolucionar sin mezclarla con la asignación de propiedades.
+
+Resultado real: `4 passed in 0.01s`.
