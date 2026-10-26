@@ -200,3 +200,17 @@ def test_minimum_rating_is_inclusive_and_excludes_unrated_books(stocked_library)
     book = Book("1234567891", "Foundation", "Isaac Asimov", rating=4.5)
     stocked_library.add_book(book)
     assert stocked_library.search_with_filters(min_rating=4.5) == [book]
+
+
+def test_combined_filters_require_every_condition():
+    library = Library()
+    match = Book("1234567890", "Dune", "Herbert", genre="SF",
+                 publication_year=1965, rating=4.8)
+    library.add_book(match)
+    library.add_book(Book("1234567891", "Other", "Writer", genre="SF",
+                          publication_year=1965, rating=4.0))
+    library.add_book(Book("1234567892", "Wrong genre", "Writer", genre="Fantasy",
+                          publication_year=1965, rating=4.9))
+    assert library.search_with_filters(
+        genre="sf", publication_year=1965, min_rating=4.5
+    ) == [match]
