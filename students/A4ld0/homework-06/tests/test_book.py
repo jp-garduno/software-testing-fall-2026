@@ -54,3 +54,9 @@ def test_reject_invalid_isbn_length(isbn):
 def test_reject_non_numeric_isbn(isbn):
     with pytest.raises(ValueError, match="ISBN"):
         Book(isbn, "Dune", "Herbert")
+
+
+@pytest.mark.parametrize("title", ["", "   ", None, 5])
+def test_reject_blank_title(title):
+    with pytest.raises(ValueError, match="title"):
+        Book("1234567890", title, "Herbert")
