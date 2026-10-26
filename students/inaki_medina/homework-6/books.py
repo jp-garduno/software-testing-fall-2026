@@ -3,8 +3,9 @@ class Book:
 		self.ISBN = ISBN
 		self.title = title
 		self.author = author
-		self.copies = copies
 		self.available_copies = copies
 
+	def is_available(self): 
+		return self.available_copies > 0
 
 

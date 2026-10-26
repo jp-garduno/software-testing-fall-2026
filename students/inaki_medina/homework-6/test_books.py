@@ -13,8 +13,8 @@ def test_book_has_available_copies():
     assert book.available_copies == 5
 
 # # Test 3: Can check availability
-# def test_book_is_available_when_copies_exist():
-#     book = Book("1234567890", "Test Book", "Author", copies=1)
-#     assert book.is_available() == True
+def test_book_is_available_when_copies_exist():
+    book = Book("1234567890", "Test Book", "Author", copies=1)
+    assert book.is_available() == True
 
 # Continue with more tests...
