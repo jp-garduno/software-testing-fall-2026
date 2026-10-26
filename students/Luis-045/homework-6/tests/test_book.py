@@ -80,3 +80,11 @@ def test_book_rejects_negative_inventory():
 
 def test_book_accepts_a_thirteen_digit_isbn():
     assert Book("9780441172719", "Dune", "Frank Herbert").isbn == "9780441172719"
+
+
+def test_book_stores_search_metadata():
+    book = Book("1234567890", "Dune", "Frank Herbert",
+                genre="Science Fiction", publication_year=1965, rating=4.8)
+    assert book.metadata == {
+        "genre": "Science Fiction", "publication_year": 1965, "rating": 4.8
+    }
