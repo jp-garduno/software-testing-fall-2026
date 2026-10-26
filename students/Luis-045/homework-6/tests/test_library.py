@@ -255,3 +255,11 @@ def test_member_history_reports_the_borrow_date(dated_library):
     assert [(loan.isbn, loan.borrowed_on, loan.returned_on) for loan in history] == [
         ("1234567890", date(2026, 10, 1), None)
     ]
+
+
+def test_member_history_reports_the_return_date(dated_library):
+    library, clock = dated_library
+    library.borrow_book("m1", "1234567890")
+    clock[0] = date(2026, 10, 5)
+    library.return_book("m1", "1234567890")
+    assert library.get_member_history("m1")[0].returned_on == date(2026, 10, 5)
