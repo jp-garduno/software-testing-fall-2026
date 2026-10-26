@@ -158,3 +158,11 @@ def test_library_return_stops_fee_growth(dated_library):
     library.return_book("m1", "1234567890")
     clock[0] = date(2026, 10, 20)
     assert library.calculate_late_fees("m1") == 1
+
+
+def test_library_does_not_charge_another_members_fees(dated_library):
+    library, clock = dated_library
+    library.register_member(Member("m2", "Ana"))
+    library.borrow_book("m1", "1234567890")
+    clock[0] = date(2026, 10, 20)
+    assert library.calculate_late_fees("m2") == 0
