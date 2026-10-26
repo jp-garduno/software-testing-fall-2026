@@ -214,3 +214,10 @@ def test_combined_filters_require_every_condition():
     assert library.search_with_filters(
         genre="sf", publication_year=1965, min_rating=4.5
     ) == [match]
+
+
+def test_filtered_search_sorts_by_title_by_default(stocked_library):
+    stocked_library.add_book(Book("1234567891", "Animal Farm", "George Orwell"))
+    assert [book.title for book in stocked_library.search_with_filters()] == [
+        "Animal Farm", "Dune"
+    ]
