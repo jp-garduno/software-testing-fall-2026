@@ -45,3 +45,13 @@ def test_book_rejects_negative_copies():
 def test_book_accepts_isbn_with_hyphens():
     book = Book("978-0-13-235088-4", "Clean Code", "Robert C. Martin")
     assert book.isbn == "9780132350884"
+
+
+def test_book_is_available_when_copies_exist():
+    book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=2)
+    assert book.is_available() is True
+
+
+def test_book_is_not_available_when_zero_copies():
+    book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=0)
+    assert book.is_available() is False
