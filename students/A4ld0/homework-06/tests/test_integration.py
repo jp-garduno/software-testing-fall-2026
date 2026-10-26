@@ -60,3 +60,9 @@ def test_historical_fee_report_excludes_days_after_its_date(library):
     assert library.calculate_late_fees("m1", as_of=date(2026, 10, 17)) == 2
 
 
+def test_member_fees_do_not_include_other_members(library):
+    library.register_member(Member("m2", "Luis"))
+    library.borrow_book("m2", "1234567890", borrowed_on=date(2026, 10, 1))
+    assert library.calculate_late_fees("m1", as_of=date(2026, 10, 20)) == 0
+
+
