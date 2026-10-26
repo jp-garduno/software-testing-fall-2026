@@ -166,3 +166,12 @@ def test_library_does_not_charge_another_members_fees(dated_library):
     library.borrow_book("m1", "1234567890")
     clock[0] = date(2026, 10, 20)
     assert library.calculate_late_fees("m2") == 0
+
+
+def test_library_sums_fees_from_multiple_books(dated_library):
+    library, clock = dated_library
+    library.add_book(Book("1234567891", "Foundation", "Isaac Asimov"))
+    library.borrow_book("m1", "1234567890")
+    library.borrow_book("m1", "1234567891")
+    clock[0] = date(2026, 10, 18)
+    assert library.calculate_late_fees("m1") == 6
