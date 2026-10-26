@@ -33,3 +33,10 @@ def test_member_cannot_borrow_the_same_isbn_twice():
     member.add_borrowed_book("1234567890")
     with pytest.raises(ValueError, match="already"):
         member.add_borrowed_book("1234567890")
+
+
+def test_return_book_removes_the_borrowed_isbn():
+    member = Member("m1", "Luis")
+    member.add_borrowed_book("1234567890")
+    member.return_book("1234567890")
+    assert member.borrowed_books == []
