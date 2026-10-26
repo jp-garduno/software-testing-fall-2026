@@ -51,3 +51,8 @@ def test_member_history_report(library):
     report = library.member_history("m1")
     assert [(loan["isbn"], loan["returned_on"]) for loan in report] == [
         ("1234567890", date(2026, 10, 17))]
+
+
+def test_active_history_has_no_return_date(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    assert library.member_history("m1")[0]["returned_on"] is None
