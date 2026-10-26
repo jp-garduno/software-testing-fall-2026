@@ -48,3 +48,9 @@ def test_return_without_borrow():
 def test_reject_invalid_isbn_length(isbn):
     with pytest.raises(ValueError, match="ISBN"):
         Book(isbn, "Dune", "Herbert")
+
+
+@pytest.mark.parametrize("isbn", ["abcdefghij", "１２３４５６７８９０", 1234567890, None])
+def test_reject_non_numeric_isbn(isbn):
+    with pytest.raises(ValueError, match="ISBN"):
+        Book(isbn, "Dune", "Herbert")
