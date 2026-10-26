@@ -45,3 +45,9 @@ class Book:
             raise RuntimeError("No copies available for borrowing")
         self.available_copies -= 1
         return True
+
+    def return_copy(self) -> None:
+        """Return a borrowed copy to the catalog."""
+        if self.available_copies >= self.total_copies:
+            raise ValueError("Cannot return more copies than total copies owned")
+        self.available_copies += 1
