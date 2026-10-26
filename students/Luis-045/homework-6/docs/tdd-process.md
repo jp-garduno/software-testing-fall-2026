@@ -219,3 +219,22 @@ def fee_on(self, today):
 ```
 
 Resultado real: `44 passed in 0.05s`.
+
+
+### REFACTOR
+
+Commit: `513ea00`.
+
+```python
+LOAN_PERIOD_DAYS = 14
+DAILY_LATE_FEE = 1
+
+# due_date usa timedelta(days=LOAN_PERIOD_DAYS).
+def fee_on(self, today):
+    end_date = self.returned_on or today
+    return max(0, (end_date - self.due_date).days) * DAILY_LATE_FEE
+```
+
+Las constantes nombran las dos decisiones de negocio: duración del préstamo y tarifa diaria. La fecha efectiva de devolución impide seguir aumentando una multa ya cerrada.
+
+Resultado real: `44 passed in 0.04s`.
