@@ -34,3 +34,20 @@ utiliza como medida de velocidad de la suite. Los tiempos varían entre equipos.
 ## Evidencias
 
 - [Salida de las 97 pruebas](evidence/tests.txt).
+- [Salida de cobertura](evidence/coverage.txt).
+- [Resumen de umbrales y tiempo](evidence/quality.json).
+- [Detalle de cobertura por archivo](evidence/coverage.json).
+- [Registro de fases con hashes y salidas reales](evidence/tdd-runs.jsonl).
+- [Informe HTML navegable](../coverage/index.html).
+
+Los commits RED contienen las pruebas antes de su implementación. Su versión
+intermedia debe fallar: ese fallo es parte del proceso solicitado. Los mensajes
+de configuración, documentación y regresiones no se presentan como fases RED.
+Los cambios TDD están limitados a esta carpeta y tienen como máximo 20 líneas
+añadidas/eliminadas por commit. No se reescribió el historial del curso.
+
+Se implementaron las tres funciones avanzadas acordadas: multas, filtros e historial.
+Los bonos opcionales de JavaScript, video y cinco funciones no forman parte de esta
+entrega. La reflexión es técnica y se basa en evidencias; no inventa vivencias del
+estudiante. Los archivos quedan en el repositorio local: no se efectuaron push ni
+entrega en Canvas y se omitió el requisito de repositorio público según lo acordado.
