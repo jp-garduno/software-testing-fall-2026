@@ -88,3 +88,10 @@ los resultados medidos están en [quality.json](docs/evidence/quality.json).
 El informe HTML está en [coverage/index.html](coverage/index.html).
 
 - [Proceso TDD: cinco ciclos completos](docs/tdd-process.md).
+- [Reflexión técnica, 500–700 palabras](docs/reflection.md).
+- [Evidencias y resultados](docs/verification.md).
+- [Registro de ejecuciones reales](docs/evidence/tdd-runs.jsonl).
+
+El historial contiene commits RED, GREEN y REFACTOR creados durante el desarrollo.
+Los casos de integración añadidos después son regresiones adicionales: no se
+presentan como fases RED. Se conserva el repositorio existente, según lo acordado.
