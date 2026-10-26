@@ -24,5 +24,7 @@ class Library:
         """Lend a catalog book to a registered member."""
         member = self.members[member_id]
         book = self.catalog[isbn]
+        if not book.is_available():
+            raise ValueError("No copies available")
         member.add_borrowed_book(isbn)
         book.borrow()
