@@ -98,3 +98,8 @@ def test_book_rejects_fractional_inventory():
 def test_book_rejects_boolean_inventory():
     with pytest.raises(ValueError, match="copies"):
         Book("1234567890", "Dune", "Frank Herbert", total_copies=True)
+
+
+def test_book_rejects_a_nonstring_isbn_with_a_validation_error():
+    with pytest.raises(ValueError, match="ISBN"):
+        Book(1234567890, "Dune", "Frank Herbert")
