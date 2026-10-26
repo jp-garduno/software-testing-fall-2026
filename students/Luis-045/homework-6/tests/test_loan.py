@@ -18,3 +18,8 @@ def test_loan_charges_one_dollar_for_each_overdue_day():
 def test_loan_has_no_fee_before_the_due_date():
     loan = Loan("m1", "1234567890", date(2026, 10, 1))
     assert loan.fee_on(date(2026, 10, 10)) == 0
+
+
+def test_loan_has_no_fee_on_its_due_date():
+    loan = Loan("m1", "1234567890", date(2026, 10, 1))
+    assert loan.fee_on(date(2026, 10, 15)) == 0
