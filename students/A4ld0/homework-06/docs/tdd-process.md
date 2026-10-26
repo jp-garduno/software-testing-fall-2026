@@ -16,3 +16,21 @@ como tales. El archivo [tdd-runs.jsonl](evidence/tdd-runs.jsonl) conserva 62 reg
 uno por par RED/GREEN o por REFACTOR, con resultados, cambios y hashes completos.
 Solo se normalizó la ruta absoluta de la entrega en las salidas archivadas.
 
+
+## Ciclo 1: Validación de ISBN
+
+### RED
+
+La prueba rechaza letras, dígitos de ancho completo, números y None. La validación inicial comprobaba solamente la longitud.
+
+Prueba escrita primero (e9b93da):
+
+```python
+@pytest.mark.parametrize("isbn", ["abcdefghij", "１２３４５６７８９０", 1234567890, None])
+def test_reject_non_numeric_isbn(isbn):
+    with pytest.raises(ValueError, match="ISBN"):
+        Book(isbn, "Dune", "Herbert")
+```
+
+Resultado observado: `4 failed in 0.09s`. Código de salida: 1.
+
