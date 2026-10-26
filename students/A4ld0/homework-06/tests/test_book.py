@@ -42,3 +42,9 @@ def test_return_without_borrow():
     with pytest.raises(ValueError, match="return"):
         book.return_copy()
     assert book.available_copies == 1
+
+
+@pytest.mark.parametrize("isbn", ["", "123", "12345678901", "12345678901234"])
+def test_reject_invalid_isbn_length(isbn):
+    with pytest.raises(ValueError, match="ISBN"):
+        Book(isbn, "Dune", "Herbert")
