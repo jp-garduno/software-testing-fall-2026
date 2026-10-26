@@ -83,3 +83,11 @@ def test_invalid_borrow_date_is_atomic(library, borrowed_on):
     with pytest.raises(ValueError, match="date"):
         library.borrow_book("m1", "1234567890", borrowed_on=borrowed_on)
     assert (library.catalog["1234567890"].available_copies, library.loans) == (2, [])
+
+
+@pytest.mark.parametrize("returned_on", ["2026-10-02", 0])
+def test_invalid_return_date_is_atomic(library, returned_on):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    with pytest.raises(ValueError, match="date"):
+        library.return_book("m1", "1234567890", returned_on=returned_on)
+    assert library.catalog["1234567890"].available_copies == 1
