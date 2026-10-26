@@ -245,14 +245,15 @@ def test_filtered_search_sorts_by_title_by_default(stocked_library):
 
 def test_filtered_search_can_sort_by_publication_year():
     library = Library()
-    library.add_book(Book("1234567890", "A newer book", "Writer",
-                          publication_year=2000))
-    library.add_book(Book("1234567891", "Z older book", "Writer",
-                          publication_year=1950))
-    assert [book.isbn for book in
-            library.search_with_filters(sort_by="publication_year")] == [
-                "1234567891", "1234567890"
-            ]
+    library.add_book(
+        Book("1234567890", "A newer book", "Writer", publication_year=2000)
+    )
+    library.add_book(
+        Book("1234567891", "Z older book", "Writer", publication_year=1950)
+    )
+    assert [
+        book.isbn for book in library.search_with_filters(sort_by="publication_year")
+    ] == ["1234567891", "1234567890"]
 
 
 def test_filtered_search_rejects_an_unknown_sort_field(stocked_library):
