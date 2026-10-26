@@ -143,3 +143,19 @@ def add_borrowed_book(self, isbn):
 Se sustituyó el cálculo duplicado por can_borrow(). Esto mantiene alineadas la consulta de capacidad y la validación que precede a cada préstamo.
 
 Resultado real: `18 passed in 0.05s`.
+
+
+## Ciclo 4. Búsqueda por autor
+
+### RED
+
+Commit: `05cc715`. El método search_by_author todavía no existía; la prueba produjo AttributeError.
+
+```python
+def test_search_by_author_matches_a_case_insensitive_substring(stocked_library):
+    assert stocked_library.search_by_author("HERB") == [
+        stocked_library.catalog["1234567890"]
+    ]
+```
+
+Resultado real: `1 failed, 36 passed in 0.11s`.
