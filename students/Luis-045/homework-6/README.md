@@ -20,3 +20,16 @@ Set-Location "C:\Users\luisf\OneDrive\Documentos\pruebas\software-testing-fall-2
 ```
 
 Dependencias de pruebas: pytest, pytest-cov y coverage. Black, isort y Pylint permiten repetir las comprobaciones de calidad.
+
+
+## Pruebas y cobertura
+
+Desde la carpeta de esta entrega:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m pytest --cov=src --cov-branch --cov-report=term-missing --cov-report=html:coverage --cov-report=json:coverage/coverage.json
+Start-Process .\coverage\index.html
+```
+
+[Reporte HTML incluido](coverage/index.html). [Datos de cobertura](coverage/coverage.json). La configuración local mide únicamente `src/` y activa ramas; no incluye tests ni el entorno virtual en el porcentaje.
