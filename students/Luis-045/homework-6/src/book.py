@@ -12,7 +12,11 @@ class Book:
         self.title = title
         self.author = author
         self.metadata = metadata
-        if type(total_copies) is not int or total_copies < 0:
+        if (
+            not isinstance(total_copies, int)
+            or isinstance(total_copies, bool)
+            or total_copies < 0
+        ):
             raise ValueError("Total copies must be nonnegative")
         self.total_copies = total_copies
         self.available_copies = total_copies
@@ -20,7 +24,12 @@ class Book:
     @staticmethod
     def _validate_isbn(isbn):
         """Reject ISBNs outside the assignment's digit format."""
-        if not isinstance(isbn, str) or len(isbn) not in (10, 13) or not isbn.isascii() or not isbn.isdigit():
+        if (
+            not isinstance(isbn, str)
+            or len(isbn) not in (10, 13)
+            or not isbn.isascii()
+            or not isbn.isdigit()
+        ):
             raise ValueError("ISBN must contain 10 or 13 digits")
 
     def is_available(self):
