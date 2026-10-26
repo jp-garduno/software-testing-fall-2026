@@ -53,3 +53,9 @@ def test_library_borrow_updates_book_and_member(library):
     library.borrow_book("m1", "1234567890")
     assert (library.catalog["1234567890"].available_copies,
             library.members["m1"].borrowed_books) == (1, ["1234567890"])
+
+
+def test_borrow_unknown_member(library):
+    with pytest.raises(ValueError, match="member"):
+        library.borrow_book("missing", "1234567890")
+    assert library.catalog["1234567890"].available_copies == 2
