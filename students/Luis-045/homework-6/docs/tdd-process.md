@@ -172,3 +172,21 @@ def search_by_author(self, author):
 ```
 
 Resultado real: `37 passed in 0.06s`.
+
+
+### REFACTOR
+
+Commit: `1d2bae6`.
+
+```python
+def search_by_author(self, author):
+    return self._search("author", author)
+
+def _search(self, field, query):
+    return [book for book in self.catalog.values()
+            if query.casefold() in getattr(book, field).casefold()]
+```
+
+Las búsquedas por título y autor compartían la misma regla de coincidencia parcial. Extraer _search() eliminó esa duplicación sin cambiar sus API públicas.
+
+Resultado real: `37 passed in 0.04s`.
