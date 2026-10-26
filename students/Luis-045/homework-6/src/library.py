@@ -112,10 +112,17 @@ class Library:
             books = [
                 book for book in books if book.metadata.get("rating", -1) >= min_rating
             ]
-        return sorted(books, key=lambda book: (
-            getattr(book, sort_by).casefold() if sort_by in ("title", "author", "isbn")
-            else book.metadata.get(sort_by, 0), book.isbn
-        ))
+        return sorted(
+            books,
+            key=lambda book: (
+                (
+                    getattr(book, sort_by).casefold()
+                    if sort_by in ("title", "author", "isbn")
+                    else book.metadata.get(sort_by, 0)
+                ),
+                book.isbn,
+            ),
+        )
 
     def get_member_history(self, member_id):
         """Report this member's loans in borrowing order."""
