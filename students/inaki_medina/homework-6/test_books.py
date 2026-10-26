@@ -1,4 +1,5 @@
 import books
+import pytest
 
 Book = books.Book
 
@@ -16,4 +17,10 @@ def test_book_has_available_copies():
 def test_book_is_available_when_copies_exist():
     book = Book("1234567890", "Test Book", "Author", copies=1)
     assert book.is_available() == True
+
+# # Test 4: IBM required length
+def test_IBM_is_nine_digits():
+    with pytest.raises(ValueError):
+        book = Book("831957192", "Test Book")
+    
 
