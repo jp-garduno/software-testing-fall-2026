@@ -128,3 +128,8 @@ def test_library_records_the_due_date_of_a_new_loan():
     library.register_member(Member("m1", "Luis"))
     library.borrow_book("m1", "1234567890")
     assert library.get_due_date("m1", "1234567890") == date(2026, 10, 15)
+
+
+def test_get_due_date_rejects_a_book_not_borrowed(stocked_library):
+    with pytest.raises(ValueError, match="active"):
+        stocked_library.get_due_date("m1", "1234567890")
