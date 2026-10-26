@@ -46,3 +46,18 @@ Ejecutar desde la misma carpeta:
 ```
 
 El modo UTF-8 evita problemas de codificación en Windows con la prueba de ISBN que contiene dígitos Unicode. Pylint utiliza las reglas existentes de la clase.
+
+
+## API y responsabilidades
+
+| Componente | Operaciones |
+| --- | --- |
+| `Book` | `is_available()`, `borrow()`, `return_copy()` |
+| `Member` | `can_borrow()`, `add_borrowed_book(isbn)`, `return_book(isbn)` |
+| `Library` | `add_book(book)`, `register_member(member)`, `borrow_book(member_id, isbn)`, `return_book(member_id, isbn)` |
+| Búsquedas básicas | `search_by_title(title)`, `search_by_author(author)`, `get_available_books()` |
+| Multas | `get_due_date(member_id, isbn)`, `calculate_late_fees(member_id)` |
+| Filtros | `search_with_filters(genre=None, publication_year=None, min_rating=None, sort_by="title")`, con argumentos por nombre |
+| Historial | `get_member_history(member_id)`, `most_borrowed_book()` |
+
+`Loan` es un registro inmutable con miembro, ISBN, fecha de préstamo, fecha de devolución y vencimiento calculado. El reporte de historial devuelve una tupla de estos registros.
