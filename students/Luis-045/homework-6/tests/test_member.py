@@ -19,3 +19,10 @@ def test_add_borrowed_book_records_the_isbn():
     member = Member("m1", "Luis")
     member.add_borrowed_book("1234567890")
     assert member.borrowed_books == ["1234567890"]
+
+
+def test_member_cannot_exceed_a_custom_borrow_limit():
+    member = Member("m1", "Luis", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567891")
