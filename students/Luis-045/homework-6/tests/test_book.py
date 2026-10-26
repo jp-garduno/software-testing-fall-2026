@@ -32,3 +32,8 @@ def test_book_rejects_an_isbn_containing_letters():
 def test_book_rejects_an_empty_title():
     with pytest.raises(ValueError, match="title"):
         Book("1234567890", "", "Frank Herbert")
+
+
+def test_book_rejects_a_whitespace_title():
+    with pytest.raises(ValueError, match="title"):
+        Book("1234567890", "   ", "Frank Herbert")
