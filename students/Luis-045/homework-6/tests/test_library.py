@@ -38,3 +38,19 @@ def test_register_member_rejects_a_duplicate_id():
     library.register_member(Member("m1", "Luis"))
     with pytest.raises(ValueError, match="already"):
         library.register_member(Member("m1", "Other"))
+
+
+@pytest.fixture
+def stocked_library():
+    library = Library()
+    library.add_book(Book("1234567890", "Dune", "Frank Herbert"))
+    library.register_member(Member("m1", "Luis"))
+    return library
+
+
+def test_borrow_book_updates_member_and_inventory(stocked_library):
+    stocked_library.borrow_book("m1", "1234567890")
+    assert (stocked_library.members["m1"].borrowed_books,
+            stocked_library.catalog["1234567890"].available_copies) == (
+                ["1234567890"], 0
+            )
