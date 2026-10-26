@@ -1,12 +1,18 @@
 """Catalog, member registration, and library operations."""
 
+from datetime import date
+
+from .loan import Loan
+
 
 class Library:
     """Coordinate inventory and member loans."""
 
-    def __init__(self):
+    def __init__(self, today=date.today):
         self.catalog = {}
         self.members = {}
+        self._today = today
+        self._loans = []
 
     def add_book(self, book):
         """Add a new ISBN to the catalog."""
@@ -28,6 +34,7 @@ class Library:
             raise ValueError("No copies available")
         member.add_borrowed_book(isbn)
         book.borrow()
+        self._loans.append(Loan(member_id, isbn, self._today()))
 
     def return_book(self, member_id, isbn):
         """Accept a book currently borrowed by this member."""
@@ -51,3 +58,8 @@ class Library:
     def get_available_books(self):
         """List catalog entries with at least one free copy."""
         return [book for book in self.catalog.values() if book.is_available()]
+
+    def get_due_date(self, member_id, isbn):
+        """Get the due date of a current loan."""
+        return next(loan for loan in self._loans
+                    if loan.member_id == member_id and loan.isbn == isbn).due_date
