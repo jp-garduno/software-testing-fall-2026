@@ -37,3 +37,8 @@ def test_book_rejects_an_empty_title():
 def test_book_rejects_a_whitespace_title():
     with pytest.raises(ValueError, match="title"):
         Book("1234567890", "   ", "Frank Herbert")
+
+
+def test_book_with_no_copies_is_unavailable():
+    book = Book("1234567890", "Dune", "Frank Herbert", total_copies=0)
+    assert book.is_available() is False
