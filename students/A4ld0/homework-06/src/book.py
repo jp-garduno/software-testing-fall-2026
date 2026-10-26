@@ -10,6 +10,8 @@ class Book:
             raise ValueError("Book title is required")
         self.title = title
         self.author = author
+        if type(total_copies) is not int or total_copies < 0:
+            raise ValueError("Total copies must be a nonnegative integer")
         self.total_copies = total_copies
         self.available_copies = total_copies
 
