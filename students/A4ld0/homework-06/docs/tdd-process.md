@@ -268,3 +268,21 @@ Resultado observado: `1 failed in 0.09s`. Código de salida: 1.
 
 ### GREEN
 
+Implementación en 3f4a8a4:
+
+```python
+    def search_by_author(self, author):
+        return [book for book in self.catalog.values()
+                if author.casefold() in book.author.casefold()]
+```
+
+Resultado de la suite completa: `48 passed in 0.08s`. Código de salida: 0.
+
+### REFACTOR
+
+Después de implementar también los filtros y el orden, se reunió la búsqueda textual en _search_text. Título y autor comparten casefold y búsqueda de subcadenas. Esta refactorización ocurrió más tarde, como muestran los hashes, sin reordenar el historial.
+
+Código en eb19088:
+
+```python
+    def search_by_author(self, author):
