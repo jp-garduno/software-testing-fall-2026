@@ -294,3 +294,10 @@ def test_most_borrowed_book_counts_repeat_loans(stocked_library):
 
 def test_most_borrowed_book_is_none_without_loans():
     assert Library().most_borrowed_book() is None
+
+
+def test_most_borrowed_book_uses_first_loan_to_break_a_tie(stocked_library):
+    stocked_library.add_book(Book("1234567891", "Foundation", "Isaac Asimov"))
+    stocked_library.borrow_book("m1", "1234567891")
+    stocked_library.borrow_book("m1", "1234567890")
+    assert stocked_library.most_borrowed_book() == "1234567891"
