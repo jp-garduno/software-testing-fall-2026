@@ -34,3 +34,7 @@ class Book:
 
         self.total_copies = int(total_copies)
         self.available_copies = self.total_copies
+
+    def is_available(self) -> bool:
+        """Return True if at least one copy is available."""
+        return self.available_copies > 0
