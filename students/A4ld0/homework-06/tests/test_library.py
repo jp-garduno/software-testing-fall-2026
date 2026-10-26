@@ -30,3 +30,12 @@ def test_register_member():
     member = Member("m1", "Ana")
     library.register_member(member)
     assert library.members[member.member_id] is member
+
+
+def test_duplicate_member_preserves_registration():
+    library = Library()
+    original = Member("m1", "Ana")
+    library.register_member(original)
+    with pytest.raises(ValueError, match="member"):
+        library.register_member(Member("m1", "Other"))
+    assert library.members["m1"] is original
