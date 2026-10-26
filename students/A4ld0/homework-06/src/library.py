@@ -33,3 +33,9 @@ class Library:
         if isbn not in self.catalog:
             raise ValueError("Unknown ISBN")
         return self.catalog[isbn]
+
+    def return_book(self, member_id, isbn):
+        member = self._get_member(member_id)
+        book = self._get_book(isbn)
+        member.return_book(isbn)
+        book.return_copy()
