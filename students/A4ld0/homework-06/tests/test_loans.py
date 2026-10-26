@@ -36,3 +36,8 @@ def test_return_before_borrow_is_atomic(library):
         library.return_book("m1", "1234567890", returned_on=date(2026, 10, 9))
     assert (library.catalog["1234567890"].available_copies,
             library.members["m1"].borrowed_books) == (1, ["1234567890"])
+
+
+def test_unknown_member_fees(library):
+    with pytest.raises(ValueError, match="member"):
+        library.calculate_late_fees("missing", as_of=date(2026, 10, 20))
