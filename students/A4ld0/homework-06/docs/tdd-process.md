@@ -52,3 +52,21 @@ Implementación en e33a21a:
 Resultado de la suite completa: `16 passed in 0.04s`. Código de salida: 0.
 
 ### REFACTOR
+
+Se dio nombre al predicado valid_isbn para que la combinación de tipo, alfabeto y longitud resulte legible. Entre GREEN y REFACTOR se añadieron otras validaciones; los hashes conservan el orden real.
+
+Código en 33c7c48:
+
+```python
+    def __init__(self, isbn, title, author, total_copies=1):
+        valid_isbn = (
+            isinstance(isbn, str) and isbn.isascii()
+            and isbn.isdigit() and len(isbn) in (10, 13)
+        )
+        if not valid_isbn:
+            raise ValueError("ISBN must have 10 or 13 digits")
+        self.isbn = isbn
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("Book title is required")
+        self.title = title
+        self.author = author
