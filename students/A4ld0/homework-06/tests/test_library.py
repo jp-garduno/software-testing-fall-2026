@@ -90,3 +90,9 @@ def test_search_by_title(library):
 def test_search_by_author(library):
     library.add_book(Book("1234567890123", "Foundation", "Isaac Asimov"))
     assert [book.title for book in library.search_by_author("HERBERT")] == ["Dune"]
+
+
+def test_get_available_books(library):
+    library.borrow_book("m1", "1234567890")
+    library.borrow_book("m1", "1234567890")
+    assert library.get_available_books() == []
