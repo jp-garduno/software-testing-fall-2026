@@ -56,3 +56,12 @@ def test_member_history_report(library):
 def test_active_history_has_no_return_date(library):
     library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
     assert library.member_history("m1")[0]["returned_on"] is None
+
+
+def test_most_borrowed_book(library):
+    library.add_book(Book("1234567890123", "Foundation", "Isaac Asimov"))
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 2))
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 3))
+    library.borrow_book("m1", "1234567890123", borrowed_on=date(2026, 10, 4))
+    assert library.most_borrowed_book().isbn == "1234567890"
