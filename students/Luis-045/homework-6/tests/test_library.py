@@ -10,3 +10,10 @@ from src.member import Member
 def test_library_starts_with_empty_catalog_and_members():
     library = Library()
     assert (library.catalog, library.members) == ({}, {})
+
+
+def test_add_book_indexes_the_book_by_isbn():
+    library = Library()
+    book = Book("1234567890", "Dune", "Frank Herbert")
+    library.add_book(book)
+    assert library.catalog[book.isbn] is book
