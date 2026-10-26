@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><title>TaskFlow: pytest execution</title>
+<style>body{background:#111827;color:#e5e7eb;margin:48px;font:18px Consolas,monospace}
+h1{font:30px system-ui;color:#a7f3d0}p{font:18px system-ui;line-height:1.5}
+pre{background:#1f2937;border:1px solid #4b5563;border-radius:8px;padding:26px;
+font:18px/1.8 Consolas,monospace;white-space:pre-wrap}</style>
+<h1>TaskFlow — pytest execution evidence</h1>
+<p>Verbatim excerpt of captured stdout, displayed in a browser.<br>
+Full output: reports/test-execution.txt<br>112 tests collected, all passed; no skipped or xfail tests.</p>
+<pre>pytest -v --cov=src --cov-branch --cov-report=term-missing<br>
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                          Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------
+src\__init__.py                   0      0      0      0   100%
+src\notification_service.py       7      0      0      0   100%
+src\task.py                      62      0     16      0   100%
+src\task_repository.py           14      0      0      0   100%
+src\task_service.py             104      0     38      0   100%
+-------------------------------------------------------------------------
+TOTAL                           187      0     54      0   100%
+Coverage HTML written to dir htmlcov
+Coverage JSON written to file reports/coverage.json
+============================= 112 passed in 2.84s =============================
+</pre>

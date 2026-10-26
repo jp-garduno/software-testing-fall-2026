@@ -102,3 +102,18 @@ class StringCalculator:
         valid_numbers = [n for n in int_parts if n <= 1000]
 
         return sum(valid_numbers)
+
+calc = StringCalculator()
+
+calc.add("//;\n1;2\n3") 
+calc.add("//;\n-1;2;")
+calc.add("1001,-1")
+calc.add("-1001")
+calc.add("1001")
+calc.add("//[*][%][#]\n1*2%3#4")
+calc.add("//;n")
+calc.add("//-\n-1-2")
+calc.add("1,\n2")
+calc.add("a,1")
+calc.add("1.5,2")
+calc.add("//;1;2")
