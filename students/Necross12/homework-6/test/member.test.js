@@ -15,4 +15,16 @@ describe("Miembro: creación", () => {
     const segundo = new Member("Ana");
     expect(segundo.id).toBe(primero.id + 1);
   });
+
+  test("inicia con lista vacía y límite de 3", () => {
+    const miembro = new Member("Carlos");
+    expect(miembro.listaLibros).toEqual([]);
+    expect(miembro.limiteLibros).toBe(3);
+  });
+
+  test("crear con lista de libros y límite", () => {
+    const miembro = new Member("Carlos", ["1234567890"], 2);
+    expect(miembro.listaLibros).toEqual(["1234567890"]);
+    expect(miembro.limiteLibros).toBe(2);
+  });
 });
