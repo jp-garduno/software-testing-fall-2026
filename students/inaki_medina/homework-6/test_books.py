@@ -19,7 +19,7 @@ def test_book_is_available_when_copies_exist():
     assert book.is_available() == True
 
 # # Test 4: IBM required length
-def test_IBM_is_nine_digits():
+def test_IBM_nine_digits_invalidated_correctly():
     with pytest.raises(ValueError):
         book = Book("831957192", "Test Book")
     
