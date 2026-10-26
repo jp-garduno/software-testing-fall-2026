@@ -22,3 +22,9 @@ def test_record_return_date(library):
     library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
     library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
     assert library.loans[0]["returned_on"] == date(2026, 10, 17)
+
+
+def test_returned_fees_stop_growing(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
+    assert library.calculate_late_fees("m1", as_of=date(2026, 11, 1)) == 2
