@@ -22,3 +22,8 @@ def test_book_initializes_total_and_available_copies():
 def test_book_rejects_an_isbn_with_wrong_length():
     with pytest.raises(ValueError, match="ISBN"):
         Book("123", "Dune", "Frank Herbert")
+
+
+def test_book_rejects_an_isbn_containing_letters():
+    with pytest.raises(ValueError, match="ISBN"):
+        Book("123456789X", "Dune", "Frank Herbert")
