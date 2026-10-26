@@ -263,10 +263,9 @@ def test_filtered_search_rejects_an_unknown_sort_field(stocked_library):
 
 def test_rating_sort_places_unrated_books_before_rated_books(stocked_library):
     stocked_library.add_book(Book("1234567891", "Foundation", "Asimov", rating=4.5))
-    assert [book.isbn for book in
-            stocked_library.search_with_filters(sort_by="rating")] == [
-                "1234567890", "1234567891"
-            ]
+    assert [
+        book.isbn for book in stocked_library.search_with_filters(sort_by="rating")
+    ] == ["1234567890", "1234567891"]
 
 
 def test_member_history_reports_the_borrow_date(dated_library):
