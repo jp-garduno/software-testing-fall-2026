@@ -41,3 +41,13 @@ def test_return_before_borrow_is_atomic(library):
 def test_unknown_member_fees(library):
     with pytest.raises(ValueError, match="member"):
         library.calculate_late_fees("missing", as_of=date(2026, 10, 20))
+
+
+def test_member_history_report(library):
+    library.register_member(Member("m2", "Luis"))
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.borrow_book("m2", "1234567890", borrowed_on=date(2026, 10, 2))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
+    report = library.member_history("m1")
+    assert [(loan["isbn"], loan["returned_on"]) for loan in report] == [
+        ("1234567890", date(2026, 10, 17))]
