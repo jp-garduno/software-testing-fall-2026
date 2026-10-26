@@ -60,3 +60,9 @@ def test_reject_non_numeric_isbn(isbn):
 def test_reject_blank_title(title):
     with pytest.raises(ValueError, match="title"):
         Book("1234567890", title, "Herbert")
+
+
+@pytest.mark.parametrize("copies", [-1, 1.5, True, "2"])
+def test_reject_invalid_copy_count(copies):
+    with pytest.raises(ValueError, match="copies"):
+        Book("1234567890", "Dune", "Herbert", copies)
