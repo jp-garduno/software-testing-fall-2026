@@ -274,3 +274,10 @@ def test_history_keeps_both_loans_when_a_book_is_borrowed_again(dated_library):
     assert [loan.borrowed_on for loan in library.get_member_history("m1")] == [
         date(2026, 10, 1), date(2026, 10, 2)
     ]
+
+
+def test_member_history_excludes_other_members_loans(dated_library):
+    library, _ = dated_library
+    library.register_member(Member("m2", "Ana"))
+    library.borrow_book("m1", "1234567890")
+    assert library.get_member_history("m2") == ()
