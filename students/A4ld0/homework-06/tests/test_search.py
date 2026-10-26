@@ -15,3 +15,9 @@ def test_search_exact_genre(library):
 def test_search_publication_year(library):
     library.add_book(Book("0000000000", "Other", "Author", publication_year=1965))
     assert [b.isbn for b in library.search_books(publication_year=1965)] == ["0000000000"]
+
+
+@pytest.mark.parametrize("rating", [0, 4.5])
+def test_search_exact_rating(library, rating):
+    library.add_book(Book("0000000000", "Other", "Author", rating=rating))
+    assert [b.isbn for b in library.search_books(rating=rating)] == ["0000000000"]
