@@ -36,5 +36,15 @@ def test_book_borrowed_four_times():
     book.borrow()
     book.borrow()
     assert book.available_copies == 3
+
+# # Test 6: Return copy method
+def test_book_borrowed_and_returned_multiple_times():
+    book = Book("1234567890", "Test Book", "Author", copies=23)
+    book.borrow()
+    book.borrow()
+    book.return_book()
+    book.borrow()
+    book.return_book()
+    assert book.available_copies == 22
     
 
