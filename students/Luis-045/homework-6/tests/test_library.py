@@ -94,3 +94,9 @@ def test_wrong_member_return_leaves_inventory_unchanged(stocked_library):
     with pytest.raises(ValueError):
         stocked_library.return_book("m2", "1234567890")
     assert stocked_library.catalog["1234567890"].available_copies == 0
+
+
+def test_search_by_title_matches_a_case_insensitive_substring(stocked_library):
+    assert stocked_library.search_by_title("UN") == [
+        stocked_library.catalog["1234567890"]
+    ]
