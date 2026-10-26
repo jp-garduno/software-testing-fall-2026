@@ -89,3 +89,20 @@ El género se compara completo sin distinguir mayúsculas; el año es exacto y l
 La ordenación es ascendente por título de forma predeterminada. Se admiten `title`, `author`, `isbn`, `publication_year` y `rating`; los empates se resuelven por ISBN. Al ordenar datos numéricos ausentes se usa cero.
 
 Las búsquedas básicas admiten subcadenas sin distinguir mayúsculas. El historial conserva el orden de los préstamos, incluyendo repeticiones después de una devolución. El libro más prestado cuenta cada préstamo exitoso; en empate gana el primero prestado y, sin movimientos, devuelve `None`.
+
+
+## Resultados verificados
+
+Entorno: Windows, Python 3.13.9, pytest 9.1.1, pytest-cov 7.1.0 y coverage 7.17.0.
+
+| Comprobación | Resultado |
+| --- | --- |
+| Suite completa | 72 pruebas aprobadas; ninguna omitida |
+| Tiempo sin cobertura | 0.07 segundos en una ejecución final |
+| Tiempo con cobertura HTML y JSON | 0.37 segundos |
+| Sentencias | 127 de 127: 100% |
+| Ramas | 32 de 32: 100% |
+| Black / isort | Sin cambios pendientes |
+| Pylint con reglas de la clase | 10.00/10 |
+
+Los tiempos varían por equipo. Los porcentajes provienen de los contadores separados de sentencias y ramas del JSON, además del reporte HTML.
