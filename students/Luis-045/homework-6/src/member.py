@@ -16,4 +16,6 @@ class Member:
 
     def add_borrowed_book(self, isbn):
         """Record another book borrowed by this member."""
+        if len(self.borrowed_books) >= self.max_borrow_limit:
+            raise ValueError("Borrow limit reached")
         self.borrowed_books.append(isbn)
