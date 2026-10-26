@@ -1,0 +1,51 @@
+import pytest
+from src.member import Member
+
+
+def test_member_defaults_and_independent_lists():
+    first, second = Member("m1", "Ana"), Member("m2", "Luis")
+    first.borrowed_books.append("1234567890")
+    assert (first.member_id, first.name, first.max_borrow_limit, second.borrowed_books) == ("m1", "Ana", 3, [])
+
+
+def test_custom_borrow_limit():
+    assert Member("m1", "Ana", max_borrow_limit=5).max_borrow_limit == 5
+
+
+@pytest.mark.parametrize("limit, expected", [(0, False), (3, True)])
+def test_member_can_borrow(limit, expected):
+    assert Member("m1", "Ana", limit).can_borrow() is expected
+
+
+def test_add_borrowed_book():
+    member = Member("m1", "Ana")
+    member.add_borrowed_book("1234567890")
+    assert member.borrowed_books == ["1234567890"]
+
+
+def test_member_limit_preserves_list():
+    member = Member("m1", "Ana", 1)
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567890123")
+    assert member.borrowed_books == ["1234567890"]
+
+
+def test_member_returns_book():
+    member = Member("m1", "Ana")
+    member.add_borrowed_book("1234567890")
+    member.return_book("1234567890")
+    assert not member.borrowed_books
+
+
+def test_member_return_unknown_book():
+    member = Member("m1", "Ana")
+    with pytest.raises(ValueError, match="not borrowed"):
+        member.return_book("1234567890")
+    assert not member.borrowed_books
+
+
+@pytest.mark.parametrize("limit", [-1, 1.5, True, False, "3"])
+def test_member_rejects_invalid_limit(limit):
+    with pytest.raises(ValueError, match="limit"):
+        Member("m1", "Ana", limit)

@@ -1,0 +1,50 @@
+[
+  {
+    "filePath": "coverage/coverage_html_cb_3f5f163b.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": [
+      {
+        "ruleId": "max-len",
+        "replacedBy": []
+      },
+      {
+        "ruleId": "no-extra-semi",
+        "replacedBy": []
+      },
+      {
+        "ruleId": "no-mixed-spaces-and-tabs",
+        "replacedBy": []
+      }
+    ]
+  },
+  {
+    "filePath": "tools/coverage_assets/coverage_html.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": [
+      {
+        "ruleId": "max-len",
+        "replacedBy": []
+      },
+      {
+        "ruleId": "no-extra-semi",
+        "replacedBy": []
+      },
+      {
+        "ruleId": "no-mixed-spaces-and-tabs",
+        "replacedBy": []
+      }
+    ]
+  }
+]
