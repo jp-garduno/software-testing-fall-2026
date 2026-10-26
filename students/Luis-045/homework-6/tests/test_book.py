@@ -76,3 +76,7 @@ def test_return_copy_rejects_an_extra_copy():
 def test_book_rejects_negative_inventory():
     with pytest.raises(ValueError, match="copies"):
         Book("1234567890", "Dune", "Frank Herbert", total_copies=-1)
+
+
+def test_book_accepts_a_thirteen_digit_isbn():
+    assert Book("9780441172719", "Dune", "Frank Herbert").isbn == "9780441172719"
