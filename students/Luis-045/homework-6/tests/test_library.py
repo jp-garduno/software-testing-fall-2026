@@ -263,3 +263,14 @@ def test_member_history_reports_the_return_date(dated_library):
     clock[0] = date(2026, 10, 5)
     library.return_book("m1", "1234567890")
     assert library.get_member_history("m1")[0].returned_on == date(2026, 10, 5)
+
+
+def test_history_keeps_both_loans_when_a_book_is_borrowed_again(dated_library):
+    library, clock = dated_library
+    library.borrow_book("m1", "1234567890")
+    library.return_book("m1", "1234567890")
+    clock[0] = date(2026, 10, 2)
+    library.borrow_book("m1", "1234567890")
+    assert [loan.borrowed_on for loan in library.get_member_history("m1")] == [
+        date(2026, 10, 1), date(2026, 10, 2)
+    ]
