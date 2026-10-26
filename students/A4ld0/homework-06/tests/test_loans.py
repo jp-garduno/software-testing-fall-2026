@@ -69,3 +69,10 @@ def test_most_borrowed_book(library):
 
 def test_most_borrowed_without_loans(library):
     assert library.most_borrowed_book() is None
+
+
+def test_most_borrowed_tie_is_deterministic(library):
+    library.add_book(Book("0000000000", "Other", "Author"))
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.borrow_book("m1", "0000000000", borrowed_on=date(2026, 10, 1))
+    assert library.most_borrowed_book().isbn == "0000000000"
