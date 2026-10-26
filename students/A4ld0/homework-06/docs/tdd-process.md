@@ -196,3 +196,21 @@ Código en c75e845:
 
 Resultado tras refactorizar: `45 passed in 0.07s`. Código de salida: 0.
 Registros de evidencia: 30 y 31 en el archivo JSONL.
+
+
+## Ciclo 4: Multas congeladas al devolver
+
+### RED
+
+La versión inicial sumaba hasta as_of incluso después de devolver. Se prestó el 1 de octubre, se devolvió el 17 y se consultó el 1 de noviembre: el cargo esperado es 2.
+
+Prueba escrita primero (5f6c1bf):
+
+```python
+def test_returned_fees_stop_growing(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
+    assert library.calculate_late_fees("m1", as_of=date(2026, 11, 1)) == 2
+```
+
+Resultado observado: `1 failed in 0.06s`. Código de salida: 1.
