@@ -54,3 +54,11 @@ def test_borrow_book_updates_member_and_inventory(stocked_library):
             stocked_library.catalog["1234567890"].available_copies) == (
                 ["1234567890"], 0
             )
+
+
+def test_unavailable_book_does_not_change_member_loans(stocked_library):
+    stocked_library.borrow_book("m1", "1234567890")
+    stocked_library.register_member(Member("m2", "Ana"))
+    with pytest.raises(ValueError, match="available"):
+        stocked_library.borrow_book("m2", "1234567890")
+    assert stocked_library.members["m2"].borrowed_books == []
