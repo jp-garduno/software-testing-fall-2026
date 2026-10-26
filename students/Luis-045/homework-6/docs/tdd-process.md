@@ -50,3 +50,19 @@ def _validate_isbn(isbn):
 Se separó la regla del constructor para que la validación tuviera un nombre y pudiera evolucionar sin mezclarla con la asignación de propiedades.
 
 Resultado real: `4 passed in 0.01s`.
+
+
+## Ciclo 2. Préstamo sin ejemplares
+
+### RED
+
+Commit: `45be341`. Sin una guarda, el préstamo reducía el inventario de cero a menos uno.
+
+```python
+def test_borrow_rejects_an_unavailable_book():
+    book = Book("1234567890", "Dune", "Frank Herbert", total_copies=0)
+    with pytest.raises(ValueError, match="available"):
+        book.borrow()
+```
+
+Resultado real: `1 failed, 9 passed in 0.09s`.
