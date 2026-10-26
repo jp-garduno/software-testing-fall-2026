@@ -24,6 +24,9 @@ class Book:
         title: str,
         author: str,
         total_copies: int = 1,
+        genre: str = "General",
+        publication_year: int = 2024,
+        rating: float = 0.0,
     ) -> None:
         self.title = _validate_non_empty_string(title, "Title")
         self.author = _validate_non_empty_string(author, "Author")
@@ -34,6 +37,9 @@ class Book:
 
         self.total_copies = int(total_copies)
         self.available_copies = self.total_copies
+        self.genre = str(genre).strip()
+        self.publication_year = int(publication_year)
+        self.rating = float(rating)
 
     def is_available(self) -> bool:
         """Return True if at least one copy is available."""
@@ -51,3 +57,6 @@ class Book:
         if self.available_copies >= self.total_copies:
             raise ValueError("Cannot return more copies than total copies owned")
         self.available_copies += 1
+
+    def __repr__(self) -> str:  # pragma: no cover
+        return f"Book(isbn='{self.isbn}', title='{self.title}', author='{self.author}', copies={self.available_copies}/{self.total_copies})"
