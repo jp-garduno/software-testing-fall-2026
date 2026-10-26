@@ -19,3 +19,7 @@ class Book:
         """Reject ISBNs outside the assignment's digit format."""
         if len(isbn) not in (10, 13) or not isbn.isdigit():
             raise ValueError("ISBN must contain 10 or 13 digits")
+
+    def is_available(self):
+        """Whether at least one copy can be borrowed."""
+        return self.available_copies > 0
