@@ -16,3 +16,21 @@ Alcance: implementación y entrega local dentro del repositorio existente.
 | Refactorizaciones verificadas | 8 |
 | Commits TDD | 116, además de configuración, regresiones y documentación |
 | Ciclos explicados en detalle | 5 |
+| Reflexión | 609 palabras, excluyendo el título |
+
+## Reproducir
+
+Desde la carpeta de entrega y con las dependencias instaladas:
+
+```powershell
+.\.venv\Scripts\python.exe tools/check_quality.py
+```
+
+El programa ejecuta la suite sin cobertura para medir el proceso completo y después
+la ejecuta instrumentada para contar sentencias y ramas. Comprueba ambos umbrales
+por separado. La segunda ejecución genera el HTML y el JSON; su sobrecoste no se
+utiliza como medida de velocidad de la suite. Los tiempos varían entre equipos.
+
+## Evidencias
+
+- [Salida de las 97 pruebas](evidence/tests.txt).
