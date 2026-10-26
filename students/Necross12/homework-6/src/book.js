@@ -17,5 +17,13 @@ class Books {
   estaDisponible() {
     return this.copiasDisponibles > 0;
   }
+
+  pedir() {
+    if (!this.estaDisponible())
+      throw new Error("No hay más libros disponibles");
+
+    this.copiasDisponibles--;
+    return true;
+  }
 }
 module.exports = { Books };
