@@ -16,3 +16,6 @@ class Book:
         if not self.is_available():
             raise ValueError("No available copies")
         self.available_copies -= 1
+
+    def return_copy(self):
+        self.available_copies += 1
