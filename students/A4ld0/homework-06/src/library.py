@@ -86,4 +86,4 @@ class Library:
         counts = Counter(loan["isbn"] for loan in self.loans)
         if not counts:
             return None
-        return self.catalog[max(counts, key=counts.get)]
+        return self.catalog[max(sorted(counts), key=counts.get)]
