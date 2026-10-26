@@ -28,3 +28,11 @@ def test_returned_fees_stop_growing(library):
     library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
     library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
     assert library.calculate_late_fees("m1", as_of=date(2026, 11, 1)) == 2
+
+
+def test_return_before_borrow_is_atomic(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 10))
+    with pytest.raises(ValueError, match="before"):
+        library.return_book("m1", "1234567890", returned_on=date(2026, 10, 9))
+    assert (library.catalog["1234567890"].available_copies,
+            library.members["m1"].borrowed_books) == (1, ["1234567890"])
