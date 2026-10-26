@@ -39,3 +39,7 @@ class Library:
         book = self._get_book(isbn)
         member.return_book(isbn)
         book.return_copy()
+
+    def search_by_title(self, title):
+        return [book for book in self.catalog.values()
+                if title.casefold() in book.title.casefold()]
