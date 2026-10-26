@@ -12,7 +12,7 @@ class Book:
         self.title = title
         self.author = author
         self.metadata = metadata
-        if total_copies < 0:
+        if not isinstance(total_copies, int) or total_copies < 0:
             raise ValueError("Total copies must be nonnegative")
         self.total_copies = total_copies
         self.available_copies = total_copies
