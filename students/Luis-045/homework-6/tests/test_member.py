@@ -13,3 +13,9 @@ def test_member_stores_identity_and_default_borrow_limit():
 
 def test_new_member_can_borrow():
     assert Member("m1", "Luis").can_borrow() is True
+
+
+def test_add_borrowed_book_records_the_isbn():
+    member = Member("m1", "Luis")
+    member.add_borrowed_book("1234567890")
+    assert member.borrowed_books == ["1234567890"]
