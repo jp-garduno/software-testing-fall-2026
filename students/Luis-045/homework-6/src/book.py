@@ -32,4 +32,6 @@ class Book:
 
     def return_copy(self):
         """Restore one previously borrowed copy."""
+        if self.available_copies == self.total_copies:
+            raise ValueError("No borrowed copies to return")
         self.available_copies += 1
