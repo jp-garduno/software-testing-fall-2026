@@ -93,3 +93,8 @@ def test_book_stores_search_metadata():
 def test_book_rejects_fractional_inventory():
     with pytest.raises(ValueError, match="copies"):
         Book("1234567890", "Dune", "Frank Herbert", total_copies=1.5)
+
+
+def test_book_rejects_boolean_inventory():
+    with pytest.raises(ValueError, match="copies"):
+        Book("1234567890", "Dune", "Frank Herbert", total_copies=True)
