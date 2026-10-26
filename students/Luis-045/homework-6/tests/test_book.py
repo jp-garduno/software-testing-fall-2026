@@ -83,10 +83,18 @@ def test_book_accepts_a_thirteen_digit_isbn():
 
 
 def test_book_stores_search_metadata():
-    book = Book("1234567890", "Dune", "Frank Herbert",
-                genre="Science Fiction", publication_year=1965, rating=4.8)
+    book = Book(
+        "1234567890",
+        "Dune",
+        "Frank Herbert",
+        genre="Science Fiction",
+        publication_year=1965,
+        rating=4.8,
+    )
     assert book.metadata == {
-        "genre": "Science Fiction", "publication_year": 1965, "rating": 4.8
+        "genre": "Science Fiction",
+        "publication_year": 1965,
+        "rating": 4.8,
     }
 
 
