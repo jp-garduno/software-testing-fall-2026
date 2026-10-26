@@ -96,3 +96,6 @@ def test_combined_search_requires_every_filter(library, genre, year, rating):
     assert [book.isbn for book in matches] == expected
 
 
+def test_search_no_matches_and_available_books(library):
+    assert (library.search_by_title("missing"), library.search_by_author("missing"),
+            library.get_available_books()) == ([], [], [library.catalog["1234567890"]])
