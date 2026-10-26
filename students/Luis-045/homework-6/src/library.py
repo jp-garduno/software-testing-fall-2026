@@ -1,5 +1,6 @@
 """Catalog, member registration, and library operations."""
 
+from collections import Counter
 from dataclasses import replace
 from datetime import date
 
@@ -100,3 +101,8 @@ class Library:
         """Report this member's loans in borrowing order."""
         member = self.members[member_id]
         return tuple(loan for loan in self._loans if loan.member_id == member.member_id)
+
+    def most_borrowed_book(self):
+        """Return the most borrowed ISBN, breaking ties by first loan."""
+        counts = Counter(loan.isbn for loan in self._loans)
+        return counts.most_common(1)[0][0]
