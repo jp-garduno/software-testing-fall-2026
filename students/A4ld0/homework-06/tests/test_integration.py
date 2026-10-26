@@ -79,3 +79,8 @@ def test_unknown_member_operations(library, operation):
             library.member_history("missing")
 
 
+def test_return_unknown_isbn(library):
+    with pytest.raises(ValueError, match="ISBN"):
+        library.return_book("m1", "0000000000")
+
+
