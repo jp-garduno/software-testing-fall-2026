@@ -113,3 +113,17 @@ def test_member_cannot_exceed_a_custom_borrow_limit():
 ```
 
 Resultado real: `1 failed, 17 passed in 0.09s`.
+
+
+### GREEN
+
+Commit: `3af83a2`. Implementación mínima que hizo pasar el caso:
+
+```python
+def add_borrowed_book(self, isbn):
+    if len(self.borrowed_books) >= self.max_borrow_limit:
+        raise ValueError("Borrow limit reached")
+    self.borrowed_books.append(isbn)
+```
+
+Resultado real: `18 passed in 0.04s`.
