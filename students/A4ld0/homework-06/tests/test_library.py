@@ -80,3 +80,8 @@ def test_library_return_updates_book_and_member(library):
     library.return_book("m1", "1234567890")
     assert (library.catalog["1234567890"].available_copies,
             library.members["m1"].borrowed_books) == (2, [])
+
+
+def test_search_by_title(library):
+    library.add_book(Book("1234567890123", "Dune Messiah", "Frank Herbert"))
+    assert [book.title for book in library.search_by_title("DUNE")] == ["Dune", "Dune Messiah"]
