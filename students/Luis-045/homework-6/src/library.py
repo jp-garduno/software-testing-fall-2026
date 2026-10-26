@@ -40,3 +40,8 @@ class Library:
         """Find titles containing a case-insensitive query."""
         return [book for book in self.catalog.values()
                 if title.casefold() in book.title.casefold()]
+
+    def search_by_author(self, author):
+        """Find authors containing a case-insensitive query."""
+        return [book for book in self.catalog.values()
+                if author.casefold() in book.author.casefold()]
