@@ -40,3 +40,38 @@ describe("Miembro: creación", () => {
     );
   });
 });
+
+describe("Miembro: pedir y regresar", () => {
+  let miembro;
+
+  beforeEach(() => {
+    miembro = new Member("Carlos", ["1234567890"], 2);
+  });
+
+  test("puede pedir cuando no ha llegado a su límite", () => {
+    expect(miembro.puedePedir()).toBe(true);
+  });
+
+  test("no puede pedir cuando llegó a su límite", () => {
+    miembro.pedir("0987654321");
+    expect(miembro.puedePedir()).toBe(false);
+  });
+
+  test("pedir agrega el libro a la lista", () => {
+    expect(miembro.pedir("0987654321")).toBe(true);
+    expect(miembro.listaLibros).toEqual(["1234567890", "0987654321"]);
+  });
+
+  test("(inválida) pedir un libro superando el límite", () => {
+    miembro.pedir("0987654321");
+    expect(() => miembro.pedir("1111111111")).toThrow(
+      "El miembro no puede tener más libros que su límite.",
+    );
+  });
+
+  test("(inválida) pedir un libro sin identificador", () => {
+    expect(() => miembro.pedir("")).toThrow(
+      "El libro debe tener un identificador.",
+    );
+  });
+});
