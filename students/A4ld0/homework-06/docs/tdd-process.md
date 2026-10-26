@@ -250,3 +250,21 @@ Resultado tras refactorizar: `53 passed in 0.06s`. Código de salida: 0.
 Registros de evidencia: 40 y 41 en el archivo JSONL.
 
 
+## Ciclo 5: Búsqueda de autor sin distinguir mayúsculas
+
+### RED
+
+La prueba solicita HERBERT y espera únicamente Dune, excluyendo otro autor. En RED faltaba search_by_author.
+
+Prueba escrita primero (c80f0a3):
+
+```python
+def test_search_by_author(library):
+    library.add_book(Book("1234567890123", "Foundation", "Isaac Asimov"))
+    assert [book.title for book in library.search_by_author("HERBERT")] == ["Dune"]
+```
+
+Resultado observado: `1 failed in 0.09s`. Código de salida: 1.
+
+### GREEN
+
