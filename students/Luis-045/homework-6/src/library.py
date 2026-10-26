@@ -80,6 +80,8 @@ class Library:
 
     def search_with_filters(self, *, genre=None, publication_year=None, min_rating=None, sort_by="title"):
         """Filter the catalog using book metadata."""
+        if sort_by not in ("title", "author", "isbn", "publication_year", "rating"):
+            raise ValueError("Unknown sort field")
         books = list(self.catalog.values())
         if genre is not None:
             books = [book for book in books
