@@ -80,3 +80,19 @@ def borrow(self):
 ```
 
 Resultado real: `10 passed in 0.03s`.
+
+
+### REFACTOR
+
+Commit: `42695e1`.
+
+```python
+def borrow(self):
+    if not self.is_available():
+        raise ValueError("No copies available")
+    self.available_copies -= 1
+```
+
+La operación reutiliza is_available() para mantener una sola definición de disponibilidad. Se conserva la excepción y se evita modificar las existencias cuando la operación falla.
+
+Resultado real: `10 passed in 0.04s`.
