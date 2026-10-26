@@ -78,7 +78,7 @@ class Library:
         return sum(loan.fee_on(self._today()) for loan in self._loans
                    if loan.member_id == member.member_id)
 
-    def search_with_filters(self, *, genre=None, publication_year=None, min_rating=None):
+    def search_with_filters(self, *, genre=None, publication_year=None, min_rating=None, sort_by="title"):
         """Filter the catalog using book metadata."""
         books = list(self.catalog.values())
         if genre is not None:
@@ -89,4 +89,7 @@ class Library:
                      if book.metadata.get("publication_year") == publication_year]
         if min_rating is not None:
             books = [book for book in books if book.metadata.get("rating", -1) >= min_rating]
-        return sorted(books, key=lambda book: book.title.casefold())
+        return sorted(books, key=lambda book: (
+            getattr(book, sort_by).casefold() if sort_by in ("title", "author", "isbn")
+            else book.metadata.get(sort_by, 0), book.isbn
+        ))
