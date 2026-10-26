@@ -95,3 +95,8 @@ class Library:
             getattr(book, sort_by).casefold() if sort_by in ("title", "author", "isbn")
             else book.metadata.get(sort_by, 0), book.isbn
         ))
+
+    def get_member_history(self, member_id):
+        """Report this member's loans in borrowing order."""
+        member = self.members[member_id]
+        return tuple(loan for loan in self._loans if loan.member_id == member.member_id)
