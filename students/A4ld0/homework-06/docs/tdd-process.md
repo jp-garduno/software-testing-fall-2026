@@ -142,3 +142,21 @@ def test_borrow_limit_is_atomic(library):
     library.members["m1"].max_borrow_limit = 0
     with pytest.raises(ValueError, match="limit"):
         library.borrow_book("m1", "1234567890")
+    assert (library.catalog["1234567890"].available_copies,
+            library.members["m1"].borrowed_books) == (2, [])
+```
+
+Resultado observado: `1 failed in 0.07s`. Código de salida: 1.
+
+### GREEN
+
+Implementación en 0831d79:
+
+```python
+    def borrow_book(self, member_id, isbn):
+        if member_id not in self.members:
+            raise ValueError("Unknown member")
+        member = self.members[member_id]
+        if isbn not in self.catalog:
+            raise ValueError("Unknown ISBN")
+        book = self.catalog[isbn]
