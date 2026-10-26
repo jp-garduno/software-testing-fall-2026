@@ -220,8 +220,16 @@ def test_combined_filters_require_every_condition():
             rating=4.0,
         )
     )
-    library.add_book(Book("1234567892", "Wrong genre", "Writer", genre="Fantasy",
-                          publication_year=1965, rating=4.9))
+    library.add_book(
+        Book(
+            "1234567892",
+            "Wrong genre",
+            "Writer",
+            genre="Fantasy",
+            publication_year=1965,
+            rating=4.9,
+        )
+    )
     assert library.search_with_filters(
         genre="sf", publication_year=1965, min_rating=4.5
     ) == [match]
