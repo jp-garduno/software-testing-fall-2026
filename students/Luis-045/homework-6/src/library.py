@@ -78,10 +78,13 @@ class Library:
         return sum(loan.fee_on(self._today()) for loan in self._loans
                    if loan.member_id == member.member_id)
 
-    def search_with_filters(self, *, genre=None):
+    def search_with_filters(self, *, genre=None, publication_year=None):
         """Filter the catalog using book metadata."""
         books = list(self.catalog.values())
         if genre is not None:
             books = [book for book in books
                      if book.metadata.get("genre", "").casefold() == genre.casefold()]
+        if publication_year is not None:
+            books = [book for book in books
+                     if book.metadata.get("publication_year") == publication_year]
         return books
