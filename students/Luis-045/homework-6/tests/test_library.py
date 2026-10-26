@@ -52,10 +52,10 @@ def _stocked_library():
 
 def test_borrow_book_updates_member_and_inventory(stocked_library):
     stocked_library.borrow_book("m1", "1234567890")
-    assert (stocked_library.members["m1"].borrowed_books,
-            stocked_library.catalog["1234567890"].available_copies) == (
-                ["1234567890"], 0
-            )
+    assert (
+        stocked_library.members["m1"].borrowed_books,
+        stocked_library.catalog["1234567890"].available_copies,
+    ) == (["1234567890"], 0)
 
 
 def test_unavailable_book_does_not_change_member_loans(stocked_library):
@@ -86,8 +86,10 @@ def test_unknown_book_cannot_be_borrowed(stocked_library):
 def test_return_book_restores_both_member_and_inventory(stocked_library):
     stocked_library.borrow_book("m1", "1234567890")
     stocked_library.return_book("m1", "1234567890")
-    assert (stocked_library.members["m1"].borrowed_books,
-            stocked_library.catalog["1234567890"].available_copies) == ([], 1)
+    assert (
+        stocked_library.members["m1"].borrowed_books,
+        stocked_library.catalog["1234567890"].available_copies,
+    ) == ([], 1)
 
 
 def test_wrong_member_return_leaves_inventory_unchanged(stocked_library):
@@ -219,7 +221,8 @@ def test_combined_filters_require_every_condition():
 def test_filtered_search_sorts_by_title_by_default(stocked_library):
     stocked_library.add_book(Book("1234567891", "Animal Farm", "George Orwell"))
     assert [book.title for book in stocked_library.search_with_filters()] == [
-        "Animal Farm", "Dune"
+        "Animal Farm",
+        "Dune",
     ]
 
 
@@ -272,7 +275,8 @@ def test_history_keeps_both_loans_when_a_book_is_borrowed_again(dated_library):
     clock[0] = date(2026, 10, 2)
     library.borrow_book("m1", "1234567890")
     assert [loan.borrowed_on for loan in library.get_member_history("m1")] == [
-        date(2026, 10, 1), date(2026, 10, 2)
+        date(2026, 10, 1),
+        date(2026, 10, 2),
     ]
 
 
