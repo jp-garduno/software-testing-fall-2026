@@ -33,3 +33,16 @@ Start-Process .\coverage\index.html
 ```
 
 [Reporte HTML incluido](coverage/index.html). [Datos de cobertura](coverage/coverage.json). La configuración local mide únicamente `src/` y activa ramas; no incluye tests ni el entorno virtual en el porcentaje.
+
+
+## Comprobaciones de calidad
+
+Ejecutar desde la misma carpeta:
+
+```powershell
+.\.venv\Scripts\python.exe -m black --check src tests
+.\.venv\Scripts\python.exe -X utf8 -m isort --check-only --profile black src tests
+.\.venv\Scripts\python.exe -m pylint --rcfile=../../../.github/grading/pylintrc src tests
+```
+
+El modo UTF-8 evita problemas de codificación en Windows con la prueba de ISBN que contiene dígitos Unicode. Pylint utiliza las reglas existentes de la clase.
