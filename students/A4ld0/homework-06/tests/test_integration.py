@@ -70,3 +70,12 @@ def test_empty_history_and_default_fee_date(library):
     assert (library.member_history("m1"), library.calculate_late_fees("m1")) == ([], 0)
 
 
+@pytest.mark.parametrize("operation", ["return", "history"])
+def test_unknown_member_operations(library, operation):
+    with pytest.raises(ValueError, match="member"):
+        if operation == "return":
+            library.return_book("missing", "1234567890")
+        else:
+            library.member_history("missing")
+
+
