@@ -149,3 +149,12 @@ def test_library_totals_a_members_overdue_fees(dated_library):
     library.borrow_book("m1", "1234567890")
     clock[0] = date(2026, 10, 18)
     assert library.calculate_late_fees("m1") == 3
+
+
+def test_library_return_stops_fee_growth(dated_library):
+    library, clock = dated_library
+    library.borrow_book("m1", "1234567890")
+    clock[0] = date(2026, 10, 16)
+    library.return_book("m1", "1234567890")
+    clock[0] = date(2026, 10, 20)
+    assert library.calculate_late_fees("m1") == 1
