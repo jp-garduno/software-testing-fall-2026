@@ -38,3 +38,10 @@ class Book:
     def is_available(self) -> bool:
         """Return True if at least one copy is available."""
         return self.available_copies > 0
+
+    def borrow(self) -> bool:
+        """Borrow one copy of the book if available."""
+        if not self.is_available():
+            raise RuntimeError("No copies available for borrowing")
+        self.available_copies -= 1
+        return True
