@@ -41,14 +41,6 @@ def test_duplicate_member_preserves_registration():
     assert library.members["m1"] is original
 
 
-@pytest.fixture
-def library():
-    result = Library()
-    result.add_book(Book("1234567890", "Dune", "Frank Herbert", 2))
-    result.register_member(Member("m1", "Ana"))
-    return result
-
-
 def test_library_borrow_updates_book_and_member(library):
     library.borrow_book("m1", "1234567890")
     assert (library.catalog["1234567890"].available_copies,
