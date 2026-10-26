@@ -17,3 +17,10 @@ def test_add_book_indexes_the_book_by_isbn():
     book = Book("1234567890", "Dune", "Frank Herbert")
     library.add_book(book)
     assert library.catalog[book.isbn] is book
+
+
+def test_register_member_indexes_the_member_by_id():
+    library = Library()
+    member = Member("m1", "Luis")
+    library.register_member(member)
+    assert library.members[member.member_id] is member
