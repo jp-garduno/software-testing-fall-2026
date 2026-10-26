@@ -51,7 +51,9 @@ class Library:
         loan = next(loan for loan in self.loans
                     if loan["member_id"] == member_id and loan["isbn"] == isbn
                     and loan.get("returned_on") is None)
-        returned_on = returned_on or date.today()
+        returned_on = date.today() if returned_on is None else returned_on
+        if type(returned_on) is not date:
+            raise ValueError("Return date must be a date")
         if returned_on < loan["borrowed_on"]:
             raise ValueError("Return cannot be before borrowing")
         member.return_book(isbn)
