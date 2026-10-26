@@ -37,3 +37,12 @@ def test_returning_one_of_two_copies_closes_only_the_first_loan(library):
     assert library.calculate_late_fees("m1", as_of=date(2026, 10, 20)) == 6
 
 
+def test_returning_and_reborrowing_creates_a_new_history_entry(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 18))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 19))
+    assert [loan["returned_on"] for loan in library.member_history("m1")] == [
+        date(2026, 10, 17), date(2026, 10, 19)]
+
+
