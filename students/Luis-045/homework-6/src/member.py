@@ -13,3 +13,7 @@ class Member:
     def can_borrow(self):
         """Whether the member has room for another loan."""
         return len(self.borrowed_books) < self.max_borrow_limit
+
+    def add_borrowed_book(self, isbn):
+        """Record another book borrowed by this member."""
+        self.borrowed_books.append(isbn)
