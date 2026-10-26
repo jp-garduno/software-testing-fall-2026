@@ -66,3 +66,17 @@ def test_borrow_rejects_an_unavailable_book():
 ```
 
 Resultado real: `1 failed, 9 passed in 0.09s`.
+
+
+### GREEN
+
+Commit: `ebbfcd5`. Implementación mínima que hizo pasar el caso:
+
+```python
+def borrow(self):
+    if self.available_copies == 0:
+        raise ValueError("No copies available")
+    self.available_copies -= 1
+```
+
+Resultado real: `10 passed in 0.03s`.
