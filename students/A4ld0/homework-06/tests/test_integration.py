@@ -30,3 +30,10 @@ def test_late_fees_at_due_date_boundaries(library, day, fee):
     assert library.calculate_late_fees("m1", as_of=date(2026, 10, day)) == fee
 
 
+def test_returning_one_of_two_copies_closes_only_the_first_loan(library):
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 1))
+    library.borrow_book("m1", "1234567890", borrowed_on=date(2026, 10, 2))
+    library.return_book("m1", "1234567890", returned_on=date(2026, 10, 17))
+    assert library.calculate_late_fees("m1", as_of=date(2026, 10, 20)) == 6
+
+
