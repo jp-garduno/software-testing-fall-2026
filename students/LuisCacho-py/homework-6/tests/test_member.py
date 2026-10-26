@@ -39,3 +39,29 @@ def test_member_cannot_borrow_when_at_limit():
     member = Member("M001", "Alice Smith", max_borrow_limit=2)
     member.borrowed_books = ["1111111111", "2222222222"]
     assert member.can_borrow() is False
+
+
+def test_member_add_borrowed_book_success():
+    member = Member("M001", "Alice Smith", max_borrow_limit=2)
+    member.add_borrowed_book("1234567890")
+    assert member.borrowed_books == ["1234567890"]
+
+
+def test_member_add_borrowed_book_exceeds_limit():
+    member = Member("M001", "Alice Smith", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="Borrow limit reached"):
+        member.add_borrowed_book("0987654321")
+
+
+def test_member_return_book_success():
+    member = Member("M001", "Alice Smith", max_borrow_limit=2)
+    member.add_borrowed_book("1234567890")
+    member.return_book("1234567890")
+    assert member.borrowed_books == []
+
+
+def test_member_return_book_not_borrowed():
+    member = Member("M001", "Alice Smith", max_borrow_limit=2)
+    with pytest.raises(ValueError, match="Book was not borrowed by this member"):
+        member.return_book("1234567890")
