@@ -18,4 +18,6 @@ class Book:
         self.available_copies -= 1
 
     def return_copy(self):
+        if self.available_copies == self.total_copies:
+            raise ValueError("No borrowed copy to return")
         self.available_copies += 1
