@@ -106,3 +106,11 @@ def test_search_by_author_matches_a_case_insensitive_substring(stocked_library):
     assert stocked_library.search_by_author("HERB") == [
         stocked_library.catalog["1234567890"]
     ]
+
+
+def test_get_available_books_excludes_borrowed_out_titles(stocked_library):
+    stocked_library.add_book(Book("1234567891", "Foundation", "Isaac Asimov"))
+    stocked_library.borrow_book("m1", "1234567890")
+    assert stocked_library.get_available_books() == [
+        stocked_library.catalog["1234567891"]
+    ]
