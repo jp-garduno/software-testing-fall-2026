@@ -31,3 +31,10 @@ def test_add_book_rejects_a_duplicate_isbn():
     library.add_book(Book("1234567890", "Dune", "Frank Herbert"))
     with pytest.raises(ValueError, match="already"):
         library.add_book(Book("1234567890", "Replacement", "Other"))
+
+
+def test_register_member_rejects_a_duplicate_id():
+    library = Library()
+    library.register_member(Member("m1", "Luis"))
+    with pytest.raises(ValueError, match="already"):
+        library.register_member(Member("m1", "Other"))
