@@ -45,3 +45,10 @@ def test_return_book_removes_the_borrowed_isbn():
 def test_return_book_rejects_an_isbn_not_borrowed():
     with pytest.raises(ValueError):
         Member("m1", "Luis").return_book("1234567890")
+
+
+def test_members_do_not_share_borrowed_book_lists():
+    first = Member("m1", "Luis")
+    second = Member("m2", "Ana")
+    first.add_borrowed_book("1234567890")
+    assert second.borrowed_books == []
