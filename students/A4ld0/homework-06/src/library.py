@@ -101,5 +101,9 @@ class Library:
                 if (genre is None or book.genre == genre)
                 and (publication_year is None or book.publication_year == publication_year)
                 and (rating is None or book.rating == rating)]
-        return sorted(matches, key=lambda book: (
-            getattr(book, sort_by) is None, getattr(book, sort_by), book.isbn))
+        def sort_key(book):
+            value = getattr(book, sort_by)
+            if isinstance(value, str):
+                value = value.casefold()
+            return value is None, value, book.isbn
+        return sorted(matches, key=sort_key)
