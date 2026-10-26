@@ -76,3 +76,7 @@ class Library:
     def _loan_fee(loan, as_of):
         end = min(as_of, loan.get("returned_on") or as_of)
         return max(0, (end - loan["due_on"]).days)
+
+    def member_history(self, member_id):
+        self._get_member(member_id)
+        return [dict(loan) for loan in self.loans if loan["member_id"] == member_id]
