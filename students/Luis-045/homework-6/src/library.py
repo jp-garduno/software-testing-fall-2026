@@ -56,8 +56,11 @@ class Library:
         return self._search("author", author)
 
     def _search(self, field, query):
-        return [book for book in self.catalog.values()
-                if query.casefold() in getattr(book, field).casefold()]
+        return [
+            book
+            for book in self.catalog.values()
+            if query.casefold() in getattr(book, field).casefold()
+        ]
 
     def get_available_books(self):
         """List catalog entries with at least one free copy."""
@@ -69,15 +72,22 @@ class Library:
 
     def _active_loan(self, member_id, isbn):
         for loan in self._loans:
-            if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None:
+            if (
+                loan.member_id == member_id
+                and loan.isbn == isbn
+                and loan.returned_on is None
+            ):
                 return loan
         raise ValueError("No active loan for this member and ISBN")
 
     def calculate_late_fees(self, member_id):
         """Total accrued fees, including previously returned loans."""
         member = self.members[member_id]
-        return sum(loan.fee_on(self._today()) for loan in self._loans
-                   if loan.member_id == member.member_id)
+        return sum(
+            loan.fee_on(self._today())
+            for loan in self._loans
+            if loan.member_id == member.member_id
+        )
 
     def search_with_filters(self, *, genre=None, publication_year=None, min_rating=None, sort_by="title"):
         """Filter the catalog using book metadata."""
