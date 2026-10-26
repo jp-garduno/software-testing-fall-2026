@@ -1,5 +1,6 @@
 """Catalog, member registration, and library operations."""
 
+from dataclasses import replace
 from datetime import date
 
 from .loan import Loan
@@ -40,8 +41,10 @@ class Library:
         """Accept a book currently borrowed by this member."""
         member = self.members[member_id]
         book = self.catalog[isbn]
+        loan = self._active_loan(member_id, isbn)
         member.return_book(isbn)
         book.return_copy()
+        self._loans[self._loans.index(loan)] = replace(loan, returned_on=self._today())
 
     def search_by_title(self, title):
         """Find titles containing a case-insensitive query."""
