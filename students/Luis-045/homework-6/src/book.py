@@ -29,3 +29,7 @@ class Book:
         if not self.is_available():
             raise ValueError("No copies available")
         self.available_copies -= 1
+
+    def return_copy(self):
+        """Restore one previously borrowed copy."""
+        self.available_copies += 1
