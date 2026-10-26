@@ -25,5 +25,13 @@ class Books {
     this.copiasDisponibles--;
     return true;
   }
+
+  regresar() {
+    if (this.copiasDisponibles >= this.copias)
+      throw new Error("No se pueden regresar más libros de los que existen");
+
+    this.copiasDisponibles++;
+    return true;
+  }
 }
 module.exports = { Books };
