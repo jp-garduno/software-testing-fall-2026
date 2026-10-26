@@ -63,5 +63,5 @@ class Library:
 
     def calculate_late_fees(self, member_id, as_of=None):
         as_of = as_of or date.today()
-        return sum(max(0, (as_of - loan["due_on"]).days)
+        return sum(max(0, (min(as_of, loan.get("returned_on") or as_of) - loan["due_on"]).days)
                    for loan in self.loans if loan["member_id"] == member_id)
