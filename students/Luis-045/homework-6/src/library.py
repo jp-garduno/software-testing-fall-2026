@@ -109,7 +109,9 @@ class Library:
                 if book.metadata.get("publication_year") == publication_year
             ]
         if min_rating is not None:
-            books = [book for book in books if book.metadata.get("rating", -1) >= min_rating]
+            books = [
+                book for book in books if book.metadata.get("rating", -1) >= min_rating
+            ]
         return sorted(books, key=lambda book: (
             getattr(book, sort_by).casefold() if sort_by in ("title", "author", "isbn")
             else book.metadata.get(sort_by, 0), book.isbn
