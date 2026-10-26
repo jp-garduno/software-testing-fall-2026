@@ -114,3 +114,7 @@ def test_get_available_books_excludes_borrowed_out_titles(stocked_library):
     assert stocked_library.get_available_books() == [
         stocked_library.catalog["1234567891"]
     ]
+
+
+def test_search_returns_an_empty_list_when_no_title_matches(stocked_library):
+    assert stocked_library.search_by_title("missing") == []
