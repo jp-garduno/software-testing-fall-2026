@@ -20,4 +20,4 @@ class Loan:
 
     def fee_on(self, today):
         """Calculate the amount owed on the supplied date."""
-        return (today - self.due_date).days
+        return max(0, (today - self.due_date).days)
