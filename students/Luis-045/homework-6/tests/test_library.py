@@ -281,3 +281,12 @@ def test_member_history_excludes_other_members_loans(dated_library):
     library.register_member(Member("m2", "Ana"))
     library.borrow_book("m1", "1234567890")
     assert library.get_member_history("m2") == ()
+
+
+def test_most_borrowed_book_counts_repeat_loans(stocked_library):
+    stocked_library.add_book(Book("1234567891", "Foundation", "Isaac Asimov"))
+    stocked_library.borrow_book("m1", "1234567890")
+    stocked_library.borrow_book("m1", "1234567891")
+    stocked_library.return_book("m1", "1234567891")
+    stocked_library.borrow_book("m1", "1234567891")
+    assert stocked_library.most_borrowed_book() == "1234567891"
