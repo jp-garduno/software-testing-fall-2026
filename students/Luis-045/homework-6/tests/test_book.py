@@ -71,3 +71,8 @@ def test_return_copy_rejects_an_extra_copy():
     book = Book("1234567890", "Dune", "Frank Herbert")
     with pytest.raises(ValueError, match="borrowed"):
         book.return_copy()
+
+
+def test_book_rejects_negative_inventory():
+    with pytest.raises(ValueError, match="copies"):
+        Book("1234567890", "Dune", "Frank Herbert", total_copies=-1)
