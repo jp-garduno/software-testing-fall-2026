@@ -61,3 +61,15 @@ El modo UTF-8 evita problemas de codificación en Windows con la prueba de ISBN 
 | Historial | `get_member_history(member_id)`, `most_borrowed_book()` |
 
 `Loan` es un registro inmutable con miembro, ISBN, fecha de préstamo, fecha de devolución y vencimiento calculado. El reporte de historial devuelve una tupla de estos registros.
+
+
+## Reglas y decisiones
+
+- El ISBN es una cadena de 10 o 13 dígitos ASCII; no se exige checksum porque el enunciado solo solicita longitud y dígitos.
+- El título debe ser una cadena con contenido. Las copias son enteros no negativos; no se aceptan booleanos.
+- Cada miembro tiene una lista independiente y un límite predeterminado de tres libros. No puede tomar dos préstamos simultáneos del mismo ISBN.
+- Los ISBN e identificadores de miembros duplicados se rechazan con `ValueError`. Un identificador o ISBN desconocido en las operaciones de biblioteca produce `KeyError`.
+- Un préstamo rechazado por disponibilidad o límite no cambia inventario ni libros del miembro. Una devolución debe corresponder a un préstamo activo.
+- El vencimiento ocurre 14 días después del préstamo. La multa es cero hasta esa fecha y aumenta $1 por cada día posterior.
+- Al devolver un libro se conserva el importe acumulado hasta la devolución. Los totales incluyen multas de préstamos activos y devueltos; no se implementan pagos.
+- `Library(today=...)` permite inyectar un reloj. En producción usa `date.today`; las pruebas controlan las fechas sin esperas ni servicios externos.
