@@ -61,12 +61,10 @@ class Library:
         loan["returned_on"] = returned_on
 
     def search_by_title(self, title):
-        return [book for book in self.catalog.values()
-                if title.casefold() in book.title.casefold()]
+        return self._search_text("title", title)
 
     def search_by_author(self, author):
-        return [book for book in self.catalog.values()
-                if author.casefold() in book.author.casefold()]
+        return self._search_text("author", author)
 
     def get_available_books(self):
         return [book for book in self.catalog.values() if book.is_available()]
@@ -107,3 +105,7 @@ class Library:
                 value = value.casefold()
             return value is None, value, book.isbn
         return sorted(matches, key=sort_key)
+
+    def _search_text(self, field, text):
+        return [book for book in self.catalog.values()
+                if text.casefold() in getattr(book, field).casefold()]
