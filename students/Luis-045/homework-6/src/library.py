@@ -89,4 +89,4 @@ class Library:
                      if book.metadata.get("publication_year") == publication_year]
         if min_rating is not None:
             books = [book for book in books if book.metadata.get("rating", -1) >= min_rating]
-        return books
+        return sorted(books, key=lambda book: book.title.casefold())
