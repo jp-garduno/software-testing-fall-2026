@@ -190,3 +190,19 @@ def _search(self, field, query):
 Las búsquedas por título y autor compartían la misma regla de coincidencia parcial. Extraer _search() eliminó esa duplicación sin cambiar sus API públicas.
 
 Resultado real: `37 passed in 0.04s`.
+
+
+## Ciclo 5. Detener las multas al devolver
+
+### RED
+
+Commit: `75a194c`. La devolución del día 16 debía fijar la deuda en un dólar. Al consultar el día 20 se obtenían cinco: assert 5 == 1.
+
+```python
+def test_returned_loan_fee_stops_growing():
+    loan = Loan("m1", "1234567890", date(2026, 10, 1),
+                returned_on=date(2026, 10, 16))
+    assert loan.fee_on(date(2026, 10, 20)) == 1
+```
+
+Resultado real: `1 failed, 43 passed in 0.10s`.
