@@ -88,3 +88,8 @@ def test_book_stores_search_metadata():
     assert book.metadata == {
         "genre": "Science Fiction", "publication_year": 1965, "rating": 4.8
     }
+
+
+def test_book_rejects_fractional_inventory():
+    with pytest.raises(ValueError, match="copies"):
+        Book("1234567890", "Dune", "Frank Herbert", total_copies=1.5)
