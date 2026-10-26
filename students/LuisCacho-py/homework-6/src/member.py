@@ -25,3 +25,16 @@ class Member:
     def can_borrow(self) -> bool:
         """Return True if the member has not reached their borrow limit."""
         return len(self.borrowed_books) < self.max_borrow_limit
+
+    def add_borrowed_book(self, isbn: str) -> None:
+        """Add an ISBN to the member's list of borrowed books."""
+        if not self.can_borrow():
+            raise ValueError("Borrow limit reached")
+        self.borrowed_books.append(str(isbn))
+
+    def return_book(self, isbn: str) -> None:
+        """Remove a borrowed book from the member's list."""
+        cleaned_isbn = str(isbn)
+        if cleaned_isbn not in self.borrowed_books:
+            raise ValueError("Book was not borrowed by this member")
+        self.borrowed_books.remove(cleaned_isbn)
