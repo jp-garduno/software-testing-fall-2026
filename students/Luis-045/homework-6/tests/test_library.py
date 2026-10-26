@@ -133,3 +133,19 @@ def test_library_records_the_due_date_of_a_new_loan():
 def test_get_due_date_rejects_a_book_not_borrowed(stocked_library):
     with pytest.raises(ValueError, match="active"):
         stocked_library.get_due_date("m1", "1234567890")
+
+
+@pytest.fixture
+def dated_library():
+    clock = [date(2026, 10, 1)]
+    library = Library(today=lambda: clock[0])
+    library.add_book(Book("1234567890", "Dune", "Frank Herbert"))
+    library.register_member(Member("m1", "Luis"))
+    return library, clock
+
+
+def test_library_totals_a_members_overdue_fees(dated_library):
+    library, clock = dated_library
+    library.borrow_book("m1", "1234567890")
+    clock[0] = date(2026, 10, 18)
+    assert library.calculate_late_fees("m1") == 3
