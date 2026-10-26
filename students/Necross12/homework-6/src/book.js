@@ -1,6 +1,7 @@
+const ISBN_VALIDO = /^(\d{10}|\d{13})$/;
 class Books {
   constructor(isbn, titulo, autor, copias = 1, disponibles = copias) {
-    if (!/^(\d{10}|\d{13})$/.test(isbn))
+    if (!ISBN_VALIDO.test(isbn))
       throw new Error("El ISBN debe tener 10 o 13 dígitos");
 
     if (!titulo) throw new Error("El título es requerido");
