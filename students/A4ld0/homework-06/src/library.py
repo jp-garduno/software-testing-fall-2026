@@ -93,3 +93,7 @@ class Library:
         if not counts:
             return None
         return self.catalog[max(sorted(counts), key=counts.get)]
+
+    def search_books(self, *, genre=None):
+        return [book for book in self.catalog.values()
+                if genre is None or book.genre == genre]
