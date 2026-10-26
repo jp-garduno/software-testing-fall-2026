@@ -1,10 +1,12 @@
 """Catalog and lending operations."""
+from datetime import date, timedelta
 
 
 class Library:
     def __init__(self):
         self.catalog = {}
         self.members = {}
+        self.loans = []
 
     def add_book(self, book):
         if book.isbn in self.catalog:
@@ -16,13 +18,17 @@ class Library:
             raise ValueError("Duplicate member ID")
         self.members[member.member_id] = member
 
-    def borrow_book(self, member_id, isbn):
+    def borrow_book(self, member_id, isbn, borrowed_on=None):
         member = self._get_member(member_id)
         book = self._get_book(isbn)
         if not member.can_borrow():
             raise ValueError("Member borrowing limit reached")
         book.borrow()
         member.add_borrowed_book(isbn)
+        borrowed_on = borrowed_on or date.today()
+        self.loans.append(dict(member_id=member_id, isbn=isbn,
+                               borrowed_on=borrowed_on,
+                               due_on=borrowed_on + timedelta(days=14)))
 
     def _get_member(self, member_id):
         if member_id not in self.members:
