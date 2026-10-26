@@ -2,7 +2,8 @@
 
 
 class Book:
-    def __init__(self, isbn, title, author, total_copies=1):
+    def __init__(self, isbn, title, author, total_copies=1, *,
+                 genre=None, publication_year=None, rating=None):
         valid_isbn = (
             isinstance(isbn, str) and isbn.isascii()
             and isbn.isdigit() and len(isbn) in (10, 13)
@@ -14,6 +15,9 @@ class Book:
             raise ValueError("Book title is required")
         self.title = title
         self.author = author
+        self.genre = genre
+        self.publication_year = publication_year
+        self.rating = rating
         if type(total_copies) is not int or total_copies < 0:
             raise ValueError("Total copies must be a nonnegative integer")
         self.total_copies = total_copies
