@@ -34,3 +34,21 @@ def test_reject_non_numeric_isbn(isbn):
 
 Resultado observado: `4 failed in 0.09s`. Código de salida: 1.
 
+### GREEN
+
+Implementación en e33a21a:
+
+```python
+    def __init__(self, isbn, title, author, total_copies=1):
+        if not isinstance(isbn, str) or not isbn.isascii() or not isbn.isdigit() or len(isbn) not in (10, 13):
+            raise ValueError("ISBN must have 10 or 13 digits")
+        self.isbn = isbn
+        self.title = title
+        self.author = author
+        self.total_copies = total_copies
+        self.available_copies = total_copies
+```
+
+Resultado de la suite completa: `16 passed in 0.04s`. Código de salida: 0.
+
+### REFACTOR
