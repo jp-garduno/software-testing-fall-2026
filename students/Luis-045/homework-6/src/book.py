@@ -7,6 +7,8 @@ class Book:
     def __init__(self, isbn, title, author, total_copies=1):
         self._validate_isbn(isbn)
         self.isbn = isbn
+        if not title:
+            raise ValueError("Book title is required")
         self.title = title
         self.author = author
         self.total_copies = total_copies
