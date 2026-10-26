@@ -16,4 +16,6 @@ class Library:
 
     def register_member(self, member):
         """Register a new member identity."""
+        if member.member_id in self.members:
+            raise ValueError("Member ID already registered")
         self.members[member.member_id] = member
