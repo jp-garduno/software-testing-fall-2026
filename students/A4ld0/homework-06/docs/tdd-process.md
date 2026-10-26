@@ -160,3 +160,21 @@ Implementación en 0831d79:
         if isbn not in self.catalog:
             raise ValueError("Unknown ISBN")
         book = self.catalog[isbn]
+        if not member.can_borrow():
+            raise ValueError("Member borrowing limit reached")
+        book.borrow()
+        member.add_borrowed_book(isbn)
+```
+
+Resultado de la suite completa: `45 passed in 0.06s`. Código de salida: 0.
+
+### REFACTOR
+
+Se extrajeron _get_member y _get_book para compartir las comprobaciones de existencia con las devoluciones. Se preservó la validación del límite antes de cambiar el estado.
+
+Código en c75e845:
+
+```python
+    def borrow_book(self, member_id, isbn):
+        member = self._get_member(member_id)
+        book = self._get_book(isbn)
