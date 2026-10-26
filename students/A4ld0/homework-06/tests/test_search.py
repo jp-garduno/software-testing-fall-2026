@@ -10,3 +10,8 @@ def test_book_search_metadata():
 def test_search_exact_genre(library):
     library.add_book(Book("0000000000", "Other", "Author", genre="Sci-Fi"))
     assert [b.isbn for b in library.search_books(genre="Sci-Fi")] == ["0000000000"]
+
+
+def test_search_publication_year(library):
+    library.add_book(Book("0000000000", "Other", "Author", publication_year=1965))
+    assert [b.isbn for b in library.search_books(publication_year=1965)] == ["0000000000"]
