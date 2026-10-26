@@ -27,4 +27,16 @@ describe("Miembro: creación", () => {
     expect(miembro.listaLibros).toEqual(["1234567890"]);
     expect(miembro.limiteLibros).toBe(2);
   });
+
+  test("(inválida) crear miembro con límite negativo", () => {
+    expect(() => new Member("Carlos", ["1234567890"], -1)).toThrow(
+      "El miembro no puede tener un límite negativo.",
+    );
+  });
+
+  test("(inválida) crear miembro con más libros que su límite", () => {
+    expect(() => new Member("Carlos", ["1234567890", "0987654321"], 1)).toThrow(
+      "El miembro no puede tener más libros que su límite.",
+    );
+  });
 });
