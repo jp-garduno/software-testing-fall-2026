@@ -52,3 +52,9 @@ def test_members_do_not_share_borrowed_book_lists():
     second = Member("m2", "Ana")
     first.add_borrowed_book("1234567890")
     assert second.borrowed_books == []
+
+
+def test_member_at_limit_cannot_borrow():
+    member = Member("m1", "Luis", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+    assert member.can_borrow() is False
