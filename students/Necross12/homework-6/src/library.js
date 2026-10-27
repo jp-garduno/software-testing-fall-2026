@@ -9,6 +9,10 @@ class Library {
       throw new Error("El libro ya está registrado.");
     this.libros.push(libro);
   }
+
+  agregarMiembro(miembro) {
+    this.miembros.push(miembro);
+  }
 }
 
 module.exports = { Library };
