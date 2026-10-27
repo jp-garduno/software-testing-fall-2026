@@ -9,6 +9,7 @@ class MemberCategory(Enum):
     """Kinds of member; each value is that category's borrow limit."""
 
     FACULTY = 5
+    PUBLIC = 2
 
 
 class Member:
