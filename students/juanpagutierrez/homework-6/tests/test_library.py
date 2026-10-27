@@ -107,3 +107,9 @@ def test_search_by_author_matches_partial_text_ignoring_case(library):
 
 def test_search_with_no_match_returns_empty_list(library):
     assert library.search_by_title("Python") == []
+
+
+def test_get_available_books_excludes_books_with_no_copies(library):
+    library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
+    library.borrow_book(MEMBER_ID, ISBN)
+    assert [book.isbn for book in library.get_available_books()] == ["0987654321"]
