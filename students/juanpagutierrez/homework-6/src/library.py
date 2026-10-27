@@ -51,3 +51,7 @@ class Library:
     def search_by_title(self, title):
         """Return books whose title contains ``title`` (case-insensitive)."""
         return [book for book in self._books.values() if title.lower() in book.title.lower()]
+
+    def search_by_author(self, author):
+        """Return books whose author contains ``author`` (case-insensitive)."""
+        return [book for book in self._books.values() if author.lower() in book.author.lower()]
