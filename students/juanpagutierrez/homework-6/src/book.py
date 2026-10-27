@@ -45,10 +45,22 @@ class Book:
         self.author = author
         self.total_copies = total_copies
         self.available_copies = total_copies
-        details = details or BookDetails()
-        self.genre = details.genre
-        self.publication_year = details.publication_year
-        self.rating = details.rating
+        self.details = details or BookDetails()
+
+    @property
+    def genre(self):
+        """Genre from the book details, if known."""
+        return self.details.genre
+
+    @property
+    def publication_year(self):
+        """Publication year from the book details, if known."""
+        return self.details.publication_year
+
+    @property
+    def rating(self):
+        """Reader rating from 0 to 5, if known."""
+        return self.details.rating
 
     def is_available(self):
         """Return True while at least one copy is on the shelf."""
