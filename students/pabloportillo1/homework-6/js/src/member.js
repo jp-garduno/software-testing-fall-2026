@@ -18,6 +18,9 @@ class Member {
   }
 
   addBorrowedBook(isbn) {
+    if (!this.canBorrow()) {
+      throw new Error(`${this.name} has reached the borrow limit of ${this.maxBorrowLimit}`);
+    }
     this.borrowedBooks.push(isbn);
   }
 }
