@@ -176,3 +176,20 @@ def test_library_search_no_matches_returns_empty():
     library.add_book(b1)
     assert library.search_by_title("Nonexistent") == []
     assert library.search_by_author("Nonexistent") == []
+
+
+def test_library_get_available_books():
+    library = Library()
+    b1 = Book("1111111111", "Available Book", "Author A", total_copies=2)
+    b2 = Book("2222222222", "Borrowed Out Book", "Author B", total_copies=1)
+    member = Member("M001", "Member One")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(member)
+
+    library.borrow_book("M001", "2222222222")
+
+    available = library.get_available_books()
+    assert b1 in available
+    assert b2 not in available
+    assert len(available) == 1
