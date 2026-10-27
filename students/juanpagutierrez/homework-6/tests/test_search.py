@@ -55,3 +55,8 @@ def test_search_combines_filters_with_and_logic(library):
 
 def test_search_results_can_be_sorted_by_a_field(library):
     assert isbns(library.search(genre="Science Fiction", sort_by="publication_year")) == ["2222222222", "4444444444"]
+
+
+def test_search_results_can_be_sorted_in_descending_order(library):
+    assert isbns(library.search(min_rating=4.2, sort_by="rating", descending=True)) == [
+        "1111111111", "2222222222", "3333333333"]
