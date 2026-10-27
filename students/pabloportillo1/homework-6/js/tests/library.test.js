@@ -78,3 +78,10 @@ test("returnBook puts the copy back and clears the member", () => {
 
   expect([book.availableCopies, member.borrowedBooks]).toEqual([2, []]);
 });
+
+test("searchByTitle matches part of the title ignoring case", () => {
+  stock();
+  library.addBook(new Book("0131103628", "The C Programming Language", "Kernighan"));
+
+  expect(library.searchByTitle("clean")).toEqual([book]);
+});
