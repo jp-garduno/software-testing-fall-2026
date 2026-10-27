@@ -1,5 +1,7 @@
 """Library: the catalog, its members, and the loans between them."""
 
+from . import errors
+
 
 class Library:
     """Coordinates books and members so every loan follows the library's rules."""
@@ -13,4 +15,7 @@ class Library:
 
     def get_book(self, isbn):
         """Return the catalog entry for this ISBN."""
+        if isbn not in self._books:
+            raise errors.BookNotFoundError(f"No book with ISBN {isbn}")
+
         return self._books[isbn]

@@ -15,3 +15,7 @@ class InvalidReturnError(LibraryError):
 
 class BorrowLimitExceededError(LibraryError):
     """Raised when a member already holds as many books as their limit allows."""
+
+
+class BookNotFoundError(LibraryError):
+    """Raised when an ISBN is not in the catalog."""
