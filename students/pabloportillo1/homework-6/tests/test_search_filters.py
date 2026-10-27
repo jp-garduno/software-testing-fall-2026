@@ -26,3 +26,7 @@ def titles(books):
 
 def test_search_by_genre_returns_only_that_genre(library):
     assert set(titles(library.search(genre="Fiction"))) == {"Pride and Prejudice", "To Kill a Mockingbird"}
+
+
+def test_search_without_criteria_returns_the_whole_catalog(library):
+    assert len(library.search()) == len(CATALOG)
