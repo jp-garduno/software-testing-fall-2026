@@ -71,3 +71,9 @@ def test_search_sorted_by_year_lists_the_oldest_first(library):
 def test_search_with_an_unknown_sort_key_is_rejected(library):
     with pytest.raises(ValueError, match="Cannot sort by 'price'"):
         library.search(sort_by="price")
+
+
+def test_undated_books_come_last_when_sorting_by_year(library):
+    library.add_book(Book("0596007124", "Head First Design Patterns", "Eric Freeman"))
+
+    assert titles(library.search(sort_by="year"))[-1] == "Head First Design Patterns"
