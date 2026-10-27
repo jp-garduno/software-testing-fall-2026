@@ -15,7 +15,7 @@ class BookDetails:
 
 
 class Book:
-    def __init__(self, isbn, title, author, total_copies=1, *, details=None):  # pylint: disable=too-many-arguments
+    def __init__(self, isbn, title, author, total_copies=1, *, details=None):
         self._validate(isbn, title, total_copies)
         self.details = details or BookDetails()
         self.isbn = isbn
