@@ -45,6 +45,10 @@ class Library {
     libro.regresar();
     return true;
   }
+
+  buscarPorTitulo(titulo) {
+    return this.libros.filter((libro) => libro.titulo.includes(titulo));
+  }
 }
 
 module.exports = { Library };
