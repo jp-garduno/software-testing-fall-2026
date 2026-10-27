@@ -1,6 +1,6 @@
 class Book {
   constructor(isbn, title, author, totalCopies = 1) {
-    if (isbn.length !== 10) {
+    if (!/^(\d{10}|\d{13})$/.test(isbn)) {
       throw new Error("ISBN must be 10 or 13 digits");
     }
     this.isbn = isbn;
