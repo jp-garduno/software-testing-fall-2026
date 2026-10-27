@@ -45,3 +45,12 @@ def test_should_raise_error_when_borrowing_unavailable_book():
 
     with pytest.raises(errors.BookNotAvailableError):
         book.borrow()
+
+
+def test_should_increase_available_copies_when_copy_returned():
+    book = make_book(copies=1)
+    book.borrow()
+
+    book.return_copy()
+
+    assert book.available_copies == 1
