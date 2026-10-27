@@ -24,6 +24,8 @@ class Library:
 
     def register_member(self, member):
         """Register ``member`` so they can borrow books."""
+        if member.member_id in self._members:
+            raise ValueError(f"Member {member.member_id} is already registered")
         self._members[member.member_id] = member
 
     def get_member(self, member_id):
