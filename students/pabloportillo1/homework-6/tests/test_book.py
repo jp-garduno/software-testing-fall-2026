@@ -61,3 +61,7 @@ def test_return_copy_when_every_copy_is_in_is_rejected():
 def test_isbn_with_nine_digits_is_rejected():
     with pytest.raises(ValueError, match="ISBN must be 10 or 13 digits"):
         Book("030640615", "Clean Code", "Robert Martin")
+
+
+def test_isbn_with_thirteen_digits_is_accepted():
+    assert Book("9780306406157", "Clean Code", "Robert Martin").isbn == "9780306406157"
