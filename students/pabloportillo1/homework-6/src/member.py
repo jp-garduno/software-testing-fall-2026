@@ -14,3 +14,6 @@ class Member:
         if isbn in self.borrowed_books:
             raise ValueError(f"{self.name} has already borrowed {isbn}")
         self.borrowed_books.append(isbn)
+
+    def return_book(self, isbn):
+        self.borrowed_books.remove(isbn)
