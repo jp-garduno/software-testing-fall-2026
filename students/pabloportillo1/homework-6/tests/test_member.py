@@ -65,3 +65,7 @@ def test_return_a_book_that_was_not_borrowed_is_rejected(member):
 
 def test_member_category_defaults_to_student(member):
     assert member.category is MemberCategory.STUDENT
+
+
+def test_faculty_member_can_borrow_five_books():
+    assert Member("F001", "Donald Knuth", MemberCategory.FACULTY).max_borrow_limit == 5
