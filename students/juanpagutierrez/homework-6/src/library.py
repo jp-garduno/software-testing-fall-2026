@@ -33,3 +33,7 @@ class Library:
         if member_id not in self._members:
             raise MemberNotFoundError(f"No member with id {member_id}")
         return self._members[member_id]
+
+    def borrow_book(self, member_id, isbn):
+        """Lend one copy of ``isbn`` to ``member_id``."""
+        self.get_book(isbn).borrow()
