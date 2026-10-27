@@ -62,6 +62,8 @@ class Library:
             raise BookUnavailableError(f"The free copies of {isbn} are held for members who reserved it")
         book.borrow()
         member.add_borrowed_book(isbn)
+        if member_id in holds:
+            holds.remove(member_id)
         today = self._clock()
         self._loans.append(Loan(member_id, isbn, today, due_date_for(today)))
 
