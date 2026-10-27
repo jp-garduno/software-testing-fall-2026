@@ -69,3 +69,7 @@ test("search sorted by year lists the oldest first and undated last", () => {
     "Head First Design Patterns",
   ]);
 });
+
+test("search with an unknown sort key is rejected", () => {
+  expect(() => library.search({ sortBy: "price" })).toThrow("Cannot sort by 'price'");
+});
