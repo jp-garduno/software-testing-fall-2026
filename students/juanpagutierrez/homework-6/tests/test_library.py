@@ -98,3 +98,8 @@ def test_return_book_the_member_does_not_hold_raises(library):
 def test_search_by_title_matches_partial_text_ignoring_case(library):
     library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
     assert [book.isbn for book in library.search_by_title("clean")] == [ISBN]
+
+
+def test_search_by_author_matches_partial_text_ignoring_case(library):
+    library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
+    assert [book.isbn for book in library.search_by_author("FOWLER")] == ["0987654321"]
