@@ -1,3 +1,4 @@
+from collections import Counter
 from datetime import date
 
 from loan import Loan
@@ -83,6 +84,10 @@ class Library:
     def member_history(self, member_id):
         self.get_member(member_id)
         return [loan for loan in self._loans if loan.member_id == member_id]
+
+    def most_borrowed_book(self):
+        isbn, _ = Counter(loan.isbn for loan in self._loans).most_common(1)[0]
+        return self._books[isbn]
 
     def _active_loan(self, member_id, isbn):
         return next(
