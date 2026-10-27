@@ -156,4 +156,13 @@ describe("Biblioteca", () => {
     expect(biblioteca.buscarPorTitulo("principito")).toEqual([principito]);
   });
 
+  test("buscar por autor devuelve los libros que coinciden", () => {
+    biblioteca.agregarLibro(harry);
+    expect(biblioteca.buscarPorAutor("rowling")).toEqual([harry]);
+  });
+
+  test("(inválida) buscar por un autor que no existe", () => {
+    expect(biblioteca.buscarPorAutor("Tolkien")).toEqual([]);
+  });
+
 });
