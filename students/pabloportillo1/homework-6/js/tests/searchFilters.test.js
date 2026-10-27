@@ -46,3 +46,13 @@ test("search results are sorted by title by default", () => {
     "The C Programming Language",
   ]);
 });
+
+test("search sorted by rating lists the best rated first and unrated last", () => {
+  expect(titles(library.search({ sortBy: "rating" }))).toEqual([
+    "The C Programming Language",
+    "Design Patterns",
+    "Clean Code",
+    "Pride and Prejudice",
+    "To Kill a Mockingbird",
+  ]);
+});
