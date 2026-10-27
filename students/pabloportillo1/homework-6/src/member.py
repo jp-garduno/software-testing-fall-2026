@@ -9,4 +9,6 @@ class Member:
         return len(self.borrowed_books) < self.max_borrow_limit
 
     def add_borrowed_book(self, isbn):
+        if not self.can_borrow():
+            raise ValueError(f"{self.name} has reached the borrow limit of {self.max_borrow_limit}")
         self.borrowed_books.append(isbn)
