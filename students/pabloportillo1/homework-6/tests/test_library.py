@@ -68,3 +68,12 @@ def test_borrow_book_takes_a_copy_and_records_it_on_the_member(library, book, me
     library.borrow_book("M001", "0306406152")
 
     assert (book.available_copies, member.borrowed_books) == (1, ["0306406152"])
+
+
+def test_borrowing_an_unavailable_book_leaves_the_member_unchanged(library, book, member):
+    book.borrow()
+    book.borrow()
+
+    with pytest.raises(ValueError, match="No copies available"):
+        library.borrow_book("M001", "0306406152")
+    assert member.borrowed_books == []
