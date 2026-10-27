@@ -20,5 +20,6 @@ def history_report(member, loans, find_book):
 
 
 def most_borrowed_isbn(loans):
-    """Return the ISBN with the most loans; ties go to the one borrowed first."""
-    return Counter(loan.isbn for loan in loans).most_common(1)[0][0]
+    """Return the ISBN with the most loans (ties go to the one borrowed first), or None."""
+    ranking = Counter(loan.isbn for loan in loans).most_common(1)
+    return ranking[0][0] if ranking else None

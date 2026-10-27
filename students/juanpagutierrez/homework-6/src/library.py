@@ -93,5 +93,6 @@ class Library:
         return history_report(self.get_member(member_id), self.get_loans(member_id), self.get_book)
 
     def most_borrowed_book(self):
-        """Return the book lent the most times."""
-        return self.get_book(most_borrowed_isbn(self._loans))
+        """Return the book lent the most times, or None if nothing was lent."""
+        isbn = most_borrowed_isbn(self._loans)
+        return self.get_book(isbn) if isbn else None
