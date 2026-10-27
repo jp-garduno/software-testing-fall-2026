@@ -48,3 +48,7 @@ def test_most_borrowed_book_counts_loans_across_all_members(library):
     library.borrow_book("M002", REFACTORING)
     library.borrow_book("M002", CLEAN_CODE)
     assert library.most_borrowed_book().isbn == REFACTORING
+
+
+def test_most_borrowed_book_is_none_when_nothing_was_lent(library):
+    assert library.most_borrowed_book() is None
