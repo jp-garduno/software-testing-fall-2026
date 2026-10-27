@@ -23,6 +23,9 @@ class Book {
   }
 
   returnCopy() {
+    if (this.availableCopies === this.totalCopies) {
+      throw new Error(`All copies of '${this.title}' are already in`);
+    }
     this.availableCopies += 1;
   }
 }
