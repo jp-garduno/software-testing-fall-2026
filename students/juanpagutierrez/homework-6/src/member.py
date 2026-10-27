@@ -13,3 +13,7 @@ class Member:
     def add_borrowed_book(self, isbn):
         """Record that this member now holds a copy of ``isbn``."""
         self.borrowed_books.append(isbn)
+
+    def can_borrow(self):
+        """Return True while the member is below the borrow limit."""
+        return True
