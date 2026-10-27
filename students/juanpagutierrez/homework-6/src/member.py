@@ -1,18 +1,33 @@
 """Library member who can borrow books."""
 
+from enum import Enum
+
 from src.exceptions import BorrowLimitExceededError
 from src.validation import require_text
+
+
+class MemberCategory(Enum):
+    """Kinds of membership, each with its own borrow limit."""
+
+    STUDENT = 3
+    FACULTY = 5
+
+    @property
+    def borrow_limit(self):
+        """Maximum number of books a member of this category may hold."""
+        return self.value
 
 
 class Member:
     """A registered patron of the library."""
 
-    def __init__(self, member_id, name, max_borrow_limit=3):
+    def __init__(self, member_id, name, max_borrow_limit=None, category=MemberCategory.STUDENT):
         require_text(name, "Member name")
         self.member_id = member_id
         self.name = name
         self.borrowed_books = []
-        self.max_borrow_limit = max_borrow_limit
+        self.category = category
+        self.max_borrow_limit = category.borrow_limit if max_borrow_limit is None else max_borrow_limit
 
     def add_borrowed_book(self, isbn):
         """Record that this member now holds a copy of ``isbn``."""
