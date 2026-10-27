@@ -172,6 +172,11 @@ class Library {
     return ranked[0];
   }
 
+  borrowStatistics() {
+    const returns = this.#loans.filter((loan) => loan.returnedOn !== null).length;
+    return { totalBorrows: this.#loans.length, returns, activeLoans: this.#loans.length - returns };
+  }
+
   #freeCopies(book) {
     return book.availableCopies - (this.#holds.get(book.isbn) ?? []).length;
   }
