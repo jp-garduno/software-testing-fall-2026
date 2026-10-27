@@ -120,3 +120,17 @@ class Library:
             self.loan_history.append(loan)
 
         return fee
+
+    def search_by_title(self, title: str) -> List[Book]:
+        """Search books by title substring, case-insensitively."""
+        term = str(title).strip().lower()
+        if not term:
+            return []
+        return [b for b in self.books.values() if term in b.title.lower()]
+
+    def search_by_author(self, author: str) -> List[Book]:
+        """Search books by author substring, case-insensitively."""
+        term = str(author).strip().lower()
+        if not term:
+            return []
+        return [b for b in self.books.values() if term in b.author.lower()]
