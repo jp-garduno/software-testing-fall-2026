@@ -41,3 +41,12 @@ def test_should_raise_error_when_adding_book_beyond_limit():
 
     with pytest.raises(errors.BorrowLimitExceededError):
         member.add_borrowed_book("9780132350884")
+
+
+def test_should_remove_book_when_returned():
+    member = Member("M1", "Ana Lopez")
+    member.add_borrowed_book("1234567890")
+
+    member.return_book("1234567890")
+
+    assert not member.borrowed_books
