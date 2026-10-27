@@ -1,6 +1,6 @@
 """Library management system core service."""
 from datetime import date, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from src.book import Book
 from src.member import Member
 
@@ -173,3 +173,23 @@ class Library:
 
         self.member_balances[member.member_id] = round(current_balance - amount, 2)
         return self.member_balances[member.member_id]
+
+    def get_member_history(self, member_id: str) -> List[Loan]:
+        """Retrieve all active and returned loans for a given member."""
+        member = self.get_member(member_id)
+        active = [loan for loan in self.active_loans if loan.member_id == member.member_id]
+        past = [loan for loan in self.loan_history if loan.member_id == member.member_id]
+        return active + past
+
+    def get_most_borrowed_books(self, top_n: int = 5) -> List[Tuple[Book, int]]:
+        """Calculate and return the top most borrowed books."""
+        counts: Dict[str, int] = {}
+        for loan in self.active_loans + self.loan_history:
+            counts[loan.isbn] = counts.get(loan.isbn, 0) + 1
+
+        sorted_items = sorted(counts.items(), key=lambda item: item[1], reverse=True)
+        results: List[Tuple[Book, int]] = []
+        for isbn, count in sorted_items[:top_n]:
+            if isbn in self.books:
+                results.append((self.books[isbn], count))
+        return results
