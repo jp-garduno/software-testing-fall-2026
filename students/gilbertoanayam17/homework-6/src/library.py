@@ -84,6 +84,9 @@ class Library:
 
     def reserve_book(self, member_id, isbn):
         """Put a member at the end of the waiting list for a book."""
+        if self.get_book(isbn).is_available():
+            raise errors.BookAvailableError(f"'{isbn}' has copies available; borrow it instead")
+
         self._reservations.setdefault(isbn, []).append(member_id)
 
     def get_reservations(self, isbn):
