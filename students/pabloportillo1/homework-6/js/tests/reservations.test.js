@@ -78,3 +78,13 @@ test("hold is released once the reserver borrows the copy", () => {
 
   expect(library.getMember("M003").borrowedBooks).toEqual([ISBN]);
 });
+
+test("book whose only copy is held can still be reserved", () => {
+  library.borrowBook("M001", ISBN);
+  library.reserveBook("M002", ISBN);
+  library.returnBook("M001", ISBN);
+
+  library.reserveBook("M003", ISBN);
+
+  expect(library.reservationsFor(ISBN)).toEqual(["M003"]);
+});
