@@ -65,3 +65,9 @@ def test_search_results_can_be_sorted_in_descending_order(library):
 def test_sorting_by_an_unknown_field_raises(library):
     with pytest.raises(ValueError):
         library.search(sort_by="price")
+
+
+def test_books_missing_the_sort_field_are_listed_last(library):
+    library.add_book(Book("5555555555", "Untitled Draft", "Anonymous", genre="Software"))
+    assert isbns(library.search(genre="Software", sort_by="rating", descending=True)) == [
+        "1111111111", "3333333333", "5555555555"]
