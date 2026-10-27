@@ -19,4 +19,6 @@ class Library:
         self._members[member.member_id] = member
 
     def get_member(self, member_id):
+        if member_id not in self._members:
+            raise LookupError(f"No member with id {member_id}")
         return self._members[member_id]
