@@ -55,3 +55,8 @@ def test_return_copy_raises_when_all_copies_are_already_in():
 def test_isbn_with_wrong_length_is_rejected(isbn):
     with pytest.raises(ValueError):
         Book(isbn, "Clean Code", "Robert Martin")
+
+
+def test_isbn_with_non_digit_characters_is_rejected():
+    with pytest.raises(ValueError):
+        Book("123456789X", "Clean Code", "Robert Martin")
