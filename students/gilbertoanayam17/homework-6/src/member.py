@@ -6,14 +6,15 @@ from . import errors
 
 
 class MemberCategory(Enum):
-    """Kinds of member, each with its own borrow limit."""
+    """Kinds of member, each with its own borrow limit and daily late fee."""
 
-    STUDENT = 3
-    FACULTY = 5
-    PUBLIC = 2
+    STUDENT = (3, 1.0)
+    FACULTY = (5, 0.5)
+    PUBLIC = (2, 1.5)
 
-    def __init__(self, borrow_limit):
+    def __init__(self, borrow_limit, daily_late_fee):
         self.borrow_limit = borrow_limit
+        self.daily_late_fee = daily_late_fee
 
 
 class Member:

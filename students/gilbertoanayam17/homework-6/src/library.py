@@ -43,7 +43,8 @@ class Library:
         member.ensure_can_borrow()
         self.get_book(isbn).borrow()
         member.add_borrowed_book(isbn)
-        self._loans.append(Loan(member_id, isbn, self._clock()))
+        self._loans.append(Loan(member_id, isbn, self._clock(), member.category.daily_late_fee))
+
     def return_book(self, member_id, isbn):
         """Take back a member's copy of a book."""
         self.get_member(member_id).return_book(isbn)
