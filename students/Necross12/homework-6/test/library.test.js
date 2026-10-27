@@ -208,4 +208,10 @@ describe("Biblioteca: reservas", () => {
         biblioteca.reservarLibro(ana.id, principito.isbn);
         expect(biblioteca.obtenerReservas(principito.isbn)).toEqual([pepe.id, ana.id]);
     });
+
+    test("(inválida) reservar un libro que tiene copias disponibles", () => {
+        expect(() => biblioteca.reservarLibro(pepe.id, harry.isbn)).toThrow(
+            "El libro está disponible, no necesita reserva.",
+        );
+    });
 });
