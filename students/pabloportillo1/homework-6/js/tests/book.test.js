@@ -20,3 +20,11 @@ test("book with copies is available", () => {
 test("book without copies is not available", () => {
   expect(makeBook(0).isAvailable()).toBe(false);
 });
+
+test("borrow takes one copy", () => {
+  const book = makeBook(2);
+
+  book.borrow();
+
+  expect(book.availableCopies).toBe(1);
+});
