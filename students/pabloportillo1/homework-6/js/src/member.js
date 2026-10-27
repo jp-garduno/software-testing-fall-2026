@@ -16,6 +16,10 @@ class Member {
   canBorrow() {
     return this.borrowedBooks.length < this.maxBorrowLimit;
   }
+
+  addBorrowedBook(isbn) {
+    this.borrowedBooks.push(isbn);
+  }
 }
 
 module.exports = { Member, MemberCategory };
