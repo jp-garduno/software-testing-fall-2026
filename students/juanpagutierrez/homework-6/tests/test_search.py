@@ -2,19 +2,19 @@
 
 import pytest
 
-from src.book import Book
+from src.book import Book, BookDetails
 from src.library import Library
 
 
 def test_book_stores_optional_genre_year_and_rating():
-    book = Book("1234567890", "Clean Code", "Robert Martin", genre="Software", publication_year=2008, rating=4.4)
+    book = Book("1234567890", "Clean Code", "Robert Martin", details=BookDetails("Software", 2008, 4.4))
     assert (book.genre, book.publication_year, book.rating) == ("Software", 2008, 4.4)
 
 
 @pytest.mark.parametrize("rating", [-0.1, 5.1])
 def test_rating_outside_zero_to_five_is_rejected(rating):
     with pytest.raises(ValueError):
-        Book("1234567890", "Clean Code", "Robert Martin", rating=rating)
+        BookDetails(rating=rating)
 
 
 @pytest.fixture(name="library")
@@ -22,13 +22,13 @@ def library_fixture():
     """A catalog with books of different genres, years and ratings."""
     library = Library()
     library.add_book(Book("1111111111", "Clean Code", "Robert Martin",
-                          genre="Software", publication_year=2008, rating=4.4))
+                          details=BookDetails("Software", 2008, 4.4)))
     library.add_book(Book("2222222222", "Dune", "Frank Herbert",
-                          genre="Science Fiction", publication_year=1965, rating=4.3))
+                          details=BookDetails("Science Fiction", 1965, 4.3)))
     library.add_book(Book("3333333333", "Refactoring", "Martin Fowler",
-                          genre="Software", publication_year=2018, rating=4.2))
+                          details=BookDetails("Software", 2018, 4.2)))
     library.add_book(Book("4444444444", "Neuromancer", "William Gibson",
-                          genre="Science Fiction", publication_year=1984, rating=3.9))
+                          details=BookDetails("Science Fiction", 1984, 3.9)))
     return library
 
 
@@ -68,6 +68,6 @@ def test_sorting_by_an_unknown_field_raises(library):
 
 
 def test_books_missing_the_sort_field_are_listed_last(library):
-    library.add_book(Book("5555555555", "Untitled Draft", "Anonymous", genre="Software"))
+    library.add_book(Book("5555555555", "Untitled Draft", "Anonymous", details=BookDetails(genre="Software")))
     assert isbns(library.search(genre="Software", sort_by="rating", descending=True)) == [
         "1111111111", "3333333333", "5555555555"]

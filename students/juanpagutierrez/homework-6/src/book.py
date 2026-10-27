@@ -1,5 +1,8 @@
 """Book entity of the library catalog."""
 
+from dataclasses import dataclass
+from typing import Optional
+
 from src.exceptions import BookUnavailableError
 from src.validation import require_text
 
@@ -17,27 +20,35 @@ def _validate_copies(total_copies):
         raise ValueError("Total copies cannot be negative")
 
 
-def _validate_rating(rating):
-    if rating is not None and not 0 <= rating <= 5:
-        raise ValueError("Rating must be between 0 and 5")
+@dataclass(frozen=True)
+class BookDetails:
+    """Optional descriptive data used by filtered search."""
+
+    genre: Optional[str] = None
+    publication_year: Optional[int] = None
+    rating: Optional[float] = None
+
+    def __post_init__(self):
+        if self.rating is not None and not 0 <= self.rating <= 5:
+            raise ValueError("Rating must be between 0 and 5")
 
 
 class Book:
     """A title in the catalog, with one or more physical copies."""
 
-    def __init__(self, isbn, title, author, total_copies=1, *, genre=None, publication_year=None, rating=None):
+    def __init__(self, isbn, title, author, total_copies=1, details=None):
         _validate_isbn(isbn)
         require_text(title, "Title")
         _validate_copies(total_copies)
-        _validate_rating(rating)
         self.isbn = isbn
         self.title = title
         self.author = author
         self.total_copies = total_copies
         self.available_copies = total_copies
-        self.genre = genre
-        self.publication_year = publication_year
-        self.rating = rating
+        details = details or BookDetails()
+        self.genre = details.genre
+        self.publication_year = details.publication_year
+        self.rating = details.rating
 
     def is_available(self):
         """Return True while at least one copy is on the shelf."""
