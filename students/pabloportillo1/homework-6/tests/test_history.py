@@ -41,3 +41,7 @@ def test_most_borrowed_book_is_the_one_with_most_loans(library):
     library.borrow_book("M002", PATTERNS)
 
     assert library.most_borrowed_book().isbn == PATTERNS
+
+
+def test_most_borrowed_book_is_none_before_any_loan(library):
+    assert library.most_borrowed_book() is None
