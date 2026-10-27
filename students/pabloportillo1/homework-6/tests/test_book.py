@@ -49,3 +49,10 @@ def test_return_copy_puts_the_copy_back():
     book.return_copy()
 
     assert book.available_copies == 2
+
+
+def test_return_copy_when_every_copy_is_in_is_rejected():
+    book = make_book(total_copies=2)
+
+    with pytest.raises(ValueError, match="All copies .* already in"):
+        book.return_copy()
