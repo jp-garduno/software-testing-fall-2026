@@ -8,6 +8,7 @@ class Library:
         self._clock = clock
         self._books = {}
         self._members = {}
+        self._loans = []
 
     def add_book(self, book):
         if book.isbn in self._books:
@@ -35,7 +36,9 @@ class Library:
         book.ensure_available()
         member.add_borrowed_book(isbn)
         book.borrow()
-        return Loan(member_id, isbn, self._clock())
+        loan = Loan(member_id, isbn, self._clock())
+        self._loans.append(loan)
+        return loan
 
     def return_book(self, member_id, isbn):
         member = self.get_member(member_id)
@@ -57,4 +60,5 @@ class Library:
         return [book for book in self._books.values() if book.is_available()]
 
     def calculate_late_fees(self, member_id):
-        return 0
+        today = self._clock()
+        return sum(max(0, (today - loan.due_on).days) * 100 for loan in self._loans)
