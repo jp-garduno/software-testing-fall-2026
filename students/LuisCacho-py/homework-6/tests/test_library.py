@@ -281,3 +281,64 @@ def test_library_get_most_borrowed_books():
     assert len(stats) == 2
     assert stats[0] == (b1, 2)
     assert stats[1] == (b2, 1)
+
+
+def test_library_reserve_unavailable_book_fifo():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    m3 = Member("M003", "Charlie")
+    library.add_book(book)
+    library.register_member(m1)
+    library.register_member(m2)
+    library.register_member(m3)
+
+    library.borrow_book("M001", "1234567890")
+    assert not book.is_available()
+
+    pos1 = library.reserve_book("M002", "1234567890")
+    pos2 = library.reserve_book("M003", "1234567890")
+
+    assert pos1 == 1
+    assert pos2 == 2
+    assert library.get_reservations("1234567890") == ["M002", "M003"]
+
+
+def test_library_reserve_book_validation_errors():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(m1)
+
+    with pytest.raises(ValueError, match="Cannot reserve available book"):
+        library.reserve_book("M001", "1234567890")
+
+    library.borrow_book("M001", "1234567890")
+
+    m2 = Member("M002", "Bob")
+    library.register_member(m2)
+    library.reserve_book("M002", "1234567890")
+
+    with pytest.raises(ValueError, match="Member already reserved this book"):
+        library.reserve_book("M002", "1234567890")
+
+
+def test_library_cancel_reservation():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    library.add_book(book)
+    library.register_member(m1)
+    library.register_member(m2)
+
+    library.borrow_book("M001", "1234567890")
+    library.reserve_book("M002", "1234567890")
+
+    library.cancel_reservation("M002", "1234567890")
+    assert library.get_reservations("1234567890") == []
+
+    with pytest.raises(ValueError, match="Reservation not found"):
+        library.cancel_reservation("M002", "1234567890")
