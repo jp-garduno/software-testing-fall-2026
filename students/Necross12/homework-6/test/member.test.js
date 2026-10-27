@@ -97,4 +97,9 @@ describe("Miembro: categorías", () => {
     "La categoría no es válida.",
   );
 });
+
+test("el profesor tiene límite de 5 libros", () => {
+  expect(new Member("Laura", [], undefined, "profesor").limiteLibros).toBe(5);
+});
+
 });
