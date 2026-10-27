@@ -66,6 +66,10 @@ class Library {
     return this.#searchText("author", author);
   }
 
+  getAvailableBooks() {
+    return [...this.#books.values()].filter((candidate) => candidate.isAvailable());
+  }
+
   #searchText(field, text) {
     const wanted = text.toLowerCase();
     return [...this.#books.values()].filter((candidate) => candidate[field].toLowerCase().includes(wanted));
