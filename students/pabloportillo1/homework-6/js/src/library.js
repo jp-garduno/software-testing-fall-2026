@@ -1,3 +1,5 @@
+const { Loan } = require("./loan");
+
 class NotFoundError extends Error {
   constructor(message) {
     super(message);
@@ -10,7 +12,10 @@ class Library {
 
   #members;
 
-  constructor() {
+  #clock;
+
+  constructor({ clock = () => new Date() } = {}) {
+    this.#clock = clock;
     this.#books = new Map();
     this.#members = new Map();
   }
@@ -49,6 +54,7 @@ class Library {
     book.ensureAvailable();
     member.addBorrowedBook(isbn);
     book.borrow();
+    return new Loan(memberId, isbn, this.#clock());
   }
 
   returnBook(memberId, isbn) {
