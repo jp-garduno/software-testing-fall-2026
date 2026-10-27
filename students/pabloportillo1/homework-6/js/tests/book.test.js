@@ -32,3 +32,12 @@ test("borrow takes one copy", () => {
 test("borrow without available copies is rejected", () => {
   expect(() => makeBook(0).borrow()).toThrow("No copies available for 'Clean Code'");
 });
+
+test("returnCopy puts the copy back", () => {
+  const book = makeBook(2);
+  book.borrow();
+
+  book.returnCopy();
+
+  expect(book.availableCopies).toBe(2);
+});
