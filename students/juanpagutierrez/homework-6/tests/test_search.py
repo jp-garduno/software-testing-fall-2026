@@ -39,3 +39,7 @@ def isbns(books):
 
 def test_search_filters_by_genre(library):
     assert isbns(library.search(genre="Software")) == ["1111111111", "3333333333"]
+
+
+def test_search_filters_by_publication_year(library):
+    assert isbns(library.search(publication_year=1965)) == ["2222222222"]
