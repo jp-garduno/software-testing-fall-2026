@@ -1,0 +1,8 @@
+"""Tests for member categories (advanced feature 5)."""
+
+from src.member import Member, MemberCategory
+
+
+def test_faculty_member_can_borrow_five_books():
+    member = Member("F001", "Alan Turing", category=MemberCategory.FACULTY)
+    assert member.max_borrow_limit == 5
