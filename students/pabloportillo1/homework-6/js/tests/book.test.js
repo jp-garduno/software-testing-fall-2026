@@ -49,3 +49,7 @@ test("returnCopy when every copy is in is rejected", () => {
 test("isbn with nine digits is rejected", () => {
   expect(() => new Book("030640615", "Clean Code", "Robert Martin")).toThrow("ISBN must be 10 or 13 digits");
 });
+
+test("isbn with thirteen digits is accepted", () => {
+  expect(new Book("9780306406157", "Clean Code", "Robert Martin").isbn).toBe("9780306406157");
+});
