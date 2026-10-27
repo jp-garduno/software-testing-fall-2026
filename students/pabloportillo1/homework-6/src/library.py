@@ -107,10 +107,12 @@ class Library:
             self._notifier.notify_available(self.get_member(next_member_id), book)
 
     def search(self, genre=None, year=None, min_rating=None):
-        return [
-            book
-            for book in self._books.values()
-            if (genre is None or book.details.genre == genre)
-            and (year is None or book.details.year == year)
-            and (min_rating is None or (book.details.rating is not None and book.details.rating >= min_rating))
-        ]
+        return [book for book in self._books.values() if _matches(book.details, genre, year, min_rating)]
+
+
+def _matches(details, genre, year, min_rating):
+    if genre is not None and details.genre != genre:
+        return False
+    if year is not None and details.year != year:
+        return False
+    return min_rating is None or (details.rating is not None and details.rating >= min_rating)
