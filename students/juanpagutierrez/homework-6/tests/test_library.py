@@ -3,7 +3,7 @@
 import pytest
 
 from src.book import Book
-from src.exceptions import BookNotFoundError
+from src.exceptions import BookNotFoundError, MemberNotFoundError
 from src.library import Library
 from src.member import Member
 
@@ -32,3 +32,8 @@ def test_registered_member_can_be_found_by_id():
     member = Member("M001", "Ada Lovelace")
     library.register_member(member)
     assert library.get_member("M001") is member
+
+
+def test_get_member_with_unknown_id_raises():
+    with pytest.raises(MemberNotFoundError):
+        Library().get_member("M999")
