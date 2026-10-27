@@ -88,7 +88,7 @@ class Library:
     def reserve_book(self, member_id, isbn):
         self.get_member(member_id)
         book = self.get_book(isbn)
-        if book.is_available():
+        if book.available_copies > len(self._holds.get(isbn, [])):
             raise ValueError(f"'{book.title}' is available, borrow it instead")
         queue = self._queues.setdefault(isbn, [])
         if member_id in queue:
