@@ -16,3 +16,7 @@ test("book starts with every copy available", () => {
 test("book with copies is available", () => {
   expect(makeBook(1).isAvailable()).toBe(true);
 });
+
+test("book without copies is not available", () => {
+  expect(makeBook(0).isAvailable()).toBe(false);
+});
