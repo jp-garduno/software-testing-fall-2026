@@ -48,6 +48,11 @@ class Library {
     const libro = this.obtenerLibroRegistrado(isbn);
     miembro.regresar(isbn);
     libro.regresar();
+      const [siguiente] = this.obtenerReservas(isbn);
+      if (siguiente !== undefined)
+          this.obtenerMiembroRegistrado(siguiente).notificar(
+              `El libro "${libro.titulo}" ya está disponible.`,
+          );
     return true;
   }
 
