@@ -33,3 +33,11 @@ def test_member_at_the_limit_cannot_borrow(member):
         member.add_borrowed_book(isbn)
 
     assert member.can_borrow() is False
+
+
+def test_add_borrowed_book_beyond_the_limit_is_rejected(member):
+    for isbn in ISBNS:
+        member.add_borrowed_book(isbn)
+
+    with pytest.raises(ValueError, match="borrow limit of 3"):
+        member.add_borrowed_book("0596007124")
