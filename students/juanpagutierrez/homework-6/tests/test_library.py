@@ -56,3 +56,8 @@ def test_registering_a_duplicate_member_id_raises():
     library.register_member(Member("M001", "Ada Lovelace"))
     with pytest.raises(ValueError):
         library.register_member(Member("M001", "Grace Hopper"))
+
+
+def test_borrow_book_takes_a_copy_off_the_shelf(library):
+    library.borrow_book(MEMBER_ID, ISBN)
+    assert library.get_book(ISBN).available_copies == 0
