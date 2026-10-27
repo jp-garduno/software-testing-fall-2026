@@ -35,3 +35,15 @@ def test_should_charge_one_dollar_per_day_for_overdue_loan():
     clock.return_value = date(2026, 1, 20)
 
     assert library.calculate_late_fees("M1") == 5.0
+
+
+def test_should_stop_charging_once_late_book_is_returned():
+    clock = Mock(return_value=BORROWED_ON)
+    library = make_library(clock)
+    library.borrow_book("M1", ISBN)
+    clock.return_value = date(2026, 1, 20)
+    library.return_book("M1", ISBN)
+
+    clock.return_value = date(2026, 1, 25)
+
+    assert library.calculate_late_fees("M1") == 5.0
