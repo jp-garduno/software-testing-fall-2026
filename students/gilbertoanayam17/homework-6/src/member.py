@@ -1,5 +1,7 @@
 """Member: who can borrow, how many books at once, and which books they hold."""
 
+from . import errors
+
 
 class Member:
     """A registered library user."""
@@ -12,6 +14,9 @@ class Member:
 
     def add_borrowed_book(self, isbn):
         """Record that the member took a copy of this book."""
+        if not self.can_borrow():
+            raise errors.BorrowLimitExceededError(f"{self.name} already holds {self.max_borrow_limit} books")
+
         self.borrowed_books.append(isbn)
 
     def can_borrow(self):

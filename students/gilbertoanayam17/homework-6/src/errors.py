@@ -11,3 +11,7 @@ class BookNotAvailableError(LibraryError):
 
 class InvalidReturnError(LibraryError):
     """Raised when something comes back that was never lent out."""
+
+
+class BorrowLimitExceededError(LibraryError):
+    """Raised when a member already holds as many books as their limit allows."""
