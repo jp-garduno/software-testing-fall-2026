@@ -53,3 +53,11 @@ test("isbn with nine digits is rejected", () => {
 test("isbn with thirteen digits is accepted", () => {
   expect(new Book("9780306406157", "Clean Code", "Robert Martin").isbn).toBe("9780306406157");
 });
+
+test("isbn with a letter is rejected", () => {
+  expect(() => new Book("03064O6152", "Clean Code", "Robert Martin")).toThrow("ISBN must be 10 or 13 digits");
+});
+
+test.each(["", "   "])("blank title %p is rejected", (title) => {
+  expect(() => new Book(ISBN, title, "Robert Martin")).toThrow("Title is required");
+});
