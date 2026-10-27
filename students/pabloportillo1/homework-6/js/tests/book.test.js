@@ -41,3 +41,7 @@ test("returnCopy puts the copy back", () => {
 
   expect(book.availableCopies).toBe(2);
 });
+
+test("returnCopy when every copy is in is rejected", () => {
+  expect(() => makeBook(2).returnCopy()).toThrow("All copies of 'Clean Code' are already in");
+});
