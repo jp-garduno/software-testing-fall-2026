@@ -214,4 +214,12 @@ describe("Biblioteca: reservas", () => {
             "El libro está disponible, no necesita reserva.",
         );
     });
+
+    test("(inválida) reservar dos veces el mismo libro", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        expect(() => biblioteca.reservarLibro(pepe.id, principito.isbn)).toThrow(
+            "El miembro ya tiene una reserva para este libro.",
+        );
+    });
+
 });
