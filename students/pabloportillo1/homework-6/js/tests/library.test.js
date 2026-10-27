@@ -1,4 +1,5 @@
 const { Book } = require("../src/book");
+const { Member } = require("../src/member");
 const { Library, NotFoundError } = require("../src/library");
 
 let library;
@@ -23,4 +24,12 @@ test("adding a book with an existing isbn is rejected", () => {
 
 test("looking up an unknown isbn throws a not found error", () => {
   expect(() => library.getBook("0306406152")).toThrow(new NotFoundError("No book with ISBN 0306406152"));
+});
+
+test("registered member can be looked up by id", () => {
+  const member = new Member("M001", "Ada Lovelace");
+
+  library.registerMember(member);
+
+  expect(library.getMember("M001")).toBe(member);
 });
