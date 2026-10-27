@@ -51,3 +51,11 @@ def test_should_record_book_on_member_when_borrowed():
     library.borrow_book("M1", ISBN)
 
     assert library.get_member("M1").borrowed_books == [ISBN]
+
+
+def test_should_take_copy_off_shelf_when_borrowed():
+    library = make_library(copies=1)
+
+    library.borrow_book("M1", ISBN)
+
+    assert library.get_book(ISBN).available_copies == 0
