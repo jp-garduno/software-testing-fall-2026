@@ -77,3 +77,13 @@ def test_borrowing_an_unavailable_book_leaves_the_member_unchanged(library, book
     with pytest.raises(ValueError, match="No copies available"):
         library.borrow_book("M001", "0306406152")
     assert member.borrowed_books == []
+
+
+def test_borrowing_beyond_the_member_limit_leaves_the_copies_unchanged(library, book, member):
+    for isbn in ("0131103628", "0201633612", "0596007124"):
+        library.add_book(Book(isbn, f"Book {isbn}", "Author"))
+        library.borrow_book("M001", isbn)
+
+    with pytest.raises(ValueError, match="borrow limit"):
+        library.borrow_book("M001", "0306406152")
+    assert book.available_copies == 2
