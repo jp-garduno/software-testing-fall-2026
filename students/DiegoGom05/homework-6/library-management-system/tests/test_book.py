@@ -7,3 +7,7 @@ def test_book_can_be_created():
 def test_book_stores_isbn_and_author():
     book = Book("1234567890", "Test Book", "Author")
     assert (book.isbn, book.author) == ("1234567890", "Author")
+
+def test_book_has_available_copies():
+    book = Book("1234567890", "Test Book", "Author", copies=5)
+    assert book.available_copies == 5
