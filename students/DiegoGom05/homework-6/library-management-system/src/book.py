@@ -1,12 +1,17 @@
 class Book:
+    VALID_ISBN_LENGTHS = (10, 13)
     def __init__(self, isbn, title, author, copies=1):
-        if not isbn.isdigit() or len(isbn) not in (10, 13):
-            raise ValueError("ISBN must be 10 or 13 digits")
+        self._validate_isbn(isbn)
         self.title = title
         self.isbn = isbn
         self.author = author
         self.available_copies = copies
         self.total_copies = copies
+
+    @classmethod
+    def _validate_isbn(cls, isbn):
+        if not isbn.isdigit() or len(isbn) not in cls.VALID_ISBN_LENGTHS:
+            raise ValueError("ISBN must be 10 or 13 digits")
 
     def is_available(self):
         return self.available_copies > 0
