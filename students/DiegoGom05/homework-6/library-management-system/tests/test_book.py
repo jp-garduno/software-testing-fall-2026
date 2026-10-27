@@ -56,3 +56,7 @@ def test_isbn_rejects_invalid_length():
 
 def test_isbn_accepts_13_digits():
     assert Book("1234567890123", "T", "A").isbn == "1234567890123"
+
+def test_isbn_rejects_non_digits():
+    with pytest.raises(ValueError):
+        Book("12345abcde", "T", "A")
