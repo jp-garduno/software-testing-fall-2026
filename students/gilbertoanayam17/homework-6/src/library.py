@@ -56,3 +56,7 @@ class Library:
         """Return the books whose `field` contains `text`, ignoring case."""
         needle = text.lower()
         return [book for book in self._books.values() if needle in getattr(book, field).lower()]
+
+    def get_available_books(self):
+        """Return the books with at least one copy on the shelf."""
+        return [book for book in self._books.values() if book.is_available()]
