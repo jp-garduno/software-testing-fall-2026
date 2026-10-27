@@ -8,14 +8,14 @@ from .loan import Loan
 class Library:
     """Coordinates books and members so every loan follows the library's rules."""
 
-    def __init__(self, clock=date.today):
+    def __init__(self, clock=date.today, notifier=None):
         self._books = {}
         self._members = {}
         self._loans = []
         self._fees_owed = {}
         self._reservations = {}
         self._clock = clock
-
+        self._notifier = notifier
     def add_book(self, book):
         """Add a book to the catalog, indexed by its ISBN."""
         self._books[book.isbn] = book
@@ -52,6 +52,9 @@ class Library:
         self.get_book(isbn).return_copy()
         loan = self._close_loan(member_id, isbn)
         self._fees_owed[member_id] = self._fees_owed.get(member_id, 0) + loan.late_fee(self._clock())
+        waiting = self._reservations.get(isbn)
+        if waiting and self._notifier:
+            self._notifier.notify(waiting[0], isbn)
 
     def search_by_title(self, title):
         """Return the books whose title contains `title`, ignoring case."""
