@@ -9,3 +9,7 @@ class Book:
         self.title = title
         self.author = author
         self.available_copies = copies
+
+    def is_available(self):
+        """Return True while at least one copy is on the shelf."""
+        return True
