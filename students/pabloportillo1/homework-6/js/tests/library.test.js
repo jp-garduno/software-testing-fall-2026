@@ -92,3 +92,11 @@ test("searchByAuthor matches part of the author ignoring case", () => {
 
   expect(library.searchByAuthor("MARTIN")).toEqual([book]);
 });
+
+test("getAvailableBooks leaves out books with every copy out", () => {
+  stock();
+  library.addBook(new Book("0131103628", "The C Programming Language", "Kernighan"));
+  library.borrowBook("M001", "0131103628");
+
+  expect(library.getAvailableBooks()).toEqual([book]);
+});
