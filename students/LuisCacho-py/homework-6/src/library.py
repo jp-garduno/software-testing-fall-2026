@@ -32,6 +32,7 @@ class Library:
         self.active_loans: List[Loan] = []
         self.loan_history: List[Loan] = []
         self.member_balances: Dict[str, float] = {}
+        self.reservations: Dict[str, List[str]] = {}
 
     def add_book(self, book: Book) -> None:
         """Add a new book to the library catalog."""
@@ -193,3 +194,33 @@ class Library:
             if isbn in self.books:
                 results.append((self.books[isbn], count))
         return results
+
+    def reserve_book(self, member_id: str, isbn: str) -> int:
+        """Reserve an unavailable book. Returns 1-based queue position."""
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+
+        if book.is_available():
+            raise ValueError("Cannot reserve available book")
+
+        queue = self.reservations.setdefault(book.isbn, [])
+        if member.member_id in queue:
+            raise ValueError("Member already reserved this book")
+
+        queue.append(member.member_id)
+        return len(queue)
+
+    def get_reservations(self, isbn: str) -> List[str]:
+        """Return reservation queue for the given ISBN."""
+        book = self.get_book(isbn)
+        return list(self.reservations.get(book.isbn, []))
+
+    def cancel_reservation(self, member_id: str, isbn: str) -> None:
+        """Cancel an existing reservation for a member."""
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+
+        queue = self.reservations.get(book.isbn, [])
+        if member.member_id not in queue:
+            raise ValueError("Reservation not found")
+        queue.remove(member.member_id)
