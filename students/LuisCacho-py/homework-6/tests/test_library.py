@@ -1,3 +1,4 @@
+from datetime import date
 import pytest
 from src.book import Book
 from src.member import Member
@@ -193,3 +194,18 @@ def test_library_get_available_books():
     assert b1 in available
     assert b2 not in available
     assert len(available) == 1
+
+
+def test_library_calculate_member_total_late_fees_active_overdue():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    member = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(member)
+
+    borrow_dt = date(2026, 1, 1)
+    library.borrow_book("M001", "1234567890", borrow_date=borrow_dt)
+
+    current_dt = date(2026, 1, 21)
+    total_fee = library.get_member_total_late_fees("M001", as_of=current_dt)
+    assert total_fee == 6.0
