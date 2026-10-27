@@ -3,7 +3,13 @@
 from datetime import date
 from decimal import Decimal
 
-from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError, ReservationError
+from src.exceptions import (
+    BookNotFoundError,
+    BookUnavailableError,
+    BorrowLimitExceededError,
+    MemberNotFoundError,
+    ReservationError,
+)
 from src.history import history_report, most_borrowed_isbn
 from src.late_fees import due_date_for
 from src.loan import Loan
@@ -16,6 +22,7 @@ class Library:
         self._clock = clock
         self._notifier = notifier
         self._reservations = {}
+        self._holds = {}
         self._books = {}
         self._members = {}
         self._loans = []
@@ -50,6 +57,9 @@ class Library:
         book = self.get_book(isbn)
         if not member.can_borrow():
             raise BorrowLimitExceededError(f"{member_id} reached the limit of {member.max_borrow_limit}")
+        holds = self._holds.get(isbn, [])
+        if member_id not in holds and book.available_copies <= len(holds):
+            raise BookUnavailableError(f"The free copies of {isbn} are held for members who reserved it")
         book.borrow()
         member.add_borrowed_book(isbn)
         today = self._clock()
@@ -66,7 +76,9 @@ class Library:
         self._open_loan(member_id, isbn).returned_on = self._clock()
         queue = self._reservations.get(isbn)
         if queue:
-            self._notifier.notify(queue.pop(0), isbn)
+            next_member = queue.pop(0)
+            self._holds.setdefault(isbn, []).append(next_member)
+            self._notifier.notify(next_member, isbn)
 
     def _open_loan(self, member_id, isbn):
         return next(loan for loan in self.get_loans(member_id) if loan.isbn == isbn and loan.is_open)
