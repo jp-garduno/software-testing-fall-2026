@@ -10,6 +10,20 @@ def fixture_library():
     return Library()
 
 
+@pytest.fixture(name="book")
+def fixture_book(library):
+    book = Book("0306406152", "Clean Code", "Robert Martin", total_copies=2)
+    library.add_book(book)
+    return book
+
+
+@pytest.fixture(name="member")
+def fixture_member(library):
+    member = Member("M001", "Ada Lovelace")
+    library.register_member(member)
+    return member
+
+
 def test_added_book_can_be_looked_up_by_isbn(library):
     book = Book("0306406152", "Clean Code", "Robert Martin")
 
@@ -48,3 +62,9 @@ def test_looking_up_an_unknown_isbn_is_rejected(library):
 def test_looking_up_an_unknown_member_is_rejected(library):
     with pytest.raises(LookupError, match="No member with id M404"):
         library.get_member("M404")
+
+
+def test_borrow_book_takes_a_copy_and_records_it_on_the_member(library, book, member):
+    library.borrow_book("M001", "0306406152")
+
+    assert (book.available_copies, member.borrowed_books) == (1, ["0306406152"])
