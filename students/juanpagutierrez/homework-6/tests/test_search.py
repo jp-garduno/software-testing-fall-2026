@@ -60,3 +60,8 @@ def test_search_results_can_be_sorted_by_a_field(library):
 def test_search_results_can_be_sorted_in_descending_order(library):
     assert isbns(library.search(min_rating=4.2, sort_by="rating", descending=True)) == [
         "1111111111", "2222222222", "3333333333"]
+
+
+def test_sorting_by_an_unknown_field_raises(library):
+    with pytest.raises(ValueError):
+        library.search(sort_by="price")
