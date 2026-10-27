@@ -1,5 +1,6 @@
 """Library member who can borrow books."""
 
+from decimal import Decimal
 from enum import Enum
 
 from src.exceptions import BorrowLimitExceededError
@@ -7,16 +8,21 @@ from src.validation import require_text
 
 
 class MemberCategory(Enum):
-    """Kinds of membership, each with its own borrow limit."""
+    """Kinds of membership, each with its own borrow limit and late fee rate."""
 
-    STUDENT = 3
-    FACULTY = 5
-    PUBLIC = 2
+    STUDENT = (3, "1.00")
+    FACULTY = (5, "0.50")
+    PUBLIC = (2, "1.50")
 
     @property
     def borrow_limit(self):
         """Maximum number of books a member of this category may hold."""
-        return self.value
+        return self.value[0]
+
+    @property
+    def daily_late_fee(self):
+        """Fee charged per overdue day, as an exact Decimal amount."""
+        return Decimal(self.value[1])
 
 
 class Member:
