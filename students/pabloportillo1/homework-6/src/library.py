@@ -45,6 +45,12 @@ class Library:
         book = self.get_book(isbn)
         member.return_book(isbn)
         book.return_copy()
+        loan = next(
+            loan
+            for loan in self._loans
+            if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None
+        )
+        loan.returned_on = self._clock()
 
     def search_by_title(self, title):
         return self._search_text("title", title)
@@ -61,4 +67,4 @@ class Library:
 
     def calculate_late_fees(self, member_id):
         today = self._clock()
-        return sum(max(0, (today - loan.due_on).days) * 100 for loan in self._loans)
+        return sum(max(0, ((loan.returned_on or today) - loan.due_on).days) * 100 for loan in self._loans)

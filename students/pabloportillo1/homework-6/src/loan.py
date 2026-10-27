@@ -9,3 +9,4 @@ class Loan:
         self.isbn = isbn
         self.borrowed_on = borrowed_on
         self.due_on = borrowed_on + LOAN_PERIOD
+        self.returned_on = None
