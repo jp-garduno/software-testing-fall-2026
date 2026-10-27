@@ -18,3 +18,8 @@ def test_add_borrowed_book_stores_isbn():
 
 def test_can_borrow_when_under_limit():
     assert Member("m1", "Ana").can_borrow() is True
+
+def test_cannot_borrow_when_limit_reached():
+    m = Member("m1", "Ana", max_borrow_limit=1)
+    m.add_borrowed_book("1234567890")
+    assert m.can_borrow() is False
