@@ -160,3 +160,16 @@ class Library:
                 total += float(days_overdue * 1.0)
 
         return round(total, 2)
+
+    def pay_late_fee(self, member_id: str, amount: float) -> float:
+        """Pay late fees for a member and return the remaining fee balance."""
+        member = self.get_member(member_id)
+        if amount <= 0:
+            raise ValueError("Payment amount must be positive")
+
+        current_balance = self.member_balances.get(member.member_id, 0.0)
+        if amount > current_balance:
+            raise ValueError("Payment exceeds outstanding balance")
+
+        self.member_balances[member.member_id] = round(current_balance - amount, 2)
+        return self.member_balances[member.member_id]
