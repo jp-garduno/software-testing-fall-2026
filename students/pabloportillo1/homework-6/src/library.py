@@ -46,3 +46,6 @@ class Library:
     def _search_text(self, field, text):
         wanted = text.casefold()
         return [book for book in self._books.values() if wanted in getattr(book, field).casefold()]
+
+    def get_available_books(self):
+        return [book for book in self._books.values() if book.is_available()]
