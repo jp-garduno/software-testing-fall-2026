@@ -111,7 +111,7 @@ class Library:
         if sort_by not in ("title", "year", "rating"):
             raise ValueError(f"Cannot sort by '{sort_by}'")
         if sort_by == "year":
-            return sorted(found, key=lambda book: book.details.year)
+            return sorted(found, key=lambda book: (book.details.year is None, book.details.year or 0))
         if sort_by == "rating":
             return sorted(found, key=lambda book: (book.details.rating is None, -(book.details.rating or 0)))
         return sorted(found, key=lambda book: book.title)
