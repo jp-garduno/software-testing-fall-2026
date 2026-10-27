@@ -8,6 +8,7 @@ from . import errors
 class MemberCategory(Enum):
     """Kinds of member; each value is that category's borrow limit."""
 
+    STUDENT = 3
     FACULTY = 5
     PUBLIC = 2
 
@@ -15,11 +16,12 @@ class MemberCategory(Enum):
 class Member:
     """A registered library user."""
 
-    def __init__(self, member_id, name, max_borrow_limit=3, category=None):
+    def __init__(self, member_id, name, max_borrow_limit=None, category=MemberCategory.STUDENT):
         self.member_id = member_id
         self.name = name
+        self.category = category
         self.borrowed_books = []
-        self.max_borrow_limit = category.value if category else max_borrow_limit
+        self.max_borrow_limit = category.value if max_borrow_limit is None else max_borrow_limit
 
     def add_borrowed_book(self, isbn):
         """Record that the member took a copy of this book."""
