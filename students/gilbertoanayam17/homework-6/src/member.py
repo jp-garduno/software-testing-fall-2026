@@ -1,16 +1,24 @@
 """Member: who can borrow, how many books at once, and which books they hold."""
 
+from enum import Enum
+
 from . import errors
+
+
+class MemberCategory(Enum):
+    """Kinds of member; each value is that category's borrow limit."""
+
+    FACULTY = 5
 
 
 class Member:
     """A registered library user."""
 
-    def __init__(self, member_id, name, max_borrow_limit=3):
+    def __init__(self, member_id, name, max_borrow_limit=3, category=None):
         self.member_id = member_id
         self.name = name
         self.borrowed_books = []
-        self.max_borrow_limit = max_borrow_limit
+        self.max_borrow_limit = category.value if category else max_borrow_limit
 
     def add_borrowed_book(self, isbn):
         """Record that the member took a copy of this book."""
@@ -30,5 +38,4 @@ class Member:
         """Record that the member gave back their copy of this book."""
         if isbn not in self.borrowed_books:
             raise errors.InvalidReturnError(f"{self.name} does not hold {isbn}")
-
         self.borrowed_books.remove(isbn)
