@@ -59,6 +59,9 @@ class Library:
         """Take back the copy of ``isbn`` lent to ``member_id``."""
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
+        open_loan = next(loan for loan in self._loans
+                         if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None)
+        open_loan.returned_on = self._clock()
 
     def search_by_title(self, title):
         """Return books whose title contains ``title`` (case-insensitive)."""
