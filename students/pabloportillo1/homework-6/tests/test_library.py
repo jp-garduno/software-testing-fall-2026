@@ -31,3 +31,10 @@ def test_registered_member_can_be_looked_up_by_id(library):
     library.register_member(member)
 
     assert library.get_member("M001") is member
+
+
+def test_registering_an_existing_member_id_is_rejected(library):
+    library.register_member(Member("M001", "Ada Lovelace"))
+
+    with pytest.raises(ValueError, match="already registered"):
+        library.register_member(Member("M001", "Grace Hopper"))
