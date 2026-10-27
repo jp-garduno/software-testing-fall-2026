@@ -40,3 +40,12 @@ def test_borrow_without_available_copies_is_rejected():
 
     with pytest.raises(ValueError, match="No copies available"):
         book.borrow()
+
+
+def test_return_copy_puts_the_copy_back():
+    book = make_book(total_copies=2)
+    book.borrow()
+
+    book.return_copy()
+
+    assert book.available_copies == 2
