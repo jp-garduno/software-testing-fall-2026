@@ -7,3 +7,7 @@ class LibraryError(Exception):
 
 class BookUnavailableError(LibraryError):
     """Raised when no copy of a book is left to lend."""
+
+
+class BorrowLimitExceededError(LibraryError):
+    """Raised when a member already holds as many books as allowed."""

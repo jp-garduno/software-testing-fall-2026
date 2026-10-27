@@ -1,5 +1,7 @@
 """Library member who can borrow books."""
 
+from src.exceptions import BorrowLimitExceededError
+
 
 class Member:
     """A registered patron of the library."""
@@ -12,6 +14,8 @@ class Member:
 
     def add_borrowed_book(self, isbn):
         """Record that this member now holds a copy of ``isbn``."""
+        if not self.can_borrow():
+            raise BorrowLimitExceededError(f"{self.member_id} reached the limit of {self.max_borrow_limit}")
         self.borrowed_books.append(isbn)
 
     def can_borrow(self):
