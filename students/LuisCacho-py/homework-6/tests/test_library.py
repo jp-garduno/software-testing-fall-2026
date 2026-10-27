@@ -342,3 +342,20 @@ def test_library_cancel_reservation():
 
     with pytest.raises(ValueError, match="Reservation not found"):
         library.cancel_reservation("M002", "1234567890")
+
+
+def test_library_get_next_reservation_peek():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    library.add_book(book)
+    library.register_member(m1)
+    library.register_member(m2)
+
+    assert library.get_next_reservation("1234567890") is None
+
+    library.borrow_book("M001", "1234567890")
+    library.reserve_book("M002", "1234567890")
+
+    assert library.get_next_reservation("1234567890") == "M002"
