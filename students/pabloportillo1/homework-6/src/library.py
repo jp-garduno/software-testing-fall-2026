@@ -26,5 +26,7 @@ class Library:
     def borrow_book(self, member_id, isbn):
         member = self.get_member(member_id)
         book = self.get_book(isbn)
-        book.borrow()
+        if not book.is_available():
+            raise ValueError(f"No copies available for '{book.title}'")
         member.add_borrowed_book(isbn)
+        book.borrow()
