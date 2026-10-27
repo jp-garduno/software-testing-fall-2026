@@ -33,3 +33,13 @@ test("registered member can be looked up by id", () => {
 
   expect(library.getMember("M001")).toBe(member);
 });
+
+test("registering an existing member id is rejected", () => {
+  library.registerMember(new Member("M001", "Ada Lovelace"));
+
+  expect(() => library.registerMember(new Member("M001", "Grace Hopper"))).toThrow("already registered");
+});
+
+test("looking up an unknown member throws a not found error", () => {
+  expect(() => library.getMember("M404")).toThrow(new NotFoundError("No member with id M404"));
+});
