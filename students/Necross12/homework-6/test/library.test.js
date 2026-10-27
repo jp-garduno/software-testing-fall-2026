@@ -222,4 +222,11 @@ describe("Biblioteca: reservas", () => {
         );
     });
 
+    test("al devolver un libro se notifica al primero de la cola", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.reservarLibro(ana.id, principito.isbn);
+        biblioteca.regresarLibro(gon.id, principito.isbn);
+        expect(pepe.notificaciones).toEqual(['El libro "El principito" ya está disponible.']);
+    });
+
 });
