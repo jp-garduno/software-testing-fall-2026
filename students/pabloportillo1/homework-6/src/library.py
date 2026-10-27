@@ -2,6 +2,12 @@ from datetime import date
 
 from loan import Loan
 
+SORT_KEYS = {
+    "title": lambda book: book.title,
+    "year": lambda book: (book.details.year is None, book.details.year or 0),
+    "rating": lambda book: (book.details.rating is None, -(book.details.rating or 0)),
+}
+
 
 class Library:
     def __init__(self, clock=date.today, notifier=None):
@@ -108,13 +114,9 @@ class Library:
 
     def search(self, genre=None, year=None, min_rating=None, sort_by="title"):
         found = [book for book in self._books.values() if _matches(book.details, genre, year, min_rating)]
-        if sort_by not in ("title", "year", "rating"):
+        if sort_by not in SORT_KEYS:
             raise ValueError(f"Cannot sort by '{sort_by}'")
-        if sort_by == "year":
-            return sorted(found, key=lambda book: (book.details.year is None, book.details.year or 0))
-        if sort_by == "rating":
-            return sorted(found, key=lambda book: (book.details.rating is None, -(book.details.rating or 0)))
-        return sorted(found, key=lambda book: book.title)
+        return sorted(found, key=SORT_KEYS[sort_by])
 
 
 def _matches(details, genre, year, min_rating):
