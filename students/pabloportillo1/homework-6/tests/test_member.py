@@ -1,6 +1,6 @@
 import pytest
 
-from member import Member
+from member import Member, MemberCategory
 
 ISBNS = ["0306406152", "0131103628", "0201633612"]
 
@@ -61,3 +61,7 @@ def test_return_book_removes_the_isbn(member):
 def test_return_a_book_that_was_not_borrowed_is_rejected(member):
     with pytest.raises(ValueError, match="has not borrowed"):
         member.return_book(ISBNS[0])
+
+
+def test_member_category_defaults_to_student(member):
+    assert member.category is MemberCategory.STUDENT
