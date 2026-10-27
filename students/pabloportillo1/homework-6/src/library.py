@@ -1,5 +1,11 @@
+from datetime import date
+
+from loan import Loan
+
+
 class Library:
-    def __init__(self):
+    def __init__(self, clock=date.today):
+        self._clock = clock
         self._books = {}
         self._members = {}
 
@@ -29,6 +35,7 @@ class Library:
         book.ensure_available()
         member.add_borrowed_book(isbn)
         book.borrow()
+        return Loan(member_id, isbn, self._clock())
 
     def return_book(self, member_id, isbn):
         member = self.get_member(member_id)
