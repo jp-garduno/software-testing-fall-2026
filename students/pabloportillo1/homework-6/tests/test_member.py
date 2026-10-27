@@ -41,3 +41,10 @@ def test_add_borrowed_book_beyond_the_limit_is_rejected(member):
 
     with pytest.raises(ValueError, match="borrow limit of 3"):
         member.add_borrowed_book("0596007124")
+
+
+def test_add_the_same_book_twice_is_rejected(member):
+    member.add_borrowed_book(ISBNS[0])
+
+    with pytest.raises(ValueError, match="already borrowed"):
+        member.add_borrowed_book(ISBNS[0])
