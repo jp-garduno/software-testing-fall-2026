@@ -52,6 +52,13 @@ class Library {
       libro.titulo.toLowerCase().includes(texto),
     );
   }
+
+  buscarPorAutor(autor) {
+    const texto = autor.toLowerCase();
+    return this.libros.filter((libro) =>
+      libro.autor.toLowerCase().includes(texto),
+    );
+  }
 }
 
 module.exports = { Library };
