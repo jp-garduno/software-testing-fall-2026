@@ -1,0 +1,380 @@
+from datetime import date
+import pytest
+from src.book import Book
+from src.member import Member
+from src.library import Library
+
+
+def test_library_can_be_initialized_empty():
+    library = Library()
+    assert len(library.books) == 0
+    assert len(library.members) == 0
+
+
+def test_library_add_book_success():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    library.add_book(book)
+    assert library.get_book("1234567890") == book
+
+
+def test_library_add_book_duplicate_raises():
+    library = Library()
+    book1 = Book("1234567890", "Clean Code", "Robert C. Martin")
+    book2 = Book("1234567890", "Clean Code", "Robert C. Martin")
+    library.add_book(book1)
+    with pytest.raises(ValueError, match="Book already exists in catalog"):
+        library.add_book(book2)
+
+
+def test_library_get_book_not_found():
+    library = Library()
+    with pytest.raises(KeyError, match="Book not found in catalog"):
+        library.get_book("0000000000")
+
+
+def test_library_register_member_success():
+    library = Library()
+    member = Member("M001", "Alice Smith")
+    library.register_member(member)
+    assert library.get_member("M001") == member
+
+
+def test_library_register_member_duplicate_raises():
+    library = Library()
+    member1 = Member("M001", "Alice Smith")
+    member2 = Member("M001", "Alice Clone")
+    library.register_member(member1)
+    with pytest.raises(ValueError, match="Member already registered"):
+        library.register_member(member2)
+
+
+def test_library_get_member_not_found():
+    library = Library()
+    with pytest.raises(KeyError, match="Member not found"):
+        library.get_member("M999")
+
+
+def test_library_borrow_book_success():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=2)
+    member = Member("M001", "Alice Smith")
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890")
+
+    assert book.available_copies == 1
+    assert "1234567890" in member.borrowed_books
+
+
+def test_library_borrow_book_unavailable_raises():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    member1 = Member("M001", "Alice")
+    member2 = Member("M002", "Bob")
+    library.add_book(book)
+    library.register_member(member1)
+    library.register_member(member2)
+
+    library.borrow_book("M001", "1234567890")
+    with pytest.raises(RuntimeError, match="No copies available"):
+        library.borrow_book("M002", "1234567890")
+
+
+def test_library_borrow_book_limit_reached_raises():
+    library = Library()
+    book1 = Book("1111111111", "Book 1", "Author 1")
+    book2 = Book("2222222222", "Book 2", "Author 2")
+    member = Member("M001", "Alice", max_borrow_limit=1)
+    library.add_book(book1)
+    library.add_book(book2)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1111111111")
+    with pytest.raises(ValueError, match="Borrow limit reached"):
+        library.borrow_book("M001", "2222222222")
+
+
+def test_library_borrow_book_member_not_found():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    library.add_book(book)
+    with pytest.raises(KeyError, match="Member not found"):
+        library.borrow_book("M999", "1234567890")
+
+
+def test_library_borrow_book_book_not_found():
+    library = Library()
+    member = Member("M001", "Alice")
+    library.register_member(member)
+    with pytest.raises(KeyError, match="Book not found"):
+        library.borrow_book("M001", "9999999999")
+
+
+def test_library_return_book_success():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    member = Member("M001", "Alice Smith")
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890")
+    assert book.available_copies == 0
+
+    fee = library.return_book("M001", "1234567890")
+    assert fee == 0.0
+    assert book.available_copies == 1
+    assert "1234567890" not in member.borrowed_books
+    assert len(library.active_loans) == 0
+    assert len(library.loan_history) == 1
+
+
+def test_library_return_book_not_borrowed_by_member():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    member = Member("M001", "Alice Smith")
+    library.add_book(book)
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book was not borrowed by this member"):
+        library.return_book("M001", "1234567890")
+
+
+def test_library_search_by_title_case_insensitive():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    b2 = Book("2222222222", "Clean Architecture", "Robert C. Martin")
+    b3 = Book("3333333333", "Design Patterns", "Gang of Four")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.add_book(b3)
+
+    results = library.search_by_title("clean")
+    assert len(results) == 2
+    assert b1 in results
+    assert b2 in results
+
+
+def test_library_search_by_author_case_insensitive():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    b2 = Book("2222222222", "Clean Architecture", "Robert C. Martin")
+    b3 = Book("3333333333", "Design Patterns", "Gang of Four")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.add_book(b3)
+
+    results = library.search_by_author("martin")
+    assert len(results) == 2
+    assert b1 in results
+    assert b2 in results
+
+
+def test_library_search_no_matches_returns_empty():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    library.add_book(b1)
+    assert library.search_by_title("Nonexistent") == []
+    assert library.search_by_author("Nonexistent") == []
+
+
+def test_library_get_available_books():
+    library = Library()
+    b1 = Book("1111111111", "Available Book", "Author A", total_copies=2)
+    b2 = Book("2222222222", "Borrowed Out Book", "Author B", total_copies=1)
+    member = Member("M001", "Member One")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(member)
+
+    library.borrow_book("M001", "2222222222")
+
+    available = library.get_available_books()
+    assert b1 in available
+    assert b2 not in available
+    assert len(available) == 1
+
+
+def test_library_calculate_member_total_late_fees_active_overdue():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    member = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(member)
+
+    borrow_dt = date(2026, 1, 1)
+    library.borrow_book("M001", "1234567890", borrow_date=borrow_dt)
+
+    current_dt = date(2026, 1, 21)
+    total_fee = library.get_member_total_late_fees("M001", as_of=current_dt)
+    assert total_fee == 6.0
+
+
+def test_library_pay_late_fee_success():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    member = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(member)
+
+    borrow_dt = date(2026, 1, 1)
+    return_dt = date(2026, 1, 20)  # 19 days total, 5 days overdue ($5.0)
+    library.borrow_book("M001", "1234567890", borrow_date=borrow_dt)
+    library.return_book("M001", "1234567890", return_date=return_dt)
+
+    assert library.get_member_total_late_fees("M001") == 5.0
+    remaining = library.pay_late_fee("M001", 3.0)
+    assert remaining == 2.0
+    assert library.get_member_total_late_fees("M001") == 2.0
+
+
+def test_library_pay_late_fee_invalid_amount_raises():
+    library = Library()
+    member = Member("M001", "Alice")
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Payment amount must be positive"):
+        library.pay_late_fee("M001", 0.0)
+
+    with pytest.raises(ValueError, match="Payment exceeds outstanding balance"):
+        library.pay_late_fee("M001", 10.0)
+
+
+def test_library_get_member_history():
+    library = Library()
+    b1 = Book("1111111111", "Book One", "Author A")
+    b2 = Book("2222222222", "Book Two", "Author B")
+    member = Member("M001", "Alice")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1111111111")
+    library.return_book("M001", "1111111111")
+    library.borrow_book("M001", "2222222222")
+
+    history = library.get_member_history("M001")
+    assert len(history) == 2
+    isbns = [loan.isbn for loan in history]
+    assert "1111111111" in isbns
+    assert "2222222222" in isbns
+
+
+def test_library_get_most_borrowed_books():
+    library = Library()
+    b1 = Book("1111111111", "Popular Book", "Author A", total_copies=3)
+    b2 = Book("2222222222", "Normal Book", "Author B", total_copies=3)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(m1)
+    library.register_member(m2)
+
+    # b1 borrowed twice, b2 borrowed once
+    library.borrow_book("M001", "1111111111")
+    library.borrow_book("M002", "1111111111")
+    library.borrow_book("M001", "2222222222")
+
+    stats = library.get_most_borrowed_books(top_n=2)
+    assert len(stats) == 2
+    assert stats[0] == (b1, 2)
+    assert stats[1] == (b2, 1)
+
+
+def test_library_reserve_unavailable_book_fifo():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    m3 = Member("M003", "Charlie")
+    library.add_book(book)
+    library.register_member(m1)
+    library.register_member(m2)
+    library.register_member(m3)
+
+    library.borrow_book("M001", "1234567890")
+    assert not book.is_available()
+
+    pos1 = library.reserve_book("M002", "1234567890")
+    pos2 = library.reserve_book("M003", "1234567890")
+
+    assert pos1 == 1
+    assert pos2 == 2
+    assert library.get_reservations("1234567890") == ["M002", "M003"]
+
+
+def test_library_reserve_book_validation_errors():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(m1)
+
+    with pytest.raises(ValueError, match="Cannot reserve available book"):
+        library.reserve_book("M001", "1234567890")
+
+    library.borrow_book("M001", "1234567890")
+
+    m2 = Member("M002", "Bob")
+    library.register_member(m2)
+    library.reserve_book("M002", "1234567890")
+
+    with pytest.raises(ValueError, match="Member already reserved this book"):
+        library.reserve_book("M002", "1234567890")
+
+
+def test_library_cancel_reservation():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    library.add_book(book)
+    library.register_member(m1)
+    library.register_member(m2)
+
+    library.borrow_book("M001", "1234567890")
+    library.reserve_book("M002", "1234567890")
+
+    library.cancel_reservation("M002", "1234567890")
+    assert library.get_reservations("1234567890") == []
+
+    with pytest.raises(ValueError, match="Reservation not found"):
+        library.cancel_reservation("M002", "1234567890")
+
+
+def test_library_get_next_reservation_peek():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    library.add_book(book)
+    library.register_member(m1)
+    library.register_member(m2)
+
+    assert library.get_next_reservation("1234567890") is None
+
+    library.borrow_book("M001", "1234567890")
+    library.reserve_book("M002", "1234567890")
+
+    assert library.get_next_reservation("1234567890") == "M002"
+
+
+def test_library_search_empty_queries():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    library.add_book(b1)
+    assert library.search_by_title("") == []
+    assert library.search_by_author("   ") == []
+
+
+def test_library_fees_not_overdue():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    member = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 10))
+    assert library.get_member_total_late_fees("M001", as_of=date(2026, 1, 15)) == 0.0

@@ -1,0 +1,16 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testing artifacts
+.pytest_cache/
+.coverage
+coverage.xml
+coverage.json
+htmlcov/
+
+# Virtual environments
+venv/
+.venv/
+env/
