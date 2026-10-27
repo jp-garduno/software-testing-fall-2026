@@ -265,4 +265,10 @@ describe("Biblioteca: recargos por retraso", () => {
             new Date("2026-10-15T00:00:00Z"),
         );
     });
+
+    test("(inválida) consultar vencimiento de un libro que el miembro no pidió", () => {
+        expect(() => biblioteca.fechaVencimiento(pepe.id, corte.isbn)).toThrow(
+            "El miembro no tiene prestado este libro.",
+        );
+    });
 });
