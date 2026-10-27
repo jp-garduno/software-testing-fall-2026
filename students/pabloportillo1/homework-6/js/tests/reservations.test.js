@@ -31,3 +31,9 @@ test("reserving the same book twice is rejected", () => {
 
   expect(() => library.reserveBook("M002", ISBN)).toThrow("already reserved");
 });
+
+test("reservation by an unknown member is rejected", () => {
+  library.borrowBook("M001", ISBN);
+
+  expect(() => library.reserveBook("M404", ISBN)).toThrow(NotFoundError);
+});
