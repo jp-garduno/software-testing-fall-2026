@@ -54,3 +54,10 @@ def test_should_increase_available_copies_when_copy_returned():
     book.return_copy()
 
     assert book.available_copies == 1
+
+
+def test_should_raise_error_when_returning_copy_that_was_not_borrowed():
+    book = make_book(copies=1)
+
+    with pytest.raises(errors.InvalidReturnError):
+        book.return_copy()
