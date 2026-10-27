@@ -144,6 +144,10 @@ class Library {
     return this.#searchText("author", author);
   }
 
+  search() {
+    return [...this.#books.values()];
+  }
+
   getAvailableBooks() {
     return [...this.#books.values()].filter((candidate) => candidate.isAvailable());
   }
