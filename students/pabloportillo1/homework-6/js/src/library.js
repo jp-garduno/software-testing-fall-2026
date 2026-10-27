@@ -1,3 +1,10 @@
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "NotFoundError";
+  }
+}
+
 class Library {
   constructor() {
     this.books = new Map();
@@ -11,8 +18,11 @@ class Library {
   }
 
   getBook(isbn) {
+    if (!this.books.has(isbn)) {
+      throw new NotFoundError(`No book with ISBN ${isbn}`);
+    }
     return this.books.get(isbn);
   }
 }
 
-module.exports = { Library };
+module.exports = { Library, NotFoundError };
