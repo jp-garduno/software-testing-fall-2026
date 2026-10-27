@@ -42,3 +42,8 @@ class Library:
             raise BorrowLimitExceededError(f"{member_id} reached the limit of {member.max_borrow_limit}")
         book.borrow()
         member.add_borrowed_book(isbn)
+
+    def return_book(self, member_id, isbn):
+        """Take back the copy of ``isbn`` lent to ``member_id``."""
+        self.get_member(member_id).return_book(isbn)
+        self.get_book(isbn).return_copy()
