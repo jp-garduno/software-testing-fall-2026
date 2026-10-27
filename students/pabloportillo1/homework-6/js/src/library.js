@@ -144,8 +144,8 @@ class Library {
     return this.#searchText("author", author);
   }
 
-  search() {
-    return [...this.#books.values()];
+  search({ genre = null } = {}) {
+    return [...this.#books.values()].filter((book) => genre === null || book.details.genre === genre);
   }
 
   getAvailableBooks() {
