@@ -66,3 +66,8 @@ def test_search_sorted_by_year_lists_the_oldest_first(library):
         "Design Patterns",
         "Clean Code",
     ]
+
+
+def test_search_with_an_unknown_sort_key_is_rejected(library):
+    with pytest.raises(ValueError, match="Cannot sort by 'price'"):
+        library.search(sort_by="price")
