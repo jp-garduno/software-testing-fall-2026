@@ -7,3 +7,9 @@ def test_should_store_isbn_title_and_author_when_created():
     book = Book("1234567890", "Clean Code", "Robert C. Martin")
 
     assert (book.isbn, book.title, book.author) == ("1234567890", "Clean Code", "Robert C. Martin")
+
+
+def test_should_track_available_copies_when_created_with_copies():
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=5)
+
+    assert book.available_copies == 5
