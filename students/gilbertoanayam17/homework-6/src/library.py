@@ -13,6 +13,7 @@ class Library:
         self._members = {}
         self._loans = []
         self._fees_owed = {}
+        self._reservations = {}
         self._clock = clock
 
     def add_book(self, book):
@@ -80,3 +81,11 @@ class Library:
         loan = next(loan for loan in self._loans if (loan.member_id, loan.isbn) == (member_id, isbn))
         self._loans.remove(loan)
         return loan
+
+    def reserve_book(self, member_id, isbn):
+        """Put a member at the end of the waiting list for a book."""
+        self._reservations.setdefault(isbn, []).append(member_id)
+
+    def get_reservations(self, isbn):
+        """Return the ids of the members waiting for a book, first in line first."""
+        return list(self._reservations.get(isbn, []))
