@@ -38,3 +38,11 @@ test("search by minimum rating keeps books at or above it", () => {
     new Set(["The C Programming Language", "Design Patterns"]),
   );
 });
+
+test("search results are sorted by title by default", () => {
+  expect(titles(library.search({ genre: "Software" }))).toEqual([
+    "Clean Code",
+    "Design Patterns",
+    "The C Programming Language",
+  ]);
+});
