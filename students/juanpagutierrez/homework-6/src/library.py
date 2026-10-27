@@ -96,3 +96,7 @@ class Library:
         """Return the book lent the most times, or None if nothing was lent."""
         isbn = most_borrowed_isbn(self._loans)
         return self.get_book(isbn) if isbn else None
+
+    def borrow_count(self, isbn):
+        """How many times ``isbn`` has been lent, returned or not."""
+        return sum(1 for loan in self._loans if loan.isbn == isbn)
