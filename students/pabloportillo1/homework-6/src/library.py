@@ -50,7 +50,7 @@ class Library:
         self._active_loan(member_id, isbn).returned_on = self._clock()
         queue = self._queues.get(isbn)
         if queue:
-            self._notifier.notify_available(self.get_member(queue[0]), book)
+            self._notifier.notify_available(self.get_member(queue.pop(0)), book)
 
     def search_by_title(self, title):
         return self._search_text("title", title)
