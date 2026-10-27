@@ -37,3 +37,10 @@ def advance(clock, days):
 def test_borrowing_records_a_loan_due_in_fourteen_days(library):
     library.borrow_book(MEMBER_ID, ISBN)
     assert library.get_loans(MEMBER_ID)[0].due_date == date(2026, 3, 15)
+
+
+def test_returning_closes_the_loan_with_todays_date(library, clock):
+    library.borrow_book(MEMBER_ID, ISBN)
+    advance(clock, 3)
+    library.return_book(MEMBER_ID, ISBN)
+    assert library.get_loans(MEMBER_ID)[0].returned_on == date(2026, 3, 4)
