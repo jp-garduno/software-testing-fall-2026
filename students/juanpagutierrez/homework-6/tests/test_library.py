@@ -5,6 +5,7 @@ import pytest
 from src.book import Book
 from src.exceptions import BookNotFoundError
 from src.library import Library
+from src.member import Member
 
 
 def test_added_book_can_be_found_by_isbn():
@@ -24,3 +25,10 @@ def test_adding_a_book_with_existing_isbn_raises():
     library.add_book(Book("1234567890", "Clean Code", "Robert Martin"))
     with pytest.raises(ValueError):
         library.add_book(Book("1234567890", "Other", "Someone"))
+
+
+def test_registered_member_can_be_found_by_id():
+    library = Library()
+    member = Member("M001", "Ada Lovelace")
+    library.register_member(member)
+    assert library.get_member("M001") is member
