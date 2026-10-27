@@ -72,6 +72,10 @@ class Library {
         this.reservas.set(isbn, cola);
         return cola.length;
     }
+
+    obtenerReservas(isbn) {
+        return [...(this.reservas.get(isbn) ?? [])];
+    }
 }
 
 module.exports = { Library };
