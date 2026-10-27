@@ -1,6 +1,7 @@
 """Tests for late fees integrated with Library lending (advanced feature 1)."""
 
 from datetime import date, timedelta
+from decimal import Decimal
 from unittest.mock import Mock
 
 import pytest
@@ -44,3 +45,9 @@ def test_returning_closes_the_loan_with_todays_date(library, clock):
     advance(clock, 3)
     library.return_book(MEMBER_ID, ISBN)
     assert library.get_loans(MEMBER_ID)[0].returned_on == date(2026, 3, 4)
+
+
+def test_member_owes_one_dollar_per_day_for_an_overdue_book(library, clock):
+    library.borrow_book(MEMBER_ID, ISBN)
+    advance(clock, 14 + 5)
+    assert library.calculate_member_fees(MEMBER_ID) == Decimal("5.00")
