@@ -41,4 +41,5 @@ class Library:
 
     def return_book(self, member_id, isbn):
         """Take back a member's copy of a book."""
+        self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
