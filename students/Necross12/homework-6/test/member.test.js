@@ -88,30 +88,36 @@ describe("Miembro: pedir y regresar", () => {
 });
 
 describe("Miembro: categorías", () => {
-  test("la categoría por defecto es estudiante", () => {
-    expect(new Member("Carlos").categoria).toBe("estudiante");
-  });
+    test("la categoría por defecto es estudiante", () => {
+        expect(new Member("Carlos").categoria).toBe("estudiante");
+    });
 
-  test("(inválida) crear miembro con categoría inexistente", () => {
-  expect(() => new Member("Carlos", [], 3, "vip")).toThrow(
-    "La categoría no es válida.",
-  );
-});
+    test("(inválida) crear miembro con categoría inexistente", () => {
+        expect(() => new Member("Carlos", [], 3, "vip")).toThrow(
+            "La categoría no es válida.",
+        );
+    });
 
-test("el profesor tiene límite de 5 libros", () => {
-  expect(new Member("Laura", [], undefined, "profesor").limiteLibros).toBe(5);
-});
+    test("el profesor tiene límite de 5 libros", () => {
+        expect(new Member("Laura", [], undefined, "profesor").limiteLibros).toBe(5);
+    });
 
-test("el público tiene límite de 2 libros", () => {
-  expect(new Member("Luis", [], undefined, "publico").limiteLibros).toBe(2);
-});
+    test("el público tiene límite de 2 libros", () => {
+        expect(new Member("Luis", [], undefined, "publico").limiteLibros).toBe(2);
+    });
 
-test.each([
-  ["estudiante", 1],
-  ["profesor", 0.5],
-  ["publico", 2],
-])("la tarifa de recargo de %s es %d por día", (categoria, tarifa) => {
-  expect(new Member("Carlos", [], undefined, categoria).tarifaRecargo).toBe(tarifa);
-});
+    test.each([
+        ["estudiante", 1],
+        ["profesor", 0.5],
+        ["publico", 2],
+    ])("la tarifa de recargo de %s es %d por día", (categoria, tarifa) => {
+        expect(new Member("Carlos", [], undefined, categoria).tarifaRecargo).toBe(tarifa);
+    });
+
+    test("puede recibir notificaciones", () => {
+        const miembro = new Member("Carlos");
+        miembro.notificar("Tu libro está disponible");
+        expect(miembro.notificaciones).toEqual(["Tu libro está disponible"]);
+    });
 
 });
