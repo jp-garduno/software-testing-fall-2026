@@ -22,3 +22,7 @@ class Book:
             raise errors.BookNotAvailableError(f"No copies of '{self.title}' are available")
 
         self.available_copies -= 1
+
+    def return_copy(self):
+        """Put one borrowed copy back on the shelf."""
+        self.available_copies += 1
