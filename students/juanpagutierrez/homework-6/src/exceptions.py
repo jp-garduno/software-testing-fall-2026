@@ -19,3 +19,7 @@ class BookNotFoundError(LibraryError):
 
 class MemberNotFoundError(LibraryError):
     """Raised when a member id is not registered."""
+
+
+class ReservationError(LibraryError):
+    """Raised when a reservation request breaks a reservation rule."""

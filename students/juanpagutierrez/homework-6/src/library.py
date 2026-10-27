@@ -3,7 +3,7 @@
 from datetime import date
 from decimal import Decimal
 
-from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
+from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError, ReservationError
 from src.history import history_report, most_borrowed_isbn
 from src.late_fees import due_date_for
 from src.loan import Loan
@@ -105,6 +105,8 @@ class Library:
 
     def reserve_book(self, member_id, isbn):
         """Put ``member_id`` in line for the next free copy of ``isbn``."""
+        if self.get_book(isbn).is_available():
+            raise ReservationError(f"{isbn} has copies available; borrow it instead")
         self._reservations.setdefault(isbn, []).append(member_id)
 
     def get_reservation_queue(self, isbn):
