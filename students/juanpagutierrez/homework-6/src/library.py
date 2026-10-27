@@ -1,6 +1,6 @@
 """Library facade: catalog, members and lending rules."""
 
-from src.exceptions import BookNotFoundError, MemberNotFoundError
+from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
 
 
 class Library:
@@ -36,5 +36,9 @@ class Library:
 
     def borrow_book(self, member_id, isbn):
         """Lend one copy of ``isbn`` to ``member_id``."""
-        self.get_book(isbn).borrow()
-        self.get_member(member_id).add_borrowed_book(isbn)
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+        if not member.can_borrow():
+            raise BorrowLimitExceededError(f"{member_id} reached the limit of {member.max_borrow_limit}")
+        book.borrow()
+        member.add_borrowed_book(isbn)
