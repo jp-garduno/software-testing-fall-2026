@@ -6,4 +6,4 @@ class Library:
         self._books[book.isbn] = book
 
     def get_available_books(self):
-        return list(self._books.values())
+        return [b for b in self._books.values() if b.is_available()]
