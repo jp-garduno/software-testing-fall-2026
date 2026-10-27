@@ -24,4 +24,6 @@ class Member:
 
     def return_book(self, isbn):
         """Remove ``isbn`` from the books this member holds."""
+        if isbn not in self.borrowed_books:
+            raise ValueError(f"{self.member_id} has not borrowed {isbn}")
         self.borrowed_books.remove(isbn)
