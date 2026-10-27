@@ -47,3 +47,7 @@ class Library:
         """Take back the copy of ``isbn`` lent to ``member_id``."""
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
+
+    def search_by_title(self, title):
+        """Return books whose title contains ``title`` (case-insensitive)."""
+        return [book for book in self._books.values() if title.lower() in book.title.lower()]
