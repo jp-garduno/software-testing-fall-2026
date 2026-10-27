@@ -60,3 +60,12 @@ test("borrowBook takes a copy and records it on the member", () => {
 
   expect([book.availableCopies, member.borrowedBooks]).toEqual([1, ["0306406152"]]);
 });
+
+test("borrowing an unavailable book leaves the member unchanged", () => {
+  stock();
+  book.borrow();
+  book.borrow();
+
+  expect(() => library.borrowBook("M001", "0306406152")).toThrow("No copies available");
+  expect(member.borrowedBooks).toEqual([]);
+});
