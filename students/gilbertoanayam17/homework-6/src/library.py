@@ -1,5 +1,6 @@
 """Library: the catalog, its members, and the loans between them."""
 
+from collections import deque
 from datetime import date
 
 from . import errors
@@ -50,7 +51,7 @@ class Library:
         member.add_borrowed_book(isbn)
         self._loans.append(Loan(member_id, isbn, self._clock(), member.category.daily_late_fee))
         if waiting:
-            waiting.pop(0)
+            waiting.popleft()
 
     def return_book(self, member_id, isbn):
         """Take back a member's copy of a book."""
@@ -96,7 +97,7 @@ class Library:
         if self.get_book(isbn).is_available():
             raise errors.BookAvailableError(f"'{isbn}' has copies available; borrow it instead")
 
-        self._reservations.setdefault(isbn, []).append(member_id)
+        self._reservations.setdefault(isbn, deque()).append(member_id)
 
     def get_reservations(self, isbn):
         """Return the ids of the members waiting for a book, first in line first."""
