@@ -1,8 +1,12 @@
 let siguienteId = 1;
 class Member {
-  constructor(nombre, listaLibros = [], limiteLibros = 3) {
-    if (!nombre)
-      throw new Error("El miembro necesita un nombre.");
+  constructor(
+    nombre,
+    listaLibros = [],
+    limiteLibros = 3,
+    categoria = "estudiante",
+  ) {
+    if (!nombre) throw new Error("El miembro necesita un nombre.");
     if (limiteLibros < 0)
       throw new Error("El miembro no puede tener un límite negativo.");
     if (listaLibros.length > limiteLibros)
@@ -12,6 +16,7 @@ class Member {
     this.nombre = nombre;
     this.listaLibros = [...listaLibros];
     this.limiteLibros = limiteLibros;
+    this.categoria = categoria;
   }
 
   puedePedir() {
