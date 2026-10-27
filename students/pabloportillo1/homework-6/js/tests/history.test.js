@@ -37,3 +37,11 @@ test("member history lists the member's loans in borrow order", () => {
 test("history of an unknown member is rejected", () => {
   expect(() => library.memberHistory("M404")).toThrow(NotFoundError);
 });
+
+test("most borrowed book is the one with most loans", () => {
+  library.borrowBook("M001", CLEAN_CODE);
+  library.borrowBook("M001", PATTERNS);
+  library.borrowBook("M002", PATTERNS);
+
+  expect(library.mostBorrowedBook().isbn).toBe(PATTERNS);
+});
