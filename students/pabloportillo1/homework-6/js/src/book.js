@@ -1,5 +1,8 @@
 class Book {
   constructor(isbn, title, author, totalCopies = 1) {
+    if (isbn.length !== 10) {
+      throw new Error("ISBN must be 10 or 13 digits");
+    }
     this.isbn = isbn;
     this.title = title;
     this.author = author;
