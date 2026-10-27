@@ -43,3 +43,7 @@ def test_search_filters_by_genre(library):
 
 def test_search_filters_by_publication_year(library):
     assert isbns(library.search(publication_year=1965)) == ["2222222222"]
+
+
+def test_search_filters_by_minimum_rating(library):
+    assert isbns(library.search(min_rating=4.3)) == ["1111111111", "2222222222"]
