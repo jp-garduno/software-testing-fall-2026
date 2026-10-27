@@ -38,3 +38,8 @@ def test_registering_an_existing_member_id_is_rejected(library):
 
     with pytest.raises(ValueError, match="already registered"):
         library.register_member(Member("M001", "Grace Hopper"))
+
+
+def test_looking_up_an_unknown_isbn_is_rejected(library):
+    with pytest.raises(LookupError, match="No book with ISBN 0306406152"):
+        library.get_book("0306406152")
