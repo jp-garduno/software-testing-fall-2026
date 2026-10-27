@@ -38,9 +38,11 @@ class Library:
         book.return_copy()
 
     def search_by_title(self, title):
-        wanted = title.casefold()
-        return [book for book in self._books.values() if wanted in book.title.casefold()]
+        return self._search_text("title", title)
 
     def search_by_author(self, author):
-        wanted = author.casefold()
-        return [book for book in self._books.values() if wanted in book.author.casefold()]
+        return self._search_text("author", author)
+
+    def _search_text(self, field, text):
+        wanted = text.casefold()
+        return [book for book in self._books.values() if wanted in getattr(book, field).casefold()]
