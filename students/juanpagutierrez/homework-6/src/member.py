@@ -7,6 +7,8 @@ class Member:
     """A registered patron of the library."""
 
     def __init__(self, member_id, name, max_borrow_limit=3):
+        if not name or not name.strip():
+            raise ValueError("Member name is required")
         self.member_id = member_id
         self.name = name
         self.borrowed_books = []
