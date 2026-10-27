@@ -4,8 +4,9 @@ from loan import Loan
 
 
 class Library:
-    def __init__(self, clock=date.today):
+    def __init__(self, clock=date.today, notifier=None):
         self._clock = clock
+        self._notifier = notifier
         self._books = {}
         self._members = {}
         self._loans = []
@@ -47,6 +48,9 @@ class Library:
         member.return_book(isbn)
         book.return_copy()
         self._active_loan(member_id, isbn).returned_on = self._clock()
+        queue = self._queues.get(isbn)
+        if queue:
+            self._notifier.notify_available(self.get_member(queue[0]), book)
 
     def search_by_title(self, title):
         return self._search_text("title", title)
