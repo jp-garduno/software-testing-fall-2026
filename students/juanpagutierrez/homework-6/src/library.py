@@ -8,6 +8,7 @@ class Library:
 
     def __init__(self):
         self._books = {}
+        self._members = {}
 
     def add_book(self, book):
         """Add ``book`` to the catalog."""
@@ -20,3 +21,11 @@ class Library:
         if isbn not in self._books:
             raise BookNotFoundError(f"No book with ISBN {isbn}")
         return self._books[isbn]
+
+    def register_member(self, member):
+        """Register ``member`` so they can borrow books."""
+        self._members[member.member_id] = member
+
+    def get_member(self, member_id):
+        """Return the registered member with ``member_id``."""
+        return self._members[member_id]
