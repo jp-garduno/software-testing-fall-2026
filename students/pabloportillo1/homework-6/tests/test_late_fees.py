@@ -4,7 +4,7 @@ import pytest
 
 from book import Book
 from library import Library
-from member import Member
+from member import Member, MemberCategory
 
 
 @pytest.fixture(name="library")
@@ -52,3 +52,11 @@ def test_late_fees_only_count_the_members_own_loans(library, clock):
     clock.advance(15)
 
     assert library.calculate_late_fees("M002") == 100
+
+
+def test_faculty_pays_half_the_daily_late_fee(library, clock):
+    library.register_member(Member("F001", "Donald Knuth", MemberCategory.FACULTY))
+    library.borrow_book("F001", "0306406152")
+    clock.advance(18)
+
+    assert library.calculate_late_fees("F001") == 200
