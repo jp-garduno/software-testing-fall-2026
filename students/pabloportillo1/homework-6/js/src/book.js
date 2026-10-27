@@ -8,7 +8,7 @@ class Book {
   }
 
   isAvailable() {
-    return true;
+    return this.availableCopies > 0;
   }
 }
 
