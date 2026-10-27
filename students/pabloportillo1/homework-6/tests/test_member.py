@@ -56,3 +56,8 @@ def test_return_book_removes_the_isbn(member):
     member.return_book(ISBNS[0])
 
     assert member.borrowed_books == []
+
+
+def test_return_a_book_that_was_not_borrowed_is_rejected(member):
+    with pytest.raises(ValueError, match="has not borrowed"):
+        member.return_book(ISBNS[0])
