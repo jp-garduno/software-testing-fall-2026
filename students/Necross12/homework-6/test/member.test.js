@@ -91,4 +91,10 @@ describe("Miembro: categorías", () => {
   test("la categoría por defecto es estudiante", () => {
     expect(new Member("Carlos").categoria).toBe("estudiante");
   });
+
+  test("(inválida) crear miembro con categoría inexistente", () => {
+  expect(() => new Member("Carlos", [], 3, "vip")).toThrow(
+    "La categoría no es válida.",
+  );
+});
 });
