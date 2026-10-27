@@ -59,6 +59,9 @@ class Library {
       libro.autor.toLowerCase().includes(texto),
     );
   }
+  librosDisponibles() {
+    return this.libros.filter((libro) => libro.estaDisponible());
+  }
 }
 
 module.exports = { Library };
