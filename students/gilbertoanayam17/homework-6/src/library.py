@@ -6,6 +6,7 @@ from datetime import date
 from . import errors
 from .loan import Loan
 
+
 class Library:
     """Coordinates books and members so every loan follows the library's rules."""
 
@@ -17,6 +18,7 @@ class Library:
         self._reservations = {}
         self._clock = clock
         self._notifier = notifier
+
     def add_book(self, book):
         """Add a book to the catalog, indexed by its ISBN."""
         self._books[book.isbn] = book
@@ -25,7 +27,6 @@ class Library:
         """Return the catalog entry for this ISBN."""
         if isbn not in self._books:
             raise errors.BookNotFoundError(f"No book with ISBN {isbn}")
-
         return self._books[isbn]
 
     def register_member(self, member):
@@ -36,22 +37,20 @@ class Library:
         """Return the registered member with this id."""
         if member_id not in self._members:
             raise errors.MemberNotFoundError(f"No member with id {member_id}")
-
         return self._members[member_id]
 
     def borrow_book(self, member_id, isbn):
         """Lend one copy of a book to a member."""
         member = self.get_member(member_id)
         member.ensure_can_borrow()
-        waiting = self._reservations.get(isbn)
-        if waiting and waiting[0] != member_id:
-            raise errors.BookReservedError(f"'{isbn}' is being held for member {waiting[0]}")
-
+        first_in_line = self._first_in_line(isbn)
+        if first_in_line not in (None, member_id):
+            raise errors.BookReservedError(f"'{isbn}' is being held for member {first_in_line}")
         self.get_book(isbn).borrow()
         member.add_borrowed_book(isbn)
         self._loans.append(Loan(member_id, isbn, self._clock(), member.category.daily_late_fee))
-        if waiting:
-            waiting.popleft()
+        if first_in_line == member_id:
+            self._reservations[isbn].popleft()
 
     def return_book(self, member_id, isbn):
         """Take back a member's copy of a book."""
@@ -59,9 +58,9 @@ class Library:
         self.get_book(isbn).return_copy()
         loan = self._close_loan(member_id, isbn)
         self._fees_owed[member_id] = self._fees_owed.get(member_id, 0) + loan.late_fee(self._clock())
-        waiting = self._reservations.get(isbn)
-        if waiting and self._notifier:
-            self._notifier.notify(waiting[0], isbn)
+        first_in_line = self._first_in_line(isbn)
+        if first_in_line is not None and self._notifier is not None:
+            self._notifier.notify(first_in_line, isbn)
 
     def search_by_title(self, title):
         """Return the books whose title contains `title`, ignoring case."""
@@ -96,9 +95,13 @@ class Library:
         """Put a member at the end of the waiting list for a book."""
         if self.get_book(isbn).is_available():
             raise errors.BookAvailableError(f"'{isbn}' has copies available; borrow it instead")
-
         self._reservations.setdefault(isbn, deque()).append(member_id)
 
     def get_reservations(self, isbn):
         """Return the ids of the members waiting for a book, first in line first."""
         return list(self._reservations.get(isbn, []))
+
+    def _first_in_line(self, isbn):
+        """Return the id of the member at the front of the book's queue, or None if nobody is waiting."""
+        waiting = self._reservations.get(isbn)
+        return waiting[0] if waiting else None
