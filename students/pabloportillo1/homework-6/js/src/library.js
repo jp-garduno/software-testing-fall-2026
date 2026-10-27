@@ -1,10 +1,13 @@
 const { Loan } = require("./loan");
 
-function matches(details, { genre, year }) {
+function matches(details, { genre, year, minRating }) {
   if (genre !== null && details.genre !== genre) {
     return false;
   }
-  return year === null || details.year === year;
+  if (year !== null && details.year !== year) {
+    return false;
+  }
+  return minRating === null || (details.rating !== null && details.rating >= minRating);
 }
 
 class NotFoundError extends Error {
@@ -151,8 +154,8 @@ class Library {
     return this.#searchText("author", author);
   }
 
-  search({ genre = null, year = null } = {}) {
-    return [...this.#books.values()].filter((book) => matches(book.details, { genre, year }));
+  search({ genre = null, year = null, minRating = null } = {}) {
+    return [...this.#books.values()].filter((book) => matches(book.details, { genre, year, minRating }));
   }
 
   getAvailableBooks() {
