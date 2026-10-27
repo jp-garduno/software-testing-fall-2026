@@ -3,7 +3,7 @@ from enum import Enum
 
 class MemberCategory(Enum):
     STUDENT = (3, 100)
-    FACULTY = (5, 100)
+    FACULTY = (5, 50)
     PUBLIC = (2, 100)
 
     def __init__(self, borrow_limit, daily_late_fee_cents):
