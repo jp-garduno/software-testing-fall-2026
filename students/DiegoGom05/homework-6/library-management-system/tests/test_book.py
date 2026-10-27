@@ -60,3 +60,8 @@ def test_isbn_accepts_13_digits():
 def test_isbn_rejects_non_digits():
     with pytest.raises(ValueError):
         Book("12345abcde", "T", "A")
+
+@pytest.mark.parametrize("title", ["", "   ", None])
+def test_title_is_required(title):
+    with pytest.raises(ValueError, match="Title"):
+        Book("1234567890", title, "A")
