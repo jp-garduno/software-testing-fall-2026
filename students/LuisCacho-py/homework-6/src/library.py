@@ -31,6 +31,7 @@ class Library:
         self.members: Dict[str, Member] = {}
         self.active_loans: List[Loan] = []
         self.loan_history: List[Loan] = []
+        self.member_balances: Dict[str, float] = {}
 
     def add_book(self, book: Book) -> None:
         """Add a new book to the library catalog."""
@@ -118,6 +119,10 @@ class Library:
                 fee = float(days_overdue * 1.0)
             loan.late_fee = fee
             self.loan_history.append(loan)
+            if fee > 0.0:
+                self.member_balances[member.member_id] = (
+                    self.member_balances.get(member.member_id, 0.0) + fee
+                )
 
         return fee
 
@@ -138,3 +143,20 @@ class Library:
     def get_available_books(self) -> List[Book]:
         """Return list of books currently having at least one available copy."""
         return [b for b in self.books.values() if b.is_available()]
+
+    def get_member_total_late_fees(
+        self,
+        member_id: str,
+        as_of: Optional[date] = None,
+    ) -> float:
+        """Calculate total late fees owed by member (past unpaid + active overdue)."""
+        member = self.get_member(member_id)
+        current = as_of or date.today()
+        total = self.member_balances.get(member.member_id, 0.0)
+
+        for loan in self.active_loans:
+            if loan.member_id == member.member_id and current > loan.due_date:
+                days_overdue = (current - loan.due_date).days
+                total += float(days_overdue * 1.0)
+
+        return round(total, 2)
