@@ -34,6 +34,8 @@ class Library:
 
     def borrow_book(self, member_id, isbn):
         """Lend one copy of a book to a member."""
+        member = self.get_member(member_id)
+        if not member.can_borrow():
+            raise errors.BorrowLimitExceededError(f"{member.name} already holds {member.max_borrow_limit} books")
         self.get_book(isbn).borrow()
-
-        self.get_member(member_id).add_borrowed_book(isbn)
+        member.add_borrowed_book(isbn)
