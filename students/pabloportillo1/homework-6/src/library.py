@@ -81,6 +81,7 @@ class Library:
         return sum(loan.days_overdue(today) * rate for loan in self._loans if loan.member_id == member_id)
 
     def member_history(self, member_id):
+        self.get_member(member_id)
         return [loan for loan in self._loans if loan.member_id == member_id]
 
     def _active_loan(self, member_id, isbn):
