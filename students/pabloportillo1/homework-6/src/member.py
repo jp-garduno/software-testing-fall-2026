@@ -4,3 +4,6 @@ class Member:
         self.name = name
         self.borrowed_books = []
         self.max_borrow_limit = 3
+
+    def can_borrow(self):
+        return True
