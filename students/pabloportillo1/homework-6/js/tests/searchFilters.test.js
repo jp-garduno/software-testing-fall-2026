@@ -32,3 +32,9 @@ test("search by genre returns only that genre", () => {
 test("search by genre and year requires both", () => {
   expect(titles(library.search({ genre: "Software", year: 1994 }))).toEqual(["Design Patterns"]);
 });
+
+test("search by minimum rating keeps books at or above it", () => {
+  expect(new Set(titles(library.search({ minRating: 4.5 })))).toEqual(
+    new Set(["The C Programming Language", "Design Patterns"]),
+  );
+});
