@@ -4,7 +4,7 @@ from datetime import date
 from decimal import Decimal
 
 from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
-from src.late_fees import calculate_late_fee, due_date_for
+from src.late_fees import due_date_for
 from src.loan import Loan
 
 
@@ -60,9 +60,10 @@ class Library:
         """Take back the copy of ``isbn`` lent to ``member_id``."""
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
-        open_loan = next(loan for loan in self._loans
-                         if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None)
-        open_loan.returned_on = self._clock()
+        self._open_loan(member_id, isbn).returned_on = self._clock()
+
+    def _open_loan(self, member_id, isbn):
+        return next(loan for loan in self.get_loans(member_id) if loan.isbn == isbn and loan.is_open)
 
     def search_by_title(self, title):
         """Return books whose title contains ``title`` (case-insensitive)."""
@@ -84,5 +85,4 @@ class Library:
         """Total late fees ``member_id`` owes as of today."""
         today = self._clock()
         rate = self.get_member(member_id).daily_late_fee
-        return sum((calculate_late_fee(loan.due_date, loan.returned_on or today, rate)
-                    for loan in self.get_loans(member_id)), Decimal("0"))
+        return sum((loan.late_fee(today, rate) for loan in self.get_loans(member_id)), Decimal("0"))
