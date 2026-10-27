@@ -11,3 +11,7 @@ def test_should_store_id_and_name_when_created():
 
 def test_should_start_with_no_borrowed_books():
     assert not Member("M1", "Ana Lopez").borrowed_books
+
+
+def test_should_have_default_borrow_limit_of_three():
+    assert Member("M1", "Ana Lopez").max_borrow_limit == 3
