@@ -23,3 +23,16 @@ class Library:
         if cleaned_isbn not in self.books:
             raise KeyError("Book not found in catalog")
         return self.books[cleaned_isbn]
+
+    def register_member(self, member: Member) -> None:
+        """Register a member in the library system."""
+        if member.member_id in self.members:
+            raise ValueError("Member already registered")
+        self.members[member.member_id] = member
+
+    def get_member(self, member_id: str) -> Member:
+        """Retrieve a registered member by member ID."""
+        cleaned_id = str(member_id).strip()
+        if cleaned_id not in self.members:
+            raise KeyError("Member not found in library")
+        return self.members[cleaned_id]
