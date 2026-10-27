@@ -8,6 +8,7 @@ class NotFoundError extends Error {
 class Library {
   constructor() {
     this.books = new Map();
+    this.members = new Map();
   }
 
   addBook(book) {
@@ -22,6 +23,14 @@ class Library {
       throw new NotFoundError(`No book with ISBN ${isbn}`);
     }
     return this.books.get(isbn);
+  }
+
+  registerMember(member) {
+    this.members.set(member.memberId, member);
+  }
+
+  getMember(memberId) {
+    return this.members.get(memberId);
   }
 }
 
