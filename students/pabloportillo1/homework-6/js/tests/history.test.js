@@ -49,3 +49,10 @@ test("most borrowed book is the one with most loans", () => {
 test("most borrowed book is null before any loan", () => {
   expect(library.mostBorrowedBook()).toBeNull();
 });
+
+test("tie for most borrowed goes to the first title alphabetically", () => {
+  library.borrowBook("M001", K_AND_R);
+  library.borrowBook("M001", PATTERNS);
+
+  expect(library.mostBorrowedBook().title).toBe("Design Patterns");
+});
