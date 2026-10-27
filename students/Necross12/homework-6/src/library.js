@@ -95,6 +95,18 @@ class Library {
     obtenerReservas(isbn) {
         return [...(this.reservas.get(isbn) ?? [])];
     }
+
+    quitarReserva(isbn, idMiembro) {
+        this.reservas.set(isbn, this.obtenerReservas(isbn).filter((id) => id !== idMiembro));
+    }
+
+    notificarSiguienteEnCola(libro) {
+        const [siguiente] = this.obtenerReservas(libro.isbn);
+        if (siguiente === undefined) return;
+        this.obtenerMiembroRegistrado(siguiente).notificar(
+            `El libro "${libro.titulo}" ya está disponible.`,
+        );
+    }
 }
 
 module.exports = { Library };
