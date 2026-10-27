@@ -14,6 +14,9 @@ function validate(isbn, title, totalCopies) {
 
 class BookDetails {
   constructor({ genre = null, year = null, rating = null } = {}) {
+    if (rating !== null && (rating < 0 || rating > 5)) {
+      throw new Error("Rating must be between 0 and 5");
+    }
     this.genre = genre;
     this.year = year;
     this.rating = rating;
