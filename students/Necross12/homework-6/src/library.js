@@ -16,32 +16,31 @@ class Library {
     this.miembros.push(miembro);
   }
 
-  pedirLibro(idMiembro, isbn) {
-    const miembro = this.miembros.find((m) => m.id === idMiembro);
+  obtenerMiembroRegistrado(id) {
+    const miembro = this.miembros.find((m) => m.id === id);
+    if (!miembro) throw new Error("El miembro no está registrado.");
+    return miembro;
+  }
+
+  obtenerLibroRegistrado(isbn) {
     const libro = this.libros.find((l) => l.isbn === isbn);
-    if (!miembro)
-      throw new Error("El miembro no está registrado.");
+    if (!libro) throw new Error("El libro no está registrado.");
+    return libro;
+  }
 
-    if (!libro)
-      throw new Error("El libro no está registrado.");
-
+  pedirLibro(idMiembro, isbn) {
+    const miembro = this.obtenerMiembroRegistrado(idMiembro);
+    const libro = this.obtenerLibroRegistrado(isbn);
     if (!miembro.puedePedir())
       throw new Error("El miembro no puede tener más libros que su límite.");
-
     libro.pedir();
     miembro.pedir(isbn);
     return true;
   }
 
   regresarLibro(idMiembro, isbn) {
-    const miembro = this.miembros.find((m) => m.id === idMiembro);
-    const libro = this.libros.find((l) => l.isbn === isbn);
-    if (!miembro)
-      throw new Error("El miembro no está registrado.");
-
-    if (!libro)
-      throw new Error("El libro no está registrado.");
-
+    const miembro = this.obtenerMiembroRegistrado(idMiembro);
+    const libro = this.obtenerLibroRegistrado(isbn);
     miembro.regresar(isbn);
     libro.regresar();
     return true;
