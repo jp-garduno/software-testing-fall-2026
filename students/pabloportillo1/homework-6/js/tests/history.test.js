@@ -33,3 +33,7 @@ test("member history lists the member's loans in borrow order", () => {
     [CLEAN_CODE, false],
   ]);
 });
+
+test("history of an unknown member is rejected", () => {
+  expect(() => library.memberHistory("M404")).toThrow(NotFoundError);
+});
