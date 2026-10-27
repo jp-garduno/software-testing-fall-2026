@@ -44,3 +44,14 @@ test("late fees only count the member's own loans", () => {
 
   expect(library.calculateLateFees("M002")).toBe(100);
 });
+
+test.each([
+  ["FACULTY", 18, 200],
+  ["PUBLIC", 16, 300],
+])("%s member pays the category rate", (category, days, expected) => {
+  library.registerMember(new Member("X001", "Someone", MemberCategory[category]));
+  library.borrowBook("X001", ISBN);
+  clock.advance(days);
+
+  expect(library.calculateLateFees("X001")).toBe(expected);
+});
