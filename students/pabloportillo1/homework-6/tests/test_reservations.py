@@ -101,3 +101,16 @@ def test_book_whose_only_copy_is_held_can_still_be_reserved(library):
     library.reserve_book("M003", ISBN)
 
     assert library.reservations_for(ISBN) == ["M003"]
+
+
+def test_copy_is_held_even_without_a_notifier(clock):
+    library = Library(clock=clock)
+    library.add_book(Book(ISBN, "Clean Code", "Robert Martin"))
+    for member_id in ("M001", "M002", "M003"):
+        library.register_member(Member(member_id, f"Member {member_id}"))
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+
+    with pytest.raises(ValueError, match="held for another member"):
+        library.borrow_book("M003", ISBN)
