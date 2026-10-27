@@ -30,3 +30,9 @@ def test_add_borrowed_book_raises_over_limit():
     m.add_borrowed_book("1234567890")
     with pytest.raises(ValueError, match="limit"):
         m.add_borrowed_book("1234567891")
+
+def test_return_book_removes_isbn():
+    m = Member("m1", "Ana")
+    m.add_borrowed_book("1234567890")
+    m.return_book("1234567890")
+    assert m.borrowed_books == []
