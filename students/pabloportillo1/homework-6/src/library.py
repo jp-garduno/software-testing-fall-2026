@@ -9,6 +9,8 @@ class Library:
         self._books[book.isbn] = book
 
     def get_book(self, isbn):
+        if isbn not in self._books:
+            raise LookupError(f"No book with ISBN {isbn}")
         return self._books[isbn]
 
     def register_member(self, member):
