@@ -83,3 +83,40 @@ class Library:
         )
         self.active_loans.append(loan)
         return loan
+
+    def return_book(
+        self,
+        member_id: str,
+        isbn: str,
+        return_date: Optional[date] = None,
+    ) -> float:
+        """Return a borrowed book to the library and compute late fees."""
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+
+        if book.isbn not in member.borrowed_books:
+            raise ValueError("Book was not borrowed by this member")
+
+        member.return_book(book.isbn)
+        book.return_copy()
+
+        # Find matching active loan
+        loan: Optional[Loan] = None
+        for active in self.active_loans:
+            if active.member_id == member.member_id and active.isbn == book.isbn:
+                loan = active
+                break
+
+        actual_return = return_date or date.today()
+        fee = 0.0
+
+        if loan is not None:
+            self.active_loans.remove(loan)
+            loan.return_date = actual_return
+            if actual_return > loan.due_date:
+                days_overdue = (actual_return - loan.due_date).days
+                fee = float(days_overdue * 1.0)
+            loan.late_fee = fee
+            self.loan_history.append(loan)
+
+        return fee
