@@ -47,7 +47,10 @@ class Library {
   }
 
   buscarPorTitulo(titulo) {
-    return this.libros.filter((libro) => libro.titulo.includes(titulo));
+    const texto = titulo.toLowerCase();
+    return this.libros.filter((libro) =>
+      libro.titulo.toLowerCase().includes(texto),
+    );
   }
 }
 
