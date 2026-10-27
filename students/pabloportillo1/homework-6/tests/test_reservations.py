@@ -1,3 +1,5 @@
+from unittest.mock import Mock
+
 import pytest
 
 from book import Book
@@ -7,9 +9,14 @@ from member import Member
 ISBN = "0306406152"
 
 
+@pytest.fixture(name="notifier")
+def fixture_notifier():
+    return Mock(spec_set=["notify_available"])
+
+
 @pytest.fixture(name="library")
-def fixture_library(clock):
-    library = Library(clock=clock)
+def fixture_library(clock, notifier):
+    library = Library(clock=clock, notifier=notifier)
     library.add_book(Book(ISBN, "Clean Code", "Robert Martin", total_copies=1))
     for member_id, name in (("M001", "Ada Lovelace"), ("M002", "Grace Hopper"), ("M003", "Alan Turing")):
         library.register_member(Member(member_id, name))
@@ -42,3 +49,12 @@ def test_reservation_by_an_unknown_member_is_rejected(library):
 
     with pytest.raises(LookupError, match="No member with id M404"):
         library.reserve_book("M404", ISBN)
+
+
+def test_returning_a_reserved_book_notifies_the_first_member_in_line(library, notifier):
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+
+    library.return_book("M001", ISBN)
+
+    notifier.notify_available.assert_called_once_with(library.get_member("M002"), library.get_book(ISBN))
