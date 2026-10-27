@@ -54,3 +54,7 @@ def test_search_sorted_by_rating_lists_the_best_rated_first(library):
         "Design Patterns",
         "Clean Code",
     ]
+
+
+def test_unrated_books_come_last_when_sorting_by_rating(library):
+    assert titles(library.search(sort_by="rating"))[-1] == "To Kill a Mockingbird"
