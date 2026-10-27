@@ -1,7 +1,7 @@
 import pytest
-from library import Library
 
 from book import Book
+from library import Library
 
 
 @pytest.fixture(name="library")
