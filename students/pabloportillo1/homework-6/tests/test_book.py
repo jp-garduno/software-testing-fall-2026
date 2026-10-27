@@ -23,3 +23,11 @@ def test_book_with_copies_is_available():
 
 def test_book_without_copies_is_not_available():
     assert make_book(total_copies=0).is_available() is False
+
+
+def test_borrow_takes_one_copy():
+    book = make_book(total_copies=2)
+
+    book.borrow()
+
+    assert book.available_copies == 1
