@@ -243,5 +243,26 @@ describe("Biblioteca: reservas", () => {
         biblioteca.pedirLibro(pepe.id, principito.isbn);
         expect(biblioteca.obtenerReservas(principito.isbn)).toEqual([]);
     });
+});
 
+describe("Biblioteca: recargos por retraso", () => {
+    const fechaPrestamo = new Date("2026-10-01T00:00:00Z");
+    let biblioteca, corte, harry, pepe, laura;
+
+    beforeEach(() => {
+        biblioteca = new Library();
+        corte = new Books("2222222222", "Una corte de rosas y espinas", "Sarah J. Maas");
+        harry = new Books("3333333333", "Harry Potter", "J. K. Rowling");
+        pepe = new Member("Pepe");
+        laura = new Member("Laura", [], undefined, "profesor");
+        [pepe, laura].forEach((m) => biblioteca.agregarMiembro(m));
+        [corte, harry].forEach((l) => biblioteca.agregarLibro(l));
+    });
+
+    test("el libro vence 14 días después del préstamo", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn, fechaPrestamo);
+        expect(biblioteca.fechaVencimiento(pepe.id, corte.isbn)).toEqual(
+            new Date("2026-10-15T00:00:00Z"),
+        );
+    });
 });
