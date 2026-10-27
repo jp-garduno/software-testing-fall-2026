@@ -85,3 +85,10 @@ test("searchByTitle matches part of the title ignoring case", () => {
 
   expect(library.searchByTitle("clean")).toEqual([book]);
 });
+
+test("searchByAuthor matches part of the author ignoring case", () => {
+  stock();
+  library.addBook(new Book("0131103628", "The C Programming Language", "Kernighan"));
+
+  expect(library.searchByAuthor("MARTIN")).toEqual([book]);
+});
