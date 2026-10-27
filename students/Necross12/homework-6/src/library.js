@@ -11,6 +11,8 @@ class Library {
   }
 
   agregarMiembro(miembro) {
+    if (this.miembros.some((existente) => existente.id === miembro.id))
+      throw new Error("El miembro ya está registrado.");
     this.miembros.push(miembro);
   }
 }
