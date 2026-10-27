@@ -160,6 +160,13 @@ class Library {
     return this.#loans.filter((loan) => loan.memberId === memberId);
   }
 
+  mostBorrowedBook() {
+    const counts = new Map();
+    this.#loans.forEach((loan) => counts.set(loan.isbn, (counts.get(loan.isbn) ?? 0) + 1));
+    const [isbn] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+    return this.#books.get(isbn);
+  }
+
   #freeCopies(book) {
     return book.availableCopies - (this.#holds.get(book.isbn) ?? []).length;
   }
