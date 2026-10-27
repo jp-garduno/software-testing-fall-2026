@@ -4,3 +4,6 @@ class Book:
         self.isbn = isbn
         self.author = author
         self.available_copies = copies
+
+    def is_available(self):
+        return True
