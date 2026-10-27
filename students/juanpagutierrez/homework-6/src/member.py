@@ -1,14 +1,14 @@
 """Library member who can borrow books."""
 
 from src.exceptions import BorrowLimitExceededError
+from src.validation import require_text
 
 
 class Member:
     """A registered patron of the library."""
 
     def __init__(self, member_id, name, max_borrow_limit=3):
-        if not name or not name.strip():
-            raise ValueError("Member name is required")
+        require_text(name, "Member name")
         self.member_id = member_id
         self.name = name
         self.borrowed_books = []

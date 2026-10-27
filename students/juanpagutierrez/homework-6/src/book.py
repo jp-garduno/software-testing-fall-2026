@@ -1,7 +1,7 @@
 """Book entity of the library catalog."""
 
 from src.exceptions import BookUnavailableError
-
+from src.validation import require_text
 
 VALID_ISBN_LENGTHS = (10, 13)
 
@@ -10,10 +10,6 @@ def _validate_isbn(isbn):
     if not isbn.isdigit() or len(isbn) not in VALID_ISBN_LENGTHS:
         raise ValueError(f"ISBN must have 10 or 13 digits, got {isbn!r}")
 
-
-def _validate_title(title):
-    if not title or not title.strip():
-        raise ValueError("Title is required")
 
 
 def _validate_copies(total_copies):
@@ -26,7 +22,7 @@ class Book:
 
     def __init__(self, isbn, title, author, total_copies=1):
         _validate_isbn(isbn)
-        _validate_title(title)
+        require_text(title, "Title")
         _validate_copies(total_copies)
         self.isbn = isbn
         self.title = title
