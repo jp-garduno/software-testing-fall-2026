@@ -86,3 +86,9 @@ describe("Miembro: pedir y regresar", () => {
     );
   });
 });
+
+describe("Miembro: categorías", () => {
+  test("la categoría por defecto es estudiante", () => {
+    expect(new Member("Carlos").categoria).toBe("estudiante");
+  });
+});
