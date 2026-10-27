@@ -14,6 +14,7 @@ from src.history import history_report, most_borrowed_isbn
 from src.late_fees import due_date_for
 from src.loan import Loan
 from src.reservations import ReservationDesk
+from src.search import search_books
 
 
 class Library:
@@ -122,3 +123,7 @@ class Library:
     def get_reservation_queue(self, isbn):
         """Member ids waiting for ``isbn``, first in line first."""
         return self._reservations.queue(isbn)
+
+    def search(self, **filters):
+        """Search the catalog with filters; see ``search_books`` for the options."""
+        return search_books(self._books.values(), **filters)
