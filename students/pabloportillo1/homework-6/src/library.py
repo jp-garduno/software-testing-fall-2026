@@ -58,7 +58,8 @@ class Library:
         if queue:
             next_member_id = queue.pop(0)
             self._holds.setdefault(isbn, []).append(next_member_id)
-            self._notifier.notify_available(self.get_member(next_member_id), book)
+            if self._notifier is not None:
+                self._notifier.notify_available(self.get_member(next_member_id), book)
 
     def search_by_title(self, title):
         return self._search_text("title", title)
