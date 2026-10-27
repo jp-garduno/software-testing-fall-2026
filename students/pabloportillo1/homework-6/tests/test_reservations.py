@@ -58,3 +58,15 @@ def test_returning_a_reserved_book_notifies_the_first_member_in_line(library, no
     library.return_book("M001", ISBN)
 
     notifier.notify_available.assert_called_once_with(library.get_member("M002"), library.get_book(ISBN))
+
+
+def test_reservations_are_served_first_come_first_served(library, notifier):
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+    library.reserve_book("M003", ISBN)
+    library.return_book("M001", ISBN)
+    library.borrow_book("M002", ISBN)
+
+    library.return_book("M002", ISBN)
+
+    notifier.notify_available.assert_called_with(library.get_member("M003"), library.get_book(ISBN))
