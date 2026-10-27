@@ -156,6 +156,7 @@ class Library {
   }
 
   memberHistory(memberId) {
+    this.getMember(memberId);
     return this.#loans.filter((loan) => loan.memberId === memberId);
   }
 
