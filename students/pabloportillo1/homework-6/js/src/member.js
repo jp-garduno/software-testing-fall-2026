@@ -21,6 +21,9 @@ class Member {
     if (!this.canBorrow()) {
       throw new Error(`${this.name} has reached the borrow limit of ${this.maxBorrowLimit}`);
     }
+    if (this.borrowedBooks.includes(isbn)) {
+      throw new Error(`${this.name} has already borrowed ${isbn}`);
+    }
     this.borrowedBooks.push(isbn);
   }
 }
