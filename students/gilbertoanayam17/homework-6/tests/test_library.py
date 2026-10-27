@@ -31,3 +31,8 @@ def test_should_find_member_by_id_after_registering_them():
     library.register_member(member)
 
     assert library.get_member("M1") is member
+
+
+def test_should_raise_error_when_member_is_not_registered():
+    with pytest.raises(errors.MemberNotFoundError):
+        Library().get_member("M404")
