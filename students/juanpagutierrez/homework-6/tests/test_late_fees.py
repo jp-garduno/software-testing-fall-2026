@@ -12,3 +12,7 @@ def test_due_date_is_fourteen_days_after_borrowing():
 
 def test_no_fee_when_returned_on_the_due_date():
     assert calculate_late_fee(date(2026, 3, 15), date(2026, 3, 15)) == Decimal("0")
+
+
+def test_one_dollar_per_day_overdue():
+    assert calculate_late_fee(date(2026, 3, 15), date(2026, 3, 18)) == Decimal("3.00")
