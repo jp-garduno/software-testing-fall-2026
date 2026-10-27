@@ -1,19 +1,26 @@
 let siguienteId = 1;
-const CATEGORIAS_VALIDAS = ["estudiante", "profesor", "publico"];
-const TARIFAS = { estudiante: 1, profesor: 0.5, publico: 2 };
+const CATEGORIAS = {
+  estudiante: { limite: 3, tarifaRecargo: 1 },
+  profesor: { limite: 5, tarifaRecargo: 0.5 },
+  publico: { limite: 2, tarifaRecargo: 2 },
+};
 
 class Member {
-  constructor(nombre, listaLibros = [], limiteLibros, categoria = "estudiante") {
-    if (!nombre)
-      throw new Error("El miembro necesita un nombre.");
+  constructor(
+    nombre,
+    listaLibros = [],
+    limiteLibros,
+    categoria = "estudiante",
+  ) {
+    if (!nombre) throw new Error("El miembro necesita un nombre.");
+    if (!Object.hasOwn(CATEGORIAS, categoria))
+      throw new Error("La categoría no es válida.");
     if (limiteLibros === undefined)
-      limiteLibros = categoria === "profesor" ? 5 : categoria === "publico" ? 2 : 3;
+      limiteLibros = CATEGORIAS[categoria].limite;
     if (limiteLibros < 0)
       throw new Error("El miembro no puede tener un límite negativo.");
     if (listaLibros.length > limiteLibros)
       throw new Error("El miembro no puede tener más libros que su límite.");
-    if (!CATEGORIAS_VALIDAS.includes(categoria))
-      throw new Error("La categoría no es válida.");
 
     this.id = siguienteId++;
     this.nombre = nombre;
@@ -43,7 +50,7 @@ class Member {
   }
 
   get tarifaRecargo() {
-    return TARIFAS[this.categoria];
+    return CATEGORIAS[this.categoria].tarifaRecargo;
   }
 }
 
