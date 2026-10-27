@@ -93,3 +93,8 @@ def test_return_book_puts_the_copy_back_on_the_shelf(library):
 def test_return_book_the_member_does_not_hold_raises(library):
     with pytest.raises(ValueError):
         library.return_book(MEMBER_ID, ISBN)
+
+
+def test_search_by_title_matches_partial_text_ignoring_case(library):
+    library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
+    assert [book.isbn for book in library.search_by_title("clean")] == [ISBN]
