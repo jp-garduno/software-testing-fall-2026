@@ -101,3 +101,9 @@ def test_search_by_title_matches_part_of_the_title_ignoring_case(library, book):
     library.add_book(Book("0131103628", "The C Programming Language", "Kernighan"))
 
     assert library.search_by_title("clean") == [book]
+
+
+def test_search_by_author_matches_part_of_the_author_ignoring_case(library, book):
+    library.add_book(Book("0131103628", "The C Programming Language", "Kernighan"))
+
+    assert library.search_by_author("MARTIN") == [book]
