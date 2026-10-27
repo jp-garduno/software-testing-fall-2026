@@ -1,5 +1,7 @@
 class Book:
     def __init__(self, isbn, title, author, copies=1):
+        if len(isbn) != 10:
+            raise ValueError("ISBN must be 10 or 13 digits")
         self.title = title
         self.isbn = isbn
         self.author = author
