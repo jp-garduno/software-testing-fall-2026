@@ -224,3 +224,9 @@ class Library:
         if member.member_id not in queue:
             raise ValueError("Reservation not found")
         queue.remove(member.member_id)
+
+    def get_next_reservation(self, isbn: str) -> Optional[str]:
+        """Return the next member_id in the reservation queue without popping."""
+        book = self.get_book(isbn)
+        queue = self.reservations.get(book.isbn, [])
+        return queue[0] if queue else None
