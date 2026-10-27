@@ -80,3 +80,14 @@ def test_hold_is_released_once_the_notified_member_borrows(library):
     library.return_book("M002", ISBN)
     library.borrow_book("M003", ISBN)
     assert library.get_member("M003").borrowed_books == [ISBN]
+
+
+def test_library_without_notifier_still_processes_reservations():
+    library = Library()
+    library.add_book(Book(ISBN, "Clean Code", "Robert Martin"))
+    library.register_member(Member("M001", "Ada Lovelace"))
+    library.register_member(Member("M002", "Grace Hopper"))
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+    assert library.get_reservation_queue(ISBN) == []
