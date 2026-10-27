@@ -28,3 +28,8 @@ def test_book_is_available_when_copies_exist():
 def test_book_not_available_when_no_copies():
     book = Book("1234567890", "Test Book", "Author", copies=0)
     assert book.is_available() is False
+
+def test_borrow_decreases_available_copies():
+    book = Book("1234567890", "T", "A", copies=2)
+    book.borrow()
+    assert book.available_copies == 1
