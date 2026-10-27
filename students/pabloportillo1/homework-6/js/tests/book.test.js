@@ -45,3 +45,7 @@ test("returnCopy puts the copy back", () => {
 test("returnCopy when every copy is in is rejected", () => {
   expect(() => makeBook(2).returnCopy()).toThrow("All copies of 'Clean Code' are already in");
 });
+
+test("isbn with nine digits is rejected", () => {
+  expect(() => new Book("030640615", "Clean Code", "Robert Martin")).toThrow("ISBN must be 10 or 13 digits");
+});
