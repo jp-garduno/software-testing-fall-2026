@@ -14,7 +14,7 @@ from src.history import history_report, most_borrowed_isbn
 from src.late_fees import due_date_for
 from src.loan import Loan
 from src.reservations import ReservationDesk
-from src.search import search_books
+from src.search import SearchQuery
 
 
 class Library:
@@ -125,5 +125,5 @@ class Library:
         return self._reservations.queue(isbn)
 
     def search(self, **filters):
-        """Search the catalog with filters; see ``search_books`` for the options."""
-        return search_books(self._books.values(), **filters)
+        """Search the catalog; ``filters`` are the fields of ``SearchQuery``."""
+        return SearchQuery(**filters).run(self._books.values())
