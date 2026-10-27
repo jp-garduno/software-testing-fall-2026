@@ -10,6 +10,10 @@ class Book {
   isAvailable() {
     return this.availableCopies > 0;
   }
+
+  borrow() {
+    this.availableCopies -= 1;
+  }
 }
 
 module.exports = { Book };
