@@ -96,3 +96,12 @@ def test_should_find_books_by_partial_title_ignoring_case():
     found = library.search_by_title("clean")
 
     assert [book.isbn for book in found] == [ISBN]
+
+
+def test_should_find_books_by_partial_author_ignoring_case():
+    library = make_library()
+    library.add_book(Book("9780135957059", "The Pragmatic Programmer", "David Thomas"))
+
+    found = library.search_by_author("THOMAS")
+
+    assert [book.isbn for book in found] == ["9780135957059"]
