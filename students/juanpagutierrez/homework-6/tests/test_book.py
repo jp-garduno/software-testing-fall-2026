@@ -60,3 +60,8 @@ def test_isbn_with_wrong_length_is_rejected(isbn):
 def test_isbn_with_non_digit_characters_is_rejected():
     with pytest.raises(ValueError):
         Book("123456789X", "Clean Code", "Robert Martin")
+
+
+def test_thirteen_digit_isbn_is_accepted():
+    book = Book("9780132350884", "Clean Code", "Robert Martin")
+    assert book.isbn == "9780132350884"
