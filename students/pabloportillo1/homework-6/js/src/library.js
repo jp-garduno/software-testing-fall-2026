@@ -97,10 +97,12 @@ class Library {
     }
     member.addBorrowedBook(isbn);
     book.borrow();
-    this.#holds.set(
-      isbn,
-      held.filter((holder) => holder !== memberId),
-    );
+    if (held.includes(memberId)) {
+      this.#holds.set(
+        isbn,
+        held.filter((holder) => holder !== memberId),
+      );
+    }
     const loan = new Loan(memberId, isbn, this.#clock());
     this.#loans.push(loan);
     return loan;
