@@ -12,6 +12,10 @@ class Member {
     this.maxBorrowLimit = category.borrowLimit;
     this.borrowedBooks = [];
   }
+
+  canBorrow() {
+    return this.borrowedBooks.length < this.maxBorrowLimit;
+  }
 }
 
 module.exports = { Member, MemberCategory };
