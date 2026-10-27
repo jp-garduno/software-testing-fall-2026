@@ -31,3 +31,9 @@ test("addBorrowedBook records the isbn", () => {
 
   expect(member.borrowedBooks).toEqual([ISBNS[0]]);
 });
+
+test("member at the limit cannot borrow and adding another book is rejected", () => {
+  ISBNS.forEach((isbn) => member.addBorrowedBook(isbn));
+
+  expect(() => member.addBorrowedBook("0596007124")).toThrow("Ada Lovelace has reached the borrow limit of 3");
+});
