@@ -2,9 +2,13 @@ from enum import Enum
 
 
 class MemberCategory(Enum):
-    STUDENT = 3
-    FACULTY = 5
-    PUBLIC = 2
+    STUDENT = (3, 100)
+    FACULTY = (5, 100)
+    PUBLIC = (2, 100)
+
+    def __init__(self, borrow_limit, daily_late_fee_cents):
+        self.borrow_limit = borrow_limit
+        self.daily_late_fee_cents = daily_late_fee_cents
 
 
 class Member:
@@ -13,7 +17,7 @@ class Member:
         self.name = name
         self.category = category
         self.borrowed_books = []
-        self.max_borrow_limit = category.value
+        self.max_borrow_limit = category.borrow_limit
 
     def can_borrow(self):
         return len(self.borrowed_books) < self.max_borrow_limit
