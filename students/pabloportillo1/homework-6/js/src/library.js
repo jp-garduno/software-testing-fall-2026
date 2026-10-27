@@ -46,6 +46,7 @@ class Library {
   borrowBook(memberId, isbn) {
     const member = this.getMember(memberId);
     const book = this.getBook(isbn);
+    book.ensureAvailable();
     member.addBorrowedBook(isbn);
     book.borrow();
   }
