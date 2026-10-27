@@ -1,3 +1,5 @@
+import pytest
+
 from book import Book
 
 ISBN = "0306406152"
@@ -31,3 +33,10 @@ def test_borrow_takes_one_copy():
     book.borrow()
 
     assert book.available_copies == 1
+
+
+def test_borrow_without_available_copies_is_rejected():
+    book = make_book(total_copies=0)
+
+    with pytest.raises(ValueError, match="No copies available"):
+        book.borrow()
