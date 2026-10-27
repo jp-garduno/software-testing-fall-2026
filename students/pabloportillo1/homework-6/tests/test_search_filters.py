@@ -1,0 +1,28 @@
+import pytest
+
+from book import Book, BookDetails
+from library import Library
+
+CATALOG = [
+    ("0306406152", "Clean Code", "Robert Martin", BookDetails("Software", 2008, 4.4)),
+    ("0131103628", "The C Programming Language", "Brian Kernighan", BookDetails("Software", 1988, 4.7)),
+    ("0201633612", "Design Patterns", "Erich Gamma", BookDetails("Software", 1994, 4.5)),
+    ("0141439513", "Pride and Prejudice", "Jane Austen", BookDetails("Fiction", 1813, 4.3)),
+    ("0061120084", "To Kill a Mockingbird", "Harper Lee", BookDetails("Fiction", 1960)),
+]
+
+
+@pytest.fixture(name="library")
+def fixture_library():
+    library = Library()
+    for isbn, title, author, details in CATALOG:
+        library.add_book(Book(isbn, title, author, details=details))
+    return library
+
+
+def titles(books):
+    return [book.title for book in books]
+
+
+def test_search_by_genre_returns_only_that_genre(library):
+    assert set(titles(library.search(genre="Fiction"))) == {"Pride and Prejudice", "To Kill a Mockingbird"}
