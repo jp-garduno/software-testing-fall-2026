@@ -108,6 +108,8 @@ class Library:
 
     def search(self, genre=None, year=None, min_rating=None, sort_by="title"):
         found = [book for book in self._books.values() if _matches(book.details, genre, year, min_rating)]
+        if sort_by == "year":
+            return sorted(found, key=lambda book: book.details.year)
         if sort_by == "rating":
             return sorted(found, key=lambda book: (book.details.rating is None, -(book.details.rating or 0)))
         return sorted(found, key=lambda book: book.title)
