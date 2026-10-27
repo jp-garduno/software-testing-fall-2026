@@ -6,6 +6,9 @@ class Book {
     if (!title.trim()) {
       throw new Error("Title is required");
     }
+    if (totalCopies < 0) {
+      throw new Error("Total copies cannot be negative");
+    }
     this.isbn = isbn;
     this.title = title;
     this.author = author;
