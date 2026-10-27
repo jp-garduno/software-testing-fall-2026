@@ -13,4 +13,4 @@ class Loan:
 
     def days_overdue(self, on_date):
         """Return how many days past the due date `on_date` falls."""
-        return 0
+        return max(0, (on_date - self.due_date).days)
