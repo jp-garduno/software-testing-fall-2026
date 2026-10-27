@@ -26,5 +26,5 @@ class Library:
     def borrow_book(self, member_id, isbn):
         member = self.get_member(member_id)
         book = self.get_book(isbn)
-        member.add_borrowed_book(isbn)
         book.borrow()
+        member.add_borrowed_book(isbn)
