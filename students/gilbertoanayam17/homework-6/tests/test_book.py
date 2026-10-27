@@ -2,26 +2,27 @@
 
 from src.book import Book
 
+ISBN = "1234567890"
+
+
+def make_book(copies=1):
+    """Arrange a valid book; only the number of copies changes between tests."""
+    return Book(ISBN, "Clean Code", "Robert C. Martin", copies=copies)
+
 
 def test_should_store_isbn_title_and_author_when_created():
-    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    book = Book(ISBN, "Clean Code", "Robert C. Martin")
 
-    assert (book.isbn, book.title, book.author) == ("1234567890", "Clean Code", "Robert C. Martin")
+    assert (book.isbn, book.title, book.author) == (ISBN, "Clean Code", "Robert C. Martin")
 
 
 def test_should_track_available_copies_when_created_with_copies():
-    book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=5)
-
-    assert book.available_copies == 5
+    assert make_book(copies=5).available_copies == 5
 
 
 def test_should_be_available_when_copies_exist():
-    book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=1)
-
-    assert book.is_available()
+    assert make_book(copies=1).is_available()
 
 
 def test_should_not_be_available_when_no_copies_exist():
-    book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=0)
-
-    assert not book.is_available()
+    assert not make_book(copies=0).is_available()
