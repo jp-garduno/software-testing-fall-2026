@@ -40,4 +40,9 @@ describe("Biblioteca", () => {
       expect(biblioteca.miembros).toEqual([]);
     });
   });
+
+  test("agregar libro al catálogo", () => {
+    biblioteca.agregarLibro(principito);
+    expect(biblioteca.libros).toEqual([principito]);
+  });
 });
