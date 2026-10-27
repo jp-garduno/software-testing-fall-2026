@@ -87,3 +87,11 @@ def test_borrowing_beyond_the_member_limit_leaves_the_copies_unchanged(library, 
     with pytest.raises(ValueError, match="borrow limit"):
         library.borrow_book("M001", "0306406152")
     assert book.available_copies == 2
+
+
+def test_return_book_puts_the_copy_back_and_clears_the_member(library, book, member):
+    library.borrow_book("M001", "0306406152")
+
+    library.return_book("M001", "0306406152")
+
+    assert (book.available_copies, member.borrowed_books) == (2, [])
