@@ -155,6 +155,10 @@ class Library {
     return [...(this.#queues.get(isbn) ?? [])];
   }
 
+  memberHistory(memberId) {
+    return this.#loans.filter((loan) => loan.memberId === memberId);
+  }
+
   #freeCopies(book) {
     return book.availableCopies - (this.#holds.get(book.isbn) ?? []).length;
   }
