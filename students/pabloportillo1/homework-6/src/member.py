@@ -4,6 +4,7 @@ from enum import Enum
 class MemberCategory(Enum):
     STUDENT = 3
     FACULTY = 5
+    PUBLIC = 2
 
 
 class Member:
