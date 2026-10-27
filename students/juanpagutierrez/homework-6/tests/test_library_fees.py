@@ -51,3 +51,11 @@ def test_member_owes_one_dollar_per_day_for_an_overdue_book(library, clock):
     library.borrow_book(MEMBER_ID, ISBN)
     advance(clock, 14 + 5)
     assert library.calculate_member_fees(MEMBER_ID) == Decimal("5.00")
+
+
+def test_fee_stops_growing_once_the_book_is_returned(library, clock):
+    library.borrow_book(MEMBER_ID, ISBN)
+    advance(clock, 14 + 2)
+    library.return_book(MEMBER_ID, ISBN)
+    advance(clock, 10)
+    assert library.calculate_member_fees(MEMBER_ID) == Decimal("2.00")
