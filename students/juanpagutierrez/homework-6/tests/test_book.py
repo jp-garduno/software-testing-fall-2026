@@ -71,3 +71,8 @@ def test_thirteen_digit_isbn_is_accepted():
 def test_book_without_title_is_rejected(title):
     with pytest.raises(ValueError):
         Book("1234567890", title, "Robert Martin")
+
+
+def test_negative_total_copies_is_rejected():
+    with pytest.raises(ValueError):
+        Book("1234567890", "Clean Code", "Robert Martin", total_copies=-1)
