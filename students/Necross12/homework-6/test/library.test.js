@@ -72,4 +72,18 @@ describe("Biblioteca", () => {
     expect(pepe.listaLibros).toEqual([corte.isbn]);
     expect(corte.copiasDisponibles).toBe(0);
   });
+
+  test("(inválida) pedir con un miembro no registrado", () => {
+    biblioteca.agregarLibro(corte);
+    expect(() => biblioteca.pedirLibro(pepe.id, corte.isbn)).toThrow(
+      "El miembro no está registrado.",
+    );
+  });
+
+  test("(inválida) pedir un libro no registrado", () => {
+    biblioteca.agregarMiembro(pepe);
+    expect(() => biblioteca.pedirLibro(pepe.id, "9999999999")).toThrow(
+      "El libro no está registrado.",
+    );
+  });
 });
