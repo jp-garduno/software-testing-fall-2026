@@ -107,6 +107,8 @@ class Library:
         """Put ``member_id`` in line for the next free copy of ``isbn``."""
         if self.get_book(isbn).is_available():
             raise ReservationError(f"{isbn} has copies available; borrow it instead")
+        if member_id in self.get_reservation_queue(isbn):
+            raise ReservationError(f"{member_id} already reserved {isbn}")
         self._reservations.setdefault(isbn, []).append(member_id)
 
     def get_reservation_queue(self, isbn):
