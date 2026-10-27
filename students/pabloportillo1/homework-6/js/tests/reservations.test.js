@@ -37,3 +37,12 @@ test("reservation by an unknown member is rejected", () => {
 
   expect(() => library.reserveBook("M404", ISBN)).toThrow(NotFoundError);
 });
+
+test("returning a reserved book notifies the first member in line", () => {
+  library.borrowBook("M001", ISBN);
+  library.reserveBook("M002", ISBN);
+
+  library.returnBook("M001", ISBN);
+
+  expect(notifier.notifyAvailable).toHaveBeenCalledWith(library.getMember("M002"), library.getBook(ISBN));
+});
