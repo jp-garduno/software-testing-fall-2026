@@ -10,3 +10,6 @@ class Loan:
         self.borrowed_on = borrowed_on
         self.due_on = borrowed_on + LOAN_PERIOD
         self.returned_on = None
+
+    def days_overdue(self, today):
+        return max(0, ((self.returned_on or today) - self.due_on).days)

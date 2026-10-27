@@ -2,6 +2,8 @@ from datetime import date
 
 from loan import Loan
 
+DAILY_LATE_FEE_CENTS = 100
+
 
 class Library:
     def __init__(self, clock=date.today):
@@ -68,7 +70,5 @@ class Library:
     def calculate_late_fees(self, member_id):
         today = self._clock()
         return sum(
-            max(0, ((loan.returned_on or today) - loan.due_on).days) * 100
-            for loan in self._loans
-            if loan.member_id == member_id
+            loan.days_overdue(today) * DAILY_LATE_FEE_CENTS for loan in self._loans if loan.member_id == member_id
         )
