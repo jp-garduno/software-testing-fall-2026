@@ -52,3 +52,12 @@ def test_tie_for_most_borrowed_goes_to_the_first_title_alphabetically(library):
     library.borrow_book("M001", PATTERNS)
 
     assert library.most_borrowed_book().title == "Design Patterns"
+
+
+def test_borrow_statistics_count_borrows_returns_and_active_loans(library):
+    library.borrow_book("M001", CLEAN_CODE)
+    library.borrow_book("M001", PATTERNS)
+    library.borrow_book("M002", PATTERNS)
+    library.return_book("M001", PATTERNS)
+
+    assert library.borrow_statistics() == {"total_borrows": 3, "returns": 1, "active_loans": 2}
