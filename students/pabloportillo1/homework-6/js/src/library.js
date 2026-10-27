@@ -155,7 +155,9 @@ class Library {
   }
 
   search({ genre = null, year = null, minRating = null } = {}) {
-    return [...this.#books.values()].filter((book) => matches(book.details, { genre, year, minRating }));
+    return [...this.#books.values()]
+      .filter((book) => matches(book.details, { genre, year, minRating }))
+      .sort((a, b) => a.title.localeCompare(b.title));
   }
 
   getAvailableBooks() {
