@@ -63,10 +63,11 @@ class Library {
   }
 
   calculateLateFees(memberId) {
+    const rate = this.getMember(memberId).category.dailyLateFeeCents;
     const today = this.#clock();
     return this.#loans
       .filter((loan) => loan.memberId === memberId)
-      .reduce((total, loan) => total + loan.daysOverdue(today) * 100, 0);
+      .reduce((total, loan) => total + loan.daysOverdue(today) * rate, 0);
   }
 
   returnBook(memberId, isbn) {
