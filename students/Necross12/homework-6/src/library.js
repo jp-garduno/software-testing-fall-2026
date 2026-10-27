@@ -2,6 +2,7 @@ class Library {
   constructor() {
     this.libros = [];
     this.miembros = [];
+      this.reservas = new Map();
   }
 
   agregarLibro(libro) {
@@ -62,6 +63,15 @@ class Library {
   librosDisponibles() {
     return this.libros.filter((libro) => libro.estaDisponible());
   }
+
+    reservarLibro(idMiembro, isbn) {
+        const miembro = this.obtenerMiembroRegistrado(idMiembro);
+        this.obtenerLibroRegistrado(isbn);
+        const cola = this.reservas.get(isbn) ?? [];
+        cola.push(miembro.id);
+        this.reservas.set(isbn, cola);
+        return cola.length;
+    }
 }
 
 module.exports = { Library };
