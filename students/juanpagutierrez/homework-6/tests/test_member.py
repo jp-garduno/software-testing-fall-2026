@@ -24,3 +24,9 @@ def test_add_borrowed_book_records_the_isbn():
 
 def test_member_can_borrow_when_under_limit():
     assert Member("M001", "Ada Lovelace").can_borrow() is True
+
+
+def test_member_cannot_borrow_when_limit_reached():
+    member = Member("M001", "Ada Lovelace", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+    assert member.can_borrow() is False
