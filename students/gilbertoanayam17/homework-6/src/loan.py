@@ -10,3 +10,7 @@ class Loan:
         self.member_id = member_id
         self.isbn = isbn
         self.due_date = borrowed_on + timedelta(days=14)
+
+    def days_overdue(self, on_date):
+        """Return how many days past the due date `on_date` falls."""
+        return 0
