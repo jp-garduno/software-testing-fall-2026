@@ -76,3 +76,8 @@ def test_isbn_with_a_letter_is_rejected():
 def test_blank_title_is_rejected(title):
     with pytest.raises(ValueError, match="Title is required"):
         Book(ISBN, title, "Robert Martin")
+
+
+def test_negative_total_copies_are_rejected():
+    with pytest.raises(ValueError, match="Total copies cannot be negative"):
+        make_book(total_copies=-1)
