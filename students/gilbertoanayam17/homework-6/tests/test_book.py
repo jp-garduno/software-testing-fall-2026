@@ -26,3 +26,11 @@ def test_should_be_available_when_copies_exist():
 
 def test_should_not_be_available_when_no_copies_exist():
     assert not make_book(copies=0).is_available()
+
+
+def test_should_decrease_available_copies_when_borrowed():
+    book = make_book(copies=2)
+
+    book.borrow()
+
+    assert book.available_copies == 1
