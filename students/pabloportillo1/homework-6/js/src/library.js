@@ -1,5 +1,22 @@
 const { Loan } = require("./loan");
 
+function nullsLast(pick, direction) {
+  return (a, b) => {
+    const left = pick(a);
+    const right = pick(b);
+    if (left === null || right === null) {
+      return Number(left === null) - Number(right === null);
+    }
+    return direction * (left - right);
+  };
+}
+
+const SORTERS = {
+  title: (a, b) => a.title.localeCompare(b.title),
+  year: nullsLast((book) => book.details.year, 1),
+  rating: nullsLast((book) => book.details.rating, -1),
+};
+
 function matches(details, { genre, year, minRating }) {
   if (genre !== null && details.genre !== genre) {
     return false;
@@ -156,10 +173,7 @@ class Library {
 
   search({ genre = null, year = null, minRating = null, sortBy = "title" } = {}) {
     const found = [...this.#books.values()].filter((book) => matches(book.details, { genre, year, minRating }));
-    if (sortBy === "rating") {
-      return found.sort((a, b) => (b.details.rating ?? -1) - (a.details.rating ?? -1));
-    }
-    return found.sort((a, b) => a.title.localeCompare(b.title));
+    return found.sort(SORTERS[sortBy]);
   }
 
   getAvailableBooks() {

@@ -60,9 +60,12 @@ test("search sorted by rating lists the best rated first and unrated last", () =
 test("search sorted by year lists the oldest first and undated last", () => {
   library.addBook(new Book("0596007124", "Head First Design Patterns", "Eric Freeman"));
 
-  expect(titles(library.search({ genre: null, sortBy: "year" })).slice(0, 2)).toEqual([
+  expect(titles(library.search({ sortBy: "year" }))).toEqual([
     "Pride and Prejudice",
+    "To Kill a Mockingbird",
     "The C Programming Language",
+    "Design Patterns",
+    "Clean Code",
+    "Head First Design Patterns",
   ]);
-  expect(titles(library.search({ sortBy: "year" })).at(-1)).toBe("Head First Design Patterns");
 });
