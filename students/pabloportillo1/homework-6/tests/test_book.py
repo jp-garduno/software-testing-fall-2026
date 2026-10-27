@@ -1,6 +1,6 @@
 import pytest
 
-from book import Book
+from book import Book, BookDetails
 
 ISBN = "0306406152"
 
@@ -81,3 +81,11 @@ def test_blank_title_is_rejected(title):
 def test_negative_total_copies_are_rejected():
     with pytest.raises(ValueError, match="Total copies cannot be negative"):
         make_book(total_copies=-1)
+
+
+def test_book_can_be_described_by_genre_year_and_rating():
+    details = BookDetails(genre="Software", year=2008, rating=4.4)
+
+    book = Book(ISBN, "Clean Code", "Robert Martin", details=details)
+
+    assert book.details == details
