@@ -28,3 +28,7 @@ test("search by genre returns only that genre", () => {
     new Set(["Pride and Prejudice", "To Kill a Mockingbird"]),
   );
 });
+
+test("search by genre and year requires both", () => {
+  expect(titles(library.search({ genre: "Software", year: 1994 }))).toEqual(["Design Patterns"]);
+});
