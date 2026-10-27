@@ -71,3 +71,12 @@ def test_notified_member_can_borrow_the_held_copy(library):
     library.return_book("M001", ISBN)
     library.borrow_book("M002", ISBN)
     assert library.get_member("M002").borrowed_books == [ISBN]
+
+
+def test_hold_is_released_once_the_notified_member_borrows(library):
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+    library.borrow_book("M002", ISBN)
+    library.return_book("M002", ISBN)
+    library.borrow_book("M003", ISBN)
+    assert library.get_member("M003").borrowed_books == [ISBN]
