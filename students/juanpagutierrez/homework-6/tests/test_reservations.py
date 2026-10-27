@@ -5,6 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from src.book import Book
+from src.exceptions import ReservationError
 from src.library import Library
 from src.member import Member
 
@@ -37,3 +38,9 @@ def test_reservations_are_kept_in_first_come_first_served_order(library):
     library.reserve_book("M003", ISBN)
     library.reserve_book("M002", ISBN)
     assert library.get_reservation_queue(ISBN) == ["M003", "M002"]
+
+
+def test_reserving_a_book_with_copies_on_the_shelf_raises(library):
+    library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
+    with pytest.raises(ReservationError):
+        library.reserve_book("M002", "0987654321")
