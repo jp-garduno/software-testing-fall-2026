@@ -40,3 +40,10 @@ def test_add_borrowed_book_beyond_limit_raises():
     member.add_borrowed_book("1234567890")
     with pytest.raises(BorrowLimitExceededError):
         member.add_borrowed_book("0987654321")
+
+
+def test_return_book_removes_it_from_borrowed_books():
+    member = Member("M001", "Ada Lovelace")
+    member.add_borrowed_book("1234567890")
+    member.return_book("1234567890")
+    assert member.borrowed_books == []
