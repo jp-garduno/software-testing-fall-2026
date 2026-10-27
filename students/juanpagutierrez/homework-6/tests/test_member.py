@@ -47,3 +47,9 @@ def test_return_book_removes_it_from_borrowed_books():
     member.add_borrowed_book("1234567890")
     member.return_book("1234567890")
     assert member.borrowed_books == []
+
+
+def test_return_book_not_borrowed_raises():
+    member = Member("M001", "Ada Lovelace")
+    with pytest.raises(ValueError, match="has not borrowed"):
+        member.return_book("1234567890")
