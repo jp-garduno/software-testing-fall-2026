@@ -22,3 +22,9 @@ class Library:
         if member_id not in self._members:
             raise LookupError(f"No member with id {member_id}")
         return self._members[member_id]
+
+    def borrow_book(self, member_id, isbn):
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+        member.add_borrowed_book(isbn)
+        book.borrow()
