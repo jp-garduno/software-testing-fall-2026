@@ -38,3 +38,11 @@ def test_search_by_genre_and_year_requires_both(library):
 
 def test_search_by_minimum_rating_keeps_books_at_or_above_it(library):
     assert set(titles(library.search(min_rating=4.5))) == {"The C Programming Language", "Design Patterns"}
+
+
+def test_search_results_are_sorted_by_title_by_default(library):
+    assert titles(library.search(genre="Software")) == [
+        "Clean Code",
+        "Design Patterns",
+        "The C Programming Language",
+    ]
