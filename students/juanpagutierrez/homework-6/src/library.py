@@ -13,6 +13,7 @@ from src.exceptions import (
 from src.history import history_report, most_borrowed_isbn
 from src.late_fees import due_date_for
 from src.loan import Loan
+from src.reservations import ReservationDesk
 
 
 class Library:
@@ -20,9 +21,7 @@ class Library:
 
     def __init__(self, clock=date.today, notifier=None):
         self._clock = clock
-        self._notifier = notifier
-        self._reservations = {}
-        self._holds = {}
+        self._reservations = ReservationDesk(notifier)
         self._books = {}
         self._members = {}
         self._loans = []
@@ -57,13 +56,11 @@ class Library:
         book = self.get_book(isbn)
         if not member.can_borrow():
             raise BorrowLimitExceededError(f"{member_id} reached the limit of {member.max_borrow_limit}")
-        holds = self._holds.get(isbn, [])
-        if member_id not in holds and book.available_copies <= len(holds):
+        if self._reservations.blocks(member_id, isbn, book.available_copies):
             raise BookUnavailableError(f"The free copies of {isbn} are held for members who reserved it")
         book.borrow()
         member.add_borrowed_book(isbn)
-        if member_id in holds:
-            holds.remove(member_id)
+        self._reservations.release(member_id, isbn)
         today = self._clock()
         self._loans.append(Loan(member_id, isbn, today, due_date_for(today)))
 
@@ -76,12 +73,7 @@ class Library:
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
         self._open_loan(member_id, isbn).returned_on = self._clock()
-        queue = self._reservations.get(isbn)
-        if queue:
-            next_member = queue.pop(0)
-            self._holds.setdefault(isbn, []).append(next_member)
-            if self._notifier is not None:
-                self._notifier.notify(next_member, isbn)
+        self._reservations.copy_returned(isbn)
 
     def _open_loan(self, member_id, isbn):
         return next(loan for loan in self.get_loans(member_id) if loan.isbn == isbn and loan.is_open)
@@ -125,10 +117,8 @@ class Library:
         """Put ``member_id`` in line for the next free copy of ``isbn``."""
         if self.get_book(isbn).is_available():
             raise ReservationError(f"{isbn} has copies available; borrow it instead")
-        if member_id in self.get_reservation_queue(isbn):
-            raise ReservationError(f"{member_id} already reserved {isbn}")
-        self._reservations.setdefault(isbn, []).append(member_id)
+        self._reservations.reserve(member_id, isbn)
 
     def get_reservation_queue(self, isbn):
         """Member ids waiting for ``isbn``, first in line first."""
-        return list(self._reservations.get(isbn, []))
+        return self._reservations.queue(isbn)
