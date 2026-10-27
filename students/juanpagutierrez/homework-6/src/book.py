@@ -11,6 +11,8 @@ class Book:
             raise ValueError(f"ISBN must have 10 or 13 digits, got {isbn!r}")
         if not title or not title.strip():
             raise ValueError("Title is required")
+        if total_copies < 0:
+            raise ValueError("Total copies cannot be negative")
         self.isbn = isbn
         self.title = title
         self.author = author
