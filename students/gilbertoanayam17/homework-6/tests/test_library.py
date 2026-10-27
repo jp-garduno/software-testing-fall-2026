@@ -105,3 +105,12 @@ def test_should_find_books_by_partial_author_ignoring_case():
     found = library.search_by_author("THOMAS")
 
     assert [book.isbn for book in found] == ["9780135957059"]
+
+
+def test_should_list_only_books_with_copies_available():
+    library = make_library(copies=1)
+    library.add_book(Book("9780135957059", "The Pragmatic Programmer", "David Thomas", copies=0))
+
+    available = library.get_available_books()
+
+    assert [book.isbn for book in available] == [ISBN]
