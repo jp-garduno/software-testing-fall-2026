@@ -13,3 +13,6 @@ class Book:
         if not self.is_available():
             raise ValueError(f"No copies available for '{self.title}'")
         self.available_copies -= 1
+
+    def return_copy(self):
+        self.available_copies += 1
