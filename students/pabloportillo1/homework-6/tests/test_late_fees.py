@@ -19,3 +19,11 @@ def test_loan_is_due_fourteen_days_after_borrowing(library):
     loan = library.borrow_book("M001", "0306406152")
 
     assert loan.due_on == date(2026, 10, 15)
+
+
+def test_no_late_fee_when_returned_on_the_due_date(library, clock):
+    library.borrow_book("M001", "0306406152")
+    clock.advance(14)
+    library.return_book("M001", "0306406152")
+
+    assert library.calculate_late_fees("M001") == 0
