@@ -33,3 +33,11 @@ def test_member_history_lists_the_members_loans_in_borrow_order(library, clock):
 def test_history_of_an_unknown_member_is_rejected(library):
     with pytest.raises(LookupError, match="No member with id M404"):
         library.member_history("M404")
+
+
+def test_most_borrowed_book_is_the_one_with_most_loans(library):
+    library.borrow_book("M001", CLEAN_CODE)
+    library.borrow_book("M001", PATTERNS)
+    library.borrow_book("M002", PATTERNS)
+
+    assert library.most_borrowed_book().isbn == PATTERNS
