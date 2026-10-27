@@ -109,3 +109,32 @@ def test_library_borrow_book_book_not_found():
     library.register_member(member)
     with pytest.raises(KeyError, match="Book not found"):
         library.borrow_book("M001", "9999999999")
+
+
+def test_library_return_book_success():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    member = Member("M001", "Alice Smith")
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890")
+    assert book.available_copies == 0
+
+    fee = library.return_book("M001", "1234567890")
+    assert fee == 0.0
+    assert book.available_copies == 1
+    assert "1234567890" not in member.borrowed_books
+    assert len(library.active_loans) == 0
+    assert len(library.loan_history) == 1
+
+
+def test_library_return_book_not_borrowed_by_member():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", total_copies=1)
+    member = Member("M001", "Alice Smith")
+    library.add_book(book)
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book was not borrowed by this member"):
+        library.return_book("M001", "1234567890")
