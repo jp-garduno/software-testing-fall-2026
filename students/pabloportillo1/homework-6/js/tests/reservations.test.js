@@ -20,3 +20,7 @@ test("reserving a book with no copy left queues the member", () => {
 
   expect(library.reservationsFor(ISBN)).toEqual(["M002"]);
 });
+
+test("reserving a book on the shelf is rejected", () => {
+  expect(() => library.reserveBook("M002", ISBN)).toThrow("is available, borrow it instead");
+});
