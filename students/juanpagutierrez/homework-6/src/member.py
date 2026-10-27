@@ -21,3 +21,7 @@ class Member:
     def can_borrow(self):
         """Return True while the member is below the borrow limit."""
         return len(self.borrowed_books) < self.max_borrow_limit
+
+    def return_book(self, isbn):
+        """Remove ``isbn`` from the books this member holds."""
+        self.borrowed_books.remove(isbn)
