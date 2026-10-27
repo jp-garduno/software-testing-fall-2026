@@ -202,4 +202,10 @@ describe("Biblioteca: reservas", () => {
     test("reservar un libro sin copias devuelve la posición en la cola", () => {
         expect(biblioteca.reservarLibro(pepe.id, principito.isbn)).toBe(1);
     });
+
+    test("las reservas respetan el orden de llegada (FIFO)", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.reservarLibro(ana.id, principito.isbn);
+        expect(biblioteca.obtenerReservas(principito.isbn)).toEqual([pepe.id, ana.id]);
+    });
 });
