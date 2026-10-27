@@ -1,0 +1,39 @@
+"""Tests for late fees integrated with Library lending (advanced feature 1)."""
+
+from datetime import date, timedelta
+from unittest.mock import Mock
+
+import pytest
+
+from src.book import Book
+from src.library import Library
+from src.member import Member
+
+ISBN = "1234567890"
+MEMBER_ID = "M001"
+START = date(2026, 3, 1)
+
+
+@pytest.fixture(name="clock")
+def clock_fixture():
+    """A controllable clock standing in for date.today."""
+    return Mock(return_value=START)
+
+
+@pytest.fixture(name="library")
+def library_fixture(clock):
+    """A library on a fake clock, with one book and one student member."""
+    library = Library(clock=clock)
+    library.add_book(Book(ISBN, "Clean Code", "Robert Martin"))
+    library.register_member(Member(MEMBER_ID, "Ada Lovelace"))
+    return library
+
+
+def advance(clock, days):
+    """Move the fake clock forward by ``days``."""
+    clock.return_value = clock.return_value + timedelta(days=days)
+
+
+def test_borrowing_records_a_loan_due_in_fourteen_days(library):
+    library.borrow_book(MEMBER_ID, ISBN)
+    assert library.get_loans(MEMBER_ID)[0].due_date == date(2026, 3, 15)
