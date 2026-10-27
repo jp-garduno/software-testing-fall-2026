@@ -182,5 +182,24 @@ describe("Biblioteca", () => {
     biblioteca.pedirLibro(pepe.id, harry.isbn);
     expect(biblioteca.librosDisponibles()).toEqual([principito]);
   });
+});
 
+describe("Biblioteca: reservas", () => {
+    let biblioteca, principito, harry, pepe, gon, ana;
+
+    beforeEach(() => {
+        biblioteca = new Library();
+        principito = new Books("1111111111", "El principito", "Antoine de Saint-Exupéry");
+        harry = new Books("3333333333", "Harry Potter", "J. K. Rowling");
+        pepe = new Member("Pepe");
+        gon = new Member("Gon");
+        ana = new Member("Ana");
+        [pepe, gon, ana].forEach((m) => biblioteca.agregarMiembro(m));
+        [principito, harry].forEach((l) => biblioteca.agregarLibro(l));
+        biblioteca.pedirLibro(gon.id, principito.isbn); // agota la única copia
+    });
+
+    test("reservar un libro sin copias devuelve la posición en la cola", () => {
+        expect(biblioteca.reservarLibro(pepe.id, principito.isbn)).toBe(1);
+    });
 });
