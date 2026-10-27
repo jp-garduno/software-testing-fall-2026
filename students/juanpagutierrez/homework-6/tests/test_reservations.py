@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from src.book import Book
-from src.exceptions import ReservationError
+from src.exceptions import BookUnavailableError, ReservationError
 from src.library import Library
 from src.member import Member
 
@@ -57,3 +57,10 @@ def test_returning_a_reserved_book_notifies_the_first_member_in_line(library, no
     library.reserve_book("M003", ISBN)
     library.return_book("M001", ISBN)
     notifier.notify.assert_called_once_with("M002", ISBN)
+
+
+def test_returned_copy_is_held_for_the_notified_member(library):
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+    with pytest.raises(BookUnavailableError):
+        library.borrow_book("M003", ISBN)
