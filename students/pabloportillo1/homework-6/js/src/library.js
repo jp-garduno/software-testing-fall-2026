@@ -173,6 +173,9 @@ class Library {
 
   search({ genre = null, year = null, minRating = null, sortBy = "title" } = {}) {
     const found = [...this.#books.values()].filter((book) => matches(book.details, { genre, year, minRating }));
+    if (!(sortBy in SORTERS)) {
+      throw new Error(`Cannot sort by '${sortBy}'`);
+    }
     return found.sort(SORTERS[sortBy]);
   }
 
