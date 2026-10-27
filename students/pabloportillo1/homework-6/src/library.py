@@ -91,6 +91,10 @@ class Library:
             return None
         return min((self._books[isbn] for isbn in counts), key=lambda book: (-counts[book.isbn], book.title))
 
+    def borrow_statistics(self):
+        returns = sum(1 for loan in self._loans if loan.returned_on is not None)
+        return {"total_borrows": len(self._loans), "returns": returns, "active_loans": len(self._loans) - returns}
+
     def _active_loan(self, member_id, isbn):
         return next(
             loan
