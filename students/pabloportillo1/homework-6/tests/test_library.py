@@ -79,7 +79,8 @@ def test_borrowing_an_unavailable_book_leaves_the_member_unchanged(library, book
     assert member.borrowed_books == []
 
 
-def test_borrowing_beyond_the_member_limit_leaves_the_copies_unchanged(library, book, member):
+@pytest.mark.usefixtures("member")
+def test_borrowing_beyond_the_member_limit_leaves_the_copies_unchanged(library, book):
     for isbn in ("0131103628", "0201633612", "0596007124"):
         library.add_book(Book(isbn, f"Book {isbn}", "Author"))
         library.borrow_book("M001", isbn)
@@ -109,7 +110,8 @@ def test_search_by_author_matches_part_of_the_author_ignoring_case(library, book
     assert library.search_by_author("MARTIN") == [book]
 
 
-def test_get_available_books_leaves_out_books_with_every_copy_out(library, book, member):
+@pytest.mark.usefixtures("member")
+def test_get_available_books_leaves_out_books_with_every_copy_out(library, book):
     other = Book("0131103628", "The C Programming Language", "Kernighan")
     library.add_book(other)
     library.borrow_book("M001", "0131103628")
