@@ -64,3 +64,10 @@ def test_returned_copy_is_held_for_the_notified_member(library):
     library.return_book("M001", ISBN)
     with pytest.raises(BookUnavailableError):
         library.borrow_book("M003", ISBN)
+
+
+def test_notified_member_can_borrow_the_held_copy(library):
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+    library.borrow_book("M002", ISBN)
+    assert library.get_member("M002").borrowed_books == [ISBN]
