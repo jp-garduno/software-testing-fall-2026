@@ -12,6 +12,7 @@ def fixture_library(clock):
     library = Library(clock=clock)
     library.add_book(Book("0306406152", "Clean Code", "Robert Martin", total_copies=2))
     library.register_member(Member("M001", "Ada Lovelace"))
+    library.register_member(Member("M002", "Grace Hopper"))
     return library
 
 
@@ -43,3 +44,11 @@ def test_late_fee_stops_growing_once_the_book_is_returned(library, clock):
     clock.advance(10)
 
     assert library.calculate_late_fees("M001") == 200
+
+
+def test_late_fees_only_count_the_members_own_loans(library, clock):
+    library.borrow_book("M001", "0306406152")
+    library.borrow_book("M002", "0306406152")
+    clock.advance(15)
+
+    assert library.calculate_late_fees("M002") == 100
