@@ -1,14 +1,20 @@
+const ISBN_PATTERN = /^(\d{10}|\d{13})$/;
+
+function validate(isbn, title, totalCopies) {
+  if (!ISBN_PATTERN.test(isbn)) {
+    throw new Error("ISBN must be 10 or 13 digits");
+  }
+  if (!title.trim()) {
+    throw new Error("Title is required");
+  }
+  if (totalCopies < 0) {
+    throw new Error("Total copies cannot be negative");
+  }
+}
+
 class Book {
   constructor(isbn, title, author, totalCopies = 1) {
-    if (!/^(\d{10}|\d{13})$/.test(isbn)) {
-      throw new Error("ISBN must be 10 or 13 digits");
-    }
-    if (!title.trim()) {
-      throw new Error("Title is required");
-    }
-    if (totalCopies < 0) {
-      throw new Error("Total copies cannot be negative");
-    }
+    validate(isbn, title, totalCopies);
     this.isbn = isbn;
     this.title = title;
     this.author = author;
