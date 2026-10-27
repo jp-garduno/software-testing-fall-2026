@@ -2,7 +2,7 @@ class Library {
   constructor() {
     this.libros = [];
     this.miembros = [];
-      this.reservas = new Map();
+    this.reservas = new Map();
   }
 
   agregarLibro(libro) {
@@ -71,11 +71,13 @@ class Library {
     reservarLibro(idMiembro, isbn) {
         const miembro = this.obtenerMiembroRegistrado(idMiembro);
         const libro = this.obtenerLibroRegistrado(isbn);
+        const cola = this.reservas.get(isbn) ?? [];
 
+        if (cola.includes(miembro.id))
+            throw new Error("El miembro ya tiene una reserva para este libro.");
         if (libro.estaDisponible())
             throw new Error("El libro está disponible, no necesita reserva.");
 
-        const cola = this.reservas.get(isbn) ?? [];
         cola.push(miembro.id);
         this.reservas.set(isbn, cola);
         return cola.length;
