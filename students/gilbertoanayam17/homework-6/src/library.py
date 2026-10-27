@@ -27,4 +27,7 @@ class Library:
 
     def get_member(self, member_id):
         """Return the registered member with this id."""
+        if member_id not in self._members:
+            raise errors.MemberNotFoundError(f"No member with id {member_id}")
+
         return self._members[member_id]
