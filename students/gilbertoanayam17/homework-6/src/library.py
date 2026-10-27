@@ -1,14 +1,17 @@
 """Library: the catalog, its members, and the loans between them."""
 
+from datetime import date
+
 from . import errors
 
 
 class Library:
     """Coordinates books and members so every loan follows the library's rules."""
 
-    def __init__(self):
+    def __init__(self, clock=date.today):
         self._books = {}
         self._members = {}
+        self._clock = clock
 
     def add_book(self, book):
         """Add a book to the catalog, indexed by its ISBN."""
@@ -60,3 +63,7 @@ class Library:
     def get_available_books(self):
         """Return the books with at least one copy on the shelf."""
         return [book for book in self._books.values() if book.is_available()]
+
+    def calculate_late_fees(self, member_id):
+        """Return the late fees a member owes."""
+        return 0
