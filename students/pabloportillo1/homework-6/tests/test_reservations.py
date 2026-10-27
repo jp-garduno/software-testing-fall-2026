@@ -70,3 +70,12 @@ def test_reservations_are_served_first_come_first_served(library, notifier):
     library.return_book("M002", ISBN)
 
     notifier.notify_available.assert_called_with(library.get_member("M003"), library.get_book(ISBN))
+
+
+def test_copy_held_for_a_reserver_cannot_be_borrowed_by_someone_else(library):
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+
+    with pytest.raises(ValueError, match="held for another member"):
+        library.borrow_book("M003", ISBN)
