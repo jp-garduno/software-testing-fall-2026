@@ -47,3 +47,12 @@ def test_should_notify_first_member_in_line_when_copy_is_returned():
     library.return_book("M1", ISBN)
 
     notifier.notify.assert_called_once_with("M2", ISBN)
+
+
+def test_should_hold_returned_copy_for_first_member_in_line():
+    library = make_library()
+    library.reserve_book("M2", ISBN)
+    library.return_book("M1", ISBN)
+
+    with pytest.raises(errors.BookReservedError):
+        library.borrow_book("M3", ISBN)
