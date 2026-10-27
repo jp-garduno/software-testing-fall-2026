@@ -1,5 +1,7 @@
 let siguienteId = 1;
 const CATEGORIAS_VALIDAS = ["estudiante", "profesor", "publico"];
+const TARIFAS = { estudiante: 1, profesor: 0.5, publico: 2 };
+
 class Member {
   constructor(nombre, listaLibros = [], limiteLibros, categoria = "estudiante") {
     if (!nombre)
@@ -38,6 +40,10 @@ class Member {
       throw new Error("No puedes regresar un libro que no tienes.");
     this.listaLibros.splice(posicion, 1);
     return true;
+  }
+
+  get tarifaRecargo() {
+    return TARIFAS[this.categoria];
   }
 }
 
