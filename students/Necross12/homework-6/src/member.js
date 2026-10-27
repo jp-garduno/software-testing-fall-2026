@@ -5,7 +5,7 @@ class Member {
     if (!nombre)
       throw new Error("El miembro necesita un nombre.");
     if (limiteLibros === undefined)
-      limiteLibros = categoria === "profesor" ? 5 : 3;
+      limiteLibros = categoria === "profesor" ? 5 : categoria === "publico" ? 2 : 3;
     if (limiteLibros < 0)
       throw new Error("El miembro no puede tener un límite negativo.");
     if (listaLibros.length > limiteLibros)
