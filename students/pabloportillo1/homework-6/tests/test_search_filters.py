@@ -30,3 +30,7 @@ def test_search_by_genre_returns_only_that_genre(library):
 
 def test_search_without_criteria_returns_the_whole_catalog(library):
     assert len(library.search()) == len(CATALOG)
+
+
+def test_search_by_genre_and_year_requires_both(library):
+    assert titles(library.search(genre="Software", year=1994)) == ["Design Patterns"]
