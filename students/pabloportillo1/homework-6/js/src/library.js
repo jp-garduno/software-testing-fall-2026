@@ -59,8 +59,16 @@ class Library {
   }
 
   searchByTitle(title) {
-    const wanted = title.toLowerCase();
-    return [...this.#books.values()].filter((candidate) => candidate.title.toLowerCase().includes(wanted));
+    return this.#searchText("title", title);
+  }
+
+  searchByAuthor(author) {
+    return this.#searchText("author", author);
+  }
+
+  #searchText(field, text) {
+    const wanted = text.toLowerCase();
+    return [...this.#books.values()].filter((candidate) => candidate[field].toLowerCase().includes(wanted));
   }
 }
 
