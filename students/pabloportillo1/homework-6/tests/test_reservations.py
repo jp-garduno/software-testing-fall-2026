@@ -35,3 +35,10 @@ def test_reserving_the_same_book_twice_is_rejected(library):
 
     with pytest.raises(ValueError, match="already reserved"):
         library.reserve_book("M002", ISBN)
+
+
+def test_reservation_by_an_unknown_member_is_rejected(library):
+    library.borrow_book("M001", ISBN)
+
+    with pytest.raises(LookupError, match="No member with id M404"):
+        library.reserve_book("M404", ISBN)
