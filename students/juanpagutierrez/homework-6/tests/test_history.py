@@ -52,3 +52,10 @@ def test_most_borrowed_book_counts_loans_across_all_members(library):
 
 def test_most_borrowed_book_is_none_when_nothing_was_lent(library):
     assert library.most_borrowed_book() is None
+
+
+def test_borrow_count_includes_returned_loans(library):
+    library.borrow_book("M001", CLEAN_CODE)
+    library.return_book("M001", CLEAN_CODE)
+    library.borrow_book("M002", CLEAN_CODE)
+    assert library.borrow_count(CLEAN_CODE) == 2
