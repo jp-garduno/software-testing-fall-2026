@@ -73,3 +73,9 @@ def test_should_reject_isbn_with_invalid_length(isbn):
 def test_should_reject_isbn_with_non_digit_characters(isbn):
     with pytest.raises(ValueError, match="ISBN"):
         Book(isbn, "Clean Code", "Robert C. Martin")
+
+
+@pytest.mark.parametrize("title", ["", "   ", None])
+def test_should_reject_missing_title(title):
+    with pytest.raises(ValueError, match="Title"):
+        Book(ISBN, title, "Robert C. Martin")
