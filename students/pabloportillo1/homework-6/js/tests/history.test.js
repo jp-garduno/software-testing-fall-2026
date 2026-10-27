@@ -56,3 +56,12 @@ test("tie for most borrowed goes to the first title alphabetically", () => {
 
   expect(library.mostBorrowedBook().title).toBe("Design Patterns");
 });
+
+test("borrow statistics count borrows, returns and active loans", () => {
+  library.borrowBook("M001", CLEAN_CODE);
+  library.borrowBook("M001", PATTERNS);
+  library.borrowBook("M002", PATTERNS);
+  library.returnBook("M001", PATTERNS);
+
+  expect(library.borrowStatistics()).toEqual({ totalBorrows: 3, returns: 1, activeLoans: 2 });
+});
