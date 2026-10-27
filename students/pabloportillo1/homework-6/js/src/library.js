@@ -57,6 +57,11 @@ class Library {
     member.returnBook(isbn);
     book.returnCopy();
   }
+
+  searchByTitle(title) {
+    const wanted = title.toLowerCase();
+    return [...this.#books.values()].filter((candidate) => candidate.title.toLowerCase().includes(wanted));
+  }
 }
 
 module.exports = { Library, NotFoundError };
