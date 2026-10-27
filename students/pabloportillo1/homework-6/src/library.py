@@ -55,3 +55,6 @@ class Library:
 
     def get_available_books(self):
         return [book for book in self._books.values() if book.is_available()]
+
+    def calculate_late_fees(self, member_id):
+        return 0
