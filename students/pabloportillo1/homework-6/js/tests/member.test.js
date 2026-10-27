@@ -21,3 +21,7 @@ test.each([
 ])("%s member can borrow %i books", (category, limit) => {
   expect(new Member("X001", "Someone", MemberCategory[category]).maxBorrowLimit).toBe(limit);
 });
+
+test("new member can borrow", () => {
+  expect(member.canBorrow()).toBe(true);
+});
