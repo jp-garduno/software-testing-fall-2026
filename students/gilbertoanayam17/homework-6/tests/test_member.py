@@ -50,3 +50,10 @@ def test_should_remove_book_when_returned():
     member.return_book("1234567890")
 
     assert not member.borrowed_books
+
+
+def test_should_raise_error_when_returning_book_not_borrowed():
+    member = Member("M1", "Ana Lopez")
+
+    with pytest.raises(errors.InvalidReturnError):
+        member.return_book("1234567890")
