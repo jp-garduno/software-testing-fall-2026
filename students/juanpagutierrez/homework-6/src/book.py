@@ -25,4 +25,6 @@ class Book:
 
     def return_copy(self):
         """Put one borrowed copy back on the shelf."""
+        if self.available_copies >= self.total_copies:
+            raise ValueError(f"All copies of {self.isbn} are already in the library")
         self.available_copies += 1
