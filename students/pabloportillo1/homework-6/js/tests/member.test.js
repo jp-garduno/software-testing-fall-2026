@@ -14,3 +14,10 @@ test("member is created with id, name and no borrowed books", () => {
 test("member is a student with a borrow limit of three by default", () => {
   expect([member.category, member.maxBorrowLimit]).toEqual([MemberCategory.STUDENT, 3]);
 });
+
+test.each([
+  ["FACULTY", 5],
+  ["PUBLIC", 2],
+])("%s member can borrow %i books", (category, limit) => {
+  expect(new Member("X001", "Someone", MemberCategory[category]).maxBorrowLimit).toBe(limit);
+});
