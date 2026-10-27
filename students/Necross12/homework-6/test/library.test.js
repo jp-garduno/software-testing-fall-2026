@@ -165,4 +165,22 @@ describe("Biblioteca", () => {
     expect(biblioteca.buscarPorAutor("Tolkien")).toEqual([]);
   });
 
+  test("(inválida) lista vacía cuando no hay libros", () => {
+    expect(biblioteca.librosDisponibles()).toEqual([]);
+  });
+
+  test("lista todos los libros cuando hay copias", () => {
+    biblioteca.agregarLibro(principito);
+    biblioteca.agregarLibro(harry);
+    expect(biblioteca.librosDisponibles()).toEqual([principito, harry]);
+  });
+
+  test("no incluye los libros con todas las copias prestadas", () => {
+    biblioteca.agregarMiembro(pepe);
+    biblioteca.agregarLibro(principito);
+    biblioteca.agregarLibro(harry);
+    biblioteca.pedirLibro(pepe.id, harry.isbn);
+    expect(biblioteca.librosDisponibles()).toEqual([principito]);
+  });
+
 });
