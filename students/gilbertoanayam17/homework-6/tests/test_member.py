@@ -15,3 +15,11 @@ def test_should_start_with_no_borrowed_books():
 
 def test_should_have_default_borrow_limit_of_three():
     assert Member("M1", "Ana Lopez").max_borrow_limit == 3
+
+
+def test_should_record_book_when_added_to_borrowed_books():
+    member = Member("M1", "Ana Lopez")
+
+    member.add_borrowed_book("1234567890")
+
+    assert member.borrowed_books == ["1234567890"]
