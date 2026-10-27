@@ -53,3 +53,6 @@ def test_return_copy_cannot_exceed_total_copies():
 def test_isbn_rejects_invalid_length():
     with pytest.raises(ValueError):
         Book("123456789", "T", "A")        # 9 dígitos
+
+def test_isbn_accepts_13_digits():
+    assert Book("1234567890123", "T", "A").isbn == "1234567890123"
