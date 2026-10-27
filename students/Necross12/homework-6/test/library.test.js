@@ -142,4 +142,13 @@ describe("Biblioteca", () => {
     );
   });
 
+  test("buscar por título devuelve los libros que coinciden", () => {
+    biblioteca.agregarLibro(harry);
+    expect(biblioteca.buscarPorTitulo("Harry")).toEqual([harry]);
+  });
+
+  test("(inválida) buscar por un título que no existe", () => {
+    expect(biblioteca.buscarPorTitulo("Dune")).toEqual([]);
+  });
+
 });
