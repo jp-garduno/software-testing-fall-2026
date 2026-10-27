@@ -54,12 +54,7 @@ class Library:
         member.return_book(isbn)
         book.return_copy()
         self._active_loan(member_id, isbn).returned_on = self._clock()
-        queue = self._queues.get(isbn)
-        if queue:
-            next_member_id = queue.pop(0)
-            self._holds.setdefault(isbn, []).append(next_member_id)
-            if self._notifier is not None:
-                self._notifier.notify_available(self.get_member(next_member_id), book)
+        self._hold_for_next_reserver(book)
 
     def search_by_title(self, title):
         return self._search_text("title", title)
@@ -101,3 +96,12 @@ class Library:
 
     def _free_copies(self, book):
         return book.available_copies - len(self._holds.get(book.isbn, []))
+
+    def _hold_for_next_reserver(self, book):
+        queue = self._queues.get(book.isbn)
+        if not queue:
+            return
+        next_member_id = queue.pop(0)
+        self._holds.setdefault(book.isbn, []).append(next_member_id)
+        if self._notifier is not None:
+            self._notifier.notify_available(self.get_member(next_member_id), book)
