@@ -53,3 +53,9 @@ def test_return_book_not_borrowed_raises():
     member = Member("M001", "Ada Lovelace")
     with pytest.raises(ValueError, match="has not borrowed"):
         member.return_book("1234567890")
+
+
+@pytest.mark.parametrize("name", ["", "  ", None])
+def test_member_without_name_is_rejected(name):
+    with pytest.raises(ValueError):
+        Member("M001", name)
