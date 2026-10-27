@@ -18,8 +18,11 @@ class Library {
 
   #queues;
 
-  constructor({ clock = () => new Date() } = {}) {
+  #notifier;
+
+  constructor({ clock = () => new Date(), notifier = null } = {}) {
     this.#clock = clock;
+    this.#notifier = notifier;
     this.#loans = [];
     this.#queues = new Map();
     this.#books = new Map();
@@ -79,6 +82,10 @@ class Library {
     member.returnBook(isbn);
     book.returnCopy();
     this.#activeLoan(memberId, isbn).returnedOn = this.#clock();
+    const queue = this.#queues.get(isbn) ?? [];
+    if (queue.length > 0) {
+      this.#notifier.notifyAvailable(this.getMember(queue.shift()), book);
+    }
   }
 
   reserveBook(memberId, isbn) {
