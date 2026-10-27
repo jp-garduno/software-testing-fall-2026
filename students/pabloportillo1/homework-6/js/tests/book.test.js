@@ -73,3 +73,7 @@ test("book can be described by genre, year and rating", () => {
 
   expect(book.details).toBe(details);
 });
+
+test.each([-0.1, 5.1])("rating %p outside zero to five is rejected", (rating) => {
+  expect(() => new BookDetails({ rating })).toThrow("Rating must be between 0 and 5");
+});
