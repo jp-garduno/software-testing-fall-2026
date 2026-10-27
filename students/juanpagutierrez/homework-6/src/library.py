@@ -64,6 +64,9 @@ class Library:
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
         self._open_loan(member_id, isbn).returned_on = self._clock()
+        queue = self._reservations.get(isbn)
+        if queue:
+            self._notifier.notify(queue.pop(0), isbn)
 
     def _open_loan(self, member_id, isbn):
         return next(loan for loan in self.get_loans(member_id) if loan.isbn == isbn and loan.is_open)
