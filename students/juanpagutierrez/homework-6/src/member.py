@@ -16,4 +16,4 @@ class Member:
 
     def can_borrow(self):
         """Return True while the member is below the borrow limit."""
-        return True
+        return len(self.borrowed_books) < self.max_borrow_limit
