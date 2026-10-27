@@ -51,3 +51,7 @@ test("returnBook removes the isbn", () => {
 
   expect(member.borrowedBooks).toEqual([]);
 });
+
+test("returning a book that was not borrowed is rejected", () => {
+  expect(() => member.returnBook(ISBNS[0])).toThrow("has not borrowed");
+});
