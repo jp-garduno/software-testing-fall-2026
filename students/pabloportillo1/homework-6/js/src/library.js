@@ -50,6 +50,13 @@ class Library {
     member.addBorrowedBook(isbn);
     book.borrow();
   }
+
+  returnBook(memberId, isbn) {
+    const member = this.getMember(memberId);
+    const book = this.getBook(isbn);
+    member.returnBook(isbn);
+    book.returnCopy();
+  }
 }
 
 module.exports = { Library, NotFoundError };
