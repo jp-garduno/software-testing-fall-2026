@@ -20,3 +20,7 @@ def test_one_dollar_per_day_overdue():
 
 def test_early_return_has_no_fee():
     assert calculate_late_fee(date(2026, 3, 15), date(2026, 3, 10)) == Decimal("0")
+
+
+def test_fee_uses_the_given_daily_rate():
+    assert calculate_late_fee(date(2026, 3, 15), date(2026, 3, 19), Decimal("0.50")) == Decimal("2.00")
