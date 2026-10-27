@@ -79,3 +79,15 @@ def test_copy_held_for_a_reserver_cannot_be_borrowed_by_someone_else(library):
 
     with pytest.raises(ValueError, match="held for another member"):
         library.borrow_book("M003", ISBN)
+
+
+def test_hold_is_released_once_the_reserver_borrows_the_copy(library):
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+    library.borrow_book("M002", ISBN)
+    library.return_book("M002", ISBN)
+
+    library.borrow_book("M003", ISBN)
+
+    assert library.get_member("M003").borrowed_books == [ISBN]
