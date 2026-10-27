@@ -1,5 +1,7 @@
 """Borrowing history reports and lending statistics."""
 
+from collections import Counter
+
 
 def _describe(loan, book):
     if loan.is_open:
@@ -15,3 +17,8 @@ def history_report(member, loans, find_book):
     lines += [_describe(loan, find_book(loan.isbn)) for loan in loans]
     lines.append(f"Total loans: {len(loans)}")
     return lines
+
+
+def most_borrowed_isbn(loans):
+    """Return the ISBN with the most loans; ties go to the one borrowed first."""
+    return Counter(loan.isbn for loan in loans).most_common(1)[0][0]

@@ -4,7 +4,7 @@ from datetime import date
 from decimal import Decimal
 
 from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
-from src.history import history_report
+from src.history import history_report, most_borrowed_isbn
 from src.late_fees import due_date_for
 from src.loan import Loan
 
@@ -91,3 +91,7 @@ class Library:
     def generate_history_report(self, member_id):
         """Return one line per loan ever made to ``member_id``, plus a summary."""
         return history_report(self.get_member(member_id), self.get_loans(member_id), self.get_book)
+
+    def most_borrowed_book(self):
+        """Return the book lent the most times."""
+        return self.get_book(most_borrowed_isbn(self._loans))
