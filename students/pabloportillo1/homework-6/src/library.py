@@ -11,6 +11,7 @@ class Library:
         self._members = {}
         self._loans = []
         self._queues = {}
+        self._holds = {}
 
     def add_book(self, book):
         if book.isbn in self._books:
@@ -36,6 +37,9 @@ class Library:
         member = self.get_member(member_id)
         book = self.get_book(isbn)
         book.ensure_available()
+        held = self._holds.get(isbn, [])
+        if member_id not in held and book.available_copies <= len(held):
+            raise ValueError(f"The copy of '{book.title}' is held for another member")
         member.add_borrowed_book(isbn)
         book.borrow()
         loan = Loan(member_id, isbn, self._clock())
@@ -50,7 +54,9 @@ class Library:
         self._active_loan(member_id, isbn).returned_on = self._clock()
         queue = self._queues.get(isbn)
         if queue:
-            self._notifier.notify_available(self.get_member(queue.pop(0)), book)
+            next_member_id = queue.pop(0)
+            self._holds.setdefault(isbn, []).append(next_member_id)
+            self._notifier.notify_available(self.get_member(next_member_id), book)
 
     def search_by_title(self, title):
         return self._search_text("title", title)
