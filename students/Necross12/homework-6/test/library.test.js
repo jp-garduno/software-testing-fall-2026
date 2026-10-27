@@ -229,4 +229,12 @@ describe("Biblioteca: reservas", () => {
         expect(pepe.notificaciones).toEqual(['El libro "El principito" ya está disponible.']);
     });
 
+    test("(inválida) pedir un libro reservado por otro miembro", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.regresarLibro(gon.id, principito.isbn);
+        expect(() => biblioteca.pedirLibro(ana.id, principito.isbn)).toThrow(
+            "El libro está reservado para otro miembro.",
+        );
+    });
+
 });
