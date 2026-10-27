@@ -45,3 +45,10 @@ def test_most_borrowed_book_is_the_one_with_most_loans(library):
 
 def test_most_borrowed_book_is_none_before_any_loan(library):
     assert library.most_borrowed_book() is None
+
+
+def test_tie_for_most_borrowed_goes_to_the_first_title_alphabetically(library):
+    library.borrow_book("M001", K_AND_R)
+    library.borrow_book("M001", PATTERNS)
+
+    assert library.most_borrowed_book().title == "Design Patterns"
