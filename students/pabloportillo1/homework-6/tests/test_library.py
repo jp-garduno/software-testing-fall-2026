@@ -95,3 +95,9 @@ def test_return_book_puts_the_copy_back_and_clears_the_member(library, book, mem
     library.return_book("M001", "0306406152")
 
     assert (book.available_copies, member.borrowed_books) == (2, [])
+
+
+def test_search_by_title_matches_part_of_the_title_ignoring_case(library, book):
+    library.add_book(Book("0131103628", "The C Programming Language", "Kernighan"))
+
+    assert library.search_by_title("clean") == [book]
