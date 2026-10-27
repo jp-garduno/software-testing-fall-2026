@@ -9,6 +9,7 @@ class Library:
         self._books = {}
         self._members = {}
         self._loans = []
+        self._queues = {}
 
     def add_book(self, book):
         if book.isbn in self._books:
@@ -71,3 +72,9 @@ class Library:
             for loan in self._loans
             if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None
         )
+
+    def reserve_book(self, member_id, isbn):
+        self._queues.setdefault(isbn, []).append(member_id)
+
+    def reservations_for(self, isbn):
+        return list(self._queues.get(isbn, []))
