@@ -83,4 +83,4 @@ class Library:
     def calculate_member_fees(self, member_id):
         """Total late fees ``member_id`` owes as of today."""
         today = self._clock()
-        return sum((calculate_late_fee(loan.due_date, today) for loan in self.get_loans(member_id)), Decimal("0"))
+        return sum((calculate_late_fee(loan.due_date, loan.returned_on or today) for loan in self.get_loans(member_id)), Decimal("0"))
