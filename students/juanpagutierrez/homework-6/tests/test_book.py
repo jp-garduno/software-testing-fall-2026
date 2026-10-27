@@ -65,3 +65,9 @@ def test_isbn_with_non_digit_characters_is_rejected():
 def test_thirteen_digit_isbn_is_accepted():
     book = Book("9780132350884", "Clean Code", "Robert Martin")
     assert book.isbn == "9780132350884"
+
+
+@pytest.mark.parametrize("title", ["", "   ", None])
+def test_book_without_title_is_rejected(title):
+    with pytest.raises(ValueError):
+        Book("1234567890", title, "Robert Martin")
