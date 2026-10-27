@@ -34,12 +34,11 @@ describe("Biblioteca", () => {
     gon = new Member("Gon");
   });
 
-  describe("creación", () => {
+  // funciones iniciales
     test("inicia sin libros ni miembros", () => {
       expect(biblioteca.libros).toEqual([]);
       expect(biblioteca.miembros).toEqual([]);
     });
-  });
 
   test("agregar libro al catálogo", () => {
     biblioteca.agregarLibro(principito);
@@ -63,5 +62,14 @@ describe("Biblioteca", () => {
     expect(() => biblioteca.agregarMiembro(pepe)).toThrow(
       "El miembro ya está registrado.",
     );
+  });
+
+  // funciones especiales
+  test("pedir libro de forma correcta", () => {
+    biblioteca.agregarMiembro(pepe);
+    biblioteca.agregarLibro(corte);
+    expect(biblioteca.pedirLibro(pepe.id, corte.isbn)).toBe(true);
+    expect(pepe.listaLibros).toEqual([corte.isbn]);
+    expect(corte.copiasDisponibles).toBe(0);
   });
 });
