@@ -32,8 +32,12 @@ class Library {
   pedirLibro(idMiembro, isbn) {
     const miembro = this.obtenerMiembroRegistrado(idMiembro);
     const libro = this.obtenerLibroRegistrado(isbn);
+
+    if (!libro.estaDisponible())
+      throw new Error("No hay más libros disponibles");
     if (!miembro.puedePedir())
       throw new Error("El miembro no puede tener más libros que su límite.");
+
     libro.pedir();
     miembro.pedir(isbn);
     return true;
@@ -66,7 +70,11 @@ class Library {
 
     reservarLibro(idMiembro, isbn) {
         const miembro = this.obtenerMiembroRegistrado(idMiembro);
-        this.obtenerLibroRegistrado(isbn);
+        const libro = this.obtenerLibroRegistrado(isbn);
+
+        if (libro.estaDisponible())
+            throw new Error("El libro está disponible, no necesita reserva.");
+
         const cola = this.reservas.get(isbn) ?? [];
         cola.push(miembro.id);
         this.reservas.set(isbn, cola);

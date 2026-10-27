@@ -12,7 +12,7 @@ class Books {
     this.titulo = titulo;
     this.autor = autor;
     this.copias = copias;
-    this.copiasDisponibles = copias;
+    this.copiasDisponibles = disponibles;
   }
 
   estaDisponible() {
