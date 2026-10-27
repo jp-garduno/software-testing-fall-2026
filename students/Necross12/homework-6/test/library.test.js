@@ -151,4 +151,9 @@ describe("Biblioteca", () => {
     expect(biblioteca.buscarPorTitulo("Dune")).toEqual([]);
   });
 
+  test("buscar por título sin distinguir mayúsculas ni coincidencia parcial", () => {
+    biblioteca.agregarLibro(principito);
+    expect(biblioteca.buscarPorTitulo("principito")).toEqual([principito]);
+  });
+
 });
