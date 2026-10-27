@@ -15,4 +15,6 @@ class Book:
         self.available_copies -= 1
 
     def return_copy(self):
+        if self.available_copies == self.total_copies:
+            raise ValueError(f"All copies of '{self.title}' are already in")
         self.available_copies += 1
