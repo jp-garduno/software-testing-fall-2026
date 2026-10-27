@@ -26,3 +26,10 @@ def test_add_borrowed_book_records_the_isbn(member):
     member.add_borrowed_book(ISBNS[0])
 
     assert member.borrowed_books == [ISBNS[0]]
+
+
+def test_member_at_the_limit_cannot_borrow(member):
+    for isbn in ISBNS:
+        member.add_borrowed_book(isbn)
+
+    assert member.can_borrow() is False
