@@ -49,3 +49,9 @@ def test_return_copy_raises_when_all_copies_are_already_in():
     book = Book("1234567890", "Clean Code", "Robert Martin", total_copies=1)
     with pytest.raises(ValueError):
         book.return_copy()
+
+
+@pytest.mark.parametrize("isbn", ["123", "12345678901", "123456789012345"])
+def test_isbn_with_wrong_length_is_rejected(isbn):
+    with pytest.raises(ValueError):
+        Book(isbn, "Clean Code", "Robert Martin")
