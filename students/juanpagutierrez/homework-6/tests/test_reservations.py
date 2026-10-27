@@ -90,4 +90,4 @@ def test_library_without_notifier_still_processes_reservations():
     library.borrow_book("M001", ISBN)
     library.reserve_book("M002", ISBN)
     library.return_book("M001", ISBN)
-    assert library.get_reservation_queue(ISBN) == []
+    assert not library.get_reservation_queue(ISBN)

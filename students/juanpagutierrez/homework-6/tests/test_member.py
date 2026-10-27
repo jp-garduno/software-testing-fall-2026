@@ -12,7 +12,7 @@ def test_member_is_created_with_id_and_name():
 
 
 def test_new_member_has_no_borrowed_books():
-    assert Member("M001", "Ada Lovelace").borrowed_books == []
+    assert not Member("M001", "Ada Lovelace").borrowed_books
 
 
 def test_default_borrow_limit_is_three():
@@ -46,7 +46,7 @@ def test_return_book_removes_it_from_borrowed_books():
     member = Member("M001", "Ada Lovelace")
     member.add_borrowed_book("1234567890")
     member.return_book("1234567890")
-    assert member.borrowed_books == []
+    assert not member.borrowed_books
 
 
 def test_return_book_not_borrowed_raises():
