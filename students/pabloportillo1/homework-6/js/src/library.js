@@ -82,6 +82,10 @@ class Library {
   }
 
   reserveBook(memberId, isbn) {
+    const book = this.getBook(isbn);
+    if (book.isAvailable()) {
+      throw new Error(`'${book.title}' is available, borrow it instead`);
+    }
     if (!this.#queues.has(isbn)) {
       this.#queues.set(isbn, []);
     }
