@@ -91,3 +91,13 @@ def test_hold_is_released_once_the_reserver_borrows_the_copy(library):
     library.borrow_book("M003", ISBN)
 
     assert library.get_member("M003").borrowed_books == [ISBN]
+
+
+def test_book_whose_only_copy_is_held_can_still_be_reserved(library):
+    library.borrow_book("M001", ISBN)
+    library.reserve_book("M002", ISBN)
+    library.return_book("M001", ISBN)
+
+    library.reserve_book("M003", ISBN)
+
+    assert library.reservations_for(ISBN) == ["M003"]
