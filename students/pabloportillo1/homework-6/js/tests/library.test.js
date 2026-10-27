@@ -3,10 +3,19 @@ const { Member } = require("../src/member");
 const { Library, NotFoundError } = require("../src/library");
 
 let library;
+let book;
+let member;
 
 beforeEach(() => {
   library = new Library();
 });
+
+function stock() {
+  book = new Book("0306406152", "Clean Code", "Robert Martin", 2);
+  member = new Member("M001", "Ada Lovelace");
+  library.addBook(book);
+  library.registerMember(member);
+}
 
 test("added book can be looked up by isbn", () => {
   const book = new Book("0306406152", "Clean Code", "Robert Martin");
@@ -42,4 +51,12 @@ test("registering an existing member id is rejected", () => {
 
 test("looking up an unknown member throws a not found error", () => {
   expect(() => library.getMember("M404")).toThrow(new NotFoundError("No member with id M404"));
+});
+
+test("borrowBook takes a copy and records it on the member", () => {
+  stock();
+
+  library.borrowBook("M001", "0306406152");
+
+  expect([book.availableCopies, member.borrowedBooks]).toEqual([1, ["0306406152"]]);
 });
