@@ -60,3 +60,11 @@ def test_faculty_pays_half_the_daily_late_fee(library, clock):
     clock.advance(18)
 
     assert library.calculate_late_fees("F001") == 200
+
+
+def test_public_member_pays_one_fifty_per_day(library, clock):
+    library.register_member(Member("P001", "Alan Turing", MemberCategory.PUBLIC))
+    library.borrow_book("P001", "0306406152")
+    clock.advance(16)
+
+    assert library.calculate_late_fees("P001") == 300
