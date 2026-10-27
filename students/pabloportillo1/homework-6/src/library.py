@@ -86,10 +86,10 @@ class Library:
         return [loan for loan in self._loans if loan.member_id == member_id]
 
     def most_borrowed_book(self):
-        counts = Counter(loan.isbn for loan in self._loans).most_common(1)
+        counts = Counter(loan.isbn for loan in self._loans)
         if not counts:
             return None
-        return self._books[counts[0][0]]
+        return min((self._books[isbn] for isbn in counts), key=lambda book: (-counts[book.isbn], book.title))
 
     def _active_loan(self, member_id, isbn):
         return next(
