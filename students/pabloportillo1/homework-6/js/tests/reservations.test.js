@@ -66,3 +66,15 @@ test("copy held for a reserver cannot be borrowed by someone else", () => {
 
   expect(() => library.borrowBook("M003", ISBN)).toThrow("held for another member");
 });
+
+test("hold is released once the reserver borrows the copy", () => {
+  library.borrowBook("M001", ISBN);
+  library.reserveBook("M002", ISBN);
+  library.returnBook("M001", ISBN);
+  library.borrowBook("M002", ISBN);
+  library.returnBook("M002", ISBN);
+
+  library.borrowBook("M003", ISBN);
+
+  expect(library.getMember("M003").borrowedBooks).toEqual([ISBN]);
+});
