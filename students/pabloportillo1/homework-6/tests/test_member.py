@@ -69,3 +69,7 @@ def test_member_category_defaults_to_student(member):
 
 def test_faculty_member_can_borrow_five_books():
     assert Member("F001", "Donald Knuth", MemberCategory.FACULTY).max_borrow_limit == 5
+
+
+def test_public_member_can_borrow_two_books():
+    assert Member("P001", "Alan Turing", MemberCategory.PUBLIC).max_borrow_limit == 2
