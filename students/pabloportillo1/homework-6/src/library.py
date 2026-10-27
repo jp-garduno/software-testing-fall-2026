@@ -38,7 +38,7 @@ class Library:
         book = self.get_book(isbn)
         book.ensure_available()
         held = self._holds.get(isbn, [])
-        if member_id not in held and book.available_copies <= len(held):
+        if member_id not in held and self._free_copies(book) == 0:
             raise ValueError(f"The copy of '{book.title}' is held for another member")
         member.add_borrowed_book(isbn)
         book.borrow()
@@ -88,7 +88,7 @@ class Library:
     def reserve_book(self, member_id, isbn):
         self.get_member(member_id)
         book = self.get_book(isbn)
-        if book.available_copies > len(self._holds.get(isbn, [])):
+        if self._free_copies(book) > 0:
             raise ValueError(f"'{book.title}' is available, borrow it instead")
         queue = self._queues.setdefault(isbn, [])
         if member_id in queue:
@@ -97,3 +97,6 @@ class Library:
 
     def reservations_for(self, isbn):
         return list(self._queues.get(isbn, []))
+
+    def _free_copies(self, book):
+        return book.available_copies - len(self._holds.get(book.isbn, []))
