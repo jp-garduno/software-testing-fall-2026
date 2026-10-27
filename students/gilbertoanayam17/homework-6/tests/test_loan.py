@@ -30,3 +30,9 @@ def test_should_count_days_past_due_date_as_overdue(on_date, expected_days):
     loan = Loan("M1", "1234567890", BORROWED_ON)
 
     assert loan.days_overdue(on_date) == expected_days
+
+
+def test_should_charge_one_dollar_per_overdue_day():
+    loan = Loan("M1", "1234567890", BORROWED_ON)
+
+    assert loan.late_fee(date(2026, 1, 18)) == 3.0
