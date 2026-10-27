@@ -87,3 +87,12 @@ def test_should_remove_book_from_member_when_returned():
     library.return_book("M1", ISBN)
 
     assert not library.get_member("M1").borrowed_books
+
+
+def test_should_find_books_by_partial_title_ignoring_case():
+    library = make_library()
+    library.add_book(Book("9780135957059", "The Pragmatic Programmer", "David Thomas"))
+
+    found = library.search_by_title("clean")
+
+    assert [book.isbn for book in found] == [ISBN]
