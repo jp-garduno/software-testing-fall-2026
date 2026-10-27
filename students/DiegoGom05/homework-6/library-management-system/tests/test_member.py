@@ -15,3 +15,6 @@ def test_add_borrowed_book_stores_isbn():
     m = Member("m1", "Ana")
     m.add_borrowed_book("1234567890")
     assert m.borrowed_books == ["1234567890"]
+
+def test_can_borrow_when_under_limit():
+    assert Member("m1", "Ana").can_borrow() is True
