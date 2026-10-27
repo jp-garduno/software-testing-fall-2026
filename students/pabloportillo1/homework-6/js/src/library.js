@@ -16,9 +16,12 @@ class Library {
 
   #loans;
 
+  #queues;
+
   constructor({ clock = () => new Date() } = {}) {
     this.#clock = clock;
     this.#loans = [];
+    this.#queues = new Map();
     this.#books = new Map();
     this.#members = new Map();
   }
@@ -76,6 +79,17 @@ class Library {
     member.returnBook(isbn);
     book.returnCopy();
     this.#activeLoan(memberId, isbn).returnedOn = this.#clock();
+  }
+
+  reserveBook(memberId, isbn) {
+    if (!this.#queues.has(isbn)) {
+      this.#queues.set(isbn, []);
+    }
+    this.#queues.get(isbn).push(memberId);
+  }
+
+  reservationsFor(isbn) {
+    return [...(this.#queues.get(isbn) ?? [])];
   }
 
   #activeLoan(memberId, isbn) {
