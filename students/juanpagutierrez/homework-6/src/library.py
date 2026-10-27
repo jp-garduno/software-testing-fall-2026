@@ -12,8 +12,10 @@ from src.loan import Loan
 class Library:
     """Coordinates books and members."""
 
-    def __init__(self, clock=date.today):
+    def __init__(self, clock=date.today, notifier=None):
         self._clock = clock
+        self._notifier = notifier
+        self._reservations = {}
         self._books = {}
         self._members = {}
         self._loans = []
@@ -100,3 +102,11 @@ class Library:
     def borrow_count(self, isbn):
         """How many times ``isbn`` has been lent, returned or not."""
         return sum(1 for loan in self._loans if loan.isbn == isbn)
+
+    def reserve_book(self, member_id, isbn):
+        """Put ``member_id`` in line for the next free copy of ``isbn``."""
+        self._reservations.setdefault(isbn, []).append(member_id)
+
+    def get_reservation_queue(self, isbn):
+        """Member ids waiting for ``isbn``, first in line first."""
+        return list(self._reservations.get(isbn, []))
