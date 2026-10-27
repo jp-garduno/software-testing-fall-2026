@@ -43,6 +43,7 @@ class Library {
           throw new Error("El libro está reservado para otro miembro.");
     libro.pedir();
     miembro.pedir(isbn);
+      this.reservas.set(isbn, this.obtenerReservas(isbn).filter((id) => id !== miembro.id));
     return true;
   }
 
