@@ -27,3 +27,12 @@ test("overdue loan costs one dollar per day", () => {
 
   expect(library.calculateLateFees("M001")).toBe(300);
 });
+
+test("late fee stops growing once the book is returned", () => {
+  library.borrowBook("M001", ISBN);
+  clock.advance(16);
+  library.returnBook("M001", ISBN);
+  clock.advance(10);
+
+  expect(library.calculateLateFees("M001")).toBe(200);
+});
