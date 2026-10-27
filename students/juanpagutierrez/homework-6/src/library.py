@@ -50,8 +50,12 @@ class Library:
 
     def search_by_title(self, title):
         """Return books whose title contains ``title`` (case-insensitive)."""
-        return [book for book in self._books.values() if title.lower() in book.title.lower()]
+        return self._search(title, lambda book: book.title)
 
     def search_by_author(self, author):
         """Return books whose author contains ``author`` (case-insensitive)."""
-        return [book for book in self._books.values() if author.lower() in book.author.lower()]
+        return self._search(author, lambda book: book.author)
+
+    def _search(self, text, field):
+        needle = text.lower()
+        return [book for book in self._books.values() if needle in field(book).lower()]
