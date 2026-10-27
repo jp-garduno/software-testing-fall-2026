@@ -12,9 +12,19 @@ function validate(isbn, title, totalCopies) {
   }
 }
 
+class BookDetails {
+  constructor({ genre = null, year = null, rating = null } = {}) {
+    this.genre = genre;
+    this.year = year;
+    this.rating = rating;
+    Object.freeze(this);
+  }
+}
+
 class Book {
-  constructor(isbn, title, author, totalCopies = 1) {
+  constructor(isbn, title, author, totalCopies = 1, details = new BookDetails()) {
     validate(isbn, title, totalCopies);
+    this.details = details;
     this.isbn = isbn;
     this.title = title;
     this.author = author;
@@ -45,4 +55,4 @@ class Book {
   }
 }
 
-module.exports = { Book };
+module.exports = { Book, BookDetails };
