@@ -12,3 +12,7 @@ test("book is created with isbn, title and author", () => {
 test("book starts with every copy available", () => {
   expect(makeBook(5).availableCopies).toBe(5);
 });
+
+test("book with copies is available", () => {
+  expect(makeBook(1).isAvailable()).toBe(true);
+});
