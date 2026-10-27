@@ -21,3 +21,8 @@ def test_member_defaults_to_student_category():
 
 def test_faculty_pays_half_the_standard_daily_late_fee():
     assert MemberCategory.FACULTY.daily_late_fee == Decimal("0.50")
+
+
+def test_explicit_borrow_limit_overrides_the_category_default():
+    member = Member("P001", "Joan Clarke", max_borrow_limit=4, category=MemberCategory.PUBLIC)
+    assert member.max_borrow_limit == 4
