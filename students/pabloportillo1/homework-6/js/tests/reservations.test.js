@@ -99,3 +99,20 @@ test("copy is held even without a notifier", () => {
 
   expect(() => quiet.borrowBook("M003", ISBN)).toThrow("held for another member");
 });
+
+test("book nobody reserved has an empty queue", () => {
+  expect(library.reservationsFor(ISBN)).toEqual([]);
+});
+
+test("two returned copies are held for the first two reservers", () => {
+  library.addBook(new Book("0131103628", "The C Programming Language", "Brian Kernighan", 2));
+  ["M004", "M005"].forEach((memberId) => library.registerMember(new Member(memberId, `Member ${memberId}`)));
+  library.borrowBook("M001", "0131103628");
+  library.borrowBook("M002", "0131103628");
+  library.reserveBook("M003", "0131103628");
+  library.reserveBook("M004", "0131103628");
+  library.returnBook("M001", "0131103628");
+  library.returnBook("M002", "0131103628");
+
+  expect(() => library.borrowBook("M005", "0131103628")).toThrow("held for another member");
+});

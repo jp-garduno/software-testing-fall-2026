@@ -114,3 +114,23 @@ def test_copy_is_held_even_without_a_notifier(clock):
 
     with pytest.raises(ValueError, match="held for another member"):
         library.borrow_book("M003", ISBN)
+
+
+def test_book_nobody_reserved_has_an_empty_queue(library):
+    assert library.reservations_for(ISBN) == []
+
+
+def test_two_returned_copies_are_held_for_the_first_two_reservers(library):
+    other = "0131103628"
+    library.add_book(Book(other, "The C Programming Language", "Brian Kernighan", total_copies=2))
+    for member_id in ("M004", "M005"):
+        library.register_member(Member(member_id, f"Member {member_id}"))
+    library.borrow_book("M001", other)
+    library.borrow_book("M002", other)
+    library.reserve_book("M003", other)
+    library.reserve_book("M004", other)
+    library.return_book("M001", other)
+    library.return_book("M002", other)
+
+    with pytest.raises(ValueError, match="held for another member"):
+        library.borrow_book("M005", other)
