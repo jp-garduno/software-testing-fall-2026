@@ -23,6 +23,8 @@ class Library {
       throw new Error("El miembro no está registrado.");
     if (!libro)
       throw new Error("El libro no está registrado.");
+    if (!miembro.puedePedir())
+      throw new Error("El miembro no puede tener más libros que su límite.");
     libro.pedir();
     miembro.pedir(isbn);
     return true;
