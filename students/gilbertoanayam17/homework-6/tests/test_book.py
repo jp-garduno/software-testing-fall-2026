@@ -61,3 +61,9 @@ def test_should_raise_error_when_returning_copy_that_was_not_borrowed():
 
     with pytest.raises(errors.InvalidReturnError):
         book.return_copy()
+
+
+@pytest.mark.parametrize("isbn", ["123456789", "12345678901", ""])
+def test_should_reject_isbn_with_invalid_length(isbn):
+    with pytest.raises(ValueError, match="ISBN"):
+        Book(isbn, "Clean Code", "Robert C. Martin")
