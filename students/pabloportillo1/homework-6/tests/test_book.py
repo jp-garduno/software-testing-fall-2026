@@ -89,3 +89,9 @@ def test_book_can_be_described_by_genre_year_and_rating():
     book = Book(ISBN, "Clean Code", "Robert Martin", details=details)
 
     assert book.details == details
+
+
+@pytest.mark.parametrize("rating", [-0.1, 5.1])
+def test_rating_outside_zero_to_five_is_rejected(rating):
+    with pytest.raises(ValueError, match="Rating must be between 0 and 5"):
+        BookDetails(rating=rating)
