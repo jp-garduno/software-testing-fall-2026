@@ -42,6 +42,13 @@ class Library {
     }
     return this.#members.get(memberId);
   }
+
+  borrowBook(memberId, isbn) {
+    const member = this.getMember(memberId);
+    const book = this.getBook(isbn);
+    member.addBorrowedBook(isbn);
+    book.borrow();
+  }
 }
 
 module.exports = { Library, NotFoundError };
