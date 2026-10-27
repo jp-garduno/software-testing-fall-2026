@@ -31,3 +31,9 @@ def library_fixture(notifier):
 def test_member_can_reserve_an_unavailable_book(library):
     library.reserve_book("M002", ISBN)
     assert library.get_reservation_queue(ISBN) == ["M002"]
+
+
+def test_reservations_are_kept_in_first_come_first_served_order(library):
+    library.reserve_book("M003", ISBN)
+    library.reserve_book("M002", ISBN)
+    assert library.get_reservation_queue(ISBN) == ["M003", "M002"]
