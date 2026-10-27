@@ -166,8 +166,10 @@ class Library {
     if (counts.size === 0) {
       return null;
     }
-    const [isbn] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
-    return this.#books.get(isbn);
+    const ranked = [...counts.keys()]
+      .map((isbn) => this.#books.get(isbn))
+      .sort((a, b) => counts.get(b.isbn) - counts.get(a.isbn) || a.title.localeCompare(b.title));
+    return ranked[0];
   }
 
   #freeCopies(book) {
