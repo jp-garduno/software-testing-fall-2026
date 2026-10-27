@@ -11,7 +11,14 @@ class Book {
     return this.availableCopies > 0;
   }
 
+  ensureAvailable() {
+    if (!this.isAvailable()) {
+      throw new Error(`No copies available for '${this.title}'`);
+    }
+  }
+
   borrow() {
+    this.ensureAvailable();
     this.availableCopies -= 1;
   }
 }
