@@ -20,3 +20,10 @@ test("loan is due fourteen days after borrowing", () => {
 
   expect(loan.dueOn).toEqual(new Date("2026-10-15T00:00:00Z"));
 });
+
+test("overdue loan costs one dollar per day", () => {
+  library.borrowBook("M001", ISBN);
+  clock.advance(17);
+
+  expect(library.calculateLateFees("M001")).toBe(300);
+});
