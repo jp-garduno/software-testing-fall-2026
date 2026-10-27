@@ -9,6 +9,10 @@ class BookDetails:
     year: int | None = None
     rating: float | None = None
 
+    def __post_init__(self):
+        if self.rating is not None and not 0 <= self.rating <= 5:
+            raise ValueError("Rating must be between 0 and 5")
+
 
 class Book:
     def __init__(self, isbn, title, author, total_copies=1, *, details=None):  # pylint: disable=too-many-arguments
