@@ -93,10 +93,17 @@ class Library {
     member.returnBook(isbn);
     book.returnCopy();
     this.#activeLoan(memberId, isbn).returnedOn = this.#clock();
-    const queue = this.#queues.get(isbn) ?? [];
-    if (queue.length > 0) {
-      const nextMemberId = queue.shift();
-      this.#holds.set(isbn, [...(this.#holds.get(isbn) ?? []), nextMemberId]);
+    this.#holdForNextReserver(book);
+  }
+
+  #holdForNextReserver(book) {
+    const queue = this.#queues.get(book.isbn) ?? [];
+    if (queue.length === 0) {
+      return;
+    }
+    const nextMemberId = queue.shift();
+    this.#holds.set(book.isbn, [...(this.#holds.get(book.isbn) ?? []), nextMemberId]);
+    if (this.#notifier !== null) {
       this.#notifier.notifyAvailable(this.getMember(nextMemberId), book);
     }
   }
