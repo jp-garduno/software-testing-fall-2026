@@ -2,6 +2,7 @@ import pytest
 
 from book import Book
 from library import Library
+from member import Member
 
 
 @pytest.fixture(name="library")
@@ -22,3 +23,11 @@ def test_adding_a_book_with_an_existing_isbn_is_rejected(library):
 
     with pytest.raises(ValueError, match="already in the catalog"):
         library.add_book(Book("0306406152", "Another Title", "Someone Else"))
+
+
+def test_registered_member_can_be_looked_up_by_id(library):
+    member = Member("M001", "Ada Lovelace")
+
+    library.register_member(member)
+
+    assert library.get_member("M001") is member
