@@ -15,6 +15,14 @@ class Library {
       throw new Error("El miembro ya está registrado.");
     this.miembros.push(miembro);
   }
+
+  pedirLibro(idMiembro, isbn) {
+    const miembro = this.miembros.find((m) => m.id === idMiembro);
+    const libro = this.libros.find((l) => l.isbn === isbn);
+    libro.pedir();
+    miembro.pedir(isbn);
+    return true;
+  }
 }
 
 module.exports = { Library };
