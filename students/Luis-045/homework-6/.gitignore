@@ -4,3 +4,7 @@ __pycache__/
 .coverage
 .coverage.*
 htmlcov/
+/coverage.json
+/python-results.xml
+/python-test-output.txt
+/pip-install-output.txt

@@ -10,4 +10,4 @@ precision = 2
 directory = coverage
 
 [json]
-output = coverage/coverage.json
+output = coverage.json

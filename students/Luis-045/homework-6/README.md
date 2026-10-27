@@ -122,3 +122,11 @@ git show ebbfcd5
 ```
 
 Los commits de código y documentación tienen entre 2 y 20 líneas modificadas. El reporte HTML y sus recursos se incorporan como un artefacto generado en un commit separado de mayor tamaño. No se modifican los hooks heredados ni las configuraciones compartidas; para los mensajes TDD se omite únicamente el validador de Conventional Commits, incompatible con las etiquetas exigidas por este enunciado.
+
+## Compatibilidad con el calificador
+
+El comando del workflow usa `--cov-report=json` y después lee `coverage.json` en la raíz de esta entrega. Ese es ahora el destino JSON predeterminado de `.coveragerc`; el archivo temporal y los logs de CI se excluyen de Git.
+
+El comando de reproducción de cobertura documentado arriba solicita explícitamente `coverage/coverage.json`, por lo que sigue actualizando el reporte incluido junto al HTML.
+
+La configuración local de ESLint hereda las reglas de la clase y excluye `coverage/**`, que contiene JavaScript de terceros generado por coverage.py. La propia configuración sí se revisa. No se modifican ni se silencian reglas para el código fuente de la entrega.
