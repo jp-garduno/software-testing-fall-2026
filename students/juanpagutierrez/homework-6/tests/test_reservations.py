@@ -44,3 +44,9 @@ def test_reserving_a_book_with_copies_on_the_shelf_raises(library):
     library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
     with pytest.raises(ReservationError):
         library.reserve_book("M002", "0987654321")
+
+
+def test_member_cannot_reserve_the_same_book_twice(library):
+    library.reserve_book("M002", ISBN)
+    with pytest.raises(ReservationError):
+        library.reserve_book("M002", ISBN)
