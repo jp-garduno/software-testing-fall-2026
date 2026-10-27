@@ -6,6 +6,10 @@ class Book {
     this.totalCopies = totalCopies;
     this.availableCopies = totalCopies;
   }
+
+  isAvailable() {
+    return true;
+  }
 }
 
 module.exports = { Book };
