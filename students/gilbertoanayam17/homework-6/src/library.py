@@ -12,6 +12,7 @@ class Library:
         self._books = {}
         self._members = {}
         self._loans = []
+        self._fees_owed = {}
         self._clock = clock
 
     def add_book(self, book):
@@ -47,6 +48,9 @@ class Library:
         """Take back a member's copy of a book."""
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
+        loan = next(loan for loan in self._loans if (loan.member_id, loan.isbn) == (member_id, isbn))
+        self._loans.remove(loan)
+        self._fees_owed[member_id] = self._fees_owed.get(member_id, 0) + loan.late_fee(self._clock())
 
     def search_by_title(self, title):
         """Return the books whose title contains `title`, ignoring case."""
@@ -68,4 +72,5 @@ class Library:
     def calculate_late_fees(self, member_id):
         """Return the late fees a member owes."""
         today = self._clock()
-        return sum(loan.late_fee(today) for loan in self._loans if loan.member_id == member_id)
+        accruing = sum(loan.late_fee(today) for loan in self._loans if loan.member_id == member_id)
+        return self._fees_owed.get(member_id, 0) + accruing
