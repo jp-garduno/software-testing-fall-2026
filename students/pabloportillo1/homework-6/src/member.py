@@ -7,3 +7,6 @@ class Member:
 
     def can_borrow(self):
         return True
+
+    def add_borrowed_book(self, isbn):
+        self.borrowed_books.append(isbn)
