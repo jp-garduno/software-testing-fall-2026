@@ -1,6 +1,10 @@
 """Tests for Book: catalog data, copy tracking and validation."""
 
+import pytest
+
+from src import errors
 from src.book import Book
+
 
 ISBN = "1234567890"
 
@@ -34,3 +38,10 @@ def test_should_decrease_available_copies_when_borrowed():
     book.borrow()
 
     assert book.available_copies == 1
+
+
+def test_should_raise_error_when_borrowing_unavailable_book():
+    book = make_book(copies=0)
+
+    with pytest.raises(errors.BookNotAvailableError):
+        book.borrow()
