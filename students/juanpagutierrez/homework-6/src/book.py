@@ -13,4 +13,4 @@ class Book:
 
     def is_available(self):
         """Return True while at least one copy is on the shelf."""
-        return True
+        return self.available_copies > 0
