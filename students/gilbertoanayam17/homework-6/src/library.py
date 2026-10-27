@@ -38,3 +38,7 @@ class Library:
         member.ensure_can_borrow()
         self.get_book(isbn).borrow()
         member.add_borrowed_book(isbn)
+
+    def return_book(self, member_id, isbn):
+        """Take back a member's copy of a book."""
+        self.get_book(isbn).return_copy()
