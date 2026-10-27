@@ -12,7 +12,7 @@ def due_date_for(borrowed_on):
     return borrowed_on + LOAN_PERIOD
 
 
-def calculate_late_fee(due_date, returned_on):
+def calculate_late_fee(due_date, returned_on, daily_rate=STANDARD_DAILY_FEE):
     """Return the fee owed for a copy due on ``due_date`` and returned on ``returned_on``."""
     days_late = max((returned_on - due_date).days, 0)
-    return days_late * STANDARD_DAILY_FEE
+    return days_late * daily_rate
