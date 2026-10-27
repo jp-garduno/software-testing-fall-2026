@@ -47,12 +47,7 @@ class Library:
         book = self.get_book(isbn)
         member.return_book(isbn)
         book.return_copy()
-        loan = next(
-            loan
-            for loan in self._loans
-            if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None
-        )
-        loan.returned_on = self._clock()
+        self._active_loan(member_id, isbn).returned_on = self._clock()
 
     def search_by_title(self, title):
         return self._search_text("title", title)
@@ -71,4 +66,11 @@ class Library:
         today = self._clock()
         return sum(
             loan.days_overdue(today) * DAILY_LATE_FEE_CENTS for loan in self._loans if loan.member_id == member_id
+        )
+
+    def _active_loan(self, member_id, isbn):
+        return next(
+            loan
+            for loan in self._loans
+            if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None
         )
