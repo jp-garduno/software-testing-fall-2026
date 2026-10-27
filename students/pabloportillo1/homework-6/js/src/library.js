@@ -14,8 +14,11 @@ class Library {
 
   #clock;
 
+  #loans;
+
   constructor({ clock = () => new Date() } = {}) {
     this.#clock = clock;
+    this.#loans = [];
     this.#books = new Map();
     this.#members = new Map();
   }
@@ -54,7 +57,14 @@ class Library {
     book.ensureAvailable();
     member.addBorrowedBook(isbn);
     book.borrow();
-    return new Loan(memberId, isbn, this.#clock());
+    const loan = new Loan(memberId, isbn, this.#clock());
+    this.#loans.push(loan);
+    return loan;
+  }
+
+  calculateLateFees() {
+    const today = this.#clock();
+    return this.#loans.reduce((total, loan) => total + loan.daysOverdue(today) * 100, 0);
   }
 
   returnBook(memberId, isbn) {

@@ -8,6 +8,10 @@ class Loan {
     this.borrowedOn = borrowedOn;
     this.dueOn = new Date(borrowedOn.getTime() + LOAN_DAYS * DAY_MS);
   }
+
+  daysOverdue(today) {
+    return Math.max(0, Math.round((today - this.dueOn) / DAY_MS));
+  }
 }
 
 module.exports = { Loan };
