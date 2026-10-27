@@ -1,5 +1,7 @@
 """Book entity of the library catalog."""
 
+from src.exceptions import BookUnavailableError
+
 
 class Book:
     """A title in the catalog, with one or more physical copies."""
@@ -17,4 +19,6 @@ class Book:
 
     def borrow(self):
         """Take one copy off the shelf."""
+        if not self.is_available():
+            raise BookUnavailableError(f"No copies of {self.isbn} are available")
         self.available_copies -= 1
