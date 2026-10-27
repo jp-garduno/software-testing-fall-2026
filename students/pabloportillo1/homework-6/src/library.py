@@ -40,3 +40,7 @@ class Library:
     def search_by_title(self, title):
         wanted = title.casefold()
         return [book for book in self._books.values() if wanted in book.title.casefold()]
+
+    def search_by_author(self, author):
+        wanted = author.casefold()
+        return [book for book in self._books.values() if wanted in book.author.casefold()]
