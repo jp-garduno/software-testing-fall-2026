@@ -80,7 +80,8 @@ class Library:
         if queue:
             next_member = queue.pop(0)
             self._holds.setdefault(isbn, []).append(next_member)
-            self._notifier.notify(next_member, isbn)
+            if self._notifier is not None:
+                self._notifier.notify(next_member, isbn)
 
     def _open_loan(self, member_id, isbn):
         return next(loan for loan in self.get_loans(member_id) if loan.isbn == isbn and loan.is_open)
