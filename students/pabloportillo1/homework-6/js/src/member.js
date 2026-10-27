@@ -28,6 +28,9 @@ class Member {
   }
 
   returnBook(isbn) {
+    if (!this.borrowedBooks.includes(isbn)) {
+      throw new Error(`${this.name} has not borrowed ${isbn}`);
+    }
     this.borrowedBooks = this.borrowedBooks.filter((held) => held !== isbn);
   }
 }
