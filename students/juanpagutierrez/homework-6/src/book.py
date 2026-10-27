@@ -17,6 +17,11 @@ def _validate_copies(total_copies):
         raise ValueError("Total copies cannot be negative")
 
 
+def _validate_rating(rating):
+    if rating is not None and not 0 <= rating <= 5:
+        raise ValueError("Rating must be between 0 and 5")
+
+
 class Book:
     """A title in the catalog, with one or more physical copies."""
 
@@ -24,6 +29,7 @@ class Book:
         _validate_isbn(isbn)
         require_text(title, "Title")
         _validate_copies(total_copies)
+        _validate_rating(rating)
         self.isbn = isbn
         self.title = title
         self.author = author
