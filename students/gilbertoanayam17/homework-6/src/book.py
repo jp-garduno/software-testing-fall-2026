@@ -7,7 +7,7 @@ class Book:
     """A catalog entry whose copies can be lent out."""
 
     def __init__(self, isbn, title, author, copies=1):
-        if len(isbn) not in (10, 13):
+        if len(isbn) not in (10, 13) or not isbn.isdigit():
             raise ValueError("ISBN must have 10 or 13 digits")
 
         self.isbn = isbn
