@@ -1,9 +1,19 @@
+from dataclasses import dataclass
+
 ISBN_LENGTHS = (10, 13)
 
 
+@dataclass(frozen=True)
+class BookDetails:
+    genre: str | None = None
+    year: int | None = None
+    rating: float | None = None
+
+
 class Book:
-    def __init__(self, isbn, title, author, total_copies=1):
+    def __init__(self, isbn, title, author, total_copies=1, *, details=None):  # pylint: disable=too-many-arguments
         self._validate(isbn, title, total_copies)
+        self.details = details or BookDetails()
         self.isbn = isbn
         self.title = title
         self.author = author
