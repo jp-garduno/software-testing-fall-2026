@@ -1,23 +1,28 @@
+import pytest
+
 from member import Member
 
+ISBNS = ["0306406152", "0131103628", "0201633612"]
 
-def test_member_is_created_with_id_name_and_no_books():
-    member = Member("M001", "Ada Lovelace")
 
+@pytest.fixture(name="member")
+def fixture_member():
+    return Member("M001", "Ada Lovelace")
+
+
+def test_member_is_created_with_id_name_and_no_books(member):
     assert (member.member_id, member.name, member.borrowed_books) == ("M001", "Ada Lovelace", [])
 
 
-def test_member_borrow_limit_defaults_to_three():
-    assert Member("M001", "Ada Lovelace").max_borrow_limit == 3
+def test_member_borrow_limit_defaults_to_three(member):
+    assert member.max_borrow_limit == 3
 
 
-def test_new_member_can_borrow():
-    assert Member("M001", "Ada Lovelace").can_borrow() is True
+def test_new_member_can_borrow(member):
+    assert member.can_borrow() is True
 
 
-def test_add_borrowed_book_records_the_isbn():
-    member = Member("M001", "Ada Lovelace")
+def test_add_borrowed_book_records_the_isbn(member):
+    member.add_borrowed_book(ISBNS[0])
 
-    member.add_borrowed_book("0306406152")
-
-    assert member.borrowed_books == ["0306406152"]
+    assert member.borrowed_books == [ISBNS[0]]
