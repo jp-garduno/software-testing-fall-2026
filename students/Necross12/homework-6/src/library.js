@@ -38,6 +38,9 @@ class Library {
     if (!miembro.puedePedir())
       throw new Error("El miembro no puede tener más libros que su límite.");
 
+      const [primero] = this.obtenerReservas(isbn);
+      if (primero !== undefined && primero !== miembro.id)
+          throw new Error("El libro está reservado para otro miembro.");
     libro.pedir();
     miembro.pedir(isbn);
     return true;
