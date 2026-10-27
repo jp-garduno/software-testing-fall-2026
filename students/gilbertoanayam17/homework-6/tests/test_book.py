@@ -19,3 +19,9 @@ def test_should_be_available_when_copies_exist():
     book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=1)
 
     assert book.is_available()
+
+
+def test_should_not_be_available_when_no_copies_exist():
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=0)
+
+    assert not book.is_available()
