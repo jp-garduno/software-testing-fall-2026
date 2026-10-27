@@ -21,3 +21,9 @@ def test_book_is_available_when_copies_exist():
 def test_book_is_not_available_when_no_copies():
     book = Book("1234567890", "Clean Code", "Robert Martin", total_copies=0)
     assert book.is_available() is False
+
+
+def test_borrow_decrements_available_copies():
+    book = Book("1234567890", "Clean Code", "Robert Martin", total_copies=2)
+    book.borrow()
+    assert book.available_copies == 1
