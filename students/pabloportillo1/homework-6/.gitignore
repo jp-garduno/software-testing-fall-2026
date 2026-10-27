@@ -3,6 +3,6 @@ __pycache__/
 .pytest_cache/
 .coverage
 coverage.json
-htmlcov/
-coverage/
+/htmlcov/
+/coverage/
 node_modules/
