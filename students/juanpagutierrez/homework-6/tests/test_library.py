@@ -82,3 +82,9 @@ def test_failed_borrow_of_unavailable_book_leaves_member_unchanged(library):
     with pytest.raises(BookUnavailableError):
         library.borrow_book("M002", ISBN)
     assert library.get_member("M002").borrowed_books == []
+
+
+def test_return_book_puts_the_copy_back_on_the_shelf(library):
+    library.borrow_book(MEMBER_ID, ISBN)
+    library.return_book(MEMBER_ID, ISBN)
+    assert library.get_book(ISBN).available_copies == 1
