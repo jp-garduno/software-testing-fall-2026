@@ -13,3 +13,7 @@ def test_should_limit_public_members_to_two_books():
     member = Member("P1", "Eva Ruiz", category=MemberCategory.PUBLIC)
 
     assert member.max_borrow_limit == 2
+
+
+def test_should_treat_members_as_students_by_default():
+    assert Member("S1", "Ana Lopez").category is MemberCategory.STUDENT
