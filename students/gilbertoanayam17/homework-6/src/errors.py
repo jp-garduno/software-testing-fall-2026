@@ -27,3 +27,7 @@ class MemberNotFoundError(LibraryError):
 
 class BookAvailableError(LibraryError):
     """Raised when reserving a book that still has copies on the shelf."""
+
+
+class BookReservedError(LibraryError):
+    """Raised when a returned copy is being held for another member."""

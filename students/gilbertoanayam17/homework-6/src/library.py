@@ -42,6 +42,10 @@ class Library:
         """Lend one copy of a book to a member."""
         member = self.get_member(member_id)
         member.ensure_can_borrow()
+        waiting = self._reservations.get(isbn)
+        if waiting and waiting[0] != member_id:
+            raise errors.BookReservedError(f"'{isbn}' is being held for member {waiting[0]}")
+
         self.get_book(isbn).borrow()
         member.add_borrowed_book(isbn)
         self._loans.append(Loan(member_id, isbn, self._clock(), member.category.daily_late_fee))
