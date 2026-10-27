@@ -24,3 +24,10 @@ test("reserving a book with no copy left queues the member", () => {
 test("reserving a book on the shelf is rejected", () => {
   expect(() => library.reserveBook("M002", ISBN)).toThrow("is available, borrow it instead");
 });
+
+test("reserving the same book twice is rejected", () => {
+  library.borrowBook("M001", ISBN);
+  library.reserveBook("M002", ISBN);
+
+  expect(() => library.reserveBook("M002", ISBN)).toThrow("already reserved");
+});
