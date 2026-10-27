@@ -109,4 +109,16 @@ describe("Biblioteca", () => {
     );
     expect(corte.copiasDisponibles).toBe(1);
   });
+
+  describe("regresar libro", () => {
+    test("regresar libro de forma correcta", () => {
+      biblioteca.agregarMiembro(pepe);
+      biblioteca.agregarLibro(corte);
+      biblioteca.pedirLibro(pepe.id, corte.isbn);
+
+      expect(biblioteca.regresarLibro(pepe.id, corte.isbn)).toBe(true);
+      expect(pepe.listaLibros).toEqual([]);
+      expect(corte.copiasDisponibles).toBe(1);
+    });
+  });
 });
