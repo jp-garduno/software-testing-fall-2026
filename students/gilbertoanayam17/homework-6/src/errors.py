@@ -7,3 +7,7 @@ class LibraryError(Exception):
 
 class BookNotAvailableError(LibraryError):
     """Raised when every copy of a book is already lent out."""
+
+
+class InvalidReturnError(LibraryError):
+    """Raised when something comes back that was never lent out."""

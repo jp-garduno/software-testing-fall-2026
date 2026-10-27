@@ -10,6 +10,7 @@ class Book:
         self.isbn = isbn
         self.title = title
         self.author = author
+        self.total_copies = copies
         self.available_copies = copies
 
     def is_available(self):
@@ -25,4 +26,7 @@ class Book:
 
     def return_copy(self):
         """Put one borrowed copy back on the shelf."""
+        if self.available_copies == self.total_copies:
+            raise errors.InvalidReturnError(f"Every copy of '{self.title}' is already on the shelf")
+
         self.available_copies += 1
