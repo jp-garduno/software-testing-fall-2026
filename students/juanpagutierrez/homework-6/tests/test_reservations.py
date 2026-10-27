@@ -50,3 +50,10 @@ def test_member_cannot_reserve_the_same_book_twice(library):
     library.reserve_book("M002", ISBN)
     with pytest.raises(ReservationError):
         library.reserve_book("M002", ISBN)
+
+
+def test_returning_a_reserved_book_notifies_the_first_member_in_line(library, notifier):
+    library.reserve_book("M002", ISBN)
+    library.reserve_book("M003", ISBN)
+    library.return_book("M001", ISBN)
+    notifier.notify.assert_called_once_with("M002", ISBN)
