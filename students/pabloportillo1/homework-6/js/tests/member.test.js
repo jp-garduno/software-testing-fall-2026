@@ -37,3 +37,9 @@ test("member at the limit cannot borrow and adding another book is rejected", ()
 
   expect(() => member.addBorrowedBook("0596007124")).toThrow("Ada Lovelace has reached the borrow limit of 3");
 });
+
+test("adding the same book twice is rejected", () => {
+  member.addBorrowedBook(ISBNS[0]);
+
+  expect(() => member.addBorrowedBook(ISBNS[0])).toThrow("already borrowed");
+});
