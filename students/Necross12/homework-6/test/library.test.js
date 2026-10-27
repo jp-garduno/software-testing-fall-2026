@@ -86,4 +86,27 @@ describe("Biblioteca", () => {
       "El libro no está registrado.",
     );
   });
+
+  test("(inválida) pedir un libro sin copias disponibles", () => {
+    biblioteca.agregarMiembro(pepe);
+    biblioteca.agregarMiembro(gon);
+    biblioteca.agregarLibro(harry);
+    biblioteca.pedirLibro(gon.id, harry.isbn);
+    expect(() => biblioteca.pedirLibro(pepe.id, harry.isbn)).toThrow(
+      "No hay más libros disponibles",
+    );
+  });
+
+  test("(inválida) pedir superando el límite del miembro no descuenta la copia", () => {
+    const lector = new Member("Lector", [], 1);
+    biblioteca.agregarMiembro(lector);
+    biblioteca.agregarLibro(principito);
+    biblioteca.agregarLibro(corte);
+    biblioteca.pedirLibro(lector.id, principito.isbn);
+
+    expect(() => biblioteca.pedirLibro(lector.id, corte.isbn)).toThrow(
+      "El miembro no puede tener más libros que su límite.",
+    );
+    expect(corte.copiasDisponibles).toBe(1);
+  });
 });
