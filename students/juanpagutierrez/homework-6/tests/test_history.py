@@ -41,3 +41,10 @@ def test_history_report_lists_each_loan_with_its_status(library, clock):
         "2026-03-04 Refactoring - on loan, due 2026-03-18",
         "Total loans: 2",
     ]
+
+
+def test_most_borrowed_book_counts_loans_across_all_members(library):
+    library.borrow_book("M001", REFACTORING)
+    library.borrow_book("M002", REFACTORING)
+    library.borrow_book("M002", CLEAN_CODE)
+    assert library.most_borrowed_book().isbn == REFACTORING
