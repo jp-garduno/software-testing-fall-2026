@@ -1,4 +1,5 @@
 let siguienteId = 1;
+const CATEGORIAS_VALIDAS = ["estudiante", "profesor", "publico"];
 class Member {
   constructor(
     nombre,
@@ -11,6 +12,8 @@ class Member {
       throw new Error("El miembro no puede tener un límite negativo.");
     if (listaLibros.length > limiteLibros)
       throw new Error("El miembro no puede tener más libros que su límite.");
+    if (!CATEGORIAS_VALIDAS.includes(categoria))
+      throw new Error("La categoría no es válida.");
 
     this.id = siguienteId++;
     this.nombre = nombre;
