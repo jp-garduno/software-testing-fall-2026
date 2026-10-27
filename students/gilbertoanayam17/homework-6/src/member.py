@@ -14,14 +14,17 @@ class Member:
 
     def add_borrowed_book(self, isbn):
         """Record that the member took a copy of this book."""
-        if not self.can_borrow():
-            raise errors.BorrowLimitExceededError(f"{self.name} already holds {self.max_borrow_limit} books")
-
+        self.ensure_can_borrow()
         self.borrowed_books.append(isbn)
 
     def can_borrow(self):
         """Return True while the member holds fewer books than their limit."""
         return len(self.borrowed_books) < self.max_borrow_limit
+
+    def ensure_can_borrow(self):
+        """Raise BorrowLimitExceededError if the member already holds as many books as allowed."""
+        if not self.can_borrow():
+            raise errors.BorrowLimitExceededError(f"{self.name} already holds {self.max_borrow_limit} books")
 
     def return_book(self, isbn):
         """Record that the member gave back their copy of this book."""
