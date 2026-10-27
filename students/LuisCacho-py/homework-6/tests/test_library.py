@@ -209,3 +209,33 @@ def test_library_calculate_member_total_late_fees_active_overdue():
     current_dt = date(2026, 1, 21)
     total_fee = library.get_member_total_late_fees("M001", as_of=current_dt)
     assert total_fee == 6.0
+
+
+def test_library_pay_late_fee_success():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    member = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(member)
+
+    borrow_dt = date(2026, 1, 1)
+    return_dt = date(2026, 1, 20)  # 19 days total, 5 days overdue ($5.0)
+    library.borrow_book("M001", "1234567890", borrow_date=borrow_dt)
+    library.return_book("M001", "1234567890", return_date=return_dt)
+
+    assert library.get_member_total_late_fees("M001") == 5.0
+    remaining = library.pay_late_fee("M001", 3.0)
+    assert remaining == 2.0
+    assert library.get_member_total_late_fees("M001") == 2.0
+
+
+def test_library_pay_late_fee_invalid_amount_raises():
+    library = Library()
+    member = Member("M001", "Alice")
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Payment amount must be positive"):
+        library.pay_late_fee("M001", 0.0)
+
+    with pytest.raises(ValueError, match="Payment exceeds outstanding balance"):
+        library.pay_late_fee("M001", 10.0)
