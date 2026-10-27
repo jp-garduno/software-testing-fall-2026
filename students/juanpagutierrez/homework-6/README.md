@@ -37,7 +37,10 @@ pytest --cov=src --cov-branch --cov-report=term-missing              # with cove
 pytest --cov=src --cov-branch --cov-report=html:coverage             # regenerate the HTML report
 ```
 
-The committed HTML coverage report is in [`coverage/index.html`](coverage/index.html).
+The committed HTML coverage report is in [`coverage/index.html`](coverage/index.html). Its JavaScript helper (generated
+by coverage.py, only used for sorting columns) is not committed, because the course grader runs ESLint on every `.js`
+file in the folder. The report still shows all coverage data; regenerate it with the command above for the interactive
+version.
 
 ## Features
 
