@@ -43,3 +43,8 @@ def test_registering_an_existing_member_id_is_rejected(library):
 def test_looking_up_an_unknown_isbn_is_rejected(library):
     with pytest.raises(LookupError, match="No book with ISBN 0306406152"):
         library.get_book("0306406152")
+
+
+def test_looking_up_an_unknown_member_is_rejected(library):
+    with pytest.raises(LookupError, match="No member with id M404"):
+        library.get_member("M404")
