@@ -106,8 +106,10 @@ class Library:
         if self._notifier is not None:
             self._notifier.notify_available(self.get_member(next_member_id), book)
 
-    def search(self, genre=None, year=None, min_rating=None):
+    def search(self, genre=None, year=None, min_rating=None, sort_by="title"):
         found = [book for book in self._books.values() if _matches(book.details, genre, year, min_rating)]
+        if sort_by == "rating":
+            return sorted(found, key=lambda book: -book.details.rating)
         return sorted(found, key=lambda book: book.title)
 
 
