@@ -1,5 +1,7 @@
 """Book: a title in the catalog and how many of its copies are on the shelf."""
 
+from . import errors
+
 
 class Book:
     """A catalog entry whose copies can be lent out."""
@@ -16,4 +18,7 @@ class Book:
 
     def borrow(self):
         """Take one copy off the shelf."""
+        if not self.is_available():
+            raise errors.BookNotAvailableError(f"No copies of '{self.title}' are available")
+
         self.available_copies -= 1
