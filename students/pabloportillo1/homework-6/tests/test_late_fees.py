@@ -27,3 +27,10 @@ def test_no_late_fee_when_returned_on_the_due_date(library, clock):
     library.return_book("M001", "0306406152")
 
     assert library.calculate_late_fees("M001") == 0
+
+
+def test_overdue_loan_costs_one_dollar_per_day(library, clock):
+    library.borrow_book("M001", "0306406152")
+    clock.advance(17)
+
+    assert library.calculate_late_fees("M001") == 300
