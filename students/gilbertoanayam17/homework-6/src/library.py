@@ -48,8 +48,7 @@ class Library:
         """Take back a member's copy of a book."""
         self.get_member(member_id).return_book(isbn)
         self.get_book(isbn).return_copy()
-        loan = next(loan for loan in self._loans if (loan.member_id, loan.isbn) == (member_id, isbn))
-        self._loans.remove(loan)
+        loan = self._close_loan(member_id, isbn)
         self._fees_owed[member_id] = self._fees_owed.get(member_id, 0) + loan.late_fee(self._clock())
 
     def search_by_title(self, title):
@@ -74,3 +73,9 @@ class Library:
         today = self._clock()
         accruing = sum(loan.late_fee(today) for loan in self._loans if loan.member_id == member_id)
         return self._fees_owed.get(member_id, 0) + accruing
+
+    def _close_loan(self, member_id, isbn):
+        """Remove the member's open loan of this book and return it."""
+        loan = next(loan for loan in self._loans if (loan.member_id, loan.isbn) == (member_id, isbn))
+        self._loans.remove(loan)
+        return loan
