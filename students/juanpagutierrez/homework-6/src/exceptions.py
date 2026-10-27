@@ -11,3 +11,7 @@ class BookUnavailableError(LibraryError):
 
 class BorrowLimitExceededError(LibraryError):
     """Raised when a member already holds as many books as allowed."""
+
+
+class BookNotFoundError(LibraryError):
+    """Raised when an ISBN is not in the catalog."""

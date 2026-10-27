@@ -1,5 +1,7 @@
 """Library facade: catalog, members and lending rules."""
 
+from src.exceptions import BookNotFoundError
+
 
 class Library:
     """Coordinates books and members."""
@@ -13,4 +15,6 @@ class Library:
 
     def get_book(self, isbn):
         """Return the catalog entry for ``isbn``."""
+        if isbn not in self._books:
+            raise BookNotFoundError(f"No book with ISBN {isbn}")
         return self._books[isbn]
