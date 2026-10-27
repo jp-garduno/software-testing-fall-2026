@@ -59,3 +59,13 @@ def test_should_take_copy_off_shelf_when_borrowed():
     library.borrow_book("M1", ISBN)
 
     assert library.get_book(ISBN).available_copies == 0
+
+
+def test_should_keep_copy_on_shelf_when_member_is_at_limit():
+    library = make_library(copies=2, limit=1)
+    library.borrow_book("M1", ISBN)
+
+    with pytest.raises(errors.BorrowLimitExceededError):
+        library.borrow_book("M1", ISBN)
+
+    assert library.get_book(ISBN).available_copies == 1
