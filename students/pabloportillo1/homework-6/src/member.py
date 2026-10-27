@@ -1,7 +1,15 @@
+from enum import Enum
+
+
+class MemberCategory(Enum):
+    STUDENT = "STUDENT"
+
+
 class Member:
-    def __init__(self, member_id, name):
+    def __init__(self, member_id, name, category=MemberCategory.STUDENT):
         self.member_id = member_id
         self.name = name
+        self.category = category
         self.borrowed_books = []
         self.max_borrow_limit = 3
 
