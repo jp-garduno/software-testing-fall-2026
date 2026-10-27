@@ -8,6 +8,7 @@ class Library:
 
     def __init__(self):
         self._books = {}
+        self._members = {}
 
     def add_book(self, book):
         """Add a book to the catalog, indexed by its ISBN."""
@@ -19,3 +20,11 @@ class Library:
             raise errors.BookNotFoundError(f"No book with ISBN {isbn}")
 
         return self._books[isbn]
+
+    def register_member(self, member):
+        """Register a member, indexed by their id."""
+        self._members[member.member_id] = member
+
+    def get_member(self, member_id):
+        """Return the registered member with this id."""
+        return self._members[member_id]
