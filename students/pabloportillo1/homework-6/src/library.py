@@ -106,5 +106,9 @@ class Library:
         if self._notifier is not None:
             self._notifier.notify_available(self.get_member(next_member_id), book)
 
-    def search(self, genre=None):
-        return [book for book in self._books.values() if genre is None or book.details.genre == genre]
+    def search(self, genre=None, year=None):
+        return [
+            book
+            for book in self._books.values()
+            if (genre is None or book.details.genre == genre) and (year is None or book.details.year == year)
+        ]
