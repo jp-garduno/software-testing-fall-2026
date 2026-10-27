@@ -74,6 +74,7 @@ class Library:
         )
 
     def reserve_book(self, member_id, isbn):
+        self.get_member(member_id)
         book = self.get_book(isbn)
         if book.is_available():
             raise ValueError(f"'{book.title}' is available, borrow it instead")
