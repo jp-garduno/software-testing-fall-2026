@@ -22,3 +22,8 @@ def test_reserving_a_book_with_no_copy_left_queues_the_member(library):
     library.reserve_book("M002", ISBN)
 
     assert library.reservations_for(ISBN) == ["M002"]
+
+
+def test_reserving_a_book_on_the_shelf_is_rejected(library):
+    with pytest.raises(ValueError, match="is available, borrow it instead"):
+        library.reserve_book("M002", ISBN)
