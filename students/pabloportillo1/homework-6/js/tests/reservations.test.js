@@ -46,3 +46,23 @@ test("returning a reserved book notifies the first member in line", () => {
 
   expect(notifier.notifyAvailable).toHaveBeenCalledWith(library.getMember("M002"), library.getBook(ISBN));
 });
+
+test("reservations are served first come first served", () => {
+  library.borrowBook("M001", ISBN);
+  library.reserveBook("M002", ISBN);
+  library.reserveBook("M003", ISBN);
+  library.returnBook("M001", ISBN);
+  library.borrowBook("M002", ISBN);
+
+  library.returnBook("M002", ISBN);
+
+  expect(notifier.notifyAvailable).toHaveBeenLastCalledWith(library.getMember("M003"), library.getBook(ISBN));
+});
+
+test("copy held for a reserver cannot be borrowed by someone else", () => {
+  library.borrowBook("M001", ISBN);
+  library.reserveBook("M002", ISBN);
+  library.returnBook("M001", ISBN);
+
+  expect(() => library.borrowBook("M003", ISBN)).toThrow("held for another member");
+});
