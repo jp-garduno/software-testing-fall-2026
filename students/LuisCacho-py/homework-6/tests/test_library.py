@@ -359,3 +359,22 @@ def test_library_get_next_reservation_peek():
     library.reserve_book("M002", "1234567890")
 
     assert library.get_next_reservation("1234567890") == "M002"
+
+
+def test_library_search_empty_queries():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    library.add_book(b1)
+    assert library.search_by_title("") == []
+    assert library.search_by_author("   ") == []
+
+
+def test_library_fees_not_overdue():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert C. Martin")
+    member = Member("M001", "Alice")
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 10))
+    assert library.get_member_total_late_fees("M001", as_of=date(2026, 1, 15)) == 0.0
