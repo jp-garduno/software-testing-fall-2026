@@ -72,6 +72,11 @@ class Library {
     const book = this.getBook(isbn);
     member.returnBook(isbn);
     book.returnCopy();
+    this.#activeLoan(memberId, isbn).returnedOn = this.#clock();
+  }
+
+  #activeLoan(memberId, isbn) {
+    return this.#loans.find((loan) => loan.memberId === memberId && loan.isbn === isbn && loan.returnedOn === null);
   }
 
   searchByTitle(title) {

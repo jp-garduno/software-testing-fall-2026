@@ -7,10 +7,11 @@ class Loan {
     this.isbn = isbn;
     this.borrowedOn = borrowedOn;
     this.dueOn = new Date(borrowedOn.getTime() + LOAN_DAYS * DAY_MS);
+    this.returnedOn = null;
   }
 
   daysOverdue(today) {
-    return Math.max(0, Math.round((today - this.dueOn) / DAY_MS));
+    return Math.max(0, Math.round(((this.returnedOn ?? today) - this.dueOn) / DAY_MS));
   }
 }
 
