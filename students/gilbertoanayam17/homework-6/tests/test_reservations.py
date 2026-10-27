@@ -56,3 +56,14 @@ def test_should_hold_returned_copy_for_first_member_in_line():
 
     with pytest.raises(errors.BookReservedError):
         library.borrow_book("M3", ISBN)
+
+
+def test_should_remove_reservation_when_member_in_line_borrows():
+    library = make_library()
+    library.reserve_book("M2", ISBN)
+    library.reserve_book("M3", ISBN)
+    library.return_book("M1", ISBN)
+
+    library.borrow_book("M2", ISBN)
+
+    assert library.get_reservations(ISBN) == ["M3"]
