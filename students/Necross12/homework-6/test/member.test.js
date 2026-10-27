@@ -106,4 +106,12 @@ test("el público tiene límite de 2 libros", () => {
   expect(new Member("Luis", [], undefined, "publico").limiteLibros).toBe(2);
 });
 
+test.each([
+  ["estudiante", 1],
+  ["profesor", 0.5],
+  ["publico", 2],
+])("la tarifa de recargo de %s es %d por día", (categoria, tarifa) => {
+  expect(new Member("Carlos", [], undefined, categoria).tarifaRecargo).toBe(tarifa);
+});
+
 });
