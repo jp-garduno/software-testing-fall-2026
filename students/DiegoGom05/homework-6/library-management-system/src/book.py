@@ -2,6 +2,9 @@ class Book:
     VALID_ISBN_LENGTHS = (10, 13)
     def __init__(self, isbn, title, author, copies=1):
         self._validate_isbn(isbn)
+        if not title or not title.strip():
+            raise ValueError("Title is required")
+
         self.title = title
         self.isbn = isbn
         self.author = author
