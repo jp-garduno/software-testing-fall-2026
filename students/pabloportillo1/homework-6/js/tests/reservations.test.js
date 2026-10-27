@@ -88,3 +88,14 @@ test("book whose only copy is held can still be reserved", () => {
 
   expect(library.reservationsFor(ISBN)).toEqual(["M003"]);
 });
+
+test("copy is held even without a notifier", () => {
+  const quiet = new Library();
+  quiet.addBook(new Book(ISBN, "Clean Code", "Robert Martin", 1));
+  ["M001", "M002", "M003"].forEach((memberId) => quiet.registerMember(new Member(memberId, `Member ${memberId}`)));
+  quiet.borrowBook("M001", ISBN);
+  quiet.reserveBook("M002", ISBN);
+  quiet.returnBook("M001", ISBN);
+
+  expect(() => quiet.borrowBook("M003", ISBN)).toThrow("held for another member");
+});
