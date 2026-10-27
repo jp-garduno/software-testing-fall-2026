@@ -19,3 +19,8 @@ def test_added_book_appears_in_available_books(library):
 def test_available_books_excludes_books_without_copies(library):
     library.add_book(make_book("1234567890", copies=0))
     assert library.get_available_books() == []
+
+def test_add_duplicate_isbn_raises(library):
+    library.add_book(make_book())
+    with pytest.raises(ValueError, match="already"):
+        library.add_book(make_book())
