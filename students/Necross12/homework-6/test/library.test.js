@@ -110,7 +110,6 @@ describe("Biblioteca", () => {
     expect(corte.copiasDisponibles).toBe(1);
   });
 
-  describe("regresar libro", () => {
     test("regresar libro de forma correcta", () => {
       biblioteca.agregarMiembro(pepe);
       biblioteca.agregarLibro(corte);
@@ -120,5 +119,27 @@ describe("Biblioteca", () => {
       expect(pepe.listaLibros).toEqual([]);
       expect(corte.copiasDisponibles).toBe(1);
     });
+
+  test("(inválida) regresar un libro que el miembro no tiene", () => {
+    biblioteca.agregarMiembro(pepe);
+    biblioteca.agregarLibro(corte);
+    expect(() => biblioteca.regresarLibro(pepe.id, corte.isbn)).toThrow(
+      "No puedes regresar un libro que no tienes.",
+    );
   });
+
+  test("(inválida) regresar con un miembro no registrado", () => {
+    biblioteca.agregarLibro(corte);
+    expect(() => biblioteca.regresarLibro(pepe.id, corte.isbn)).toThrow(
+      "El miembro no está registrado.",
+    );
+  });
+
+  test("(inválida) regresar un libro no registrado", () => {
+    biblioteca.agregarMiembro(pepe);
+    expect(() => biblioteca.regresarLibro(pepe.id, "9999999999")).toThrow(
+      "El libro no está registrado.",
+    );
+  });
+
 });
