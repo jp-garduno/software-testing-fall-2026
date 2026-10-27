@@ -13,3 +13,11 @@ def test_member_borrow_limit_defaults_to_three():
 
 def test_new_member_can_borrow():
     assert Member("M001", "Ada Lovelace").can_borrow() is True
+
+
+def test_add_borrowed_book_records_the_isbn():
+    member = Member("M001", "Ada Lovelace")
+
+    member.add_borrowed_book("0306406152")
+
+    assert member.borrowed_books == ["0306406152"]
