@@ -45,3 +45,7 @@ test("most borrowed book is the one with most loans", () => {
 
   expect(library.mostBorrowedBook().isbn).toBe(PATTERNS);
 });
+
+test("most borrowed book is null before any loan", () => {
+  expect(library.mostBorrowedBook()).toBeNull();
+});
