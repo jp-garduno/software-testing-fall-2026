@@ -51,3 +51,8 @@ class Member:
         if isbn not in self.borrowed_books:
             raise ValueError(f"{self.member_id} has not borrowed {isbn}")
         self.borrowed_books.remove(isbn)
+
+    @property
+    def daily_late_fee(self):
+        """Fee this member pays per overdue day."""
+        return self.category.daily_late_fee
