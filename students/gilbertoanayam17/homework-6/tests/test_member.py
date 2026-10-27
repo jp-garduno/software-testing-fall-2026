@@ -23,3 +23,10 @@ def test_should_record_book_when_added_to_borrowed_books():
     member.add_borrowed_book("1234567890")
 
     assert member.borrowed_books == ["1234567890"]
+
+
+def test_should_not_be_able_to_borrow_when_limit_reached():
+    member = Member("M1", "Ana Lopez", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+
+    assert not member.can_borrow()
