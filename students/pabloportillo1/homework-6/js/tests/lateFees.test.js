@@ -36,3 +36,11 @@ test("late fee stops growing once the book is returned", () => {
 
   expect(library.calculateLateFees("M001")).toBe(200);
 });
+
+test("late fees only count the member's own loans", () => {
+  library.borrowBook("M001", ISBN);
+  library.borrowBook("M002", ISBN);
+  clock.advance(15);
+
+  expect(library.calculateLateFees("M002")).toBe(100);
+});
