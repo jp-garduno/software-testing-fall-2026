@@ -8,7 +8,7 @@ import pytest
 
 from src.book import Book
 from src.library import Library
-from src.member import Member
+from src.member import Member, MemberCategory
 
 ISBN = "1234567890"
 MEMBER_ID = "M001"
@@ -59,3 +59,10 @@ def test_fee_stops_growing_once_the_book_is_returned(library, clock):
     library.return_book(MEMBER_ID, ISBN)
     advance(clock, 10)
     assert library.calculate_member_fees(MEMBER_ID) == Decimal("2.00")
+
+
+def test_faculty_member_is_charged_the_faculty_rate(library, clock):
+    library.register_member(Member("F001", "Alan Turing", category=MemberCategory.FACULTY))
+    library.borrow_book("F001", ISBN)
+    advance(clock, 14 + 4)
+    assert library.calculate_member_fees("F001") == Decimal("2.00")
