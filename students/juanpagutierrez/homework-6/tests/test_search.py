@@ -15,3 +15,27 @@ def test_book_stores_optional_genre_year_and_rating():
 def test_rating_outside_zero_to_five_is_rejected(rating):
     with pytest.raises(ValueError):
         Book("1234567890", "Clean Code", "Robert Martin", rating=rating)
+
+
+@pytest.fixture(name="library")
+def library_fixture():
+    """A catalog with books of different genres, years and ratings."""
+    library = Library()
+    library.add_book(Book("1111111111", "Clean Code", "Robert Martin",
+                          genre="Software", publication_year=2008, rating=4.4))
+    library.add_book(Book("2222222222", "Dune", "Frank Herbert",
+                          genre="Science Fiction", publication_year=1965, rating=4.3))
+    library.add_book(Book("3333333333", "Refactoring", "Martin Fowler",
+                          genre="Software", publication_year=2018, rating=4.2))
+    library.add_book(Book("4444444444", "Neuromancer", "William Gibson",
+                          genre="Science Fiction", publication_year=1984, rating=3.9))
+    return library
+
+
+def isbns(books):
+    """ISBNs of ``books``, in order, for compact assertions."""
+    return [book.isbn for book in books]
+
+
+def test_search_filters_by_genre(library):
+    assert isbns(library.search(genre="Software")) == ["1111111111", "3333333333"]
