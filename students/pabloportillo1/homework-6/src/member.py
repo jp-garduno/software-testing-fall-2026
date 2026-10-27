@@ -16,4 +16,6 @@ class Member:
         self.borrowed_books.append(isbn)
 
     def return_book(self, isbn):
+        if isbn not in self.borrowed_books:
+            raise ValueError(f"{self.name} has not borrowed {isbn}")
         self.borrowed_books.remove(isbn)
