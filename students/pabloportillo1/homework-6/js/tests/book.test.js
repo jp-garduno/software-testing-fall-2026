@@ -1,4 +1,4 @@
-const { Book } = require("../src/book");
+const { Book, BookDetails } = require("../src/book");
 
 const ISBN = "0306406152";
 const makeBook = (totalCopies = 1) => new Book(ISBN, "Clean Code", "Robert Martin", totalCopies);
@@ -64,4 +64,12 @@ test.each(["", "   "])("blank title %p is rejected", (title) => {
 
 test("negative total copies are rejected", () => {
   expect(() => makeBook(-1)).toThrow("Total copies cannot be negative");
+});
+
+test("book can be described by genre, year and rating", () => {
+  const details = new BookDetails({ genre: "Software", year: 2008, rating: 4.4 });
+
+  const book = new Book(ISBN, "Clean Code", "Robert Martin", 1, details);
+
+  expect(book.details).toBe(details);
 });
