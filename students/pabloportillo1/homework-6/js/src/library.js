@@ -26,10 +26,16 @@ class Library {
   }
 
   registerMember(member) {
+    if (this.members.has(member.memberId)) {
+      throw new Error(`Member ${member.memberId} is already registered`);
+    }
     this.members.set(member.memberId, member);
   }
 
   getMember(memberId) {
+    if (!this.members.has(memberId)) {
+      throw new NotFoundError(`No member with id ${memberId}`);
+    }
     return this.members.get(memberId);
   }
 }
