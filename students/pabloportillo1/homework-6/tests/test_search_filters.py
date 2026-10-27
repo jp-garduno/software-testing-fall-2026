@@ -34,3 +34,7 @@ def test_search_without_criteria_returns_the_whole_catalog(library):
 
 def test_search_by_genre_and_year_requires_both(library):
     assert titles(library.search(genre="Software", year=1994)) == ["Design Patterns"]
+
+
+def test_search_by_minimum_rating_keeps_books_at_or_above_it(library):
+    assert set(titles(library.search(min_rating=4.5))) == {"The C Programming Language", "Design Patterns"}
