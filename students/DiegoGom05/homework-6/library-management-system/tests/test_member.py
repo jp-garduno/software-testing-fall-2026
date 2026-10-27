@@ -7,3 +7,6 @@ def test_member_can_be_created():
 
 def test_new_member_has_no_borrowed_books():
     assert Member("m1", "Ana").borrowed_books == []
+
+def test_default_borrow_limit_is_three():
+    assert Member("m1", "Ana").max_borrow_limit == 3
