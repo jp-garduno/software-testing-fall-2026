@@ -163,6 +163,9 @@ class Library {
   mostBorrowedBook() {
     const counts = new Map();
     this.#loans.forEach((loan) => counts.set(loan.isbn, (counts.get(loan.isbn) ?? 0) + 1));
+    if (counts.size === 0) {
+      return null;
+    }
     const [isbn] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
     return this.#books.get(isbn);
   }
