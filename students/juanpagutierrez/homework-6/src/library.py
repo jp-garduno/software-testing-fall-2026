@@ -1,14 +1,20 @@
 """Library facade: catalog, members and lending rules."""
 
+from datetime import date
+
 from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
+from src.late_fees import due_date_for
+from src.loan import Loan
 
 
 class Library:
     """Coordinates books and members."""
 
-    def __init__(self):
+    def __init__(self, clock=date.today):
+        self._clock = clock
         self._books = {}
         self._members = {}
+        self._loans = []
 
     def add_book(self, book):
         """Add ``book`` to the catalog."""
@@ -42,6 +48,12 @@ class Library:
             raise BorrowLimitExceededError(f"{member_id} reached the limit of {member.max_borrow_limit}")
         book.borrow()
         member.add_borrowed_book(isbn)
+        today = self._clock()
+        self._loans.append(Loan(member_id, isbn, today, due_date_for(today)))
+
+    def get_loans(self, member_id):
+        """Return every loan made to ``member_id``, oldest first."""
+        return [loan for loan in self._loans if loan.member_id == member_id]
 
     def return_book(self, member_id, isbn):
         """Take back the copy of ``isbn`` lent to ``member_id``."""
