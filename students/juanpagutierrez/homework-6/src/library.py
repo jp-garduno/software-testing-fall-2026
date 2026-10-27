@@ -1,6 +1,6 @@
 """Library facade: catalog, members and lending rules."""
 
-from src.exceptions import BookNotFoundError
+from src.exceptions import BookNotFoundError, MemberNotFoundError
 
 
 class Library:
@@ -28,4 +28,6 @@ class Library:
 
     def get_member(self, member_id):
         """Return the registered member with ``member_id``."""
+        if member_id not in self._members:
+            raise MemberNotFoundError(f"No member with id {member_id}")
         return self._members[member_id]
