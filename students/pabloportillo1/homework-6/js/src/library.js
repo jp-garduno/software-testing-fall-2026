@@ -20,11 +20,14 @@ class Library {
 
   #notifier;
 
+  #holds;
+
   constructor({ clock = () => new Date(), notifier = null } = {}) {
     this.#clock = clock;
     this.#notifier = notifier;
     this.#loans = [];
     this.#queues = new Map();
+    this.#holds = new Map();
     this.#books = new Map();
     this.#members = new Map();
   }
@@ -61,6 +64,10 @@ class Library {
     const member = this.getMember(memberId);
     const book = this.getBook(isbn);
     book.ensureAvailable();
+    const held = this.#holds.get(isbn) ?? [];
+    if (!held.includes(memberId) && book.availableCopies <= held.length) {
+      throw new Error(`The copy of '${book.title}' is held for another member`);
+    }
     member.addBorrowedBook(isbn);
     book.borrow();
     const loan = new Loan(memberId, isbn, this.#clock());
@@ -84,7 +91,9 @@ class Library {
     this.#activeLoan(memberId, isbn).returnedOn = this.#clock();
     const queue = this.#queues.get(isbn) ?? [];
     if (queue.length > 0) {
-      this.#notifier.notifyAvailable(this.getMember(queue.shift()), book);
+      const nextMemberId = queue.shift();
+      this.#holds.set(isbn, [...(this.#holds.get(isbn) ?? []), nextMemberId]);
+      this.#notifier.notifyAvailable(this.getMember(nextMemberId), book);
     }
   }
 
