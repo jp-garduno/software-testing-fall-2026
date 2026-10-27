@@ -52,4 +52,9 @@ describe("Biblioteca", () => {
       "El libro ya está registrado.",
     );
   });
+
+  test("registrar miembro", () => {
+    biblioteca.agregarMiembro(pepe);
+    expect(biblioteca.miembros).toEqual([pepe]);
+  });
 });
