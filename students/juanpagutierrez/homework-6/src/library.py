@@ -37,3 +37,4 @@ class Library:
     def borrow_book(self, member_id, isbn):
         """Lend one copy of ``isbn`` to ``member_id``."""
         self.get_book(isbn).borrow()
+        self.get_member(member_id).add_borrowed_book(isbn)
