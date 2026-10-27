@@ -102,4 +102,8 @@ test("el profesor tiene límite de 5 libros", () => {
   expect(new Member("Laura", [], undefined, "profesor").limiteLibros).toBe(5);
 });
 
+test("el público tiene límite de 2 libros", () => {
+  expect(new Member("Luis", [], undefined, "publico").limiteLibros).toBe(2);
+});
+
 });
