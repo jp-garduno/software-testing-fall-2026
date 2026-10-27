@@ -89,7 +89,11 @@ class Library {
     if (!this.#queues.has(isbn)) {
       this.#queues.set(isbn, []);
     }
-    this.#queues.get(isbn).push(memberId);
+    const queue = this.#queues.get(isbn);
+    if (queue.includes(memberId)) {
+      throw new Error(`${memberId} has already reserved '${book.title}'`);
+    }
+    queue.push(memberId);
   }
 
   reservationsFor(isbn) {
