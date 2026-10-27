@@ -12,6 +12,8 @@ class Library:
         return self._books[isbn]
 
     def register_member(self, member):
+        if member.member_id in self._members:
+            raise ValueError(f"Member {member.member_id} is already registered")
         self._members[member.member_id] = member
 
     def get_member(self, member_id):
