@@ -21,6 +21,10 @@ class Book {
     this.ensureAvailable();
     this.availableCopies -= 1;
   }
+
+  returnCopy() {
+    this.availableCopies += 1;
+  }
 }
 
 module.exports = { Book };
