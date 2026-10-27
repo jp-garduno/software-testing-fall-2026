@@ -46,3 +46,11 @@ def test_search_results_are_sorted_by_title_by_default(library):
         "Design Patterns",
         "The C Programming Language",
     ]
+
+
+def test_search_sorted_by_rating_lists_the_best_rated_first(library):
+    assert titles(library.search(genre="Software", sort_by="rating")) == [
+        "The C Programming Language",
+        "Design Patterns",
+        "Clean Code",
+    ]
