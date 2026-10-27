@@ -28,3 +28,8 @@ def test_member_history_lists_the_members_loans_in_borrow_order(library, clock):
     history = library.member_history("M001")
 
     assert [(loan.isbn, loan.returned_on is not None) for loan in history] == [(K_AND_R, True), (CLEAN_CODE, False)]
+
+
+def test_history_of_an_unknown_member_is_rejected(library):
+    with pytest.raises(LookupError, match="No member with id M404"):
+        library.member_history("M404")
