@@ -239,3 +239,45 @@ def test_library_pay_late_fee_invalid_amount_raises():
 
     with pytest.raises(ValueError, match="Payment exceeds outstanding balance"):
         library.pay_late_fee("M001", 10.0)
+
+
+def test_library_get_member_history():
+    library = Library()
+    b1 = Book("1111111111", "Book One", "Author A")
+    b2 = Book("2222222222", "Book Two", "Author B")
+    member = Member("M001", "Alice")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1111111111")
+    library.return_book("M001", "1111111111")
+    library.borrow_book("M001", "2222222222")
+
+    history = library.get_member_history("M001")
+    assert len(history) == 2
+    isbns = [loan.isbn for loan in history]
+    assert "1111111111" in isbns
+    assert "2222222222" in isbns
+
+
+def test_library_get_most_borrowed_books():
+    library = Library()
+    b1 = Book("1111111111", "Popular Book", "Author A", total_copies=3)
+    b2 = Book("2222222222", "Normal Book", "Author B", total_copies=3)
+    m1 = Member("M001", "Alice")
+    m2 = Member("M002", "Bob")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(m1)
+    library.register_member(m2)
+
+    # b1 borrowed twice, b2 borrowed once
+    library.borrow_book("M001", "1111111111")
+    library.borrow_book("M002", "1111111111")
+    library.borrow_book("M001", "2222222222")
+
+    stats = library.get_most_borrowed_books(top_n=2)
+    assert len(stats) == 2
+    assert stats[0] == (b1, 2)
+    assert stats[1] == (b2, 1)
