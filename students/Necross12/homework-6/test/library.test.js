@@ -57,4 +57,11 @@ describe("Biblioteca", () => {
     biblioteca.agregarMiembro(pepe);
     expect(biblioteca.miembros).toEqual([pepe]);
   });
+
+  test("(inválida) registrar al mismo miembro dos veces", () => {
+    biblioteca.agregarMiembro(pepe);
+    expect(() => biblioteca.agregarMiembro(pepe)).toThrow(
+      "El miembro ya está registrado.",
+    );
+  });
 });
