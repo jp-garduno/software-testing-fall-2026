@@ -42,6 +42,8 @@ class Library:
             raise ValueError(f"The copy of '{book.title}' is held for another member")
         member.add_borrowed_book(isbn)
         book.borrow()
+        if member_id in held:
+            held.remove(member_id)
         loan = Loan(member_id, isbn, self._clock())
         self._loans.append(loan)
         return loan
