@@ -7,6 +7,18 @@ from src.exceptions import BookNotFoundError, MemberNotFoundError
 from src.library import Library
 from src.member import Member
 
+ISBN = "1234567890"
+MEMBER_ID = "M001"
+
+
+@pytest.fixture(name="library")
+def library_fixture():
+    """A library with one single-copy book and one registered member."""
+    library = Library()
+    library.add_book(Book(ISBN, "Clean Code", "Robert Martin"))
+    library.register_member(Member(MEMBER_ID, "Ada Lovelace"))
+    return library
+
 
 def test_added_book_can_be_found_by_isbn():
     library = Library()
