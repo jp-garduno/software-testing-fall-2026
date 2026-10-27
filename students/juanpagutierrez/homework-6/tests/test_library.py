@@ -88,3 +88,8 @@ def test_return_book_puts_the_copy_back_on_the_shelf(library):
     library.borrow_book(MEMBER_ID, ISBN)
     library.return_book(MEMBER_ID, ISBN)
     assert library.get_book(ISBN).available_copies == 1
+
+
+def test_return_book_the_member_does_not_hold_raises(library):
+    with pytest.raises(ValueError):
+        library.return_book(MEMBER_ID, ISBN)
