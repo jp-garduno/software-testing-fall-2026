@@ -37,3 +37,10 @@ def test_registered_member_can_be_found_by_id():
 def test_get_member_with_unknown_id_raises():
     with pytest.raises(MemberNotFoundError):
         Library().get_member("M999")
+
+
+def test_registering_a_duplicate_member_id_raises():
+    library = Library()
+    library.register_member(Member("M001", "Ada Lovelace"))
+    with pytest.raises(ValueError):
+        library.register_member(Member("M001", "Grace Hopper"))
