@@ -26,6 +26,10 @@ class Member {
     }
     this.borrowedBooks.push(isbn);
   }
+
+  returnBook(isbn) {
+    this.borrowedBooks = this.borrowedBooks.filter((held) => held !== isbn);
+  }
 }
 
 module.exports = { Member, MemberCategory };
