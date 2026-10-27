@@ -1,5 +1,8 @@
 """Tests for reservations: a FIFO queue per book and a notification when a copy comes back."""
 
+import pytest
+
+from src import errors
 from src.book import Book
 from src.library import Library
 from src.member import Member
@@ -23,3 +26,11 @@ def test_should_queue_member_who_reserves_unavailable_book():
     library.reserve_book("M2", ISBN)
 
     assert library.get_reservations(ISBN) == ["M2"]
+
+
+def test_should_reject_reservation_while_copies_are_available():
+    library = make_library()
+    library.return_book("M1", ISBN)
+
+    with pytest.raises(errors.BookAvailableError):
+        library.reserve_book("M2", ISBN)
