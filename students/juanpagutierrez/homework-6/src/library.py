@@ -11,6 +11,8 @@ class Library:
 
     def add_book(self, book):
         """Add ``book`` to the catalog."""
+        if book.isbn in self._books:
+            raise ValueError(f"A book with ISBN {book.isbn} is already in the catalog")
         self._books[book.isbn] = book
 
     def get_book(self, isbn):
