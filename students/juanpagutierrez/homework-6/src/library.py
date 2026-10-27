@@ -59,3 +59,7 @@ class Library:
     def _search(self, text, field):
         needle = text.lower()
         return [book for book in self._books.values() if needle in field(book).lower()]
+
+    def get_available_books(self):
+        """Return every book with at least one copy on the shelf."""
+        return [book for book in self._books.values() if book.is_available()]
