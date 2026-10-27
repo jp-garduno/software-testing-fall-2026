@@ -28,3 +28,7 @@ test("borrow takes one copy", () => {
 
   expect(book.availableCopies).toBe(1);
 });
+
+test("borrow without available copies is rejected", () => {
+  expect(() => makeBook(0).borrow()).toThrow("No copies available for 'Clean Code'");
+});
