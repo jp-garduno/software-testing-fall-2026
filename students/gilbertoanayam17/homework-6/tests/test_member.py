@@ -1,5 +1,8 @@
 """Tests for Member: identity, borrow limit and the books a member holds."""
 
+import pytest
+
+from src import errors
 from src.member import Member
 
 
@@ -30,3 +33,11 @@ def test_should_not_be_able_to_borrow_when_limit_reached():
     member.add_borrowed_book("1234567890")
 
     assert not member.can_borrow()
+
+
+def test_should_raise_error_when_adding_book_beyond_limit():
+    member = Member("M1", "Ana Lopez", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+
+    with pytest.raises(errors.BorrowLimitExceededError):
+        member.add_borrowed_book("9780132350884")
