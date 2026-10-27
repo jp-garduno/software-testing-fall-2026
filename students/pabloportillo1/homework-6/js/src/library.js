@@ -154,10 +154,12 @@ class Library {
     return this.#searchText("author", author);
   }
 
-  search({ genre = null, year = null, minRating = null } = {}) {
-    return [...this.#books.values()]
-      .filter((book) => matches(book.details, { genre, year, minRating }))
-      .sort((a, b) => a.title.localeCompare(b.title));
+  search({ genre = null, year = null, minRating = null, sortBy = "title" } = {}) {
+    const found = [...this.#books.values()].filter((book) => matches(book.details, { genre, year, minRating }));
+    if (sortBy === "rating") {
+      return found.sort((a, b) => (b.details.rating ?? -1) - (a.details.rating ?? -1));
+    }
+    return found.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   getAvailableBooks() {
