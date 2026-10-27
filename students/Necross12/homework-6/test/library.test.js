@@ -237,4 +237,11 @@ describe("Biblioteca: reservas", () => {
         );
     });
 
+    test("quien reservó primero puede pedir el libro y sale de la cola", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.regresarLibro(gon.id, principito.isbn);
+        biblioteca.pedirLibro(pepe.id, principito.isbn);
+        expect(biblioteca.obtenerReservas(principito.isbn)).toEqual([]);
+    });
+
 });
