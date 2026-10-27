@@ -19,6 +19,10 @@ class Library {
   pedirLibro(idMiembro, isbn) {
     const miembro = this.miembros.find((m) => m.id === idMiembro);
     const libro = this.libros.find((l) => l.isbn === isbn);
+    if (!miembro)
+      throw new Error("El miembro no está registrado.");
+    if (!libro)
+      throw new Error("El libro no está registrado.");
     libro.pedir();
     miembro.pedir(isbn);
     return true;
