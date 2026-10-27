@@ -1,9 +1,10 @@
 """Library facade: catalog, members and lending rules."""
 
 from datetime import date
+from decimal import Decimal
 
 from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
-from src.late_fees import due_date_for
+from src.late_fees import calculate_late_fee, due_date_for
 from src.loan import Loan
 
 
@@ -78,3 +79,8 @@ class Library:
     def get_available_books(self):
         """Return every book with at least one copy on the shelf."""
         return [book for book in self._books.values() if book.is_available()]
+
+    def calculate_member_fees(self, member_id):
+        """Total late fees ``member_id`` owes as of today."""
+        today = self._clock()
+        return sum((calculate_late_fee(loan.due_date, today) for loan in self.get_loans(member_id)), Decimal("0"))
