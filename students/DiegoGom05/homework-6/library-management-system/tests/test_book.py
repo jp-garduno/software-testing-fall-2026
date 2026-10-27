@@ -49,3 +49,7 @@ def test_return_copy_cannot_exceed_total_copies():
     book = Book("1234567890", "T", "A", copies=1)
     with pytest.raises(ValueError):
         book.return_copy()
+
+def test_isbn_rejects_invalid_length():
+    with pytest.raises(ValueError):
+        Book("123456789", "T", "A")        # 9 dígitos
