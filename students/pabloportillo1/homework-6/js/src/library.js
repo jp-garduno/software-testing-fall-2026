@@ -65,7 +65,7 @@ class Library {
     const book = this.getBook(isbn);
     book.ensureAvailable();
     const held = this.#holds.get(isbn) ?? [];
-    if (!held.includes(memberId) && book.availableCopies <= held.length) {
+    if (!held.includes(memberId) && this.#freeCopies(book) === 0) {
       throw new Error(`The copy of '${book.title}' is held for another member`);
     }
     member.addBorrowedBook(isbn);
@@ -104,7 +104,7 @@ class Library {
   reserveBook(memberId, isbn) {
     this.getMember(memberId);
     const book = this.getBook(isbn);
-    if (book.isAvailable()) {
+    if (this.#freeCopies(book) > 0) {
       throw new Error(`'${book.title}' is available, borrow it instead`);
     }
     if (!this.#queues.has(isbn)) {
@@ -119,6 +119,10 @@ class Library {
 
   reservationsFor(isbn) {
     return [...(this.#queues.get(isbn) ?? [])];
+  }
+
+  #freeCopies(book) {
+    return book.availableCopies - (this.#holds.get(book.isbn) ?? []).length;
   }
 
   #activeLoan(memberId, isbn) {
