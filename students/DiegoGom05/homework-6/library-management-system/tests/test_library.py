@@ -15,3 +15,7 @@ def test_added_book_appears_in_available_books(library):
     book = make_book()
     library.add_book(book)
     assert library.get_available_books() == [book]
+
+def test_available_books_excludes_books_without_copies(library):
+    library.add_book(make_book("1234567890", copies=0))
+    assert library.get_available_books() == []
