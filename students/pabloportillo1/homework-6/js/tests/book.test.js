@@ -61,3 +61,7 @@ test("isbn with a letter is rejected", () => {
 test.each(["", "   "])("blank title %p is rejected", (title) => {
   expect(() => new Book(ISBN, title, "Robert Martin")).toThrow("Title is required");
 });
+
+test("negative total copies are rejected", () => {
+  expect(() => makeBook(-1)).toThrow("Total copies cannot be negative");
+});
