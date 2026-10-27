@@ -61,3 +61,8 @@ def test_registering_a_duplicate_member_id_raises():
 def test_borrow_book_takes_a_copy_off_the_shelf(library):
     library.borrow_book(MEMBER_ID, ISBN)
     assert library.get_book(ISBN).available_copies == 0
+
+
+def test_borrow_book_records_the_loan_on_the_member(library):
+    library.borrow_book(MEMBER_ID, ISBN)
+    assert library.get_member(MEMBER_ID).borrowed_books == [ISBN]
