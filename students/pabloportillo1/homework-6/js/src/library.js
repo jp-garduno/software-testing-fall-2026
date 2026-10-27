@@ -6,37 +6,41 @@ class NotFoundError extends Error {
 }
 
 class Library {
+  #books;
+
+  #members;
+
   constructor() {
-    this.books = new Map();
-    this.members = new Map();
+    this.#books = new Map();
+    this.#members = new Map();
   }
 
   addBook(book) {
-    if (this.books.has(book.isbn)) {
+    if (this.#books.has(book.isbn)) {
       throw new Error(`ISBN ${book.isbn} is already in the catalog`);
     }
-    this.books.set(book.isbn, book);
+    this.#books.set(book.isbn, book);
   }
 
   getBook(isbn) {
-    if (!this.books.has(isbn)) {
+    if (!this.#books.has(isbn)) {
       throw new NotFoundError(`No book with ISBN ${isbn}`);
     }
-    return this.books.get(isbn);
+    return this.#books.get(isbn);
   }
 
   registerMember(member) {
-    if (this.members.has(member.memberId)) {
+    if (this.#members.has(member.memberId)) {
       throw new Error(`Member ${member.memberId} is already registered`);
     }
-    this.members.set(member.memberId, member);
+    this.#members.set(member.memberId, member);
   }
 
   getMember(memberId) {
-    if (!this.members.has(memberId)) {
+    if (!this.#members.has(memberId)) {
       throw new NotFoundError(`No member with id ${memberId}`);
     }
-    return this.members.get(memberId);
+    return this.#members.get(memberId);
   }
 }
 
