@@ -105,3 +105,6 @@ class Library:
         self._holds.setdefault(book.isbn, []).append(next_member_id)
         if self._notifier is not None:
             self._notifier.notify_available(self.get_member(next_member_id), book)
+
+    def search(self, genre=None):
+        return [book for book in self._books.values() if book.details.genre == genre]
