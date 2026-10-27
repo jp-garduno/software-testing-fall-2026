@@ -13,3 +13,9 @@ def test_should_track_available_copies_when_created_with_copies():
     book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=5)
 
     assert book.available_copies == 5
+
+
+def test_should_be_available_when_copies_exist():
+    book = Book("1234567890", "Clean Code", "Robert C. Martin", copies=1)
+
+    assert book.is_available()
