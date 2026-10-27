@@ -134,3 +134,7 @@ class Library:
         if not term:
             return []
         return [b for b in self.books.values() if term in b.author.lower()]
+
+    def get_available_books(self) -> List[Book]:
+        """Return list of books currently having at least one available copy."""
+        return [b for b in self.books.values() if b.is_available()]
