@@ -22,3 +22,9 @@ const titles = (books) => books.map((book) => book.title);
 test("search without criteria returns the whole catalog", () => {
   expect(library.search()).toHaveLength(CATALOG.length);
 });
+
+test("search by genre returns only that genre", () => {
+  expect(new Set(titles(library.search({ genre: "Fiction" })))).toEqual(
+    new Set(["Pride and Prejudice", "To Kill a Mockingbird"]),
+  );
+});
