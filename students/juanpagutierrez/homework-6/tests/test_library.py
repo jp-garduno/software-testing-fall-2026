@@ -3,7 +3,7 @@
 import pytest
 
 from src.book import Book
-from src.exceptions import BookNotFoundError, BorrowLimitExceededError, MemberNotFoundError
+from src.exceptions import BookNotFoundError, BookUnavailableError, BorrowLimitExceededError, MemberNotFoundError
 from src.library import Library
 from src.member import Member
 
@@ -74,3 +74,11 @@ def test_failed_borrow_over_limit_keeps_the_copy_on_the_shelf(library):
     with pytest.raises(BorrowLimitExceededError):
         library.borrow_book("M002", "0987654321")
     assert library.get_book("0987654321").available_copies == 2
+
+
+def test_failed_borrow_of_unavailable_book_leaves_member_unchanged(library):
+    library.register_member(Member("M002", "Grace Hopper"))
+    library.borrow_book(MEMBER_ID, ISBN)
+    with pytest.raises(BookUnavailableError):
+        library.borrow_book("M002", ISBN)
+    assert library.get_member("M002").borrowed_books == []
