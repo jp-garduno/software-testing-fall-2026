@@ -45,4 +45,11 @@ describe("Biblioteca", () => {
     biblioteca.agregarLibro(principito);
     expect(biblioteca.libros).toEqual([principito]);
   });
+
+  test("(inválida) agregar un libro con ISBN ya registrado", () => {
+    biblioteca.agregarLibro(principito);
+    expect(() => biblioteca.agregarLibro(principito)).toThrow(
+      "El libro ya está registrado.",
+    );
+  });
 });
