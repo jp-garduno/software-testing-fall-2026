@@ -78,3 +78,12 @@ def test_should_put_copy_back_on_shelf_when_returned():
     library.return_book("M1", ISBN)
 
     assert library.get_book(ISBN).available_copies == 1
+
+
+def test_should_remove_book_from_member_when_returned():
+    library = make_library()
+    library.borrow_book("M1", ISBN)
+
+    library.return_book("M1", ISBN)
+
+    assert not library.get_member("M1").borrowed_books
