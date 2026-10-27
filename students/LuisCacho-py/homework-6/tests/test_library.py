@@ -138,3 +138,41 @@ def test_library_return_book_not_borrowed_by_member():
 
     with pytest.raises(ValueError, match="Book was not borrowed by this member"):
         library.return_book("M001", "1234567890")
+
+
+def test_library_search_by_title_case_insensitive():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    b2 = Book("2222222222", "Clean Architecture", "Robert C. Martin")
+    b3 = Book("3333333333", "Design Patterns", "Gang of Four")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.add_book(b3)
+
+    results = library.search_by_title("clean")
+    assert len(results) == 2
+    assert b1 in results
+    assert b2 in results
+
+
+def test_library_search_by_author_case_insensitive():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    b2 = Book("2222222222", "Clean Architecture", "Robert C. Martin")
+    b3 = Book("3333333333", "Design Patterns", "Gang of Four")
+    library.add_book(b1)
+    library.add_book(b2)
+    library.add_book(b3)
+
+    results = library.search_by_author("martin")
+    assert len(results) == 2
+    assert b1 in results
+    assert b2 in results
+
+
+def test_library_search_no_matches_returns_empty():
+    library = Library()
+    b1 = Book("1111111111", "Clean Code", "Robert C. Martin")
+    library.add_book(b1)
+    assert library.search_by_title("Nonexistent") == []
+    assert library.search_by_author("Nonexistent") == []
