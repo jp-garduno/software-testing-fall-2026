@@ -7,6 +7,8 @@ class Book:
     """A title in the catalog, with one or more physical copies."""
 
     def __init__(self, isbn, title, author, total_copies=1):
+        if len(isbn) not in (10, 13):
+            raise ValueError(f"ISBN must have 10 or 13 digits, got {isbn!r}")
         self.isbn = isbn
         self.title = title
         self.author = author
