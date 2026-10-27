@@ -49,6 +49,8 @@ class Library:
         self.get_book(isbn).borrow()
         member.add_borrowed_book(isbn)
         self._loans.append(Loan(member_id, isbn, self._clock(), member.category.daily_late_fee))
+        if waiting:
+            waiting.pop(0)
 
     def return_book(self, member_id, isbn):
         """Take back a member's copy of a book."""
