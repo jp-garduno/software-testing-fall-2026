@@ -1,5 +1,7 @@
 const MemberCategory = Object.freeze({
   STUDENT: Object.freeze({ name: "STUDENT", borrowLimit: 3, dailyLateFeeCents: 100 }),
+  FACULTY: Object.freeze({ name: "FACULTY", borrowLimit: 5, dailyLateFeeCents: 50 }),
+  PUBLIC: Object.freeze({ name: "PUBLIC", borrowLimit: 2, dailyLateFeeCents: 150 }),
 });
 
 class Member {
