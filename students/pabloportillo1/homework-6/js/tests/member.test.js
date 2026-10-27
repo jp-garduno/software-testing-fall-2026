@@ -43,3 +43,11 @@ test("adding the same book twice is rejected", () => {
 
   expect(() => member.addBorrowedBook(ISBNS[0])).toThrow("already borrowed");
 });
+
+test("returnBook removes the isbn", () => {
+  member.addBorrowedBook(ISBNS[0]);
+
+  member.returnBook(ISBNS[0]);
+
+  expect(member.borrowedBooks).toEqual([]);
+});
