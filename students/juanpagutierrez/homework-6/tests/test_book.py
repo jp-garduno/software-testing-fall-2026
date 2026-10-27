@@ -1,6 +1,9 @@
 """Tests for the Book class."""
 
+import pytest
+
 from src.book import Book
+from src.exceptions import BookUnavailableError
 
 
 def test_book_can_be_created_with_isbn_title_and_author():
@@ -27,3 +30,9 @@ def test_borrow_decrements_available_copies():
     book = Book("1234567890", "Clean Code", "Robert Martin", total_copies=2)
     book.borrow()
     assert book.available_copies == 1
+
+
+def test_borrow_raises_when_no_copies_available():
+    book = Book("1234567890", "Clean Code", "Robert Martin", total_copies=0)
+    with pytest.raises(BookUnavailableError):
+        book.borrow()
