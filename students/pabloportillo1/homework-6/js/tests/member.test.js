@@ -25,3 +25,9 @@ test.each([
 test("new member can borrow", () => {
   expect(member.canBorrow()).toBe(true);
 });
+
+test("addBorrowedBook records the isbn", () => {
+  member.addBorrowedBook(ISBNS[0]);
+
+  expect(member.borrowedBooks).toEqual([ISBNS[0]]);
+});
