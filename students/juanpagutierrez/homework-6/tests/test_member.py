@@ -20,3 +20,7 @@ def test_add_borrowed_book_records_the_isbn():
     member = Member("M001", "Ada Lovelace")
     member.add_borrowed_book("1234567890")
     assert member.borrowed_books == ["1234567890"]
+
+
+def test_member_can_borrow_when_under_limit():
+    assert Member("M001", "Ada Lovelace").can_borrow() is True
