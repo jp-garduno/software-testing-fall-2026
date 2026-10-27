@@ -25,4 +25,7 @@ class Member:
 
     def return_book(self, isbn):
         """Record that the member gave back their copy of this book."""
+        if isbn not in self.borrowed_books:
+            raise errors.InvalidReturnError(f"{self.name} does not hold {isbn}")
+
         self.borrowed_books.remove(isbn)
