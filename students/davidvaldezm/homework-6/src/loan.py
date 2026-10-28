@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 from decimal import Decimal
 
+LOAN_PERIOD_DAYS = 14
+
 
 @dataclass(frozen=True)
 class Loan:
@@ -16,7 +18,7 @@ class Loan:
 
     @property
     def due_date(self):
-        return self.borrowed_on + timedelta(days=14)
+        return self.borrowed_on + timedelta(days=LOAN_PERIOD_DAYS)
 
     def late_fee(self, as_of):
         end_date = min(as_of, self.returned_on) if self.returned_on else as_of
