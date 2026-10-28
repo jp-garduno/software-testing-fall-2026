@@ -161,3 +161,8 @@ def test_failed_borrow_does_not_create_history(dated_library):
     with pytest.raises(ValueError):
         library.borrow_book("M1", "1234567890")
     assert len(library.get_member_history("M1")) == 1
+
+
+def test_closed_loan_can_be_queried_before_its_return():
+    loan = Loan("M1", "1234567890", date(2026, 1, 1), returned_on=date(2026, 1, 20))
+    assert loan.late_fee(date(2026, 1, 16)) == Decimal("1")
