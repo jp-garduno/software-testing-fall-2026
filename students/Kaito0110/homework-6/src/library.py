@@ -165,4 +165,13 @@ class Library:
             {"member_id": member_id, "isbn": isbn, "action": "return"}
         )
 
-        pass
+        if self.reservations.get(isbn):
+            next_member_id = self.reservations[isbn].pop(0)
+            self.notifications.append(
+                {
+                    "member_id": next_member_id,
+                    "isbn": isbn,
+                    "message": f"Book '{book.title}' ({isbn}) is now available for pickup.",
+                }
+            )
+
