@@ -10,6 +10,7 @@ from src.exceptions import (
     DuplicateBookError,
     DuplicateMemberError,
     MemberNotFoundError,
+    ReservationError,
 )
 from src.loan import Loan
 
@@ -29,6 +30,7 @@ class Library:
         self._books = {}
         self._members = {}
         self._loans = []
+        self._reservations = {}
 
     # ----- catalog and members ---------------------------------------------
 
@@ -128,3 +130,23 @@ class Library:
         """Active loans whose due date has passed."""
         today = self._clock()
         return [loan for loan in self._loans if loan.is_active and loan.days_overdue(today) > 0]
+
+    # ----- reservations ------------------------------------------------------
+
+    def reserve_book(self, member_id, isbn):
+        """Queue the member for a book that has no copies on the shelf."""
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+        if book.is_available():
+            raise ReservationError(f"'{book.title}' is available; borrow it instead")
+        if member.has_borrowed(isbn):
+            raise ReservationError(f"{member.name} already has '{book.title}'")
+        queue = self._reservations.setdefault(isbn, [])
+        if member_id in queue:
+            raise ReservationError(f"{member.name} already reserved '{book.title}'")
+        queue.append(member_id)
+        return len(queue)
+
+    def get_reservation_queue(self, isbn):
+        """Member IDs waiting for this book, first in line first."""
+        return list(self._reservations.get(isbn, []))
