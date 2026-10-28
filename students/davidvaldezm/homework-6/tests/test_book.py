@@ -29,3 +29,8 @@ def test_book_requires_a_title(title):
 def test_book_rejects_invalid_copy_counts(copies):
     with pytest.raises(ValueError, match="copies"):
         Book("1234567890", "Title", "Author", copies)
+
+
+@pytest.mark.parametrize("copies, expected", [(0, False), (1, True)])
+def test_book_availability_depends_on_stock(copies, expected):
+    assert Book("1234567890", "Title", "Author", copies).is_available() is expected
