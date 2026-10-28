@@ -61,6 +61,9 @@ class Library:
         queue.append(member_id)
         return len(queue)
 
+    def get_reservation_queue(self, isbn):
+        return list(self._reservations.get(isbn, []))
+
     def search_by_title(self, title):
         return self._search("title", title)
 
