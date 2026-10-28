@@ -120,9 +120,10 @@ class Library {
     }
 
     calcularRecargo(idMiembro, isbn, fechaActual = new Date()) {
+        const miembro = this.obtenerMiembroRegistrado(idMiembro);
         const vencimiento = this.fechaVencimiento(idMiembro, isbn);
         const dias = Math.max(0, Math.floor((fechaActual - vencimiento) / (24 * 60 * 60 * 1000)));
-        return dias * 1;
+        return dias * miembro.tarifaRecargo;
     }
 }
 
