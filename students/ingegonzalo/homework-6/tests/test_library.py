@@ -66,3 +66,15 @@ def test_borrow_book_raises_error_when_book_not_in_catalog():
     library.register_member(Member("M001", "Ana"))
     with pytest.raises(ValueError, match="not in the catalog"):
         library.borrow_book("M001", "9999999999")
+
+def test_borrow_book_does_not_consume_copy_when_member_at_limit():
+    library = Library()
+    first = Book("1111111111", "First", "Author")
+    second = Book("2222222222", "Second", "Author")
+    library.add_book(first)
+    library.add_book(second)
+    library.register_member(Member("M001", "Ana", max_borrow_limit=1))
+    library.borrow_book("M001", "1111111111")
+    with pytest.raises(ValueError):
+        library.borrow_book("M001", "2222222222")
+    assert second.available_copies == 1
