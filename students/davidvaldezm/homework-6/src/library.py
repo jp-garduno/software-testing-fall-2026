@@ -1,10 +1,14 @@
 """Library domain model."""
+from datetime import date
+
+from .loan import Loan
 
 
 class Library:
     """Library behavior developed test first."""
 
-    def __init__(self):
+    def __init__(self, today=date.today):
+        self._today = today
         self.catalog = {}
         self.members = {}
 
@@ -26,6 +30,7 @@ class Library:
             raise ValueError('Book already borrowed by this member')
         book.borrow()
         member.add_borrowed_book(isbn)
+        return Loan(member_id, isbn, self._today(), daily_rate=member.daily_fee_rate)
 
     def return_book(self, member_id, isbn):
         member, book = self._participants(member_id, isbn)
