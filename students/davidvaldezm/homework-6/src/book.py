@@ -16,3 +16,6 @@ class Book:
         self.isbn = isbn
         self.title = title
         self.author = author
+
+    def is_available(self):
+        return self.available_copies > 0
