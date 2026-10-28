@@ -16,7 +16,12 @@ class Library:
         return self._members[member_id]
 
     def borrow_book(self, member_id, isbn):
-        member = self._members[member_id]
+        member = self._require_member(member_id)
         book = self._books[isbn]
         book.borrow()
         member.add_borrowed_book(isbn)
+
+    def _require_member(self, member_id):
+        if member_id not in self._members:
+            raise ValueError("Member not found")
+        return self._members[member_id]
