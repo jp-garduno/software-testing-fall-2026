@@ -1,5 +1,6 @@
 class Member:
     DEFAULT_BORROW_LIMIT = {"student": 3, "faculty": 5, "public": 2}
+    LATE_FEE_RATES = {"student": 1, "faculty": 0.5, "public": 2}
 
     def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
         self._validate_name(name)
@@ -11,7 +12,7 @@ class Member:
         self.category = category
         self.borrowed_books = []
         self.max_borrow_limit = max_borrow_limit
-        self.late_fees = 0
+        self.late_fee_rate = self.LATE_FEE_RATES[category]
 
     @classmethod
     def _validate_category(cls, category):
