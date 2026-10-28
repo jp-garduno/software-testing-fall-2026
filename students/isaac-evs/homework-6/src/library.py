@@ -55,6 +55,7 @@ class Library:
         )
 
     def reserve_book(self, member_id, isbn):
+        self._require_member(member_id)
         if self._require_book(isbn).is_available():
             raise ValueError("Book is available; borrow it instead")
         queue = self._reservations.setdefault(isbn, [])
