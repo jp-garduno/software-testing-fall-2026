@@ -32,3 +32,9 @@ def test_reservation_queue_keeps_first_come_first_served_order(library):
     library.reserve_book("m2", ISBN)
     library.reserve_book("m3", ISBN)
     assert library.get_reservation_queue(ISBN) == ["m2", "m3"]
+
+
+def test_member_cannot_reserve_the_same_book_twice(library):
+    library.reserve_book("m2", ISBN)
+    with pytest.raises(ValueError, match="already reserved"):
+        library.reserve_book("m2", ISBN)
