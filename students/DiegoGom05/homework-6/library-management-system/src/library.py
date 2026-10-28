@@ -61,7 +61,6 @@ class Library:
         book.return_copy()
 
         self._loans.pop((member_id, isbn), None)
-        del self._loans[(member_id, isbn)]
 
     def search_by_title(self, title):
         return self._search("title", title)
@@ -80,10 +79,17 @@ class Library:
 
     def calculate_late_fees(self, member_id, today=None):
         today = today or date.today()
+        member = self._find_member(member_id)
         total = 0
-        for borrowed_on in self._loans.values():
+
+        for (owner, _isbn), borrowed_on in self._loans.items():
+            if owner != member_id:
+                continue
+
             due = borrowed_on + timedelta(days=14)
             days_late = (today - due).days
+
             if days_late > 0:
-                total += days_late
+                total += days_late * member.late_fee_rate
+
         return total
