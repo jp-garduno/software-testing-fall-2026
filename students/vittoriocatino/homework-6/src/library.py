@@ -73,3 +73,14 @@ class Library:
             for item in self.borrowing_history
             if item["member_id"] == member_id and not item["returned"]
         )
+
+    def reserve_book(self, member_id: str, isbn: str) -> None:
+        """Add a member to an unavailable book's first-in-first-out queue."""
+        member, book = self._member_and_book(member_id, isbn)
+        del member
+        if book.is_available():
+            raise ValueError("available books cannot be reserved")
+        queue = self.reservations.setdefault(isbn, [])
+        if member_id in queue:
+            raise ValueError("member already has a reservation")
+        queue.append(member_id)
