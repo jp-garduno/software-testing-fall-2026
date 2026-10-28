@@ -36,6 +36,22 @@ def test_book_rejects_isbn_that_is_not_a_digit_string(isbn):
         Book(isbn, "Test Book", "Author")
 
 
+@pytest.mark.parametrize("title", ["", "   ", None])
+def test_book_requires_a_title(title):
+    with pytest.raises(InvalidBookError, match="Title"):
+        Book("1234567890", title, "Author")
+
+
+def test_book_title_is_trimmed():
+    book = Book("1234567890", "  Test Book  ", "Author")
+    assert book.title == "Test Book"
+
+
+def test_book_rejects_negative_copies():
+    with pytest.raises(InvalidBookError, match="negative"):
+        Book("1234567890", "Test Book", "Author", total_copies=-1)
+
+
 def test_book_is_available_when_copies_exist():
     book = Book("1234567890", "Test Book", "Author", total_copies=1)
     assert book.is_available() is True
