@@ -1,4 +1,5 @@
 """Dated loan records and fee calculation."""
+
 from dataclasses import dataclass
 from datetime import date, timedelta
 from decimal import Decimal
@@ -14,7 +15,7 @@ class Loan:
     isbn: str
     borrowed_on: date
     returned_on: date | None = None
-    daily_rate: Decimal = Decimal('1')
+    daily_rate: Decimal = Decimal("1")
 
     @property
     def due_date(self):
