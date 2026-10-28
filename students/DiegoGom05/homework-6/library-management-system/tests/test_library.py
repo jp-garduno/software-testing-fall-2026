@@ -132,3 +132,10 @@ def test_late_fee_is_one_dollar_per_overdue_day(loaded):
     lib, _, _ = loaded
     lib.borrow_book("m1", "1234567890", borrow_date=date(2026, 1, 1))
     assert lib.calculate_late_fees("m1", today=date(2026, 1, 20)) == 5
+
+
+def test_returned_book_has_no_late_fee(loaded):
+    lib, _, _ = loaded
+    lib.borrow_book("m1", "1234567890", borrow_date=date(2026, 1, 1))
+    lib.return_book("m1", "1234567890")
+    assert lib.calculate_late_fees("m1", today=date(2026, 2, 1)) == 0
