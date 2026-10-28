@@ -1,7 +1,6 @@
 from datetime import date, timedelta
 
 LOAN_PERIOD_DAYS = 14
-LATE_FEE_PER_DAY = 1
 
 
 class Library:

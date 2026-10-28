@@ -1,18 +1,24 @@
 from enum import Enum
+from typing import NamedTuple
+
+
+class CategoryPolicy(NamedTuple):
+    borrow_limit: int
+    late_fee_per_day: float
 
 
 class MemberCategory(Enum):
-    STUDENT = (3, 1.00)
-    FACULTY = (5, 0.50)
-    PUBLIC = (2, 1.50)
+    STUDENT = CategoryPolicy(3, 1.00)
+    FACULTY = CategoryPolicy(5, 0.50)
+    PUBLIC = CategoryPolicy(2, 1.50)
 
     @property
     def borrow_limit(self):
-        return self.value[0]
+        return self.value.borrow_limit
 
     @property
     def late_fee_per_day(self):
-        return self.value[1]
+        return self.value.late_fee_per_day
 
 
 class Member:
