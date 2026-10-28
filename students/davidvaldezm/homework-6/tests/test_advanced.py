@@ -32,3 +32,9 @@ def test_closed_loan_stops_fees_at_return_date():
 @pytest.mark.parametrize("category, expected", [("student", 3), ("faculty", 5), ("public", 2)])
 def test_member_category_sets_borrowing_limit(category, expected):
     assert Member("M1", "Ana", category=category).max_borrow_limit == expected
+
+
+@pytest.mark.parametrize("category", ["visitor", "Faculty", None, []])
+def test_member_rejects_unknown_category(category):
+    with pytest.raises(ValueError, match="category"):
+        Member("M1", "Ana", category=category)
