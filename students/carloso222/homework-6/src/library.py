@@ -75,11 +75,13 @@ class Library:
         return loan
 
     def return_book(self, member_id, isbn):
-        """Take the book back from the member."""
+        """Take the book back and charge any late fee."""
         member = self.get_member(member_id)
         book = self.get_book(isbn)
         loan = self._active_loan(member_id, isbn)
-        loan.returned_on = self._clock()
+        today = self._clock()
+        loan.returned_on = today
+        loan.fee_charged = loan.days_overdue(today) * member.daily_late_fee
         member.return_book(isbn)
         book.return_copy()
         return loan
@@ -105,3 +107,24 @@ class Library:
     def get_available_books(self):
         """Every book with at least one copy on the shelf."""
         return [book for book in self._books.values() if book.is_available()]
+
+    # ----- late fees ---------------------------------------------------------
+
+    def calculate_late_fees(self, member_id):
+        """Fees already charged on returns plus fees accruing on overdue loans."""
+        member = self.get_member(member_id)
+        today = self._clock()
+        total = 0.0
+        for loan in self._loans:
+            if loan.member_id != member_id:
+                continue
+            if loan.is_active:
+                total += loan.days_overdue(today) * member.daily_late_fee
+            else:
+                total += loan.fee_charged
+        return total
+
+    def get_overdue_loans(self):
+        """Active loans whose due date has passed."""
+        today = self._clock()
+        return [loan for loan in self._loans if loan.is_active and loan.days_overdue(today) > 0]
