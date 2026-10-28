@@ -26,6 +26,18 @@ class Book:
         """Check if at least one copy is currently available."""
         return self.available_copies > 0
 
+    def borrow(self) -> None:
+        """Borrow one copy of the book."""
+        if not self.is_available():
+            raise ValueError("No copies available to borrow")
+        self.available_copies -= 1
+
+    def return_copy(self) -> None:
+        """Return one borrowed copy of the book."""
+        if self.available_copies >= self.total_copies:
+            raise ValueError("Cannot return more copies than total copies")
+        self.available_copies += 1
+
     @staticmethod
     def _validate_isbn(isbn: str) -> None:
         if not (isinstance(isbn, str) and isbn.isdigit() and len(isbn) in (10, 13)):
