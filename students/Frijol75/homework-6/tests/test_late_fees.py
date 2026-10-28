@@ -51,3 +51,29 @@ def test_library_calculates_total_member_late_fees():
     as_of_date = date(2026, 10, 18)  # 3 days overdue
     total_fee = lib.calculate_member_late_fees("M001", as_of_date=as_of_date)
     assert total_fee == 3.0
+
+
+def test_library_late_fees_for_multiple_books_and_returned_loans():
+    lib = Library()
+    book1 = Book("1111111111", "Book 1", "Author", total_copies=2)
+    book2 = Book("2222222222", "Book 2", "Author", total_copies=2)
+    member = Member("M001", "Alice", max_borrow_limit=5)
+    lib.add_book(book1)
+    lib.add_book(book2)
+    lib.register_member(member)
+
+    # Book 1: borrowed on Oct 1, returned on Oct 20 (5 days late = $5)
+    lib.borrow_book("M001", "1111111111", borrow_date=date(2026, 10, 1))
+    lib.return_book("M001", "1111111111", return_date=date(2026, 10, 20))
+
+    # Book 2: borrowed on Oct 1, still unreturned on Oct 25 (10 days late = $10)
+    lib.borrow_book("M001", "2222222222", borrow_date=date(2026, 10, 1))
+
+    total = lib.calculate_member_late_fees("M001", as_of_date=date(2026, 10, 25))
+    assert total == 15.0
+
+
+def test_library_calculate_late_fees_raises_for_unregistered_member():
+    lib = Library()
+    with pytest.raises(KeyError, match="Member not registered"):
+        lib.calculate_member_late_fees("NON_EXISTENT")
