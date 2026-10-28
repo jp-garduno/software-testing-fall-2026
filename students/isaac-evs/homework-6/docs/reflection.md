@@ -39,7 +39,7 @@ wanted, and the code had to catch up. Test-after would likely have given the sam
 since this suite is at 100% for lines and branches, but with weaker assertions: I would not have
 thought of the "returned book keeps accruing fees" case (`assert 5 == 0`) until a loan was never
 cleared. The trade-off is that TDD is slower per feature. It also produced many more commits
-than I would normally make: 109, because each test and each fix is its own commit.
+than I would normally make (over 100), because each test and each fix is its own commit.
 
 ## Future Use
 

@@ -35,7 +35,7 @@ open coverage/index.html
 - **Tests**: 64 passing, about 0.1-0.2 s for the full suite, none skipped
 - **Statement coverage**: 100% (146/146)
 - **Branch coverage**: 100% (30/30)
-- **Commits**: 109 on the branch: 48 RED, 48 GREEN, 12 REFACTOR, 1 scaffold
+- **Commits**: 111 on the branch: 48 RED, 48 GREEN, 12 REFACTOR, 1 scaffold, 2 documentation
 
 ## Project Structure
 
