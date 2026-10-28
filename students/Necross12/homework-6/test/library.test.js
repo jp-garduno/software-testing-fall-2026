@@ -315,3 +315,105 @@ describe("Biblioteca: recargos por retraso", () => {
         );
     });
 });
+
+describe("Biblioteca: gestión de reservas", () => {
+    let biblioteca, principito, harry, pepe, gon, ana;
+
+    beforeEach(() => {
+        biblioteca = new Library();
+        principito = new Books("1111111111", "El principito", "Antoine de Saint-Exupéry");
+        harry = new Books("3333333333", "Harry Potter", "J. K. Rowling");
+        pepe = new Member("Pepe");
+        gon = new Member("Gon");
+        ana = new Member("Ana");
+        [pepe, gon, ana].forEach((m) => biblioteca.agregarMiembro(m));
+        [principito, harry].forEach((l) => biblioteca.agregarLibro(l));
+        biblioteca.pedirLibro(gon.id, principito.isbn);
+    });
+
+    test("quitar reserva elimina al miembro de la cola", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.reservarLibro(ana.id, principito.isbn);
+        biblioteca.quitarReserva(principito.isbn, pepe.id);
+        expect(biblioteca.obtenerReservas(principito.isbn)).toEqual([ana.id]);
+    });
+
+    test("quitar reserva de un libro sin cola deja la cola vacía", () => {
+        biblioteca.quitarReserva(harry.isbn, pepe.id);
+        expect(biblioteca.obtenerReservas(harry.isbn)).toEqual([]);
+    });
+
+    test("notificar avisa solo al primero de la cola", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.reservarLibro(ana.id, principito.isbn);
+        biblioteca.notificarSiguienteEnCola(principito);
+        expect(pepe.notificaciones).toEqual(['El libro "El principito" ya está disponible.']);
+        expect(ana.notificaciones).toEqual([]);
+    });
+
+    test("notificar sin reservas no avisa a nadie", () => {
+        biblioteca.notificarSiguienteEnCola(principito);
+        expect([pepe, gon, ana].flatMap((m) => m.notificaciones)).toEqual([]);
+    });
+
+    test("obtener reservas devuelve una copia de la cola", () => {
+        biblioteca.reservarLibro(pepe.id, principito.isbn);
+        biblioteca.obtenerReservas(principito.isbn).push(ana.id);
+        expect(biblioteca.obtenerReservas(principito.isbn)).toEqual([pepe.id]);
+    });
+});
+
+describe("Biblioteca: fechas por defecto", () => {
+    let biblioteca, corte, harry, pepe;
+
+    beforeEach(() => {
+        jest.useFakeTimers({ now: new Date("2026-10-01T00:00:00Z") });
+        biblioteca = new Library();
+        corte = new Books("2222222222", "Una corte de rosas y espinas", "Sarah J. Maas");
+        harry = new Books("3333333333", "Harry Potter", "J. K. Rowling");
+        pepe = new Member("Pepe");
+        biblioteca.agregarMiembro(pepe);
+        [corte, harry].forEach((l) => biblioteca.agregarLibro(l));
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    test("si no se indica fecha, el préstamo usa la fecha actual", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn);
+        expect(biblioteca.fechaVencimiento(pepe.id, corte.isbn)).toEqual(
+            new Date("2026-10-15T00:00:00Z"),
+        );
+    });
+
+    test("si no se indica fecha, el recargo se calcula con la fecha actual", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn);
+        jest.setSystemTime(new Date("2026-10-18T00:00:00Z"));
+        expect(biblioteca.calcularRecargo(pepe.id, corte.isbn)).toBe(3);
+    });
+
+    test("si no se indica fecha, el recargo total se calcula con la fecha actual", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn);
+        biblioteca.pedirLibro(pepe.id, harry.isbn);
+        jest.setSystemTime(new Date("2026-10-18T00:00:00Z"));
+        expect(biblioteca.calcularRecargoTotal(pepe.id)).toBe(6);
+    });
+});
+
+describe("Biblioteca: devolver libros no registrados como préstamo", () => {
+    test("devolver un libro sin préstamo registrado no borra el préstamo de otro miembro", () => {
+        const biblioteca = new Library();
+        const principito = new Books("1111111111", "El principito", "Antoine de Saint-Exupéry", 2, 1);
+        const harry = new Books("3333333333", "Harry Potter", "J. K. Rowling");
+        const pepe = new Member("Pepe", [principito.isbn]);
+        const gon = new Member("Gon");
+        [pepe, gon].forEach((m) => biblioteca.agregarMiembro(m));
+        [principito, harry].forEach((l) => biblioteca.agregarLibro(l));
+        biblioteca.pedirLibro(gon.id, harry.isbn);
+
+        biblioteca.regresarLibro(pepe.id, principito.isbn);
+
+        expect(() => biblioteca.fechaVencimiento(gon.id, harry.isbn)).not.toThrow();
+    });
+});

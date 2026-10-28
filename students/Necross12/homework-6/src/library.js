@@ -50,7 +50,7 @@ class Library {
             throw new Error("El libro está reservado para otro miembro.");
         libro.pedir();
         miembro.pedir(isbn);
-        this.reservas.set(isbn, this.obtenerReservas(isbn).filter((id) => id !== miembro.id));
+        this.quitarReserva(isbn, miembro.id);
         this.prestamos.push({ idMiembro, isbn, fechaPrestamo });
         return true;
     }
@@ -60,15 +60,9 @@ class Library {
         const libro = this.obtenerLibroRegistrado(isbn);
         miembro.regresar(isbn);
         libro.regresar();
-        const posicion = this.prestamos.findIndex(
-            (p) => p.idMiembro === idMiembro && p.isbn === isbn,
-        );
-        this.prestamos.splice(posicion, 1);
-        const [siguiente] = this.obtenerReservas(isbn);
-        if (siguiente !== undefined)
-            this.obtenerMiembroRegistrado(siguiente).notificar(
-                `El libro "${libro.titulo}" ya está disponible.`,
-            );
+        const posicion = this.posicionPrestamo(idMiembro, isbn);
+        if (posicion !== -1) this.prestamos.splice(posicion, 1);
+        this.notificarSiguienteEnCola(libro);
         return true;
     }
 
