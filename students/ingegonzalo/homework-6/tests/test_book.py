@@ -33,3 +33,8 @@ def test_book_rejects_isbn_with_non_digits():
 def test_book_requires_title():
     with pytest.raises(ValueError):
         Book("1234567890", "", "Author")
+
+def test_borrow_decreases_available_copies():
+    book = Book("1234567890", "Test Book", "Author", total_copies=2)
+    book.borrow()
+    assert book.available_copies == 1
