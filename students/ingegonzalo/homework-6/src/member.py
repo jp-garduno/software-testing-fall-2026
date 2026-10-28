@@ -8,6 +8,7 @@ class Member:
         self.borrowed_books = []
         self.max_borrow_limit = max_borrow_limit
         self.late_fees = 0
+        self.category = 'student'
 
     @staticmethod
     def _validate_name(name):
