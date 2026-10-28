@@ -34,3 +34,11 @@ def test_late_fee_is_one_dollar_per_overdue_day(library, clock):
     library.borrow_book("m1", ISBN)
     clock.advance(17)
     assert library.calculate_late_fee("m1", ISBN) == 3
+
+
+def test_member_total_fees_add_up_across_loans(library, clock):
+    library.borrow_book("m1", ISBN)
+    clock.advance(2)
+    library.borrow_book("m1", OTHER_ISBN)
+    clock.advance(17)
+    assert library.calculate_member_late_fees("m1") == 8
