@@ -14,7 +14,7 @@ class Book:
 	def borrow(self):
 		self.available_copies -= 1
 
-	def returnBook(self):
+	def return_book(self):
 		self.available_copies += 1
 
 

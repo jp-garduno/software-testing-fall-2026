@@ -46,5 +46,17 @@ def test_book_borrowed_and_returned_multiple_times():
     book.borrow()
     book.return_book()
     assert book.available_copies == 22
-    
+
+# # Test 7: Return excess
+def test_book_returned_more_than_borrow_error():
+    book = Book("1234567890", "Test Book", "Author", copies=23)
+    book.borrow()
+    book.borrow()
+    book.return_book()
+    book.borrow()
+    book.return_book()
+    book.return_book()
+    with pytest.raises(ValueError):
+        book.return_book()
+
 
