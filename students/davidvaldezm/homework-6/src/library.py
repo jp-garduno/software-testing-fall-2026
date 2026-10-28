@@ -17,3 +17,9 @@ class Library:
         if member.member_id in self.members:
             raise ValueError('Member already registered')
         self.members[member.member_id] = member
+
+    def borrow_book(self, member_id, isbn):
+        member = self.members[member_id]
+        book = self.catalog[isbn]
+        book.borrow()
+        member.add_borrowed_book(isbn)
