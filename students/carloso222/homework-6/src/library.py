@@ -3,11 +3,14 @@
 from datetime import date
 
 from src.exceptions import (
+    AlreadyBorrowedError,
     BookNotFoundError,
+    BorrowLimitReachedError,
     DuplicateBookError,
     DuplicateMemberError,
     MemberNotFoundError,
 )
+from src.loan import Loan
 
 
 class Library:
@@ -53,3 +56,19 @@ class Library:
             return self._members[member_id]
         except KeyError as error:
             raise MemberNotFoundError(f"No member with ID {member_id}") from error
+
+    # ----- borrowing ---------------------------------------------------------
+
+    def borrow_book(self, member_id, isbn):
+        """Lend one copy of the book to the member and return the Loan."""
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+        if member.has_borrowed(isbn):
+            raise AlreadyBorrowedError(f"{member.name} already has {book.title}")
+        if not member.can_borrow():
+            raise BorrowLimitReachedError(f"{member.name} has reached their borrow limit")
+        book.borrow()
+        member.add_borrowed_book(isbn)
+        loan = Loan(member_id=member_id, isbn=isbn, borrowed_on=self._clock())
+        self._loans.append(loan)
+        return loan
