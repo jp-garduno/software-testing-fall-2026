@@ -68,3 +68,9 @@ def test_borrow_at_member_limit_fails_and_keeps_copies(library):
     with pytest.raises(ValueError):
         library.borrow_book("m1", "1234567891")
     assert b2.available_copies == 2
+
+def test_member_cannot_borrow_same_book_twice(loaded):
+    lib, _, _ = loaded
+    lib.borrow_book("m1", "1234567890")
+    with pytest.raises(ValueError, match="already borrowed"):
+        lib.borrow_book("m1", "1234567890")

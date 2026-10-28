@@ -26,6 +26,9 @@ class Library:
         if isbn not in self._books:
             raise ValueError("Book not found")
 
+        if isbn in member.borrowed_books:
+            raise ValueError("Member already borrowed this book")
+
         member = self._members[member_id]
         book = self._books[isbn]
 
