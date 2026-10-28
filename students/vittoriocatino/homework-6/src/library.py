@@ -22,3 +22,35 @@ class Library:
         if member.member_id in self.members:
             raise ValueError("member ID already exists")
         self.members[member.member_id] = member
+
+    def _member_and_book(self, member_id: str, isbn: str) -> tuple[Member, Book]:
+        if member_id not in self.members:
+            raise ValueError("member not found")
+        if isbn not in self.books:
+            raise ValueError("book not found")
+        return self.members[member_id], self.books[isbn]
+
+    def borrow_book(self, member_id: str, isbn: str) -> None:
+        member, book = self._member_and_book(member_id, isbn)
+        book.borrow()
+        try:
+            member.add_borrowed_book(isbn)
+        except ValueError:
+            book.return_copy()
+            raise
+        self.borrowing_history.append({"member_id": member_id, "isbn": isbn, "returned": False})
+
+    def return_book(self, member_id: str, isbn: str) -> None:
+        member, book = self._member_and_book(member_id, isbn)
+        member.return_book(isbn)
+        book.return_copy()
+        next(item for item in reversed(self.borrowing_history) if item["member_id"] == member_id and item["isbn"] == isbn and not item["returned"])["returned"] = True
+
+    def search_by_title(self, title: str) -> list[Book]:
+        return [book for book in self.books.values() if title.lower() in book.title.lower()]
+
+    def search_by_author(self, author: str) -> list[Book]:
+        return [book for book in self.books.values() if author.lower() in book.author.lower()]
+
+    def get_available_books(self) -> list[Book]:
+        return [book for book in self.books.values() if book.is_available()]
