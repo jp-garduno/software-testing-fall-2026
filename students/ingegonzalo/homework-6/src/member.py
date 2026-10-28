@@ -1,10 +1,10 @@
 class Member:
-    DEFAULT_BORROW_LIMIT = 3
+    DEFAULT_BORROW_LIMIT = {"student": 3, "faculty": 5, "public": 2}
 
     def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
         self._validate_name(name)
         if max_borrow_limit is None:
-            max_borrow_limit = 5 if category == "faculty" else self.DEFAULT_BORROW_LIMIT
+            max_borrow_limit = self.BORROW_LIMITS[category]
         self.member_id = member_id
         self.name = name
         self.category = category
