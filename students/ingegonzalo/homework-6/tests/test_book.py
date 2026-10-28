@@ -1,4 +1,5 @@
 from src.book import Book
+import pytest
 
 
 def test_book_can_be_created():
@@ -16,3 +17,7 @@ def test_book_is_available_when_copies_exist():
 def test_book_is_not_available_when_no_copies():
     book = Book("1234567890", "Test Book", "Author", test_copies=0)
     assert book.is_available() is False
+
+def test_book_rejects_isbn_with_invalid_length():
+    with pytest.raises(ValueError):
+        Book("12345", "Test Book", "Author")
