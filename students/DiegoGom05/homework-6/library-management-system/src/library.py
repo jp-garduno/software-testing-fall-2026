@@ -11,6 +11,16 @@ class Library:
             raise ValueError("Member already registered")
         self._members[member.member_id] = member
 
+    def _find_member(self, member_id):
+        if member_id not in self._members:
+            raise ValueError("Member not found")
+        return self._members[member_id]
+
+    def _find_book(self, isbn):
+        if isbn not in self._books:
+            raise ValueError("Book not found")
+        return self._books[isbn]
+
     def get_member(self, member_id):
         return self._members[member_id]
 
