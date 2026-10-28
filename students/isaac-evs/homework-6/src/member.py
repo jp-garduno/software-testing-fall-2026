@@ -1,9 +1,18 @@
+from enum import Enum
+
+
+class MemberCategory(Enum):
+    STUDENT = 3
+    FACULTY = 5
+    PUBLIC = 2
+
+
 class Member:
-    def __init__(self, member_id, name, max_borrow_limit=3):
+    def __init__(self, member_id, name, max_borrow_limit=None, category=MemberCategory.STUDENT):
         self.member_id = member_id
         self.name = name
         self.borrowed_books = []
-        self.max_borrow_limit = max_borrow_limit
+        self.max_borrow_limit = max_borrow_limit if max_borrow_limit is not None else category.value
 
     def can_borrow(self):
         return len(self.borrowed_books) < self.max_borrow_limit
