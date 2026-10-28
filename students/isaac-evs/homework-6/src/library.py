@@ -30,7 +30,8 @@ class Library:
         self._loans[(member_id, isbn)] = self._clock()
 
     def get_due_date(self, member_id, isbn):
-        return self._loans[(member_id, isbn)] + timedelta(days=14)
+        borrowed_on = self._require_loan(member_id, isbn)
+        return borrowed_on + timedelta(days=14)
 
     def return_book(self, member_id, isbn):
         member = self._require_member(member_id)
@@ -69,3 +70,8 @@ class Library:
         if isbn not in self._books:
             raise ValueError("Book not found")
         return self._books[isbn]
+
+    def _require_loan(self, member_id, isbn):
+        if (member_id, isbn) not in self._loans:
+            raise ValueError("Loan not found")
+        return self._loans[(member_id, isbn)]
