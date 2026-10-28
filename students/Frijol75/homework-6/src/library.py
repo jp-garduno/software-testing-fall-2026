@@ -65,3 +65,17 @@ class Library:
         book.return_copy()
         member.return_book(isbn)
         return True
+
+    def search_by_title(self, title: str) -> List[Book]:
+        """Search books by title substring (case-insensitive)."""
+        if not isinstance(title, str):
+            raise TypeError("Search query must be a string")
+        query = title.strip().lower()
+        return [b for b in self.books.values() if query in b.title.lower()]
+
+    def search_by_author(self, author: str) -> List[Book]:
+        """Search books by author substring (case-insensitive)."""
+        if not isinstance(author, str):
+            raise TypeError("Search query must be a string")
+        query = author.strip().lower()
+        return [b for b in self.books.values() if query in b.author.lower()]
