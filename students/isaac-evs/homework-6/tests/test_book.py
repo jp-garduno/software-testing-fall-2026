@@ -31,3 +31,8 @@ def test_book_rejects_isbn_with_invalid_length():
 def test_book_rejects_non_numeric_isbn():
     with pytest.raises(ValueError, match="10 or 13 digits"):
         Book("12345abcde", "Test Book", "Author")
+
+
+def test_book_requires_a_title():
+    with pytest.raises(ValueError, match="Title is required"):
+        Book("1234567890", "", "Author")
