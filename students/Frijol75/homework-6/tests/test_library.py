@@ -1,5 +1,6 @@
 import pytest
 from src.book import Book
+from src.member import Member
 from src.library import Library
 
 
@@ -31,3 +32,26 @@ def test_library_add_book_rejects_invalid_type():
     lib = Library()
     with pytest.raises(TypeError, match="Expected Book instance"):
         lib.add_book("not a book")
+
+
+def test_library_register_member_success():
+    lib = Library()
+    member = Member("M001", "Alice")
+    lib.register_member(member)
+    assert "M001" in lib.members
+    assert lib.members["M001"].name == "Alice"
+
+
+def test_library_register_member_rejects_duplicate():
+    lib = Library()
+    member1 = Member("M001", "Alice")
+    member2 = Member("M001", "Alice Duplicate")
+    lib.register_member(member1)
+    with pytest.raises(ValueError, match="Member with this ID already registered"):
+        lib.register_member(member2)
+
+
+def test_library_register_member_rejects_invalid_type():
+    lib = Library()
+    with pytest.raises(TypeError, match="Expected Member instance"):
+        lib.register_member("not a member")
