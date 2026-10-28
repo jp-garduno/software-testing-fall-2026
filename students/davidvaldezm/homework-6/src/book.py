@@ -9,6 +9,8 @@ class Book:
             raise ValueError('ISBN must contain 10 or 13 ASCII digits')
         if not isinstance(title, str) or not title.strip():
             raise ValueError('Book title is required')
+        if type(copies) is not int or copies < 0:
+            raise ValueError('copies must be a nonnegative integer')
         self.total_copies = copies
         self.available_copies = copies
         self.isbn = isbn
