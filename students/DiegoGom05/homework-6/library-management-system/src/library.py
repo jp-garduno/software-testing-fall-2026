@@ -1,7 +1,11 @@
+from datetime import date
+
+
 class Library:
     def __init__(self):
         self._books = {}
         self._members = {}
+        self._loans = {}
 
     def get_available_books(self):
         return [b for b in self._books.values() if b.is_available()]
@@ -9,16 +13,19 @@ class Library:
     def register_member(self, member):
         if member.member_id in self._members:
             raise ValueError("Member already registered")
+
         self._members[member.member_id] = member
 
     def _find_member(self, member_id):
         if member_id not in self._members:
             raise ValueError("Member not found")
+
         return self._members[member_id]
 
     def _find_book(self, isbn):
         if isbn not in self._books:
             raise ValueError("Book not found")
+
         return self._books[isbn]
 
     def get_member(self, member_id):
@@ -27,17 +34,14 @@ class Library:
     def add_book(self, book):
         if book.isbn in self._books:
             raise ValueError("Book already in catalog")
+
         self._books[book.isbn] = book
 
-    def borrow_book(self, member_id, isbn):
-        if member_id not in self._members:
-            raise ValueError("Member not found")
+    def borrow_book(self, member_id, isbn, borrow_date=None):
+        borrow_date = borrow_date or date.today()
 
-        if isbn not in self._books:
-            raise ValueError("Book not found")
-
-        member = self._members[member_id]
-        book = self._books[isbn]
+        member = self._find_member(member_id)
+        book = self._find_book(isbn)
 
         if isbn in member.borrowed_books:
             raise ValueError("Member already borrowed this book")
@@ -47,16 +51,16 @@ class Library:
 
         book.borrow()
         member.add_borrowed_book(isbn)
+        self._loans[(member_id, isbn)] = borrow_date
 
     def return_book(self, member_id, isbn):
-        if member_id not in self._members:
-            raise ValueError("Member not found")
+        member = self._find_member(member_id)
+        book = self._find_book(isbn)
 
-        member = self._members[member_id]
-
-        book = self._books[isbn]
         member.return_book(isbn)
         book.return_copy()
+
+        self._loans.pop((member_id, isbn), None)
 
     def search_by_title(self, title):
         return self._search("title", title)
@@ -66,7 +70,12 @@ class Library:
 
     def _search(self, field, text):
         text = text.lower()
-        return [b for b in self._books.values() if text in getattr(b, field).lower()]
+
+        return [
+            book
+            for book in self._books.values()
+            if text in getattr(book, field).lower()
+        ]
 
     def calculate_late_fees(self, member_id, today=None):
         return 0
