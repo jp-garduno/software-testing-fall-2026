@@ -34,3 +34,9 @@ def test_book_rejects_invalid_copy_counts(copies):
 @pytest.mark.parametrize("copies, expected", [(0, False), (1, True)])
 def test_book_availability_depends_on_stock(copies, expected):
     assert Book("1234567890", "Title", "Author", copies).is_available() is expected
+
+
+def test_borrow_removes_one_available_copy():
+    book = Book("1234567890", "Title", "Author", 2)
+    book.borrow()
+    assert book.available_copies == 1
