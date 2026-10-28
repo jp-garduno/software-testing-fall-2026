@@ -6,4 +6,4 @@ class Book:
         self.available_copies = copies
 
     def is_available(self):
-        return True
+        return self.available_copies > 0
