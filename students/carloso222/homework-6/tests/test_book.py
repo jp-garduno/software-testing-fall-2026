@@ -14,3 +14,13 @@ def test_book_has_one_copy_by_default():
 def test_new_book_has_all_copies_available():
     book = Book("1234567890", "Test Book", "Author", total_copies=5)
     assert book.available_copies == 5
+
+
+def test_book_is_available_when_copies_exist():
+    book = Book("1234567890", "Test Book", "Author", total_copies=1)
+    assert book.is_available() is True
+
+
+def test_book_is_not_available_when_it_has_zero_copies():
+    book = Book("1234567890", "Test Book", "Author", total_copies=0)
+    assert book.is_available() is False
