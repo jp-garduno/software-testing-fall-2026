@@ -11,6 +11,7 @@ class Library:
         self._today = today
         self.catalog = {}
         self.members = {}
+        self._loans = []
 
     def add_book(self, book):
         if book.isbn in self.catalog:
@@ -54,3 +55,6 @@ class Library:
 
     def get_available_books(self):
         return [book for book in self.catalog.values() if book.is_available()]
+
+    def get_member_history(self, member_id):
+        return tuple(loan for loan in self._loans if loan.member_id == member_id)
