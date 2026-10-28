@@ -21,3 +21,9 @@ def test_get_available_books_excludes_books_without_copies():
     library.add_book(available)
     library.add_book(unavailable)
     assert library.get_available_books() == [available]
+
+def test_add_book_rejects_duplicate_isbn():
+    library = Library()
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    with pytest.raises(ValueError):
+        library.add_book(Book("1234567890", "Another Book", "Author"))
