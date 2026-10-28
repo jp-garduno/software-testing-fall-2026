@@ -32,3 +32,9 @@ class Library:
         if isbn not in self._books:
             raise ValueError("Book not found")
         return self._books[isbn]
+
+    def return_book(self, member_id, isbn):
+        member = self._require_member(member_id)
+        book = self._require_book(isbn)
+        book.return_copy()
+        member.return_book(isbn)
