@@ -29,3 +29,18 @@ def test_book_creation_rejects_invalid_isbn_length():
 def test_book_creation_rejects_non_digit_isbn():
     with pytest.raises(ValueError, match="ISBN must be 10 or 13 digits"):
         Book("123456789X123", "Invalid ISBN", "Author")
+
+
+def test_book_creation_rejects_empty_title():
+    with pytest.raises(ValueError, match="Title is required"):
+        Book("1234567890", "", "Author")
+
+
+def test_book_creation_rejects_whitespace_title():
+    with pytest.raises(ValueError, match="Title is required"):
+        Book("1234567890", "   ", "Author")
+
+
+def test_book_creation_rejects_negative_copies():
+    with pytest.raises(ValueError, match="Total copies must be non-negative"):
+        Book("1234567890", "Valid Title", "Author", total_copies=-1)
