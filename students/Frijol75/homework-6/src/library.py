@@ -239,12 +239,17 @@ class Library:
         member_id: str,
         as_of_date: Optional[date] = None,
     ) -> float:
-        """Calculate total late fees for all loans of a given member."""
+        """Calculate total late fees for all loans of a given member using category rate."""
         if member_id not in self.members:
             raise KeyError("Member not registered")
+        member = self.members[member_id]
         check_date = as_of_date or date.today()
         total_fee = 0.0
         for loan in self.loans:
             if loan.member_id == member_id:
-                total_fee += calculate_late_fee(loan, return_date=loan.return_date or check_date)
+                total_fee += calculate_late_fee(
+                    loan,
+                    return_date=loan.return_date or check_date,
+                    daily_rate=member.daily_fee_rate,
+                )
         return total_fee
