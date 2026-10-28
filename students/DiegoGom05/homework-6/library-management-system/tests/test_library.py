@@ -24,3 +24,8 @@ def test_add_duplicate_isbn_raises(library):
     library.add_book(make_book())
     with pytest.raises(ValueError, match="already"):
         library.add_book(make_book())
+
+def test_register_member_can_be_retrieved(library):
+    m = Member("m1", "Ana")
+    library.register_member(m)
+    assert library.get_member("m1") is m
