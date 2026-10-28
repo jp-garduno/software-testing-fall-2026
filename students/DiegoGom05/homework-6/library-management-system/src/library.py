@@ -60,3 +60,6 @@ class Library:
 
     def search_by_title(self, title):
         return [b for b in self._books.values() if title.lower() in b.title.lower()]
+
+    def search_by_author(self, author):
+        return [b for b in self._books.values() if author.lower() in b.author.lower()]
