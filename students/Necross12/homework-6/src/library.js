@@ -118,6 +118,10 @@ class Library {
         );
         return new Date(prestamo.fechaPrestamo.getTime() + 14 * 24 * 60 * 60 * 1000);
     }
+
+    calcularRecargo() {
+        return 0;
+    }
 }
 
 module.exports = { Library };
