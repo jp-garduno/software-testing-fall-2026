@@ -111,3 +111,41 @@ def test_library_borrow_book_raises_when_member_limit_reached():
     lib.borrow_book("M001", "1111111111")
     with pytest.raises(ValueError, match="Borrow limit reached"):
         lib.borrow_book("M001", "2222222222")
+
+
+def test_library_return_book_success():
+    lib = Library()
+    book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=2)
+    member = Member("M001", "Alice")
+    lib.add_book(book)
+    lib.register_member(member)
+
+    lib.borrow_book("M001", "1234567890")
+    assert lib.return_book("M001", "1234567890") is True
+    assert book.available_copies == 2
+    assert "1234567890" not in member.borrowed_books
+
+
+def test_library_return_book_raises_for_unregistered_member():
+    lib = Library()
+    with pytest.raises(KeyError, match="Member not registered"):
+        lib.return_book("UNKNOWN", "1234567890")
+
+
+def test_library_return_book_raises_for_missing_book():
+    lib = Library()
+    member = Member("M001", "Alice")
+    lib.register_member(member)
+    with pytest.raises(KeyError, match="Book not found in catalog"):
+        lib.return_book("M001", "9999999999")
+
+
+def test_library_return_book_raises_when_not_borrowed_by_member():
+    lib = Library()
+    book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=1)
+    member = Member("M001", "Alice")
+    lib.add_book(book)
+    lib.register_member(member)
+
+    with pytest.raises(ValueError, match="Book not borrowed by this member"):
+        lib.return_book("M001", "1234567890")
