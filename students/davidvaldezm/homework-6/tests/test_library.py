@@ -81,3 +81,9 @@ def test_failed_duplicate_borrow_is_atomic(library):
     with pytest.raises(ValueError, match="already"):
         library.borrow_book("M1", "1234567890")
     assert library.catalog["1234567890"].available_copies == 1
+
+
+def test_library_return_restores_stock_and_capacity(library):
+    library.borrow_book("M1", "1234567890")
+    library.return_book("M1", "1234567890")
+    assert (library.catalog["1234567890"].available_copies, library.members["M1"].borrowed_books) == (2, [])
