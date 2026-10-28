@@ -101,3 +101,7 @@ def test_return_rejects_unknown_book(library):
 
 def test_search_title_matches_substrings_case_insensitively(library):
     assert [book.isbn for book in library.search_by_title("  PEDRO  ")] == ["1234567890"]
+
+
+def test_search_author_returns_all_matching_books(library):
+    assert len(library.search_by_author("RULFO")) == 2
