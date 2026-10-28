@@ -32,9 +32,7 @@ class Library:
         member.add_borrowed_book(isbn)
         book.borrow()
         self._loans[(member_id, isbn)] = self._clock()
-        queue = self._reservations.get(isbn, [])
-        if member_id in queue:
-            queue.remove(member_id)
+        self._clear_reservation(member_id, isbn)
 
     def get_due_date(self, member_id, isbn):
         borrowed_on = self._require_loan(member_id, isbn)
@@ -46,9 +44,7 @@ class Library:
         member.return_book(isbn)
         book.return_copy()
         del self._loans[(member_id, isbn)]
-        queue = self._reservations.get(isbn)
-        if queue and self._notifier:
-            self._notifier(queue[0], isbn)
+        self._notify_next(isbn)
 
     def calculate_late_fee(self, member_id, isbn):
         member = self._require_member(member_id)
@@ -102,3 +98,13 @@ class Library:
     def _overdue_days(self, member_id, isbn):
         due = self.get_due_date(member_id, isbn)
         return max(0, (self._clock() - due).days)
+
+    def _notify_next(self, isbn):
+        queue = self._reservations.get(isbn)
+        if queue and self._notifier:
+            self._notifier(queue[0], isbn)
+
+    def _clear_reservation(self, member_id, isbn):
+        queue = self._reservations.get(isbn, [])
+        if member_id in queue:
+            queue.remove(member_id)
