@@ -151,9 +151,7 @@ class Library:
         member = self.get_member(member_id)
         today = self._clock()
         total = 0.0
-        for loan in self._loans:
-            if loan.member_id != member_id:
-                continue
+        for loan in self.get_member_history(member_id):
             if loan.is_active:
                 total += loan.days_overdue(today) * member.daily_late_fee
             else:
