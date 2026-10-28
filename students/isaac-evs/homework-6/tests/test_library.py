@@ -81,3 +81,14 @@ def test_return_book_restores_the_copy(library):
     library.borrow_book("m1", ISBN)
     library.return_book("m1", ISBN)
     assert book.available_copies == 1
+
+
+def test_returning_a_book_you_never_borrowed_leaves_stock_unchanged(library):
+    book = Book(ISBN, "Test Book", "Author", copies=2)
+    library.add_book(book)
+    library.register_member(Member("m1", "Alice"))
+    library.register_member(Member("m2", "Bob"))
+    library.borrow_book("m1", ISBN)
+    with pytest.raises(ValueError, match="not borrowed"):
+        library.return_book("m2", ISBN)
+    assert book.available_copies == 1
