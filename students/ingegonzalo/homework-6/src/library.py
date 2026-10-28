@@ -38,3 +38,6 @@ class Library:
         member = self.get_member(member_id)
         member.return_book(isbn)
         self.books[isbn].return_copy()
+
+    def search_by_title(self, title):
+        return [book for book in self.books.values() if book.title == title]
