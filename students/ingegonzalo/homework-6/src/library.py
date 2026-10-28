@@ -29,7 +29,7 @@ class Library:
         return self.members[member_id]
 
     # --- préstamos ---
-    def borrow_book(self, member_id, isbn):
+    def borrow_book(self, member_id, isbn, borrow_date=None):
         member = self.get_member(member_id)
         book = self._get_book(isbn)
         if not book.is_available():
@@ -37,11 +37,12 @@ class Library:
         member.add_borrowed_book(isbn)
         book.borrow()
 
-    def return_book(self, member_id, isbn):
+    def return_book(self, member_id, isbn, return_date=None):
         member = self.get_member(member_id)
         book = self._get_book(isbn)
         member.return_book(isbn)
         book.return_copy()
+        return 0
 
     # --- búsquedas ---
     def search_by_title(self, title):
