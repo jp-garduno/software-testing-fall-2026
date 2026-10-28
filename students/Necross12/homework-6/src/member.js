@@ -15,17 +15,17 @@ class Member {
         if (!nombre) throw new Error("El miembro necesita un nombre.");
         if (!Object.hasOwn(CATEGORIAS, categoria))
             throw new Error("La categoría no es válida.");
-        if (limiteLibros === undefined)
-            limiteLibros = CATEGORIAS[categoria].limite;
-        if (limiteLibros < 0)
+        const limiteConfigurado =
+            limiteLibros === undefined ? CATEGORIAS[categoria].limite : limiteLibros;
+        if (limiteConfigurado < 0)
             throw new Error("El miembro no puede tener un límite negativo.");
-        if (listaLibros.length > limiteLibros)
+        if (listaLibros.length > limiteConfigurado)
             throw new Error("El miembro no puede tener más libros que su límite.");
 
         this.id = siguienteId++;
         this.nombre = nombre;
         this.listaLibros = [...listaLibros];
-        this.limiteLibros = limiteLibros;
+        this.limiteLibros = limiteConfigurado;
         this.categoria = categoria;
         this.notificaciones = [];
     }
