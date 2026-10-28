@@ -3,6 +3,9 @@ class Library:
         self._books = {}
         self._members = {}
 
+    def get_available_books(self):
+        return [b for b in self._books.values() if b.is_available()]
+
     def register_member(self, member):
         if member.member_id in self._members:
             raise ValueError("Member already registered")
