@@ -35,4 +35,6 @@ class Library:
         return self.books[isbn]
 
     def return_book(self, member_id, isbn):
+        member = self.get_member(member_id)
         self.books[isbn].return_copy()
+        member.return_book(isbn)
