@@ -12,3 +12,9 @@ def test_member_has_identity_and_default_limit():
 def test_member_requires_nonblank_identity(member_id, name):
     with pytest.raises(ValueError, match="required"):
         Member(member_id, name)
+
+
+@pytest.mark.parametrize("limit", [0, -1, 1.5, True])
+def test_member_requires_positive_integer_limit(limit):
+    with pytest.raises(ValueError, match="limit"):
+        Member("M1", "Ana", max_borrow_limit=limit)
