@@ -54,3 +54,10 @@ def test_return_restores_a_borrowed_copy():
     book.borrow()
     book.return_copy()
     assert book.available_copies == book.total_copies
+
+
+def test_return_rejects_unborrowed_copy():
+    book = Book("1234567890", "Title", "Author")
+    with pytest.raises(ValueError, match="returned"):
+        book.return_copy()
+    assert book.available_copies == 1
