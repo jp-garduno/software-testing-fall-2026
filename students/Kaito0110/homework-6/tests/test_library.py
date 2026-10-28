@@ -486,3 +486,109 @@ def test_calculate_member_late_fees_rejects_unknown_member():
         )
 
 
+def test_member_can_reserve_unavailable_book():
+    library = Library()
+    member = Member(member_id="M300", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Reserved Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    library.reserve_book("M300", "1234567890")
+
+    assert library.reservations["1234567890"] == ["M300"]
+
+
+def test_cannot_reserve_book_that_is_available():
+    library = Library()
+    member = Member(member_id="M301", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Available Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=1,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book is available"):
+        library.reserve_book("M301", "1234567890")
+
+
+def test_member_cannot_reserve_same_book_twice():
+    library = Library()
+    member = Member(member_id="M302", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Reserved Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+    library.reserve_book("M302", "1234567890")
+
+    with pytest.raises(ValueError, match="already reserved"):
+        library.reserve_book("M302", "1234567890")
+
+
+def test_cannot_reserve_book_for_unknown_member():
+    library = Library()
+    book = Book(
+        isbn="1234567890",
+        title="Reserved Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.reserve_book("M999", "1234567890")
+
+
+def test_cannot_reserve_nonexistent_book():
+    library = Library()
+    member = Member(member_id="M303", name="Test Member")
+
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book not found"):
+        library.reserve_book("M303", "1234567890")
+
+
+def test_reservations_follow_fifo_order():
+    library = Library()
+
+    member1 = Member(member_id="M401", name="First Member")
+    member2 = Member(member_id="M402", name="Second Member")
+    book = Book(
+        isbn="1234567890",
+        title="FIFO Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+    library.register_member(member1)
+    library.register_member(member2)
+
+    library.reserve_book("M401", "1234567890")
+    library.reserve_book("M402", "1234567890")
+
+    assert library.reservations["1234567890"][0] == "M401"
+    assert library.reservations["1234567890"][1] == "M402"
+
+
