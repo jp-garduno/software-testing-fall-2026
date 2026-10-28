@@ -25,6 +25,16 @@ def test_member_can_return_a_borrowed_book():
     assert member.borrowed_books == []
 
 
+def test_member_rejects_a_zero_borrow_limit():
+    with pytest.raises(ValueError, match="positive limit"):
+        Member("m-1", "Ada", max_borrow_limit=0)
+
+
+def test_member_rejects_an_unknown_category():
+    with pytest.raises(ValueError, match="unknown member category"):
+        Member("m-1", "Ada", category="visitor")
+
+
 @pytest.mark.parametrize(
     ("category", "limit", "fee_rate"),
     [("student", 3, 1.0), ("faculty", 5, 0.5), ("public", 2, 1.5)],
