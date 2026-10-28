@@ -98,6 +98,3 @@ def test_search_by_author(library):
     b = make_book(author="Robert Martin")
     library.add_book(b)
     assert library.search_by_author("martin") == [b]
-
-def test_faculty_has_limit_of_five():
-    assert Member("f1", "Prof", category="faculty").max_borrow_limit == 5

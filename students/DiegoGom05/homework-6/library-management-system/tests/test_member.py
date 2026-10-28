@@ -41,3 +41,6 @@ def test_return_book_removes_isbn():
 def test_return_book_not_borrowed_raises():
     with pytest.raises(ValueError, match="not borrowed"):
         Member("m1", "Ana").return_book("1234567890")
+
+def test_faculty_has_limit_of_five():
+    assert Member("f1", "Prof", category="faculty").max_borrow_limit == 5
