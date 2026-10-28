@@ -40,6 +40,9 @@ class Library:
 
     def return_book(self, member_id, isbn):
         member, book = self._participants(member_id, isbn)
+        if any(loan.borrowed_on > self._today() for loan in self.get_member_history(member_id)
+               if loan.isbn == isbn and loan.returned_on is None):
+            raise ValueError('Return date cannot be before borrowing date')
         member.return_book(isbn)
         book.return_copy()
         index = next(i for i, loan in enumerate(self._loans)
