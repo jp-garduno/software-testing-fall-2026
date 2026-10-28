@@ -31,3 +31,6 @@ class Member:
         if not self._has_borrowed(isbn):
             raise ValueError("Book was not borrowed by this member")
         self.borrowed_books.remove(isbn)
+
+    def add_late_fee(self, amount):
+        self.late_fees += amount
