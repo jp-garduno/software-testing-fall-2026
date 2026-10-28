@@ -12,3 +12,6 @@ class Library:
         if book.isbn in self.catalog:
             raise ValueError('ISBN already registered')
         self.catalog[book.isbn] = book
+
+    def register_member(self, member):
+        self.members[member.member_id] = member
