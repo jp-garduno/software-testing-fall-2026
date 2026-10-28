@@ -1,5 +1,4 @@
-from datetime import date
-
+from datetime import date, timedelta
 
 class Library:
     def __init__(self):
@@ -78,4 +77,11 @@ class Library:
         ]
 
     def calculate_late_fees(self, member_id, today=None):
-        return 0
+        today = today or date.today()
+        total = 0
+        for borrowed_on in self._loans.values():
+            due = borrowed_on + timedelta(days=14)
+            days_late = (today - due).days
+            if days_late > 0:
+                total += days_late
+        return total
