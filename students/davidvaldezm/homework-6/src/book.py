@@ -5,7 +5,8 @@ class Book:
     """Book behavior developed test first."""
 
     def __init__(self, isbn, title, author, copies=1):
-        if not isinstance(isbn, str) or len(isbn) not in (10, 13) or not isbn.isascii() or not isbn.isdigit():
+        valid_isbn = isinstance(isbn, str) and len(isbn) in (10, 13) and isbn.isascii() and isbn.isdigit()
+        if not valid_isbn:
             raise ValueError('ISBN must contain 10 or 13 ASCII digits')
         if not isinstance(title, str) or not title.strip():
             raise ValueError('Book title is required')
