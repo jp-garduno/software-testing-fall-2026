@@ -56,3 +56,7 @@ def test_return_book_raises_error_when_not_borrowed():
     member = Member("M001", "Ana")
     with pytest.raises(ValueError, match="not borrowed"):
         member.return_book("1111111111")
+
+def test_member_requires_name():
+    with pytest.raises(ValueError):
+        Member("M001", "")
