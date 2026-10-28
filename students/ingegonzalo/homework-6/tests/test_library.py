@@ -248,3 +248,13 @@ def test_most_borrowed_book_returns_book_with_most_borrows(library):
 
 def test_most_borrowed_book_is_none_when_nothing_borrowed(library):
     assert library.most_borrowed_book() is None
+
+def test_return_book_raises_error_when_book_not_in_catalog(library):
+    library.register_member(Member("M001", "Ana"))
+    with pytest.raises(ValueError, match="not in the catalog"):
+        library.return_book("M001", "9999999999")
+
+
+def test_get_history_returns_a_copy(library):
+    library.get_history().append("intruder")
+    assert library.get_history() == []

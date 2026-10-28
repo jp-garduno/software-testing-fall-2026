@@ -54,3 +54,12 @@ def test_return_copy_cannot_exceed_total_copies():
     book = Book("1234567890", "Test Book", "Author", total_copies=1)
     with pytest.raises(ValueError):
         book.return_copy()
+
+def test_book_requires_non_blank_title():
+    with pytest.raises(ValueError):
+        Book("1234567890", "   ", "Author")
+
+
+def test_book_accepts_13_digit_isbn():
+    book = Book("1234567890123", "Test Book", "Author")
+    assert book.isbn == "1234567890123"

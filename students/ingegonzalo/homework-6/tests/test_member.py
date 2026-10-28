@@ -114,3 +114,7 @@ def test_member_rejects_unknown_category():
 def test_member_late_fee_rate_depends_on_category(category, rate):
     member = Member("M001", "Ana", category=category)
     assert member.late_fee_rate == rate
+
+def test_explicit_borrow_limit_overrides_category_limit():
+    member = Member("M001", "Ana", max_borrow_limit=1, category="faculty")
+    assert member.max_borrow_limit == 1
