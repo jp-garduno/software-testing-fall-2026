@@ -87,3 +87,8 @@ def test_library_return_restores_stock_and_capacity(library):
     library.borrow_book("M1", "1234567890")
     library.return_book("M1", "1234567890")
     assert (library.catalog["1234567890"].available_copies, library.members["M1"].borrowed_books) == (2, [])
+
+
+def test_return_rejects_unknown_member(library):
+    with pytest.raises(ValueError, match="Unknown member"):
+        library.return_book("missing", "1234567890")
