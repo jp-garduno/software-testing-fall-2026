@@ -99,3 +99,6 @@ class Library:
                 total += days_late * member.late_fee_rate
 
         return total
+
+    def get_member_history(self, member_id):
+        return []
