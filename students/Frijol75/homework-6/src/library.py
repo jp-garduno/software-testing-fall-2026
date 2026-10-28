@@ -191,6 +191,49 @@ class Library:
 
         return results
 
+    def get_member_history(self, member_id: str) -> List[Dict[str, Any]]:
+        """Retrieve full borrowing history report for a member."""
+        if member_id not in self.members:
+            raise KeyError("Member not registered")
+        records = []
+        for loan in self.loans:
+            if loan.member_id == member_id:
+                records.append(
+                    {
+                        "loan_id": loan.loan_id,
+                        "isbn": loan.isbn,
+                        "borrow_date": loan.borrow_date,
+                        "due_date": loan.due_date,
+                        "return_date": loan.return_date,
+                        "status": "RETURNED" if loan.return_date else "ACTIVE",
+                    }
+                )
+        return records
+
+    def get_library_statistics(self) -> Dict[str, Any]:
+        """Compute library-wide usage and borrowing statistics."""
+        total_borrows = len(self.loans)
+        active_loans = sum(1 for loan in self.loans if loan.return_date is None)
+
+        isbn_counts: Dict[str, int] = {}
+        for loan in self.loans:
+            isbn_counts[loan.isbn] = isbn_counts.get(loan.isbn, 0) + 1
+
+        most_borrowed_isbn = None
+        most_borrowed_count = 0
+        if isbn_counts:
+            most_borrowed_isbn, most_borrowed_count = max(
+                isbn_counts.items(),
+                key=lambda item: item[1],
+            )
+
+        return {
+            "total_borrows": total_borrows,
+            "active_loans": active_loans,
+            "most_borrowed_isbn": most_borrowed_isbn,
+            "most_borrowed_count": most_borrowed_count,
+        }
+
     def calculate_member_late_fees(
         self,
         member_id: str,
