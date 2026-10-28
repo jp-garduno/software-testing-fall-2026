@@ -86,3 +86,10 @@ def test_return_unknown_member_raises(loaded):
     lib, _, _ = loaded
     with pytest.raises(ValueError, match="Member not found"):
         lib.return_book("ghost", "1234567890")
+
+def test_search_by_title_is_partial_and_case_insensitive(library):
+    clean = make_book("1234567890", title="Clean Code")
+    other = make_book("1234567891", title="The Pragmatic Programmer")
+    library.add_book(clean)
+    library.add_book(other)
+    assert library.search_by_title("clean") == [clean]
