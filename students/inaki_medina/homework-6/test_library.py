@@ -21,3 +21,16 @@ def test_register_member():
     library.register_member(member)
 
     assert member in library.members
+
+
+def test_borrow_book_updates_member_and_inventory():
+    library = Library()
+    book = Book("1234567890", "Test Book")
+    member = Member("Juan")
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book(member.member_id, book.ISBN)
+
+    assert book in member.borrowed_books
+    assert book.available_copies == 0
