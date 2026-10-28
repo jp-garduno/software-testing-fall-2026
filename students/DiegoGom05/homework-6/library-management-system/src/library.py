@@ -67,3 +67,6 @@ class Library:
     def _search(self, field, text):
         text = text.lower()
         return [b for b in self._books.values() if text in getattr(b, field).lower()]
+
+    def calculate_late_fees(self, member_id, today=None):
+        return 0
