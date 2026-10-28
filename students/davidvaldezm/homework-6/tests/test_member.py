@@ -43,3 +43,10 @@ def test_member_cannot_borrow_same_isbn_twice():
     member.add_borrowed_book("1234567890")
     with pytest.raises(ValueError, match="already"):
         member.add_borrowed_book("1234567890")
+
+
+def test_member_return_frees_capacity():
+    member = Member("M1", "Ana", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+    member.return_book("1234567890")
+    assert member.can_borrow() is True
