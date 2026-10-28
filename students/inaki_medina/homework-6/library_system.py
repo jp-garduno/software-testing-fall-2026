@@ -83,3 +83,12 @@ class Library:
 
 		book.return_book()
 		member.return_book(book)
+
+	def search_by_title(self, title):
+		return [book for book in self.books if title.lower() in book.title.lower()]
+
+	def search_by_author(self, author):
+		return [book for book in self.books if author.lower() in book.author.lower()]
+
+	def get_available_books(self):
+		return [book for book in self.books if book.is_available()]
