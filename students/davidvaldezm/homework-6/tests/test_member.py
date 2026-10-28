@@ -50,3 +50,8 @@ def test_member_return_frees_capacity():
     member.add_borrowed_book("1234567890")
     member.return_book("1234567890")
     assert member.can_borrow() is True
+
+
+def test_member_rejects_return_without_a_loan():
+    with pytest.raises(ValueError, match="not borrowed"):
+        Member("M1", "Ana").return_book("1234567890")
