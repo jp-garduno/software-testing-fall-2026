@@ -12,9 +12,13 @@ class Book:
 		return self.available_copies > 0
 
 	def borrow(self):
+		if (self.available_copies <= 0):
+			raise ValueError('Invalid request: No copies left to borrow')
 		self.available_copies -= 1
 
 	def return_book(self):
+		if (self.available_copies == self.total_copies):
+			raise ValueError('Invalid request: Cant return if no borrowed copies')
 		self.available_copies += 1
 
 
