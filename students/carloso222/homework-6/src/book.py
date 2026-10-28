@@ -10,3 +10,7 @@ class Book:
         self.author = author
         self.total_copies = total_copies
         self.available_copies = total_copies
+
+    def is_available(self):
+        """Return True when at least one copy is on the shelf."""
+        return self.available_copies > 0
