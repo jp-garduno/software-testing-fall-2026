@@ -1,7 +1,11 @@
 """Library core coordinator for books, members, and operations."""
+from datetime import date
 from typing import Dict, List, Optional
+import uuid
+
 from src.book import Book
 from src.member import Member
+from src.loan import LoanRecord, calculate_late_fee
 
 
 class Library:
@@ -10,6 +14,7 @@ class Library:
     def __init__(self) -> None:
         self.books: Dict[str, Book] = {}
         self.members: Dict[str, Member] = {}
+        self.loans: List[LoanRecord] = []
 
     def add_book(self, book: Book) -> None:
         """Add a book to the library catalog."""
@@ -30,7 +35,12 @@ class Library:
             raise ValueError("Member with this ID already registered")
         self.members[member.member_id] = member
 
-    def borrow_book(self, member_id: str, isbn: str) -> bool:
+    def borrow_book(
+        self,
+        member_id: str,
+        isbn: str,
+        borrow_date: Optional[date] = None,
+    ) -> bool:
         """Borrow a book for a registered member."""
         if member_id not in self.members:
             raise KeyError("Member not registered")
@@ -47,9 +57,23 @@ class Library:
 
         book.borrow()
         member.add_borrowed_book(isbn)
+
+        b_date = borrow_date or date.today()
+        loan = LoanRecord(
+            loan_id=str(uuid.uuid4()),
+            member_id=member_id,
+            isbn=isbn,
+            borrow_date=b_date,
+        )
+        self.loans.append(loan)
         return True
 
-    def return_book(self, member_id: str, isbn: str) -> bool:
+    def return_book(
+        self,
+        member_id: str,
+        isbn: str,
+        return_date: Optional[date] = None,
+    ) -> bool:
         """Return a borrowed book by a registered member."""
         if member_id not in self.members:
             raise KeyError("Member not registered")
@@ -64,6 +88,13 @@ class Library:
 
         book.return_copy()
         member.return_book(isbn)
+
+        r_date = return_date or date.today()
+        # Find active loan and set return_date
+        for loan in reversed(self.loans):
+            if loan.member_id == member_id and loan.isbn == isbn and loan.return_date is None:
+                loan.return_date = r_date
+                break
         return True
 
     def search_by_title(self, title: str) -> List[Book]:
@@ -83,3 +114,18 @@ class Library:
     def get_available_books(self) -> List[Book]:
         """Return a list of books that have at least one copy available."""
         return [b for b in self.books.values() if b.is_available()]
+
+    def calculate_member_late_fees(
+        self,
+        member_id: str,
+        as_of_date: Optional[date] = None,
+    ) -> float:
+        """Calculate total late fees for all loans of a given member."""
+        if member_id not in self.members:
+            raise KeyError("Member not registered")
+        check_date = as_of_date or date.today()
+        total_fee = 0.0
+        for loan in self.loans:
+            if loan.member_id == member_id:
+                total_fee += calculate_late_fee(loan, return_date=loan.return_date or check_date)
+        return total_fee
