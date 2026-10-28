@@ -7,6 +7,7 @@ class Library:
     def __init__(self, clock=date.today):
         self._clock = clock
         self._loans = {}
+        self._reservations = {}
         self._books = {}
         self._members = {}
 
@@ -52,6 +53,11 @@ class Library:
             for loan_member, isbn in self._loans
             if loan_member == member_id
         )
+
+    def reserve_book(self, member_id, isbn):
+        queue = self._reservations.setdefault(isbn, [])
+        queue.append(member_id)
+        return len(queue)
 
     def search_by_title(self, title):
         return self._search("title", title)
