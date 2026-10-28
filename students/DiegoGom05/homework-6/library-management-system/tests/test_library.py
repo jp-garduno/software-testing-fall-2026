@@ -81,3 +81,8 @@ def test_return_book_restores_copy_and_clears_member(loaded):
     lib.return_book("m1", "1234567890")
     assert book.available_copies == 2
     assert member.borrowed_books == []
+
+def test_return_unknown_member_raises(loaded):
+    lib, _, _ = loaded
+    with pytest.raises(ValueError, match="Member not found"):
+        lib.return_book("ghost", "1234567890")
