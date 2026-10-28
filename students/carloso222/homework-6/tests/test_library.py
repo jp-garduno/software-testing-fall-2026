@@ -15,6 +15,8 @@ from src.library import Library
 from src.member import Member
 from tests.conftest import CLEAN_CODE, REFACTORING, START_DATE, TDD_BY_EXAMPLE
 
+# ----- catalog and members ---------------------------------------------------
+
 
 def test_added_book_can_be_found_by_isbn():
     library = Library()
@@ -60,6 +62,9 @@ def test_library_uses_todays_date_by_default():
     library.register_member(Member("M1", "Ana"))
     loan = library.borrow_book("M1", "1234567890")
     assert loan.borrowed_on is not None
+
+
+# ----- borrowing ---------------------------------------------------------------
 
 
 def test_borrow_book_takes_a_copy_off_the_shelf(library):
@@ -134,3 +139,30 @@ def test_return_book_raises_when_member_did_not_borrow_it(library):
 def test_return_book_raises_for_unknown_member(library):
     with pytest.raises(MemberNotFoundError):
         library.return_book("NOPE", REFACTORING)
+
+
+# ----- basic search ------------------------------------------------------------
+
+
+def test_search_by_title_is_partial_and_case_insensitive(library):
+    titles = [book.title for book in library.search_by_title("CLEAN")]
+    assert titles == ["Clean Code"]
+
+
+def test_search_by_title_returns_empty_list_when_nothing_matches(library):
+    assert library.search_by_title("Harry Potter") == []
+
+
+def test_search_by_author_is_partial_and_case_insensitive(library):
+    titles = [book.title for book in library.search_by_author("martin")]
+    assert titles == ["Clean Code", "Refactoring"]
+
+
+def test_get_available_books_excludes_books_with_no_copies(library):
+    library.borrow_book("S1", REFACTORING)
+    titles = [book.title for book in library.get_available_books()]
+    assert "Refactoring" not in titles
+
+
+def test_get_available_books_lists_every_book_when_none_borrowed(library):
+    assert len(library.get_available_books()) == 3
