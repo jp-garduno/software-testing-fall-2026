@@ -54,3 +54,32 @@ def test_book_is_available_when_copies_exist():
 def test_book_is_not_available_when_copies_are_zero():
     book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=0)
     assert book.is_available() is False
+
+
+def test_book_borrow_decrements_available_copies():
+    book = Book("1234567890", "Test-Driven Development", "Kent Beck", total_copies=2)
+    book.borrow()
+    assert book.available_copies == 1
+    book.borrow()
+    assert book.available_copies == 0
+
+
+def test_book_borrow_raises_when_no_copies_available():
+    book = Book("1234567890", "Test-Driven Development", "Kent Beck", total_copies=1)
+    book.borrow()
+    with pytest.raises(ValueError, match="No copies available to borrow"):
+        book.borrow()
+
+
+def test_book_return_copy_increments_available_copies():
+    book = Book("1234567890", "Test-Driven Development", "Kent Beck", total_copies=2)
+    book.borrow()
+    assert book.available_copies == 1
+    book.return_copy()
+    assert book.available_copies == 2
+
+
+def test_book_return_copy_raises_when_all_copies_already_returned():
+    book = Book("1234567890", "Test-Driven Development", "Kent Beck", total_copies=2)
+    with pytest.raises(ValueError, match="Cannot return more copies than total copies"):
+        book.return_copy()
