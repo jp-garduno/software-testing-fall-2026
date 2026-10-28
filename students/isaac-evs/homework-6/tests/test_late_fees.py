@@ -49,3 +49,8 @@ def test_returned_books_no_longer_accrue_fees(library, clock):
     clock.advance(19)
     library.return_book("m1", ISBN)
     assert library.calculate_member_late_fees("m1") == 0
+
+
+def test_fee_query_fails_without_a_loan(library):
+    with pytest.raises(ValueError, match="Loan not found"):
+        library.calculate_late_fee("m1", ISBN)
