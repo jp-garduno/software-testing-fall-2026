@@ -98,3 +98,7 @@ def test_search_by_author(library):
     b = make_book(author="Robert Martin")
     library.add_book(b)
     assert library.search_by_author("martin") == [b]
+
+def test_no_late_fee_without_loans(loaded):
+    lib, _, _ = loaded
+    assert lib.calculate_late_fees("m1", today=date(2026, 1, 20)) == 0
