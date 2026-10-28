@@ -48,3 +48,20 @@ class Library:
         book.borrow()
         member.add_borrowed_book(isbn)
         return True
+
+    def return_book(self, member_id: str, isbn: str) -> bool:
+        """Return a borrowed book by a registered member."""
+        if member_id not in self.members:
+            raise KeyError("Member not registered")
+        if isbn not in self.books:
+            raise KeyError("Book not found in catalog")
+
+        member = self.members[member_id]
+        book = self.books[isbn]
+
+        if isbn not in member.borrowed_books:
+            raise ValueError("Book not borrowed by this member")
+
+        book.return_copy()
+        member.return_book(isbn)
+        return True
