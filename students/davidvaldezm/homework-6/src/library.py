@@ -64,6 +64,8 @@ class Library:
         return [book for book in self.catalog.values() if book.is_available()]
 
     def get_member_history(self, member_id):
+        if member_id not in self.members:
+            raise ValueError('Unknown member')
         return tuple(loan for loan in self._loans if loan.member_id == member_id)
 
     def calculate_total_fees(self, member_id):
