@@ -67,11 +67,20 @@ class Library:
     def return_book(self, member_id, isbn):
         member = self._find_member(member_id)
         book = self._find_book(isbn)
+        return_date = return_date or date.today()
 
         member.return_book(isbn)
         book.return_copy()
 
         self._loans.pop((member_id, isbn), None)
+        self._history.append(
+            {
+                "member_id": member_id,
+                "isbn": isbn,
+                "action": "return",
+                "date": return_date,
+            }
+        )
 
     def search_by_title(self, title):
         return self._search("title", title)
