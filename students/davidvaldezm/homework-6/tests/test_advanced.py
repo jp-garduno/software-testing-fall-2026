@@ -110,3 +110,8 @@ def test_most_borrowed_counts_repeat_borrows(dated_library):
     library.return_book("M1", "1234567890")
     library.borrow_book("M1", "1234567890")
     assert library.most_borrowed_book().isbn == "1234567890"
+
+
+def test_most_borrowed_is_none_without_history(dated_library):
+    library, _ = dated_library
+    assert library.most_borrowed_book() is None
