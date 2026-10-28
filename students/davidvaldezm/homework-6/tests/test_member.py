@@ -36,3 +36,10 @@ def test_member_cannot_exceed_custom_limit():
     with pytest.raises(ValueError, match="limit"):
         member.add_borrowed_book("1234567890123")
     assert member.can_borrow() is False
+
+
+def test_member_cannot_borrow_same_isbn_twice():
+    member = Member("M1", "Ana")
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="already"):
+        member.add_borrowed_book("1234567890")
