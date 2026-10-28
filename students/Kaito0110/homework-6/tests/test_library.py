@@ -672,3 +672,30 @@ def test_search_books_with_combined_filters_and_sorting():
         library.search_books(sort_by="invalid_field")
 
 
+def test_borrowing_history_tracks_transactions_and_most_borrowed_book():
+    library = Library()
+
+    book1 = Book(isbn="1111111111", title="Book One", author="Author A", total_copies=2)
+    book2 = Book(isbn="2222222222", title="Book Two", author="Author B", total_copies=2)
+    member = Member(member_id="M500", name="History Member")
+
+    library.add_book(book1)
+    library.add_book(book2)
+    library.register_member(member)
+
+    assert library.get_most_borrowed_book() is None
+
+    library.borrow_book("M500", "1111111111")
+    library.return_book("M500", "1111111111")
+    library.borrow_book("M500", "1111111111")
+    library.borrow_book("M500", "2222222222")
+
+    history = library.get_member_history("M500")
+    assert len(history) == 4
+    assert history[0] == {"member_id": "M500", "isbn": "1111111111", "action": "borrow"}
+    assert history[1] == {"member_id": "M500", "isbn": "1111111111", "action": "return"}
+
+    assert library.get_most_borrowed_book() is book1
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.get_member_history("UNKNOWN")
