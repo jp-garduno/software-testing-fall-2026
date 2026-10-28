@@ -40,3 +40,10 @@ def test_borrow_removes_one_available_copy():
     book = Book("1234567890", "Title", "Author", 2)
     book.borrow()
     assert book.available_copies == 1
+
+
+def test_borrow_rejects_exhausted_stock():
+    book = Book("1234567890", "Title", "Author", 0)
+    with pytest.raises(ValueError, match="available"):
+        book.borrow()
+    assert book.available_copies == 0
