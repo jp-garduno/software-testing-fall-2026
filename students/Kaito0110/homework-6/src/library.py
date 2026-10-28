@@ -175,3 +175,27 @@ class Library:
                 }
             )
 
+    def get_member_history(self, member_id):
+        """Return all borrowing and return transactions for a member."""
+        if member_id not in self.members:
+            raise ValueError("Member not found")
+
+        return [
+            entry
+            for entry in self.borrowing_history
+            if entry["member_id"] == member_id
+        ]
+
+    def get_most_borrowed_book(self):
+        """Return the Book instance that has been borrowed the most times."""
+        borrow_counts = {}
+        for entry in self.borrowing_history:
+            if entry["action"] == "borrow":
+                isbn = entry["isbn"]
+                borrow_counts[isbn] = borrow_counts.get(isbn, 0) + 1
+
+        if not borrow_counts:
+            return None
+
+        top_isbn = max(borrow_counts, key=borrow_counts.get)
+        return self.books[top_isbn]
