@@ -59,4 +59,13 @@ def test_book_returned_more_than_borrow_error():
     with pytest.raises(ValueError):
         book.return_book()
 
+# # Test 8: borrow try with no copies
+def test_borrow_with_zero_copies():
+    book = Book("1234567890", "Test Book", "Author", copies=3)
+    book.borrow()
+    book.borrow()
+    book.borrow()
+    with pytest.raises(ValueError):
+        book.borrow()
+
 
