@@ -27,4 +27,6 @@ class Book:
         self.available_copies -= 1
 
     def return_copy(self):
+        if self.available_copies >= self.total_copies:
+            raise ValueError("All copies are already in the library")
         self.available_copies += 1
