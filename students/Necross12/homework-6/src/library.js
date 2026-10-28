@@ -127,6 +127,7 @@ class Library {
     }
 
     calcularRecargoTotal(idMiembro, fechaActual = new Date()) {
+        this.obtenerMiembroRegistrado(idMiembro);
         return this.prestamos
             .filter((p) => p.idMiembro === idMiembro)
             .reduce((total, p) => total + this.calcularRecargo(idMiembro, p.isbn, fechaActual), 0);
