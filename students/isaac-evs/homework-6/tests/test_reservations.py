@@ -1,3 +1,5 @@
+from unittest.mock import Mock
+
 import pytest
 
 from book import Book
@@ -9,8 +11,13 @@ OTHER_ISBN = "0987654321"
 
 
 @pytest.fixture
-def library():
-    lib = Library()
+def notifier():
+    return Mock()
+
+
+@pytest.fixture
+def library(notifier):
+    lib = Library(notifier=notifier)
     lib.add_book(Book(ISBN, "Popular Book", "Author", copies=1))
     for member_id in ("m1", "m2", "m3"):
         lib.register_member(Member(member_id, member_id.upper()))
@@ -43,3 +50,10 @@ def test_member_cannot_reserve_the_same_book_twice(library):
 def test_unknown_member_cannot_reserve(library):
     with pytest.raises(ValueError, match="Member not found"):
         library.reserve_book("ghost", ISBN)
+
+
+def test_first_member_in_queue_is_notified_on_return(library, notifier):
+    library.reserve_book("m2", ISBN)
+    library.reserve_book("m3", ISBN)
+    library.return_book("m1", ISBN)
+    notifier.assert_called_once_with("m2", ISBN)
