@@ -1,28 +1,33 @@
 class Member:
-    DEFAULT_BORROW_LIMIT = {"student": 3, "faculty": 5, "public": 2}
-    LATE_FEE_RATES = {"student": 1, "faculty": 0.5, "public": 2}
+    CATEGORY_RULES = {
+        "student": {"limit": 3, "late_fee_rate": 1},
+        "faculty": {"limit": 5, "late_fee_rate": 0.5},
+        "public": {"limit": 2, "late_fee_rate": 2},
+    }
 
     def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
         self._validate_name(name)
         self._validate_category(category)
-        if max_borrow_limit is None:
-            max_borrow_limit = self.BORROW_LIMITS[category]
+        rules = self.CATEGORY_RULES[category]
         self.member_id = member_id
         self.name = name
         self.category = category
         self.borrowed_books = []
-        self.max_borrow_limit = max_borrow_limit
-        self.late_fee_rate = self.LATE_FEE_RATES[category]
-
-    @classmethod
-    def _validate_category(cls, category):
-        if category not in cls.BORROW_LIMITS:
-            raise ValueError(f"Invalid category: {category}")
+        self.max_borrow_limit = (
+            rules["limit"] if max_borrow_limit is None else max_borrow_limit
+        )
+        self.late_fee_rate = rules["late_fee_rate"]
+        self.late_fees = 0
 
     @staticmethod
     def _validate_name(name):
         if not name or not name.strip():
             raise ValueError("Name is required")
+
+    @classmethod
+    def _validate_category(cls, category):
+        if category not in cls.CATEGORY_RULES:
+            raise ValueError(f"Invalid category: {category}")
 
     def _has_borrowed(self, isbn):
         return isbn in self.borrowed_books
