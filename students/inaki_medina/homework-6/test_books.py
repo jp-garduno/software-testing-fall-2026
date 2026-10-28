@@ -1,7 +1,7 @@
-import books
+import library_system
 import pytest
 
-Book = books.Book
+Book = library_system.Book
 
 # Test 1: Book exists
 def test_book_can_be_created():
@@ -67,5 +67,4 @@ def test_borrow_with_zero_copies():
     book.borrow()
     with pytest.raises(ValueError):
         book.borrow()
-
 

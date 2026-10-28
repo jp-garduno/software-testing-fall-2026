@@ -1,3 +1,5 @@
+import uuid
+
 class Book:
 	def __init__(self, ISBN, title, author = "", copies = 1):
 		if (len(ISBN) < 10 or len(ISBN) > 13):
@@ -20,5 +22,13 @@ class Book:
 		if (self.available_copies == self.total_copies):
 			raise ValueError('Invalid request: Cant return if no borrowed copies')
 		self.available_copies += 1
+
+
+class Member:
+	def __init__(self, name, borrowed_books, max_borrow_limit = 3):
+		self.id = uuid.uuid1
+		self.name = name
+		self.borrowed_books = borrowed_books
+		self.max_borrow_limit = max_borrow_limit
 
 
