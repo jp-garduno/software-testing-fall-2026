@@ -1,4 +1,5 @@
 """Fresh in-memory libraries and deterministic clocks for every test."""
+
 from datetime import date
 
 import pytest
@@ -22,7 +23,7 @@ def library():
 def dated_library():
     """Provide isolated domain objects for each requesting test."""
     clock = [date(2026, 1, 1)]
-    library = Library(today=lambda: clock[0])
-    library.add_book(Book("1234567890", "Title", "Author", 2))
-    library.register_member(Member("M1", "Ana"))
-    return library, clock
+    catalog = Library(today=lambda: clock[0])
+    catalog.add_book(Book("1234567890", "Title", "Author", 2))
+    catalog.register_member(Member("M1", "Ana"))
+    return catalog, clock

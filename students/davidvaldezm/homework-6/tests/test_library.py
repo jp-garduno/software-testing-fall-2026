@@ -1,12 +1,11 @@
 """Behavior specifications for the library management domain."""
+
 import pytest
 
 from src.library import Library
 
 from src.book import Book
 from src.member import Member
-
-
 
 
 def test_library_starts_with_empty_catalog_and_members():
@@ -46,7 +45,10 @@ def test_duplicate_member_does_not_replace_existing_member(library):
 
 def test_borrow_updates_stock_and_member_together(library):
     library.borrow_book("M1", "1234567890")
-    assert (library.catalog["1234567890"].available_copies, library.members["M1"].borrowed_books) == (1, ["1234567890"])
+    assert (
+        library.catalog["1234567890"].available_copies,
+        library.members["M1"].borrowed_books,
+    ) == (1, ["1234567890"])
 
 
 def test_unknown_borrower_does_not_change_stock(library):
@@ -80,7 +82,10 @@ def test_failed_duplicate_borrow_is_atomic(library):
 def test_library_return_restores_stock_and_capacity(library):
     library.borrow_book("M1", "1234567890")
     library.return_book("M1", "1234567890")
-    assert (library.catalog["1234567890"].available_copies, library.members["M1"].borrowed_books) == (2, [])
+    assert (
+        library.catalog["1234567890"].available_copies,
+        library.members["M1"].borrowed_books,
+    ) == (2, [])
 
 
 def test_return_rejects_unknown_member(library):
@@ -94,7 +99,9 @@ def test_return_rejects_unknown_book(library):
 
 
 def test_search_title_matches_substrings_case_insensitively(library):
-    assert [book.isbn for book in library.search_by_title("  PEDRO  ")] == ["1234567890"]
+    assert [book.isbn for book in library.search_by_title("  PEDRO  ")] == [
+        "1234567890"
+    ]
 
 
 def test_search_author_returns_all_matching_books(library):
