@@ -1,5 +1,6 @@
 """Library: catalog, members, loans, reservations, search and reports."""
 
+from collections import deque
 from datetime import date
 
 from src.exceptions import (
@@ -143,7 +144,7 @@ class Library:
             raise ReservationError(f"'{book.title}' is available; borrow it instead")
         if member.has_borrowed(isbn):
             raise ReservationError(f"{member.name} already has '{book.title}'")
-        queue = self._reservations.setdefault(isbn, [])
+        queue = self._reservations.setdefault(isbn, deque())
         if member_id in queue:
             raise ReservationError(f"{member.name} already reserved '{book.title}'")
         queue.append(member_id)
@@ -151,7 +152,7 @@ class Library:
 
     def get_reservation_queue(self, isbn):
         """Member IDs waiting for this book, first in line first."""
-        return list(self._reservations.get(isbn, []))
+        return list(self._reservations.get(isbn, ()))
 
     def _claim_reservation(self, member_id, isbn):
         queue = self._reservations.get(isbn)
@@ -159,7 +160,7 @@ class Library:
             return
         if queue[0] != member_id:
             raise ReservationError(f"Book {isbn} is held for member {queue[0]}")
-        queue.pop(0)
+        queue.popleft()
 
     def _notify_next_in_queue(self, isbn):
         queue = self._reservations.get(isbn)
