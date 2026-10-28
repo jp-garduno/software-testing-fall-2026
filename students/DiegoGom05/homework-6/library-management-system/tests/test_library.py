@@ -74,3 +74,10 @@ def test_member_cannot_borrow_same_book_twice(loaded):
     lib.borrow_book("m1", "1234567890")
     with pytest.raises(ValueError, match="already borrowed"):
         lib.borrow_book("m1", "1234567890")
+
+def test_return_book_restores_copy_and_clears_member(loaded):
+    lib, book, member = loaded
+    lib.borrow_book("m1", "1234567890")
+    lib.return_book("m1", "1234567890")
+    assert book.available_copies == 2
+    assert member.borrowed_books == []
