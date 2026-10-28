@@ -1,4 +1,5 @@
 """Member domain model."""
+from decimal import Decimal
 
 
 class Member:
@@ -37,3 +38,8 @@ class Member:
         if isbn not in self.borrowed_books:
             raise ValueError('Book not borrowed by this member')
         self.borrowed_books.remove(isbn)
+
+    @property
+    def daily_fee_rate(self):
+        rates = {'student': '1', 'faculty': '0.50', 'public': '1.50'}
+        return Decimal(rates[self.category])
