@@ -2,6 +2,7 @@ import pytest
 
 from book import Book
 from library import Library
+from member import Member
 
 ISBN = "1234567890"
 OTHER_ISBN = "0987654321"
@@ -24,3 +25,9 @@ def test_available_books_excludes_books_without_copies(library):
     library.add_book(available)
     library.add_book(gone)
     assert library.get_available_books() == [available]
+
+
+def test_registered_member_can_be_found(library):
+    member = Member("m1", "Alice")
+    library.register_member(member)
+    assert library.get_member("m1") is member
