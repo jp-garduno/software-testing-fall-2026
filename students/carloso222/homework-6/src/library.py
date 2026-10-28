@@ -4,6 +4,7 @@ from datetime import date
 
 from src.exceptions import (
     AlreadyBorrowedError,
+    BookNotBorrowedError,
     BookNotFoundError,
     BorrowLimitReachedError,
     DuplicateBookError,
@@ -72,3 +73,19 @@ class Library:
         loan = Loan(member_id=member_id, isbn=isbn, borrowed_on=self._clock())
         self._loans.append(loan)
         return loan
+
+    def return_book(self, member_id, isbn):
+        """Take the book back from the member."""
+        member = self.get_member(member_id)
+        book = self.get_book(isbn)
+        loan = self._active_loan(member_id, isbn)
+        loan.returned_on = self._clock()
+        member.return_book(isbn)
+        book.return_copy()
+        return loan
+
+    def _active_loan(self, member_id, isbn):
+        for loan in self._loans:
+            if loan.member_id == member_id and loan.isbn == isbn and loan.is_active:
+                return loan
+        raise BookNotBorrowedError(f"Member {member_id} has not borrowed {isbn}")
