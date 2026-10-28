@@ -184,3 +184,12 @@ def test_return_is_recorded_in_history(loaded):
     lib.return_book("m1", "1234567890", return_date=date(2026, 1, 10))
     last = lib.get_member_history("m1")[-1]
     assert (last["action"], last["date"]) == ("return", date(2026, 1, 10))
+
+def test_most_borrowed_book(loaded):
+    lib, _, _ = loaded
+    lib.add_book(make_book("1234567891"))
+    lib.register_member(Member("m2", "Luis"))
+    lib.borrow_book("m1", "1234567890")
+    lib.borrow_book("m2", "1234567890")
+    lib.borrow_book("m1", "1234567891")
+    assert lib.most_borrowed_book() == "1234567890"
