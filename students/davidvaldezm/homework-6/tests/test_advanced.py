@@ -75,3 +75,11 @@ def test_history_contains_borrowed_loan(dated_library):
     library, _ = dated_library
     loan = library.borrow_book("M1", "1234567890")
     assert library.get_member_history("M1") == (loan,)
+
+
+def test_history_records_return_without_mutating_original_snapshot(dated_library):
+    library, clock = dated_library
+    borrowed = library.borrow_book("M1", "1234567890")
+    clock[0] = date(2026, 1, 18)
+    library.return_book("M1", "1234567890")
+    assert (library.get_member_history("M1")[0].returned_on, borrowed.returned_on) == (clock[0], None)
