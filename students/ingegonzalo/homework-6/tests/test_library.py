@@ -33,3 +33,8 @@ def test_register_member_makes_member_retrievable():
     member = Member("M001", "Ana")
     library.register_member(member)
     assert library.get_member("M001") is member
+
+def test_get_member_raises_error_when_not_registered():
+    library = Library()
+    with pytest.raises(ValueError, match="not registered"):
+        library.get_member("M999")
