@@ -65,7 +65,7 @@ class Library:
             }
         )
 
-    def return_book(self, member_id, isbn):
+    def return_book(self, member_id, isbn, return_date=None):
         member = self._find_member(member_id)
         book = self._find_book(isbn)
         return_date = return_date or date.today()
