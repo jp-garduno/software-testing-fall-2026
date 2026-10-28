@@ -57,3 +57,10 @@ def test_first_member_in_queue_is_notified_on_return(library, notifier):
     library.reserve_book("m3", ISBN)
     library.return_book("m1", ISBN)
     notifier.assert_called_once_with("m2", ISBN)
+
+
+def test_borrowing_clears_the_members_reservation(library):
+    library.reserve_book("m2", ISBN)
+    library.return_book("m1", ISBN)
+    library.borrow_book("m2", ISBN)
+    assert library.get_reservation_queue(ISBN) == []
