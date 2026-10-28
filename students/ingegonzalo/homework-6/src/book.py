@@ -3,6 +3,8 @@ class Book:
         if not isbn.isdigit() or len(isbn) not in (10, 13):
             raise ValueError("ISBN must be 10 or 13 digits")
         self.isbn = isbn
+        if not title or not title.strip():
+            raise ValueError("Title is required")
         self.title = title
         self.author = author
         self.total_copies = total_copies
