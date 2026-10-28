@@ -92,3 +92,10 @@ def test_returning_a_book_you_never_borrowed_leaves_stock_unchanged(library):
     with pytest.raises(ValueError, match="not borrowed"):
         library.return_book("m2", ISBN)
     assert book.available_copies == 1
+
+
+def test_search_by_title_matches_partial_text_ignoring_case(library):
+    match = Book(ISBN, "The Pragmatic Programmer", "Hunt")
+    library.add_book(match)
+    library.add_book(Book(OTHER_ISBN, "Clean Code", "Martin"))
+    assert library.search_by_title("pragmatic") == [match]
