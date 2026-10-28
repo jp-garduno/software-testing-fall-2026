@@ -31,7 +31,9 @@ class Library:
             raise ValueError('Book already borrowed by this member')
         book.borrow()
         member.add_borrowed_book(isbn)
-        return Loan(member_id, isbn, self._today(), daily_rate=member.daily_fee_rate)
+        loan = Loan(member_id, isbn, self._today(), daily_rate=member.daily_fee_rate)
+        self._loans.append(loan)
+        return loan
 
     def return_book(self, member_id, isbn):
         member, book = self._participants(member_id, isbn)
