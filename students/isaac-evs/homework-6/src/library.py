@@ -36,5 +36,5 @@ class Library:
     def return_book(self, member_id, isbn):
         member = self._require_member(member_id)
         book = self._require_book(isbn)
-        book.return_copy()
         member.return_book(isbn)
+        book.return_copy()
