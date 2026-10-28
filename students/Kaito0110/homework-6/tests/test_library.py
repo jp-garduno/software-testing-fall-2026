@@ -105,3 +105,84 @@ def test_library_rejects_duplicate_member_id():
         library.register_member(member2)
 
 
+def test_library_searches_books_by_title():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    book2 = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=2,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+
+    results = library.search_by_title("Hobbit")
+
+    assert len(results) == 1
+    assert results[0] is book1
+
+
+def test_library_searches_books_by_author():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    book2 = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=2,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+
+    results = library.search_by_author("Tolkien")
+
+    assert len(results) == 1
+    assert results[0] is book1
+
+
+def test_library_gets_only_available_books():
+    library = Library()
+
+    available_book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=2,
+    )
+    unavailable_book = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=0,
+    )
+
+    library.add_book(available_book)
+    library.add_book(unavailable_book)
+
+    results = library.get_available_books()
+
+    assert len(results) == 1
+    assert results[0] is available_book
+
+
