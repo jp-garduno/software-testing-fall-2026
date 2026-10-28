@@ -60,3 +60,7 @@ def test_return_book_raises_error_when_not_borrowed():
 def test_member_requires_name():
     with pytest.raises(ValueError):
         Member("M001", "")
+
+def test_member_starts_with_no_late_fees():
+    member = Member("M001", "Ana")
+    assert member.late_fees == 0
