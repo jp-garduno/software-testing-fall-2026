@@ -41,3 +41,34 @@ class Library:
     def get_available_books(self):
         """Return all books with at least one available copy."""
         return [book for book in self.books.values() if book.is_available()]
+
+    def borrow_book(self, member_id, isbn):
+        """Borrow a book for a registered member."""
+        if member_id not in self.members:
+            raise ValueError("Member not found")
+
+        if isbn not in self.books:
+            raise ValueError("Book not found")
+
+        member = self.members[member_id]
+        book = self.books[isbn]
+
+        if not member.can_borrow():
+            raise ValueError("Member has reached the borrowing limit")
+
+        book.borrow()
+        member.add_borrowed_book(isbn)
+
+    def return_book(self, member_id, isbn):
+        """Return a borrowed book."""
+        if member_id not in self.members:
+            raise ValueError("Member not found")
+
+        if isbn not in self.books:
+            raise ValueError("Book not found")
+
+        member = self.members[member_id]
+        book = self.books[isbn]
+
+        member.return_book(isbn)
+        book.return_copy()
