@@ -37,3 +37,9 @@ class Library:
 
         book.borrow()
         member.add_borrowed_book(isbn)
+
+    def return_book(self, member_id, isbn):
+        member = self._members[member_id]
+        book = self._books[isbn]
+        member.return_book(isbn)
+        book.return_copy()
