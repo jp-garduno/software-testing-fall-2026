@@ -12,3 +12,45 @@ def test_library_adds_books_and_registers_members():
     library.register_member(member)
 
     assert library.books[book.isbn] is book
+
+
+def configured_library():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert Martin", 2)
+    member = Member("m-1", "Ada")
+    library.add_book(book)
+    library.register_member(member)
+    return library, book, member
+
+
+def test_library_borrows_book_for_member():
+    library, book, member = configured_library()
+
+    library.borrow_book(member.member_id, book.isbn)
+
+    assert book.isbn in member.borrowed_books
+
+
+def test_library_returns_book_for_member():
+    library, book, member = configured_library()
+    library.borrow_book(member.member_id, book.isbn)
+
+    library.return_book(member.member_id, book.isbn)
+
+    assert book.available_copies == 2
+
+
+def test_library_rejects_unknown_book_or_member():
+    library = Library()
+
+    import pytest
+    with pytest.raises(ValueError, match="member"):
+        library.borrow_book("missing", "1234567890")
+
+
+def test_library_searches_title_author_and_availability():
+    library, book, _ = configured_library()
+
+    assert library.search_by_title("clean") == [book]
+    assert library.search_by_author("martin") == [book]
+    assert library.get_available_books() == [book]
