@@ -34,3 +34,10 @@ def test_duplicate_isbn_does_not_replace_catalog_entry():
     with pytest.raises(ValueError, match="registered"):
         catalog.add_book(Book(original.isbn, "Replacement", "Author"))
     assert catalog.catalog[original.isbn] is original
+
+
+def test_register_member_indexes_identity():
+    catalog = Library()
+    member = Member("M1", "Ana")
+    catalog.register_member(member)
+    assert catalog.members["M1"] is member
