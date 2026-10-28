@@ -86,3 +86,12 @@ def test_public_member_has_borrow_limit_of_two():
 def test_member_rejects_unknown_category():
     with pytest.raises(ValueError, match="category"):
         Member("M001", "Ana", category="alien")
+
+@pytest.mark.parametrize("category, rate", [
+    ("student", 1),
+    ("faculty", 0.5),
+    ("public", 2),
+])
+def test_member_late_fee_rate_depends_on_category(category, rate):
+    member = Member("M001", "Ana", category=category)
+    assert member.late_fee_rate == rate
