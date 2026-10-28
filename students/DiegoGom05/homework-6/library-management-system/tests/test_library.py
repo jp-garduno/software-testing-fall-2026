@@ -53,3 +53,8 @@ def test_borrow_unknown_member_raises(loaded):
     lib, _, _ = loaded
     with pytest.raises(ValueError, match="Member not found"):
         lib.borrow_book("ghost", "1234567890")
+
+def test_borrow_unknown_book_raises(loaded):
+    lib, _, _ = loaded
+    with pytest.raises(ValueError, match="Book not found"):
+        lib.borrow_book("m1", "0000000000")
