@@ -1,23 +1,25 @@
-BORROW_LIMITS = {"student": 3, "faculty": 5, "public": 2}
-LATE_FEE_RATES = {"student": 1.0, "faculty": 0.5, "public": 1.5}
+CATEGORY_RULES = {
+    "student": {"limit": 3, "late_fee_rate": 1.0},
+    "faculty": {"limit": 5, "late_fee_rate": 0.5},
+    "public":  {"limit": 2, "late_fee_rate": 1.5},
+}
 
 class Member:
 
     def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
-        if category not in BORROW_LIMITS:
+        if category not in CATEGORY_RULES:
             raise ValueError(f"Invalid category: {category}")
 
         if max_borrow_limit is None:
-             max_borrow_limit = BORROW_LIMITS[category]
+            max_borrow_limit = CATEGORY_RULES[category]["limit"]
 
-        self.late_fee_rate = LATE_FEE_RATES[category]
+        self.late_fee_rate = CATEGORY_RULES[category]["late_fee_rate"]
         self.member_id = member_id
         self.name = name
         self.category = category
-        if max_borrow_limit is None:
-            max_borrow_limit = 5 if category == "faculty" else 3
         self.max_borrow_limit = max_borrow_limit
         self.borrowed_books = []
+
 
     def add_borrowed_book(self, isbn):
         if not self.can_borrow():
