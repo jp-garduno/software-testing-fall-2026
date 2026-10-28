@@ -22,3 +22,7 @@ class Member:
         self.name = name.strip()
         self.max_borrow_limit = max_borrow_limit
         self.borrowed_books: List[str] = []
+
+    def can_borrow(self) -> bool:
+        """Check if the member has not reached the borrow limit."""
+        return len(self.borrowed_books) < self.max_borrow_limit
