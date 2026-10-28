@@ -1,0 +1,4 @@
+-r requirements.txt
+black>=24.1,<27
+isort>=5.13,<7
+pylint>=3,<5
