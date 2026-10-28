@@ -105,3 +105,7 @@ def test_search_title_matches_substrings_case_insensitively(library):
 
 def test_search_author_returns_all_matching_books(library):
     assert len(library.search_by_author("RULFO")) == 2
+
+
+def test_available_books_excludes_out_of_stock_titles(library):
+    assert [book.isbn for book in library.get_available_books()] == ["1234567890"]
