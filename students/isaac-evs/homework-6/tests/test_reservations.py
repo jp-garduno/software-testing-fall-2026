@@ -26,3 +26,9 @@ def test_cannot_reserve_an_available_book(library):
     library.add_book(Book(OTHER_ISBN, "Spare Book", "Author", copies=2))
     with pytest.raises(ValueError, match="available"):
         library.reserve_book("m2", OTHER_ISBN)
+
+
+def test_reservation_queue_keeps_first_come_first_served_order(library):
+    library.reserve_book("m2", ISBN)
+    library.reserve_book("m3", ISBN)
+    assert library.get_reservation_queue(ISBN) == ["m2", "m3"]
