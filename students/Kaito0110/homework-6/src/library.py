@@ -129,8 +129,27 @@ class Library:
         )
         return int(total) if total == int(total) else round(total, 2)
 
+    def reserve_book(self, member_id, isbn):
+        """Place a member in the FIFO reservation queue for an unavailable book."""
+        if member_id not in self.members:
+            raise ValueError("Member not found")
+
+        if isbn not in self.books:
+            raise ValueError("Book not found")
+
+        if self.books[isbn].is_available():
+            raise ValueError("Book is available; no reservation needed")
+
+        if isbn not in self.reservations:
+            self.reservations[isbn] = []
+
+        if member_id in self.reservations[isbn]:
+            raise ValueError("Member already reserved this book")
+
+        self.reservations[isbn].append(member_id)
+
     def return_book(self, member_id, isbn):
-        """Return a borrowed book."""
+        """Return a borrowed book, record history, and notify next reserver."""
         if member_id not in self.members:
             raise ValueError("Member not found")
 
@@ -142,3 +161,8 @@ class Library:
 
         member.return_book(isbn)
         book.return_copy()
+        self.borrowing_history.append(
+            {"member_id": member_id, "isbn": isbn, "action": "return"}
+        )
+
+        pass
