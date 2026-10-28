@@ -89,3 +89,19 @@ class Library:
             if loan.member_id == member_id and loan.isbn == isbn and loan.is_active:
                 return loan
         raise BookNotBorrowedError(f"Member {member_id} has not borrowed {isbn}")
+
+    # ----- search ------------------------------------------------------------
+
+    def search_by_title(self, title):
+        """Case-insensitive partial match on title."""
+        needle = title.lower()
+        return [book for book in self._books.values() if needle in book.title.lower()]
+
+    def search_by_author(self, author):
+        """Case-insensitive partial match on author."""
+        needle = author.lower()
+        return [book for book in self._books.values() if needle in book.author.lower()]
+
+    def get_available_books(self):
+        """Every book with at least one copy on the shelf."""
+        return [book for book in self._books.values() if book.is_available()]
