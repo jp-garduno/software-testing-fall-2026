@@ -4,75 +4,76 @@ from src.book import Book
 from src.library import Library
 from src.member import Member
 
+
 @pytest.fixture
 def library():
     return Library()
 
-def test_new_library_has_no_available_books():
-    
+
+def test_new_library_has_no_available_books(library):
     assert library.get_available_books() == []
 
-def test_add_book_makes_it_available_in_catalog():
-    
+
+def test_add_book_makes_it_available_in_catalog(library):
     book = Book("1234567890", "Test Book", "Author")
     library.add_book(book)
     assert library.get_available_books() == [book]
 
-def test_get_available_books_excludes_books_without_copies():
-    
+
+def test_get_available_books_excludes_books_without_copies(library):
     available = Book("1111111111", "Available", "Author", total_copies=1)
     unavailable = Book("2222222222", "Unavailable", "Author", total_copies=0)
     library.add_book(available)
     library.add_book(unavailable)
     assert library.get_available_books() == [available]
 
-def test_add_book_rejects_duplicate_isbn():
-    
+
+def test_add_book_rejects_duplicate_isbn(library):
     library.add_book(Book("1234567890", "Test Book", "Author"))
     with pytest.raises(ValueError):
         library.add_book(Book("1234567890", "Another Book", "Author"))
 
-def test_register_member_makes_member_retrievable():
-    
+
+def test_register_member_makes_member_retrievable(library):
     member = Member("M001", "Ana")
     library.register_member(member)
     assert library.get_member("M001") is member
 
-def test_get_member_raises_error_when_not_registered():
-    
+
+def test_get_member_raises_error_when_not_registered(library):
     with pytest.raises(ValueError, match="not registered"):
         library.get_member("M999")
 
-def test_register_member_rejects_duplicate_id():
-    
+
+def test_register_member_rejects_duplicate_id(library):
     library.register_member(Member("M001", "Ana"))
     with pytest.raises(ValueError):
         library.register_member(Member("M001", "Beto"))
 
-def test_borrow_book_decreases_available_copies():
-    
+
+def test_borrow_book_decreases_available_copies(library):
     book = Book("1234567890", "Test Book", "Author", total_copies=2)
     library.add_book(book)
     library.register_member(Member("M001", "Ana"))
     library.borrow_book("M001", "1234567890")
     assert book.available_copies == 1
 
-def test_borrow_book_adds_isbn_to_member():
-    
+
+def test_borrow_book_adds_isbn_to_member(library):
     library.add_book(Book("1234567890", "Test Book", "Author"))
     member = Member("M001", "Ana")
     library.register_member(member)
     library.borrow_book("M001", "1234567890")
     assert "1234567890" in member.borrowed_books
 
-def test_borrow_book_raises_error_when_book_not_in_catalog():
-    
+
+def test_borrow_book_raises_error_when_book_not_in_catalog(library):
     library.register_member(Member("M001", "Ana"))
     with pytest.raises(ValueError, match="not in the catalog"):
         library.borrow_book("M001", "9999999999")
 
-def test_borrow_book_does_not_consume_copy_when_member_at_limit():
-    
+
+def test_borrow_book_does_not_consume_copy_when_member_at_limit(library):
     first = Book("1111111111", "First", "Author")
     second = Book("2222222222", "Second", "Author")
     library.add_book(first)
@@ -83,8 +84,8 @@ def test_borrow_book_does_not_consume_copy_when_member_at_limit():
         library.borrow_book("M001", "2222222222")
     assert second.available_copies == 1
 
-def test_borrow_book_does_not_register_loan_when_book_unavailable():
-    
+
+def test_borrow_book_does_not_register_loan_when_book_unavailable(library):
     library.add_book(Book("1234567890", "Test Book", "Author", total_copies=0))
     member = Member("M001", "Ana")
     library.register_member(member)
@@ -92,8 +93,8 @@ def test_borrow_book_does_not_register_loan_when_book_unavailable():
         library.borrow_book("M001", "1234567890")
     assert member.borrowed_books == []
 
-def test_return_book_increases_available_copies():
-    
+
+def test_return_book_increases_available_copies(library):
     book = Book("1234567890", "Test Book", "Author", total_copies=2)
     library.add_book(book)
     library.register_member(Member("M001", "Ana"))
@@ -101,8 +102,8 @@ def test_return_book_increases_available_copies():
     library.return_book("M001", "1234567890")
     assert book.available_copies == 2
 
-def test_return_book_removes_isbn_from_member():
-    
+
+def test_return_book_removes_isbn_from_member(library):
     library.add_book(Book("1234567890", "Test Book", "Author"))
     member = Member("M001", "Ana")
     library.register_member(member)
@@ -110,8 +111,8 @@ def test_return_book_removes_isbn_from_member():
     library.return_book("M001", "1234567890")
     assert member.borrowed_books == []
 
-def test_return_book_does_not_change_copies_when_member_did_not_borrow_it():
-    
+
+def test_return_book_does_not_change_copies_when_member_did_not_borrow_it(library):
     book = Book("1234567890", "Test Book", "Author", total_copies=2)
     library.add_book(book)
     library.register_member(Member("M001", "Ana"))
@@ -121,21 +122,21 @@ def test_return_book_does_not_change_copies_when_member_did_not_borrow_it():
         library.return_book("M002", "1234567890")
     assert book.available_copies == 1
 
-def test_search_by_title_finds_matching_book():
-    
+
+def test_search_by_title_finds_matching_book(library):
     book = Book("1234567890", "Clean Code", "Robert Martin")
     library.add_book(book)
     library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
     assert library.search_by_title("Clean Code") == [book]
 
-def test_search_by_title_is_partial_and_case_insensitive():
-    
+
+def test_search_by_title_is_partial_and_case_insensitive(library):
     book = Book("1234567890", "Learning Python", "Author")
     library.add_book(book)
     assert library.search_by_title("python") == [book]
 
-def test_search_by_author_finds_matching_books():
-    
+
+def test_search_by_author_finds_matching_books(library):
     book = Book("1234567890", "Clean Code", "Robert Martin")
     library.add_book(book)
     library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
