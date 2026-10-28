@@ -102,3 +102,8 @@ def test_search_by_author(library):
 def test_no_late_fee_without_loans(loaded):
     lib, _, _ = loaded
     assert lib.calculate_late_fees("m1", today=date(2026, 1, 20)) == 0
+
+def test_no_late_fee_within_due_period(loaded):
+    lib, _, _ = loaded
+    lib.borrow_book("m1", "1234567890", borrow_date=date(2026, 1, 1))
+    assert lib.calculate_late_fees("m1", today=date(2026, 1, 15)) == 0
