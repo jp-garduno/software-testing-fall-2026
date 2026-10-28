@@ -300,4 +300,10 @@ describe("Biblioteca: recargos por retraso", () => {
             biblioteca.calcularRecargoTotal(pepe.id, new Date("2026-10-18T00:00:00Z")),
         ).toBe(6);
     });
+
+    test("(inválida) recargo total de un miembro no registrado", () => {
+        expect(() => biblioteca.calcularRecargoTotal(999)).toThrow(
+            "El miembro no está registrado.",
+        );
+    });
 });
