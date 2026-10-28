@@ -20,3 +20,15 @@ class Book:
     def is_available(self) -> bool:
         """Return whether a copy can currently be borrowed."""
         return self.available_copies > 0
+
+    def borrow(self) -> None:
+        """Reserve one available copy."""
+        if not self.is_available():
+            raise ValueError("no copy is available")
+        self.available_copies -= 1
+
+    def return_copy(self) -> None:
+        """Return one checked-out copy to the catalog."""
+        if self.available_copies >= self.total_copies:
+            raise ValueError("all copies are already returned")
+        self.available_copies += 1
