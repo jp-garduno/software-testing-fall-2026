@@ -69,3 +69,9 @@ def dated_library():
 def test_new_member_has_empty_history(dated_library):
     library, _ = dated_library
     assert library.get_member_history("M1") == ()
+
+
+def test_history_contains_borrowed_loan(dated_library):
+    library, _ = dated_library
+    loan = library.borrow_book("M1", "1234567890")
+    assert library.get_member_history("M1") == (loan,)
