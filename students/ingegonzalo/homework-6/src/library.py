@@ -1,13 +1,15 @@
+from collections import Counter
 from datetime import date
 
+from src.history import BORROW, RETURN, HistoryEntry
 from src.late_fees import calculate_late_fee
-from src.history import HistoryEntry
+
 
 class Library:
     def __init__(self):
         self.books = {}
         self.members = {}
-        self.loans = {}
+        self._loans = {}
         self._history = []
 
     # --- catálogo ---
@@ -45,7 +47,7 @@ class Library:
         member.add_borrowed_book(isbn)
         book.borrow()
         self._loans[(member_id, isbn)] = borrow_date
-        self._history.append(HistoryEntry(member_id, isbn, "borrow", borrow_date))
+        self._record(member_id, isbn, BORROW, borrow_date)
 
     def return_book(self, member_id, isbn, return_date=None):
         member = self.get_member(member_id)
@@ -56,8 +58,37 @@ class Library:
         borrow_date = self._loans.pop((member_id, isbn))
         fee = calculate_late_fee(borrow_date, return_date, member.late_fee_rate)
         member.add_late_fee(fee)
-        self._history.append(HistoryEntry(member_id, isbn, "return", return_date))
+        self._record(member_id, isbn, RETURN, return_date)
         return fee
+
+    # --- historial ---
+    def _record(self, member_id, isbn, action, occurred_on):
+        self._history.append(HistoryEntry(member_id, isbn, action, occurred_on))
+
+    def get_history(self):
+        return list(self._history)
+
+    def get_member_history(self, member_id):
+        self.get_member(member_id)
+        return [e for e in self._history if e.member_id == member_id]
+
+    def generate_member_report(self, member_id):
+        member = self.get_member(member_id)
+        lines = [f"History for {member.name} ({member.member_id})"]
+        for entry in self.get_member_history(member_id):
+            book = self._get_book(entry.isbn)
+            lines.append(
+                f"{entry.occurred_on.isoformat()} {entry.action.upper()} "
+                f"{book.title} ({entry.isbn})"
+            )
+        return "\n".join(lines)
+
+    def most_borrowed_book(self):
+        counts = Counter(e.isbn for e in self._history if e.action == BORROW)
+        if not counts:
+            return None
+        isbn, _ = counts.most_common(1)[0]
+        return self.books[isbn]
 
     # --- búsquedas ---
     def search_by_title(self, title):
@@ -72,6 +103,3 @@ class Library:
             book for book in self.books.values()
             if query in getattr(book, attribute).lower()
         ]
-
-    def get_history(self):
-        return list(self._history)

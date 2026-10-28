@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from datetime import date
 
+BORROW = "borrow"
+RETURN = "return"
+
 
 @dataclass(frozen=True)
 class HistoryEntry:
