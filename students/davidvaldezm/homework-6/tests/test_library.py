@@ -18,3 +18,10 @@ def library():
 def test_library_starts_with_empty_catalog_and_members():
     catalog = Library()
     assert (catalog.catalog, catalog.members) == ({}, {})
+
+
+def test_library_adds_book_by_isbn():
+    catalog = Library()
+    book = Book("1234567890", "Pedro Paramo", "Juan Rulfo")
+    catalog.add_book(book)
+    assert catalog.catalog[book.isbn] is book
