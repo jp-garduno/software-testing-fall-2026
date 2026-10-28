@@ -72,3 +72,12 @@ def test_borrowing_an_unavailable_book_leaves_member_unchanged(library):
     with pytest.raises(ValueError, match="No copies available"):
         library.borrow_book("m1", ISBN)
     assert member.borrowed_books == []
+
+
+def test_return_book_restores_the_copy(library):
+    book = Book(ISBN, "Test Book", "Author", copies=1)
+    library.add_book(book)
+    library.register_member(Member("m1", "Alice"))
+    library.borrow_book("m1", ISBN)
+    library.return_book("m1", ISBN)
+    assert book.available_copies == 1
