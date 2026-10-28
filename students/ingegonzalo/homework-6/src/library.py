@@ -33,3 +33,6 @@ class Library:
         if isbn not in self.books:
             raise ValueError(f"Book {isbn} is not in the catalog")
         return self.books[isbn]
+
+    def return_book(self, member_id, isbn):
+        self.books[isbn].return_copy()
