@@ -3,6 +3,7 @@ class Member:
 
     def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
         self._validate_name(name)
+        self._validate_category(category)
         if max_borrow_limit is None:
             max_borrow_limit = self.BORROW_LIMITS[category]
         self.member_id = member_id
@@ -11,6 +12,11 @@ class Member:
         self.borrowed_books = []
         self.max_borrow_limit = max_borrow_limit
         self.late_fees = 0
+
+    @classmethod
+    def _validate_category(cls, category):
+        if category not in cls.BORROW_LIMITS:
+            raise ValueError(f"Invalid category: {category}")
 
     @staticmethod
     def _validate_name(name):
