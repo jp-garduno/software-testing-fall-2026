@@ -1,77 +1,74 @@
-<!-- BORRADOR: cámbialo con tus propias palabras y borra este comentario antes de entregar. -->
-
 # Reflexión sobre TDD
 
 ## Impacto en el diseño
 
-Escribir la prueba primero me obligó a pensar cómo se iba a **usar** cada clase
-antes de pensar cómo iba a funcionar. El mejor ejemplo fue el tiempo. Para probar
-las multas necesitaba que un libro tuviera 19 días de retraso, y no había forma
-de hacerlo sin esperar o sin trucos con `datetime`. Por eso `Library` recibe un
-`clock` en el constructor. Con eso, las pruebas de multas quedaron cortas y
-fáciles de leer.
+Escribir la prueba primero me obligó a pensar cómo se iba a usar cada clase
+antes de pensar cómo iba a funcionar por dentro. El mejor ejemplo fue el tiempo.
+Para probar las multas necesitaba que un libro tuviera 19 días de retraso, y no
+quería esperar ni hacer trucos con `datetime`. Por eso `Library` recibe un `clock`
+en el constructor, y en las pruebas uso un `FakeClock` que puedo adelantar con
+`clock.advance(19)`. Esa decisión no la tenía pensada al empezar; la prueba me
+llevó a ella.
 
-Con las reservas pasó algo parecido. Quería comprobar que se avisara a la
-siguiente persona en la cola, así que el notificador terminó siendo una función
-simple que en las pruebas reemplazo con un `Mock`. Ninguna de esas dos ideas la
-tenía al empezar; las pruebas me llevaron a ellas.
-
-TDD también mantuvo las clases pequeñas. La lógica de fecha de entrega y días de
-retraso quedó en `Loan`, y no en `Library`, porque así era mucho más fácil de
-probar por separado.
+Lo mismo pasó con las reservas. Para comprobar que se avisara al primero de la
+cola, el notificador terminó siendo una función que en las pruebas reemplazo con
+un `Mock`. Así pude probar el comportamiento sin construir un sistema de correos.
+También noté que TDD mantiene las clases pequeñas: la fecha de entrega y los días
+de retraso quedaron en `Loan`, porque ahí eran mucho más fáciles de probar solos.
 
 ## Retos
 
-Lo más difícil fue la disciplina en la fase GREEN. Cuando ya sabía cómo iba a
-quedar un método, se sentía raro escribir solo lo mínimo para pasar la prueba.
-Pero si me adelantaba, terminaba con código que ninguna prueba había pedido.
+El reto más grande fue la disciplina. En la fase GREEN es tentador escribir el
+método completo de una vez, pero la regla es escribir solo lo mínimo para que la
+prueba pase. Me costó aceptar versiones "incompletas" del código, sabiendo que la
+siguiente prueba las iba a obligar a crecer.
 
-Otro reto fue decidir el tamaño de cada prueba. "Una aserción por prueba" suena
-fácil, pero algunas cosas, como el reporte de historial, son un solo resultado
-con varios campos. Decidí comparar el diccionario completo en una prueba, porque
-partirlo en seis pruebas no hacía los errores más fáciles de entender.
+Otro reto fue entender qué significa que una prueba falle "por la razón correcta".
+Algunas fases RED no fallaron con un `assert`, sino con un `ModuleNotFoundError`
+porque la excepción todavía no existía. Y en el ciclo de reservas, de seis
+pruebas nuevas cuatro fallaron y dos ya pasaban. Aprendí que lo importante es que
+el grupo de pruebas nuevas falle por algo que el código todavía no hace, no que
+fallen todas.
 
-También fue difícil ver que algunas pruebas pasaban desde el principio en la fase
-RED, por ejemplo "no se notifica a nadie si no hay reservas". Aprendí que lo
-importante es que el grupo de pruebas nuevas falle por la razón correcta.
+También tuve problemas que no eran de TDD sino del entorno: mi `venv` apuntaba a
+una ruta vieja, el hook de pre-commit no arrancaba y Git no podía manejar rutas
+muy largas de otra carpeta del repositorio. Resolverlo me enseñó que un flujo de
+commits pequeños y frecuentes depende de tener las herramientas bien configuradas.
 
 ## Beneficios
 
-El beneficio más grande fue la confianza al refactorizar. Cuando cambié la cola
-de reservas de una lista a un `deque`, o cuando saqué los filtros de búsqueda a
-un método `_matches`, las pruebas me dijeron en menos de un segundo que todo
-seguía funcionando.
+El beneficio más claro fue la confianza al refactorizar. Cambié la cola de
+reservas de una lista a un `deque`, saqué los filtros de búsqueda a un método
+`_matches` y reutilicé el historial en el cálculo de multas. En cada cambio corrí
+las pruebas y en menos de un segundo supe que nada se había roto.
 
-Las pruebas también sirven como documentación. Leer los nombres de las pruebas
-de `test_reservations.py` explica las reglas de las reservas mejor que un
-párrafo.
+Además, las pruebas funcionan como documentación. Los nombres de
+`test_reservations.py` explican las reglas de las reservas mejor que un párrafo.
 
 ## Comparación con escribir las pruebas después
 
-En tareas anteriores escribí primero el código y después las pruebas. Esas
-pruebas casi siempre confirmaban lo que el código ya hacía, incluyendo sus
-errores. Con TDD, cada prueba empezó fallando, así que sé que de verdad puede
-detectar un problema.
-
-La cobertura salió casi sola: llegué a 100% de sentencias y de ramas sin escribir
-pruebas extra "para cubrir", porque cada rama del código existe para pasar una
-prueba que ya estaba escrita.
+En la tarea de caja blanca escribí las pruebas después del código, buscando
+cubrir líneas y ramas. Esas pruebas confirmaban lo que el código ya hacía,
+incluyendo sus posibles errores. Con TDD cada prueba empezó fallando, así que sé
+que de verdad puede detectar un problema. Y la cobertura salió casi sola: 100% de
+sentencias y de ramas sin escribir pruebas extra, porque cada rama existe para
+pasar una prueba que ya estaba escrita.
 
 ## Uso a futuro
 
-Usaría TDD en lógica de negocio con reglas claras: multas, límites,
-validaciones o cambios de estado, donde es fácil escribir un ejemplo de lo que
-se espera. No lo usaría tanto en trabajo de exploración, como un prototipo de
-interfaz o una librería nueva que todavía no conozco, porque ahí las pruebas
-cambiarían todo el tiempo. Aun así, cambiaría a TDD en cuanto el diseño se
-estabilice.
+Usaría TDD en lógica con reglas claras, como multas, límites, validaciones o
+cambios de estado, donde es fácil escribir un ejemplo de lo que se espera. No lo
+usaría tanto al explorar algo nuevo, como un prototipo de interfaz o una librería
+que no conozco, porque ahí las pruebas cambiarían todo el tiempo. Una vez que el
+diseño se estabiliza, sí cambiaría a TDD.
 
 ## Aprendizaje
 
-Lo que más me sorprendió fue lo rápidas que son las pruebas: 123 pruebas en
-menos de medio segundo, porque ninguna usa el reloj real, internet ni archivos.
-Tampoco esperaba que TDD cambiara tanto mi diseño.
+Me sorprendió lo rápidas que son las pruebas: 123 pruebas en menos de un segundo,
+porque ninguna usa el reloj real, internet ni archivos. También me sorprendió ver
+el historial de commits al final: se lee como la historia de cómo creció el
+sistema, prueba por prueba.
 
-Si lo volviera a hacer, pensaría desde el principio en los casos límite (cola
-vacía, campo faltante al ordenar, miembro que no existe) en lugar de
-descubrirlos al final.
+Si lo volviera a hacer, configuraría y probaría el entorno (venv, pre-commit y
+Git) antes de empezar, y pensaría desde el inicio en los casos límite, como la
+cola vacía, el campo faltante al ordenar o el miembro que no existe.
