@@ -43,3 +43,8 @@ def test_member_rejects_unknown_category(category):
 @pytest.mark.parametrize("category, expected", [("student", "1"), ("faculty", "0.50"), ("public", "1.50")])
 def test_member_category_sets_daily_fee_rate(category, expected):
     assert Member("M1", "Ana", category=category).daily_fee_rate == Decimal(expected)
+
+
+def test_loan_captures_category_rate():
+    loan = Loan("M1", "1234567890", date(2026, 1, 1), daily_rate=Decimal("0.50"))
+    assert loan.late_fee(date(2026, 1, 18)) == Decimal("1.50")
