@@ -278,4 +278,11 @@ describe("Biblioteca: recargos por retraso", () => {
             biblioteca.calcularRecargo(pepe.id, corte.isbn, new Date("2026-10-15T00:00:00Z")),
         ).toBe(0);
     });
+
+    test("el estudiante paga $1 por día de retraso", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn, fechaPrestamo);
+        expect(
+            biblioteca.calcularRecargo(pepe.id, corte.isbn, new Date("2026-10-18T00:00:00Z")),
+        ).toBe(3);
+    });
 });
