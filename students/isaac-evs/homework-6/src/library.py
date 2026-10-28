@@ -4,8 +4,9 @@ LOAN_PERIOD_DAYS = 14
 
 
 class Library:
-    def __init__(self, clock=date.today):
+    def __init__(self, clock=date.today, notifier=None):
         self._clock = clock
+        self._notifier = notifier
         self._loans = {}
         self._reservations = {}
         self._books = {}
@@ -42,6 +43,9 @@ class Library:
         member.return_book(isbn)
         book.return_copy()
         del self._loans[(member_id, isbn)]
+        queue = self._reservations.get(isbn)
+        if queue and self._notifier:
+            self._notifier(queue[0], isbn)
 
     def calculate_late_fee(self, member_id, isbn):
         member = self._require_member(member_id)
