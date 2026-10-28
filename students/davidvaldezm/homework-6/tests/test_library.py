@@ -115,3 +115,11 @@ def test_unavailable_loan_does_not_record_member_borrow(library):
     with pytest.raises(ValueError, match="available"):
         library.borrow_book("M1", "1234567890123")
     assert library.members["M1"].borrowed_books == []
+
+
+def test_return_by_nonborrower_preserves_inventory(library):
+    library.borrow_book("M1", "1234567890")
+    library.register_member(Member("M2", "Luis"))
+    with pytest.raises(ValueError, match="not borrowed"):
+        library.return_book("M2", "1234567890")
+    assert library.catalog["1234567890"].available_copies == 1
