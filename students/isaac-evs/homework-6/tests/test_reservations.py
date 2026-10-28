@@ -64,3 +64,27 @@ def test_borrowing_clears_the_members_reservation(library):
     library.return_book("m1", ISBN)
     library.borrow_book("m2", ISBN)
     assert library.get_reservation_queue(ISBN) == []
+
+
+def test_no_notification_when_nobody_is_waiting(library, notifier):
+    library.return_book("m1", ISBN)
+    notifier.assert_not_called()
+
+
+def test_return_works_without_a_notifier_configured():
+    lib = Library()
+    lib.add_book(Book(ISBN, "Popular Book", "Author", copies=1))
+    lib.register_member(Member("m1", "M1"))
+    lib.register_member(Member("m2", "M2"))
+    lib.borrow_book("m1", ISBN)
+    lib.reserve_book("m2", ISBN)
+    lib.return_book("m1", ISBN)
+    assert lib.get_reservation_queue(ISBN) == ["m2"]
+
+
+def test_borrowing_keeps_other_members_in_the_queue(library):
+    library.reserve_book("m2", ISBN)
+    library.reserve_book("m3", ISBN)
+    library.return_book("m1", ISBN)
+    library.borrow_book("m2", ISBN)
+    assert library.get_reservation_queue(ISBN) == ["m3"]
