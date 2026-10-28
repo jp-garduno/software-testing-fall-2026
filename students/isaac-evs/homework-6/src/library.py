@@ -18,8 +18,8 @@ class Library:
     def borrow_book(self, member_id, isbn):
         member = self._require_member(member_id)
         book = self._require_book(isbn)
-        book.borrow()
         member.add_borrowed_book(isbn)
+        book.borrow()
 
     def _require_member(self, member_id):
         if member_id not in self._members:
