@@ -38,6 +38,9 @@ class Library:
         member.return_book(isbn)
         book.return_copy()
 
+    def calculate_late_fee(self, member_id, isbn):
+        return 0
+
     def search_by_title(self, title):
         return self._search("title", title)
 
