@@ -17,3 +17,9 @@ def test_book_starts_with_requested_copies():
 def test_book_rejects_invalid_isbn(isbn):
     with pytest.raises(ValueError, match="ISBN"):
         Book(isbn, "Title", "Author")
+
+
+@pytest.mark.parametrize("title", ["", "  ", None, 42])
+def test_book_requires_a_title(title):
+    with pytest.raises(ValueError, match="title"):
+        Book("1234567890123", title, "Author")
