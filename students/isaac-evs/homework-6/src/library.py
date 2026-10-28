@@ -39,7 +39,8 @@ class Library:
         book.return_copy()
 
     def calculate_late_fee(self, member_id, isbn):
-        return 0
+        due = self.get_due_date(member_id, isbn)
+        return max(0, (self._clock() - due).days)
 
     def search_by_title(self, title):
         return self._search("title", title)
