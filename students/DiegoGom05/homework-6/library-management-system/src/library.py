@@ -28,5 +28,9 @@ class Library:
 
         member = self._members[member_id]
         book = self._books[isbn]
+
+        if not member.can_borrow():
+            raise ValueError("Member reached borrow limit")
+
         book.borrow()
         member.add_borrowed_book(isbn)
