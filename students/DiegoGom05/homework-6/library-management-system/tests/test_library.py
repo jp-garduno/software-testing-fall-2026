@@ -153,3 +153,8 @@ def test_late_fee_uses_member_category_rate(loaded):
     lib.register_member(Member("f1", "Prof", category="faculty"))
     lib.borrow_book("f1", "1234567890", borrow_date=date(2026, 1, 1))
     assert lib.calculate_late_fees("f1", today=date(2026, 1, 20)) == 2.5
+
+
+def test_late_fee_unknown_member_raises(library):
+    with pytest.raises(ValueError, match="Member not found"):
+        library.calculate_late_fees("ghost", today=date(2026, 1, 1))
