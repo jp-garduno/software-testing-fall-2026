@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from collections import Counter
 
 
 class Library:
@@ -120,3 +121,7 @@ class Library:
 
     def get_member_history(self, member_id):
         return [e for e in self._history if e["member_id"] == member_id]
+
+    def most_borrowed_book(self):
+        counts = Counter(e["isbn"] for e in self._history if e["action"] == "borrow")
+        return counts.most_common(1)[0][0]
