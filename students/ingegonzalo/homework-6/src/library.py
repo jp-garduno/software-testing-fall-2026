@@ -50,13 +50,13 @@ class Library:
     def return_book(self, member_id, isbn, return_date=None):
         member = self.get_member(member_id)
         book = self._get_book(isbn)
+        return_date = return_date or date.today()
         member.return_book(isbn)
         book.return_copy()
         borrow_date = self._loans.pop((member_id, isbn))
-        fee = calculate_late_fee(
-            borrow_date, return_date or date.today(), member.late_fee_rate
-        )
+        fee = calculate_late_fee(borrow_date, return_date, member.late_fee_rate)
         member.add_late_fee(fee)
+        self._history.append(HistoryEntry(member_id, isbn, "return", return_date))
         return fee
 
     # --- búsquedas ---
