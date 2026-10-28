@@ -78,3 +78,12 @@ def test_borrow_book_does_not_consume_copy_when_member_at_limit():
     with pytest.raises(ValueError):
         library.borrow_book("M001", "2222222222")
     assert second.available_copies == 1
+
+def test_borrow_book_does_not_register_loan_when_book_unavailable():
+    library = Library()
+    library.add_book(Book("1234567890", "Test Book", "Author", total_copies=0))
+    member = Member("M001", "Ana")
+    library.register_member(member)
+    with pytest.raises(ValueError):
+        library.borrow_book("M001", "1234567890")
+    assert member.borrowed_books == []
