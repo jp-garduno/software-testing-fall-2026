@@ -63,3 +63,16 @@ def test_library_calculates_one_dollar_per_overdue_day():
     library.borrowing_history[-1]["due_date"] = date.today() - timedelta(days=3)
 
     assert library.calculate_late_fees(member.member_id) == 3
+
+
+def test_library_reserves_unavailable_book_in_fifo_order():
+    library, book, member = configured_library()
+    second = Member("m-2", "Grace")
+    library.register_member(second)
+    library.borrow_book(member.member_id, book.isbn)
+    library.borrow_book(second.member_id, book.isbn)
+
+    library.reserve_book(member.member_id, book.isbn)
+    library.reserve_book(second.member_id, book.isbn)
+
+    assert library.reservations[book.isbn] == [member.member_id, second.member_id]
