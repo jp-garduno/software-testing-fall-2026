@@ -97,3 +97,7 @@ def test_return_rejects_unknown_member(library):
 def test_return_rejects_unknown_book(library):
     with pytest.raises(ValueError, match="Unknown book"):
         library.return_book("M1", "9999999999")
+
+
+def test_search_title_matches_substrings_case_insensitively(library):
+    assert [book.isbn for book in library.search_by_title("  PEDRO  ")] == ["1234567890"]
