@@ -7,6 +7,7 @@ class Book:
         self.isbn = isbn
         self.title = title
         self.author = author
+        self.total_copies = copies
         self.available_copies = copies
 
     def is_available(self):
@@ -18,4 +19,6 @@ class Book:
         self.available_copies -= 1
 
     def return_copy(self):
+        if self.available_copies >= self.total_copies:
+            raise ValueError("All copies are already returned")
         self.available_copies += 1
