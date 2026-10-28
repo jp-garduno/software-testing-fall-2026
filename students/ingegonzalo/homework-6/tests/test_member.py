@@ -17,3 +17,8 @@ def test_member_has_default_borrow_limit_of_three():
 def test_member_can_have_custom_borrow_limit():
     member = Member("M001", "Ana", max_borrow_limit=5)
     assert member.max_borrow_limit == 5
+
+def test_add_borrowed_book_adds_isbn_to_list():
+    member = Member("M001", "Ana")
+    member.add_borrowed_book("1234567890")
+    assert "1234567890" in member.borrowed_books
