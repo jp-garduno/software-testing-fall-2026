@@ -1,6 +1,6 @@
 """Book entity: a title in the catalog with a number of physical copies."""
 
-from src.exceptions import InvalidBookError
+from src.exceptions import InvalidBookError, NoCopiesAvailableError
 
 VALID_ISBN_LENGTHS = (10, 13)
 
@@ -38,3 +38,9 @@ class Book:
     def is_available(self):
         """Return True when at least one copy is on the shelf."""
         return self.available_copies > 0
+
+    def borrow(self):
+        """Take one copy off the shelf."""
+        if not self.is_available():
+            raise NoCopiesAvailableError(f"No copies of '{self.title}' available")
+        self.available_copies -= 1
