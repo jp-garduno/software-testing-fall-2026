@@ -65,7 +65,6 @@ def test_filter_by_min_rating(catalog):
 
 def test_filter_combined_and_logic(catalog):
     lib, b1, b2, b3, b4 = catalog
-    # Software Engineering AND rating >= 4.6 AND year <= 2000
     results = lib.filter_books(
         genre="Software Engineering",
         year_to=2000,
@@ -84,3 +83,26 @@ def test_filter_and_sort_by_rating_ascending(catalog):
     lib, b1, b2, b3, b4 = catalog
     results = lib.filter_books(sort_by="rating", reverse=False)
     assert [b.rating for b in results] == [4.5, 4.6, 4.7, 4.8]
+
+
+def test_filter_and_sort_by_title_alphabetical(catalog):
+    lib, b1, b2, b3, b4 = catalog
+    results = lib.filter_books(sort_by="title")
+    assert results[0].title == "Clean Code"
+    assert results[-1].title == "Refactoring"
+
+
+def test_filter_books_handles_missing_attributes_and_unknown_sort():
+    lib = Library()
+    b1 = Book("1111111111", "Book Without Meta", "Author")
+    lib.add_book(b1)
+
+    assert lib.filter_books(genre="Fiction") == []
+    assert lib.filter_books(year_from=2000) == []
+    assert lib.filter_books(year_to=2000) == []
+    assert lib.filter_books(min_rating=4.0) == []
+
+    # Sort with books lacking year/rating
+    assert lib.filter_books(sort_by="year") == [b1]
+    assert lib.filter_books(sort_by="rating") == [b1]
+    assert lib.filter_books(sort_by="unsupported_key") == [b1]
