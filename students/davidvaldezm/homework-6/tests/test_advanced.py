@@ -27,3 +27,8 @@ def test_late_fee_respects_due_date_boundary(as_of, expected):
 def test_closed_loan_stops_fees_at_return_date():
     loan = Loan("M1", "1234567890", date(2026, 1, 1), returned_on=date(2026, 1, 18))
     assert loan.late_fee(date(2026, 2, 1)) == Decimal("3")
+
+
+@pytest.mark.parametrize("category, expected", [("student", 3), ("faculty", 5), ("public", 2)])
+def test_member_category_sets_borrowing_limit(category, expected):
+    assert Member("M1", "Ana", category=category).max_borrow_limit == expected
