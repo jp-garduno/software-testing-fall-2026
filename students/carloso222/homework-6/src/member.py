@@ -1,16 +1,25 @@
 """Member entity: a registered person who borrows books."""
 
 from src.exceptions import BookNotBorrowedError, BorrowLimitReachedError
+from src.member_category import MemberCategory
 
 
 class Member:
-    """A library member with a borrow limit."""
+    """A library member with a borrow limit set by their category."""
 
-    def __init__(self, member_id, name, max_borrow_limit=3):
+    def __init__(self, member_id, name, category=MemberCategory.STUDENT, max_borrow_limit=None):
         self.member_id = member_id
         self.name = name
-        self.max_borrow_limit = max_borrow_limit
+        self.category = category
+        self.max_borrow_limit = (
+            max_borrow_limit if max_borrow_limit is not None else category.borrow_limit
+        )
         self.borrowed_books = []
+
+    @property
+    def daily_late_fee(self):
+        """Late fee per overdue day for this member's category."""
+        return self.category.daily_late_fee
 
     def can_borrow(self):
         """Return True while the member is under their borrow limit."""
