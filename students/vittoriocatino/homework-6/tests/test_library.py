@@ -1,6 +1,7 @@
 from book import Book
 from library import Library
 from member import Member
+from datetime import date, timedelta
 
 
 def test_library_adds_books_and_registers_members():
@@ -54,3 +55,11 @@ def test_library_searches_title_author_and_availability():
     assert library.search_by_title("clean") == [book]
     assert library.search_by_author("martin") == [book]
     assert library.get_available_books() == [book]
+
+
+def test_library_calculates_one_dollar_per_overdue_day():
+    library, book, member = configured_library()
+    library.borrow_book(member.member_id, book.isbn)
+    library.borrowing_history[-1]["due_date"] = date.today() - timedelta(days=3)
+
+    assert library.calculate_late_fees(member.member_id) == 3
