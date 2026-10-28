@@ -34,3 +34,17 @@ def test_register_duplicate_member_raises(library):
     library.register_member(Member("m1", "Ana"))
     with pytest.raises(ValueError, match="already"):
         library.register_member(Member("m1", "Otra"))
+
+@pytest.fixture
+def loaded(library):
+    book = make_book(copies=2)
+    member = Member("m1", "Ana")
+    library.add_book(book)
+    library.register_member(member)
+    return library, book, member
+
+def test_borrow_book_updates_book_and_member(loaded):
+    lib, book, member = loaded
+    lib.borrow_book("m1", "1234567890")
+    assert book.available_copies == 1
+    assert member.borrowed_books == ["1234567890"]
