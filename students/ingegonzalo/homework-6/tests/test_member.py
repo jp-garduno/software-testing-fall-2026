@@ -64,3 +64,9 @@ def test_member_requires_name():
 def test_member_starts_with_no_late_fees():
     member = Member("M001", "Ana")
     assert member.late_fees == 0
+
+def test_add_late_fee_accumulates_total():
+    member = Member("M001", "Ana")
+    member.add_late_fee(3)
+    member.add_late_fee(2)
+    assert member.late_fees == 5
