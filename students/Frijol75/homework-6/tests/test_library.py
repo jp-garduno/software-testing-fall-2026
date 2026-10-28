@@ -149,3 +149,38 @@ def test_library_return_book_raises_when_not_borrowed_by_member():
 
     with pytest.raises(ValueError, match="Book not borrowed by this member"):
         lib.return_book("M001", "1234567890")
+
+
+def test_library_search_by_title():
+    lib = Library()
+    book1 = Book("1111111111", "Clean Code", "Robert Martin")
+    book2 = Book("2222222222", "The Clean Coder", "Robert Martin")
+    book3 = Book("3333333333", "Design Patterns", "Gang of Four")
+    lib.add_book(book1)
+    lib.add_book(book2)
+    lib.add_book(book3)
+
+    results = lib.search_by_title("clean")
+    assert len(results) == 2
+    assert book1 in results
+    assert book2 in results
+
+
+def test_library_search_by_author():
+    lib = Library()
+    book1 = Book("1111111111", "Clean Code", "Robert Martin")
+    book2 = Book("2222222222", "Refactoring", "Martin Fowler")
+    lib.add_book(book1)
+    lib.add_book(book2)
+
+    results = lib.search_by_author("fowler")
+    assert len(results) == 1
+    assert results[0] == book2
+
+
+def test_library_search_rejects_non_string_query():
+    lib = Library()
+    with pytest.raises(TypeError, match="Search query must be a string"):
+        lib.search_by_title(123)
+    with pytest.raises(TypeError, match="Search query must be a string"):
+        lib.search_by_author(None)
