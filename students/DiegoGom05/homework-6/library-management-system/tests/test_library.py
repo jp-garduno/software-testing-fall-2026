@@ -48,3 +48,8 @@ def test_borrow_book_updates_book_and_member(loaded):
     lib.borrow_book("m1", "1234567890")
     assert book.available_copies == 1
     assert member.borrowed_books == ["1234567890"]
+
+def test_borrow_unknown_member_raises(loaded):
+    lib, _, _ = loaded
+    with pytest.raises(ValueError, match="Member not found"):
+        lib.borrow_book("ghost", "1234567890")
