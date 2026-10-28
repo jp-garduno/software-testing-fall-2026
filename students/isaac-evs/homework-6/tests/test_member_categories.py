@@ -20,3 +20,10 @@ def library(clock):
 )
 def test_borrow_limit_depends_on_category(category, limit):
     assert Member("m1", "Alice", category=category).max_borrow_limit == limit
+
+
+def test_faculty_pay_half_the_student_late_fee(library, clock):
+    library.register_member(Member("f1", "Prof", category=MemberCategory.FACULTY))
+    library.borrow_book("f1", ISBN)
+    clock.advance(18)
+    assert library.calculate_late_fee("f1", ISBN) == 2.0
