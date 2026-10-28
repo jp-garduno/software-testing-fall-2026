@@ -163,3 +163,16 @@ def test_late_fee_unknown_member_raises(library):
 def test_new_member_history_is_empty(loaded):
     lib, _, _ = loaded
     assert lib.get_member_history("m1") == []
+
+
+def test_borrow_is_recorded_in_history(loaded):
+    lib, _, _ = loaded
+    lib.borrow_book("m1", "1234567890", borrow_date=date(2026, 1, 1))
+    assert lib.get_member_history("m1") == [
+        {
+            "member_id": "m1",
+            "isbn": "1234567890",
+            "action": "borrow",
+            "date": date(2026, 1, 1),
+        }
+    ]
