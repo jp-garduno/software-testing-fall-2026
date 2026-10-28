@@ -14,3 +14,18 @@ def test_book_creation_with_valid_attributes():
     assert book.author == "Andy Hunt & Dave Thomas"
     assert book.total_copies == 5
     assert book.available_copies == 5
+
+
+def test_book_creation_with_13_digit_isbn():
+    book = Book("9780132350884", "Clean Code", "Robert C. Martin", 3)
+    assert book.isbn == "9780132350884"
+
+
+def test_book_creation_rejects_invalid_isbn_length():
+    with pytest.raises(ValueError, match="ISBN must be 10 or 13 digits"):
+        Book("123", "Invalid ISBN", "Author")
+
+
+def test_book_creation_rejects_non_digit_isbn():
+    with pytest.raises(ValueError, match="ISBN must be 10 or 13 digits"):
+        Book("123456789X123", "Invalid ISBN", "Author")
