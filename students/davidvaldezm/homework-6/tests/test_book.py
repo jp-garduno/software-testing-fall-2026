@@ -47,3 +47,10 @@ def test_borrow_rejects_exhausted_stock():
     with pytest.raises(ValueError, match="available"):
         book.borrow()
     assert book.available_copies == 0
+
+
+def test_return_restores_a_borrowed_copy():
+    book = Book("1234567890", "Title", "Author")
+    book.borrow()
+    book.return_copy()
+    assert book.available_copies == book.total_copies
