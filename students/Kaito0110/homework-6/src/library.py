@@ -1,5 +1,7 @@
 """Library service managing catalog, members, loans, reservations, and history."""
 
+from datetime import date, timedelta
+
 
 class Library:
     """Coordinates books, members, borrowing, search, reservations, and fees."""
@@ -7,6 +9,9 @@ class Library:
     def __init__(self):
         self.books = {}
         self.members = {}
+        self.reservations = {}
+        self.notifications = []
+        self.borrowing_history = []
 
     def add_book(self, book):
         """Add a new book to the catalog."""
@@ -38,12 +43,51 @@ class Library:
             if author.lower() in book.author.lower()
         ]
 
+    def search_books(
+        self,
+        genre=None,
+        publication_year=None,
+        min_rating=None,
+        sort_by=None,
+    ):
+        """Filter books using combined AND criteria and optional sorting."""
+        results = list(self.books.values())
+
+        if genre is not None:
+            results = [
+                book
+                for book in results
+                if book.genre is not None and book.genre.lower() == genre.lower()
+            ]
+
+        if publication_year is not None:
+            results = [
+                book
+                for book in results
+                if book.publication_year == publication_year
+            ]
+
+        if min_rating is not None:
+            results = [
+                book
+                for book in results
+                if book.rating is not None and book.rating >= min_rating
+            ]
+
+        if sort_by is not None:
+            valid_sort_fields = {"title", "publication_year", "rating"}
+            if sort_by not in valid_sort_fields:
+                raise ValueError(f"Invalid sort field: {sort_by}")
+            results.sort(key=lambda b: getattr(b, sort_by))
+
+        return results
+
     def get_available_books(self):
         """Return all books with at least one available copy."""
         return [book for book in self.books.values() if book.is_available()]
 
     def borrow_book(self, member_id, isbn):
-        """Borrow a book for a registered member."""
+        """Borrow a book for a registered member and record history."""
         if member_id not in self.members:
             raise ValueError("Member not found")
 
@@ -58,6 +102,18 @@ class Library:
 
         book.borrow()
         member.add_borrowed_book(isbn)
+        self.borrowing_history.append(
+            {"member_id": member_id, "isbn": isbn, "action": "borrow"}
+        )
+
+    def calculate_late_fee(
+        self, borrow_date: date, return_date: date, daily_rate: float = 1.0
+    ) -> float:
+        """Calculate overdue fee given a 14-day loan period and daily rate."""
+        due_date = borrow_date + timedelta(days=14)
+        late_days = max(0, (return_date - due_date).days)
+        fee = late_days * daily_rate
+        return int(fee) if fee == int(fee) else round(fee, 2)
 
     def return_book(self, member_id, isbn):
         """Return a borrowed book."""
