@@ -111,6 +111,8 @@ class Library {
     }
 
     fechaVencimiento(idMiembro, isbn) {
+        if (!prestamo)
+            throw new Error("El miembro no tiene prestado este libro.");
         const prestamo = this.prestamos.find(
             (p) => p.idMiembro === idMiembro && p.isbn === isbn,
         );
