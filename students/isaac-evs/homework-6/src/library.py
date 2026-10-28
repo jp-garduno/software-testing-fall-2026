@@ -32,6 +32,9 @@ class Library:
         member.add_borrowed_book(isbn)
         book.borrow()
         self._loans[(member_id, isbn)] = self._clock()
+        queue = self._reservations.get(isbn, [])
+        if member_id in queue:
+            queue.remove(member_id)
 
     def get_due_date(self, member_id, isbn):
         borrowed_on = self._require_loan(member_id, isbn)
