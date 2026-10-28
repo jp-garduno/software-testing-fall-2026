@@ -61,3 +61,16 @@ def test_return_copy_fails_when_all_copies_are_already_back():
     book = Book("1234567890", "Test Book", "Author", copies=1)
     with pytest.raises(ValueError, match="already returned"):
         book.return_copy()
+
+
+def test_book_accepts_13_digit_isbn():
+    assert Book("1234567890123", "Test Book", "Author").isbn == "1234567890123"
+
+
+def test_book_defaults_to_one_copy():
+    assert Book("1234567890", "Test Book", "Author").total_copies == 1
+
+
+def test_book_rejects_whitespace_only_title():
+    with pytest.raises(ValueError, match="Title is required"):
+        Book("1234567890", "   ", "Author")
