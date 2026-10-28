@@ -41,3 +41,7 @@ class Member:
 
 	def return_book(self, book):
 		self.borrowed_books.remove(book)
+
+
+class Library:
+	pass
