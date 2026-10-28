@@ -115,3 +115,12 @@ def test_most_borrowed_counts_repeat_borrows(dated_library):
 def test_most_borrowed_is_none_without_history(dated_library):
     library, _ = dated_library
     assert library.most_borrowed_book() is None
+
+
+def test_backdated_return_preserves_active_loan(dated_library):
+    library, clock = dated_library
+    library.borrow_book("M1", "1234567890")
+    clock[0] = date(2025, 12, 31)
+    with pytest.raises(ValueError, match="before"):
+        library.return_book("M1", "1234567890")
+    assert library.members["M1"].borrowed_books == ["1234567890"]
