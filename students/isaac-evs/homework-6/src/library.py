@@ -44,7 +44,8 @@ class Library:
         del self._loans[(member_id, isbn)]
 
     def calculate_late_fee(self, member_id, isbn):
-        return self._overdue_days(member_id, isbn) * LATE_FEE_PER_DAY
+        member = self._require_member(member_id)
+        return self._overdue_days(member_id, isbn) * member.category.late_fee_per_day
 
     def calculate_member_late_fees(self, member_id):
         return sum(
