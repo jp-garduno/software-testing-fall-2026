@@ -1,9 +1,12 @@
 class Member:
-    def __init__(self, member_id, name, max_borrow_limit=3):
+    def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
         self.member_id = member_id
         self.name = name
-        self.borrowed_books = []
+        self.category = category
+        if max_borrow_limit is None:
+            max_borrow_limit = 5 if category == "faculty" else 3
         self.max_borrow_limit = max_borrow_limit
+        self.borrowed_books = []
 
     def add_borrowed_book(self, isbn):
         if not self.can_borrow():
