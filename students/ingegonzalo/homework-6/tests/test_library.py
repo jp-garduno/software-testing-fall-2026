@@ -3,6 +3,7 @@ import pytest
 from src.book import Book
 from src.library import Library
 from src.member import Member
+from datetime import date
 
 
 @pytest.fixture
@@ -141,3 +142,10 @@ def test_search_by_author_finds_matching_books(library):
     library.add_book(book)
     library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
     assert library.search_by_author("robert") == [book]
+
+def test_return_book_on_time_charges_no_late_fee(library):
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    library.register_member(Member("M001", "Ana"))
+    library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 1))
+    fee = library.return_book("M001", "1234567890", return_date=date(2026, 1, 10))
+    assert fee == 0
