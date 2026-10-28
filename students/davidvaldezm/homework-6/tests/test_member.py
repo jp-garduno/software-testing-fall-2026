@@ -18,3 +18,7 @@ def test_member_requires_nonblank_identity(member_id, name):
 def test_member_requires_positive_integer_limit(limit):
     with pytest.raises(ValueError, match="limit"):
         Member("M1", "Ana", max_borrow_limit=limit)
+
+
+def test_new_member_can_borrow():
+    assert Member("M1", "Ana").can_borrow() is True
