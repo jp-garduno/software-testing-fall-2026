@@ -1,6 +1,6 @@
 """Library: catalog, members, loans, reservations, search and reports."""
 
-from collections import deque
+from collections import Counter, deque
 from datetime import date
 
 from src.exceptions import (
@@ -202,3 +202,23 @@ class Library:
         """Every loan the member has had, oldest first."""
         self.get_member(member_id)
         return [loan for loan in self._loans if loan.member_id == member_id]
+
+    def member_history_report(self, member_id):
+        """Summary of a member's borrowing activity."""
+        member = self.get_member(member_id)
+        history = self.get_member_history(member_id)
+        return {
+            "member_id": member.member_id,
+            "name": member.name,
+            "total_borrows": len(history),
+            "currently_borrowed": sum(1 for loan in history if loan.is_active),
+            "titles": [self._books[loan.isbn].title for loan in history],
+            "late_fees": self.calculate_late_fees(member_id),
+        }
+
+    def most_borrowed_book(self):
+        """The book borrowed the most times, or None if nothing was borrowed."""
+        if not self._loans:
+            return None
+        isbn, _count = Counter(loan.isbn for loan in self._loans).most_common(1)[0]
+        return self._books[isbn]
