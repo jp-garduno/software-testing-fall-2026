@@ -3,6 +3,7 @@ import pytest
 from src.book import Book
 from src.exceptions import (
     AlreadyBorrowedError,
+    BookNotBorrowedError,
     BookNotFoundError,
     BorrowLimitReachedError,
     DuplicateBookError,
@@ -111,3 +112,25 @@ def test_failed_borrow_over_limit_leaves_book_on_shelf(library):
     with pytest.raises(BorrowLimitReachedError):
         library.borrow_book("Z1", CLEAN_CODE)
     assert library.get_book(CLEAN_CODE).available_copies == 2
+
+
+def test_return_book_puts_the_copy_back(library):
+    library.borrow_book("S1", REFACTORING)
+    library.return_book("S1", REFACTORING)
+    assert library.get_book(REFACTORING).is_available() is True
+
+
+def test_return_book_removes_book_from_member(library):
+    library.borrow_book("S1", REFACTORING)
+    library.return_book("S1", REFACTORING)
+    assert library.get_member("S1").borrowed_books == []
+
+
+def test_return_book_raises_when_member_did_not_borrow_it(library):
+    with pytest.raises(BookNotBorrowedError):
+        library.return_book("S1", REFACTORING)
+
+
+def test_return_book_raises_for_unknown_member(library):
+    with pytest.raises(MemberNotFoundError):
+        library.return_book("NOPE", REFACTORING)
