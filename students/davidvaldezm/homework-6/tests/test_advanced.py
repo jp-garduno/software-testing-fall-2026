@@ -136,3 +136,12 @@ def test_history_excludes_other_members_loans(dated_library):
     library.register_member(Member("M2", "Luis"))
     library.borrow_book("M1", "1234567890")
     assert library.get_member_history("M2") == ()
+
+
+@pytest.mark.parametrize("category, expected", [("student", "3"), ("faculty", "1.50"), ("public", "4.50")])
+def test_library_fees_apply_member_category(dated_library, category, expected):
+    library, clock = dated_library
+    library.register_member(Member("M2", "Luis", category=category))
+    library.borrow_book("M2", "1234567890")
+    clock[0] = date(2026, 1, 18)
+    assert library.calculate_total_fees("M2") == Decimal(expected)
