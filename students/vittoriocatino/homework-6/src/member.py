@@ -4,11 +4,28 @@
 class Member:
     """A member permitted to borrow up to a configured number of books."""
 
-    def __init__(self, member_id: str, name: str, max_borrow_limit: int = 3) -> None:
+    CATEGORY_RULES = {
+        "student": (3, 1.0),
+        "faculty": (5, 0.5),
+        "public": (2, 1.5),
+    }
+
+    def __init__(
+        self,
+        member_id: str,
+        name: str,
+        max_borrow_limit: int | None = None,
+        category: str = "student",
+    ) -> None:
+        if category not in self.CATEGORY_RULES:
+            raise ValueError("unknown member category")
+        category_limit, self.late_fee_rate = self.CATEGORY_RULES[category]
+        max_borrow_limit = max_borrow_limit or category_limit
         if not member_id or not name.strip() or max_borrow_limit < 1:
             raise ValueError("member requires identity, name, and positive limit")
         self.member_id = member_id
         self.name = name
+        self.category = category
         self.max_borrow_limit = max_borrow_limit
         self.borrowed_books: list[str] = []
 
