@@ -53,3 +53,33 @@ class Library:
 
 	def register_member(self, member):
 		self.members.append(member)
+
+	def borrow_book(self, member_id, isbn):
+		member = next((member for member in self.members if member.member_id == member_id), None)
+		if member is None:
+			raise ValueError("Invalid request: Member is not registered")
+
+		book = next((book for book in self.books if book.ISBN == isbn), None)
+		if book is None:
+			raise ValueError("Invalid request: Book is not in the catalog")
+
+		if not member.can_borrow():
+			raise ValueError("Invalid request: Member has reached the borrowing limit")
+
+		book.borrow()
+		member.add_borrowed_book(book)
+
+	def return_book(self, member_id, isbn):
+		member = next((member for member in self.members if member.member_id == member_id), None)
+		if member is None:
+			raise ValueError("Invalid request: Member is not registered")
+
+		book = next((book for book in self.books if book.ISBN == isbn), None)
+		if book is None:
+			raise ValueError("Invalid request: Book is not in the catalog")
+
+		if book not in member.borrowed_books:
+			raise ValueError("Invalid request: Member has not borrowed this book")
+
+		book.return_book()
+		member.return_book(book)
