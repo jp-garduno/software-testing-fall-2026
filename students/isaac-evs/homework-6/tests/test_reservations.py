@@ -20,3 +20,9 @@ def library():
 
 def test_reserving_an_unavailable_book_returns_queue_position(library):
     assert library.reserve_book("m2", ISBN) == 1
+
+
+def test_cannot_reserve_an_available_book(library):
+    library.add_book(Book(OTHER_ISBN, "Spare Book", "Author", copies=2))
+    with pytest.raises(ValueError, match="available"):
+        library.reserve_book("m2", OTHER_ISBN)
