@@ -74,3 +74,10 @@ def test_failed_borrow_at_limit_is_atomic(library):
     with pytest.raises(ValueError, match="limit"):
         library.borrow_book("M2", "1234567890")
     assert library.catalog["1234567890"].available_copies == 2
+
+
+def test_failed_duplicate_borrow_is_atomic(library):
+    library.borrow_book("M1", "1234567890")
+    with pytest.raises(ValueError, match="already"):
+        library.borrow_book("M1", "1234567890")
+    assert library.catalog["1234567890"].available_copies == 1
