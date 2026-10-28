@@ -65,3 +65,12 @@ def test_unknown_book_does_not_change_member(library):
     with pytest.raises(ValueError, match="Unknown book"):
         library.borrow_book("M1", "9999999999")
     assert library.members["M1"].borrowed_books == []
+
+
+def test_failed_borrow_at_limit_is_atomic(library):
+    library.register_member(Member("M2", "Luis", max_borrow_limit=1))
+    library.add_book(Book("9999999999", "Other", "Author"))
+    library.borrow_book("M2", "9999999999")
+    with pytest.raises(ValueError, match="limit"):
+        library.borrow_book("M2", "1234567890")
+    assert library.catalog["1234567890"].available_copies == 2
