@@ -271,4 +271,11 @@ describe("Biblioteca: recargos por retraso", () => {
             "El miembro no tiene prestado este libro.",
         );
     });
+
+    test("no hay recargo el día de vencimiento", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn, fechaPrestamo);
+        expect(
+            biblioteca.calcularRecargo(pepe.id, corte.isbn, new Date("2026-10-15T00:00:00Z")),
+        ).toBe(0);
+    });
 });
