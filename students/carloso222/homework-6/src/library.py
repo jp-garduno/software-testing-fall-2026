@@ -113,8 +113,13 @@ class Library:
         """Every book with at least one copy on the shelf."""
         return [book for book in self._books.values() if book.is_available()]
 
-    def search(self, genre=None, year=None, min_rating=None):
-        """Filter the catalog with AND logic."""
+    def search(self, genre=None, year=None, min_rating=None, sort_by=None, descending=False):
+        """Filter the catalog with AND logic and optionally sort the result.
+
+        Books missing the sort field always go last, in either direction.
+        """
+        if sort_by is not None and sort_by not in ("title", "author", "year", "rating"):
+            raise ValueError(f"Cannot sort by {sort_by!r}")
         results = []
         for book in self._books.values():
             if genre is not None and (book.genre or "").lower() != genre.lower():
@@ -124,7 +129,12 @@ class Library:
             if min_rating is not None and (book.rating is None or book.rating < min_rating):
                 continue
             results.append(book)
-        return results
+        if sort_by is None:
+            return results
+        with_value = [book for book in results if getattr(book, sort_by) is not None]
+        without_value = [book for book in results if getattr(book, sort_by) is None]
+        with_value.sort(key=lambda book: getattr(book, sort_by), reverse=descending)
+        return with_value + without_value
 
     # ----- late fees ---------------------------------------------------------
 
