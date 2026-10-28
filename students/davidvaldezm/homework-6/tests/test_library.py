@@ -2,9 +2,8 @@
 
 import pytest
 
-from src.library import Library
-
 from src.book import Book
+from src.library import Library
 from src.member import Member
 
 
