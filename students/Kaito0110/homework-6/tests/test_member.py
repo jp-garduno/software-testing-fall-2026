@@ -151,3 +151,19 @@ def test_member_borrowed_books_count_after_multiple_returns():
     assert member.can_borrow() is True
 
 
+def test_member_categories_set_limits_and_late_fee_rates():
+    student = Member(member_id="M010", name="Student User", category="student")
+    faculty = Member(member_id="M011", name="Faculty User", category="Faculty")
+    public = Member(member_id="M012", name="Public User", category="public")
+
+    assert student.max_borrow_limit == 3
+    assert student.late_fee_rate == 1.0
+    assert faculty.max_borrow_limit == 5
+    assert faculty.late_fee_rate == 0.5
+    assert public.max_borrow_limit == 2
+    assert public.late_fee_rate == 2.0
+
+
+def test_member_rejects_invalid_category():
+    with pytest.raises(ValueError, match="Invalid member category"):
+        Member(member_id="M013", name="Invalid User", category="vip")
