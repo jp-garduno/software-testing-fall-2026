@@ -46,3 +46,6 @@ class Library:
     def search_by_author(self, author):
         query = author.strip().casefold()
         return [book for book in self.catalog.values() if query in book.author.casefold()]
+
+    def get_available_books(self):
+        return [book for book in self.catalog.values() if book.is_available()]
