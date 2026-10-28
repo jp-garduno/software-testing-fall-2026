@@ -73,5 +73,7 @@ class Library:
         return sum((loan.late_fee(self._today()) for loan in self.get_member_history(member_id)), Decimal('0'))
 
     def most_borrowed_book(self):
+        if not self._loans:
+            return None
         counts = Counter(loan.isbn for loan in self._loans)
         return self.catalog[counts.most_common(1)[0][0]]
