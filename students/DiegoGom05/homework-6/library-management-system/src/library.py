@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+
 class Library:
     def __init__(self):
         self._books = {}
@@ -60,6 +61,7 @@ class Library:
         book.return_copy()
 
         self._loans.pop((member_id, isbn), None)
+        del self._loans[(member_id, isbn)]
 
     def search_by_title(self, title):
         return self._search("title", title)
