@@ -58,3 +58,13 @@ def test_borrow_unknown_book_raises(loaded):
     lib, _, _ = loaded
     with pytest.raises(ValueError, match="Book not found"):
         lib.borrow_book("m1", "0000000000")
+
+def test_borrow_at_member_limit_fails_and_keeps_copies(library):
+    b1, b2 = make_book("1234567890"), make_book("1234567891", copies=2)
+    library.add_book(b1)
+    library.add_book(b2)
+    library.register_member(Member("m1", "Ana", max_borrow_limit=1))
+    library.borrow_book("m1", "1234567890")
+    with pytest.raises(ValueError):
+        library.borrow_book("m1", "1234567891")
+    assert b2.available_copies == 2
