@@ -21,3 +21,11 @@ class Library:
             existing.available_copies += book.total_copies
         else:
             self.books[book.isbn] = book
+
+    def register_member(self, member: Member) -> None:
+        """Register a new member in the library system."""
+        if not isinstance(member, Member):
+            raise TypeError("Expected Member instance")
+        if member.member_id in self.members:
+            raise ValueError("Member with this ID already registered")
+        self.members[member.member_id] = member
