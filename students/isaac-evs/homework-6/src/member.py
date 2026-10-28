@@ -4,3 +4,6 @@ class Member:
         self.name = name
         self.borrowed_books = []
         self.max_borrow_limit = max_borrow_limit
+
+    def add_borrowed_book(self, isbn):
+        self.borrowed_books.append(isbn)
