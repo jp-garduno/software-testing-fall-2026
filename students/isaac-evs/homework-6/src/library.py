@@ -1,5 +1,8 @@
 from datetime import date, timedelta
 
+LOAN_PERIOD_DAYS = 14
+LATE_FEE_PER_DAY = 1
+
 
 class Library:
     def __init__(self, clock=date.today):
@@ -31,7 +34,7 @@ class Library:
 
     def get_due_date(self, member_id, isbn):
         borrowed_on = self._require_loan(member_id, isbn)
-        return borrowed_on + timedelta(days=14)
+        return borrowed_on + timedelta(days=LOAN_PERIOD_DAYS)
 
     def return_book(self, member_id, isbn):
         member = self._require_member(member_id)
@@ -41,8 +44,7 @@ class Library:
         del self._loans[(member_id, isbn)]
 
     def calculate_late_fee(self, member_id, isbn):
-        due = self.get_due_date(member_id, isbn)
-        return max(0, (self._clock() - due).days)
+        return self._overdue_days(member_id, isbn) * LATE_FEE_PER_DAY
 
     def calculate_member_late_fees(self, member_id):
         return sum(
@@ -75,3 +77,7 @@ class Library:
         if (member_id, isbn) not in self._loans:
             raise ValueError("Loan not found")
         return self._loans[(member_id, isbn)]
+
+    def _overdue_days(self, member_id, isbn):
+        due = self.get_due_date(member_id, isbn)
+        return max(0, (self._clock() - due).days)
