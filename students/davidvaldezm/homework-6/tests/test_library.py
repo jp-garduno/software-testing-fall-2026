@@ -53,3 +53,9 @@ def test_duplicate_member_does_not_replace_existing_member(library):
 def test_borrow_updates_stock_and_member_together(library):
     library.borrow_book("M1", "1234567890")
     assert (library.catalog["1234567890"].available_copies, library.members["M1"].borrowed_books) == (1, ["1234567890"])
+
+
+def test_unknown_borrower_does_not_change_stock(library):
+    with pytest.raises(ValueError, match="Unknown member"):
+        library.borrow_book("missing", "1234567890")
+    assert library.catalog["1234567890"].available_copies == 2
