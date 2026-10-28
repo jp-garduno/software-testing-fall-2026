@@ -20,7 +20,8 @@ class Member:
         if category not in self.CATEGORY_RULES:
             raise ValueError("unknown member category")
         category_limit, self.late_fee_rate = self.CATEGORY_RULES[category]
-        max_borrow_limit = max_borrow_limit or category_limit
+        if max_borrow_limit is None:
+            max_borrow_limit = category_limit
         if not member_id or not name.strip() or max_borrow_limit < 1:
             raise ValueError("member requires identity, name, and positive limit")
         self.member_id = member_id

@@ -48,11 +48,20 @@ class Library:
             }
         )
 
-    def return_book(self, member_id: str, isbn: str) -> None:
+    def return_book(self, member_id: str, isbn: str) -> str | None:
+        """Return a copy and notify the oldest reservation, if any."""
         member, book = self._member_and_book(member_id, isbn)
         member.return_book(isbn)
         book.return_copy()
-        next(item for item in reversed(self.borrowing_history) if item["member_id"] == member_id and item["isbn"] == isbn and not item["returned"])["returned"] = True
+        active_loan = next(
+            item
+            for item in reversed(self.borrowing_history)
+            if item["member_id"] == member_id
+            and item["isbn"] == isbn
+            and not item["returned"]
+        )
+        active_loan["returned"] = True
+        return self.next_reservation(isbn)
 
     def search_by_title(self, title: str) -> list[Book]:
         return [book for book in self.books.values() if title.lower() in book.title.lower()]
@@ -63,13 +72,14 @@ class Library:
     def get_available_books(self) -> list[Book]:
         return [book for book in self.books.values() if book.is_available()]
 
-    def calculate_late_fees(self, member_id: str, today: date | None = None) -> int:
-        """Charge one dollar for each overdue day of an active loan."""
+    def calculate_late_fees(self, member_id: str, today: date | None = None) -> float:
+        """Calculate active-loan overdue fees using the member category rate."""
         if member_id not in self.members:
             raise ValueError("member not found")
         current_date = today or date.today()
         return sum(
             max(0, (current_date - item["due_date"]).days)
+            * self.members[member_id].late_fee_rate
             for item in self.borrowing_history
             if item["member_id"] == member_id and not item["returned"]
         )
@@ -83,3 +93,8 @@ class Library:
         if member_id in queue:
             raise ValueError("member already has a reservation")
         queue.append(member_id)
+
+    def next_reservation(self, isbn: str) -> str | None:
+        """Remove and return the first member waiting for a returned book."""
+        queue = self.reservations.get(isbn, [])
+        return queue.pop(0) if queue else None
