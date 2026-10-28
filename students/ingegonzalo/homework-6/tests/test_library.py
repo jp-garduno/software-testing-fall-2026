@@ -116,3 +116,10 @@ def test_return_book_does_not_change_copies_when_member_did_not_borrow_it():
     with pytest.raises(ValueError):
         library.return_book("M002", "1234567890")
     assert book.available_copies == 1
+
+def test_search_by_title_finds_matching_book():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert Martin")
+    library.add_book(book)
+    library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
+    assert library.search_by_title("Clean Code") == [book]
