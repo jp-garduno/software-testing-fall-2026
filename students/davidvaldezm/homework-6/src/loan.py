@@ -12,6 +12,7 @@ class Loan:
     isbn: str
     borrowed_on: date
     returned_on: date | None = None
+    daily_rate: Decimal = Decimal('1')
 
     @property
     def due_date(self):
@@ -19,4 +20,4 @@ class Loan:
 
     def late_fee(self, as_of):
         end_date = min(as_of, self.returned_on) if self.returned_on else as_of
-        return Decimal(max(0, (end_date - self.due_date).days))
+        return Decimal(max(0, (end_date - self.due_date).days)) * self.daily_rate
