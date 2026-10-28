@@ -4,6 +4,7 @@
 class Book:
     """Represents a book in the library catalog."""
 
+    # pylint: disable=too-many-instance-attributes,too-many-arguments,too-many-positional-arguments
     def __init__(
         self,
         isbn,
@@ -11,6 +12,9 @@ class Book:
         author,
         total_copies=1,
         available_copies=None,
+        genre=None,
+        publication_year=None,
+        rating=None,
     ):
         if not isbn.isdigit() or len(isbn) not in (10, 13):
             raise ValueError("ISBN must contain 10 or 13 digits")
@@ -30,11 +34,17 @@ class Book:
         if available_copies > total_copies:
             raise ValueError("Available copies cannot exceed total copies")
 
+        if rating is not None and not 0 <= rating <= 5:
+            raise ValueError("Rating must be between 0 and 5")
+
         self.isbn = isbn
         self.title = title
         self.author = author
         self.total_copies = total_copies
         self.available_copies = available_copies
+        self.genre = genre
+        self.publication_year = publication_year
+        self.rating = rating
 
     def is_available(self):
         """Return True if at least one copy is available to borrow."""
