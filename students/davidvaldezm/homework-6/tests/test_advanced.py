@@ -129,3 +129,10 @@ def test_backdated_return_preserves_active_loan(dated_library):
 def test_member_without_loans_owes_zero(dated_library):
     library, _ = dated_library
     assert library.calculate_total_fees("M1") == Decimal("0")
+
+
+def test_history_excludes_other_members_loans(dated_library):
+    library, _ = dated_library
+    library.register_member(Member("M2", "Luis"))
+    library.borrow_book("M1", "1234567890")
+    assert library.get_member_history("M2") == ()
