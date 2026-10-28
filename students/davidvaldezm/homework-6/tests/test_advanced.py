@@ -22,3 +22,8 @@ def test_due_date_crosses_month_boundary():
 @pytest.mark.parametrize("as_of, expected", [(date(2026, 1, 1), "0"), (date(2026, 1, 15), "0"), (date(2026, 1, 16), "1"), (date(2026, 1, 20), "5")])
 def test_late_fee_respects_due_date_boundary(as_of, expected):
     assert Loan("M1", "1234567890", date(2026, 1, 1)).late_fee(as_of) == Decimal(expected)
+
+
+def test_closed_loan_stops_fees_at_return_date():
+    loan = Loan("M1", "1234567890", date(2026, 1, 1), returned_on=date(2026, 1, 18))
+    assert loan.late_fee(date(2026, 2, 1)) == Decimal("3")
