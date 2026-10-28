@@ -35,6 +35,8 @@ class Library:
     def return_book(self, member_id, isbn):
         if member_id not in self.members:
             raise ValueError('Unknown member')
+        if isbn not in self.catalog:
+            raise ValueError('Unknown book')
         member = self.members[member_id]
         book = self.catalog[isbn]
         member.return_book(isbn)
