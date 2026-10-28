@@ -22,6 +22,10 @@ class Book:
         self.total_copies = total_copies
         self.available_copies = total_copies
 
+    def is_available(self) -> bool:
+        """Check if at least one copy is currently available."""
+        return self.available_copies > 0
+
     @staticmethod
     def _validate_isbn(isbn: str) -> None:
         if not (isinstance(isbn, str) and isbn.isdigit() and len(isbn) in (10, 13)):
