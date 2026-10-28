@@ -292,4 +292,12 @@ describe("Biblioteca: recargos por retraso", () => {
             biblioteca.calcularRecargo(laura.id, corte.isbn, new Date("2026-10-19T00:00:00Z")),
         ).toBe(2);
     });
+
+    test("el recargo total suma todos los préstamos vencidos del miembro", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn, fechaPrestamo);
+        biblioteca.pedirLibro(pepe.id, harry.isbn, fechaPrestamo);
+        expect(
+            biblioteca.calcularRecargoTotal(pepe.id, new Date("2026-10-18T00:00:00Z")),
+        ).toBe(6);
+    });
 });
