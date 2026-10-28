@@ -592,3 +592,34 @@ def test_reservations_follow_fifo_order():
     assert library.reservations["1234567890"][1] == "M402"
 
 
+def test_returned_book_notifies_first_member_in_reservation_queue():
+    library = Library()
+
+    borrower = Member(member_id="M400", name="Current Borrower")
+    member1 = Member(member_id="M401", name="First Reserver")
+    member2 = Member(member_id="M402", name="Second Reserver")
+    book = Book(
+        isbn="1234567890",
+        title="FIFO Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=1,
+    )
+
+    library.add_book(book)
+    library.register_member(borrower)
+    library.register_member(member1)
+    library.register_member(member2)
+
+    library.borrow_book("M400", "1234567890")
+    library.reserve_book("M401", "1234567890")
+    library.reserve_book("M402", "1234567890")
+
+    library.return_book("M400", "1234567890")
+
+    assert len(library.notifications) == 1
+    assert library.notifications[0]["member_id"] == "M401"
+    assert library.notifications[0]["isbn"] == "1234567890"
+    assert library.reservations["1234567890"] == ["M402"]
+
+
