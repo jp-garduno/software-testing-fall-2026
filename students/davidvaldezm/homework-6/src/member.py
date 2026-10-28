@@ -7,6 +7,8 @@ class Member:
     CATEGORY_LIMITS = {'student': 3, 'faculty': 5, 'public': 2}
 
     def __init__(self, member_id, name, max_borrow_limit=None, category='student'):
+        if not isinstance(category, str) or category not in self.CATEGORY_LIMITS:
+            raise ValueError('Unknown member category')
         self.category = category
         if max_borrow_limit is None:
             max_borrow_limit = self.CATEGORY_LIMITS[category]
