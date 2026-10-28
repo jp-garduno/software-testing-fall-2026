@@ -125,6 +125,12 @@ class Library {
         const dias = Math.max(0, Math.floor((fechaActual - vencimiento) / (24 * 60 * 60 * 1000)));
         return dias * miembro.tarifaRecargo;
     }
+
+    calcularRecargoTotal(idMiembro, fechaActual = new Date()) {
+        return this.prestamos
+            .filter((p) => p.idMiembro === idMiembro)
+            .reduce((total, p) => total + this.calcularRecargo(idMiembro, p.isbn, fechaActual), 0);
+    }
 }
 
 module.exports = { Library };
