@@ -1,3 +1,4 @@
+"""Behavior specifications for the library management domain."""
 from datetime import date
 from decimal import Decimal
 

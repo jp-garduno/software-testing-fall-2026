@@ -1,3 +1,4 @@
+"""Behavior specifications for the library management domain."""
 import pytest
 
 from src.member import Member

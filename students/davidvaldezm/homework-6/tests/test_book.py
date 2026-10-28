@@ -1,3 +1,4 @@
+"""Behavior specifications for the library management domain."""
 import pytest
 
 from src.book import Book
@@ -13,7 +14,7 @@ def test_book_starts_with_requested_copies():
     assert (book.total_copies, book.available_copies) == (3, 3)
 
 
-@pytest.mark.parametrize("isbn", ["123", "123456789X", "1" * 11, 1234567890, None, "Ù¡Ù¢Ù£Ù¤Ù¥Ù¦Ù§Ù¨Ù©Ù "])
+@pytest.mark.parametrize("isbn", ["123", "123456789X", "1" * 11, 1234567890, None, "Ã™Â¡Ã™Â¢Ã™Â£Ã™Â¤Ã™Â¥Ã™Â¦Ã™Â§Ã™Â¨Ã™Â©Ã™Â "])
 def test_book_rejects_invalid_isbn(isbn):
     with pytest.raises(ValueError, match="ISBN"):
         Book(isbn, "Title", "Author")
