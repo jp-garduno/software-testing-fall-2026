@@ -68,7 +68,7 @@ def test_reserve_book_fifo_order_and_notification_on_return():
     assert lib.get_book_reservations("1234567890") == ["M002", "M003"]
 
     # When Alice returns book, next person (Bob) is notified
-    notified = lib.return_book("M001", "1234567890")
+    lib.return_book("M001", "1234567890")
     assert lib.get_next_reservation_notification("1234567890") == "M002"
     assert lib.get_book_reservations("1234567890") == ["M003"]
 
@@ -86,3 +86,16 @@ def test_cancel_reservation_removes_from_queue():
     lib.reserve_book("M002", "1234567890")
     assert lib.cancel_reservation("M002", "1234567890") is True
     assert lib.get_book_reservations("1234567890") == []
+    # Cancelling again returns False
+    assert lib.cancel_reservation("M002", "1234567890") is False
+
+
+def test_reserve_book_raises_for_unregistered_member_or_unknown_book():
+    lib = Library()
+    member = Member("M001", "Alice")
+    lib.register_member(member)
+
+    with pytest.raises(KeyError, match="Member not registered"):
+        lib.reserve_book("UNKNOWN", "1234567890")
+    with pytest.raises(KeyError, match="Book not found in catalog"):
+        lib.reserve_book("M001", "9999999999")
