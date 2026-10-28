@@ -19,14 +19,17 @@ class Book:
         self.author = author
 
     def is_available(self):
+        """Return whether at least one copy can be borrowed."""
         return self.available_copies > 0
 
     def borrow(self):
+        """Borrow one copy or raise ValueError when stock is exhausted."""
         if not self.is_available():
             raise ValueError('No copies available')
         self.available_copies -= 1
 
     def return_copy(self):
+        """Restore one borrowed copy without exceeding owned stock."""
         if self.available_copies == self.total_copies:
             raise ValueError('All copies already returned')
         self.available_copies += 1
