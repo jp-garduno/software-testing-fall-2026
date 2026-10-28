@@ -31,3 +31,9 @@ class Library:
             raise ValueError('Book already borrowed by this member')
         book.borrow()
         member.add_borrowed_book(isbn)
+
+    def return_book(self, member_id, isbn):
+        member = self.members[member_id]
+        book = self.catalog[isbn]
+        member.return_book(isbn)
+        book.return_copy()
