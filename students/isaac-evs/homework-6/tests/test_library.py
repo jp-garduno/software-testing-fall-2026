@@ -99,3 +99,10 @@ def test_search_by_title_matches_partial_text_ignoring_case(library):
     library.add_book(match)
     library.add_book(Book(OTHER_ISBN, "Clean Code", "Martin"))
     assert library.search_by_title("pragmatic") == [match]
+
+
+def test_search_by_author_matches_partial_text_ignoring_case(library):
+    match = Book(ISBN, "Clean Code", "Robert Martin")
+    library.add_book(match)
+    library.add_book(Book(OTHER_ISBN, "Refactoring", "Fowler"))
+    assert library.search_by_author("MARTIN") == [match]
