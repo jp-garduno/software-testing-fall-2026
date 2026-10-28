@@ -96,3 +96,12 @@ def test_return_book_increases_available_copies():
     library.borrow_book("M001", "1234567890")
     library.return_book("M001", "1234567890")
     assert book.available_copies == 2
+
+def test_return_book_removes_isbn_from_member():
+    library = Library()
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    member = Member("M001", "Ana")
+    library.register_member(member)
+    library.borrow_book("M001", "1234567890")
+    library.return_book("M001", "1234567890")
+    assert member.borrowed_books == []
