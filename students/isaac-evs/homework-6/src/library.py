@@ -1,5 +1,10 @@
+from datetime import date, timedelta
+
+
 class Library:
-    def __init__(self):
+    def __init__(self, clock=date.today):
+        self._clock = clock
+        self._loans = {}
         self._books = {}
         self._members = {}
 
@@ -22,6 +27,10 @@ class Library:
             raise ValueError("No copies available")
         member.add_borrowed_book(isbn)
         book.borrow()
+        self._loans[(member_id, isbn)] = self._clock()
+
+    def get_due_date(self, member_id, isbn):
+        return self._loans[(member_id, isbn)] + timedelta(days=14)
 
     def return_book(self, member_id, isbn):
         member = self._require_member(member_id)
