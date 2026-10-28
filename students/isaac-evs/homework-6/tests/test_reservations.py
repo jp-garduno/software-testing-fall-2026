@@ -38,3 +38,8 @@ def test_member_cannot_reserve_the_same_book_twice(library):
     library.reserve_book("m2", ISBN)
     with pytest.raises(ValueError, match="already reserved"):
         library.reserve_book("m2", ISBN)
+
+
+def test_unknown_member_cannot_reserve(library):
+    with pytest.raises(ValueError, match="Member not found"):
+        library.reserve_book("ghost", ISBN)
