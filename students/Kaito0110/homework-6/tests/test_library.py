@@ -386,3 +386,59 @@ def test_library_cannot_return_nonexistent_book():
     assert not member.borrowed_books
 
 
+def test_late_fee_is_one_dollar_per_day():
+    library = Library()
+    member = Member(member_id="M100", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Test Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=1,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+    library.borrow_book("M100", "1234567890")
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=17)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 3
+
+
+def test_no_late_fee_when_book_is_returned_on_time():
+    library = Library()
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=14)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 0
+
+
+def test_no_late_fee_when_book_is_returned_early():
+    library = Library()
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=7)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 0
+
+
+def test_late_fee_for_one_day_overdue():
+    library = Library()
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=15)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 1
+
+
