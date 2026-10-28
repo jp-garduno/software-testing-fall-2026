@@ -146,3 +146,10 @@ def test_late_fee_only_counts_member_loans(loaded):
     lib.register_member(Member("m2", "Luis"))
     lib.borrow_book("m2", "1234567890", borrow_date=date(2026, 1, 1))
     assert lib.calculate_late_fees("m1", today=date(2026, 1, 20)) == 0
+
+
+def test_late_fee_uses_member_category_rate(loaded):
+    lib, _, _ = loaded
+    lib.register_member(Member("f1", "Prof", category="faculty"))
+    lib.borrow_book("f1", "1234567890", borrow_date=date(2026, 1, 1))
+    assert lib.calculate_late_fees("f1", today=date(2026, 1, 20)) == 2.5
