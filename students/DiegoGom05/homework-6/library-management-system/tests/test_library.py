@@ -198,3 +198,11 @@ def test_most_borrowed_book(loaded):
 
 def test_most_borrowed_book_is_none_without_history(library):
     assert library.most_borrowed_book() is None
+
+
+def test_member_report_lists_history(loaded):
+    lib, _, _ = loaded
+    lib.borrow_book("m1", "1234567890", borrow_date=date(2026, 1, 1))
+    report = lib.generate_member_report("m1")
+    assert "History for Ana" in report
+    assert "2026-01-01 borrow 1234567890" in report
