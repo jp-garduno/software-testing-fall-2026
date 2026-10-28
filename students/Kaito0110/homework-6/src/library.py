@@ -115,6 +115,20 @@ class Library:
         fee = late_days * daily_rate
         return int(fee) if fee == int(fee) else round(fee, 2)
 
+    def calculate_member_late_fees(self, member_id, loans):
+        """Calculate total late fees for a member across multiple loans."""
+        if member_id not in self.members:
+            raise ValueError("Member not found")
+
+        member = self.members[member_id]
+        total = sum(
+            self.calculate_late_fee(
+                borrow_date, return_date, daily_rate=member.late_fee_rate
+            )
+            for borrow_date, return_date in loans
+        )
+        return int(total) if total == int(total) else round(total, 2)
+
     def return_book(self, member_id, isbn):
         """Return a borrowed book."""
         if member_id not in self.members:
