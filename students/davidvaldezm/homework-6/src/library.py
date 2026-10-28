@@ -19,12 +19,7 @@ class Library:
         self.members[member.member_id] = member
 
     def borrow_book(self, member_id, isbn):
-        if member_id not in self.members:
-            raise ValueError('Unknown member')
-        member = self.members[member_id]
-        if isbn not in self.catalog:
-            raise ValueError('Unknown book')
-        book = self.catalog[isbn]
+        member, book = self._participants(member_id, isbn)
         if not member.can_borrow():
             raise ValueError('Borrow limit reached')
         if isbn in member.borrowed_books:
@@ -33,11 +28,13 @@ class Library:
         member.add_borrowed_book(isbn)
 
     def return_book(self, member_id, isbn):
+        member, book = self._participants(member_id, isbn)
+        member.return_book(isbn)
+        book.return_copy()
+
+    def _participants(self, member_id, isbn):
         if member_id not in self.members:
             raise ValueError('Unknown member')
         if isbn not in self.catalog:
             raise ValueError('Unknown book')
-        member = self.members[member_id]
-        book = self.catalog[isbn]
-        member.return_book(isbn)
-        book.return_copy()
+        return self.members[member_id], self.catalog[isbn]
