@@ -1,6 +1,7 @@
 """Library domain model."""
 from dataclasses import replace
 from datetime import date
+from decimal import Decimal
 
 from .loan import Loan
 
@@ -64,3 +65,6 @@ class Library:
 
     def get_member_history(self, member_id):
         return tuple(loan for loan in self._loans if loan.member_id == member_id)
+
+    def calculate_total_fees(self, member_id):
+        return sum((loan.late_fee(self._today()) for loan in self.get_member_history(member_id)), Decimal('0'))
