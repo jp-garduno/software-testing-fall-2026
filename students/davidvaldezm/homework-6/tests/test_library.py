@@ -123,3 +123,12 @@ def test_return_by_nonborrower_preserves_inventory(library):
     with pytest.raises(ValueError, match="not borrowed"):
         library.return_book("M2", "1234567890")
     assert library.catalog["1234567890"].available_copies == 1
+
+
+@pytest.mark.parametrize("method", ["search_by_title", "search_by_author"])
+def test_search_returns_empty_for_no_matches(library, method):
+    assert getattr(library, method)("missing") == []
+
+
+def test_blank_title_query_returns_entire_catalog(library):
+    assert len(library.search_by_title("  ")) == 2
