@@ -39,7 +39,14 @@ class Library:
         except ValueError:
             book.return_copy()
             raise
-        self.borrowing_history.append({"member_id": member_id, "isbn": isbn, "returned": False, "due_date": date.today() + timedelta(days=14)})
+        self.borrowing_history.append(
+            {
+                "member_id": member_id,
+                "isbn": isbn,
+                "returned": False,
+                "due_date": date.today() + timedelta(days=14),
+            }
+        )
 
     def return_book(self, member_id: str, isbn: str) -> None:
         member, book = self._member_and_book(member_id, isbn)
