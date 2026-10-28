@@ -190,3 +190,25 @@ def test_book_defaults_available_copies_to_total_copies():
     assert book.available_copies == 4
 
 
+def test_book_supports_metadata_and_validates_rating():
+    book = Book(
+        isbn="1234567890",
+        title="Refactoring",
+        author="Martin Fowler",
+        total_copies=2,
+        genre="Software Engineering",
+        publication_year=2018,
+        rating=4.8,
+    )
+
+    assert book.genre == "Software Engineering"
+    assert book.publication_year == 2018
+    assert book.rating == 4.8
+
+    with pytest.raises(ValueError, match="Rating must be between 0 and 5"):
+        Book(
+            isbn="1234567890",
+            title="Invalid Rating Book",
+            author="Author",
+            rating=5.5,
+        )

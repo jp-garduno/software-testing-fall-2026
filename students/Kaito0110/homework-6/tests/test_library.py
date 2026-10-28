@@ -623,3 +623,52 @@ def test_returned_book_notifies_first_member_in_reservation_queue():
     assert library.reservations["1234567890"] == ["M402"]
 
 
+def test_search_books_with_combined_filters_and_sorting():
+    library = Library()
+
+    book1 = Book(
+        isbn="1111111111",
+        title="Zeta Architecture",
+        author="Alice",
+        total_copies=2,
+        genre="Tech",
+        publication_year=2022,
+        rating=4.5,
+    )
+    book2 = Book(
+        isbn="2222222222",
+        title="Alpha Patterns",
+        author="Bob",
+        total_copies=2,
+        genre="Tech",
+        publication_year=2022,
+        rating=4.9,
+    )
+    book3 = Book(
+        isbn="3333333333",
+        title="History of Science",
+        author="Carol",
+        total_copies=1,
+        genre="History",
+        publication_year=2020,
+        rating=4.7,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+    library.add_book(book3)
+
+    filtered = library.search_books(
+        genre="tech",
+        publication_year=2022,
+        min_rating=4.6,
+    )
+    assert filtered == [book2]
+
+    sorted_tech = library.search_books(genre="Tech", sort_by="title")
+    assert sorted_tech == [book2, book1]
+
+    with pytest.raises(ValueError, match="Invalid sort field"):
+        library.search_books(sort_by="invalid_field")
+
+
