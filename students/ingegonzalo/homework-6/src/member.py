@@ -1,14 +1,16 @@
 class Member:
     DEFAULT_BORROW_LIMIT = 3
 
-    def __init__(self, member_id, name, max_borrow_limit=DEFAULT_BORROW_LIMIT):
+    def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
         self._validate_name(name)
+        if max_borrow_limit is None:
+            max_borrow_limit = 5 if category == "faculty" else self.DEFAULT_BORROW_LIMIT
         self.member_id = member_id
         self.name = name
+        self.category = category
         self.borrowed_books = []
         self.max_borrow_limit = max_borrow_limit
         self.late_fees = 0
-        self.category = 'student'
 
     @staticmethod
     def _validate_name(name):
