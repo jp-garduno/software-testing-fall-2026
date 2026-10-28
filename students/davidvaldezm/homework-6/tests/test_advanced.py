@@ -38,3 +38,8 @@ def test_member_category_sets_borrowing_limit(category, expected):
 def test_member_rejects_unknown_category(category):
     with pytest.raises(ValueError, match="category"):
         Member("M1", "Ana", category=category)
+
+
+@pytest.mark.parametrize("category, expected", [("student", "1"), ("faculty", "0.50"), ("public", "1.50")])
+def test_member_category_sets_daily_fee_rate(category, expected):
+    assert Member("M1", "Ana", category=category).daily_fee_rate == Decimal(expected)
