@@ -37,6 +37,7 @@ class Library:
         book = self._require_book(isbn)
         member.return_book(isbn)
         book.return_copy()
+        del self._loans[(member_id, isbn)]
 
     def calculate_late_fee(self, member_id, isbn):
         due = self.get_due_date(member_id, isbn)
