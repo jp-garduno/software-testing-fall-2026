@@ -55,3 +55,12 @@ def test_library_uses_injected_borrow_date():
     library.add_book(Book("1234567890", "Title", "Author"))
     library.register_member(Member("M1", "Ana"))
     assert library.borrow_book("M1", "1234567890").due_date == date(2026, 1, 15)
+
+
+@pytest.fixture
+def dated_library():
+    clock = [date(2026, 1, 1)]
+    library = Library(today=lambda: clock[0])
+    library.add_book(Book("1234567890", "Title", "Author", 2))
+    library.register_member(Member("M1", "Ana"))
+    return library, clock
