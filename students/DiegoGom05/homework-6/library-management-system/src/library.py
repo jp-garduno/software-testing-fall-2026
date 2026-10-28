@@ -18,3 +18,9 @@ class Library:
 
     def get_available_books(self):
         return [b for b in self._books.values() if b.is_available()]
+
+    def borrow_book(self, member_id, isbn):
+        member = self._members[member_id]
+        book = self._books[isbn]
+        book.borrow()
+        member.add_borrowed_book(isbn)
