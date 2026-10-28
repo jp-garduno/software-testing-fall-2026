@@ -113,6 +113,19 @@ class Library:
         """Every book with at least one copy on the shelf."""
         return [book for book in self._books.values() if book.is_available()]
 
+    def search(self, genre=None, year=None, min_rating=None):
+        """Filter the catalog with AND logic."""
+        results = []
+        for book in self._books.values():
+            if genre is not None and (book.genre or "").lower() != genre.lower():
+                continue
+            if year is not None and book.year != year:
+                continue
+            if min_rating is not None and (book.rating is None or book.rating < min_rating):
+                continue
+            results.append(book)
+        return results
+
     # ----- late fees ---------------------------------------------------------
 
     def calculate_late_fees(self, member_id):
