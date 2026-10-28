@@ -1,0 +1,24 @@
+from datetime import date
+
+import pytest
+
+from book import Book
+from library import Library
+from member import Member
+
+ISBN = "1234567890"
+OTHER_ISBN = "0987654321"
+
+
+@pytest.fixture
+def library(clock):
+    lib = Library(clock=clock)
+    lib.register_member(Member("m1", "Alice"))
+    lib.add_book(Book(ISBN, "Book One", "Author", copies=2))
+    lib.add_book(Book(OTHER_ISBN, "Book Two", "Author", copies=2))
+    return lib
+
+
+def test_due_date_is_14_days_after_borrowing(library):
+    library.borrow_book("m1", ISBN)
+    assert library.get_due_date("m1", ISBN) == date(2026, 1, 15)
