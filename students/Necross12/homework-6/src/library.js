@@ -119,8 +119,10 @@ class Library {
         return new Date(prestamo.fechaPrestamo.getTime() + 14 * 24 * 60 * 60 * 1000);
     }
 
-    calcularRecargo() {
-        return 0;
+    calcularRecargo(idMiembro, isbn, fechaActual = new Date()) {
+        const vencimiento = this.fechaVencimiento(idMiembro, isbn);
+        const dias = Math.max(0, Math.floor((fechaActual - vencimiento) / (24 * 60 * 60 * 1000)));
+        return dias * 1;
     }
 }
 
