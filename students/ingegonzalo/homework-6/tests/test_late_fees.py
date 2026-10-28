@@ -7,3 +7,6 @@ def test_no_fee_when_returned_on_due_date():
 
 def test_fee_is_one_dollar_per_day_overdue():
     assert calculate_late_fee(date(2026, 1, 1), date(2026, 1, 18)) == 3
+
+def test_no_negative_fee_when_returned_early():
+    assert calculate_late_fee(date(2026, 1, 1), date(2026, 1, 5)) == 0
