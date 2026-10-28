@@ -42,3 +42,7 @@ class Library:
     def search_by_title(self, title):
         query = title.lower()
         return [b for b in self.books.values() if query in b.title.lower()]
+
+    def search_by_author(self, author):
+        query = author.lower()
+        return [b for b in self.books.values() if query in b.author.lower()]
