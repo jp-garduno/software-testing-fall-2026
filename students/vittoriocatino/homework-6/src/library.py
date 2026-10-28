@@ -76,8 +76,7 @@ class Library:
 
     def reserve_book(self, member_id: str, isbn: str) -> None:
         """Add a member to an unavailable book's first-in-first-out queue."""
-        member, book = self._member_and_book(member_id, isbn)
-        del member
+        _, book = self._member_and_book(member_id, isbn)
         if book.is_available():
             raise ValueError("available books cannot be reserved")
         queue = self.reservations.setdefault(isbn, [])
