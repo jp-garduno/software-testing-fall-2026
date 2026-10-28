@@ -59,7 +59,11 @@ class Library:
         book.return_copy()
 
     def search_by_title(self, title):
-        return [b for b in self._books.values() if title.lower() in b.title.lower()]
+        return self._search("title", title)
 
     def search_by_author(self, author):
-        return [b for b in self._books.values() if author.lower() in b.author.lower()]
+        return self._search("author", author)
+
+    def _search(self, field, text):
+        text = text.lower()
+        return [b for b in self._books.values() if text in getattr(b, field).lower()]
