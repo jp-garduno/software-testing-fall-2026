@@ -145,3 +145,11 @@ def test_library_fees_apply_member_category(dated_library, category, expected):
     library.borrow_book("M2", "1234567890")
     clock[0] = date(2026, 1, 18)
     assert library.calculate_total_fees("M2") == Decimal(expected)
+
+
+def test_popularity_tie_uses_first_borrowed_book(dated_library):
+    library, _ = dated_library
+    library.add_book(Book("9999999999", "Other", "Author"))
+    library.borrow_book("M1", "9999999999")
+    library.borrow_book("M1", "1234567890")
+    assert library.most_borrowed_book().isbn == "9999999999"
