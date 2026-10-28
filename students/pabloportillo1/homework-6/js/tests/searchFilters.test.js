@@ -1,0 +1,75 @@
+const { Book, BookDetails } = require("../src/book");
+const { Library } = require("../src/library");
+
+const CATALOG = [
+  ["0306406152", "Clean Code", "Robert Martin", { genre: "Software", year: 2008, rating: 4.4 }],
+  ["0131103628", "The C Programming Language", "Brian Kernighan", { genre: "Software", year: 1988, rating: 4.7 }],
+  ["0201633612", "Design Patterns", "Erich Gamma", { genre: "Software", year: 1994, rating: 4.5 }],
+  ["0141439513", "Pride and Prejudice", "Jane Austen", { genre: "Fiction", year: 1813, rating: 4.3 }],
+  ["0061120084", "To Kill a Mockingbird", "Harper Lee", { genre: "Fiction", year: 1960 }],
+];
+let library;
+
+beforeEach(() => {
+  library = new Library();
+  CATALOG.forEach(([isbn, title, author, details]) =>
+    library.addBook(new Book(isbn, title, author, 1, new BookDetails(details))),
+  );
+});
+
+const titles = (books) => books.map((book) => book.title);
+
+test("search without criteria returns the whole catalog", () => {
+  expect(library.search()).toHaveLength(CATALOG.length);
+});
+
+test("search by genre returns only that genre", () => {
+  expect(new Set(titles(library.search({ genre: "Fiction" })))).toEqual(
+    new Set(["Pride and Prejudice", "To Kill a Mockingbird"]),
+  );
+});
+
+test("search by genre and year requires both", () => {
+  expect(titles(library.search({ genre: "Software", year: 1994 }))).toEqual(["Design Patterns"]);
+});
+
+test("search by minimum rating keeps books at or above it", () => {
+  expect(new Set(titles(library.search({ minRating: 4.5 })))).toEqual(
+    new Set(["The C Programming Language", "Design Patterns"]),
+  );
+});
+
+test("search results are sorted by title by default", () => {
+  expect(titles(library.search({ genre: "Software" }))).toEqual([
+    "Clean Code",
+    "Design Patterns",
+    "The C Programming Language",
+  ]);
+});
+
+test("search sorted by rating lists the best rated first and unrated last", () => {
+  expect(titles(library.search({ sortBy: "rating" }))).toEqual([
+    "The C Programming Language",
+    "Design Patterns",
+    "Clean Code",
+    "Pride and Prejudice",
+    "To Kill a Mockingbird",
+  ]);
+});
+
+test("search sorted by year lists the oldest first and undated last", () => {
+  library.addBook(new Book("0596007124", "Head First Design Patterns", "Eric Freeman"));
+
+  expect(titles(library.search({ sortBy: "year" }))).toEqual([
+    "Pride and Prejudice",
+    "To Kill a Mockingbird",
+    "The C Programming Language",
+    "Design Patterns",
+    "Clean Code",
+    "Head First Design Patterns",
+  ]);
+});
+
+test("search with an unknown sort key is rejected", () => {
+  expect(() => library.search({ sortBy: "price" })).toThrow("Cannot sort by 'price'");
+});
