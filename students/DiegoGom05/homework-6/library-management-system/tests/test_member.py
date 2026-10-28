@@ -51,3 +51,7 @@ def test_public_has_limit_of_two():
 def test_invalid_category_raises():
     with pytest.raises(ValueError, match="category"):
         Member("x", "X", category="alien")
+
+@pytest.mark.parametrize("category,rate", [("student", 1.0), ("faculty", 0.5), ("public", 1.5)])
+def test_late_fee_rate_depends_on_category(category, rate):
+    assert Member("m", "N", category=category).late_fee_rate == rate
