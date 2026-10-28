@@ -4,6 +4,7 @@ from src.book import Book
 from src.library import Library
 from src.member import Member
 from datetime import date
+from src.history import HistoryEntry
 
 
 @pytest.fixture
@@ -171,3 +172,11 @@ def test_late_fee_uses_member_category_rate(library):
     library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 1))
     fee = library.return_book("M001", "1234567890", return_date=date(2026, 1, 18))
     assert fee == 6
+
+def test_borrow_is_recorded_in_history(library):
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    library.register_member(Member("M001", "Ana"))
+    library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 1))
+    assert library.get_history() == [
+        HistoryEntry("M001", "1234567890", "borrow", date(2026, 1, 1))
+    ]
