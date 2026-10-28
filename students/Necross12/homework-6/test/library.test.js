@@ -306,4 +306,12 @@ describe("Biblioteca: recargos por retraso", () => {
             "El miembro no está registrado.",
         );
     });
+
+    test("al devolver un libro ya no hay préstamo ni recargo pendiente", () => {
+        biblioteca.pedirLibro(pepe.id, corte.isbn, fechaPrestamo);
+        biblioteca.regresarLibro(pepe.id, corte.isbn);
+        expect(() => biblioteca.fechaVencimiento(pepe.id, corte.isbn)).toThrow(
+            "El miembro no tiene prestado este libro.",
+        );
+    });
 });
