@@ -100,3 +100,13 @@ def test_history_rejects_unknown_member(dated_library):
     library, _ = dated_library
     with pytest.raises(ValueError, match="Unknown member"):
         library.get_member_history("missing")
+
+
+def test_most_borrowed_counts_repeat_borrows(dated_library):
+    library, _ = dated_library
+    library.add_book(Book("9999999999", "Other", "Author"))
+    library.borrow_book("M1", "9999999999")
+    library.borrow_book("M1", "1234567890")
+    library.return_book("M1", "1234567890")
+    library.borrow_book("M1", "1234567890")
+    assert library.most_borrowed_book().isbn == "1234567890"
