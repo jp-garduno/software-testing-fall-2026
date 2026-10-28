@@ -55,3 +55,9 @@ def test_return_copy_increments_available_copies():
     book.borrow()
     book.return_copy()
     assert book.available_copies == 2
+
+
+def test_return_copy_fails_when_all_copies_are_already_back():
+    book = Book("1234567890", "Test Book", "Author", copies=1)
+    with pytest.raises(ValueError, match="already returned"):
+        book.return_copy()
