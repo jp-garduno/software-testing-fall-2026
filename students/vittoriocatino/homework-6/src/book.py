@@ -16,3 +16,7 @@ class Book:
         self.author = author
         self.total_copies = copies
         self.available_copies = copies
+
+    def is_available(self) -> bool:
+        """Return whether a copy can currently be borrowed."""
+        return self.available_copies > 0
