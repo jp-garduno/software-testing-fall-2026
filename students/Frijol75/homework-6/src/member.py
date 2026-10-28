@@ -50,3 +50,6 @@ class Member:
         if not isinstance(other, Member):
             return False
         return self.member_id == other.member_id and self.name == other.name
+
+    def __hash__(self) -> int:
+        return hash(self.member_id)

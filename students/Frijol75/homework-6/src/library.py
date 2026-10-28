@@ -79,3 +79,7 @@ class Library:
             raise TypeError("Search query must be a string")
         query = author.strip().lower()
         return [b for b in self.books.values() if query in b.author.lower()]
+
+    def get_available_books(self) -> List[Book]:
+        """Return a list of books that have at least one copy available."""
+        return [b for b in self.books.values() if b.is_available()]

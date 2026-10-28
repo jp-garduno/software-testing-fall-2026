@@ -46,6 +46,9 @@ class Book:
             return False
         return self.isbn == other.isbn and self.title == other.title and self.author == other.author
 
+    def __hash__(self) -> int:
+        return hash(self.isbn)
+
     @staticmethod
     def _validate_isbn(isbn: str) -> None:
         if not (isinstance(isbn, str) and isbn.isdigit() and len(isbn) in (10, 13)):
