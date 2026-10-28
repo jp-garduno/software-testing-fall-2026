@@ -21,3 +21,7 @@ def test_book_is_not_available_when_no_copies():
 def test_book_rejects_isbn_with_invalid_length():
     with pytest.raises(ValueError):
         Book("12345", "Test Book", "Author")
+
+def test_book_rejects_isbn_with_non_digits():
+    with pytest.raises(ValueError):
+        Book("12345abcde", "Test Book", "Author")
