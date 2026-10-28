@@ -72,7 +72,8 @@ class Library:
         return tuple(loan for loan in self._loans if loan.member_id == member_id)
 
     def calculate_total_fees(self, member_id):
-        return sum((loan.late_fee(self._today()) for loan in self.get_member_history(member_id)), Decimal('0'))
+        as_of = self._today()
+        return sum((loan.late_fee(as_of) for loan in self.get_member_history(member_id)), Decimal('0'))
 
     def most_borrowed_book(self):
         if not self._loans:
