@@ -42,3 +42,10 @@ def test_member_total_fees_add_up_across_loans(library, clock):
     library.borrow_book("m1", OTHER_ISBN)
     clock.advance(17)
     assert library.calculate_member_late_fees("m1") == 8
+
+
+def test_returned_books_no_longer_accrue_fees(library, clock):
+    library.borrow_book("m1", ISBN)
+    clock.advance(19)
+    library.return_book("m1", ISBN)
+    assert library.calculate_member_late_fees("m1") == 0
