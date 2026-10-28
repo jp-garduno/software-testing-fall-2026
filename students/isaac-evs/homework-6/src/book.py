@@ -13,4 +13,6 @@ class Book:
         return self.available_copies > 0
 
     def borrow(self):
+        if not self.is_available():
+            raise ValueError("No copies available")
         self.available_copies -= 1
