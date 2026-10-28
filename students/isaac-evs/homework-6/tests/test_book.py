@@ -1,3 +1,5 @@
+import pytest
+
 from book import Book
 
 
@@ -19,3 +21,8 @@ def test_book_is_available_when_copies_exist():
 def test_book_is_not_available_when_no_copies():
     book = Book("1234567890", "Test Book", "Author", copies=0)
     assert book.is_available() is False
+
+
+def test_book_rejects_isbn_with_invalid_length():
+    with pytest.raises(ValueError, match="10 or 13 digits"):
+        Book("12345", "Test Book", "Author")
