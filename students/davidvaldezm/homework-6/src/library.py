@@ -27,5 +27,7 @@ class Library:
         book = self.catalog[isbn]
         if not member.can_borrow():
             raise ValueError('Borrow limit reached')
+        if isbn in member.borrowed_books:
+            raise ValueError('Book already borrowed by this member')
         book.borrow()
         member.add_borrowed_book(isbn)
