@@ -27,3 +27,25 @@ def test_faculty_pay_half_the_student_late_fee(library, clock):
     library.borrow_book("f1", ISBN)
     clock.advance(18)
     assert library.calculate_late_fee("f1", ISBN) == 2.0
+
+
+def test_public_members_pay_a_higher_late_fee(library, clock):
+    library.register_member(Member("p1", "Guest", category=MemberCategory.PUBLIC))
+    library.borrow_book("p1", ISBN)
+    clock.advance(16)
+    assert library.calculate_late_fee("p1", ISBN) == 3.0
+
+
+def test_public_members_cannot_borrow_a_third_book(library):
+    library.add_book(Book("0987654321", "Book Two", "Author", copies=5))
+    library.add_book(Book("1111111111", "Book Three", "Author", copies=5))
+    library.register_member(Member("p1", "Guest", category=MemberCategory.PUBLIC))
+    library.borrow_book("p1", ISBN)
+    library.borrow_book("p1", "0987654321")
+    with pytest.raises(ValueError, match="limit"):
+        library.borrow_book("p1", "1111111111")
+
+
+def test_explicit_limit_overrides_the_category_default():
+    member = Member("f1", "Prof", max_borrow_limit=1, category=MemberCategory.FACULTY)
+    assert member.max_borrow_limit == 1
