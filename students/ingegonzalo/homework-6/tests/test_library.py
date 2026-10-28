@@ -180,3 +180,12 @@ def test_borrow_is_recorded_in_history(library):
     assert library.get_history() == [
         HistoryEntry("M001", "1234567890", "borrow", date(2026, 1, 1))
     ]
+
+def test_return_is_recorded_in_history(library):
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    library.register_member(Member("M001", "Ana"))
+    library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 1))
+    library.return_book("M001", "1234567890", return_date=date(2026, 1, 5))
+    assert library.get_history()[-1] == HistoryEntry(
+        "M001", "1234567890", "return", date(2026, 1, 5)
+    )
