@@ -92,3 +92,8 @@ def test_library_return_restores_stock_and_capacity(library):
 def test_return_rejects_unknown_member(library):
     with pytest.raises(ValueError, match="Unknown member"):
         library.return_book("missing", "1234567890")
+
+
+def test_return_rejects_unknown_book(library):
+    with pytest.raises(ValueError, match="Unknown book"):
+        library.return_book("M1", "9999999999")
