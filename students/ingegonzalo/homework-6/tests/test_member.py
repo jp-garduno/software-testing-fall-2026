@@ -39,3 +39,9 @@ def test_add_borrowed_book_raises_error_when_limit_reached():
     member.add_borrowed_book("1111111111")
     with pytest.raises(ValueError):
         member.add_borrowed_book("2222222222")
+
+def test_add_borrowed_book_rejects_duplicate_isbn():
+    member = Member("M001", "Ana")
+    member.add_borrowed_book("1111111111")
+    with pytest.raises(ValueError):
+        member.add_borrowed_book("1111111111")
