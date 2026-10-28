@@ -1,0 +1,108 @@
+from datetime import date, timedelta
+
+LOAN_PERIOD_DAYS = 14
+
+
+class Library:
+    def __init__(self, clock=date.today, notifier=None):
+        self._clock = clock
+        self._notifier = notifier
+        self._loans = {}
+        self._reservations = {}
+        self._books = {}
+        self._members = {}
+
+    def add_book(self, book):
+        self._books[book.isbn] = book
+
+    def register_member(self, member):
+        self._members[member.member_id] = member
+
+    def get_member(self, member_id):
+        return self._require_member(member_id)
+
+    def get_available_books(self):
+        return [book for book in self._books.values() if book.is_available()]
+
+    def borrow_book(self, member_id, isbn):
+        member = self._require_member(member_id)
+        book = self._require_book(isbn)
+        if not book.is_available():
+            raise ValueError("No copies available")
+        member.add_borrowed_book(isbn)
+        book.borrow()
+        self._loans[(member_id, isbn)] = self._clock()
+        self._clear_reservation(member_id, isbn)
+
+    def get_due_date(self, member_id, isbn):
+        borrowed_on = self._require_loan(member_id, isbn)
+        return borrowed_on + timedelta(days=LOAN_PERIOD_DAYS)
+
+    def return_book(self, member_id, isbn):
+        member = self._require_member(member_id)
+        book = self._require_book(isbn)
+        member.return_book(isbn)
+        book.return_copy()
+        del self._loans[(member_id, isbn)]
+        self._notify_next(isbn)
+
+    def calculate_late_fee(self, member_id, isbn):
+        member = self._require_member(member_id)
+        return self._overdue_days(member_id, isbn) * member.category.late_fee_per_day
+
+    def calculate_member_late_fees(self, member_id):
+        return sum(
+            self.calculate_late_fee(loan_member, isbn) for loan_member, isbn in self._loans if loan_member == member_id
+        )
+
+    def reserve_book(self, member_id, isbn):
+        self._require_member(member_id)
+        if self._require_book(isbn).is_available():
+            raise ValueError("Book is available; borrow it instead")
+        queue = self._reservations.setdefault(isbn, [])
+        if member_id in queue:
+            raise ValueError("Member already reserved this book")
+        queue.append(member_id)
+        return len(queue)
+
+    def get_reservation_queue(self, isbn):
+        return list(self._reservations.get(isbn, []))
+
+    def search_by_title(self, title):
+        return self._search("title", title)
+
+    def search_by_author(self, author):
+        return self._search("author", author)
+
+    def _search(self, field, term):
+        term = term.lower()
+        return [book for book in self._books.values() if term in getattr(book, field).lower()]
+
+    def _require_member(self, member_id):
+        if member_id not in self._members:
+            raise ValueError("Member not found")
+        return self._members[member_id]
+
+    def _require_book(self, isbn):
+        if isbn not in self._books:
+            raise ValueError("Book not found")
+        return self._books[isbn]
+
+    def _require_loan(self, member_id, isbn):
+        if (member_id, isbn) not in self._loans:
+            raise ValueError("Loan not found")
+        return self._loans[(member_id, isbn)]
+
+    def _overdue_days(self, member_id, isbn):
+        due = self.get_due_date(member_id, isbn)
+        return max(0, (self._clock() - due).days)
+
+    def _notify_next(self, isbn):
+        queue = self._reservations.get(isbn)
+        if queue and self._notifier:
+            self._notifier(queue[0], isbn)
+
+    def _clear_reservation(self, member_id, isbn):
+        queue = self._reservations.get(isbn, [])
+        if member_id in queue:
+            queue.remove(member_id)
