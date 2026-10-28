@@ -1,4 +1,5 @@
 """Library domain model."""
+from dataclasses import replace
 from datetime import date
 
 from .loan import Loan
@@ -39,6 +40,9 @@ class Library:
         member, book = self._participants(member_id, isbn)
         member.return_book(isbn)
         book.return_copy()
+        index = next(i for i, loan in enumerate(self._loans)
+                     if loan.member_id == member_id and loan.isbn == isbn and loan.returned_on is None)
+        self._loans[index] = replace(self._loans[index], returned_on=self._today())
 
     def _participants(self, member_id, isbn):
         if member_id not in self.members:
