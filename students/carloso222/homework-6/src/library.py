@@ -15,6 +15,8 @@ from src.exceptions import (
 )
 from src.loan import Loan
 
+SORTABLE_FIELDS = ("title", "author", "year", "rating")
+
 
 class Library:
     """Coordinates books and members.
@@ -118,23 +120,29 @@ class Library:
 
         Books missing the sort field always go last, in either direction.
         """
-        if sort_by is not None and sort_by not in ("title", "author", "year", "rating"):
-            raise ValueError(f"Cannot sort by {sort_by!r}")
-        results = []
-        for book in self._books.values():
-            if genre is not None and (book.genre or "").lower() != genre.lower():
-                continue
-            if year is not None and book.year != year:
-                continue
-            if min_rating is not None and (book.rating is None or book.rating < min_rating):
-                continue
-            results.append(book)
+        if sort_by is not None and sort_by not in SORTABLE_FIELDS:
+            raise ValueError(f"Cannot sort by {sort_by!r}; use one of {SORTABLE_FIELDS}")
+        results = [
+            book
+            for book in self._books.values()
+            if self._matches(book, genre=genre, year=year, min_rating=min_rating)
+        ]
         if sort_by is None:
             return results
         with_value = [book for book in results if getattr(book, sort_by) is not None]
         without_value = [book for book in results if getattr(book, sort_by) is None]
         with_value.sort(key=lambda book: getattr(book, sort_by), reverse=descending)
         return with_value + without_value
+
+    @staticmethod
+    def _matches(book, genre, year, min_rating):
+        if genre is not None and (book.genre or "").lower() != genre.lower():
+            return False
+        if year is not None and book.year != year:
+            return False
+        if min_rating is not None and (book.rating is None or book.rating < min_rating):
+            return False
+        return True
 
     # ----- late fees ---------------------------------------------------------
 
