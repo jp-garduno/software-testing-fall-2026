@@ -49,3 +49,10 @@ def test_return_book_removes_the_isbn():
 def test_return_book_fails_when_not_borrowed():
     with pytest.raises(ValueError, match="not borrowed"):
         Member("m1", "Alice").return_book("1234567890")
+
+
+def test_member_cannot_borrow_the_same_book_twice():
+    member = Member("m1", "Alice")
+    member.add_borrowed_book("1234567890")
+    with pytest.raises(ValueError, match="already borrowed"):
+        member.add_borrowed_book("1234567890")
