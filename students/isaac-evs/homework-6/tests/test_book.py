@@ -36,3 +36,9 @@ def test_book_rejects_non_numeric_isbn():
 def test_book_requires_a_title():
     with pytest.raises(ValueError, match="Title is required"):
         Book("1234567890", "", "Author")
+
+
+def test_borrow_decrements_available_copies():
+    book = Book("1234567890", "Test Book", "Author", copies=2)
+    book.borrow()
+    assert book.available_copies == 1
