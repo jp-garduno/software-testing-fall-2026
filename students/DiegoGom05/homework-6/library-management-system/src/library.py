@@ -2,6 +2,8 @@ from datetime import date, timedelta
 
 
 class Library:
+    LOAN_PERIOD_DAYS = 14
+
     def __init__(self):
         self._books = {}
         self._members = {}
@@ -77,6 +79,10 @@ class Library:
             if text in getattr(book, field).lower()
         ]
 
+    @classmethod
+    def _due_date(cls, borrowed_on):
+        return borrowed_on + timedelta(days=cls.LOAN_PERIOD_DAYS)
+
     def calculate_late_fees(self, member_id, today=None):
         today = today or date.today()
         member = self._find_member(member_id)
@@ -86,7 +92,7 @@ class Library:
             if owner != member_id:
                 continue
 
-            due = borrowed_on + timedelta(days=14)
+            due = self._due_date(borrowed_on)
             days_late = (today - due).days
 
             if days_late > 0:
