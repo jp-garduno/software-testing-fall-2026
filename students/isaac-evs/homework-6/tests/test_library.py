@@ -45,3 +45,9 @@ def test_borrow_book_fails_for_unknown_member(library):
     library.add_book(Book(ISBN, "Test Book", "Author"))
     with pytest.raises(ValueError, match="Member not found"):
         library.borrow_book("ghost", ISBN)
+
+
+def test_borrow_book_fails_for_unknown_book(library):
+    library.register_member(Member("m1", "Alice"))
+    with pytest.raises(ValueError, match="Book not found"):
+        library.borrow_book("m1", ISBN)
