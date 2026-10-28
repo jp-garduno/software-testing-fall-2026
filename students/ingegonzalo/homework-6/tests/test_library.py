@@ -52,3 +52,11 @@ def test_borrow_book_decreases_available_copies():
     library.register_member(Member("M001", "Ana"))
     library.borrow_book("M001", "1234567890")
     assert book.available_copies == 1
+
+def test_borrow_book_adds_isbn_to_member():
+    library = Library()
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    member = Member("M001", "Ana")
+    library.register_member(member)
+    library.borrow_book("M001", "1234567890")
+    assert "1234567890" in member.borrowed_books
