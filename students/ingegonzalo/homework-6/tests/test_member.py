@@ -70,3 +70,7 @@ def test_add_late_fee_accumulates_total():
     member.add_late_fee(3)
     member.add_late_fee(2)
     assert member.late_fees == 5
+
+def test_member_category_defaults_to_student():
+    member = Member("M001", "Ana")
+    assert member.category == "student"
