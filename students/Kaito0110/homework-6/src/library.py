@@ -21,3 +21,23 @@ class Library:
             raise ValueError("Member ID already exists")
 
         self.members[member.member_id] = member
+
+    def search_by_title(self, title):
+        """Search books by case-insensitive partial title match."""
+        return [
+            book
+            for book in self.books.values()
+            if title.lower() in book.title.lower()
+        ]
+
+    def search_by_author(self, author):
+        """Search books by case-insensitive partial author match."""
+        return [
+            book
+            for book in self.books.values()
+            if author.lower() in book.author.lower()
+        ]
+
+    def get_available_books(self):
+        """Return all books with at least one available copy."""
+        return [book for book in self.books.values() if book.is_available()]
