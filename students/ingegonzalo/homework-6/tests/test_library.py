@@ -38,3 +38,9 @@ def test_get_member_raises_error_when_not_registered():
     library = Library()
     with pytest.raises(ValueError, match="not registered"):
         library.get_member("M999")
+
+def test_register_member_rejects_duplicate_id():
+    library = Library()
+    library.register_member(Member("M001", "Ana"))
+    with pytest.raises(ValueError):
+        library.register_member(Member("M001", "Beto"))
