@@ -4,6 +4,8 @@ class Library:
         self.members = {}
 
     def register_member(self, member):
+        if member.member_id in self.members:
+            raise ValueError("Member with this ID already registered")
         self.members[member.member_id] = member
 
     def get_member(self, member_id):
