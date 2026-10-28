@@ -9,6 +9,8 @@ class Member:
             raise ValueError('Member ID is required')
         if not isinstance(name, str) or not name.strip():
             raise ValueError('Member name is required')
+        if type(max_borrow_limit) is not int or max_borrow_limit < 1:
+            raise ValueError('Borrow limit must be a positive integer')
         self.member_id = member_id
         self.name = name
         self.max_borrow_limit = max_borrow_limit
