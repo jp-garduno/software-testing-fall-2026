@@ -86,3 +86,12 @@ def test_member_representation_and_equality():
     assert repr(member1) == "<Member ID=M001 Name='Alice' Borrowed=0/3>"
     assert member1 == member2
     assert member1 != "other"
+
+
+def test_member_hash_and_set_operations():
+    member1 = Member(member_id="M001", name="Alice")
+    member2 = Member(member_id="M001", name="Alice")
+    member3 = Member(member_id="M002", name="Bob")
+    member_set = {member1, member2, member3}
+    assert len(member_set) == 2
+    assert hash(member1) == hash("M001")
