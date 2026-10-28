@@ -29,3 +29,8 @@ def test_register_member_can_be_retrieved(library):
     m = Member("m1", "Ana")
     library.register_member(m)
     assert library.get_member("m1") is m
+
+def test_register_duplicate_member_raises(library):
+    library.register_member(Member("m1", "Ana"))
+    with pytest.raises(ValueError, match="already"):
+        library.register_member(Member("m1", "Otra"))
