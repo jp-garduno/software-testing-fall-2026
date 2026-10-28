@@ -25,3 +25,14 @@ class Library:
         member = self.get_member(member_id)
         self.books[isbn].borrow()
         member.add_borrowed_book(isbn)
+
+    def _get_book(self, isbn):
+        if isbn not in self.books:
+            raise ValueError(f"Book {isbn} is not in the catalog")
+        return self.books[isbn]
+
+    def borrow_book(self, member_id, isbn):
+        member = self.get_member(member_id)
+        book = self._get_book(isbn)
+        book.borrow()
+        member.add_borrowed_book(isbn)
