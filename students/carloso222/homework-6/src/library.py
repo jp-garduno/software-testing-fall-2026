@@ -70,6 +70,7 @@ class Library:
             raise AlreadyBorrowedError(f"{member.name} already has {book.title}")
         if not member.can_borrow():
             raise BorrowLimitReachedError(f"{member.name} has reached their borrow limit")
+        self._claim_reservation(member_id, isbn)
         book.borrow()
         member.add_borrowed_book(isbn)
         loan = Loan(member_id=member_id, isbn=isbn, borrowed_on=self._clock())
@@ -77,7 +78,7 @@ class Library:
         return loan
 
     def return_book(self, member_id, isbn):
-        """Take the book back and charge any late fee."""
+        """Take the book back, charge any late fee and notify the next reserver."""
         member = self.get_member(member_id)
         book = self.get_book(isbn)
         loan = self._active_loan(member_id, isbn)
@@ -86,6 +87,7 @@ class Library:
         loan.fee_charged = loan.days_overdue(today) * member.daily_late_fee
         member.return_book(isbn)
         book.return_copy()
+        self._notify_next_in_queue(isbn)
         return loan
 
     def _active_loan(self, member_id, isbn):
@@ -150,3 +152,16 @@ class Library:
     def get_reservation_queue(self, isbn):
         """Member IDs waiting for this book, first in line first."""
         return list(self._reservations.get(isbn, []))
+
+    def _claim_reservation(self, member_id, isbn):
+        queue = self._reservations.get(isbn)
+        if not queue:
+            return
+        if queue[0] != member_id:
+            raise ReservationError(f"Book {isbn} is held for member {queue[0]}")
+        queue.pop(0)
+
+    def _notify_next_in_queue(self, isbn):
+        queue = self._reservations.get(isbn)
+        if queue and self._notifier is not None:
+            self._notifier(queue[0], isbn)
