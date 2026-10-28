@@ -52,9 +52,7 @@ class Library:
 
     def calculate_member_late_fees(self, member_id):
         return sum(
-            self.calculate_late_fee(loan_member, isbn)
-            for loan_member, isbn in self._loans
-            if loan_member == member_id
+            self.calculate_late_fee(loan_member, isbn) for loan_member, isbn in self._loans if loan_member == member_id
         )
 
     def reserve_book(self, member_id, isbn):
