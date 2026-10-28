@@ -64,3 +64,8 @@ def dated_library():
     library.add_book(Book("1234567890", "Title", "Author", 2))
     library.register_member(Member("M1", "Ana"))
     return library, clock
+
+
+def test_new_member_has_empty_history(dated_library):
+    library, _ = dated_library
+    assert library.get_member_history("M1") == ()
