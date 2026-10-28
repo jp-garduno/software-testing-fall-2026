@@ -94,3 +94,9 @@ def test_total_fees_include_active_and_closed_loans(dated_library):
     library.return_book("M1", "1234567890")
     clock[0] = date(2026, 1, 20)
     assert library.calculate_total_fees("M1") == Decimal("8")
+
+
+def test_history_rejects_unknown_member(dated_library):
+    library, _ = dated_library
+    with pytest.raises(ValueError, match="Unknown member"):
+        library.get_member_history("missing")
