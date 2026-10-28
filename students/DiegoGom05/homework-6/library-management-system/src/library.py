@@ -16,9 +16,6 @@ class Library:
             raise ValueError("Book already in catalog")
         self._books[book.isbn] = book
 
-    def get_available_books(self):
-        return [b for b in self._books.values() if b.is_available()]
-
     def borrow_book(self, member_id, isbn):
         if member_id not in self._members:
             raise ValueError("Member not found")
@@ -26,11 +23,11 @@ class Library:
         if isbn not in self._books:
             raise ValueError("Book not found")
 
-        if isbn in member.borrowed_books:
-            raise ValueError("Member already borrowed this book")
-
         member = self._members[member_id]
         book = self._books[isbn]
+
+        if isbn in member.borrowed_books:
+            raise ValueError("Member already borrowed this book")
 
         if not member.can_borrow():
             raise ValueError("Member reached borrow limit")
