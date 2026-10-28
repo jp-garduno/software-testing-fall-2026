@@ -176,3 +176,11 @@ def test_borrow_is_recorded_in_history(loaded):
             "date": date(2026, 1, 1),
         }
     ]
+
+
+def test_return_is_recorded_in_history(loaded):
+    lib, _, _ = loaded
+    lib.borrow_book("m1", "1234567890", borrow_date=date(2026, 1, 1))
+    lib.return_book("m1", "1234567890", return_date=date(2026, 1, 10))
+    last = lib.get_member_history("m1")[-1]
+    assert (last["action"], last["date"]) == ("return", date(2026, 1, 10))
