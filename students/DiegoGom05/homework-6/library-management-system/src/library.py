@@ -124,4 +124,6 @@ class Library:
 
     def most_borrowed_book(self):
         counts = Counter(e["isbn"] for e in self._history if e["action"] == "borrow")
+        if not counts:
+            return None
         return counts.most_common(1)[0][0]
