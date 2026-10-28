@@ -106,3 +106,19 @@ def test_search_by_author_matches_partial_text_ignoring_case(library):
     library.add_book(match)
     library.add_book(Book(OTHER_ISBN, "Refactoring", "Fowler"))
     assert library.search_by_author("MARTIN") == [match]
+
+
+def test_search_returns_empty_list_when_nothing_matches(library):
+    library.add_book(Book(ISBN, "Clean Code", "Martin"))
+    assert library.search_by_title("zzz") == []
+
+
+def test_return_book_fails_for_unknown_member(library):
+    library.add_book(Book(ISBN, "Test Book", "Author"))
+    with pytest.raises(ValueError, match="Member not found"):
+        library.return_book("ghost", ISBN)
+
+
+def test_get_member_fails_for_unknown_member(library):
+    with pytest.raises(ValueError, match="Member not found"):
+        library.get_member("ghost")
