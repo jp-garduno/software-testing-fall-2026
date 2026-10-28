@@ -164,3 +164,10 @@ def test_overdue_return_adds_fee_to_member_total(library):
     library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 1))
     library.return_book("M001", "1234567890", return_date=date(2026, 1, 18))
     assert member.late_fees == 3
+
+def test_late_fee_uses_member_category_rate(library):
+    library.add_book(Book("1234567890", "Test Book", "Author"))
+    library.register_member(Member("M001", "Visitante", category="public"))
+    library.borrow_book("M001", "1234567890", borrow_date=date(2026, 1, 1))
+    fee = library.return_book("M001", "1234567890", return_date=date(2026, 1, 18))
+    assert fee == 6

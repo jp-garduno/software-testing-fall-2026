@@ -49,7 +49,9 @@ class Library:
         member.return_book(isbn)
         book.return_copy()
         borrow_date = self._loans.pop((member_id, isbn))
-        fee = calculate_late_fee(borrow_date, return_date or date.today())
+        fee = calculate_late_fee(
+            borrow_date, return_date or date.today(), member.late_fee_rate
+        )
         member.add_late_fee(fee)
         return fee
 
