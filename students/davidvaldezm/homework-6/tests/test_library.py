@@ -109,3 +109,9 @@ def test_search_author_returns_all_matching_books(library):
 
 def test_available_books_excludes_out_of_stock_titles(library):
     assert [book.isbn for book in library.get_available_books()] == ["1234567890"]
+
+
+def test_unavailable_loan_does_not_record_member_borrow(library):
+    with pytest.raises(ValueError, match="available"):
+        library.borrow_book("M1", "1234567890123")
+    assert library.members["M1"].borrowed_books == []
