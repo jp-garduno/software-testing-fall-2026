@@ -51,3 +51,15 @@ def test_borrow_book_fails_for_unknown_book(library):
     library.register_member(Member("m1", "Alice"))
     with pytest.raises(ValueError, match="Book not found"):
         library.borrow_book("m1", ISBN)
+
+
+def test_borrow_over_the_limit_does_not_take_a_copy(library):
+    first = Book(ISBN, "First", "Author", copies=1)
+    second = Book(OTHER_ISBN, "Second", "Author", copies=2)
+    library.add_book(first)
+    library.add_book(second)
+    library.register_member(Member("m1", "Alice", max_borrow_limit=1))
+    library.borrow_book("m1", ISBN)
+    with pytest.raises(ValueError, match="limit"):
+        library.borrow_book("m1", OTHER_ISBN)
+    assert second.available_copies == 2
