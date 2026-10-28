@@ -1,5 +1,7 @@
 """Advanced feature 3: search with genre/year/rating filters and sorting."""
 
+import pytest
+
 from src.book import Book
 
 
@@ -39,3 +41,30 @@ def test_books_without_rating_never_match_a_rating_filter(library):
 def test_books_without_genre_never_match_a_genre_filter(library):
     library.add_book(Book("1111111111", "No Genre", "Anon"))
     assert "No Genre" not in titles(library.search(genre="Programming"))
+
+
+def test_results_can_be_sorted_by_title(library):
+    assert titles(library.search(sort_by="title")) == [
+        "Clean Code",
+        "Refactoring",
+        "Test Driven Development: By Example",
+    ]
+
+
+def test_results_can_be_sorted_by_rating_descending(library):
+    assert titles(library.search(sort_by="rating", descending=True)) == [
+        "Refactoring",
+        "Clean Code",
+        "Test Driven Development: By Example",
+    ]
+
+
+@pytest.mark.parametrize("descending", [False, True])
+def test_books_missing_the_sort_field_go_last(library, descending):
+    library.add_book(Book("1111111111", "Undated", "Anon"))
+    assert titles(library.search(sort_by="year", descending=descending))[-1] == "Undated"
+
+
+def test_sorting_by_unknown_field_raises(library):
+    with pytest.raises(ValueError, match="Cannot sort"):
+        library.search(sort_by="isbn")
