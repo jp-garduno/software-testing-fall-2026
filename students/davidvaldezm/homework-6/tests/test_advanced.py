@@ -153,3 +153,11 @@ def test_popularity_tie_uses_first_borrowed_book(dated_library):
     library.borrow_book("M1", "9999999999")
     library.borrow_book("M1", "1234567890")
     assert library.most_borrowed_book().isbn == "9999999999"
+
+
+def test_failed_borrow_does_not_create_history(dated_library):
+    library, _ = dated_library
+    library.borrow_book("M1", "1234567890")
+    with pytest.raises(ValueError):
+        library.borrow_book("M1", "1234567890")
+    assert len(library.get_member_history("M1")) == 1
