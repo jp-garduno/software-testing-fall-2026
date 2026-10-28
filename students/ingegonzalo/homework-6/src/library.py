@@ -1,7 +1,12 @@
+from datetime import date
+
+from src.late_fees import calculate_late_fee
+
 class Library:
     def __init__(self):
         self.books = {}
         self.members = {}
+        self.loans = {}
 
     # --- catálogo ---
     def add_book(self, book):
@@ -36,13 +41,15 @@ class Library:
             raise ValueError("No copies available")
         member.add_borrowed_book(isbn)
         book.borrow()
+        self._loans[(member_id, isbn)] = borrow_date or date.today()
 
     def return_book(self, member_id, isbn, return_date=None):
         member = self.get_member(member_id)
         book = self._get_book(isbn)
         member.return_book(isbn)
         book.return_copy()
-        return 0
+        borrow_date = self._loans.pop((member_id, isbn))
+        return calculate_late_fee(borrow_date, return_date or date.today())
 
     # --- búsquedas ---
     def search_by_title(self, title):
