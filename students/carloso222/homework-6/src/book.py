@@ -11,8 +11,12 @@ class Book:
             raise InvalidBookError("ISBN must contain only digits")
         if len(isbn) not in (10, 13):
             raise InvalidBookError("ISBN must be 10 or 13 digits")
+        if not title or not title.strip():
+            raise InvalidBookError("Title is required")
+        if total_copies < 0:
+            raise InvalidBookError("Copies cannot be negative")
         self.isbn = isbn
-        self.title = title
+        self.title = title.strip()
         self.author = author
         self.total_copies = total_copies
         self.available_copies = total_copies
