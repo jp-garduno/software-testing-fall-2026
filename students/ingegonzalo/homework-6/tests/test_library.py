@@ -189,3 +189,14 @@ def test_return_is_recorded_in_history(library):
     assert library.get_history()[-1] == HistoryEntry(
         "M001", "1234567890", "return", date(2026, 1, 5)
     )
+
+def test_get_member_history_returns_only_that_members_entries(library):
+    library.add_book(Book("1111111111", "First", "Author"))
+    library.add_book(Book("2222222222", "Second", "Author"))
+    library.register_member(Member("M001", "Ana"))
+    library.register_member(Member("M002", "Beto"))
+    library.borrow_book("M001", "1111111111", borrow_date=date(2026, 1, 1))
+    library.borrow_book("M002", "2222222222", borrow_date=date(2026, 1, 2))
+    assert library.get_member_history("M001") == [
+        HistoryEntry("M001", "1111111111", "borrow", date(2026, 1, 1))
+    ]
