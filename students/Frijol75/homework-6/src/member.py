@@ -1,5 +1,5 @@
 """Member entity for the Library Management System."""
-from typing import List, Optional
+from typing import Any, List, Optional
 
 
 class Member:
@@ -26,3 +26,27 @@ class Member:
     def can_borrow(self) -> bool:
         """Check if the member has not reached the borrow limit."""
         return len(self.borrowed_books) < self.max_borrow_limit
+
+    def add_borrowed_book(self, isbn: str) -> None:
+        """Add an ISBN to the member's list of borrowed books."""
+        if not isinstance(isbn, str) or not isbn.strip():
+            raise ValueError("Invalid book identifier")
+        if not self.can_borrow():
+            raise ValueError("Borrow limit reached")
+        if isbn in self.borrowed_books:
+            raise ValueError("Book already borrowed by this member")
+        self.borrowed_books.append(isbn)
+
+    def return_book(self, isbn: str) -> None:
+        """Remove an ISBN from the member's list of borrowed books."""
+        if isbn not in self.borrowed_books:
+            raise ValueError("Book not borrowed by this member")
+        self.borrowed_books.remove(isbn)
+
+    def __repr__(self) -> str:
+        return f"<Member ID={self.member_id} Name='{self.name}' Borrowed={len(self.borrowed_books)}/{self.max_borrow_limit}>"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Member):
+            return False
+        return self.member_id == other.member_id and self.name == other.name

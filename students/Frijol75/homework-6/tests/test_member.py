@@ -47,6 +47,12 @@ def test_member_add_borrowed_book_success():
     assert member.borrowed_books == ["1234567890"]
 
 
+def test_member_add_borrowed_book_rejects_invalid_identifier():
+    member = Member(member_id="M001", name="Alice")
+    with pytest.raises(ValueError, match="Invalid book identifier"):
+        member.add_borrowed_book("")
+
+
 def test_member_add_borrowed_book_rejects_when_limit_exceeded():
     member = Member(member_id="M001", name="Alice", max_borrow_limit=1)
     member.add_borrowed_book("1234567890")
@@ -72,3 +78,11 @@ def test_member_return_book_raises_when_not_borrowed():
     member = Member(member_id="M001", name="Alice")
     with pytest.raises(ValueError, match="Book not borrowed by this member"):
         member.return_book("9999999999")
+
+
+def test_member_representation_and_equality():
+    member1 = Member(member_id="M001", name="Alice")
+    member2 = Member(member_id="M001", name="Alice")
+    assert repr(member1) == "<Member ID=M001 Name='Alice' Borrowed=0/3>"
+    assert member1 == member2
+    assert member1 != "other"
