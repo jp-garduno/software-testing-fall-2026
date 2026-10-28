@@ -25,10 +25,19 @@ class Book:
 
 
 class Member:
-	def __init__(self, name, borrowed_books, max_borrow_limit = 3):
-		self.id = uuid.uuid1
+	def __init__(self, name, borrowed_books=None, max_borrow_limit=3):
+		self.member_id = uuid.uuid4()
 		self.name = name
-		self.borrowed_books = borrowed_books
+		self.borrowed_books = list(borrowed_books) if borrowed_books is not None else []
 		self.max_borrow_limit = max_borrow_limit
 
+	def can_borrow(self):
+		return len(self.borrowed_books) < self.max_borrow_limit
 
+	def add_borrowed_book(self, book):
+		if not self.can_borrow():
+			raise ValueError("Invalid request: Member has reached the borrowing limit")
+		self.borrowed_books.append(book)
+
+	def return_book(self, book):
+		self.borrowed_books.remove(book)
