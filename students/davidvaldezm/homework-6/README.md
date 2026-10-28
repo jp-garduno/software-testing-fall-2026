@@ -20,7 +20,7 @@ python -m isort --check-only --profile=black src tests
 python -m pylint src tests
 ```
 
-El reporte HTML incluido se abre en [coverage/index.html](coverage/index.html). Los resultados medidos están en [docs/verification.md](docs/verification.md). El workflow `Library TDD - David Valdez Homework 6` repite pruebas, formato y análisis estático en Python 3.11 y 3.12 y conserva el reporte como artefacto.
+El reporte HTML incluido se abre en [coverage/index.html](coverage/index.html). Sus recursos JavaScript son generados por coverage.py y se excluyen de ESLint mediante `.eslintignore`. Los resultados medidos están en [docs/verification.md](docs/verification.md). El workflow `Library TDD - David Valdez Homework 6` repite pruebas, formato y análisis estático en Python 3.11 y 3.12 y conserva el reporte como artefacto.
 
 ## Ejemplo de uso
 
