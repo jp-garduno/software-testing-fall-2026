@@ -39,3 +39,9 @@ def test_borrow_book_takes_a_copy(library):
     library.register_member(Member("m1", "Alice"))
     library.borrow_book("m1", ISBN)
     assert book.available_copies == 0
+
+
+def test_borrow_book_fails_for_unknown_member(library):
+    library.add_book(Book(ISBN, "Test Book", "Author"))
+    with pytest.raises(ValueError, match="Member not found"):
+        library.borrow_book("ghost", ISBN)
