@@ -58,6 +58,8 @@ class Library:
         if self._require_book(isbn).is_available():
             raise ValueError("Book is available; borrow it instead")
         queue = self._reservations.setdefault(isbn, [])
+        if member_id in queue:
+            raise ValueError("Member already reserved this book")
         queue.append(member_id)
         return len(queue)
 
