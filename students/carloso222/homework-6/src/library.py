@@ -197,3 +197,10 @@ class Library:
         queue = self._reservations.get(isbn)
         if queue and self._notifier is not None:
             self._notifier(queue[0], isbn)
+
+    # ----- history and statistics -------------------------------------------
+
+    def get_member_history(self, member_id):
+        """Every loan the member has had, oldest first."""
+        self.get_member(member_id)
+        return [loan for loan in self._loans if loan.member_id == member_id]
