@@ -4,7 +4,12 @@
 class Member:
     """Member behavior developed test first."""
 
-    def __init__(self, member_id, name, max_borrow_limit=3):
+    CATEGORY_LIMITS = {'student': 3, 'faculty': 5, 'public': 2}
+
+    def __init__(self, member_id, name, max_borrow_limit=None, category='student'):
+        self.category = category
+        if max_borrow_limit is None:
+            max_borrow_limit = self.CATEGORY_LIMITS[category]
         if not isinstance(member_id, str) or not member_id.strip():
             raise ValueError('Member ID is required')
         if not isinstance(name, str) or not name.strip():
