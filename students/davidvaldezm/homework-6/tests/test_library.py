@@ -25,3 +25,12 @@ def test_library_adds_book_by_isbn():
     book = Book("1234567890", "Pedro Paramo", "Juan Rulfo")
     catalog.add_book(book)
     assert catalog.catalog[book.isbn] is book
+
+
+def test_duplicate_isbn_does_not_replace_catalog_entry():
+    catalog = Library()
+    original = Book("1234567890", "Original", "Author")
+    catalog.add_book(original)
+    with pytest.raises(ValueError, match="registered"):
+        catalog.add_book(Book(original.isbn, "Replacement", "Author"))
+    assert catalog.catalog[original.isbn] is original
