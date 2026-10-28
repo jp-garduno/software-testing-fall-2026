@@ -127,3 +127,10 @@ class Library:
         if not counts:
             return None
         return counts.most_common(1)[0][0]
+
+    def generate_member_report(self, member_id):
+        member = self._find_member(member_id)
+        lines = [f"History for {member.name}"]
+        lines += [f"{e['date']} {e['action']} {e['isbn']}"
+                  for e in self.get_member_history(member_id)]
+        return "\n".join(lines)
