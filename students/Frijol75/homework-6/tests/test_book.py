@@ -44,3 +44,13 @@ def test_book_creation_rejects_whitespace_title():
 def test_book_creation_rejects_negative_copies():
     with pytest.raises(ValueError, match="Total copies must be non-negative"):
         Book("1234567890", "Valid Title", "Author", total_copies=-1)
+
+
+def test_book_is_available_when_copies_exist():
+    book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=2)
+    assert book.is_available() is True
+
+
+def test_book_is_not_available_when_copies_are_zero():
+    book = Book("1234567890", "Refactoring", "Martin Fowler", total_copies=0)
+    assert book.is_available() is False
