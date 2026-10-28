@@ -252,7 +252,7 @@ Resultado observado:
 
 ```text
 E   assert (None, None) == (datetime.dat... 1, 18), None)
-E     
+E
 E     At index 0 diff: None != datetime.date(2026, 1, 18)
 E     Use -v to get more diff
 1 failed, 75 passed in 0.26s
