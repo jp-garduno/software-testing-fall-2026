@@ -82,3 +82,7 @@ def test_faculty_member_has_borrow_limit_of_five():
 def test_public_member_has_borrow_limit_of_two():
     member = Member("M003", "Visitante", category="public")
     assert member.max_borrow_limit == 2
+
+def test_member_rejects_unknown_category():
+    with pytest.raises(ValueError, match="category"):
+        Member("M001", "Ana", category="alien")
