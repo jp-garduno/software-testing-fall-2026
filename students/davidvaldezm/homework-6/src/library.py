@@ -38,3 +38,7 @@ class Library:
         if isbn not in self.catalog:
             raise ValueError('Unknown book')
         return self.members[member_id], self.catalog[isbn]
+
+    def search_by_title(self, title):
+        query = title.strip().casefold()
+        return [book for book in self.catalog.values() if query in book.title.casefold()]
