@@ -1,4 +1,5 @@
 BORROW_LIMITS = {"student": 3, "faculty": 5, "public": 2}
+LATE_FEE_RATES = {"student": 1.0, "faculty": 0.5, "public": 1.5}
 
 class Member:
 
@@ -8,6 +9,8 @@ class Member:
 
         if max_borrow_limit is None:
              max_borrow_limit = BORROW_LIMITS[category]
+
+        self.late_fee_rate = LATE_FEE_RATES[category]
         self.member_id = member_id
         self.name = name
         self.category = category
