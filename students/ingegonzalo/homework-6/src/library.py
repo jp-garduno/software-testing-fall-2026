@@ -1,12 +1,14 @@
 from datetime import date
 
 from src.late_fees import calculate_late_fee
+from src.history import HistoryEntry
 
 class Library:
     def __init__(self):
         self.books = {}
         self.members = {}
         self.loans = {}
+        self._history = []
 
     # --- catálogo ---
     def add_book(self, book):
@@ -39,9 +41,11 @@ class Library:
         book = self._get_book(isbn)
         if not book.is_available():
             raise ValueError("No copies available")
+        borrow_date = borrow_date or date.today()
         member.add_borrowed_book(isbn)
         book.borrow()
-        self._loans[(member_id, isbn)] = borrow_date or date.today()
+        self._loans[(member_id, isbn)] = borrow_date
+        self._history.append(HistoryEntry(member_id, isbn, "borrow", borrow_date))
 
     def return_book(self, member_id, isbn, return_date=None):
         member = self.get_member(member_id)
@@ -68,3 +72,6 @@ class Library:
             book for book in self.books.values()
             if query in getattr(book, attribute).lower()
         ]
+
+    def get_history(self):
+        return list(self._history)
