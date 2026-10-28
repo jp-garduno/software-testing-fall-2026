@@ -158,3 +158,8 @@ def test_late_fee_uses_member_category_rate(loaded):
 def test_late_fee_unknown_member_raises(library):
     with pytest.raises(ValueError, match="Member not found"):
         library.calculate_late_fees("ghost", today=date(2026, 1, 1))
+
+
+def test_new_member_history_is_empty(loaded):
+    lib, _, _ = loaded
+    assert lib.get_member_history("m1") == []
