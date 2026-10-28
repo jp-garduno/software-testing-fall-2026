@@ -29,9 +29,9 @@ class Library:
     def borrow_book(self, member_id, isbn):
         member, book = self._participants(member_id, isbn)
         member.validate_borrow(isbn)
+        loan = Loan(member_id, isbn, self._today(), daily_rate=member.daily_fee_rate)
         book.borrow()
         member.add_borrowed_book(isbn)
-        loan = Loan(member_id, isbn, self._today(), daily_rate=member.daily_fee_rate)
         self._loans.append(loan)
         return loan
 
