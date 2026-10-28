@@ -14,3 +14,15 @@ class Book:
     def is_available(self):
         """Return True if at least one copy is available to borrow."""
         return self.available_copies > 0
+
+    def borrow(self):
+        """Decrement available copies by 1 or raise ValueError if unavailable."""
+        if self.available_copies > 0:
+            self.available_copies -= 1
+        else:
+            raise ValueError("No copies available")
+
+    def return_copy(self):
+        """Increment available copies up to total_copies."""
+        if self.available_copies < self.total_copies:
+            self.available_copies += 1
