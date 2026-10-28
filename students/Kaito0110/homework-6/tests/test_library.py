@@ -442,3 +442,47 @@ def test_late_fee_for_one_day_overdue():
     assert fee == 1
 
 
+def test_total_late_fees_for_member():
+    library = Library()
+    member = Member(member_id="M200", name="Test Member")
+    library.register_member(member)
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=17)
+
+    total_fee = library.calculate_member_late_fees(
+        "M200",
+        [(borrow_date, return_date), (borrow_date, return_date)],
+    )
+
+    assert total_fee == 6
+
+
+def test_calculate_member_late_fees_uses_member_category_rate():
+    library = Library()
+    faculty_member = Member(
+        member_id="M201", name="Dr. Smith", category="faculty"
+    )
+    library.register_member(faculty_member)
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=17)  # 3 days overdue * $0.50 = $1.50
+
+    total_fee = library.calculate_member_late_fees(
+        "M201",
+        [(borrow_date, return_date)],
+    )
+
+    assert total_fee == 1.5
+
+
+def test_calculate_member_late_fees_rejects_unknown_member():
+    library = Library()
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.calculate_member_late_fees(
+            "M999",
+            [(date(2026, 1, 1), date(2026, 1, 17))],
+        )
+
+
