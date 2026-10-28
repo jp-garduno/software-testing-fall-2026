@@ -41,3 +41,12 @@ def test_book_cannot_borrow_without_available_copy():
 
     with pytest.raises(ValueError, match="available"):
         book.borrow()
+
+
+def test_book_rejects_negative_copies_and_extra_return():
+    with pytest.raises(ValueError, match="negative"):
+        Book("1234567890", "Clean Code", "Robert Martin", copies=-1)
+
+    book = Book("1234567890", "Clean Code", "Robert Martin")
+    with pytest.raises(ValueError, match="already returned"):
+        book.return_copy()

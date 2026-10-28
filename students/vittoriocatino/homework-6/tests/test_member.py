@@ -25,6 +25,16 @@ def test_member_can_return_a_borrowed_book():
     assert member.borrowed_books == []
 
 
+def test_member_rejects_borrowing_past_limit_and_returning_unknown_book():
+    member = Member("m-1", "Ada", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567890123")
+    with pytest.raises(ValueError, match="not borrowed"):
+        member.return_book("1234567890123")
+
+
 def test_member_rejects_a_zero_borrow_limit():
     with pytest.raises(ValueError, match="positive limit"):
         Member("m-1", "Ada", max_borrow_limit=0)
