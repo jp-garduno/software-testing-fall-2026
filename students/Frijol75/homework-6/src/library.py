@@ -29,3 +29,22 @@ class Library:
         if member.member_id in self.members:
             raise ValueError("Member with this ID already registered")
         self.members[member.member_id] = member
+
+    def borrow_book(self, member_id: str, isbn: str) -> bool:
+        """Borrow a book for a registered member."""
+        if member_id not in self.members:
+            raise KeyError("Member not registered")
+        if isbn not in self.books:
+            raise KeyError("Book not found in catalog")
+
+        member = self.members[member_id]
+        book = self.books[isbn]
+
+        if not book.is_available():
+            raise ValueError("Book is not currently available")
+        if not member.can_borrow():
+            raise ValueError("Borrow limit reached")
+
+        book.borrow()
+        member.add_borrowed_book(isbn)
+        return True
