@@ -22,3 +22,9 @@ def test_member_requires_positive_integer_limit(limit):
 
 def test_new_member_can_borrow():
     assert Member("M1", "Ana").can_borrow() is True
+
+
+def test_member_records_a_borrowed_isbn():
+    member = Member("M1", "Ana")
+    member.add_borrowed_book("1234567890")
+    assert member.borrowed_books == ["1234567890"]
