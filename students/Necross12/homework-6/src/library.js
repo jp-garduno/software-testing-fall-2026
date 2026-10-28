@@ -1,3 +1,9 @@
+const DIAS_PRESTAMO = 14;
+const MS_POR_DIA = 24 * 60 * 60 * 1000;
+function diasDeRetraso(vencimiento, fechaActual) {
+    return Math.max(0, Math.floor((fechaActual - vencimiento) / MS_POR_DIA));
+}
+
 class Library {
     constructor() {
         this.libros = [];
@@ -54,6 +60,10 @@ class Library {
         const libro = this.obtenerLibroRegistrado(isbn);
         miembro.regresar(isbn);
         libro.regresar();
+        const posicion = this.prestamos.findIndex(
+            (p) => p.idMiembro === idMiembro && p.isbn === isbn,
+        );
+        this.prestamos.splice(posicion, 1);
         const [siguiente] = this.obtenerReservas(isbn);
         if (siguiente !== undefined)
             this.obtenerMiembroRegistrado(siguiente).notificar(
@@ -111,18 +121,15 @@ class Library {
     }
 
     fechaVencimiento(idMiembro, isbn) {
-        if (!prestamo)
+        const posicion = this.posicionPrestamo(idMiembro, isbn);
+        if (posicion === -1)
             throw new Error("El miembro no tiene prestado este libro.");
-        const prestamo = this.prestamos.find(
-            (p) => p.idMiembro === idMiembro && p.isbn === isbn,
-        );
-        return new Date(prestamo.fechaPrestamo.getTime() + 14 * 24 * 60 * 60 * 1000);
+        return new Date(this.prestamos[posicion].fechaPrestamo.getTime() + DIAS_PRESTAMO * MS_POR_DIA);
     }
 
     calcularRecargo(idMiembro, isbn, fechaActual = new Date()) {
         const miembro = this.obtenerMiembroRegistrado(idMiembro);
-        const vencimiento = this.fechaVencimiento(idMiembro, isbn);
-        const dias = Math.max(0, Math.floor((fechaActual - vencimiento) / (24 * 60 * 60 * 1000)));
+        const dias = diasDeRetraso(this.fechaVencimiento(idMiembro, isbn), fechaActual);
         return dias * miembro.tarifaRecargo;
     }
 
@@ -131,6 +138,9 @@ class Library {
         return this.prestamos
             .filter((p) => p.idMiembro === idMiembro)
             .reduce((total, p) => total + this.calcularRecargo(idMiembro, p.isbn, fechaActual), 0);
+    }
+    posicionPrestamo(idMiembro, isbn) {
+        return this.prestamos.findIndex((p) => p.idMiembro === idMiembro && p.isbn === isbn);
     }
 }
 
