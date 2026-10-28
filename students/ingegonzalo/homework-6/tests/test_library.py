@@ -60,3 +60,9 @@ def test_borrow_book_adds_isbn_to_member():
     library.register_member(member)
     library.borrow_book("M001", "1234567890")
     assert "1234567890" in member.borrowed_books
+
+def test_borrow_book_raises_error_when_book_not_in_catalog():
+    library = Library()
+    library.register_member(Member("M001", "Ana"))
+    with pytest.raises(ValueError, match="not in the catalog"):
+        library.borrow_book("M001", "9999999999")
