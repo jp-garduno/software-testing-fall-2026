@@ -28,10 +28,7 @@ class Library:
 
     def borrow_book(self, member_id, isbn):
         member, book = self._participants(member_id, isbn)
-        if not member.can_borrow():
-            raise ValueError('Borrow limit reached')
-        if isbn in member.borrowed_books:
-            raise ValueError('Book already borrowed by this member')
+        member.validate_borrow(isbn)
         book.borrow()
         member.add_borrowed_book(isbn)
         loan = Loan(member_id, isbn, self._today(), daily_rate=member.daily_fee_rate)
