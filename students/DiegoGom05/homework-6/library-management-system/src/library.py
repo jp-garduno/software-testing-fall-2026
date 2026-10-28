@@ -8,6 +8,7 @@ class Library:
         self._books = {}
         self._members = {}
         self._loans = {}
+        self._history = []
 
     def get_available_books(self):
         return [b for b in self._books.values() if b.is_available()]
@@ -54,6 +55,14 @@ class Library:
         book.borrow()
         member.add_borrowed_book(isbn)
         self._loans[(member_id, isbn)] = borrow_date
+        self._history.append(
+            {
+                "member_id": member_id,
+                "isbn": isbn,
+                "action": "borrow",
+                "date": borrow_date,
+            }
+        )
 
     def return_book(self, member_id, isbn):
         member = self._find_member(member_id)
@@ -101,4 +110,4 @@ class Library:
         return total
 
     def get_member_history(self, member_id):
-        return []
+        return [e for e in self._history if e["member_id"] == member_id]
