@@ -124,3 +124,8 @@ def test_backdated_return_preserves_active_loan(dated_library):
     with pytest.raises(ValueError, match="before"):
         library.return_book("M1", "1234567890")
     assert library.members["M1"].borrowed_books == ["1234567890"]
+
+
+def test_member_without_loans_owes_zero(dated_library):
+    library, _ = dated_library
+    assert library.calculate_total_fees("M1") == Decimal("0")
