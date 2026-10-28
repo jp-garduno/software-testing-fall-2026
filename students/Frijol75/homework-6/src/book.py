@@ -1,5 +1,17 @@
+"""Book entity for the Library Management System."""
+from typing import Optional
+
+
 class Book:
-    def __init__(self, isbn: str, title: str, author: str, total_copies: int = 1):
+    """Represents a book in the library catalog."""
+
+    def __init__(
+        self,
+        isbn: str,
+        title: str,
+        author: str,
+        total_copies: int = 1,
+    ) -> None:
         self.isbn = isbn
         self.title = title
         self.author = author
