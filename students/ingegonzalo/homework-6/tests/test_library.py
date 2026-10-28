@@ -105,3 +105,14 @@ def test_return_book_removes_isbn_from_member():
     library.borrow_book("M001", "1234567890")
     library.return_book("M001", "1234567890")
     assert member.borrowed_books == []
+
+def test_return_book_does_not_change_copies_when_member_did_not_borrow_it():
+    library = Library()
+    book = Book("1234567890", "Test Book", "Author", total_copies=2)
+    library.add_book(book)
+    library.register_member(Member("M001", "Ana"))
+    library.register_member(Member("M002", "Beto"))
+    library.borrow_book("M001", "1234567890")
+    with pytest.raises(ValueError):
+        library.return_book("M002", "1234567890")
+    assert book.available_copies == 1
