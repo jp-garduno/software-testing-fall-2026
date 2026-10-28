@@ -20,6 +20,8 @@ class Library:
         return [b for b in self._books.values() if b.is_available()]
 
     def borrow_book(self, member_id, isbn):
+        if member_id not in self._members:
+            raise ValueError("Member not found")
         member = self._members[member_id]
         book = self._books[isbn]
         book.borrow()
