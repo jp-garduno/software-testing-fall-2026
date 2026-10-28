@@ -51,3 +51,8 @@ def test_return_book_removes_isbn_from_borrowed_books():
     member.add_borrowed_book("1111111111")
     member.return_book("1111111111")
     assert "1111111111" not in member.borrowed_books
+
+def test_return_book_raises_error_when_not_borrowed():
+    member = Member("M001", "Ana")
+    with pytest.raises(ValueError, match="not borrowed"):
+        member.return_book("1111111111")
