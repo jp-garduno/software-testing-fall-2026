@@ -11,10 +11,12 @@ class Loan:
     member_id: str
     isbn: str
     borrowed_on: date
+    returned_on: date | None = None
 
     @property
     def due_date(self):
         return self.borrowed_on + timedelta(days=14)
 
     def late_fee(self, as_of):
-        return Decimal(max(0, (as_of - self.due_date).days))
+        end_date = min(as_of, self.returned_on) if self.returned_on else as_of
+        return Decimal(max(0, (end_date - self.due_date).days))
