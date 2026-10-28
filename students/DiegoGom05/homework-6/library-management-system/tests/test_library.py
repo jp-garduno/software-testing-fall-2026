@@ -93,3 +93,8 @@ def test_search_by_title_is_partial_and_case_insensitive(library):
     library.add_book(clean)
     library.add_book(other)
     assert library.search_by_title("clean") == [clean]
+
+def test_search_by_author(library):
+    b = make_book(author="Robert Martin")
+    library.add_book(b)
+    assert library.search_by_author("martin") == [b]
