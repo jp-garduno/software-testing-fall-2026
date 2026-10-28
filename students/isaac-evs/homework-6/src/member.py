@@ -9,4 +9,4 @@ class Member:
         self.borrowed_books.append(isbn)
 
     def can_borrow(self):
-        return True
+        return len(self.borrowed_books) < self.max_borrow_limit
