@@ -4,12 +4,31 @@
 class Book:
     """Represents a book in the library catalog."""
 
-    def __init__(self, isbn, title, author, total_copies=1, available_copies=1):
+    def __init__(
+        self,
+        isbn,
+        title,
+        author,
+        total_copies=1,
+        available_copies=None,
+    ):
         if not isbn.isdigit() or len(isbn) not in (10, 13):
             raise ValueError("ISBN must contain 10 or 13 digits")
 
         if not title or not title.strip():
             raise ValueError("Book title cannot be empty")
+
+        if total_copies < 0:
+            raise ValueError("Total copies cannot be negative")
+
+        if available_copies is None:
+            available_copies = total_copies
+
+        if available_copies < 0:
+            raise ValueError("Available copies cannot be negative")
+
+        if available_copies > total_copies:
+            raise ValueError("Available copies cannot exceed total copies")
 
         self.isbn = isbn
         self.title = title
