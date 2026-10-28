@@ -44,3 +44,6 @@ def test_return_book_not_borrowed_raises():
 
 def test_faculty_has_limit_of_five():
     assert Member("f1", "Prof", category="faculty").max_borrow_limit == 5
+
+def test_public_has_limit_of_two():
+    assert Member("p1", "Luis", category="public").max_borrow_limit == 2

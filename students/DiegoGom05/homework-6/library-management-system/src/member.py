@@ -1,5 +1,10 @@
+BORROW_LIMITS = {"student": 3, "faculty": 5, "public": 2}
+
 class Member:
+
     def __init__(self, member_id, name, max_borrow_limit=None, category="student"):
+        if max_borrow_limit is None:
+             max_borrow_limit = BORROW_LIMITS[category]
         self.member_id = member_id
         self.name = name
         self.category = category
