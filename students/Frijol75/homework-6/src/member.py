@@ -35,12 +35,9 @@ class Member:
             raise ValueError("Member name is required")
 
         if category is not None:
-            if isinstance(category, str):
-                try:
-                    category = MemberCategory(category)
-                except ValueError:
-                    raise ValueError("Invalid member category")
-            elif not isinstance(category, MemberCategory):
+            try:
+                category = MemberCategory(category)
+            except ValueError:
                 raise ValueError("Invalid member category")
 
             config = CATEGORY_CONFIG[category]
