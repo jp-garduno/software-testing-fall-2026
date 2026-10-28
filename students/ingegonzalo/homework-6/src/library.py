@@ -40,4 +40,5 @@ class Library:
         self.books[isbn].return_copy()
 
     def search_by_title(self, title):
-        return [book for book in self.books.values() if book.title == title]
+        query = title.lower()
+        return [b for b in self.books.values() if query in b.title.lower()]
