@@ -1,5 +1,5 @@
 """Book entity for the Library Management System."""
-from typing import Optional
+from typing import Any, Optional
 
 
 class Book:
@@ -37,6 +37,14 @@ class Book:
         if self.available_copies >= self.total_copies:
             raise ValueError("Cannot return more copies than total copies")
         self.available_copies += 1
+
+    def __repr__(self) -> str:
+        return f"<Book ISBN={self.isbn} Title='{self.title}'>"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Book):
+            return False
+        return self.isbn == other.isbn and self.title == other.title and self.author == other.author
 
     @staticmethod
     def _validate_isbn(isbn: str) -> None:

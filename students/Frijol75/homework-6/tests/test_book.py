@@ -83,3 +83,11 @@ def test_book_return_copy_raises_when_all_copies_already_returned():
     book = Book("1234567890", "Test-Driven Development", "Kent Beck", total_copies=2)
     with pytest.raises(ValueError, match="Cannot return more copies than total copies"):
         book.return_copy()
+
+
+def test_book_string_representation_and_equality():
+    book1 = Book("1234567890", "Clean Code", "Robert C. Martin")
+    book2 = Book("1234567890", "Clean Code", "Robert C. Martin")
+    assert repr(book1) == "<Book ISBN=1234567890 Title='Clean Code'>"
+    assert book1 == book2
+    assert book1 != "not-a-book"
