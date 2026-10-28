@@ -129,3 +129,10 @@ def test_search_by_title_is_partial_and_case_insensitive():
     book = Book("1234567890", "Learning Python", "Author")
     library.add_book(book)
     assert library.search_by_title("python") == [book]
+
+def test_search_by_author_finds_matching_books():
+    library = Library()
+    book = Book("1234567890", "Clean Code", "Robert Martin")
+    library.add_book(book)
+    library.add_book(Book("0987654321", "Refactoring", "Martin Fowler"))
+    assert library.search_by_author("robert") == [book]
