@@ -57,3 +57,6 @@ class Library:
         book = self._books[isbn]
         member.return_book(isbn)
         book.return_copy()
+
+    def search_by_title(self, title):
+        return [b for b in self._books.values() if title.lower() in b.title.lower()]
