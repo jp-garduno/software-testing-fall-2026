@@ -48,3 +48,10 @@ def test_member_category_sets_daily_fee_rate(category, expected):
 def test_loan_captures_category_rate():
     loan = Loan("M1", "1234567890", date(2026, 1, 1), daily_rate=Decimal("0.50"))
     assert loan.late_fee(date(2026, 1, 18)) == Decimal("1.50")
+
+
+def test_library_uses_injected_borrow_date():
+    library = Library(today=lambda: date(2026, 1, 1))
+    library.add_book(Book("1234567890", "Title", "Author"))
+    library.register_member(Member("M1", "Ana"))
+    assert library.borrow_book("M1", "1234567890").due_date == date(2026, 1, 15)
