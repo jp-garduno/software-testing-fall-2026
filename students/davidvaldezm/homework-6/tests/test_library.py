@@ -41,3 +41,10 @@ def test_register_member_indexes_identity():
     member = Member("M1", "Ana")
     catalog.register_member(member)
     assert catalog.members["M1"] is member
+
+
+def test_duplicate_member_does_not_replace_existing_member(library):
+    original = library.members["M1"]
+    with pytest.raises(ValueError, match="registered"):
+        library.register_member(Member("M1", "Other"))
+    assert library.members["M1"] is original
