@@ -1,4 +1,5 @@
 """Library domain model."""
+from collections import Counter
 from dataclasses import replace
 from datetime import date
 from decimal import Decimal
@@ -70,3 +71,7 @@ class Library:
 
     def calculate_total_fees(self, member_id):
         return sum((loan.late_fee(self._today()) for loan in self.get_member_history(member_id)), Decimal('0'))
+
+    def most_borrowed_book(self):
+        counts = Counter(loan.isbn for loan in self._loans)
+        return self.catalog[counts.most_common(1)[0][0]]
