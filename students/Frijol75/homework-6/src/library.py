@@ -97,7 +97,6 @@ class Library:
                 loan.return_date = r_date
                 break
 
-        # Notify any waiting member in FIFO queue
         self.reservations.notify_next(isbn)
         return True
 
@@ -155,6 +154,42 @@ class Library:
     def get_available_books(self) -> List[Book]:
         """Return a list of books that have at least one copy available."""
         return [b for b in self.books.values() if b.is_available()]
+
+    def filter_books(
+        self,
+        genre: Optional[str] = None,
+        year_from: Optional[int] = None,
+        year_to: Optional[int] = None,
+        min_rating: Optional[float] = None,
+        sort_by: Optional[str] = None,
+        reverse: bool = False,
+    ) -> List[Book]:
+        """Filter books using combined AND criteria and optional sorting."""
+        results = list(self.books.values())
+
+        if genre is not None:
+            g = genre.strip().lower()
+            results = [b for b in results if b.genre and g in b.genre.lower()]
+
+        if year_from is not None:
+            results = [b for b in results if b.year is not None and b.year >= year_from]
+
+        if year_to is not None:
+            results = [b for b in results if b.year is not None and b.year <= year_to]
+
+        if min_rating is not None:
+            results = [b for b in results if b.rating is not None and b.rating >= min_rating]
+
+        if sort_by:
+            key_map = {
+                "title": lambda b: b.title.lower(),
+                "year": lambda b: b.year if b.year is not None else 0,
+                "rating": lambda b: b.rating if b.rating is not None else 0.0,
+            }
+            if sort_by in key_map:
+                results.sort(key=key_map[sort_by], reverse=reverse)
+
+        return results
 
     def calculate_member_late_fees(
         self,

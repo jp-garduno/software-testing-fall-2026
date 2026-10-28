@@ -11,6 +11,9 @@ class Book:
         title: str,
         author: str,
         total_copies: int = 1,
+        genre: Optional[str] = None,
+        year: Optional[int] = None,
+        rating: Optional[float] = None,
     ) -> None:
         self._validate_isbn(isbn)
         self._validate_title(title)
@@ -21,6 +24,9 @@ class Book:
         self.author = author.strip() if isinstance(author, str) else author
         self.total_copies = total_copies
         self.available_copies = total_copies
+        self.genre = genre.strip() if isinstance(genre, str) else genre
+        self.year = year
+        self.rating = rating
 
     def is_available(self) -> bool:
         """Check if at least one copy is currently available."""
