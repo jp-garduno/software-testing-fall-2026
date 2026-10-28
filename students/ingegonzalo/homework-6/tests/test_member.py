@@ -74,3 +74,7 @@ def test_add_late_fee_accumulates_total():
 def test_member_category_defaults_to_student():
     member = Member("M001", "Ana")
     assert member.category == "student"
+
+def test_faculty_member_has_borrow_limit_of_five():
+    member = Member("M002", "Dr. Ruiz", category="faculty")
+    assert member.max_borrow_limit == 5
