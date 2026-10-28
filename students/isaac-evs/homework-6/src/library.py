@@ -42,6 +42,13 @@ class Library:
         due = self.get_due_date(member_id, isbn)
         return max(0, (self._clock() - due).days)
 
+    def calculate_member_late_fees(self, member_id):
+        return sum(
+            self.calculate_late_fee(loan_member, isbn)
+            for loan_member, isbn in self._loans
+            if loan_member == member_id
+        )
+
     def search_by_title(self, title):
         return self._search("title", title)
 
