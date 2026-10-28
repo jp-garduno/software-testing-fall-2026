@@ -1,11 +1,12 @@
 """Library core coordinator for books, members, and operations."""
 from datetime import date
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 import uuid
 
 from src.book import Book
 from src.member import Member
 from src.loan import LoanRecord, calculate_late_fee
+from src.reservation import Reservation, ReservationManager
 
 
 class Library:
@@ -15,6 +16,7 @@ class Library:
         self.books: Dict[str, Book] = {}
         self.members: Dict[str, Member] = {}
         self.loans: List[LoanRecord] = []
+        self.reservations = ReservationManager()
 
     def add_book(self, book: Book) -> None:
         """Add a book to the library catalog."""
@@ -90,12 +92,51 @@ class Library:
         member.return_book(isbn)
 
         r_date = return_date or date.today()
-        # Find active loan and set return_date
         for loan in reversed(self.loans):
             if loan.member_id == member_id and loan.isbn == isbn and loan.return_date is None:
                 loan.return_date = r_date
                 break
+
+        # Notify any waiting member in FIFO queue
+        self.reservations.notify_next(isbn)
         return True
+
+    def reserve_book(self, member_id: str, isbn: str) -> Dict[str, Any]:
+        """Reserve an unavailable book for a registered member."""
+        if member_id not in self.members:
+            raise KeyError("Member not registered")
+        if isbn not in self.books:
+            raise KeyError("Book not found in catalog")
+
+        member = self.members[member_id]
+        book = self.books[isbn]
+
+        if book.is_available():
+            raise ValueError("Cannot reserve a book with available copies")
+        if isbn in member.borrowed_books:
+            raise ValueError("Member currently holds a copy of this book")
+        if self.reservations.is_member_in_queue(member_id, isbn):
+            raise ValueError("Book is already reserved by this member")
+
+        res = Reservation(
+            reservation_id=str(uuid.uuid4()),
+            member_id=member_id,
+            isbn=isbn,
+        )
+        self.reservations.add_reservation(res)
+        return {"status": res.status, "member_id": res.member_id, "isbn": res.isbn}
+
+    def cancel_reservation(self, member_id: str, isbn: str) -> bool:
+        """Cancel a pending reservation."""
+        return self.reservations.cancel_reservation(member_id, isbn)
+
+    def get_book_reservations(self, isbn: str) -> List[str]:
+        """Get list of member IDs queued for the book."""
+        return self.reservations.get_queue(isbn)
+
+    def get_next_reservation_notification(self, isbn: str) -> Optional[str]:
+        """Get the last member notified when the book became available."""
+        return self.reservations.get_latest_notified(isbn)
 
     def search_by_title(self, title: str) -> List[Book]:
         """Search books by title substring (case-insensitive)."""
