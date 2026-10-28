@@ -27,3 +27,9 @@ def test_add_book_rejects_duplicate_isbn():
     library.add_book(Book("1234567890", "Test Book", "Author"))
     with pytest.raises(ValueError):
         library.add_book(Book("1234567890", "Another Book", "Author"))
+
+def test_register_member_makes_member_retrievable():
+    library = Library()
+    member = Member("M001", "Ana")
+    library.register_member(member)
+    assert library.get_member("M001") is member
