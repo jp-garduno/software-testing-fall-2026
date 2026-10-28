@@ -2,6 +2,7 @@ import pytest
 
 from src.exceptions import BookNotBorrowedError, BorrowLimitReachedError
 from src.member import Member
+from src.member_category import MemberCategory
 
 
 def test_member_can_be_created_with_id_and_name():
@@ -77,3 +78,38 @@ def test_has_borrowed_is_true_only_for_held_books():
 
 def test_member_repr_shows_id_and_name():
     assert repr(Member("M1", "Ana")) == "Member(member_id='M1', name='Ana')"
+
+
+# ----- member categories (advanced feature 5) -------------------------------
+
+
+@pytest.mark.parametrize(
+    "category, limit",
+    [(MemberCategory.STUDENT, 3), (MemberCategory.FACULTY, 5), (MemberCategory.PUBLIC, 2)],
+)
+def test_borrow_limit_depends_on_category(category, limit):
+    assert Member("M1", "Ana", category).max_borrow_limit == limit
+
+
+@pytest.mark.parametrize(
+    "category, fee",
+    [(MemberCategory.STUDENT, 1.00), (MemberCategory.FACULTY, 0.50), (MemberCategory.PUBLIC, 1.50)],
+)
+def test_daily_late_fee_depends_on_category(category, fee):
+    assert Member("M1", "Ana", category).daily_late_fee == fee
+
+
+def test_member_is_a_student_by_default():
+    assert Member("M1", "Ana").category is MemberCategory.STUDENT
+
+
+def test_explicit_limit_overrides_category_limit():
+    member = Member("M1", "Ana", MemberCategory.FACULTY, max_borrow_limit=10)
+    assert member.max_borrow_limit == 10
+
+
+def test_public_member_cannot_borrow_a_third_book():
+    member = Member("P1", "Jorge", MemberCategory.PUBLIC)
+    member.add_borrowed_book("1111111111")
+    member.add_borrowed_book("2222222222")
+    assert member.can_borrow() is False
