@@ -18,8 +18,10 @@ class Loan:
 
     @property
     def due_date(self):
+        """Return the borrowing date plus the standard loan period."""
         return self.borrowed_on + timedelta(days=LOAN_PERIOD_DAYS)
 
     def late_fee(self, as_of):
+        """Charge overdue calendar days through as_of or the earlier return."""
         end_date = min(as_of, self.returned_on) if self.returned_on else as_of
         return Decimal(max(0, (end_date - self.due_date).days)) * self.daily_rate
