@@ -31,3 +31,11 @@ def test_registered_member_can_be_found(library):
     member = Member("m1", "Alice")
     library.register_member(member)
     assert library.get_member("m1") is member
+
+
+def test_borrow_book_takes_a_copy(library):
+    book = Book(ISBN, "Test Book", "Author", copies=1)
+    library.add_book(book)
+    library.register_member(Member("m1", "Alice"))
+    library.borrow_book("m1", ISBN)
+    assert book.available_copies == 0
