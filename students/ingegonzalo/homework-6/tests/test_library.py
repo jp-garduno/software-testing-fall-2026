@@ -87,3 +87,12 @@ def test_borrow_book_does_not_register_loan_when_book_unavailable():
     with pytest.raises(ValueError):
         library.borrow_book("M001", "1234567890")
     assert member.borrowed_books == []
+
+def test_return_book_increases_available_copies():
+    library = Library()
+    book = Book("1234567890", "Test Book", "Author", total_copies=2)
+    library.add_book(book)
+    library.register_member(Member("M001", "Ana"))
+    library.borrow_book("M001", "1234567890")
+    library.return_book("M001", "1234567890")
+    assert book.available_copies == 2
