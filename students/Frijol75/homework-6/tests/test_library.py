@@ -184,3 +184,20 @@ def test_library_search_rejects_non_string_query():
         lib.search_by_title(123)
     with pytest.raises(TypeError, match="Search query must be a string"):
         lib.search_by_author(None)
+
+
+def test_library_get_available_books():
+    lib = Library()
+    book1 = Book("1111111111", "Clean Code", "Robert Martin", total_copies=1)
+    book2 = Book("2222222222", "Refactoring", "Martin Fowler", total_copies=2)
+    member = Member("M001", "Alice")
+    lib.add_book(book1)
+    lib.add_book(book2)
+    lib.register_member(member)
+
+    # Initially both available
+    assert set(lib.get_available_books()) == {book1, book2}
+
+    # Borrow only copy of book1
+    lib.borrow_book("M001", "1111111111")
+    assert lib.get_available_books() == [book2]
