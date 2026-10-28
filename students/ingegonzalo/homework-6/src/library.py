@@ -7,6 +7,8 @@ class Library:
         self.members[member.member_id] = member
 
     def get_member(self, member_id):
+        if member_id not in self.members:
+            raise ValueError(f"Member {member_id} is not registered")
         return self.members[member_id]
 
     def add_book(self, book):
