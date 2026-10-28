@@ -143,3 +143,50 @@ def test_book_rejects_title_with_only_spaces():
         )
 
 
+def test_book_rejects_more_available_copies_than_total():
+    with pytest.raises(ValueError):
+        Book(
+            isbn="9780132350884",
+            title="Clean Code",
+            author="Robert C. Martin",
+            total_copies=3,
+            available_copies=4,
+        )
+
+
+def test_book_rejects_negative_available_copies():
+    with pytest.raises(ValueError):
+        Book(
+            isbn="9780132350884",
+            title="Clean Code",
+            author="Robert C. Martin",
+            total_copies=3,
+            available_copies=-1,
+        )
+
+
+def test_book_rejects_negative_total_copies():
+    with pytest.raises(
+        ValueError,
+        match="Total copies cannot be negative",
+    ):
+        Book(
+            isbn="9780132350884",
+            title="Clean Code",
+            author="Robert C. Martin",
+            total_copies=-1,
+            available_copies=0,
+        )
+
+
+def test_book_defaults_available_copies_to_total_copies():
+    book = Book(
+        isbn="1234567890",
+        title="Refactoring",
+        author="Martin Fowler",
+        total_copies=4,
+    )
+
+    assert book.available_copies == 4
+
+
