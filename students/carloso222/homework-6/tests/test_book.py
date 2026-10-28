@@ -1,7 +1,7 @@
 import pytest
 
 from src.book import Book
-from src.exceptions import InvalidBookError, NoCopiesAvailableError
+from src.exceptions import AllCopiesReturnedError, InvalidBookError, NoCopiesAvailableError
 
 
 def test_book_can_be_created_with_isbn_title_and_author():
@@ -84,3 +84,26 @@ def test_borrow_raises_when_no_copies_are_available():
     book = Book("1234567890", "Test Book", "Author", total_copies=0)
     with pytest.raises(NoCopiesAvailableError):
         book.borrow()
+
+
+def test_return_copy_increases_available_copies():
+    book = Book("1234567890", "Test Book", "Author", total_copies=2)
+    book.borrow()
+    book.return_copy()
+    assert book.available_copies == 2
+
+
+def test_return_copy_raises_when_all_copies_are_already_in():
+    book = Book("1234567890", "Test Book", "Author", total_copies=2)
+    with pytest.raises(AllCopiesReturnedError):
+        book.return_copy()
+
+
+def test_book_stores_optional_genre_year_and_rating():
+    book = Book("1234567890", "Test Book", "Author", genre="Fiction", year=1999, rating=4.5)
+    assert (book.genre, book.year, book.rating) == ("Fiction", 1999, 4.5)
+
+
+def test_book_repr_shows_isbn_and_title():
+    book = Book("1234567890", "Test Book", "Author")
+    assert repr(book) == "Book(isbn='1234567890', title='Test Book')"
