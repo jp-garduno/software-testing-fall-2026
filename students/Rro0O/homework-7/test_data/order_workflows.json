@@ -1,0 +1,534 @@
+{
+  "reference_date": "2026-01-01",
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Widget",
+                "price": 25.0,
+                "quantity": 2,
+                "weight": 1.5
+              },
+              {
+                "name": "Gadget",
+                "price": 40.0,
+                "quantity": 1,
+                "weight": 2.0
+              }
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created",
+            "item_count": 2
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 100,
+            "is_express": false
+          },
+          "expected": {
+            "status": "set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 90.0,
+            "discount": 9.0,
+            "tax": 6.48,
+            "shipping": 12.5,
+            "total": 99.98
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "charged": 99.98
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "confirmation_id": "ORD-000001",
+            "total": 99.98
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_blocks_order",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "not-an-email",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Invalid email format"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Widget",
+                "price": 25.0,
+                "quantity": 1,
+                "weight": 1
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected",
+            "reason": "invalid customer"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "rejected",
+            "reason": "no order"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "failed",
+            "reason": "total not calculated"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "rejected",
+            "reason": "payment required"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_user_express_order",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Jacket",
+                "price": 60.0,
+                "quantity": 1,
+                "weight": 1.0
+              }
+            ],
+            "customer_type": "new"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "NEWUSER"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 20,
+            "is_express": true
+          },
+          "expected": {
+            "status": "set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 60.0,
+            "discount": 9.0,
+            "tax": 4.08,
+            "shipping": 3.75,
+            "total": 58.83
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "charged": 58.83
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "confirmation_id": "ORD-000001"
+          }
+        }
+      ]
+    },
+    {
+      "name": "payment_declined_over_limit",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Server",
+                "price": 5000.0,
+                "quantity": 3,
+                "weight": 10
+              }
+            ]
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE20"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 15000.0,
+            "discount": 3000.0,
+            "tax": 960.0,
+            "shipping": 15.0,
+            "total": 12975.0
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "reason": "limit exceeded"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "rejected",
+            "reason": "payment required"
+          }
+        }
+      ]
+    },
+    {
+      "name": "free_shipping_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Treadmill",
+                "price": 120.0,
+                "quantity": 1,
+                "weight": 10
+              }
+            ]
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "FREESHIP"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 500,
+            "is_express": true
+          },
+          "expected": {
+            "status": "set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 120.0,
+            "discount": 0.0,
+            "tax": 9.6,
+            "shipping": 0.0,
+            "total": 129.6
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "charged": 129.6
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "total": 129.6
+          }
+        }
+      ]
+    },
+    {
+      "name": "empty_order_is_rejected",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": []
+          },
+          "expected": {
+            "status": "rejected",
+            "reason": "empty order"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "failed",
+            "reason": "total not calculated"
+          }
+        }
+      ]
+    },
+    {
+      "name": "discount_below_minimum_is_ignored",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Book",
+                "price": 80.0,
+                "quantity": 1,
+                "weight": 0
+              }
+            ]
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE20"
+          },
+          "expected": {
+            "applied": false
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80.0,
+            "discount": 0.0,
+            "tax": 6.4,
+            "shipping": 0.0,
+            "total": 86.4
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "charged": 86.4
+          }
+        }
+      ]
+    }
+  ]
+}
