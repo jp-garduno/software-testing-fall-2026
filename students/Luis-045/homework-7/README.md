@@ -21,8 +21,8 @@ python -B -m pytest -q -p no:cacheprovider
 
 ## Resultados y cobertura
 
-En Windows con Python 3.13.9 pasaron **87 pruebas**, con **94.55% de
-cobertura combinada** (196 de 203 sentencias y 64 de 72 ramas). El registro
+En Windows con Python 3.13.9 pasaron **95 pruebas**, con **100% de cobertura**
+(203 de 203 sentencias y 72 de 72 ramas). El registro
 está en [test_results.txt](test_results.txt) y el desglose por archivo en
 [coverage_report.html](coverage_report.html).
 
@@ -51,11 +51,11 @@ python -B -m pylint --rcfile=../../../.github/grading/pylintrc src tests
 
 | Archivo | Casos | Alcance |
 | --- | ---: | --- |
-| `test_order_calculator.py` | 31 | 30 filas CSV y una prueba sobre el cambio de cupón |
+| `test_order_calculator.py` | 38 | 30 filas CSV y ocho pruebas de cupones, entradas inválidas e importación |
 | `test_customer_validator.py` | 31 | Contacto, domicilio, tarjeta y errores simultáneos |
 | `test_order_traditional.py` | 10 | Diez escenarios con entradas y resultados en Python |
 | `test_order_data_driven.py` | 10 | Los mismos diez escenarios seleccionados del CSV |
-| `test_integration.py` | 5 | Tres pedidos confirmados y dos flujos bloqueados |
+| `test_integration.py` | 6 | Cuatro pedidos confirmados y dos flujos bloqueados |
 
 ## Reglas del sistema
 

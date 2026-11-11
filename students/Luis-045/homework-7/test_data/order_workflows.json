@@ -357,6 +357,78 @@
           "expected_error": "calculate_total is not allowed in state customer_validated"
         }
       ]
+    },
+    {
+      "name": "checkout_uses_default_shipping",
+      "order_id": "HW7-006",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "alex@example.com",
+              "phone": "(212) 555-0123",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4242424242424242",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Notebook",
+                "price": 25,
+                "quantity": 1,
+                "weight": 2
+              }
+            ]
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": false
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 25,
+            "discount": 0,
+            "tax": 2,
+            "shipping": 1,
+            "total": 28
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 28
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "HW7-006",
+            "total": 28
+          }
+        }
+      ]
     }
   ]
 }

@@ -69,6 +69,6 @@ o `expected_error` con el mensaje de `ValueError`.
 | `process_payment` | `approved` opcional (por defecto `true`) | `status: "success"` con `amount`, o `status: "declined"` |
 | `confirm_order` | Ninguna | `status: "confirmed"`, `order_id` y `total` |
 
-Los cinco flujos cubren envío estándar, descuento de primera compra con
-envío exprés, envío gratis con reintento de pago, rechazo del cliente y
-rechazo de un pedido inválido.
+Los seis flujos cubren envío estándar, descuento de primera compra con
+envío exprés, envío gratis con reintento de pago, configuración de envío
+por defecto, rechazo del cliente y rechazo de un pedido inválido.

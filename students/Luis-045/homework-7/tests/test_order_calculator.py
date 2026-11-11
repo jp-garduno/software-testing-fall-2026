@@ -1,5 +1,8 @@
 """Check the complete order breakdown and error cases defined in the CSV."""
 
+from pathlib import Path
+from runpy import run_path
+
 import pytest
 from test_order_data_driven import ORDER_CASES, configure_order
 
@@ -37,3 +40,55 @@ def test_only_one_valid_discount_can_be_applied():
         "shipping": 0,
         "total": 54,
     }
+
+
+@pytest.mark.parametrize(
+    ("items", "customer_type", "message"),
+    [
+        ([], "vip", "customer_type must be new or regular"),
+        ({"name": "Book"}, "regular", "items must be a list"),
+        (["Book"], "regular", "each item must be an object"),
+        (
+            [{"name": " ", "price": 25, "quantity": 1, "weight": 1}],
+            "regular",
+            "item name must be a non-empty string",
+        ),
+        (
+            [{"name": "Book", "price": True, "quantity": 1, "weight": 1}],
+            "regular",
+            "price must be a finite non-negative number",
+        ),
+    ],
+    ids=[
+        "unknown_customer_type",
+        "items_not_list",
+        "item_not_object",
+        "blank_name",
+        "boolean_price",
+    ],
+)
+def test_invalid_order_inputs(items, customer_type, message):
+    """Reject malformed customer types and item data."""
+    with pytest.raises(ValueError, match=message):
+        Order(items, customer_type)
+
+
+def test_invalid_express_flag_preserves_shipping():
+    """Reject non-boolean express flags without changing shipping."""
+    order = Order([{"name": "Book", "price": 25, "quantity": 1, "weight": 2}])
+    order.set_shipping(10)
+
+    with pytest.raises(ValueError, match="is_express must be a boolean"):
+        order.set_shipping(40, is_express="false")
+
+    assert order.calculate_shipping() == 2.0
+
+
+def test_order_module_supports_direct_loading(monkeypatch):
+    """Load the module with src on the import path and use its checkout."""
+    src = Path(__file__).resolve().parents[1] / "src"
+    monkeypatch.syspath_prepend(str(src))
+
+    module = run_path(str(src / "order_calculator.py"))
+    checkout = module["Checkout"]("direct")
+    assert checkout.validate_customer({})["valid"] is False
