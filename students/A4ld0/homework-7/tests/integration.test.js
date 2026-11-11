@@ -1,4 +1,3 @@
-const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const OrderWorkflow = require("../src/orderWorkflow");
 const { loadWorkflows } = require("./testData");
@@ -13,13 +12,14 @@ const handlers = {
 };
 
 for (const { name, steps } of loadWorkflows()) {
-  test(name, async t => {
+  test(name, () => {
     const workflow = new OrderWorkflow(new Date("2026-06-15T00:00:00Z"));
     for (const { action, data, expected } of steps) {
-      const passed = await t.test(action, () => {
+      try {
         assertTotals(workflow[handlers[action]](data), expected);
-      });
-      if (!passed) break;
+      } catch (error) {
+        throw new Error(`${name} / ${action}: ${error.message}`, { cause: error });
+      }
     }
   });
 }

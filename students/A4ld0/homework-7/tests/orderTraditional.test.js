@@ -1,4 +1,3 @@
-const { test } = require("node:test");
 const Order = require("../src/orderCalculator");
 const { assertTotals } = require("./assertTotals");
 
@@ -35,7 +34,10 @@ test("save10_exact_threshold", () => {
 });
 
 test("save20_above_threshold", () => {
-  const order = new Order([{"name":"Item","price":60,"quantity":1,"weight":0},{"name":"Item","price":45,"quantity":1,"weight":0}], "regular");
+  const order = new Order([
+    { name: "Item", price: 60, quantity: 1, weight: 0 },
+    { name: "Item", price: 45, quantity: 1, weight: 0 }
+  ], "regular");
   order.applyDiscount("SAVE20");
   order.setShipping(0, false);
   assertTotals(order.calculateTotal(), {"subtotal":105,"discount":21,"tax":6.72,"shipping":0,"total":90.72});

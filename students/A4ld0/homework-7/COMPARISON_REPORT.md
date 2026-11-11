@@ -6,10 +6,10 @@ Both versions run the same ten named order scenarios and check the same five amo
 
 | Test file | Nonblank lines | Scenarios |
 |---|---:|---:|
-| `tests/orderTraditional.test.js` | 59 | 10 |
-| `tests/orderDataDriven.test.js` | 12 | 10 |
+| `tests/orderTraditional.test.js` | 61 | 10 |
+| `tests/orderDataDriven.test.js` | 11 | 10 |
 
-The parameterized test file has **79.7% fewer lines**, calculated as `(59 - 12) / 59 × 100`. This measures the two runner files. The shared CSV loader, test data and assertion helper sit outside that comparison. The CSV loader is also used by the 29-case calculation suite.
+The parameterized test file has **82.0% fewer lines**, calculated as `(61 - 11) / 61 × 100`. This measures the two runner files. The shared CSV loader, test data and assertion helper sit outside that comparison. The CSV loader is also used by the 29-case calculation suite.
 
 ## Maintainability and readability
 
@@ -32,7 +32,7 @@ For ten additional scenarios of similar complexity, budget roughly **10–15 min
 | 100 | 181.5 ms | 167.3 ms |
 | 500 | 262.3 ms | 262.1 ms |
 
-The benchmark alternated the execution order and used five fresh Node.js processes per variant and size. It repeated the same ten seed scenarios in both variants. The traditional variant embeds its cases in test calls. The data-driven variant loads the same cases from JSON. The timings include process startup and test execution, with coverage instrumentation disabled. See [benchmark_results.html](benchmark_results.html) for the graph.
+The benchmark alternated the execution order and used five fresh Node.js processes per variant and size. It ran with Node's built-in test runner and repeated the same ten seed scenarios in both variants. The traditional variant embeds its cases in test calls. The data-driven variant loads the same cases from JSON. The timings include process startup and test execution, with coverage instrumentation disabled. See [benchmark_results.html](benchmark_results.html) for the graph.
 
 At 500 cases the two medians were within 1 ms. At 100 cases the data-driven version was about 14 ms faster, while at 50 the traditional version was about 6 ms faster. This run shows no consistent speed advantage across sizes. It measures the JSON benchmark runner and does not isolate CSV parsing or startup costs.
 

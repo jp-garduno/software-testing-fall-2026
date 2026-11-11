@@ -1,112 +1,19 @@
-✔ valid_all_fields (3.0319ms)
-✔ valid_current_month (0.5044ms)
-✔ valid_zip_plus_four (0.1387ms)
-✔ email_missing_at (0.13ms)
-✔ email_missing_tld (0.1464ms)
-✔ email_multiple_at (0.0967ms)
-✔ email_with_spaces (0.0983ms)
-✔ phone_no_parentheses (0.0968ms)
-✔ phone_missing_space (0.2576ms)
-✔ phone_short (0.1224ms)
-✔ phone_letters (0.2915ms)
-✔ address_empty_street (0.1093ms)
-✔ address_blank_city (0.0819ms)
-✔ address_invalid_state (0.0571ms)
-✔ address_invalid_zip (0.0368ms)
-✔ address_missing (0.0459ms)
-✔ card_wrong_checksum (0.0799ms)
-✔ card_short (0.0693ms)
-✔ card_non_digit (0.1418ms)
-✔ card_number_not_string (0.083ms)
-✔ card_expired_previous_month (0.0838ms)
-✔ card_expired_previous_year (0.0682ms)
-✔ card_expiration_invalid_month (0.0592ms)
-✔ card_expiration_wrong_format (0.0395ms)
-✔ multiple_email_phone (0.0329ms)
-✔ multiple_email_address (0.0326ms)
-✔ multiple_phone_card (0.069ms)
-✔ multiple_address_expiration (0.0307ms)
-✔ multiple_card_number_expiration (0.0274ms)
-✔ multiple_all_fields (0.0431ms)
-▶ standard_order
-  ✔ validate_customer (2.8581ms)
-✔ standard_order (4.4397ms)
-▶ express_discount_order
-  ✔ validate_customer (0.3938ms)
-✔ express_discount_order (0.6326ms)
-▶ new_customer_free_shipping
-  ✔ validate_customer (0.1784ms)
-✔ new_customer_free_shipping (0.3955ms)
-▶ invalid_customer_cannot_checkout
-  ✔ validate_customer (0.219ms)
-✔ invalid_customer_cannot_checkout (0.4596ms)
-✔ paid orders cannot be created again or paid twice (2.2561ms)
-✔ simple_one (3.1633ms)
-✔ simple_quantity (0.2211ms)
-✔ simple_empty (0.1348ms)
-✔ save10_above_threshold (1.4262ms)
-✔ save10_exact_threshold (0.2508ms)
-✔ save20_above_threshold (0.1813ms)
-✔ save20_exact_threshold (0.2018ms)
-✔ unknown_discount (0.1664ms)
-✔ tax_without_discount (0.1714ms)
-✔ tax_after_first_order_discount (0.1431ms)
-✔ tax_after_save10 (0.1489ms)
-✔ tax_zero_subtotal (0.1965ms)
-✔ shipping_weight_only (0.0958ms)
-✔ shipping_distance_only (0.0887ms)
-✔ shipping_standard (0.0626ms)
-✔ shipping_express (0.0732ms)
-✔ shipping_free_express (0.0895ms)
-✔ shipping_fractional (0.0432ms)
-✔ complex_save20_express (0.0552ms)
-✔ complex_save10_standard (0.1635ms)
-✔ complex_regular_newuser_rejected (0.0789ms)
-✔ complex_zero_quantity (0.0596ms)
-✔ complex_large_values (0.0538ms)
-✔ complex_negative_price (0.8014ms)
-✔ complex_negative_quantity (0.1125ms)
-✔ complex_negative_weight (0.0745ms)
-✔ complex_negative_distance (0.1229ms)
-✔ save10_below_threshold (0.1092ms)
-✔ save20_below_threshold (0.0847ms)
-✔ simple_one (3.5268ms)
-✔ simple_quantity (0.289ms)
-✔ simple_empty (0.1443ms)
-✔ save10_above_threshold (0.2924ms)
-✔ save10_exact_threshold (0.1747ms)
-✔ save20_above_threshold (0.155ms)
-✔ save20_exact_threshold (0.1834ms)
-✔ unknown_discount (0.1163ms)
-✔ tax_without_discount (0.9204ms)
-✔ tax_after_first_order_discount (0.1534ms)
-✔ simple_one (4.9157ms)
-✔ simple_quantity (0.3145ms)
-✔ simple_empty (0.2379ms)
-✔ save10_above_threshold (0.2913ms)
-✔ save10_exact_threshold (0.2609ms)
-✔ save20_above_threshold (0.246ms)
-✔ save20_exact_threshold (0.2154ms)
-✔ unknown_discount (0.173ms)
-✔ tax_without_discount (0.196ms)
-✔ tax_after_first_order_discount (0.1664ms)
-ℹ tests 88
-ℹ suites 0
-ℹ pass 88
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 192.5521
-ℹ start of coverage report
-ℹ ----------------------------------------------------------------------
-ℹ file                  | line % | branch % | funcs % | uncovered lines
-ℹ ----------------------------------------------------------------------
-ℹ src                   |        |          |         | 
-ℹ  customerValidator.js | 100.00 |    96.67 |  100.00 | 
-ℹ  orderCalculator.js   | 100.00 |   100.00 |  100.00 | 
-ℹ  orderWorkflow.js     |  93.33 |    90.91 |   83.33 | 40-42
-ℹ ----------------------------------------------------------------------
-ℹ all files             |  98.13 |    97.26 |   95.00 | 
-ℹ ----------------------------------------------------------------------
-ℹ end of coverage report
+----------------------|---------|----------|---------|---------|-------------------
+File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------------------|---------|----------|---------|---------|-------------------
+All files             |     100 |    98.79 |     100 |     100 |
+ customerValidator.js |     100 |    96.77 |     100 |     100 | 36
+ orderCalculator.js   |     100 |      100 |     100 |     100 |
+ orderWorkflow.js     |     100 |      100 |     100 |     100 |
+----------------------|---------|----------|---------|---------|-------------------
+PASS tests/orderTraditional.test.js
+PASS tests/customerValidator.test.js
+PASS tests/orderDataDriven.test.js
+PASS tests/integration.test.js
+PASS tests/orderCalculator.test.js
+
+Test Suites: 5 passed, 5 total
+Tests:       84 passed, 84 total
+Snapshots:   0 total
+Time:        2.805 s, estimated 3 s
+Ran all test suites.

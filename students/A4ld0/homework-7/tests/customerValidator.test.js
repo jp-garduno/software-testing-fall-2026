@@ -1,4 +1,3 @@
-const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { validateCustomer } = require("../src/customerValidator");
 const { loadCustomers } = require("./testData");

@@ -4,15 +4,16 @@ The order calculator, customer validator, and checkout workflow are in `src/`. T
 
 ## Run locally
 
-Use Node.js 24 or later with npm. The project uses built-in Node.js modules and does not require installing packages. Open a terminal in the `homework-7` directory.
+Use Node.js 22 or later with npm. Open a terminal in the `homework-7` directory and install the locked Jest dependencies.
 
 ```sh
+npm ci
 npm test
 npm run verify
 npm run benchmark
 ```
 
-- `npm test` validates the fixtures, runs the suite, and enforces line coverage above 80% for `src/`.
+- `npm test` validates the fixtures, runs Jest, and enforces coverage above 80% for statements, branches, and lines in `src/`.
 - `npm run verify` runs the same checks and regenerates `test_results.txt` and `coverage_report.html`.
 - `npm run benchmark` measures 10, 50, 100, and 500 cases and regenerates `benchmark_results.html`.
 
@@ -26,7 +27,7 @@ npm run benchmark
 | Checkout workflows from JSON | 4 workflows with 5 steps each |
 | Additional checkout state test | 1 |
 
-Three workflows complete payment and confirmation. The fourth verifies that an invalid customer cannot place an order. Payment is simulated in memory. The test runner counts each workflow and its subtests separately.
+Three workflows complete payment and confirmation. The fourth verifies that an invalid customer cannot place an order. Payment is simulated in memory. Jest counts each workflow as one test that checks every step in sequence.
 
 ## Implementation decisions
 

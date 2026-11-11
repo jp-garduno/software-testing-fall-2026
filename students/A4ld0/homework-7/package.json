@@ -3,12 +3,38 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "scripts": {
-    "test": "node --test --experimental-test-coverage --test-coverage-include=src/*.js --test-coverage-lines=81 tests/*.test.js",
+    "test": "jest --coverage --runInBand",
     "verify": "node scripts/verify.js",
     "benchmark": "node scripts/benchmark.js",
     "pretest": "node scripts/verify.js --validate-only"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/tests/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "src/*.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "json-summary",
+      "html"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 81,
+        "branches": 81,
+        "lines": 81
+      }
+    },
+    "transform": {},
+    "coverageProvider": "v8"
   }
 }
