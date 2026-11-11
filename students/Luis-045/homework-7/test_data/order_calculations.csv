@@ -1,0 +1,31 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_discount_applied,expected_error,comparison
+simple_single_item,simple,"[{""name"":""Notebook"",""price"":25,""quantity"":1,""weight"":0}]",regular,NONE,0,false,25.00,0.00,2.00,0.00,27.00,,,true
+simple_multiple_units,simple,"[{""name"":""Pencil set"",""price"":12.5,""quantity"":3,""weight"":0}]",regular,NONE,0,false,37.50,0.00,3.00,0.00,40.50,,,false
+simple_empty_order,simple,[],regular,NONE,0,false,0.00,0.00,0.00,0.00,0.00,,,true
+discount_save10_at_minimum,discount,"[{""name"":""Backpack"",""price"":50,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,50.00,5.00,3.60,0.00,48.60,true,,true
+discount_save10_below_minimum,discount,"[{""name"":""Backpack"",""price"":49.99,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,49.99,0.00,4.00,0.00,53.99,false,,true
+discount_save20_at_minimum,discount,"[{""name"":""Keyboard"",""price"":100,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,100.00,20.00,6.40,0.00,86.40,true,,true
+discount_save20_below_minimum,discount,"[{""name"":""Keyboard"",""price"":99.99,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,99.99,0.00,8.00,0.00,107.99,false,,false
+discount_unknown_code,discount,"[{""name"":""Headset"",""price"":75,""quantity"":1,""weight"":0}]",regular,NOTACODE,0,false,75.00,0.00,6.00,0.00,81.00,false,,true
+discount_expired_code,discount,"[{""name"":""Monitor"",""price"":120,""quantity"":1,""weight"":0}]",regular,EXPIRED20,0,false,120.00,0.00,9.60,0.00,129.60,false,,false
+discount_newuser_first_order,discount,"[{""name"":""Coffee maker"",""price"":60,""quantity"":1,""weight"":0}]",new,NEWUSER,0,false,60.00,9.00,4.08,0.00,55.08,true,,true
+discount_newuser_returning_customer,discount,"[{""name"":""Coffee maker"",""price"":60,""quantity"":1,""weight"":0}]",regular,NEWUSER,0,false,60.00,0.00,4.80,0.00,64.80,false,,false
+discount_save20_multiple_items,discount,"[{""name"":""Case"",""price"":70,""quantity"":1,""weight"":0},{""name"":""Fan"",""price"":20,""quantity"":2,""weight"":0}]",regular,SAVE20,0,false,110.00,22.00,7.04,0.00,95.04,true,,false
+tax_fraction_rounds_down,tax,"[{""name"":""Sticker"",""price"":0.05,""quantity"":1,""weight"":0}]",regular,NONE,0,false,0.05,0.00,0.00,0.00,0.05,,,false
+tax_fraction_rounds_up,tax,"[{""name"":""Sticker"",""price"":0.07,""quantity"":1,""weight"":0}]",regular,NONE,0,false,0.07,0.00,0.01,0.00,0.08,,,false
+tax_on_mixed_items,tax,"[{""name"":""Cable"",""price"":19.99,""quantity"":2,""weight"":0},{""name"":""Adapter"",""price"":5.25,""quantity"":1,""weight"":0}]",regular,NONE,0,false,45.23,0.00,3.62,0.00,48.85,,,false
+tax_after_rounded_discount,tax,"[{""name"":""Shoes"",""price"":75.55,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,75.55,7.56,5.44,0.00,73.43,true,,false
+shipping_weight_only,shipping,"[{""name"":""Book"",""price"":10,""quantity"":3,""weight"":1.2}]",regular,NONE,0,false,30.00,0.00,2.40,1.80,34.20,,,false
+shipping_distance_only,shipping,"[{""name"":""Gift card"",""price"":50,""quantity"":1,""weight"":0}]",regular,NONE,25.5,false,50.00,0.00,4.00,2.55,56.55,,,false
+shipping_standard_weight_and_distance,shipping,"[{""name"":""Item1"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,false,50.00,0.00,4.00,1.50,55.50,,,false
+shipping_express_weight_and_distance,shipping,"[{""name"":""Item1"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,true,50.00,0.00,4.00,2.25,56.25,,,true
+shipping_half_cent_rounds_up,shipping,"[{""name"":""Pin"",""price"":9,""quantity"":1,""weight"":0.01}]",regular,NONE,0,false,9.00,0.00,0.72,0.01,9.73,,,false
+shipping_free_overrides_express,shipping,"[{""name"":""Desk lamp"",""price"":80,""quantity"":1,""weight"":8}]",regular,FREESHIP,40,true,80.00,0.00,6.40,0.00,86.40,true,,true
+complex_zero_quantity,complex,"[{""name"":""Omitted mug"",""price"":23,""quantity"":0,""weight"":4},{""name"":""Glass"",""price"":20,""quantity"":2,""weight"":0.5}]",regular,NONE,0,false,40.00,0.00,3.20,0.50,43.70,,,false
+complex_negative_price,complex,"[{""name"":""Invalid price"",""price"":-1,""quantity"":1,""weight"":0}]",regular,NONE,0,false,,,,,,,price must be a finite non-negative number,false
+complex_negative_quantity,complex,"[{""name"":""Invalid quantity"",""price"":10,""quantity"":-1,""weight"":0}]",regular,NONE,0,false,,,,,,,quantity must be a non-negative integer,false
+complex_negative_weight,complex,"[{""name"":""Invalid weight"",""price"":10,""quantity"":1,""weight"":-1}]",regular,NONE,0,false,,,,,,,weight must be a finite non-negative number,false
+complex_negative_distance,complex,"[{""name"":""Parcel"",""price"":30,""quantity"":1,""weight"":1}]",regular,NONE,-1,false,,,,,,,distance_km must be a finite non-negative number,false
+complex_large_order,complex,"[{""name"":""Industrial press"",""price"":999999.99,""quantity"":1000,""weight"":100}]",regular,SAVE20,1000000,true,999999990.00,199999998.00,63999999.36,225000.00,864224991.36,true,,false
+complex_mixed_express,complex,"[{""name"":""Hiking pack"",""price"":40,""quantity"":2,""weight"":1.25},{""name"":""Bottle"",""price"":25,""quantity"":2,""weight"":0.75}]",regular,SAVE20,40,true,130.00,26.00,8.32,9.00,121.32,true,,true
+complex_newuser_express,complex,"[{""name"":""Tea"",""price"":12.99,""quantity"":2,""weight"":0.6},{""name"":""Kettle"",""price"":37.45,""quantity"":1,""weight"":2.8}]",new,NEWUSER,35,true,63.43,9.51,4.31,8.25,66.48,true,,false

@@ -1,0 +1,434 @@
+{
+  "reference_date": "2026-11-10",
+  "workflows": [
+    {
+      "name": "regular_order_standard_shipping",
+      "order_id": "HW7-001",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "alex@example.com",
+              "phone": "(212) 555-0123",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4242424242424242",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item1",
+                "price": 50,
+                "quantity": 1,
+                "weight": 1
+              }
+            ],
+            "shipping": {
+              "distance_km": 10,
+              "is_express": false
+            }
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": false
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 50,
+            "discount": 0,
+            "tax": 4,
+            "shipping": 1.5,
+            "total": 55.5
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 55.5
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "HW7-001",
+            "total": 55.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "first_order_discount_with_express_shipping",
+      "order_id": "HW7-002",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "sam@example.net",
+              "phone": "(202) 555-0100",
+              "billing_address": {
+                "street": "5 Oak Ave",
+                "city": "Washington",
+                "state": "DC",
+                "zip": "20001"
+              },
+              "credit_card": {
+                "number": "378282246310005",
+                "expiration": "11/2026",
+                "cvv": "1234"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Tea",
+                "price": 12.99,
+                "quantity": 2,
+                "weight": 0.6
+              },
+              {
+                "name": "Kettle",
+                "price": 37.45,
+                "quantity": 1,
+                "weight": 2.8
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "shipping": {
+              "distance_km": 35,
+              "is_express": true
+            }
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": true
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 63.43,
+            "discount": 9.51,
+            "tax": 4.31,
+            "shipping": 8.25,
+            "total": 66.48
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 66.48
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "HW7-002",
+            "total": 66.48
+          }
+        }
+      ]
+    },
+    {
+      "name": "free_express_shipping_and_payment_retry",
+      "order_id": "HW7-003",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "alex@example.com",
+              "phone": "(212) 555-0123",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4242424242424242",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Desk lamp",
+                "price": 80,
+                "quantity": 1,
+                "weight": 8
+              }
+            ],
+            "discount_code": "FREESHIP",
+            "shipping": {
+              "distance_km": 40,
+              "is_express": true
+            }
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": true
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80,
+            "discount": 0,
+            "tax": 6.4,
+            "shipping": 0,
+            "total": 86.4
+          }
+        },
+        {
+          "action": "process_payment",
+          "data": {
+            "approved": false
+          },
+          "expected": {
+            "status": "declined"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected_error": "confirm_order is not allowed in state payment_declined"
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 86.4
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "HW7-003",
+            "total": 86.4
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected_error": "process_payment is not allowed in state confirmed"
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_blocks_checkout",
+      "order_id": "HW7-004",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "invalid-email",
+              "phone": "(212) 555-0123",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4242424242424243",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Invalid email format",
+              "Invalid credit card number"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item1",
+                "price": 50,
+                "quantity": 1,
+                "weight": 1
+              }
+            ],
+            "shipping": {
+              "distance_km": 10,
+              "is_express": false
+            }
+          },
+          "expected_error": "create_order is not allowed in state customer_rejected"
+        },
+        {
+          "action": "process_payment",
+          "expected_error": "process_payment is not allowed in state customer_rejected"
+        }
+      ]
+    },
+    {
+      "name": "invalid_order_cannot_be_priced",
+      "order_id": "HW7-005",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "alex@example.com",
+              "phone": "(212) 555-0123",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4242424242424242",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Invalid item",
+                "price": -1,
+                "quantity": 1,
+                "weight": 0
+              }
+            ]
+          },
+          "expected_error": "price must be a finite non-negative number"
+        },
+        {
+          "action": "calculate_total",
+          "expected_error": "calculate_total is not allowed in state customer_validated"
+        }
+      ]
+    },
+    {
+      "name": "checkout_uses_default_shipping",
+      "order_id": "HW7-006",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "alex@example.com",
+              "phone": "(212) 555-0123",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4242424242424242",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Notebook",
+                "price": 25,
+                "quantity": 1,
+                "weight": 2
+              }
+            ]
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": false
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 25,
+            "discount": 0,
+            "tax": 2,
+            "shipping": 1,
+            "total": 28
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 28
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "HW7-006",
+            "total": 28
+          }
+        }
+      ]
+    }
+  ]
+}
