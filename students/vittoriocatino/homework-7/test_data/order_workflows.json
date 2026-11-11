@@ -1,0 +1,376 @@
+{
+  "reference_date": "2026-11-10",
+  "workflows": [
+    {
+      "name": "regular_purchase",
+      "order_id": "regular_purchase",
+      "payment_approved": true,
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "ada@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Example St",
+              "city": "Test City",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4242424242424242",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Sample product",
+                "price": 10,
+                "quantity": 1,
+                "weight": 0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "NONE",
+            "distance_km": 0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 10,
+            "discount": 0,
+            "tax": 0.8,
+            "shipping": 0,
+            "total": 10.8
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "regular_purchase",
+            "total": 10.8
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "already_paid"
+          }
+        }
+      ],
+      "expected_payment_calls": [
+        10.8
+      ]
+    },
+    {
+      "name": "new_customer_purchase",
+      "order_id": "new_customer_purchase",
+      "payment_approved": true,
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "ada@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Example St",
+              "city": "Test City",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4242424242424242",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Sample product",
+                "price": 20,
+                "quantity": 2,
+                "weight": 0.5
+              },
+              {
+                "name": "Sample product",
+                "price": 40,
+                "quantity": 1,
+                "weight": 2
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 20,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80,
+            "discount": 12,
+            "tax": 5.44,
+            "shipping": 3.5,
+            "total": 76.94
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "new_customer_purchase",
+            "total": 76.94
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "already_paid"
+          }
+        }
+      ],
+      "expected_payment_calls": [
+        76.94
+      ]
+    },
+    {
+      "name": "free_shipping_purchase",
+      "order_id": "free_shipping_purchase",
+      "payment_approved": true,
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "ada@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Example St",
+              "city": "Test City",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4242424242424242",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Sample product",
+                "price": 10,
+                "quantity": 2,
+                "weight": 2
+              },
+              {
+                "name": "Sample product",
+                "price": 30,
+                "quantity": 1,
+                "weight": 1
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "distance_km": 100,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 50,
+            "discount": 0,
+            "tax": 4,
+            "shipping": 0,
+            "total": 54
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "free_shipping_purchase",
+            "total": 54
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "already_paid"
+          }
+        }
+      ],
+      "expected_payment_calls": [
+        54
+      ]
+    },
+    {
+      "name": "payment_declined",
+      "order_id": "payment_declined",
+      "payment_approved": false,
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "ada@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Example St",
+              "city": "Test City",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4242424242424242",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Sample product",
+                "price": 10,
+                "quantity": 1,
+                "weight": 0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "NONE",
+            "distance_km": 0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 10,
+            "discount": 0,
+            "tax": 0.8,
+            "shipping": 0,
+            "total": 10.8
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined"
+          }
+        },
+        {
+          "action": "confirmation",
+          "expected": {
+            "status": "unpaid"
+          }
+        }
+      ],
+      "expected_payment_calls": [
+        10.8
+      ]
+    },
+    {
+      "name": "invalid_customer_blocked",
+      "order_id": "blocked",
+      "payment_approved": true,
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "bad",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Example St",
+              "city": "Test City",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4242424242424242",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "is_valid": false,
+            "errors": [
+              "Invalid email format"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {},
+          "expected": {
+            "status": "blocked"
+          }
+        }
+      ],
+      "expected_payment_calls": []
+    }
+  ]
+}
