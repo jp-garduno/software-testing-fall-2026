@@ -1,0 +1,281 @@
+{
+  "description": "Flujos completos de pedido: se valida al cliente, se intenta el descuento, se fija el envio y se calcula el total. expected_outcome es 'confirmed' solo cuando el cliente pasa la validacion.",
+  "workflows": [
+    {
+      "workflow_name": "checkout_regular_with_save20",
+      "description": "Cliente valido, pedido sobre 100, descuento aceptado y envio estandar",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "items": [
+        {
+          "name": "Monitor",
+          "price": 150.0,
+          "quantity": 1,
+          "weight": 3.0
+        }
+      ],
+      "customer_type": "regular",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "expected_result": true
+        },
+        {
+          "action": "apply_discount",
+          "code": "SAVE20",
+          "expected_result": true
+        },
+        {
+          "action": "set_shipping",
+          "distance_km": 40,
+          "is_express": false
+        },
+        {
+          "action": "calculate_total"
+        }
+      ],
+      "expected_customer_valid": true,
+      "expected_discount_applied": true,
+      "expected_order": {
+        "subtotal": 150.0,
+        "discount": 30.0,
+        "tax": 9.6,
+        "shipping": 5.5,
+        "total": 135.1
+      },
+      "expected_outcome": "confirmed"
+    },
+    {
+      "workflow_name": "checkout_new_user_express",
+      "description": "Cliente nuevo con NEWUSER y envio express",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "items": [
+        {
+          "name": "Phone",
+          "price": 600.0,
+          "quantity": 1,
+          "weight": 0.4
+        },
+        {
+          "name": "Case",
+          "price": 20.0,
+          "quantity": 1,
+          "weight": 0.1
+        }
+      ],
+      "customer_type": "new",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "expected_result": true
+        },
+        {
+          "action": "apply_discount",
+          "code": "NEWUSER",
+          "expected_result": true
+        },
+        {
+          "action": "set_shipping",
+          "distance_km": 30,
+          "is_express": true
+        },
+        {
+          "action": "calculate_total"
+        }
+      ],
+      "expected_customer_valid": true,
+      "expected_discount_applied": true,
+      "expected_order": {
+        "subtotal": 620.0,
+        "discount": 93.0,
+        "tax": 42.16,
+        "shipping": 4.88,
+        "total": 574.04
+      },
+      "expected_outcome": "confirmed"
+    },
+    {
+      "workflow_name": "checkout_rejected_customer",
+      "description": "Pedido correcto pero la tarjeta no pasa Luhn, no se confirma",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830367",
+        "card_expiry": "12/27"
+      },
+      "items": [
+        {
+          "name": "Monitor",
+          "price": 150.0,
+          "quantity": 1,
+          "weight": 3.0
+        }
+      ],
+      "customer_type": "regular",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "expected_result": false
+        },
+        {
+          "action": "apply_discount",
+          "code": "SAVE20",
+          "expected_result": true
+        },
+        {
+          "action": "set_shipping",
+          "distance_km": 40,
+          "is_express": false
+        },
+        {
+          "action": "calculate_total"
+        }
+      ],
+      "expected_customer_valid": false,
+      "expected_discount_applied": true,
+      "expected_order": {
+        "subtotal": 150.0,
+        "discount": 30.0,
+        "tax": 9.6,
+        "shipping": 5.5,
+        "total": 135.1
+      },
+      "expected_outcome": "rejected_customer"
+    },
+    {
+      "workflow_name": "checkout_discount_below_minimum",
+      "description": "SAVE20 se rechaza por monto y el pedido sigue a precio completo",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "items": [
+        {
+          "name": "Keyboard",
+          "price": 80.0,
+          "quantity": 1,
+          "weight": 1.0
+        }
+      ],
+      "customer_type": "regular",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "expected_result": true
+        },
+        {
+          "action": "apply_discount",
+          "code": "SAVE20",
+          "expected_result": false
+        },
+        {
+          "action": "set_shipping",
+          "distance_km": 20,
+          "is_express": false
+        },
+        {
+          "action": "calculate_total"
+        }
+      ],
+      "expected_customer_valid": true,
+      "expected_discount_applied": false,
+      "expected_order": {
+        "subtotal": 80.0,
+        "discount": 0.0,
+        "tax": 6.4,
+        "shipping": 2.5,
+        "total": 88.9
+      },
+      "expected_outcome": "confirmed"
+    },
+    {
+      "workflow_name": "checkout_freeship_heavy_order",
+      "description": "FREESHIP anula un envio que habria sido caro",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "items": [
+        {
+          "name": "Treadmill",
+          "price": 450.0,
+          "quantity": 1,
+          "weight": 60.0
+        }
+      ],
+      "customer_type": "regular",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "expected_result": true
+        },
+        {
+          "action": "apply_discount",
+          "code": "FREESHIP",
+          "expected_result": true
+        },
+        {
+          "action": "set_shipping",
+          "distance_km": 150,
+          "is_express": true
+        },
+        {
+          "action": "calculate_total"
+        }
+      ],
+      "expected_customer_valid": true,
+      "expected_discount_applied": true,
+      "expected_order": {
+        "subtotal": 450.0,
+        "discount": 0.0,
+        "tax": 36.0,
+        "shipping": 0.0,
+        "total": 486.0
+      },
+      "expected_outcome": "confirmed"
+    }
+  ]
+}
