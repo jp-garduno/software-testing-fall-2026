@@ -1,0 +1,32 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error
+simple_one,simple,"[{""name"": ""Sample product"", ""price"": 10, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,10,0,0.8,0,10.8,
+simple_quantity,simple,"[{""name"": ""Sample product"", ""price"": 12.5, ""quantity"": 2, ""weight"": 0}]",regular,NONE,0,false,25,0,2,0,27,
+simple_empty,simple,[],regular,NONE,0,false,0,0,0,0,0,
+save10_at_50,discount,"[{""name"": ""Sample product"", ""price"": 50, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,50,0,4,0,54,
+save10_above_50,discount,"[{""name"": ""Sample product"", ""price"": 50.01, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,50.01,5,3.6,0,48.61,
+save20_at_100,discount,"[{""name"": ""Sample product"", ""price"": 100, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,100,0,8,0,108,
+save20_above_100,discount,"[{""name"": ""Sample product"", ""price"": 100.01, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,100.01,20,6.4,0,86.41,
+save10_below_50,discount,"[{""name"": ""Sample product"", ""price"": 49.99, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,49.99,0,4,0,53.99,
+newuser_eligible,discount,"[{""name"": ""Sample product"", ""price"": 80, ""quantity"": 1, ""weight"": 0}]",new,NEWUSER,0,false,80,12,5.44,0,73.44,
+newuser_returning,discount,"[{""name"": ""Sample product"", ""price"": 80, ""quantity"": 1, ""weight"": 0}]",regular,NEWUSER,0,false,80,0,6.4,0,86.4,
+invalid_code,discount,"[{""name"": ""Sample product"", ""price"": 60, ""quantity"": 1, ""weight"": 0}]",regular,INVALID,0,false,60,0,4.8,0,64.8,
+expired_code,discount,"[{""name"": ""Sample product"", ""price"": 70, ""quantity"": 1, ""weight"": 0}]",regular,EXPIRED,0,false,70,0,5.6,0,75.6,
+tax_one_cent,tax,"[{""name"": ""Sample product"", ""price"": 0.01, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,0.01,0,0,0,0.01,
+tax_rounds_up,tax,"[{""name"": ""Sample product"", ""price"": 0.07, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,0.07,0,0.01,0,0.08,
+tax_fractional,tax,"[{""name"": ""Sample product"", ""price"": 19.99, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,19.99,0,1.6,0,21.59,
+tax_fractional_unit,tax,"[{""name"": ""Sample product"", ""price"": 0.0625, ""quantity"": 4, ""weight"": 0}]",regular,NONE,0,false,0.25,0,0.02,0,0.27,
+shipping_standard,shipping,"[{""name"": ""Sample product"", ""price"": 100, ""quantity"": 1, ""weight"": 2}]",regular,NONE,10,false,100,0,8,2,110,
+shipping_weight_quantity,shipping,"[{""name"": ""Sample product"", ""price"": 10, ""quantity"": 3, ""weight"": 2}]",regular,NONE,0,false,30,0,2.4,3,35.4,
+shipping_express,shipping,"[{""name"": ""Sample product"", ""price"": 50, ""quantity"": 1, ""weight"": 2}]",regular,NONE,10,true,50,0,4,3,57,
+shipping_free,shipping,"[{""name"": ""Sample product"", ""price"": 50, ""quantity"": 1, ""weight"": 10}]",regular,FREESHIP,100,true,50,0,4,0,54,
+shipping_fractional,shipping,"[{""name"": ""Sample product"", ""price"": 20, ""quantity"": 1, ""weight"": 0.2}]",regular,NONE,0.5,false,20,0,1.6,0.15,21.75,
+shipping_distance_only,shipping,"[{""name"": ""Sample product"", ""price"": 10, ""quantity"": 0, ""weight"": 4}]",regular,NONE,10,false,0,0,0,1,1,
+complex_save20,complex,"[{""name"": ""Sample product"", ""price"": 40, ""quantity"": 2, ""weight"": 1}, {""name"": ""Sample product"", ""price"": 30, ""quantity"": 1, ""weight"": 2}]",regular,SAVE20,10,true,110,22,7.04,4.5,99.54,
+complex_new,complex,"[{""name"": ""Sample product"", ""price"": 20, ""quantity"": 2, ""weight"": 0.5}, {""name"": ""Sample product"", ""price"": 40, ""quantity"": 1, ""weight"": 2}]",new,NEWUSER,20,false,80,12,5.44,3.5,76.94,
+complex_large,complex,"[{""name"": ""Sample product"", ""price"": 1000000, ""quantity"": 100, ""weight"": 100}]",regular,SAVE20,10000,false,100000000,20000000,6400000,6000,86406000,
+complex_zero_quantity,complex,"[{""name"": ""Sample product"", ""price"": 100, ""quantity"": 0, ""weight"": 20}, {""name"": ""Sample product"", ""price"": 10, ""quantity"": 2, ""weight"": 1}]",regular,SAVE10,0,false,20,0,1.6,1,22.6,
+complex_negative_price,complex,"[{""name"": ""Sample product"", ""price"": -1, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,,,,,,ValueError
+complex_negative_quantity,complex,"[{""name"": ""Sample product"", ""price"": 1, ""quantity"": -1, ""weight"": 0}]",regular,NONE,0,false,,,,,,ValueError
+complex_negative_weight,complex,"[{""name"": ""Sample product"", ""price"": 1, ""quantity"": 1, ""weight"": -1}]",regular,NONE,0,false,,,,,,ValueError
+complex_negative_distance,complex,"[{""name"": ""Sample product"", ""price"": 1, ""quantity"": 1, ""weight"": 0}]",regular,NONE,-1,false,,,,,,ValueError
+complex_free_multi,complex,"[{""name"": ""Sample product"", ""price"": 10, ""quantity"": 2, ""weight"": 2}, {""name"": ""Sample product"", ""price"": 30, ""quantity"": 1, ""weight"": 1}]",regular,FREESHIP,100,false,50,0,4,0,54,
