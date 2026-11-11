@@ -1,0 +1,14 @@
+[run]
+source = src
+branch = True
+
+[report]
+show_missing = True
+fail_under = 81
+
+[html]
+directory = coverage
+title = Homework 7 - Luis-045
+
+[json]
+output = coverage.json
