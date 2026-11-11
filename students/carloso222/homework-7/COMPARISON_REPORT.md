@@ -13,29 +13,29 @@ Ambas versiones pasan (`20 passed`).
 Se contaron las líneas no vacías (ninguno de los archivos tiene comentarios de línea completa) con:
 
 ```bash
-grep -cv '^[[:space:]]*$' tests/test_order_traditional.py   # 79
+grep -cv '^[[:space:]]*$' tests/test_order_traditional.py   # 167
 grep -cv '^[[:space:]]*$' tests/test_order_data_driven.py   # 19
-grep -cv '^[[:space:]]*$' tests/data_loader.py              # 42
+grep -cv '^[[:space:]]*$' tests/data_loader.py              # 55
 ```
 
-Después de aplicar `black --line-length 120` (que expande los diccionarios largos de las aserciones).
+Después de aplicar el `black` del pre-commit del repositorio (que expande los diccionarios largos de las aserciones).
 
-| Enfoque                                 | LOC    | Detalle                            |
-| --------------------------------------- | ------ | ---------------------------------- |
-| Tradicional                             | **79** | 10 pruebas, ~7.9 líneas por prueba |
-| Data-driven (solo el archivo de prueba) | **19** | 1 prueba + lista de 10 nombres     |
-| Data-driven + cargador compartido       | 61     | 19 + 42 de `data_loader.py`        |
-| Data-driven + cargador + 10 filas CSV   | 71     | + 10 filas de datos                |
+| Enfoque                                 | LOC     | Detalle                             |
+| --------------------------------------- | ------- | ----------------------------------- |
+| Tradicional                             | **167** | 10 pruebas, ~16.7 líneas por prueba |
+| Data-driven (solo el archivo de prueba) | **19**  | 1 prueba + lista de 10 nombres      |
+| Data-driven + cargador compartido       | 74      | 19 + 55 de `data_loader.py`         |
+| Data-driven + cargador + 10 filas CSV   | 84      | + 10 filas de datos                 |
 
-Reducción: **75.9 %** solo contando el archivo de prueba ((79 - 19) / 79); **22.8 %** si se suma
-el cargador; **10.1 %** si además se cuentan las 10 filas del CSV. Con solo 10 escenarios la ganancia
-real es modesta porque el cargador se amortiza poco. Pero ese cargador lo usan también
+Reducción: **88.6 %** solo contando el archivo de prueba ((167 - 19) / 167); **55.7 %** si se suma
+el cargador; **49.7 %** si además se cuentan las 10 filas del CSV. Aun con solo 10 escenarios el código
+se reduce a la mitad, y el cargador se amortiza más con cada caso nuevo. Además ese cargador lo usan también
 `test_order_calculator.py` (33 casos), `test_customer_validator.py` (37) y `test_order_generator.py` (100):
 con 170 filas de datos, el código de prueba no crece.
 
 ## 2. Mantenibilidad
 
-- **Agregar un caso**: tradicional = copiar una función de ~8 líneas y editar valores (se arriesga
+- **Agregar un caso**: tradicional = copiar una función de ~17 líneas y editar valores (se arriesga
   a olvidar cambiar un nombre o un valor). Data-driven = agregar 1 fila al CSV, sin tocar código.
 - **Actualizar una regla** (p. ej. cambiar el impuesto): en ambos casos hay que recalcular los esperados, pero en
   data-driven todos están juntos en una tabla; en el tradicional están repartidos por 10 funciones. Si
@@ -62,7 +62,7 @@ con 170 filas de datos, el código de prueba no crece.
 - Cobertura de código de `src/`: **99 %** con la suite completa (268 pruebas). Las 10 pruebas
   tradicionales y las 10 data-driven cubren las mismas ramas, así que la diferencia no está en la
   cobertura de líneas sino en cuántos casos se pueden añadir.
-- Tiempo para añadir 10 casos más: tradicional ~ +79 líneas de código a escribir y revisar;
+- Tiempo para añadir 10 casos más: tradicional ~ +167 líneas de código a escribir y revisar;
   data-driven = +10 líneas de CSV, 0 de código (la mayor parte del tiempo se va en calcular a mano los
   valores esperados, que es igual en ambos).
 - Tiempo de ejecución: indistinguible a esta escala (`pytest` informa 0.24 s para las 20 pruebas de ambos
@@ -80,7 +80,7 @@ secuencias de pasos), cuando se quiere que cada prueba sea autoexplicativa, o cu
 |             | Ventajas                                                                                                                                                 | Desventajas                                                                                                                                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Data-driven | Menos código repetido; agregar casos es barato; datos visibles y revisables; fácil de escalar (33 -> 133 casos sin tocar código); separa datos de lógica | Cargador y validación de datos extra; los fallos apuntan a una fila, no a una función con nombre propio; errores en los datos pueden dar falsos positivos/negativos; difícil expresar casos con lógica de preparación distinta |
-| Tradicional | Simple, explícito, sin infraestructura; cada prueba es independiente y legible                                                                           | Mucha repetición; cada caso nuevo cuesta ~8 líneas; cambios transversales se repiten N veces                                                                                                                                   |
+| Tradicional | Simple, explícito, sin infraestructura; cada prueba es independiente y legible                                                                           | Mucha repetición; cada caso nuevo cuesta ~17 líneas; cambios transversales se repiten N veces                                                                                                                                  |
 
 En esta tarea las dos aproximaciones se combinan: casos con datos para calculadora y validador,
 y pruebas tradicionales para los casos de error (`ValueError`) y la lógica del flujo, que no encajan en una tabla.

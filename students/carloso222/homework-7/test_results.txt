@@ -288,11 +288,11 @@ src\data_validator.py          23      0   100%
 src\discounts.py               11      0   100%
 src\json_data_check.py         76      0   100%
 src\order_calculator.py        68      0   100%
-src\order_generator.py         38      1    97%   77
+src\order_generator.py         38      1    97%   83
 src\order_workflow.py          42      0   100%
 src\orders_csv_check.py        53      0   100%
 src\validation_rules.py        38      0   100%
 ---------------------------------------------------------
 TOTAL                         421      1    99%
 Coverage HTML written to dir htmlcov
-============================= 268 passed in 1.45s =============================
+============================= 268 passed in 1.21s =============================
