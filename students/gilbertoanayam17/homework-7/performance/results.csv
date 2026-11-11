@@ -1,0 +1,17 @@
+cases,approach,cache,median_seconds,min_seconds,max_seconds,test_code_lines
+10,traditional,first run,0.476,0.457,0.729,76
+10,data-driven,first run,0.476,0.46,0.522,14
+10,traditional,repeat run,0.461,0.452,0.5,76
+10,data-driven,repeat run,0.461,0.448,0.466,14
+50,traditional,first run,0.5,0.495,0.564,379
+50,data-driven,first run,0.491,0.481,0.507,14
+50,traditional,repeat run,0.481,0.479,0.51,379
+50,data-driven,repeat run,0.492,0.482,0.522,14
+100,traditional,first run,0.565,0.557,0.639,757
+100,data-driven,first run,0.523,0.513,0.538,14
+100,traditional,repeat run,0.522,0.504,0.558,757
+100,data-driven,repeat run,0.532,0.508,0.558,14
+500,traditional,first run,1.047,1.0,1.202,3781
+500,data-driven,first run,0.794,0.773,0.844,14
+500,traditional,repeat run,0.761,0.747,0.979,3781
+500,data-driven,repeat run,0.77,0.763,0.793,14
