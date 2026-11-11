@@ -1,0 +1,185 @@
+{
+  "workflows": [
+    {
+      "name": "regular_customer_save20_standard_shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4532015112830366",
+                "expiration": "12/2025",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Desk Lamp",
+                "price": 45,
+                "quantity": 2,
+                "weight": 1.2
+              },
+              {
+                "name": "Notebook",
+                "price": 6.5,
+                "quantity": 4,
+                "weight": 0.3
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE20",
+            "shipping": { "distance_km": 120, "is_express": false }
+          },
+          "expected": { "status": "created", "discount_applied": true }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 116.0,
+            "discount": 23.2,
+            "tax": 7.42,
+            "shipping": 13.8,
+            "total": 114.02
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount_charged": 114.02,
+            "confirmation": "Order confirmed: 2 item(s), $114.02 charged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_newuser_express_shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "maria.lopez+orders@mail.example.org",
+              "phone": "(415) 555-0199",
+              "billing_address": {
+                "street": "742 Evergreen Terrace Apt 3",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94107-1234"
+              },
+              "credit_card": {
+                "number": "378282246310005",
+                "expiration": "01/2030",
+                "cvv": "1234"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Headphones",
+                "price": 79.9,
+                "quantity": 1,
+                "weight": 0.4
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "shipping": { "distance_km": 35, "is_express": true }
+          },
+          "expected": { "status": "created", "discount_applied": true }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 79.9,
+            "discount": 11.99,
+            "tax": 5.43,
+            "shipping": 5.55,
+            "total": 78.89
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount_charged": 78.89 }
+        }
+      ]
+    },
+    {
+      "name": "expired_card_declines_payment",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "li.wei@example.co.uk",
+              "phone": "(512) 555-0143",
+              "billing_address": {
+                "street": "9 Congress Ave",
+                "city": "Austin",
+                "state": "TX",
+                "zip": "73301"
+              },
+              "credit_card": {
+                "number": "5555555555554444",
+                "expiration": "03/2025",
+                "cvv": "321"
+              }
+            }
+          },
+          "expected": { "valid": false, "errors": ["Credit card expired"] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Backpack",
+                "price": 39.99,
+                "quantity": 1,
+                "weight": 0.9
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "shipping": { "distance_km": 300, "is_express": true }
+          },
+          "expected": { "status": "created", "discount_applied": true }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 39.99,
+            "discount": 0.0,
+            "tax": 3.2,
+            "shipping": 0.0,
+            "total": 43.19
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "declined", "amount_charged": 0.0 }
+        }
+      ]
+    }
+  ]
+}
