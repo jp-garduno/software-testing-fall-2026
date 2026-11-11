@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+python-results.xml
+python-test-output.txt
+coverage.json
+pylint-report.json
