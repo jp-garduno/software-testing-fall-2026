@@ -14,17 +14,14 @@ líneas vacías. El código de producción es común a ambos enfoques.
 
 | Alcance | Líneas físicas | Líneas no vacías |
 | --- | ---: | ---: |
-| Tradicional: `tests/test_order_traditional.py` | 152 | 131 |
-| Parametrizada: `tests/test_order_data_driven.py` | 13 | 8 |
-| Soporte compartido: `tests/data_cases.py` | 76 | 64 |
-| Parametrizada más todo el soporte compartido | 89 | 72 |
+| Tradicional (`tests/test_order_traditional.py`) | 152 | 131 |
+| Parametrizada, incluida la lectura del CSV (`tests/test_order_data_driven.py`) | 82 | 67 |
 
-La reducción en el archivo de pruebas es `(152 - 13) / 152 = 91.45%`
-por líneas físicas y `(131 - 8) / 131 = 93.89%` sin líneas vacías. Si se
-imputa todo el módulo de soporte, incluso su lector JSON para otras suites,
-la reducción es 41.45% por líneas físicas y 45.04% sin líneas vacías. El CSV
-tiene 30 filas de datos y una cabecera; solo 10 filas se usan en esta
-comparación. Separar ese conteo permite ver dónde se movieron los datos.
+La reducción es **46.05%** por líneas físicas y
+**48.85%** sin líneas vacías. El archivo parametrizado
+incluye el lector y la preparación del pedido que reutiliza la suite
+principal. El CSV tiene 30 filas de datos y una cabecera. La comparación
+usa 10 de esas filas.
 
 ## Mantenimiento
 
@@ -32,8 +29,8 @@ En la suite tradicional, agregar un pedido implica escribir una función,
 configurar el pedido y repetir la comprobación. Cambiar la forma de comprobar
 el resultado exige editar las funciones afectadas. En la parametrizada,
 agregar o corregir un pedido consiste en editar una fila del CSV. Un cambio
-de lógica se hace una sola vez en la prueba o en el módulo de soporte. A
-cambio, si se modifica el formato del CSV, también hay que adaptar el lector.
+de lógica se hace una sola vez en el archivo parametrizado. Si cambia el
+formato del CSV, también hay que adaptar el lector.
 
 ## Lectura y organización
 

@@ -1,13 +1,12 @@
 """Check the complete order breakdown and error cases defined in the CSV."""
 
 import pytest
+from test_order_data_driven import ORDER_CASES, configure_order
 
 from src.order_calculator import Order
 
-from .data_cases import configure_order, load_order_cases
 
-
-@pytest.mark.parametrize("case", load_order_cases(), ids=lambda case: case.name)
+@pytest.mark.parametrize("case", ORDER_CASES, ids=lambda case: case.name)
 def test_order_calculation(case):
     """Check every amount for accepted orders and the specific error for rejected inputs."""
     if case.error:

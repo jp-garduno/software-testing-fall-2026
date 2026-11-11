@@ -10,42 +10,41 @@ y resultados esperados en archivos CSV y JSON.
 
 ## Preparación
 
-Desde la raíz del repositorio:
+Con un entorno de Python 3.11 o superior activo, ejecuta desde la raíz del
+repositorio:
 
-```sh
-cd students/Luis-045/homework-7
-python -m venv .venv
+```powershell
+python -m pip install -r students/Luis-045/homework-7/requirements.txt
+Set-Location students/Luis-045/homework-7
+python -B -m pytest -q -p no:cacheprovider
 ```
 
-Activa el entorno con `source .venv/bin/activate` en Bash o
-`.\.venv\Scripts\Activate.ps1` en PowerShell. Luego instala las dependencias:
+## Resultados y cobertura
 
-```sh
-python -m pip install -r requirements.txt
+En Windows con Python 3.13.9 pasaron **87 pruebas**, con **94.55% de
+cobertura combinada** (196 de 203 sentencias y 64 de 72 ramas). El registro
+está en [test_results.txt](test_results.txt) y el desglose por archivo en
+[coverage_report.html](coverage_report.html).
+
+Desde la carpeta de la entrega, puedes volver a medir la cobertura y generar
+el HTML de coverage.py en una carpeta temporal:
+
+```powershell
+$reportDir = Join-Path ([IO.Path]::GetTempPath()) "homework-7-$PID"
+New-Item -ItemType Directory -Path $reportDir -Force | Out-Null
+$env:COVERAGE_FILE = Join-Path $reportDir ".coverage"
+python -B -m pytest -v -p no:cacheprovider --cov=src --cov-branch --cov-fail-under=80.01 --cov-report=term-missing "--cov-report=html:$reportDir/html"
+Remove-Item Env:COVERAGE_FILE
 ```
 
-## Ejecutar y reproducir los reportes
-
-```sh
-python -m pytest -q
-python -m pytest -v --color=no --cov=src --cov-report=term-missing --cov-report=json
-python scripts/render_coverage.py
-```
-
-La segunda orden mide sentencias y ramas en `src/`, escribe `coverage.json` y
-exige una cobertura combinada de al menos 81%. La tercera crea
-[`coverage_report.html`](coverage_report.html), que se puede abrir sin conexión.
-[`test_results.txt`](test_results.txt) contiene la salida de la ejecución final.
-
-Resultado en Windows con Python 3.13.9: **87 pruebas aprobadas** y **95.22% de
-cobertura combinada** (196 de 202 sentencias y 63 de 70 ramas).
+El reporte generado se abre desde el archivo `$reportDir/html/index.html`.
 
 Para comprobar el formato y el estilo desde esta carpeta:
 
-```sh
-python -m black --check src tests scripts
-python -m isort --check-only --profile black src tests scripts
-python -m pylint --rcfile=../../../.github/grading/pylintrc src tests scripts
+```powershell
+python -B -m black --check src tests
+python -B -m isort --check-only --profile black src tests
+python -B -m pylint --rcfile=../../../.github/grading/pylintrc src tests
 ```
 
 ## Qué se prueba

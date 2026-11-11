@@ -1,14 +1,16 @@
 """Execute the checkout workflows and check each observable result."""
 
+import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
-from src.checkout import Checkout
+from src.order_calculator import Checkout
 
-from .data_cases import load_json_cases
-
-DATA = load_json_cases("order_workflows.json")
+DATA_PATH = Path(__file__).resolve().parents[1] / "test_data" / "order_workflows.json"
+with DATA_PATH.open(encoding="utf-8") as file:
+    DATA = json.load(file)
 
 
 @pytest.mark.parametrize("workflow", DATA["workflows"], ids=lambda case: case["name"])

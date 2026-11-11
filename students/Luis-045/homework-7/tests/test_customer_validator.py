@@ -1,19 +1,24 @@
 """Check customer validation against the independent JSON expectations."""
 
+import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
 from src.customer_validator import validate_customer
 
-from .data_cases import load_json_cases
-
+DATA_PATH = (
+    Path(__file__).resolve().parents[1] / "test_data" / "customer_validation.json"
+)
+with DATA_PATH.open(encoding="utf-8") as file:
+    DATA = json.load(file)
 REFERENCE_DATE = date(2026, 11, 10)
 
 
 @pytest.mark.parametrize(
     "case",
-    load_json_cases("customer_validation.json"),
+    DATA,
     ids=lambda case: case["test_name"],
 )
 def test_customer_validation(case):

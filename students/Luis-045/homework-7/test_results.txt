@@ -1,10 +1,8 @@
-Command: python -m pytest -v --tb=short --color=no -p no:cacheprovider --cov=src --cov-report=term-missing --cov-report=json
+Command: python -B -m pytest -v --tb=short --color=no -p no:cacheprovider --cov=src --cov-branch --cov-fail-under=80.01 --cov-report=term-missing --cov-report=json:<temp>/coverage.json
 
 ============================= test session starts =============================
 platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.7.0
 rootdir: students/Luis-045/homework-7
-configfile: pytest.ini
-testpaths: tests
 plugins: platformdirs-4.13.5, cov-7.1.0
 collecting ... collected 87 items
 
@@ -101,12 +99,10 @@ _______________ coverage: platform win32, python 3.13.9-final-0 _______________
 
 Name                        Stmts   Miss Branch BrPart  Cover   Missing
 -----------------------------------------------------------------------
-src\__init__.py                 0      0      0      0   100%
-src\checkout.py                45      0      6      1    98%   46->48
 src\customer_validator.py      73      0     38      0   100%
-src\order_calculator.py        84      6     26      6    89%   19, 36, 38, 50, 52, 75
+src\order_calculator.py       130      7     34      8    91%   10, 25, 42, 44, 56, 58, 81, 181->183
 -----------------------------------------------------------------------
-TOTAL                         202      6     70      7    95%
-Coverage JSON written to file coverage.json
-Required test coverage of 81.0% reached. Total coverage: 95.22%
-============================= 87 passed in 0.35s ==============================
+TOTAL                         203      7     72      8    95%
+Coverage JSON written to file <temp>\coverage.json
+Required test coverage of 80.01% reached. Total coverage: 94.55%
+============================= 87 passed in 0.43s ==============================
