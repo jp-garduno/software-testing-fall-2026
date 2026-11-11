@@ -1,0 +1,26 @@
+test_name,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total
+simple_single_item,"[{'name':'Ebook','price':20,'quantity':1,'weight':0}]",regular,NONE,0,false,20.00,0.00,1.60,0.00,21.60
+simple_item_with_quantity,"[{'name':'Gift Card','price':15.5,'quantity':4,'weight':0}]",regular,NONE,0,false,62.00,0.00,4.96,0.00,66.96
+simple_multiple_items,"[{'name':'Software License','price':29.99,'quantity':1,'weight':0},{'name':'Song','price':1.29,'quantity':3,'weight':0}]",regular,NONE,0,false,33.86,0.00,2.71,0.00,36.57
+discount_save10_at_minimum,"[{'name':'Backpack','price':50,'quantity':1,'weight':0}]",regular,SAVE10,0,false,50.00,5.00,3.60,0.00,48.60
+discount_save20_at_minimum,"[{'name':'Office Chair','price':100,'quantity':1,'weight':0}]",regular,SAVE20,0,false,100.00,20.00,6.40,0.00,86.40
+discount_save20_below_minimum,"[{'name':'Office Chair','price':99.99,'quantity':1,'weight':0}]",regular,SAVE20,0,false,99.99,0.00,8.00,0.00,107.99
+discount_invalid_code,"[{'name':'Keyboard','price':80,'quantity':1,'weight':0}]",regular,SUMMER2019,0,false,80.00,0.00,6.40,0.00,86.40
+discount_multiple_items_save10,"[{'name':'T-Shirt','price':30,'quantity':1,'weight':0},{'name':'Socks','price':12.5,'quantity':2,'weight':0}]",regular,SAVE10,0,false,55.00,5.50,3.96,0.00,53.46
+tax_rounds_down,"[{'name':'Notebook','price':10.3,'quantity':1,'weight':0}]",regular,NONE,0,false,10.30,0.00,0.82,0.00,11.12
+tax_rounds_up,"[{'name':'USB Cable','price':19.99,'quantity':1,'weight':0}]",regular,NONE,0,false,19.99,0.00,1.60,0.00,21.59
+tax_on_discounted_amount,"[{'name':'Headset','price':75,'quantity':1,'weight':0}]",regular,SAVE10,0,false,75.00,7.50,5.40,0.00,72.90
+tax_after_newuser_discount,"[{'name':'Starter Kit','price':40,'quantity':1,'weight':0}]",new,NEWUSER,0,false,40.00,6.00,2.72,0.00,36.72
+shipping_weight_only,"[{'name':'Dumbbell','price':25,'quantity':2,'weight':1.5}]",regular,NONE,0,false,50.00,0.00,4.00,1.50,55.50
+shipping_distance_only,"[{'name':'Greeting Card','price':12,'quantity':1,'weight':0}]",regular,NONE,80,false,12.00,0.00,0.96,8.00,20.96
+shipping_weight_and_distance_standard,"[{'name':'Toaster','price':40,'quantity':1,'weight':4}]",regular,NONE,30,false,40.00,0.00,3.20,5.00,48.20
+shipping_weight_and_distance_express,"[{'name':'Toaster','price':40,'quantity':1,'weight':4}]",regular,NONE,30,true,40.00,0.00,3.20,7.50,50.70
+shipping_fractional_weight_and_distance,"[{'name':'Candle','price':9,'quantity':3,'weight':0.35}]",regular,NONE,12.5,false,27.00,0.00,2.16,1.78,30.94
+shipping_freeship_code,"[{'name':'Bookshelf','price':150,'quantity':1,'weight':20}]",regular,FREESHIP,500,true,150.00,0.00,12.00,0.00,162.00
+complex_multi_item_save20_express,"[{'name':'Laptop','price':899.99,'quantity':1,'weight':2.2},{'name':'Mouse','price':25.5,'quantity':2,'weight':0.1},{'name':'Laptop Bag','price':45,'quantity':1,'weight':0.8}]",regular,SAVE20,250,true,995.99,199.20,63.74,39.90,900.43
+complex_multi_item_newuser_standard,"[{'name':'Shirt','price':19.99,'quantity':3,'weight':0.25},{'name':'Jeans','price':49.5,'quantity':1,'weight':0.7}]",new,NEWUSER,60,false,109.47,16.42,7.44,6.73,107.22
+complex_newuser_code_regular_customer,"[{'name':'Board Game','price':35,'quantity':2,'weight':1},{'name':'Card Sleeves','price':5.25,'quantity':4,'weight':0.2}]",regular,NEWUSER,45,false,91.00,0.00,7.28,5.90,104.18
+complex_zero_quantity_item,"[{'name':'Sold Out Monitor','price':99,'quantity':0,'weight':5},{'name':'HDMI Cable','price':12,'quantity':2,'weight':0.3}]",regular,NONE,20,false,24.00,0.00,1.92,2.30,28.22
+complex_negative_values_ignored,"[{'name':'Negative Price','price':-15,'quantity':1,'weight':1},{'name':'Negative Quantity','price':20,'quantity':-2,'weight':1},{'name':'Desk Lamp','price':60,'quantity':1,'weight':2}]",regular,SAVE10,-30,false,60.00,6.00,4.32,1.00,59.32
+complex_half_cent_amounts_round_up,"[{'name':'Tea Sampler','price':21.45,'quantity':3,'weight':0.5}]",regular,SAVE10,10,true,64.35,6.44,4.63,2.63,65.17
+complex_maximum_values,"[{'name':'Industrial Server','price':99999.99,'quantity':999,'weight':50}]",regular,SAVE20,20000,true,99899990.01,19979998.00,6393599.36,40462.50,86354053.87
