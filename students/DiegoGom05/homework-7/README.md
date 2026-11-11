@@ -10,22 +10,17 @@ La lógica de las pruebas está en `tests/` y los datos en archivos externos en 
 homework-7/
 ├── src/
 │   ├── order_calculator.py        # Subtotal, descuentos, impuesto, envío y total
-│   ├── customer_validator.py      # Email, teléfono, dirección y tarjeta (Luhn)
-│   ├── data_generator.py          # BONUS A: genera órdenes con Faker
-│   └── data_validator.py          # BONUS C: valida los archivos de test_data/
+│   └── customer_validator.py      # Email, teléfono, dirección y tarjeta (Luhn)
 ├── tests/
 │   ├── test_order_calculator.py   # Data-driven con order_calculations.csv
 │   ├── test_customer_validator.py # Data-driven con customer_validation.json
 │   ├── test_order_traditional.py  # 10 tests sin parametrizar (comparación)
 │   ├── test_order_data_driven.py  # Los mismos 10 tests, parametrizados
-│   ├── test_integration.py        # Workflows de punta a punta
-│   ├── test_generated_orders.py   # BONUS A: regresión con 100 órdenes generadas
-│   └── test_data_validation.py    # BONUS C: tests del validador de datos
+│   └── test_integration.py        # Workflows de punta a punta
 ├── test_data/
 │   ├── order_calculations.csv     # 37 casos
 │   ├── customer_validation.json   # 38 casos
-│   ├── order_workflows.json       # 7 workflows
-│   └── generated_orders.csv       # 100 órdenes generadas (BONUS A)
+│   └── order_workflows.json       # 7 workflows
 ├── README.md
 ├── COMPARISON_REPORT.md           # Análisis tradicional vs data-driven
 ├── TEST_DATA_SPEC.md              # Formato de los archivos de datos
@@ -37,7 +32,7 @@ homework-7/
 ## Requisitos
 
 - Python 3.10 o superior
-- Las dependencias de `requirements.txt`: `pytest`, `pytest-cov` y `Faker`
+- Las dependencias de `requirements.txt`: `pytest` y `pytest-cov`
 
 ## Instalación
 
@@ -74,47 +69,18 @@ tests/test_customer_validator.py::test_customer_validation[invalid_email_missing
 tests/test_integration.py::test_workflow[complete_order_flow] PASSED
 ```
 
-## Validar los datos antes de correr las pruebas (Bonus C)
-
-```bash
-python src/data_validator.py && pytest
-```
-
-El validador revisa todos los archivos de `test_data/` y reporta cada problema con su número de línea. Si encuentra errores, termina con código 1 y `pytest` no se ejecuta.
-
-```
-[OK] customer_validation.json
-[OK] generated_orders.csv
-[OK] order_calculations.csv
-[OK] order_workflows.json
-
-Total: 0 error(es) en 4 archivo(s)
-```
-
-También se le pueden pasar archivos específicos: `python src/data_validator.py test_data/order_calculations.csv`.
-
-## Generar datos de prueba (Bonus A)
-
-```bash
-python src/data_generator.py                        # 100 órdenes, semilla 42
-python src/data_generator.py --count 500 --seed 7   # otra cantidad u otra semilla
-python src/data_generator.py --output otra_ruta.csv
-```
-
-Con la misma semilla siempre se generan las mismas órdenes, así que `generated_orders.csv` sirve como suite de regresión.
-
 ## Generar los reportes de resultados
 
 ```bash
-# Resultados de todas las pruebas
-pytest -v > test_results.txt
+# Resultados de todas las pruebas, con la tabla de cobertura al final
+pytest -v --cov=src --cov-report=term-missing --color=no > test_results.txt
 
 # Reporte de cobertura en HTML (se crea la carpeta htmlcov/)
-pytest --cov=src --cov-report=html --cov-report=term
+pytest --cov=src --cov-report=html
 cp htmlcov/index.html coverage_report.html
 ```
 
-Para ver el reporte completo, con el detalle línea por línea de cada archivo, abre `htmlcov/index.html` en el navegador.
+Para ver el reporte completo, con el detalle línea por línea de cada archivo, abre `htmlcov/index.html` en el navegador. La carpeta `htmlcov/` no se sube al repositorio.
 
 ## Resultados
 
@@ -125,11 +91,9 @@ Para ver el reporte completo, con el detalle línea por línea de cada archivo, 
 | `test_order_traditional.py`  | 10                    |
 | `test_order_data_driven.py`  | 10                    |
 | `test_integration.py`        | 8                     |
-| `test_generated_orders.py`   | 104                   |
-| `test_data_validation.py`    | 35                    |
-| **Total**                    | **248 (todos pasan)** |
+| **Total**                    | **109 (todos pasan)** |
 
-Cobertura de `src/`: **99 %** (`order_calculator.py` y `customer_validator.py` al 100 %).
+Cobertura de `src/`: **100 %** (`order_calculator.py` y `customer_validator.py`).
 
 ## Agregar un caso de prueba nuevo
 
@@ -138,8 +102,7 @@ Cobertura de `src/`: **99 %** (`order_calculator.py` y `customer_validator.py` a
    - Validación de clientes: `test_data/customer_validation.json`
    - Flujo completo: `test_data/order_workflows.json`
 2. Agrega una fila o un objeto con el formato descrito en [`TEST_DATA_SPEC.md`](TEST_DATA_SPEC.md).
-3. Corre `python src/data_validator.py` para revisar el formato.
-4. Corre `pytest -v`. El caso nuevo aparece con su nombre.
+3. Corre `pytest -v`. El caso nuevo aparece con su nombre.
 
 ## Documentación
 

@@ -7,9 +7,8 @@ Este documento describe el formato de cada archivo de `test_data/`, los valores 
 | `order_calculations.csv`   | CSV     | 37          | `test_order_calculator.py`, `test_order_data_driven.py` |
 | `customer_validation.json` | JSON    | 38          | `test_customer_validator.py`                            |
 | `order_workflows.json`     | JSON    | 7 workflows | `test_integration.py`                                   |
-| `generated_orders.csv`     | CSV     | 100         | `test_generated_orders.py` (Bonus A)                    |
 
-Todos los archivos usan codificación **UTF-8** y terminan con salto de línea. Su formato se puede revisar con `python src/data_validator.py`.
+Todos los archivos usan codificación **UTF-8** y terminan con salto de línea.
 
 ---
 
@@ -58,7 +57,7 @@ Si las 5 columnas `expected_*` dicen `ERROR`, el caso tiene una entrada inválid
 - `distance_km` negativo
 - `customer_type` distinto de `new` o `regular`
 
-Las 5 columnas tienen que decir `ERROR` a la vez; el validador marca como error una fila con solo algunas.
+Las 5 columnas tienen que decir `ERROR` a la vez.
 
 ### Categorías (prefijo de `test_name`)
 
@@ -277,33 +276,9 @@ Las reglas se revisan en este orden:
 
 ---
 
-## 4. `generated_orders.csv` (Bonus A)
-
-Tiene **exactamente las mismas columnas** que `order_calculations.csv` y lo genera `src/data_generator.py`:
-
-| Campo           | Rango generado                                                            |
-| --------------- | ------------------------------------------------------------------------- |
-| `test_name`     | `generated_001` … `generated_100`                                         |
-| Items por orden | 1 a 5                                                                     |
-| `name`          | Palabra aleatoria de Faker                                                |
-| `price`         | $0.99 a $500.00                                                           |
-| `quantity`      | 1 a 5                                                                     |
-| `weight`        | 0.1 a 15 kg                                                               |
-| `customer_type` | `new` o `regular`                                                         |
-| `discount_code` | `NONE`, `SAVE10`, `SAVE20`, `FREESHIP`, `NEWUSER` o `EXPIRED5` (inválido) |
-| `distance_km`   | 0 a 2000                                                                  |
-| `is_express`    | `true` con 30 % de probabilidad                                           |
-
-Los valores esperados se calcularon con la implementación actual de `Order` (técnica _golden master_), así que este archivo detecta **regresiones**: si un cambio futuro altera algún cálculo, los tests fallan. La semilla fija (`--seed 42`) hace que el archivo siempre sea el mismo.
-
-**No edites este archivo a mano.** Para regenerarlo, corre `python src/data_generator.py`.
-
----
-
-## 5. Convenciones generales
+## 4. Convenciones generales
 
 - **Nombres de test**: `snake_case`, con prefijo de categoría y descriptivos (`discount_save20_below_min`, no `test7`).
 - **Montos**: en USD, con 2 decimales en los valores esperados.
 - **Rutas**: los tests construyen las rutas a partir de su propio archivo, así que funcionan sin importar desde qué carpeta se corra `pytest`.
 - **Valores especiales**: `NONE` en `discount_code` significa sin código; `ERROR` en las columnas `expected_*` significa que se espera `ValueError`.
-- **Antes de hacer commit**: corre `python src/data_validator.py` para detectar archivos vacíos, JSON mal formado, columnas faltantes o tipos incorrectos, con el número de línea del problema.
