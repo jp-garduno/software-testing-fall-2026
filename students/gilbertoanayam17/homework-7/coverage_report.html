@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Coverage report - Homework 7</title>
+    <style>
+      body { font-family: system-ui, "Segoe UI", sans-serif; color: #0b0b0b; margin: 2.5rem; }
+      h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+      .total { font-size: 2.5rem; font-weight: 600; margin: 0; }
+      .muted { color: #52514e; }
+      table { border-collapse: collapse; margin-top: 1.5rem; }
+      th, td { padding: 0.45rem 1rem; text-align: right; border-bottom: 1px solid #e1e0d9; }
+      th { color: #52514e; font-weight: 600; }
+      th:first-child, td:first-child { text-align: left; }
+      tfoot td { font-weight: 600; border-bottom: none; }
+    </style>
+  </head>
+  <body>
+    <h1>Coverage report - Homework 7: Data-Driven Test Suite</h1>
+    <p class="total">100.0%</p>
+    <p class="muted">of the statements in <code>src/</code> were executed by the test suite (103 passed in 0.50s).</p>
+    <table>
+      <thead>
+        <tr><th>File</th><th>Statements</th><th>Missed</th><th>Coverage</th><th>Missing lines</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>src/checkout.py</td><td>30</td><td>0</td><td>100.0%</td><td>-</td></tr>
+        <tr><td>src/customer_validator.py</td><td>49</td><td>0</td><td>100.0%</td><td>-</td></tr>
+        <tr><td>src/order_calculator.py</td><td>64</td><td>0</td><td>100.0%</td><td>-</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Total</td><td>143</td><td>0</td><td>100.0%</td><td></td></tr>
+      </tfoot>
+    </table>
+    <p class="muted">
+      Measured with coverage.py 7.16.1 by <code>pytest --cov=src</code>. Regenerate with
+      <code>python scripts/generate_reports.py</code>.
+    </p>
+  </body>
+</html>
