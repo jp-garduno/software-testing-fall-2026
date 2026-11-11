@@ -1,0 +1,14 @@
+{
+  "name": "homework-7",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test --experimental-test-coverage --test-coverage-include=src/*.js --test-coverage-lines=81 tests/*.test.js",
+    "verify": "node scripts/verify.js",
+    "benchmark": "node scripts/benchmark.js",
+    "pretest": "node scripts/verify.js --validate-only"
+  }
+}

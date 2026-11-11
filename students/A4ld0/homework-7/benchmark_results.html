@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order suite benchmark</title>
+<style>
+body { font: 16px system-ui, sans-serif; max-width: 54rem; margin: 3rem auto; padding: 0 1rem; color: #182537; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: .8rem .5rem; border-bottom: 1px solid #d6e0ec; }
+meter { width: min(15vw, 9rem); vertical-align: middle; }
+</style>
+<h1>Order suite execution time</h1>
+<p>Median wall time over five runs per variant on Node.js v24.13.1. Every bar uses the same scale.</p>
+<table>
+<thead><tr><th scope="col">Cases</th><th scope="col">Traditional</th><th scope="col">Data-driven</th></tr></thead>
+<tbody>
+<tr><th scope="row">10</th>
+<td><meter min="0" max="262.27309999999943" value="140.70209999999997"></meter> 140.7 ms</td>
+<td><meter min="0" max="262.27309999999943" value="141.47820000000002"></meter> 141.5 ms</td></tr>
+
+<tr><th scope="row">50</th>
+<td><meter min="0" max="262.27309999999943" value="147.17920000000004"></meter> 147.2 ms</td>
+<td><meter min="0" max="262.27309999999943" value="153.1026999999999"></meter> 153.1 ms</td></tr>
+
+<tr><th scope="row">100</th>
+<td><meter min="0" max="262.27309999999943" value="181.51119999999992"></meter> 181.5 ms</td>
+<td><meter min="0" max="262.27309999999943" value="167.34900000000016"></meter> 167.3 ms</td></tr>
+
+<tr><th scope="row">500</th>
+<td><meter min="0" max="262.27309999999943" value="262.27309999999943"></meter> 262.3 ms</td>
+<td><meter min="0" max="262.27309999999943" value="262.0603000000001"></meter> 262.1 ms</td></tr></tbody>
+</table>
+</html>
