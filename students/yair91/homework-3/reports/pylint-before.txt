@@ -52,4 +52,3 @@ src/inventory.py:1:0: W0611: Unused import os (unused-import)
 
 -----------------------------------
 Your code has been rated at 6.10/10
-
