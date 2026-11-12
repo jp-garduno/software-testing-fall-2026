@@ -1,5 +1,5 @@
 {
-  "description": "Casos de validacion de cliente. expected_errors va en el orden fijo que produce validate_customer: email, telefono, direccion, tarjeta, vencimiento.",
+  "description": "Customer validation cases. expected_errors is the complete list, in the fixed order validate_customer produces: email, phone, street, city, state, zip, card number, card expiry.",
   "reference_date": "2026-11",
   "test_cases": [
     {

@@ -1,99 +1,99 @@
-"""Pruebas del calculador de pedidos, guiadas por order_calculations.csv.
+"""Order calculator tests, driven by order_calculations.csv.
 
-Una fila del CSV es un caso completo: entradas, los cinco montos esperados y,
-cuando aplica, el error que debe lanzarse. Agregar un caso es agregar una
-linea al CSV, sin tocar este archivo.
+One CSV row is a complete case: inputs, the five expected amounts and, where
+it applies, the error that must be raised. Adding a case means adding a line
+to the CSV, without touching this file.
 """
 
 import pytest
 
-from conftest import casos_de_pedido, construir_pedido
+from conftest import build_order, order_cases
 from order_calculator import Order
 
-CASOS = casos_de_pedido()
-CENTAVO = 0.005
+CASES = order_cases()
+ONE_CENT = 0.005
 
 
-@pytest.mark.parametrize("caso", CASOS, ids=lambda caso: caso["test_name"])
-def test_calculo_completo_del_pedido(caso):
-    """Verifica los cinco montos, o el error, de cada fila del CSV."""
-    if caso["expected_error"]:
+@pytest.mark.parametrize("case", CASES, ids=lambda case: case["test_name"])
+def test_full_order_breakdown(case):
+    """Check the five amounts, or the error, of every CSV row."""
+    if case["expected_error"]:
         with pytest.raises(ValueError) as error:
-            construir_pedido(caso)
-        assert str(error.value) == caso["expected_error"]
+            build_order(case)
+        assert str(error.value) == case["expected_error"]
         return
 
-    desglose = construir_pedido(caso).calculate_total()
+    breakdown = build_order(case).calculate_total()
 
-    for clave, esperado in caso["expected"].items():
-        assert desglose[clave] == pytest.approx(esperado, abs=CENTAVO), f"{clave} en {caso['test_name']}"
-
-
-@pytest.mark.parametrize("caso", [c for c in CASOS if not c["expected_error"]], ids=lambda c: c["test_name"])
-def test_el_total_es_la_suma_de_sus_partes(caso):
-    """subtotal - descuento + impuesto + envio tiene que dar el total."""
-    d = construir_pedido(caso).calculate_total()
-    suma = d["subtotal"] - d["discount"] + d["tax"] + d["shipping"]
-
-    assert d["total"] == pytest.approx(suma, abs=CENTAVO)
+    for key, expected in case["expected"].items():
+        assert breakdown[key] == pytest.approx(expected, abs=ONE_CENT), f"{key} in {case['test_name']}"
 
 
-class TestCoberturaDelCsv:
-    """El CSV tiene que seguir cumpliendo lo que pide el enunciado."""
+@pytest.mark.parametrize("case", [c for c in CASES if not c["expected_error"]], ids=lambda c: c["test_name"])
+def test_the_total_is_the_sum_of_its_parts(case):
+    """subtotal - discount + tax + shipping has to add up to the total."""
+    breakdown = build_order(case).calculate_total()
+    added = breakdown["subtotal"] - breakdown["discount"] + breakdown["tax"] + breakdown["shipping"]
 
-    def test_minimo_de_casos(self):
-        assert len(CASOS) >= 25
+    assert breakdown["total"] == pytest.approx(added, abs=ONE_CENT)
+
+
+class TestCsvCoverage:
+    """The CSV has to keep meeting what the brief asks for."""
+
+    def test_minimum_number_of_cases(self):
+        assert len(CASES) >= 25
 
     @pytest.mark.parametrize(
-        "categoria,minimo",
+        "category,minimum",
         [("simple", 3), ("discount", 5), ("tax", 4), ("shipping", 6), ("complex", 7)],
     )
-    def test_minimo_por_categoria(self, categoria, minimo):
-        assert len([c for c in CASOS if c["category"] == categoria]) >= minimo
+    def test_minimum_per_category(self, category, minimum):
+        assert len([c for c in CASES if c["category"] == category]) >= minimum
 
-    def test_hay_casos_de_error(self):
-        assert any(c["expected_error"] for c in CASOS)
+    def test_there_are_error_cases(self):
+        assert any(c["expected_error"] for c in CASES)
 
 
-class TestReglasDeDescuento:
-    """Comportamiento de apply_discount que el CSV no expresa como monto."""
+class TestDiscountRules:
+    """apply_discount behaviour that the CSV cannot express as an amount."""
 
-    def test_codigo_desconocido_se_rechaza(self):
-        pedido = Order([{"name": "X", "price": 100.0, "quantity": 1, "weight": 0.0}])
-        assert pedido.apply_discount("NOPE") is False
-        assert pedido.discount_code is None
+    def test_unknown_code_is_rejected(self):
+        order = Order([{"name": "X", "price": 100.0, "quantity": 1, "weight": 0.0}])
+        assert order.apply_discount("NOPE") is False
+        assert order.discount_code is None
 
-    def test_newuser_solo_para_clientes_nuevos(self):
-        nuevo = Order([{"name": "X", "price": 10.0, "quantity": 1, "weight": 0.0}], "new")
+    def test_newuser_only_for_new_customers(self):
+        new = Order([{"name": "X", "price": 10.0, "quantity": 1, "weight": 0.0}], "new")
         regular = Order([{"name": "X", "price": 10.0, "quantity": 1, "weight": 0.0}], "regular")
 
-        assert nuevo.apply_discount("NEWUSER") is True
+        assert new.apply_discount("NEWUSER") is True
         assert regular.apply_discount("NEWUSER") is False
 
-    def test_un_codigo_rechazado_no_pisa_al_anterior(self):
-        pedido = Order([{"name": "X", "price": 100.0, "quantity": 1, "weight": 0.0}])
-        pedido.apply_discount("SAVE20")
+    def test_a_rejected_code_does_not_replace_the_previous_one(self):
+        order = Order([{"name": "X", "price": 100.0, "quantity": 1, "weight": 0.0}])
+        order.apply_discount("SAVE20")
 
-        assert pedido.apply_discount("NOPE") is False
-        assert pedido.discount_code == "SAVE20"
+        assert order.apply_discount("NOPE") is False
+        assert order.discount_code == "SAVE20"
 
-    def test_freeship_no_descuenta_del_precio(self):
-        pedido = Order([{"name": "X", "price": 100.0, "quantity": 1, "weight": 5.0}])
-        pedido.apply_discount("FREESHIP")
-        pedido.set_shipping(100)
+    def test_freeship_does_not_discount_the_price(self):
+        order = Order([{"name": "X", "price": 100.0, "quantity": 1, "weight": 5.0}])
+        order.apply_discount("FREESHIP")
+        order.set_shipping(100)
 
-        assert pedido.calculate_discount() == 0.0
-        assert pedido.calculate_shipping() == 0.0
+        assert order.calculate_discount() == 0.0
+        assert order.calculate_shipping() == 0.0
 
 
-class TestEntradasInvalidas:
-    """Lo que el constructor y set_shipping tienen que rechazar."""
+class TestInvalidInput:
+    """What the constructor and set_shipping have to reject."""
 
     @pytest.mark.parametrize(
-        "items,mensaje",
+        "items,message",
         [
-            ("no soy lista", "items must be a list"),
-            ([["no", "soy", "dict"]], "each item must be an object"),
+            ("not a list", "items must be a list"),
+            ([["not", "a", "dict"]], "each item must be an object"),
             ([{"price": 1.0, "quantity": 1, "weight": 1.0}], "item is missing name"),
             ([{"name": "", "price": 1.0, "quantity": 1, "weight": 1.0}], "item name must be a non-empty string"),
             ([{"name": "X", "price": "1.0", "quantity": 1, "weight": 1.0}], "price must be a number"),
@@ -104,18 +104,18 @@ class TestEntradasInvalidas:
             ([{"name": "X", "price": 1.0, "quantity": 1, "weight": -1.0}], "weight must not be negative"),
         ],
     )
-    def test_items_invalidos(self, items, mensaje):
-        with pytest.raises(ValueError, match=mensaje):
+    def test_invalid_items(self, items, message):
+        with pytest.raises(ValueError, match=message):
             Order(items)
 
-    def test_tipo_de_cliente_invalido(self):
+    def test_invalid_customer_type(self):
         with pytest.raises(ValueError, match="customer_type must be new or regular"):
             Order([], "vip")
 
-    def test_express_debe_ser_booleano(self):
+    def test_express_must_be_a_boolean(self):
         with pytest.raises(ValueError, match="is_express must be a boolean"):
-            Order([]).set_shipping(10, "si")
+            Order([]).set_shipping(10, "yes")
 
-    def test_distancia_no_numerica(self):
+    def test_non_numeric_distance(self):
         with pytest.raises(ValueError, match="distance_km must be a number"):
-            Order([]).set_shipping("diez")
+            Order([]).set_shipping("ten")

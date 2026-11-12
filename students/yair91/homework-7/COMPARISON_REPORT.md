@@ -1,130 +1,133 @@
-# Tradicional contra guiado por datos
+# Traditional versus data-driven
 
-Los dos archivos de la Parte 3 cubren **los mismos diez escenarios** con las
-mismas afirmaciones: subtotal, descuento, impuesto, envío y total de cada uno.
-Lo único que cambia es dónde viven los datos.
+The two files in Part 3 cover **the same ten scenarios** with the same
+assertions: subtotal, discount, tax, shipping and total for each one. The only
+thing that changes is where the data lives.
 
-- `tests/test_order_traditional.py` — diez funciones, datos escritos adentro
-- `tests/test_order_data_driven.py` — una función parametrizada, datos en `test_data/order_calculations.csv`
+- `tests/test_order_traditional.py` — ten functions, data written inline
+- `tests/test_order_data_driven.py` — one parameterized function, data in `test_data/order_calculations.csv`
 
-Todos los números de este reporte están medidos, no estimados. Los comandos
-para reproducirlos están al final.
+Every number in this report is measured, not estimated. The commands to
+reproduce them are at the end.
 
-## 1. Líneas de código
+## 1. Lines of code
 
-| | Tradicional | Guiado por datos | Reducción |
+| | Traditional | Data-driven | Reduction |
 | --- | --- | --- | --- |
-| Líneas totales | 144 | 41 | **71.5 %** |
-| Sin vacías ni comentarios | 108 | 26 | **75.9 %** |
-| Funciones de prueba | 10 | 2 | 80 % |
-| Casos ejecutados | 10 | 11 | — |
+| Total lines | 144 | 41 | **71.5 %** |
+| Excluding blanks and comments | 120 | 30 | **75.0 %** |
+| Test functions | 10 | 2 | 80 % |
+| Cases executed | 10 | 11 | — |
 
-El archivo guiado por datos ejecuta un caso más porque además de los diez
-escenarios incluye una prueba que verifica que los diez nombres sigan
-existiendo en el CSV. Sin esa guarda, renombrar una fila del CSV haría que el
-escenario desapareciera en silencio y la suite seguiría en verde con nueve
-casos en lugar de diez.
+The data-driven file runs one case more because, besides the ten scenarios, it
+includes a test that checks the ten names still exist in the CSV. Without that
+guard, renaming a CSV row would make a scenario disappear silently and the
+suite would stay green with nine cases instead of ten.
 
-La reducción real es mayor de lo que dice el 75 %: las 26 líneas del archivo
-guiado por datos son **constantes** respecto al número de escenarios. Las 108
-del tradicional crecen a razón de unas 11 por escenario.
+The real reduction is larger than the 75 % suggests: the 30 lines of the
+data-driven file are **constant** with respect to the number of scenarios. The
+120 lines of the traditional one grow by roughly 12 per scenario.
 
-## 2. Mantenibilidad
+## 2. Maintainability
 
-**Agregar un caso nuevo.** En el tradicional son unas 11 líneas: una función,
-el armado del pedido y cinco afirmaciones. En el guiado por datos es una línea
-en el CSV y un nombre en la lista `ESCENARIOS`. Para los otros archivos de la
-entrega, que no filtran por nombre, es una sola línea en el CSV y nada más.
+**Adding a new case.** In the traditional file it is about 12 lines: a
+function, the order setup and five assertions. In the data-driven one it is a
+line in the CSV plus a name in the `SCENARIOS` list. For the other files in
+this submission, which do not filter by name, it is a single line in the CSV
+and nothing else.
 
-**Cambiar una regla.** Si la tasa de impuesto pasara de 8 % a 9 %, en el
-tradicional hay que recalcular a mano los diez valores de `tax` y los diez de
-`total`, repartidos en 144 líneas. Es tedioso y es exactamente donde se cuela
-un error de dedo. En el guiado por datos se regenera la columna del CSV con el
-mismo script que la produjo.
+**Changing a rule.** If the tax rate went from 8 % to 9 %, the traditional file
+needs ten `tax` values and ten `total` values recomputed by hand, spread over
+144 lines. It is tedious and it is exactly where a typo slips in. In the
+data-driven one the CSV column is regenerated with the same script that
+produced it.
 
-**Dónde duele el guiado por datos.** El salto de contexto. Ver una falla y
-entender qué se estaba probando obliga a abrir el CSV y buscar la fila. Por eso
-cada archivo de datos de esta entrega trae una columna `reason` o `category`
-que no se usa para decidir nada: solo viaja al mensaje de error.
+**Where data-driven hurts.** The context switch. Seeing a failure and
+understanding what was being tested means opening the CSV and finding the row.
+That is why every data file in this submission carries a `reason` or `category`
+column that is not used to decide anything: it only travels into the failure
+message.
 
-## 3. Legibilidad
+## 3. Readability
 
-El tradicional gana cuando lees **una** prueba. Todo está a la vista: entradas,
-pasos y resultado esperado, sin abrir nada más. Para alguien que llega nuevo al
-código, `test_save10_justo_en_el_minimo` se entiende sin contexto.
+The traditional file wins when you read **one** test. Everything is in sight:
+inputs, steps and expected result, without opening anything else. For someone
+new to the code, `test_save10_exactly_at_the_minimum` makes sense with no
+context at all.
 
-El guiado por datos gana cuando lees **todas**. Las 35 filas del CSV caben en
-una pantalla y se leen como una tabla de decisión: se ve de un vistazo qué
-combinaciones están cubiertas y cuáles faltan. En el tradicional esa misma
-visión exige leer 144 líneas y llevar la cuenta en la cabeza.
+The data-driven file wins when you read **all** of them. The 35 CSV rows fit on
+one screen and read like a decision table: you can see at a glance which
+combinations are covered and which are missing. In the traditional file that
+same view means reading 144 lines and keeping count in your head.
 
-Hay un efecto que no esperaba: el formato tabular **hace visibles los huecos**.
-Al acomodar los casos en columnas salta a la vista que no había ninguna fila
-con cantidad cero, y de ahí salió `complex_zero_quantity_contributes_nothing`.
-Escribiendo funciones sueltas ese hueco no se nota.
+There is one effect I did not expect: the tabular format **makes the gaps
+visible**. Laying the cases out in columns made it obvious that no row had a
+quantity of zero, and that is where
+`complex_zero_quantity_contributes_nothing` came from. Writing separate
+functions, that gap goes unnoticed.
 
-## 4. Cobertura y costo de crecer
+## 4. Coverage and the cost of growing
 
-| | Tradicional | Guiado por datos |
+| | Traditional | Data-driven |
 | --- | --- | --- |
-| Escenarios cubiertos | 10 | 10 |
-| Tiempo de ejecución (promedio de 3 corridas) | 0.030 s | 0.010 s |
-| Líneas para 10 escenarios más | ~110 | ~10 (una por fila del CSV) |
-| Archivos a tocar | 1 | 1 (el CSV) |
+| Scenarios covered | 10 | 10 |
+| Run time (average of 3 runs) | 0.030 s | 0.010 s |
+| Lines for 10 more scenarios | ~110 | ~10 (one per CSV row) |
+| Files to touch | 1 | 1 (the CSV) |
 
-El tiempo favorece al guiado por datos, pero la diferencia es de milisegundos
-y no es el argumento. Con 10 casos no importa; el punto es que el costo de
-agregar el caso 50 es el mismo que el del caso 11, y en el tradicional no.
+Time favours the data-driven version, but the difference is milliseconds and it
+is not the argument. With 10 cases it does not matter; the point is that the
+cost of adding case 50 is the same as the cost of case 11, and in the
+traditional file it is not.
 
-En la entrega completa esto se nota: las 256 pruebas de la suite salen de 35
-filas de CSV, 39 casos de JSON, 5 flujos y unas pocas funciones. Escritas una
-por una serían más de dos mil líneas.
+In the full submission this shows: the 257 tests in the suite come out of 35
+CSV rows, 39 JSON cases, 5 workflows and a handful of functions. Written one by
+one they would be more than two thousand lines.
 
-## 5. Conclusión
+## 5. Conclusion
 
-**Guiado por datos cuando** el mismo camino de código se recorre con muchas
-combinaciones de entrada: tablas de precios, reglas de descuento, validaciones
-de formato, matrices de decisión. Mientras más se parezcan los casos entre sí,
-más gana.
+**Data-driven when** the same code path is walked with many combinations of
+input: price tables, discount rules, format validation, decision matrices. The
+more the cases resemble each other, the more it wins.
 
-**Tradicional cuando** cada prueba hace algo distinto: montar un estado
-particular, verificar una secuencia de llamadas, comprobar que algo lanza en el
-momento preciso. Meter eso en una tabla obliga a inventar columnas que solo
-aplican a una fila, y la tabla se vuelve más difícil de leer que el código que
-reemplaza.
+**Traditional when** each test does something different: setting up a
+particular state, checking a sequence of calls, confirming something raises at
+a precise moment. Forcing that into a table means inventing columns that apply
+to a single row, and the table becomes harder to read than the code it
+replaces.
 
-**Lo que funciona mejor es mezclarlos**, y es lo que hace esta entrega: los
-montos y las validaciones van por CSV y JSON, mientras que las reglas que no se
-expresan como un número —que un código rechazado no pise al anterior, que
-`FREESHIP` no descuente del precio— viven como funciones sueltas en
-`test_order_calculator.py`.
+**What works best is mixing them**, and that is what this submission does: the
+amounts and the validations go through CSV and JSON, while the rules that are
+not expressible as a number — that a rejected code does not replace the
+previous one, that `FREESHIP` does not discount the price — live as separate
+functions in `test_order_calculator.py`.
 
-**Lo que hay que cuidar.** Los datos son código y necesitan el mismo rigor. Un
-CSV con una columna corrida no hace fallar la prueba: la hace pasar con los
-valores equivocados. Por eso esta entrega incluye `src/data_validator.py`, que
-revisa los archivos antes de usarlos y reporta cada problema con archivo, línea
-y columna.
+**What needs care.** Data is code and it needs the same rigour. A CSV with a
+shifted column does not make a test fail: it makes it pass with the wrong
+values. That is why this submission includes `src/data_validator.py`, which
+checks the files before they are used and reports every problem with file, line
+and column.
 
-Y un riesgo más sutil: si los valores esperados se generan llamando al código
-que se va a probar, la prueba ya no prueba nada, solo confirma que el código
-coincide consigo mismo. Los valores de `order_calculations.csv` se calcularon
-con una fórmula escrita aparte, desde el texto del enunciado, y después se
-contrastaron contra la implementación. `test_data/generated_orders.csv` sí sale
-del código, y por eso está marcado como datos de regresión: sirve para detectar
-que algo cambió, no para demostrar que algo está bien.
+And a subtler risk: if the expected values are generated by calling the code
+under test, the test stops testing anything and only confirms the code agrees
+with itself. The values in `order_calculations.csv` were computed with a
+formula written separately, from the text of the brief, and then cross-checked
+against the implementation. `test_data/generated_orders.csv` does come from the
+code, and that is exactly why it is labelled as regression data: it detects
+that something changed, it does not prove that something is right.
 
-## Cómo reproducir los números
+## Reproducing the numbers
 
 ```bash
-# Líneas
+# Lines
 wc -l tests/test_order_traditional.py tests/test_order_data_driven.py
 grep -vcE '^\s*$|^\s*#' tests/test_order_traditional.py
 
-# Casos ejecutados
+# Cases executed
 pytest tests/test_order_traditional.py --collect-only -q
 pytest tests/test_order_data_driven.py --collect-only -q
 
-# Tiempo
+# Time
 pytest tests/test_order_traditional.py -q
 pytest tests/test_order_data_driven.py -q
 ```

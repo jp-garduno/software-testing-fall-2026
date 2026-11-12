@@ -1,8 +1,8 @@
-"""Rutas e importacion compartidas por toda la suite.
+"""Shared paths and imports for the whole suite.
 
-pytest.ini ya pone la raiz y src/ en pythonpath. Este archivo repite el
-ajuste con sys.path para que la suite tambien corra en un runner cuyo pytest
-no soporte esa opcion, y centraliza la carga de los archivos de datos.
+pytest.ini already puts the root and src/ on pythonpath. This file repeats the
+adjustment through sys.path so the suite also runs on a runner whose pytest
+does not support that option, and centralises loading the data files.
 """
 
 import csv
@@ -16,72 +16,72 @@ HW_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC_DIR = os.path.join(HW_ROOT, "src")
 DATA_DIR = os.path.join(HW_ROOT, "test_data")
 
-for ruta in (SRC_DIR, HW_ROOT):
-    if ruta not in sys.path:
-        sys.path.insert(0, ruta)
+for path in (SRC_DIR, HW_ROOT):
+    if path not in sys.path:
+        sys.path.insert(0, path)
 
-# Tiene que ir despues de ajustar sys.path, por eso la excepcion.
+# Must come after sys.path is adjusted, hence the exception.
 from order_calculator import Order  # noqa: E402  pylint: disable=wrong-import-position
 
 
-def ruta_de_datos(nombre):
-    """Ruta absoluta a un archivo de test_data/, sin depender del cwd."""
-    return os.path.join(DATA_DIR, nombre)
+def data_path(name):
+    """Absolute path to a file in test_data/, independent of the cwd."""
+    return os.path.join(DATA_DIR, name)
 
 
-def cargar_csv(nombre):
-    """Lee un CSV de test_data/ como lista de diccionarios."""
-    with open(ruta_de_datos(nombre), newline="", encoding="utf-8") as archivo:
-        return list(csv.DictReader(archivo))
+def load_csv(name):
+    """Read a CSV from test_data/ as a list of dictionaries."""
+    with open(data_path(name), newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
 
 
-def cargar_json(nombre):
-    """Lee un JSON de test_data/."""
-    with open(ruta_de_datos(nombre), encoding="utf-8") as archivo:
-        return json.load(archivo)
+def load_json(name):
+    """Read a JSON file from test_data/."""
+    with open(data_path(name), encoding="utf-8") as handle:
+        return json.load(handle)
 
 
-def casos_de_pedido():
-    """Filas de order_calculations.csv con los tipos ya convertidos."""
-    casos = []
-    for fila in cargar_csv("order_calculations.csv"):
-        casos.append(
+def order_cases():
+    """Rows of order_calculations.csv with their types already converted."""
+    cases = []
+    for row in load_csv("order_calculations.csv"):
+        cases.append(
             {
-                "test_name": fila["test_name"],
-                "category": fila["category"],
-                "items": json.loads(fila["items"]),
-                "customer_type": fila["customer_type"],
-                "discount_code": fila["discount_code"],
-                "distance_km": float(fila["distance_km"]),
-                "is_express": fila["is_express"] == "true",
+                "test_name": row["test_name"],
+                "category": row["category"],
+                "items": json.loads(row["items"]),
+                "customer_type": row["customer_type"],
+                "discount_code": row["discount_code"],
+                "distance_km": float(row["distance_km"]),
+                "is_express": row["is_express"] == "true",
                 "expected": {
-                    clave: float(fila[f"expected_{clave}"])
-                    for clave in ("subtotal", "discount", "tax", "shipping", "total")
+                    key: float(row[f"expected_{key}"])
+                    for key in ("subtotal", "discount", "tax", "shipping", "total")
                 }
-                if not fila["expected_error"]
+                if not row["expected_error"]
                 else None,
-                "expected_error": fila["expected_error"],
+                "expected_error": row["expected_error"],
             }
         )
-    return casos
+    return cases
 
 
-def construir_pedido(caso):
-    """Arma el Order de un caso y le aplica descuento y envio."""
-    pedido = Order(caso["items"], caso["customer_type"])
-    if caso["discount_code"] != "NONE":
-        pedido.apply_discount(caso["discount_code"])
-    pedido.set_shipping(caso["distance_km"], caso["is_express"])
-    return pedido
-
-
-@pytest.fixture(scope="session")
-def casos_cliente():
-    """Casos de customer_validation.json."""
-    return cargar_json("customer_validation.json")["test_cases"]
+def build_order(case):
+    """Build the Order for a case and apply its discount and shipping."""
+    order = Order(case["items"], case["customer_type"])
+    if case["discount_code"] != "NONE":
+        order.apply_discount(case["discount_code"])
+    order.set_shipping(case["distance_km"], case["is_express"])
+    return order
 
 
 @pytest.fixture(scope="session")
-def flujos():
-    """Flujos de order_workflows.json."""
-    return cargar_json("order_workflows.json")["workflows"]
+def customer_cases():
+    """Cases from customer_validation.json."""
+    return load_json("customer_validation.json")["test_cases"]
+
+
+@pytest.fixture(scope="session")
+def workflows():
+    """Workflows from order_workflows.json."""
+    return load_json("order_workflows.json")["workflows"]

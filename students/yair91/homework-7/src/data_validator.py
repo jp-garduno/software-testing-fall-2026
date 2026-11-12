@@ -1,11 +1,11 @@
-"""Validacion de los archivos de datos de prueba (Bonus, opcion C).
+"""Validation of the test data files (bonus, option C).
 
-Antes de correr la suite conviene saber si los datos estan bien formados. Un
-CSV con una columna de menos o un numero escrito como texto no hace fallar una
-prueba por la razon correcta: la hace fallar por una razon confusa, o peor, la
-hace pasar con datos silenciosamente mal convertidos.
+Before running the suite it is worth knowing whether the data is well formed.
+A CSV with a missing column or a number written as text does not make a test
+fail for the right reason: it makes it fail confusingly, or worse, makes it
+pass with silently wrong values.
 
-Cada problema se reporta con el archivo, la linea y la columna.
+Every problem is reported with the file, the line and the column.
 """
 
 import csv
@@ -13,171 +13,167 @@ import json
 import os
 from typing import Dict, List
 
-COLUMNAS_DE_PEDIDOS = (
+ORDER_COLUMNS = (
     "test_name", "category", "items", "customer_type", "discount_code",
     "distance_km", "is_express", "expected_subtotal", "expected_discount",
     "expected_tax", "expected_shipping", "expected_total", "expected_error",
 )
-COLUMNAS_NUMERICAS = (
+NUMERIC_COLUMNS = (
     "distance_km", "expected_subtotal", "expected_discount",
     "expected_tax", "expected_shipping", "expected_total",
 )
-CAMPOS_DE_ITEM = ("name", "price", "quantity", "weight")
-CLAVES_DE_CASO = ("test_name", "category", "customer", "expected_valid", "expected_errors", "reason")
-CATEGORIAS_DE_PEDIDO = ("simple", "discount", "tax", "shipping", "complex")
+ITEM_FIELDS = ("name", "price", "quantity", "weight")
+CASE_KEYS = ("test_name", "category", "customer", "expected_valid", "expected_errors", "reason")
+ORDER_CATEGORIES = ("simple", "discount", "tax", "shipping", "complex")
 
 
 class DataValidationError(Exception):
-    """Se lanza cuando un archivo de datos no se puede usar."""
+    """Raised when a test data file cannot be used."""
 
 
-def _problema(archivo: str, linea, columna, mensaje: str) -> str:
-    """Arma un mensaje que siempre dice donde esta el problema."""
-    ubicacion = f"{os.path.basename(archivo)}"
-    if linea is not None:
-        ubicacion += f":{linea}"
-    if columna is not None:
-        ubicacion += f" [{columna}]"
-    return f"{ubicacion}: {mensaje}"
+def _problem(path: str, line, column, message: str) -> str:
+    """Build a message that always says where the problem is."""
+    location = os.path.basename(path)
+    if line is not None:
+        location += f":{line}"
+    if column is not None:
+        location += f" [{column}]"
+    return f"{location}: {message}"
 
 
-def validar_csv_de_pedidos(ruta: str) -> List[str]:
-    """Revisa order_calculations.csv y devuelve la lista de problemas."""
-    problemas = []
+def validate_order_csv(path: str) -> List[str]:
+    """Check order_calculations.csv and return the list of problems."""
+    problems = []
 
-    with open(ruta, newline="", encoding="utf-8") as archivo:
-        lector = csv.DictReader(archivo)
-        faltantes = [c for c in COLUMNAS_DE_PEDIDOS if c not in (lector.fieldnames or [])]
-        if faltantes:
-            return [_problema(ruta, 1, None, f"faltan columnas: {', '.join(faltantes)}")]
+    with open(path, newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        missing = [c for c in ORDER_COLUMNS if c not in (reader.fieldnames or [])]
+        if missing:
+            return [_problem(path, 1, None, f"missing columns: {', '.join(missing)}")]
 
-        nombres = set()
-        for numero, fila in enumerate(lector, start=2):
-            problemas.extend(_revisar_fila_de_pedido(ruta, numero, fila, nombres))
+        names = set()
+        for number, row in enumerate(reader, start=2):
+            problems.extend(_check_order_row(path, number, row, names))
 
-    if not problemas and not nombres:
-        problemas.append(_problema(ruta, None, None, "el archivo no tiene filas de datos"))
-    return problemas
+    if not problems and not names:
+        problems.append(_problem(path, None, None, "the file has no data rows"))
+    return problems
 
 
-def _revisar_fila_de_pedido(ruta: str, numero: int, fila: Dict, nombres: set) -> List[str]:
-    """Revisa una fila: nombre unico, categoria, booleano, items y numeros."""
-    problemas = []
+def _check_order_row(path: str, number: int, row: Dict, names: set) -> List[str]:
+    """Check one row: unique name, category, boolean, items and numbers."""
+    problems = []
 
-    nombre = (fila.get("test_name") or "").strip()
-    if not nombre:
-        problemas.append(_problema(ruta, numero, "test_name", "esta vacio"))
-    elif nombre in nombres:
-        problemas.append(_problema(ruta, numero, "test_name", f"'{nombre}' esta repetido"))
+    name = (row.get("test_name") or "").strip()
+    if not name:
+        problems.append(_problem(path, number, "test_name", "is empty"))
+    elif name in names:
+        problems.append(_problem(path, number, "test_name", f"'{name}' is duplicated"))
     else:
-        nombres.add(nombre)
+        names.add(name)
 
-    if fila.get("category") not in CATEGORIAS_DE_PEDIDO:
-        problemas.append(
-            _problema(ruta, numero, "category", f"'{fila.get('category')}' no es una categoria conocida")
+    if row.get("category") not in ORDER_CATEGORIES:
+        problems.append(
+            _problem(path, number, "category", f"'{row.get('category')}' is not a known category")
         )
 
-    if fila.get("is_express") not in ("true", "false"):
-        problemas.append(_problema(ruta, numero, "is_express", "debe ser true o false en minusculas"))
+    if row.get("is_express") not in ("true", "false"):
+        problems.append(_problem(path, number, "is_express", "must be true or false in lowercase"))
 
-    problemas.extend(_revisar_items(ruta, numero, fila.get("items", "")))
+    problems.extend(_check_items(path, number, row.get("items", "")))
 
-    espera_error = bool((fila.get("expected_error") or "").strip())
-    for columna in COLUMNAS_NUMERICAS:
-        valor = (fila.get(columna) or "").strip()
-        if valor == "":
-            if not espera_error and columna != "distance_km":
-                problemas.append(_problema(ruta, numero, columna, "esta vacio y no se espera un error"))
+    expects_error = bool((row.get("expected_error") or "").strip())
+    for column in NUMERIC_COLUMNS:
+        value = (row.get(column) or "").strip()
+        if value == "":
+            if not expects_error and column != "distance_km":
+                problems.append(_problem(path, number, column, "is empty and no error is expected"))
             continue
         try:
-            float(valor)
+            float(value)
         except ValueError:
-            problemas.append(_problema(ruta, numero, columna, f"'{valor}' no es un numero"))
+            problems.append(_problem(path, number, column, f"'{value}' is not a number"))
 
-    return problemas
+    return problems
 
 
-def _revisar_items(ruta: str, numero: int, crudo: str) -> List[str]:
-    """La celda items tiene que ser JSON con los cuatro campos por articulo."""
+def _check_items(path: str, number: int, raw: str) -> List[str]:
+    """The items cell must be JSON with the four fields on every article."""
     try:
-        items = json.loads(crudo)
+        items = json.loads(raw)
     except json.JSONDecodeError as error:
-        return [_problema(ruta, numero, "items", f"no es JSON valido: {error.msg}")]
+        return [_problem(path, number, "items", f"is not valid JSON: {error.msg}")]
 
     if not isinstance(items, list):
-        return [_problema(ruta, numero, "items", "debe ser una lista")]
+        return [_problem(path, number, "items", "must be a list")]
 
-    problemas = []
-    for posicion, item in enumerate(items):
+    problems = []
+    for position, item in enumerate(items):
         if not isinstance(item, dict):
-            problemas.append(_problema(ruta, numero, "items", f"el articulo {posicion} no es un objeto"))
+            problems.append(_problem(path, number, "items", f"article {position} is not an object"))
             continue
-        faltan = [campo for campo in CAMPOS_DE_ITEM if campo not in item]
-        if faltan:
-            problemas.append(
-                _problema(ruta, numero, "items", f"al articulo {posicion} le faltan {', '.join(faltan)}")
+        missing = [field for field in ITEM_FIELDS if field not in item]
+        if missing:
+            problems.append(
+                _problem(path, number, "items", f"article {position} is missing {', '.join(missing)}")
             )
-    return problemas
+    return problems
 
 
-def validar_json_de_clientes(ruta: str) -> List[str]:
-    """Revisa customer_validation.json y devuelve la lista de problemas."""
-    with open(ruta, encoding="utf-8") as archivo:
-        datos = json.load(archivo)
+def validate_customer_json(path: str) -> List[str]:
+    """Check customer_validation.json and return the list of problems."""
+    with open(path, encoding="utf-8") as handle:
+        data = json.load(handle)
 
-    if not isinstance(datos, dict) or "test_cases" not in datos:
-        return [_problema(ruta, None, None, "falta la clave test_cases")]
+    if not isinstance(data, dict) or "test_cases" not in data:
+        return [_problem(path, None, None, "the test_cases key is missing")]
 
-    casos = datos["test_cases"]
-    if not isinstance(casos, list) or not casos:
-        return [_problema(ruta, None, "test_cases", "debe ser una lista con al menos un caso")]
+    cases = data["test_cases"]
+    if not isinstance(cases, list) or not cases:
+        return [_problem(path, None, "test_cases", "must be a list with at least one case")]
 
-    problemas, nombres = [], set()
-    for indice, caso in enumerate(casos):
-        etiqueta = f"test_cases[{indice}]"
-        if not isinstance(caso, dict):
-            problemas.append(_problema(ruta, None, etiqueta, "no es un objeto"))
-            continue
-
-        faltan = [clave for clave in CLAVES_DE_CASO if clave not in caso]
-        if faltan:
-            problemas.append(_problema(ruta, None, etiqueta, f"le faltan {', '.join(faltan)}"))
+    problems, names = [], set()
+    for index, case in enumerate(cases):
+        label = f"test_cases[{index}]"
+        if not isinstance(case, dict):
+            problems.append(_problem(path, None, label, "is not an object"))
             continue
 
-        nombre = caso["test_name"]
-        if nombre in nombres:
-            problemas.append(_problema(ruta, None, etiqueta, f"'{nombre}' esta repetido"))
-        nombres.add(nombre)
+        missing = [key for key in CASE_KEYS if key not in case]
+        if missing:
+            problems.append(_problem(path, None, label, f"is missing {', '.join(missing)}"))
+            continue
 
-        if not isinstance(caso["expected_valid"], bool):
-            problemas.append(_problema(ruta, None, etiqueta, "expected_valid debe ser booleano"))
-        if not isinstance(caso["expected_errors"], list):
-            problemas.append(_problema(ruta, None, etiqueta, "expected_errors debe ser una lista"))
-        elif caso["expected_valid"] and caso["expected_errors"]:
-            problemas.append(
-                _problema(ruta, None, etiqueta, "un caso valido no puede traer errores esperados")
-            )
-        elif not caso["expected_valid"] and not caso["expected_errors"]:
-            problemas.append(
-                _problema(ruta, None, etiqueta, "un caso invalido tiene que decir que error espera")
-            )
+        name = case["test_name"]
+        if name in names:
+            problems.append(_problem(path, None, label, f"'{name}' is duplicated"))
+        names.add(name)
 
-    return problemas
+        if not isinstance(case["expected_valid"], bool):
+            problems.append(_problem(path, None, label, "expected_valid must be a boolean"))
+        if not isinstance(case["expected_errors"], list):
+            problems.append(_problem(path, None, label, "expected_errors must be a list"))
+        elif case["expected_valid"] and case["expected_errors"]:
+            problems.append(_problem(path, None, label, "a valid case cannot list expected errors"))
+        elif not case["expected_valid"] and not case["expected_errors"]:
+            problems.append(_problem(path, None, label, "an invalid case must say which error it expects"))
+
+    return problems
 
 
-def validar_todo(directorio: str) -> Dict[str, List[str]]:
-    """Revisa los dos archivos principales y devuelve los problemas por archivo."""
+def validate_all(directory: str) -> Dict[str, List[str]]:
+    """Check both main files and return the problems per file."""
     return {
-        "order_calculations.csv": validar_csv_de_pedidos(os.path.join(directorio, "order_calculations.csv")),
-        "customer_validation.json": validar_json_de_clientes(
-            os.path.join(directorio, "customer_validation.json")
+        "order_calculations.csv": validate_order_csv(os.path.join(directory, "order_calculations.csv")),
+        "customer_validation.json": validate_customer_json(
+            os.path.join(directory, "customer_validation.json")
         ),
     }
 
 
-def exigir_datos_validos(directorio: str) -> None:
-    """Lanza DataValidationError si algun archivo tiene problemas."""
-    hallazgos = validar_todo(directorio)
-    todos = [problema for lista in hallazgos.values() for problema in lista]
-    if todos:
-        raise DataValidationError("\n".join(todos))
+def require_valid_data(directory: str) -> None:
+    """Raise DataValidationError when any file has problems."""
+    findings = validate_all(directory)
+    everything = [problem for problems in findings.values() for problem in problems]
+    if everything:
+        raise DataValidationError("\n".join(everything))

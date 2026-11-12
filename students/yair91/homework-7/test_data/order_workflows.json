@@ -1,9 +1,9 @@
 {
-  "description": "Flujos completos de pedido: se valida al cliente, se intenta el descuento, se fija el envio y se calcula el total. expected_outcome es 'confirmed' solo cuando el cliente pasa la validacion.",
+  "description": "End-to-end order workflows: the customer is validated, the discount is attempted, shipping is set and the total is computed. expected_outcome is 'confirmed' only when the customer passes validation.",
   "workflows": [
     {
       "workflow_name": "checkout_regular_with_save20",
-      "description": "Cliente valido, pedido sobre 100, descuento aceptado y envio estandar",
+      "description": "Valid customer, order above 100, discount accepted and standard shipping",
       "customer": {
         "email": "alice@example.com",
         "phone": "(555) 123-4567",
@@ -57,7 +57,7 @@
     },
     {
       "workflow_name": "checkout_new_user_express",
-      "description": "Cliente nuevo con NEWUSER y envio express",
+      "description": "New customer with NEWUSER and express shipping",
       "customer": {
         "email": "alice@example.com",
         "phone": "(555) 123-4567",
@@ -117,7 +117,7 @@
     },
     {
       "workflow_name": "checkout_rejected_customer",
-      "description": "Pedido correcto pero la tarjeta no pasa Luhn, no se confirma",
+      "description": "Order is fine but the card fails Luhn, so it is not confirmed",
       "customer": {
         "email": "alice@example.com",
         "phone": "(555) 123-4567",
@@ -171,7 +171,7 @@
     },
     {
       "workflow_name": "checkout_discount_below_minimum",
-      "description": "SAVE20 se rechaza por monto y el pedido sigue a precio completo",
+      "description": "SAVE20 is rejected on amount and the order goes through at full price",
       "customer": {
         "email": "alice@example.com",
         "phone": "(555) 123-4567",
@@ -225,7 +225,7 @@
     },
     {
       "workflow_name": "checkout_freeship_heavy_order",
-      "description": "FREESHIP anula un envio que habria sido caro",
+      "description": "FREESHIP waives shipping that would otherwise have been expensive",
       "customer": {
         "email": "alice@example.com",
         "phone": "(555) 123-4567",

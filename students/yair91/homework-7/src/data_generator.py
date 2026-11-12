@@ -1,16 +1,16 @@
-"""Generador de datos de regresion (Bonus, opcion A).
+"""Regression data generator (bonus, option A).
 
-El enunciado sugiere Faker. Aqui no se usa: el runner de calificacion instala
-solo el requirements.txt de la raiz del repositorio, donde Faker no esta, asi
-que una prueba que lo importara fallaria al calificar. En su lugar se genera
-con random sembrado, que ademas da algo que Faker no da gratis: el mismo
-semillero produce siempre el mismo archivo, que es justo lo que necesita un
-conjunto de regresion.
+The brief suggests Faker. It is not used here: the grading runner installs
+only the requirements.txt at the root of the repository, where Faker is not
+listed, so a test that imported it would fail during grading. The data is
+generated with a seeded random instead, which also gives something Faker does
+not give for free: the same seed always produces the same file, which is
+exactly what a regression set needs.
 
-Que son estos datos: una foto del comportamiento actual, no una verificacion
-de que el comportamiento sea correcto. Sirven para detectar que algo cambio,
-no para demostrar que algo esta bien. Lo segundo lo hace
-order_calculations.csv, cuyos valores se escribieron a mano desde las reglas.
+What this data is: a snapshot of the current behaviour, not a check that the
+behaviour is correct. It detects that something changed, it does not prove
+that something is right. That second job belongs to order_calculations.csv,
+whose amounts were written by hand from the rules.
 """
 
 import csv
@@ -20,96 +20,96 @@ from typing import Dict, List
 
 from order_calculator import Order
 
-ARTICULOS = (
+CATALOGUE = (
     ("Notebook", 3.50, 0.30), ("Keyboard", 45.00, 0.90), ("Monitor", 189.99, 4.20),
     ("Mouse", 24.50, 0.15), ("Desk Lamp", 32.00, 1.10), ("Headphones", 79.90, 0.25),
     ("Webcam", 58.25, 0.20), ("Backpack", 64.00, 0.80), ("Cable", 9.99, 0.05),
     ("Chair", 149.00, 12.50), ("Tablet", 329.00, 0.55), ("Speaker", 88.40, 1.80),
 )
-CODIGOS = ("NONE", "SAVE10", "SAVE20", "FREESHIP", "NEWUSER")
-TIPOS_DE_CLIENTE = ("regular", "new")
+DISCOUNT_CODES = ("NONE", "SAVE10", "SAVE20", "FREESHIP", "NEWUSER")
+CUSTOMER_TYPES = ("regular", "new")
 
-ENCABEZADO = (
+HEADER = (
     "test_name", "items", "customer_type", "discount_code", "distance_km", "is_express",
     "expected_subtotal", "expected_discount", "expected_tax", "expected_shipping", "expected_total",
 )
 
 
-def generar_pedido(azar: random.Random, indice: int) -> Dict:
-    """Arma un pedido valido al azar, sin calcular todavia sus montos."""
-    cuantos = azar.randint(1, 4)
+def build_order(rng: random.Random, index: int) -> Dict:
+    """Assemble one random valid order, without computing its amounts yet."""
+    how_many = rng.randint(1, 4)
     items = []
-    for nombre, precio, peso in azar.sample(ARTICULOS, cuantos):
+    for name, price, weight in rng.sample(CATALOGUE, how_many):
         items.append(
             {
-                "name": nombre,
-                "price": round(precio * azar.uniform(0.8, 1.2), 2),
-                "quantity": azar.randint(1, 5),
-                "weight": round(peso * azar.uniform(0.9, 1.1), 3),
+                "name": name,
+                "price": round(price * rng.uniform(0.8, 1.2), 2),
+                "quantity": rng.randint(1, 5),
+                "weight": round(weight * rng.uniform(0.9, 1.1), 3),
             }
         )
 
     return {
-        "test_name": f"generated_order_{indice:03d}",
+        "test_name": f"generated_order_{index:03d}",
         "items": items,
-        "customer_type": azar.choice(TIPOS_DE_CLIENTE),
-        "discount_code": azar.choice(CODIGOS),
-        "distance_km": round(azar.uniform(0, 400), 1),
-        "is_express": azar.random() < 0.3,
+        "customer_type": rng.choice(CUSTOMER_TYPES),
+        "discount_code": rng.choice(DISCOUNT_CODES),
+        "distance_km": round(rng.uniform(0, 400), 1),
+        "is_express": rng.random() < 0.3,
     }
 
 
-def calcular_montos(pedido: Dict) -> Dict[str, float]:
-    """Corre el pedido por el calculador real y devuelve su desglose."""
-    orden = Order(pedido["items"], pedido["customer_type"])
-    if pedido["discount_code"] != "NONE":
-        orden.apply_discount(pedido["discount_code"])
-    orden.set_shipping(pedido["distance_km"], pedido["is_express"])
-    return orden.calculate_total()
+def compute_amounts(order: Dict) -> Dict[str, float]:
+    """Run the order through the real calculator and return its breakdown."""
+    calculated = Order(order["items"], order["customer_type"])
+    if order["discount_code"] != "NONE":
+        calculated.apply_discount(order["discount_code"])
+    calculated.set_shipping(order["distance_km"], order["is_express"])
+    return calculated.calculate_total()
 
 
-def generar_pedidos(cantidad: int = 100, semilla: int = 20261111) -> List[Dict]:
-    """Devuelve `cantidad` pedidos con su desglose, reproducibles por semilla."""
-    if not isinstance(cantidad, int) or cantidad < 1:
-        raise ValueError("cantidad debe ser un entero positivo")
+def generate_orders(count: int = 100, seed: int = 20261111) -> List[Dict]:
+    """Return `count` orders with their breakdown, reproducible from the seed."""
+    if not isinstance(count, int) or isinstance(count, bool) or count < 1:
+        raise ValueError("count must be a positive integer")
 
-    azar = random.Random(semilla)
-    pedidos = []
-    for indice in range(1, cantidad + 1):
-        pedido = generar_pedido(azar, indice)
-        pedido["expected"] = calcular_montos(pedido)
-        pedidos.append(pedido)
-    return pedidos
+    rng = random.Random(seed)
+    orders = []
+    for index in range(1, count + 1):
+        order = build_order(rng, index)
+        order["expected"] = compute_amounts(order)
+        orders.append(order)
+    return orders
 
 
-def escribir_csv(pedidos: List[Dict], ruta: str) -> str:
-    """Guarda los pedidos en el mismo formato que order_calculations.csv."""
-    with open(ruta, "w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.writer(archivo)
-        escritor.writerow(ENCABEZADO)
-        for pedido in pedidos:
-            desglose = pedido["expected"]
-            escritor.writerow(
+def write_csv(orders: List[Dict], path: str) -> str:
+    """Save the orders in the same format as order_calculations.csv."""
+    with open(path, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(HEADER)
+        for order in orders:
+            breakdown = order["expected"]
+            writer.writerow(
                 [
-                    pedido["test_name"],
-                    json.dumps(pedido["items"]),
-                    pedido["customer_type"],
-                    pedido["discount_code"],
-                    pedido["distance_km"],
-                    str(pedido["is_express"]).lower(),
-                    f"{desglose['subtotal']:.2f}",
-                    f"{desglose['discount']:.2f}",
-                    f"{desglose['tax']:.2f}",
-                    f"{desglose['shipping']:.2f}",
-                    f"{desglose['total']:.2f}",
+                    order["test_name"],
+                    json.dumps(order["items"]),
+                    order["customer_type"],
+                    order["discount_code"],
+                    order["distance_km"],
+                    str(order["is_express"]).lower(),
+                    f"{breakdown['subtotal']:.2f}",
+                    f"{breakdown['discount']:.2f}",
+                    f"{breakdown['tax']:.2f}",
+                    f"{breakdown['shipping']:.2f}",
+                    f"{breakdown['total']:.2f}",
                 ]
             )
-    return ruta
+    return path
 
 
-def main(ruta: str = "test_data/generated_orders.csv", cantidad: int = 100) -> str:
-    """Genera el archivo de regresion. Se invoca a mano, no desde las pruebas."""
-    return escribir_csv(generar_pedidos(cantidad), ruta)
+def main(path: str = "test_data/generated_orders.csv", count: int = 100) -> str:
+    """Generate the regression file. Run by hand, never from the test suite."""
+    return write_csv(generate_orders(count), path)
 
 
 if __name__ == "__main__":  # pragma: no cover

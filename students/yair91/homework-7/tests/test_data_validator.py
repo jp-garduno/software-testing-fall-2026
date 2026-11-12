@@ -1,7 +1,7 @@
-"""Pruebas del validador de datos de prueba (Bonus, opcion C).
+"""Tests for the test data validator (bonus, option C).
 
-Los archivos rotos se escriben en tmp_path en vez de commitearlos, para que el
-directorio test_data/ solo contenga datos que la suite usa de verdad.
+The broken files are written into tmp_path instead of being committed, so
+test_data/ only holds data the suite actually uses.
 """
 
 import json
@@ -11,172 +11,172 @@ import pytest
 from conftest import DATA_DIR
 from data_validator import (
     DataValidationError,
-    exigir_datos_validos,
-    validar_csv_de_pedidos,
-    validar_json_de_clientes,
-    validar_todo,
+    require_valid_data,
+    validate_all,
+    validate_customer_json,
+    validate_order_csv,
 )
 
-ENCABEZADO = (
+HEADER = (
     "test_name,category,items,customer_type,discount_code,distance_km,is_express,"
     "expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error"
 )
-FILA_BUENA = (
+GOOD_ROW = (
     'ok,simple,"[{""name"": ""X"", ""price"": 1.0, ""quantity"": 1, ""weight"": 0.0}]",'
     "regular,NONE,0,false,1.00,0.00,0.08,0.00,1.08,"
 )
 
 
-def escribir_csv(tmp_path, *filas):
-    """Arma un CSV temporal con el encabezado bueno y las filas dadas."""
-    ruta = tmp_path / "order_calculations.csv"
-    ruta.write_text("\n".join((ENCABEZADO,) + filas) + "\n", encoding="utf-8")
-    return str(ruta)
+def write_csv(tmp_path, *rows):
+    """Build a temporary CSV with the good header and the given rows."""
+    path = tmp_path / "order_calculations.csv"
+    path.write_text("\n".join((HEADER,) + rows) + "\n", encoding="utf-8")
+    return str(path)
 
 
-def escribir_json(tmp_path, contenido):
-    """Arma un JSON temporal de clientes."""
-    ruta = tmp_path / "customer_validation.json"
-    ruta.write_text(json.dumps(contenido), encoding="utf-8")
-    return str(ruta)
+def write_json(tmp_path, content):
+    """Build a temporary customer JSON file."""
+    path = tmp_path / "customer_validation.json"
+    path.write_text(json.dumps(content), encoding="utf-8")
+    return str(path)
 
 
-class TestLosDatosRealesEstanBien:
-    """La razon de ser del modulo: avisar antes de correr la suite."""
+class TestTheRealDataIsFine:
+    """The whole point of the module: warn before the suite runs."""
 
-    def test_el_csv_de_pedidos_no_tiene_problemas(self):
-        assert not validar_csv_de_pedidos(f"{DATA_DIR}/order_calculations.csv")
+    def test_the_order_csv_has_no_problems(self):
+        assert not validate_order_csv(f"{DATA_DIR}/order_calculations.csv")
 
-    def test_el_json_de_clientes_no_tiene_problemas(self):
-        assert not validar_json_de_clientes(f"{DATA_DIR}/customer_validation.json")
+    def test_the_customer_json_has_no_problems(self):
+        assert not validate_customer_json(f"{DATA_DIR}/customer_validation.json")
 
-    def test_validar_todo_revisa_los_dos(self):
-        hallazgos = validar_todo(DATA_DIR)
-        assert set(hallazgos) == {"order_calculations.csv", "customer_validation.json"}
-        assert all(not problemas for problemas in hallazgos.values())
+    def test_validate_all_checks_both(self):
+        findings = validate_all(DATA_DIR)
+        assert set(findings) == {"order_calculations.csv", "customer_validation.json"}
+        assert all(not problems for problems in findings.values())
 
-    def test_exigir_datos_validos_no_lanza(self):
-        exigir_datos_validos(DATA_DIR)
+    def test_require_valid_data_does_not_raise(self):
+        require_valid_data(DATA_DIR)
 
 
-class TestProblemasEnElCsv:
-    """Cada problema se reporta con archivo, linea y columna."""
+class TestProblemsInTheCsv:
+    """Every problem is reported with file, line and column."""
 
-    def test_falta_una_columna(self, tmp_path):
-        ruta = tmp_path / "order_calculations.csv"
-        ruta.write_text("test_name,category\nok,simple\n", encoding="utf-8")
-        problemas = validar_csv_de_pedidos(str(ruta))
+    def test_a_missing_column(self, tmp_path):
+        path = tmp_path / "order_calculations.csv"
+        path.write_text("test_name,category\nok,simple\n", encoding="utf-8")
+        problems = validate_order_csv(str(path))
 
-        assert len(problemas) == 1
-        assert "faltan columnas" in problemas[0]
-        assert "order_calculations.csv:1" in problemas[0]
+        assert len(problems) == 1
+        assert "missing columns" in problems[0]
+        assert "order_calculations.csv:1" in problems[0]
 
-    def test_archivo_sin_filas(self, tmp_path):
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path))
-        assert any("no tiene filas de datos" in p for p in problemas)
+    def test_a_file_with_no_rows(self, tmp_path):
+        problems = validate_order_csv(write_csv(tmp_path))
+        assert any("no data rows" in p for p in problems)
 
-    def test_nombre_vacio(self, tmp_path):
-        fila = FILA_BUENA.replace("ok,simple", ",simple", 1)
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
-        assert any("[test_name]" in p and "vacio" in p for p in problemas)
+    def test_an_empty_name(self, tmp_path):
+        row = GOOD_ROW.replace("ok,simple", ",simple", 1)
+        problems = validate_order_csv(write_csv(tmp_path, row))
+        assert any("[test_name]" in p and "is empty" in p for p in problems)
 
-    def test_nombre_repetido_nombra_la_segunda_linea(self, tmp_path):
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, FILA_BUENA, FILA_BUENA))
-        assert any(":3" in p and "repetido" in p for p in problemas)
+    def test_a_duplicated_name_names_the_second_line(self, tmp_path):
+        problems = validate_order_csv(write_csv(tmp_path, GOOD_ROW, GOOD_ROW))
+        assert any(":3" in p and "duplicated" in p for p in problems)
 
-    def test_categoria_desconocida(self, tmp_path):
-        fila = FILA_BUENA.replace("ok,simple", "ok,inventada", 1)
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
-        assert any("[category]" in p for p in problemas)
+    def test_an_unknown_category(self, tmp_path):
+        row = GOOD_ROW.replace("ok,simple", "ok,invented", 1)
+        problems = validate_order_csv(write_csv(tmp_path, row))
+        assert any("[category]" in p for p in problems)
 
-    def test_booleano_mal_escrito(self, tmp_path):
-        fila = FILA_BUENA.replace(",NONE,0,false,", ",NONE,0,False,", 1)
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
-        assert any("[is_express]" in p for p in problemas)
+    def test_a_badly_written_boolean(self, tmp_path):
+        row = GOOD_ROW.replace(",NONE,0,false,", ",NONE,0,False,", 1)
+        problems = validate_order_csv(write_csv(tmp_path, row))
+        assert any("[is_express]" in p for p in problems)
 
-    def test_numero_que_no_es_numero(self, tmp_path):
-        fila = FILA_BUENA.replace(",1.00,0.00,", ",mucho,0.00,", 1)
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
-        assert any("[expected_subtotal]" in p and "no es un numero" in p for p in problemas)
+    def test_a_number_that_is_not_a_number(self, tmp_path):
+        row = GOOD_ROW.replace(",1.00,0.00,", ",lots,0.00,", 1)
+        problems = validate_order_csv(write_csv(tmp_path, row))
+        assert any("[expected_subtotal]" in p and "is not a number" in p for p in problems)
 
-    def test_monto_vacio_sin_error_esperado(self, tmp_path):
-        fila = FILA_BUENA.replace(",1.00,0.00,0.08,0.00,1.08,", ",,0.00,0.08,0.00,1.08,", 1)
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
-        assert any("[expected_subtotal]" in p and "no se espera un error" in p for p in problemas)
+    def test_an_empty_amount_with_no_expected_error(self, tmp_path):
+        row = GOOD_ROW.replace(",1.00,0.00,0.08,0.00,1.08,", ",,0.00,0.08,0.00,1.08,", 1)
+        problems = validate_order_csv(write_csv(tmp_path, row))
+        assert any("[expected_subtotal]" in p and "no error is expected" in p for p in problems)
 
-    def test_monto_vacio_con_error_esperado_es_valido(self, tmp_path):
-        fila = FILA_BUENA.replace(",1.00,0.00,0.08,0.00,1.08,", ",,,,,,price must not be negative", 1)
-        assert not validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
+    def test_an_empty_amount_with_an_expected_error_is_fine(self, tmp_path):
+        row = GOOD_ROW.replace(",1.00,0.00,0.08,0.00,1.08,", ",,,,,,price must not be negative", 1)
+        assert not validate_order_csv(write_csv(tmp_path, row))
 
     @pytest.mark.parametrize(
-        "celda,fragmento",
+        "cell,fragment",
         [
-            ("no es json", "no es JSON valido"),
-            ('"{""a"": 1}"', "debe ser una lista"),
-            ("[1]", "no es un objeto"),
-            ('"[{""name"": ""X""}]"', "le faltan"),
+            ("not json", "is not valid JSON"),
+            ('"{""a"": 1}"', "must be a list"),
+            ("[1]", "is not an object"),
+            ('"[{""name"": ""X""}]"', "is missing"),
         ],
     )
-    def test_items_mal_formados(self, tmp_path, celda, fragmento):
-        fila = FILA_BUENA.replace(
-            '"[{""name"": ""X"", ""price"": 1.0, ""quantity"": 1, ""weight"": 0.0}]"', celda, 1
+    def test_malformed_items(self, tmp_path, cell, fragment):
+        row = GOOD_ROW.replace(
+            '"[{""name"": ""X"", ""price"": 1.0, ""quantity"": 1, ""weight"": 0.0}]"', cell, 1
         )
-        problemas = validar_csv_de_pedidos(escribir_csv(tmp_path, fila))
-        assert any("[items]" in p and fragmento in p for p in problemas)
+        problems = validate_order_csv(write_csv(tmp_path, row))
+        assert any("[items]" in p and fragment in p for p in problems)
 
 
-class TestProblemasEnElJson:
-    """Lo mismo para el archivo de clientes."""
+class TestProblemsInTheJson:
+    """The same for the customer file."""
 
-    CASO = {
+    CASE = {
         "test_name": "x", "category": "valid_customers", "customer": {},
-        "expected_valid": False, "expected_errors": ["algo"], "reason": "r",
+        "expected_valid": False, "expected_errors": ["something"], "reason": "r",
     }
 
-    def test_falta_test_cases(self, tmp_path):
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"otra": 1}))
-        assert any("falta la clave test_cases" in p for p in problemas)
+    def test_test_cases_is_missing(self, tmp_path):
+        problems = validate_customer_json(write_json(tmp_path, {"other": 1}))
+        assert any("test_cases key is missing" in p for p in problems)
 
-    def test_lista_vacia(self, tmp_path):
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": []}))
-        assert any("al menos un caso" in p for p in problemas)
+    def test_an_empty_list(self, tmp_path):
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": []}))
+        assert any("at least one case" in p for p in problems)
 
-    def test_caso_que_no_es_objeto(self, tmp_path):
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": ["x"]}))
-        assert any("no es un objeto" in p for p in problemas)
+    def test_a_case_that_is_not_an_object(self, tmp_path):
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": ["x"]}))
+        assert any("is not an object" in p for p in problems)
 
-    def test_caso_al_que_le_faltan_claves(self, tmp_path):
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": [{"test_name": "x"}]}))
-        assert any("le faltan" in p for p in problemas)
+    def test_a_case_with_missing_keys(self, tmp_path):
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": [{"test_name": "x"}]}))
+        assert any("is missing" in p for p in problems)
 
-    def test_nombre_repetido(self, tmp_path):
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": [self.CASO, self.CASO]}))
-        assert any("repetido" in p for p in problemas)
+    def test_a_duplicated_name(self, tmp_path):
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": [self.CASE, self.CASE]}))
+        assert any("duplicated" in p for p in problems)
 
-    def test_valido_con_errores_esperados(self, tmp_path):
-        caso = {**self.CASO, "expected_valid": True, "expected_errors": ["algo"]}
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": [caso]}))
-        assert any("no puede traer errores" in p for p in problemas)
+    def test_a_valid_case_listing_errors(self, tmp_path):
+        case = {**self.CASE, "expected_valid": True, "expected_errors": ["something"]}
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": [case]}))
+        assert any("cannot list expected errors" in p for p in problems)
 
-    def test_invalido_sin_errores_esperados(self, tmp_path):
-        caso = {**self.CASO, "expected_valid": False, "expected_errors": []}
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": [caso]}))
-        assert any("tiene que decir que error espera" in p for p in problemas)
+    def test_an_invalid_case_listing_no_errors(self, tmp_path):
+        case = {**self.CASE, "expected_valid": False, "expected_errors": []}
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": [case]}))
+        assert any("must say which error it expects" in p for p in problems)
 
-    def test_tipos_equivocados(self, tmp_path):
-        caso = {**self.CASO, "expected_valid": "no", "expected_errors": "tampoco"}
-        problemas = validar_json_de_clientes(escribir_json(tmp_path, {"test_cases": [caso]}))
-        assert any("debe ser booleano" in p for p in problemas)
-        assert any("debe ser una lista" in p for p in problemas)
+    def test_wrong_types(self, tmp_path):
+        case = {**self.CASE, "expected_valid": "no", "expected_errors": "neither"}
+        problems = validate_customer_json(write_json(tmp_path, {"test_cases": [case]}))
+        assert any("must be a boolean" in p for p in problems)
+        assert any("must be a list" in p for p in problems)
 
 
-def test_exigir_datos_validos_lanza_con_todo_junto(tmp_path):
-    """El error reune los problemas de los dos archivos."""
-    escribir_csv(tmp_path, FILA_BUENA.replace("ok,simple", "ok,inventada", 1))
-    escribir_json(tmp_path, {"test_cases": []})
+def test_require_valid_data_raises_with_everything_together(tmp_path):
+    """The error gathers the problems from both files."""
+    write_csv(tmp_path, GOOD_ROW.replace("ok,simple", "ok,invented", 1))
+    write_json(tmp_path, {"test_cases": []})
 
     with pytest.raises(DataValidationError) as error:
-        exigir_datos_validos(str(tmp_path))
+        require_valid_data(str(tmp_path))
 
     assert "[category]" in str(error.value)
-    assert "al menos un caso" in str(error.value)
+    assert "at least one case" in str(error.value)

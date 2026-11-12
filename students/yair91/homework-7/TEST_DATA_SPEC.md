@@ -1,57 +1,57 @@
-# Especificación de los datos de prueba
+# Test data specification
 
-Cuatro archivos en `test_data/`. Tres son el contrato que verifican las
-pruebas; el cuarto es un conjunto de regresión generado.
+Four files in `test_data/`. Three are the contract the tests verify; the
+fourth is a generated regression set.
 
-| Archivo | Formato | Filas/casos | Mínimo del enunciado | Qué define |
+| File | Format | Rows/cases | Brief's minimum | What it defines |
 | --- | --- | --- | --- | --- |
-| `order_calculations.csv` | CSV | 35 | 25 | Montos de cada pedido |
-| `customer_validation.json` | JSON | 39 | 30 | Validación de clientes |
-| `order_workflows.json` | JSON | 5 | 3 | Flujos de extremo a extremo |
-| `generated_orders.csv` | CSV | 100 | — | Regresión generada (bonus A) |
+| `order_calculations.csv` | CSV | 35 | 25 | Amounts for each order |
+| `customer_validation.json` | JSON | 39 | 30 | Customer validation |
+| `order_workflows.json` | JSON | 5 | 3 | End-to-end workflows |
+| `generated_orders.csv` | CSV | 100 | — | Generated regression set (bonus A) |
 
 ---
 
 ## `order_calculations.csv`
 
-Una fila es un pedido completo con sus cinco montos esperados.
+One row is a complete order with its five expected amounts.
 
-| Columna | Tipo | Qué guarda |
+| Column | Type | What it holds |
 | --- | --- | --- |
-| `test_name` | texto | Identificador único; sale en la salida de pytest |
-| `category` | texto | Una de `simple`, `discount`, `tax`, `shipping`, `complex` |
-| `items` | JSON | Lista de artículos, cada uno con `name`, `price`, `quantity`, `weight` |
-| `customer_type` | texto | `regular` o `new` |
-| `discount_code` | texto | El código, o `NONE` para no intentar ninguno |
-| `distance_km` | número | Distancia de envío |
-| `is_express` | texto | `true` o `false`, en minúsculas |
-| `expected_subtotal` | número | Montos esperados, a dos decimales |
-| `expected_discount` | número | |
-| `expected_tax` | número | |
-| `expected_shipping` | número | |
-| `expected_total` | número | |
-| `expected_error` | texto | Mensaje de `ValueError` esperado; vacío cuando el pedido es válido |
+| `test_name` | text | Unique identifier; shows up in the pytest output |
+| `category` | text | One of `simple`, `discount`, `tax`, `shipping`, `complex` |
+| `items` | JSON | List of articles, each with `name`, `price`, `quantity`, `weight` |
+| `customer_type` | text | `regular` or `new` |
+| `discount_code` | text | The code, or `NONE` to attempt none |
+| `distance_km` | number | Shipping distance |
+| `is_express` | text | `true` or `false`, lowercase |
+| `expected_subtotal` | number | Expected amounts, two decimals |
+| `expected_discount` | number | |
+| `expected_tax` | number | |
+| `expected_shipping` | number | |
+| `expected_total` | number | |
+| `expected_error` | text | Expected `ValueError` message; empty when the order is valid |
 
-**La columna `items` es JSON dentro de una celda de CSV.** Las comillas dobles
-van duplicadas, que es como el estándar CSV las escapa:
+**The `items` column is JSON inside a CSV cell.** Double quotes are doubled,
+which is how the CSV standard escapes them:
 
 ```csv
 "[{""name"": ""Notebook"", ""price"": 25.0, ""quantity"": 1, ""weight"": 0.0}]"
 ```
 
-El ejemplo del enunciado usa `[{name:Item1,price:50,...}]`, con las claves sin
-comillas. Eso no es JSON válido ni literal de Python, así que no se puede leer
-con `json.loads` ni con `ast.literal_eval`. Aquí se usa JSON porque `csv` y
-`json` son de la librería estándar y `json.loads` no ejecuta nada de lo que
-lee, a diferencia de `eval`.
+The example in the brief uses `[{name:Item1,price:50,...}]`, with unquoted
+keys. That is neither valid JSON nor a valid Python literal, so it cannot be
+read with `json.loads` or with `ast.literal_eval`. JSON is used here because
+`csv` and `json` are both in the standard library and `json.loads` executes
+nothing it reads, unlike `eval`.
 
-**Cuando `expected_error` trae texto, las cinco columnas de montos van
-vacías.** Esa fila afirma que construir el pedido lanza `ValueError` con ese
-mensaje exacto, y nunca llega a calcular nada.
+**When `expected_error` carries text, the five amount columns are empty.** That
+row asserts that building the order raises `ValueError` with that exact
+message, and never gets as far as computing anything.
 
-**Reparto por categoría**, contra los mínimos del enunciado:
+**Split by category**, against the brief's minimums:
 
-| Categoría | Filas | Mínimo |
+| Category | Rows | Minimum |
 | --- | --- | --- |
 | `simple` | 4 | 3 |
 | `discount` | 8 | 5 |
@@ -81,20 +81,20 @@ mensaje exacto, y nunca llega a calcular nada.
 }
 ```
 
-`expected_errors` es la lista **completa y en orden**, no un subconjunto. El
-orden lo fija `validate_customer`: email, teléfono, calle, ciudad, estado,
-código postal, tarjeta, vencimiento. Las pruebas comparan la lista entera, así
-que una fila que espera un error no pasa si el código devuelve tres.
+`expected_errors` is the **complete list, in order**, not a subset. The order
+is fixed by `validate_customer`: email, phone, street, city, state, zip, card
+number, card expiry. The tests compare the whole list, so a row expecting one
+error does not pass if the code returns three.
 
-`reference_date` existe porque el vencimiento de una tarjeta depende de qué día
-es hoy. Si el validador usara `datetime.now()`, una tarjeta `12/26` sería
-válida este año y dejaría de serlo el siguiente, y la suite empezaría a fallar
-sola sin que nadie tocara nada. La fecha de referencia está fija en
-`customer_validator.py` como dato, no como reloj.
+`reference_date` exists because a card's expiry depends on what day it is. If
+the validator used `datetime.now()`, a `12/26` card would be valid this year
+and stop being valid the next, and the suite would start failing on its own
+without anyone touching it. The reference date is fixed in
+`customer_validator.py` as data, not as a clock.
 
-**Reparto por categoría**:
+**Split by category**:
 
-| Categoría | Casos | Mínimo |
+| Category | Cases | Minimum |
 | --- | --- | --- |
 | `valid_customers` | 5 | 3 |
 | `invalid_emails` | 6 | 4 |
@@ -107,7 +107,7 @@ sola sin que nadie tocara nada. La fecha de referencia está fija en
 
 ## `order_workflows.json`
 
-Cada flujo encadena validación de cliente, descuento, envío y cálculo.
+Each workflow chains customer validation, discount, shipping and calculation.
 
 ```json
 {
@@ -129,67 +129,67 @@ Cada flujo encadena validación de cliente, descuento, envío y cálculo.
 }
 ```
 
-`expected_outcome` es `confirmed` solo cuando el cliente pasa la validación. Un
-flujo con `rejected_customer` igual trae sus montos: el pedido se calcula, pero
-no se confirma, y una prueba verifica que el rechazo del cliente no altera
-ningún monto.
+`expected_outcome` is `confirmed` only when the customer passes validation. A
+workflow with `rejected_customer` still carries its amounts: the order is
+computed but not confirmed, and one test verifies that rejecting the customer
+does not change any amount.
 
-Los cinco flujos cubren: camino feliz con descuento, cliente nuevo con express,
-cliente rechazado por tarjeta inválida, descuento rechazado por monto, y
-`FREESHIP` sobre un envío que habría sido caro.
+The five workflows cover: happy path with a discount, new customer with
+express, customer rejected over an invalid card, discount rejected on amount,
+and `FREESHIP` over shipping that would otherwise have been expensive.
 
 ---
 
 ## `generated_orders.csv`
 
-Cien pedidos producidos por `src/data_generator.py` con `random` sembrado. El
-mismo semillero da siempre el mismo archivo, así que el CSV se puede regenerar
-y comparar byte a byte.
+One hundred orders produced by `src/data_generator.py` with a seeded random.
+The same seed always gives the same file, so the CSV can be regenerated and
+compared byte for byte.
 
 ```bash
 PYTHONPATH=src python src/data_generator.py
 ```
 
-**Estos datos son distintos a los de los otros tres archivos y conviene no
-confundirlos.** Sus valores esperados salen de correr el propio calculador, así
-que afirman *que el comportamiento no cambió*, no *que el comportamiento es
-correcto*. Son una foto para detectar regresiones. La verificación de
-corrección vive en `order_calculations.csv`, cuyos montos se calcularon con una
-fórmula escrita aparte, desde el texto del enunciado, y después se contrastaron
-contra la implementación.
+**This data is different from the other three files and the difference
+matters.** Its expected values come from running the calculator itself, so they
+assert *that the behaviour has not changed*, not *that the behaviour is
+correct*. They are a snapshot for catching regressions. The correctness check
+lives in `order_calculations.csv`, whose amounts were computed with a formula
+written separately, from the text of the brief, and then cross-checked against
+the implementation.
 
-Por eso las pruebas de `test_data_generator.py` no afirman montos: verifican
-que los pedidos sean válidos, que haya variedad de códigos y modalidades, y que
-el archivo se pueda releer.
+That is why the tests in `test_data_generator.py` assert no amounts: they check
+that the orders are valid, that there is variety in codes and modes, and that
+the file can be read back.
 
 ---
 
-## Validación de los datos
+## Validating the data
 
-`src/data_validator.py` revisa los archivos antes de usarlos y reporta cada
-problema con archivo, línea y columna:
+`src/data_validator.py` checks the files before they are used and reports every
+problem with file, line and column:
 
 ```
-order_calculations.csv:14 [expected_subtotal]: 'mucho' no es un numero
-customer_validation.json [test_cases[7]]: un caso valido no puede traer errores esperados
+order_calculations.csv:14 [expected_subtotal]: 'lots' is not a number
+customer_validation.json [test_cases[7]]: a valid case cannot list expected errors
 ```
 
-Qué revisa: columnas faltantes, nombres repetidos, categorías desconocidas,
-booleanos mal escritos, números que no son números, `items` que no es JSON o
-al que le faltan campos, y en el JSON que un caso válido no declare errores y
-que uno inválido sí los declare.
+What it checks: missing columns, duplicated names, unknown categories, badly
+written booleans, numbers that are not numbers, `items` that is not JSON or is
+missing fields, and in the JSON that a valid case declares no errors and an
+invalid one does.
 
 ```python
-from data_validator import exigir_datos_validos
-exigir_datos_validos("test_data")   # lanza DataValidationError con todo junto
+from data_validator import require_valid_data
+require_valid_data("test_data")   # raises DataValidationError with everything at once
 ```
 
-## Cómo agregar casos
+## Adding cases
 
-Para los montos de pedidos, una línea en `order_calculations.csv`. Para
-clientes, un objeto en `test_cases`. En los dos casos no hay que tocar ningún
-archivo de pruebas: la suite recorre lo que encuentre.
+For order amounts, one line in `order_calculations.csv`. For customers, one
+object in `test_cases`. In both cases no test file needs touching: the suite
+walks whatever it finds.
 
-Lo único que sí hay que tocar es `tests/test_order_data_driven.py`, y solo si
-el caso nuevo debe entrar en la comparación de la Parte 3, porque ese archivo
-elige diez escenarios por nombre a propósito.
+The only file that does need touching is `tests/test_order_data_driven.py`, and
+only if the new case should take part in the Part 3 comparison, because that
+file picks ten scenarios by name on purpose.

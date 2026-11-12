@@ -1,17 +1,17 @@
-"""Version guiada por datos: los mismos diez escenarios, una sola prueba.
+"""Data-driven version: the same ten scenarios, one single test.
 
-Es la otra mitad de la comparacion de la Parte 3. Los escenarios se eligen por
-nombre desde order_calculations.csv, asi que agregar uno once es agregar su
-nombre a la lista, no escribir otra funcion.
+This is the other half of the Part 3 comparison. The scenarios are picked by
+name from order_calculations.csv, so adding an eleventh means adding its name
+to the list, not writing another function.
 """
 
 import pytest
 
-from conftest import casos_de_pedido, construir_pedido
+from conftest import build_order, order_cases
 
-CENTAVO = 0.005
+ONE_CENT = 0.005
 
-ESCENARIOS = [
+SCENARIOS = [
     "simple_single_item",
     "simple_two_products",
     "discount_save10_at_minimum",
@@ -24,18 +24,18 @@ ESCENARIOS = [
     "shipping_freeship_waives_cost",
 ]
 
-CASOS = [caso for caso in casos_de_pedido() if caso["test_name"] in ESCENARIOS]
+CASES = [case for case in order_cases() if case["test_name"] in SCENARIOS]
 
 
-def test_los_diez_escenarios_existen_en_el_csv():
-    """Si alguien renombra una fila del CSV, esto avisa en vez de saltarsela."""
-    assert sorted(caso["test_name"] for caso in CASOS) == sorted(ESCENARIOS)
+def test_the_ten_scenarios_exist_in_the_csv():
+    """If someone renames a CSV row this complains instead of skipping it."""
+    assert sorted(case["test_name"] for case in CASES) == sorted(SCENARIOS)
 
 
-@pytest.mark.parametrize("caso", CASOS, ids=lambda caso: caso["test_name"])
-def test_desglose_del_pedido(caso):
-    """Los cinco montos de cada escenario, leidos del CSV."""
-    desglose = construir_pedido(caso).calculate_total()
+@pytest.mark.parametrize("case", CASES, ids=lambda case: case["test_name"])
+def test_order_breakdown(case):
+    """The five amounts of every scenario, read from the CSV."""
+    breakdown = build_order(case).calculate_total()
 
-    for clave, esperado in caso["expected"].items():
-        assert desglose[clave] == pytest.approx(esperado, abs=CENTAVO), f"{clave} en {caso['test_name']}"
+    for key, expected in case["expected"].items():
+        assert breakdown[key] == pytest.approx(expected, abs=ONE_CENT), f"{key} in {case['test_name']}"
