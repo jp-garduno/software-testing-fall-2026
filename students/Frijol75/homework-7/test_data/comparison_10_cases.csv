@@ -1,0 +1,12 @@
+test_name,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total
+test_01_single_item,"[{'name':'Book','price':50.0,'quantity':1,'weight':0.0}]",regular,NONE,0.0,false,50.00,0.00,4.00,0.00,54.00
+test_02_multiple_items,"[{'name':'Mug','price':10.0,'quantity':2,'weight':0.0},{'name':'Pen','price':5.25,'quantity':3,'weight':0.0}]",regular,NONE,0.0,false,35.75,0.00,2.86,0.00,38.61
+test_03_save10_valid,"[{'name':'Headphones','price':80.0,'quantity':1,'weight':0.0}]",regular,SAVE10,0.0,false,80.00,8.00,5.76,0.00,77.76
+test_04_save10_below_min,"[{'name':'Mousepad','price':45.0,'quantity':1,'weight':0.0}]",regular,SAVE10,0.0,false,45.00,0.00,3.60,0.00,48.60
+test_05_save20_valid,"[{'name':'Monitor','price':150.0,'quantity':1,'weight':0.0}]",regular,SAVE20,0.0,false,150.00,30.00,9.60,0.00,129.60
+test_06_newuser_valid,"[{'name':'Backpack','price':60.0,'quantity':1,'weight':0.0}]",new,NEWUSER,0.0,false,60.00,9.00,4.08,0.00,55.08
+test_07_shipping_standard,"[{'name':'WeightPlate','price':30.0,'quantity':1,'weight':4.0}]",regular,NONE,20.0,false,30.00,0.00,2.40,4.00,36.40
+test_08_shipping_express,"[{'name':'Smartphone','price':300.0,'quantity':1,'weight':2.0}]",regular,NONE,30.0,true,300.00,0.00,24.00,6.00,330.00
+test_09_freeship_discount,"[{'name':'Microwave','price':150.0,'quantity':1,'weight':10.0}]",regular,FREESHIP,50.0,false,150.00,0.00,12.00,0.00,162.00
+test_10_complex_combination,"[{'name':'Blender','price':45.0,'quantity':1,'weight':3.0},{'name':'Cups','price':6.0,'quantity':4,'weight':0.25}]",new,NEWUSER,15.0,true,69.00,10.35,4.69,5.25,68.59
+
