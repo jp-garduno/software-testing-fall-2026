@@ -1,0 +1,302 @@
+{
+  "workflows": [
+    {
+      "name": "complete_standard_order_flow",
+      "description": "Happy path: valid customer, regular order with SAVE10, standard shipping and payment",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "validate_customer",
+          "data": {
+            "email": "customer@example.com",
+            "phone": "(555) 234-5678",
+            "billing_address": {
+              "street": "100 Broadway",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10005"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2028",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "create_order",
+          "data": {
+            "items": [
+              {"name": "Desk Lamp", "price": 40.00, "quantity": 2, "weight": 1.50}
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created",
+            "subtotal": 80.00
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "applied": true,
+            "discount_amount": 8.00
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 20.0,
+            "is_express": false
+          },
+          "expected": {
+            "shipping_cost": 3.50
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80.00,
+            "discount": 8.00,
+            "tax": 5.76,
+            "shipping": 3.50,
+            "total": 81.26
+          }
+        },
+        {
+          "step_number": 6,
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount_charged": 81.26
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_express_order_flow",
+      "description": "New customer onboarding flow with NEWUSER 15% discount and express shipping",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "validate_customer",
+          "data": {
+            "email": "newbie@startup.io",
+            "phone": "(415) 555-8901",
+            "billing_address": {
+              "street": "500 Howard St",
+              "city": "San Francisco",
+              "state": "CA",
+              "zip": "94105"
+            },
+            "credit_card": {
+              "number": "5425233430109903",
+              "expiration": "08/2029",
+              "cvv": "456"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "create_order",
+          "data": {
+            "items": [
+              {"name": "Ergonomic Keyboard", "price": 100.00, "quantity": 1, "weight": 1.20}
+            ],
+            "customer_type": "new"
+          },
+          "expected": {
+            "status": "created",
+            "subtotal": 100.00
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "apply_discount",
+          "data": {
+            "code": "NEWUSER"
+          },
+          "expected": {
+            "applied": true,
+            "discount_amount": 15.00
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 40.0,
+            "is_express": true
+          },
+          "expected": {
+            "shipping_cost": 6.90
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 100.00,
+            "discount": 15.00,
+            "tax": 6.80,
+            "shipping": 6.90,
+            "total": 98.70
+          }
+        },
+        {
+          "step_number": 6,
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount_charged": 98.70
+          }
+        }
+      ]
+    },
+    {
+      "name": "freeship_heavy_order_flow",
+      "description": "Heavy order utilizing FREESHIP coupon to eliminate shipping costs",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "validate_customer",
+          "data": {
+            "email": "warehouse.manager@corp.net",
+            "phone": "(214) 555-4321",
+            "billing_address": {
+              "street": "200 Logistics Blvd",
+              "city": "Dallas",
+              "state": "TX",
+              "zip": "75201"
+            },
+            "credit_card": {
+              "number": "378282246310005",
+              "expiration": "11/2030",
+              "cvv": "9876"
+            }
+          },
+          "expected": {
+            "is_valid": true,
+            "errors": []
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "create_order",
+          "data": {
+            "items": [
+              {"name": "Anvil", "price": 120.00, "quantity": 2, "weight": 25.00}
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created",
+            "subtotal": 240.00
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "apply_discount",
+          "data": {
+            "code": "FREESHIP"
+          },
+          "expected": {
+            "applied": true,
+            "discount_amount": 0.00
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 150.0,
+            "is_express": false
+          },
+          "expected": {
+            "shipping_cost": 0.00
+          }
+        },
+        {
+          "step_number": 5,
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 240.00,
+            "discount": 0.00,
+            "tax": 19.20,
+            "shipping": 0.00,
+            "total": 259.20
+          }
+        },
+        {
+          "step_number": 6,
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount_charged": 259.20
+          }
+        }
+      ]
+    },
+    {
+      "name": "customer_validation_rejection_flow",
+      "description": "Failure path: order halts immediately when customer verification fails",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "validate_customer",
+          "data": {
+            "email": "not-an-email",
+            "phone": "123",
+            "billing_address": {
+              "street": "No state street",
+              "city": "Nowhere",
+              "state": "XX",
+              "zip": "ABC"
+            },
+            "credit_card": {
+              "number": "0000000000",
+              "expiration": "01/2000",
+              "cvv": "0"
+            }
+          },
+          "expected": {
+            "is_valid": false,
+            "errors": [
+              "Invalid email format",
+              "Invalid phone format",
+              "Invalid state",
+              "Invalid zip code",
+              "Invalid credit card number",
+              "Credit card expired",
+              "Invalid CVV"
+            ]
+          }
+        },
+        {
+          "step_number": 2,
+          "action": "order_aborted",
+          "expected": {
+            "status": "rejected",
+            "reason": "customer_validation_failed"
+          }
+        }
+      ]
+    }
+  ]
+}
+
