@@ -1,12 +1,11 @@
-import os
 import json
-
+import os
 
 MIN_STOCK = 5
 
 
 class Product:
-    def __init__(self, sku, name, price, quantity = 0, tags = []):
+    def __init__(self, sku, name, price, quantity=0, tags=[]):
         self.sku = sku
         self.name = name
         self.price = price
@@ -50,10 +49,11 @@ class Inventory:
             total = total + self.products[sku].value()
         return total
 
-    def low_stock(self, threshold = MIN_STOCK):
+    def low_stock(self, threshold=MIN_STOCK):
         result = []
         for sku in self.products:
-            if self.products[sku].quantity < threshold: result.append(self.products[sku])
+            if self.products[sku].quantity < threshold:
+                result.append(self.products[sku])
         return result
 
     def load_from_json(self, path):

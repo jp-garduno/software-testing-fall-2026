@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class Movement:
-    def __init__(self, sku, kind, quantity, note = ""):
+    def __init__(self, sku, kind, quantity, note=""):
         self.sku = sku
         self.kind = kind
         self.quantity = quantity
@@ -15,7 +15,7 @@ class MovementLog:
         self.inventory = inventory
         self.entries = []
 
-    def receive(self, sku, quantity, note = ""):
+    def receive(self, sku, quantity, note=""):
         p = self.inventory.get(sku)
         if p == None:
             return False
@@ -25,7 +25,7 @@ class MovementLog:
         self.entries.append(Movement(sku, "in", quantity, note))
         return True
 
-    def issue(self, sku, quantity, note = ""):
+    def issue(self, sku, quantity, note=""):
         p = self.inventory.get(sku)
         if p == None:
             return False
@@ -38,12 +38,13 @@ class MovementLog:
             self.entries.append(Movement(sku, "out", quantity, note))
             return True
 
-    def history(self, sku = None):
+    def history(self, sku=None):
         if sku == None:
             return self.entries
         out = []
         for e in self.entries:
-            if e.sku == sku: out.append(e)
+            if e.sku == sku:
+                out.append(e)
         return out
 
     def summary(self):
