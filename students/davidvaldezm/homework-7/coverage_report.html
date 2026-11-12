@@ -1,185 +1,316 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Coverage report</title>
-    <link rel="icon" sizes="32x32" href="coverage_details/favicon_32_cb_c827f16f.png">
-    <link rel="stylesheet" href="coverage_details/style_cb_0853b3de.css" type="text/css">
-    <script src="coverage_details/coverage_html_cb_c74880ea.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework 7 test coverage</title>
+<style>
+  body { max-width: 65rem; margin: 2rem auto; padding: 0 1rem; font: 1rem/1.5 system-ui, sans-serif; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: .4rem .6rem; border-bottom: 1px solid #ccc; text-align: left; }
+  section { margin-block: 2rem; }
+  summary { cursor: pointer; }
+  details { overflow-x: auto; }
+  .source td, .source th { padding-block: 0; }
+  code { white-space: pre; }
+  caption { text-align: left; }
+</style>
 </head>
-<body class="indexfile">
-<header>
-    <div class="content">
-        <h1>Coverage report:
-            <span class="pc_cov">100%</span>
-        </h1>
-        <aside id="help_panel_wrapper">
-            <input id="help_panel_state" type="checkbox">
-            <label for="help_panel_state">
-                <img id="keyboard_icon" src="coverage_details/keybd_closed_cb_900cfef5.png" alt="Show/hide keyboard shortcuts">
-            </label>
-            <div id="help_panel">
-                <p class="legend">Shortcuts on this page</p>
-                <div class="keyhelp">
-                    <p>
-                        <kbd>f</kbd>
-                        <kbd>s</kbd>
-                        <kbd>m</kbd>
-                        <kbd>x</kbd>
-                        <kbd>b</kbd>
-                        <kbd>p</kbd>
-                        <kbd>c</kbd>
-                        &nbsp; change column sorting
-                    </p>
-                    <p>
-                        <kbd>[</kbd>
-                        <kbd>]</kbd>
-                        &nbsp; prev/next file
-                    </p>
-                    <p>
-                        <kbd>?</kbd> &nbsp; show/hide this help
-                    </p>
-                </div>
-            </div>
-        </aside>
-        <form id="filter_container">
-            <input id="filter" type="text" value="" placeholder="filter...">
-            <div>
-                <input id="hide100" type="checkbox" >
-                <label for="hide100">hide covered</label>
-            </div>
-        </form>
-        <h2>
-                <a class="button current">Files</a>
-                <a class="button" href="coverage_details/function_index.html">Functions</a>
-                <a class="button" href="coverage_details/class_index.html">Classes</a>
-        </h2>
-        <p class="text">
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.17.2">coverage.py v7.17.2</a>,
-            created at 2026-11-11 23:41 -0600
-        </p>
-    </div>
-</header>
-<main id="index">
-    <table class="index" data-sortable>
-        <thead>
-            <tr class="tablehead grouphead">
-                <th class="spacer">&nbsp;</th>
-                <th class="spacer">&nbsp;</th>
-                <th class="left" colspan="4">Statements</th>
-                <th class="spacer">&nbsp;</th>
-                <th class="left" colspan="3">Branches</th>
-                <th class="spacer">&nbsp;</th>
-                <th>Total</th>
-            </tr>
-            <tr class="tablehead" title="Click to sort">
-                <th id="file" class="name" aria-sort="none" data-shortcut="f">File<span class="arrows"></span></th>
-                <th class="spacer">&nbsp;</th>
-                <th id="statements_coverage" aria-sort="none" data-default-sort-order="descending">coverage<span class="arrows"></span></th>
-                <th id="statements" aria-sort="none" data-default-sort-order="descending" data-shortcut="s">statements<span class="arrows"></span></th>
-                <th id="missing" aria-sort="none" data-default-sort-order="descending" data-shortcut="m">missing<span class="arrows"></span></th>
-                <th id="excluded" aria-sort="none" data-default-sort-order="descending" data-shortcut="x">excluded<span class="arrows"></span></th>
-                <th class="spacer">&nbsp;</th>
-                <th id="branches_coverage" aria-sort="none" data-default-sort-order="descending">coverage<span class="arrows"></span></th>
-                <th id="branches" aria-sort="none" data-default-sort-order="descending" data-shortcut="b">branches<span class="arrows"></span></th>
-                <th id="partial" aria-sort="none" data-default-sort-order="descending" data-shortcut="p">partial<span class="arrows"></span></th>
-                <th class="spacer">&nbsp;</th>
-                <th id="coverage" aria-sort="none" data-shortcut="c">coverage<span class="arrows"></span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="region">
-                <td class="name"><a href="coverage_details/z_145eef247bfb46b6___init___py.html">src<span class="sep">\</span>__init__.py</a></td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="0 0">100%</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="0 0">100%</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="0 0">100%</td>
-            </tr>
-            <tr class="region">
-                <td class="name"><a href="coverage_details/z_145eef247bfb46b6_customer_validator_py.html">src<span class="sep">\</span>customer_validator.py</a></td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="49 49">100%</td>
-                <td>49</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="16 16">100%</td>
-                <td>16</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="65 65">100%</td>
-            </tr>
-            <tr class="region">
-                <td class="name"><a href="coverage_details/z_145eef247bfb46b6_order_calculator_py.html">src<span class="sep">\</span>order_calculator.py</a></td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="68 68">100%</td>
-                <td>68</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="14 14">100%</td>
-                <td>14</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="82 82">100%</td>
-            </tr>
-            <tr class="region">
-                <td class="name"><a href="coverage_details/z_145eef247bfb46b6_order_processor_py.html">src<span class="sep">\</span>order_processor.py</a></td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="45 45">100%</td>
-                <td>45</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="16 16">100%</td>
-                <td>16</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="61 61">100%</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr class="total">
-                <td class="name">Total</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="162 162">100%</td>
-                <td>162</td>
-                <td>0</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="46 46">100%</td>
-                <td>46</td>
-                <td>0</td>
-                <td class="spacer">&nbsp;</td>
-                <td data-ratio="208 208">100%</td>
-            </tr>
-        </tfoot>
-    </table>
-    <p id="no_rows">
-        No items found using the specified filter.
-    </p>
+<body>
+<main>
+<h1>Homework 7 test coverage</h1>
+<p>Coverage.py 7.17.2 measured executable statements and branches in <code>src/</code>.</p>
+<table><caption>Coverage by module</caption>
+<thead><tr><th scope="col">Module</th><th scope="col">Statements</th><th scope="col">Branches</th><th scope="col">Combined coverage</th></tr></thead>
+<tbody>
+<tr><th scope="row"><a href="#file-1">src/__init__.py</a></th><td>0/0</td><td>0/0</td><td>100%</td></tr>
+<tr><th scope="row"><a href="#file-2">src/customer_validator.py</a></th><td>49/49</td><td>16/16</td><td>100%</td></tr>
+<tr><th scope="row"><a href="#file-3">src/order_calculator.py</a></th><td>68/68</td><td>14/14</td><td>100%</td></tr>
+<tr><th scope="row"><a href="#file-4">src/order_processor.py</a></th><td>45/45</td><td>16/16</td><td>100%</td></tr>
+<tr><th scope="row">Total</th><td>162/162</td><td>46/46</td><td>100%</td></tr>
+</tbody></table>
+<section id="file-1"><h2>src/__init__.py</h2><p>Missed branches: None.</p><details><summary>Show line coverage</summary><table class="source"><caption>src/__init__.py</caption><thead><tr><th scope="col">Line</th><th scope="col">Status</th><th scope="col">Source</th></tr></thead><tbody>
+<tr><th scope="row">1</th><td></td><td><code>&quot;&quot;&quot;Order processing for the homework examples.&quot;&quot;&quot;</code></td></tr>
+</tbody></table></details></section>
+<section id="file-2"><h2>src/customer_validator.py</h2><p>Missed branches: None.</p><details><summary>Show line coverage</summary><table class="source"><caption>src/customer_validator.py</caption><thead><tr><th scope="col">Line</th><th scope="col">Status</th><th scope="col">Source</th></tr></thead><tbody>
+<tr><th scope="row">1</th><td></td><td><code>&quot;&quot;&quot;Validate customer contact, billing and payment information.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">2</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">3</th><td>Covered</td><td><code>import re</code></td></tr>
+<tr><th scope="row">4</th><td>Covered</td><td><code>from collections.abc import Mapping</code></td></tr>
+<tr><th scope="row">5</th><td>Covered</td><td><code>from datetime import date</code></td></tr>
+<tr><th scope="row">6</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">7</th><td>Covered</td><td><code>EMAIL = re.compile(</code></td></tr>
+<tr><th scope="row">8</th><td></td><td><code>    r&quot;[A-Za-z0-9_%+~-]+(?:\.[A-Za-z0-9_%+~-]+)*&quot;</code></td></tr>
+<tr><th scope="row">9</th><td></td><td><code>    r&quot;@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}&quot;</code></td></tr>
+<tr><th scope="row">10</th><td></td><td><code>)</code></td></tr>
+<tr><th scope="row">11</th><td>Covered</td><td><code>PHONE = re.compile(r&quot;\([0-9]{3}\) [0-9]{3}-[0-9]{4}&quot;)</code></td></tr>
+<tr><th scope="row">12</th><td>Covered</td><td><code>ZIP = re.compile(r&quot;[0-9]{5}(?:-[0-9]{4})?&quot;)</code></td></tr>
+<tr><th scope="row">13</th><td>Covered</td><td><code>CARD_NUMBER = re.compile(r&quot;[0-9]{13,19}&quot;)</code></td></tr>
+<tr><th scope="row">14</th><td>Covered</td><td><code>EXPIRATION = re.compile(r&quot;(0[1-9]|1[0-2])/([0-9]{4})&quot;)</code></td></tr>
+<tr><th scope="row">15</th><td>Covered</td><td><code>CVV = re.compile(r&quot;[0-9]{3,4}&quot;)</code></td></tr>
+<tr><th scope="row">16</th><td>Covered</td><td><code>STATES = frozenset(</code></td></tr>
+<tr><th scope="row">17</th><td></td><td><code>    &quot;AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO &quot;</code></td></tr>
+<tr><th scope="row">18</th><td></td><td><code>    &quot;MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY&quot;.split()</code></td></tr>
+<tr><th scope="row">19</th><td></td><td><code>)</code></td></tr>
+<tr><th scope="row">20</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">21</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">22</th><td>Covered</td><td><code>def _matches(pattern, value):</code></td></tr>
+<tr><th scope="row">23</th><td>Covered</td><td><code>    return isinstance(value, str) and pattern.fullmatch(value) is not None</code></td></tr>
+<tr><th scope="row">24</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">25</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">26</th><td>Covered</td><td><code>def _present(value):</code></td></tr>
+<tr><th scope="row">27</th><td>Covered</td><td><code>    return isinstance(value, str) and bool(value.strip())</code></td></tr>
+<tr><th scope="row">28</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">29</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">30</th><td>Covered</td><td><code>def _valid_card(number):</code></td></tr>
+<tr><th scope="row">31</th><td>Covered</td><td><code>    if not _matches(CARD_NUMBER, number) or set(number) == {&quot;0&quot;}:</code></td></tr>
+<tr><th scope="row">32</th><td>Covered</td><td><code>        return False</code></td></tr>
+<tr><th scope="row">33</th><td>Covered</td><td><code>    checksum = 0</code></td></tr>
+<tr><th scope="row">34</th><td>Covered</td><td><code>    for index, digit in enumerate(reversed(number)):</code></td></tr>
+<tr><th scope="row">35</th><td>Covered</td><td><code>        value = int(digit) * (2 if index % 2 else 1)</code></td></tr>
+<tr><th scope="row">36</th><td>Covered</td><td><code>        checksum += value if value &lt; 10 else value - 9</code></td></tr>
+<tr><th scope="row">37</th><td>Covered</td><td><code>    return checksum % 10 == 0</code></td></tr>
+<tr><th scope="row">38</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">39</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">40</th><td>Covered</td><td><code>def _valid_expiration(expiration, today):</code></td></tr>
+<tr><th scope="row">41</th><td>Covered</td><td><code>    match = EXPIRATION.fullmatch(expiration) if isinstance(expiration, str) else None</code></td></tr>
+<tr><th scope="row">42</th><td>Covered</td><td><code>    if match is None:</code></td></tr>
+<tr><th scope="row">43</th><td>Covered</td><td><code>        return False</code></td></tr>
+<tr><th scope="row">44</th><td>Covered</td><td><code>    month, year = map(int, match.groups())</code></td></tr>
+<tr><th scope="row">45</th><td>Covered</td><td><code>    return (year, month) &gt;= (today.year, today.month)</code></td></tr>
+<tr><th scope="row">46</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">47</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">48</th><td>Covered</td><td><code>def _address_errors(address):</code></td></tr>
+<tr><th scope="row">49</th><td>Covered</td><td><code>    if not isinstance(address, Mapping):</code></td></tr>
+<tr><th scope="row">50</th><td>Covered</td><td><code>        return [&quot;Missing billing address&quot;]</code></td></tr>
+<tr><th scope="row">51</th><td>Covered</td><td><code>    checks = (</code></td></tr>
+<tr><th scope="row">52</th><td></td><td><code>        (_present(address.get(&quot;street&quot;)), &quot;Missing billing street&quot;),</code></td></tr>
+<tr><th scope="row">53</th><td></td><td><code>        (_present(address.get(&quot;city&quot;)), &quot;Missing billing city&quot;),</code></td></tr>
+<tr><th scope="row">54</th><td></td><td><code>        (</code></td></tr>
+<tr><th scope="row">55</th><td></td><td><code>            isinstance(address.get(&quot;state&quot;), str) and address[&quot;state&quot;] in STATES,</code></td></tr>
+<tr><th scope="row">56</th><td></td><td><code>            &quot;Invalid billing state&quot;,</code></td></tr>
+<tr><th scope="row">57</th><td></td><td><code>        ),</code></td></tr>
+<tr><th scope="row">58</th><td></td><td><code>        (_matches(ZIP, address.get(&quot;zip&quot;)), &quot;Invalid billing ZIP code&quot;),</code></td></tr>
+<tr><th scope="row">59</th><td></td><td><code>    )</code></td></tr>
+<tr><th scope="row">60</th><td>Covered</td><td><code>    return [message for valid, message in checks if not valid]</code></td></tr>
+<tr><th scope="row">61</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">62</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">63</th><td>Covered</td><td><code>def _card_errors(card, today):</code></td></tr>
+<tr><th scope="row">64</th><td>Covered</td><td><code>    if not isinstance(card, Mapping):</code></td></tr>
+<tr><th scope="row">65</th><td>Covered</td><td><code>        return [&quot;Missing credit card&quot;]</code></td></tr>
+<tr><th scope="row">66</th><td>Covered</td><td><code>    checks = (</code></td></tr>
+<tr><th scope="row">67</th><td></td><td><code>        (_valid_card(card.get(&quot;number&quot;)), &quot;Invalid credit card number&quot;),</code></td></tr>
+<tr><th scope="row">68</th><td></td><td><code>        (</code></td></tr>
+<tr><th scope="row">69</th><td></td><td><code>            _valid_expiration(card.get(&quot;expiration&quot;), today),</code></td></tr>
+<tr><th scope="row">70</th><td></td><td><code>            &quot;Invalid credit card expiration&quot;,</code></td></tr>
+<tr><th scope="row">71</th><td></td><td><code>        ),</code></td></tr>
+<tr><th scope="row">72</th><td></td><td><code>        (_matches(CVV, card.get(&quot;cvv&quot;)), &quot;Invalid credit card CVV&quot;),</code></td></tr>
+<tr><th scope="row">73</th><td></td><td><code>    )</code></td></tr>
+<tr><th scope="row">74</th><td>Covered</td><td><code>    return [message for valid, message in checks if not valid]</code></td></tr>
+<tr><th scope="row">75</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">76</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">77</th><td>Covered</td><td><code>def validate_customer(customer, *, today=None):</code></td></tr>
+<tr><th scope="row">78</th><td></td><td><code>    &quot;&quot;&quot;Return validity and all applicable errors in field order.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">79</th><td>Covered</td><td><code>    if not isinstance(customer, Mapping):</code></td></tr>
+<tr><th scope="row">80</th><td>Covered</td><td><code>        return {&quot;is_valid&quot;: False, &quot;errors&quot;: [&quot;Invalid customer data&quot;]}</code></td></tr>
+<tr><th scope="row">81</th><td>Covered</td><td><code>    errors = []</code></td></tr>
+<tr><th scope="row">82</th><td>Covered</td><td><code>    if not _matches(EMAIL, customer.get(&quot;email&quot;)):</code></td></tr>
+<tr><th scope="row">83</th><td>Covered</td><td><code>        errors.append(&quot;Invalid email format&quot;)</code></td></tr>
+<tr><th scope="row">84</th><td>Covered</td><td><code>    if not _matches(PHONE, customer.get(&quot;phone&quot;)):</code></td></tr>
+<tr><th scope="row">85</th><td>Covered</td><td><code>        errors.append(&quot;Invalid phone format&quot;)</code></td></tr>
+<tr><th scope="row">86</th><td>Covered</td><td><code>    errors.extend(_address_errors(customer.get(&quot;billing_address&quot;)))</code></td></tr>
+<tr><th scope="row">87</th><td>Covered</td><td><code>    errors.extend(_card_errors(customer.get(&quot;credit_card&quot;), today or date.today()))</code></td></tr>
+<tr><th scope="row">88</th><td>Covered</td><td><code>    return {&quot;is_valid&quot;: not errors, &quot;errors&quot;: errors}</code></td></tr>
+</tbody></table></details></section>
+<section id="file-3"><h2>src/order_calculator.py</h2><p>Missed branches: None.</p><details><summary>Show line coverage</summary><table class="source"><caption>src/order_calculator.py</caption><thead><tr><th scope="col">Line</th><th scope="col">Status</th><th scope="col">Source</th></tr></thead><tbody>
+<tr><th scope="row">1</th><td></td><td><code>&quot;&quot;&quot;Calculate an order in dollars using decimal arithmetic.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">2</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">3</th><td>Covered</td><td><code>from decimal import ROUND_HALF_UP, Decimal, InvalidOperation</code></td></tr>
+<tr><th scope="row">4</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">5</th><td>Covered</td><td><code>CENT = Decimal(&quot;0.01&quot;)</code></td></tr>
+<tr><th scope="row">6</th><td>Covered</td><td><code>DISCOUNTS = {</code></td></tr>
+<tr><th scope="row">7</th><td></td><td><code>    &quot;SAVE10&quot;: (50, Decimal(&quot;0.10&quot;)),</code></td></tr>
+<tr><th scope="row">8</th><td></td><td><code>    &quot;SAVE20&quot;: (100, Decimal(&quot;0.20&quot;)),</code></td></tr>
+<tr><th scope="row">9</th><td></td><td><code>    &quot;NEWUSER&quot;: (0, Decimal(&quot;0.15&quot;)),</code></td></tr>
+<tr><th scope="row">10</th><td></td><td><code>    &quot;FREESHIP&quot;: (0, Decimal(&quot;0&quot;)),</code></td></tr>
+<tr><th scope="row">11</th><td></td><td><code>}</code></td></tr>
+<tr><th scope="row">12</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">13</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">14</th><td>Covered</td><td><code>def _nonnegative(value, field):</code></td></tr>
+<tr><th scope="row">15</th><td>Covered</td><td><code>    try:</code></td></tr>
+<tr><th scope="row">16</th><td>Covered</td><td><code>        amount = Decimal(str(value))</code></td></tr>
+<tr><th scope="row">17</th><td>Covered</td><td><code>    except (InvalidOperation, ValueError) as error:</code></td></tr>
+<tr><th scope="row">18</th><td>Covered</td><td><code>        raise ValueError(f&quot;{field} must be a finite, nonnegative number&quot;) from error</code></td></tr>
+<tr><th scope="row">19</th><td>Covered</td><td><code>    if not amount.is_finite() or amount &lt; 0:</code></td></tr>
+<tr><th scope="row">20</th><td>Covered</td><td><code>        raise ValueError(f&quot;{field} must be a finite, nonnegative number&quot;)</code></td></tr>
+<tr><th scope="row">21</th><td>Covered</td><td><code>    return amount</code></td></tr>
+<tr><th scope="row">22</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">23</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">24</th><td>Covered</td><td><code>def _money(value):</code></td></tr>
+<tr><th scope="row">25</th><td>Covered</td><td><code>    return value.quantize(CENT, rounding=ROUND_HALF_UP)</code></td></tr>
+<tr><th scope="row">26</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">27</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">28</th><td>Covered</td><td><code>class Order:</code></td></tr>
+<tr><th scope="row">29</th><td></td><td><code>    &quot;&quot;&quot;An order with one optional discount code and configurable shipping.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">30</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">31</th><td>Covered</td><td><code>    def __init__(self, items, customer_type=&quot;regular&quot;):</code></td></tr>
+<tr><th scope="row">32</th><td>Covered</td><td><code>        self.items = items</code></td></tr>
+<tr><th scope="row">33</th><td>Covered</td><td><code>        self.customer_type = customer_type</code></td></tr>
+<tr><th scope="row">34</th><td>Covered</td><td><code>        self.discount_code = None</code></td></tr>
+<tr><th scope="row">35</th><td>Covered</td><td><code>        self.shipping_distance = Decimal(0)</code></td></tr>
+<tr><th scope="row">36</th><td>Covered</td><td><code>        self.is_express = False</code></td></tr>
+<tr><th scope="row">37</th><td>Covered</td><td><code>        self._lines = []</code></td></tr>
+<tr><th scope="row">38</th><td>Covered</td><td><code>        for item in items:</code></td></tr>
+<tr><th scope="row">39</th><td>Covered</td><td><code>            quantity = item[&quot;quantity&quot;]</code></td></tr>
+<tr><th scope="row">40</th><td>Covered</td><td><code>            if (</code></td></tr>
+<tr><th scope="row">41</th><td></td><td><code>                not isinstance(quantity, int)</code></td></tr>
+<tr><th scope="row">42</th><td></td><td><code>                or isinstance(quantity, bool)</code></td></tr>
+<tr><th scope="row">43</th><td></td><td><code>                or quantity &lt; 0</code></td></tr>
+<tr><th scope="row">44</th><td></td><td><code>            ):</code></td></tr>
+<tr><th scope="row">45</th><td>Covered</td><td><code>                raise ValueError(&quot;quantity must be a nonnegative integer&quot;)</code></td></tr>
+<tr><th scope="row">46</th><td>Covered</td><td><code>            price = _nonnegative(item[&quot;price&quot;], &quot;price&quot;)</code></td></tr>
+<tr><th scope="row">47</th><td>Covered</td><td><code>            weight = _nonnegative(item[&quot;weight&quot;], &quot;weight&quot;)</code></td></tr>
+<tr><th scope="row">48</th><td>Covered</td><td><code>            self._lines.append((price * quantity, weight * quantity))</code></td></tr>
+<tr><th scope="row">49</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">50</th><td>Covered</td><td><code>    def apply_discount(self, code):</code></td></tr>
+<tr><th scope="row">51</th><td></td><td><code>        &quot;&quot;&quot;Apply an eligible code and preserve any prior code on failure.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">52</th><td>Covered</td><td><code>        if code not in DISCOUNTS:</code></td></tr>
+<tr><th scope="row">53</th><td>Covered</td><td><code>            return False</code></td></tr>
+<tr><th scope="row">54</th><td>Covered</td><td><code>        if code == &quot;NEWUSER&quot; and self.customer_type != &quot;new&quot;:</code></td></tr>
+<tr><th scope="row">55</th><td>Covered</td><td><code>            return False</code></td></tr>
+<tr><th scope="row">56</th><td>Covered</td><td><code>        minimum, _ = DISCOUNTS[code]</code></td></tr>
+<tr><th scope="row">57</th><td>Covered</td><td><code>        if minimum and self._subtotal() &lt;= minimum:</code></td></tr>
+<tr><th scope="row">58</th><td>Covered</td><td><code>            return False</code></td></tr>
+<tr><th scope="row">59</th><td>Covered</td><td><code>        self.discount_code = code</code></td></tr>
+<tr><th scope="row">60</th><td>Covered</td><td><code>        return True</code></td></tr>
+<tr><th scope="row">61</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">62</th><td>Covered</td><td><code>    def set_shipping(self, distance_km, is_express=False):</code></td></tr>
+<tr><th scope="row">63</th><td></td><td><code>        &quot;&quot;&quot;Set distance and delivery speed.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">64</th><td>Covered</td><td><code>        self.shipping_distance = _nonnegative(distance_km, &quot;distance&quot;)</code></td></tr>
+<tr><th scope="row">65</th><td>Covered</td><td><code>        self.is_express = is_express</code></td></tr>
+<tr><th scope="row">66</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">67</th><td>Covered</td><td><code>    def _subtotal(self):</code></td></tr>
+<tr><th scope="row">68</th><td>Covered</td><td><code>        return sum((price for price, _ in self._lines), Decimal(0))</code></td></tr>
+<tr><th scope="row">69</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">70</th><td>Covered</td><td><code>    def _discount(self):</code></td></tr>
+<tr><th scope="row">71</th><td>Covered</td><td><code>        rate = DISCOUNTS.get(self.discount_code, (0, Decimal(0)))[1]</code></td></tr>
+<tr><th scope="row">72</th><td>Covered</td><td><code>        return _money(self._subtotal() * rate)</code></td></tr>
+<tr><th scope="row">73</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">74</th><td>Covered</td><td><code>    def _tax(self):</code></td></tr>
+<tr><th scope="row">75</th><td>Covered</td><td><code>        return _money((self._subtotal() - self._discount()) * Decimal(&quot;0.08&quot;))</code></td></tr>
+<tr><th scope="row">76</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">77</th><td>Covered</td><td><code>    def _shipping(self):</code></td></tr>
+<tr><th scope="row">78</th><td>Covered</td><td><code>        if self.discount_code == &quot;FREESHIP&quot;:</code></td></tr>
+<tr><th scope="row">79</th><td>Covered</td><td><code>            return Decimal(0)</code></td></tr>
+<tr><th scope="row">80</th><td>Covered</td><td><code>        weight = sum(weight for _, weight in self._lines)</code></td></tr>
+<tr><th scope="row">81</th><td>Covered</td><td><code>        base = weight * Decimal(&quot;0.50&quot;) + self.shipping_distance * Decimal(&quot;0.10&quot;)</code></td></tr>
+<tr><th scope="row">82</th><td>Covered</td><td><code>        return _money(base * Decimal(&quot;1.5&quot;) if self.is_express else base)</code></td></tr>
+<tr><th scope="row">83</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">84</th><td>Covered</td><td><code>    def calculate_subtotal(self):</code></td></tr>
+<tr><th scope="row">85</th><td></td><td><code>        &quot;&quot;&quot;Return the merchandise subtotal.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">86</th><td>Covered</td><td><code>        return float(_money(self._subtotal()))</code></td></tr>
+<tr><th scope="row">87</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">88</th><td>Covered</td><td><code>    def calculate_discount(self):</code></td></tr>
+<tr><th scope="row">89</th><td></td><td><code>        &quot;&quot;&quot;Return the merchandise discount.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">90</th><td>Covered</td><td><code>        return float(self._discount())</code></td></tr>
+<tr><th scope="row">91</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">92</th><td>Covered</td><td><code>    def calculate_tax(self):</code></td></tr>
+<tr><th scope="row">93</th><td></td><td><code>        &quot;&quot;&quot;Return tax on the discounted merchandise.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">94</th><td>Covered</td><td><code>        return float(self._tax())</code></td></tr>
+<tr><th scope="row">95</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">96</th><td>Covered</td><td><code>    def calculate_shipping(self):</code></td></tr>
+<tr><th scope="row">97</th><td></td><td><code>        &quot;&quot;&quot;Return the shipping charge.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">98</th><td>Covered</td><td><code>        return float(self._shipping())</code></td></tr>
+<tr><th scope="row">99</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">100</th><td>Covered</td><td><code>    def calculate_total(self):</code></td></tr>
+<tr><th scope="row">101</th><td></td><td><code>        &quot;&quot;&quot;Return the amount due and its breakdown in dollars.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">102</th><td>Covered</td><td><code>        subtotal = _money(self._subtotal())</code></td></tr>
+<tr><th scope="row">103</th><td>Covered</td><td><code>        discount = self._discount()</code></td></tr>
+<tr><th scope="row">104</th><td>Covered</td><td><code>        tax = self._tax()</code></td></tr>
+<tr><th scope="row">105</th><td>Covered</td><td><code>        shipping = self._shipping()</code></td></tr>
+<tr><th scope="row">106</th><td>Covered</td><td><code>        return {</code></td></tr>
+<tr><th scope="row">107</th><td></td><td><code>            &quot;subtotal&quot;: float(subtotal),</code></td></tr>
+<tr><th scope="row">108</th><td></td><td><code>            &quot;discount&quot;: float(discount),</code></td></tr>
+<tr><th scope="row">109</th><td></td><td><code>            &quot;tax&quot;: float(tax),</code></td></tr>
+<tr><th scope="row">110</th><td></td><td><code>            &quot;shipping&quot;: float(shipping),</code></td></tr>
+<tr><th scope="row">111</th><td></td><td><code>            &quot;total&quot;: float(subtotal - discount + tax + shipping),</code></td></tr>
+<tr><th scope="row">112</th><td></td><td><code>        }</code></td></tr>
+</tbody></table></details></section>
+<section id="file-4"><h2>src/order_processor.py</h2><p>Missed branches: None.</p><details><summary>Show line coverage</summary><table class="source"><caption>src/order_processor.py</caption><thead><tr><th scope="col">Line</th><th scope="col">Status</th><th scope="col">Source</th></tr></thead><tbody>
+<tr><th scope="row">1</th><td></td><td><code>&quot;&quot;&quot;Validate a customer, price an order, collect payment and confirm it.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">2</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">3</th><td>Covered</td><td><code>from src.customer_validator import validate_customer</code></td></tr>
+<tr><th scope="row">4</th><td>Covered</td><td><code>from src.order_calculator import Order</code></td></tr>
+<tr><th scope="row">5</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">6</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">7</th><td>Covered</td><td><code>class OrderProcessor:</code></td></tr>
+<tr><th scope="row">8</th><td></td><td><code>    &quot;&quot;&quot;Handle one order using an injected payment function.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">9</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">10</th><td>Covered</td><td><code>    def __init__(self, order_id, charge, *, today=None):</code></td></tr>
+<tr><th scope="row">11</th><td>Covered</td><td><code>        self._order_id = order_id</code></td></tr>
+<tr><th scope="row">12</th><td>Covered</td><td><code>        self._charge = charge</code></td></tr>
+<tr><th scope="row">13</th><td>Covered</td><td><code>        self._today = today</code></td></tr>
+<tr><th scope="row">14</th><td>Covered</td><td><code>        self._email = None</code></td></tr>
+<tr><th scope="row">15</th><td>Covered</td><td><code>        self._order = None</code></td></tr>
+<tr><th scope="row">16</th><td>Covered</td><td><code>        self._payment_status = None</code></td></tr>
+<tr><th scope="row">17</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">18</th><td>Covered</td><td><code>    def validate_customer(self, customer):</code></td></tr>
+<tr><th scope="row">19</th><td></td><td><code>        &quot;&quot;&quot;Validate contact and payment information before creating an order.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">20</th><td>Covered</td><td><code>        if self._order is not None:</code></td></tr>
+<tr><th scope="row">21</th><td>Covered</td><td><code>            return {&quot;valid&quot;: False, &quot;errors&quot;: [&quot;Order already created&quot;]}</code></td></tr>
+<tr><th scope="row">22</th><td>Covered</td><td><code>        result = validate_customer(customer, today=self._today)</code></td></tr>
+<tr><th scope="row">23</th><td>Covered</td><td><code>        self._email = customer[&quot;email&quot;] if result[&quot;is_valid&quot;] else None</code></td></tr>
+<tr><th scope="row">24</th><td>Covered</td><td><code>        return {&quot;valid&quot;: result[&quot;is_valid&quot;], &quot;errors&quot;: result[&quot;errors&quot;]}</code></td></tr>
+<tr><th scope="row">25</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">26</th><td>Covered</td><td><code>    def create_order(</code></td></tr>
+<tr><th scope="row">27</th><td></td><td><code>        self,</code></td></tr>
+<tr><th scope="row">28</th><td></td><td><code>        items,</code></td></tr>
+<tr><th scope="row">29</th><td></td><td><code>        customer_type=&quot;regular&quot;,</code></td></tr>
+<tr><th scope="row">30</th><td></td><td><code>        discount_code=None,</code></td></tr>
+<tr><th scope="row">31</th><td></td><td><code>        distance_km=0,</code></td></tr>
+<tr><th scope="row">32</th><td></td><td><code>        is_express=False,</code></td></tr>
+<tr><th scope="row">33</th><td></td><td><code>    ):</code></td></tr>
+<tr><th scope="row">34</th><td></td><td><code>        &quot;&quot;&quot;Create an order for a validated customer.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">35</th><td>Covered</td><td><code>        if self._order is not None:</code></td></tr>
+<tr><th scope="row">36</th><td>Covered</td><td><code>            return {&quot;status&quot;: &quot;already_created&quot;}</code></td></tr>
+<tr><th scope="row">37</th><td>Covered</td><td><code>        if self._email is None:</code></td></tr>
+<tr><th scope="row">38</th><td>Covered</td><td><code>            return {&quot;status&quot;: &quot;invalid_customer&quot;}</code></td></tr>
+<tr><th scope="row">39</th><td>Covered</td><td><code>        try:</code></td></tr>
+<tr><th scope="row">40</th><td>Covered</td><td><code>            order = Order(items, customer_type)</code></td></tr>
+<tr><th scope="row">41</th><td>Covered</td><td><code>            order.set_shipping(distance_km, is_express)</code></td></tr>
+<tr><th scope="row">42</th><td>Covered</td><td><code>        except ValueError as error:</code></td></tr>
+<tr><th scope="row">43</th><td>Covered</td><td><code>            return {&quot;status&quot;: &quot;invalid_order&quot;, &quot;error&quot;: str(error)}</code></td></tr>
+<tr><th scope="row">44</th><td>Covered</td><td><code>        if discount_code:</code></td></tr>
+<tr><th scope="row">45</th><td>Covered</td><td><code>            order.apply_discount(discount_code)</code></td></tr>
+<tr><th scope="row">46</th><td>Covered</td><td><code>        self._order = order</code></td></tr>
+<tr><th scope="row">47</th><td>Covered</td><td><code>        return {&quot;status&quot;: &quot;created&quot;}</code></td></tr>
+<tr><th scope="row">48</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">49</th><td>Covered</td><td><code>    def calculate_total(self):</code></td></tr>
+<tr><th scope="row">50</th><td></td><td><code>        &quot;&quot;&quot;Return the current order totals.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">51</th><td>Covered</td><td><code>        if self._order is None:</code></td></tr>
+<tr><th scope="row">52</th><td>Covered</td><td><code>            return {&quot;status&quot;: &quot;no_order&quot;}</code></td></tr>
+<tr><th scope="row">53</th><td>Covered</td><td><code>        return self._order.calculate_total()</code></td></tr>
+<tr><th scope="row">54</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">55</th><td>Covered</td><td><code>    def process_payment(self):</code></td></tr>
+<tr><th scope="row">56</th><td></td><td><code>        &quot;&quot;&quot;Charge the order once and allow a declined payment to be retried.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">57</th><td>Covered</td><td><code>        if self._order is None:</code></td></tr>
+<tr><th scope="row">58</th><td>Covered</td><td><code>            return {&quot;status&quot;: &quot;no_order&quot;}</code></td></tr>
+<tr><th scope="row">59</th><td>Covered</td><td><code>        total = self._order.calculate_total()[&quot;total&quot;]</code></td></tr>
+<tr><th scope="row">60</th><td>Covered</td><td><code>        if self._payment_status != &quot;success&quot;:</code></td></tr>
+<tr><th scope="row">61</th><td>Covered</td><td><code>            self._payment_status = &quot;success&quot; if self._charge(total) else &quot;declined&quot;</code></td></tr>
+<tr><th scope="row">62</th><td>Covered</td><td><code>        return {&quot;status&quot;: self._payment_status, &quot;amount&quot;: total}</code></td></tr>
+<tr><th scope="row">63</th><td></td><td><code></code></td></tr>
+<tr><th scope="row">64</th><td>Covered</td><td><code>    def generate_confirmation(self):</code></td></tr>
+<tr><th scope="row">65</th><td></td><td><code>        &quot;&quot;&quot;Return confirmation details after a successful payment.&quot;&quot;&quot;</code></td></tr>
+<tr><th scope="row">66</th><td>Covered</td><td><code>        if self._payment_status != &quot;success&quot;:</code></td></tr>
+<tr><th scope="row">67</th><td>Covered</td><td><code>            return {&quot;status&quot;: &quot;unpaid&quot;}</code></td></tr>
+<tr><th scope="row">68</th><td>Covered</td><td><code>        return {</code></td></tr>
+<tr><th scope="row">69</th><td></td><td><code>            &quot;status&quot;: &quot;confirmed&quot;,</code></td></tr>
+<tr><th scope="row">70</th><td></td><td><code>            &quot;order_id&quot;: self._order_id,</code></td></tr>
+<tr><th scope="row">71</th><td></td><td><code>            &quot;email&quot;: self._email,</code></td></tr>
+<tr><th scope="row">72</th><td></td><td><code>            &quot;total&quot;: self._order.calculate_total()[&quot;total&quot;],</code></td></tr>
+<tr><th scope="row">73</th><td></td><td><code>        }</code></td></tr>
+</tbody></table></details></section>
 </main>
-<footer>
-    <div class="content">
-        <p>
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.17.2">coverage.py v7.17.2</a>,
-            created at 2026-11-11 23:41 -0600
-        </p>
-    </div>
-    <aside class="hidden">
-        <a id="prevFileLink" class="nav" href="coverage_details/z_145eef247bfb46b6_order_processor_py.html"></a>
-        <a id="nextFileLink" class="nav" href="coverage_details/z_145eef247bfb46b6___init___py.html"></a>
-        <button type="button" class="button_prev_file" data-shortcut="["></button>
-        <button type="button" class="button_next_file" data-shortcut="]"></button>
-        <button type="button" class="button_show_hide_help" data-shortcut="?"></button>
-    </aside>
-</footer>
 </body>
 </html>
