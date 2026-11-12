@@ -1,0 +1,212 @@
+{
+  "workflows": [
+    {
+      "name": "new_customer_order_paid",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maya@example.com",
+            "phone": "(415) 555-0101",
+            "billing_address": {
+              "street": "7 Pine St",
+              "city": "Oakland",
+              "state": "CA",
+              "zip": "94612"
+            },
+            "credit_card": {
+              "number": "4111111111111111",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Backpack", "price": 80, "quantity": 1, "weight": 1.5 }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 20,
+            "is_express": false
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 80.0,
+            "discount": 12.0,
+            "tax": 5.44,
+            "shipping": 2.75,
+            "total": 76.19
+          }
+        },
+        {
+          "action": "process_payment",
+          "data": { "approved": true },
+          "expected": { "status": "paid" }
+        }
+      ]
+    },
+    {
+      "name": "express_freeship_order_paid",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "sam@example.net",
+            "phone": "(212) 555-0134",
+            "billing_address": {
+              "street": "44 Broadway",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10004"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "11/2026",
+              "cvv": "987"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Camping tent",
+                "price": 120,
+                "quantity": 1,
+                "weight": 8
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "distance_km": 250,
+            "is_express": true
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 120.0,
+            "discount": 0.0,
+            "tax": 9.6,
+            "shipping": 0.0,
+            "total": 129.6
+          }
+        },
+        {
+          "action": "process_payment",
+          "data": { "approved": true },
+          "expected": { "status": "paid" }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_order_rejected",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "not-an-email",
+            "phone": "555-0000",
+            "billing_address": {
+              "street": "1 Oak St",
+              "city": "Denver",
+              "state": "CO",
+              "zip": "80202"
+            },
+            "credit_card": {
+              "number": "4111111111111111",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": ["Invalid email format", "Invalid phone format"]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Keyboard", "price": 60, "quantity": 1, "weight": 1 }
+            ],
+            "customer_type": "regular",
+            "distance_km": 10,
+            "is_express": false
+          },
+          "expected": { "status": "rejected" }
+        },
+        {
+          "action": "process_payment",
+          "data": { "approved": true },
+          "expected": { "status": "blocked" }
+        }
+      ]
+    },
+    {
+      "name": "valid_order_payment_declined",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "lee@example.org",
+            "phone": "(312) 555-0182",
+            "billing_address": {
+              "street": "92 Lake Dr",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60601"
+            },
+            "credit_card": {
+              "number": "4111111111111111",
+              "expiration": "01/2027",
+              "cvv": "456"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Desk lamp", "price": 40, "quantity": 2, "weight": 1 }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE10",
+            "distance_km": 15,
+            "is_express": false
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 80.0,
+            "discount": 8.0,
+            "tax": 5.76,
+            "shipping": 2.5,
+            "total": 80.26
+          }
+        },
+        {
+          "action": "process_payment",
+          "data": { "approved": false },
+          "expected": { "status": "declined" }
+        }
+      ]
+    }
+  ]
+}
