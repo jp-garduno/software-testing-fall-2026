@@ -1,35 +1,47 @@
+"""Reports built on top of the inventory and the movement log."""
+
 import csv
+
+CSV_FIELDS = ["sku", "name", "quantity", "value"]
 
 
 def low_stock_report(inventory, threshold=5):
-    lines = []
-    for p in inventory.low_stock(threshold):
-        lines.append("{0}: {1} units left (reorder point {2})".format(p.sku, p.quantity, threshold))
+    """Return one line per product that has fallen to the reorder point."""
+    lines = [
+        f"{product.sku}: {product.quantity} units left (reorder point {threshold})"
+        for product in inventory.low_stock(threshold)
+    ]
     return "\n".join(lines)
 
 
 def valuation_report(inventory):
-    rows = []
-    for sku in inventory.products:
-        p = inventory.products[sku]
-        rows.append({"sku": p.sku, "name": p.name, "quantity": p.quantity, "value": p.value()})
-    rows.sort(key=lambda r: r["value"], reverse=True)
+    """Return every product with its value, most valuable first."""
+    rows = [
+        {
+            "sku": product.sku,
+            "name": product.name,
+            "quantity": product.quantity,
+            "value": product.value(),
+        }
+        for product in inventory.products.values()
+    ]
+    rows.sort(key=lambda row: row["value"], reverse=True)
     return rows
 
 
 def export_valuation_csv(inventory, path):
-    rows = valuation_report(inventory)
-    f = open(path, "w")
-    writer = csv.DictWriter(f, fieldnames=["sku", "name", "quantity", "value"])
-    writer.writeheader()
-    for r in rows:
-        writer.writerow(r)
-    f.close()
+    """Write the valuation report to a CSV file and return its path."""
+    with open(path, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=CSV_FIELDS)
+        writer.writeheader()
+        writer.writerows(valuation_report(inventory))
     return path
 
 
 def movement_report(log):
-    s = log.summary()
-    return "Received {0}, issued {1}, net {2} across {3} movements. This line is intentionally very long so that the line-length rule has something to complain about.".format(
-        s["received"], s["issued"], s["net"], s["entries"]
+    """Return a one-line summary of everything the log has recorded."""
+    totals = log.summary()
+    return (
+        f"Received {totals['received']}, issued {totals['issued']}, "
+        f"net {totals['net']} across {totals['entries']} movements."
     )

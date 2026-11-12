@@ -1,0 +1,6 @@
+[
+  { "sku": "WID-001", "name": "Widget", "price": 12.5, "quantity": 40 },
+  { "sku": "GAD-002", "name": "Gadget", "price": 89.99, "quantity": 3 },
+  { "sku": "CAB-003", "name": "Cable", "price": 4.25, "quantity": 120 },
+  { "sku": "BRK-004", "name": "Bracket", "price": 7.0, "quantity": 2 }
+]

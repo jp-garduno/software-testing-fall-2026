@@ -1,58 +1,72 @@
+"""Stock movements: what came in, what went out, and when."""
+
 from datetime import datetime
 
 
 class Movement:
+    """One stock movement against a SKU."""
+
     def __init__(self, sku, kind, quantity, note=""):
+        """Record the movement and stamp it with the current time."""
         self.sku = sku
         self.kind = kind
         self.quantity = quantity
         self.note = note
         self.at = datetime.now()
 
+    def as_dict(self):
+        """Return the movement as a plain dictionary, ready to serialise."""
+        return {
+            "sku": self.sku,
+            "kind": self.kind,
+            "quantity": self.quantity,
+            "note": self.note,
+            "at": self.at.isoformat(),
+        }
+
 
 class MovementLog:
+    """The running log of movements against an inventory."""
+
     def __init__(self, inventory):
+        """Bind the log to the inventory whose stock it will adjust."""
         self.inventory = inventory
         self.entries = []
 
     def receive(self, sku, quantity, note=""):
-        p = self.inventory.get(sku)
-        if p == None:
+        """Add stock for a SKU and report whether it was accepted."""
+        product = self.inventory.get(sku)
+        if product is None or quantity <= 0:
             return False
-        if quantity <= 0:
-            return False
-        p.quantity = p.quantity + quantity
+
+        product.quantity += quantity
         self.entries.append(Movement(sku, "in", quantity, note))
         return True
 
     def issue(self, sku, quantity, note=""):
-        p = self.inventory.get(sku)
-        if p == None:
+        """Take stock out of a SKU, refusing to go below zero."""
+        product = self.inventory.get(sku)
+        if product is None or quantity <= 0 or product.quantity < quantity:
             return False
-        if quantity <= 0:
-            return False
-        if p.quantity < quantity:
-            return False
-        else:
-            p.quantity = p.quantity - quantity
-            self.entries.append(Movement(sku, "out", quantity, note))
-            return True
+
+        product.quantity -= quantity
+        self.entries.append(Movement(sku, "out", quantity, note))
+        return True
 
     def history(self, sku=None):
-        if sku == None:
+        """Return every movement, or only the ones for one SKU."""
+        if sku is None:
             return self.entries
-        out = []
-        for e in self.entries:
-            if e.sku == sku:
-                out.append(e)
-        return out
+        return [entry for entry in self.entries if entry.sku == sku]
 
     def summary(self):
-        received = 0
-        issued = 0
-        for e in self.entries:
-            if e.kind == "in":
-                received = received + e.quantity
-            else:
-                issued = issued + e.quantity
-        return {"received": received, "issued": issued, "net": received - issued, "entries": len(self.entries)}
+        """Return totals in, out, the net change and the movement count."""
+        received = sum(entry.quantity for entry in self.entries if entry.kind == "in")
+        issued = sum(entry.quantity for entry in self.entries if entry.kind == "out")
+
+        return {
+            "received": received,
+            "issued": issued,
+            "net": received - issued,
+            "entries": len(self.entries),
+        }
