@@ -1,0 +1,287 @@
+{
+  "reference_date": "2026-06-15",
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "description": "Happy path: valid customer, SAVE10 order with standard shipping, paid and confirmed",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+              "credit_card": {"number": "4532015112830366", "expiration": "12/2030", "cvv": "123"}
+            }
+          },
+          "expected": {"valid": true, "errors": []}
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {"name": "Keyboard", "price": 75, "quantity": 1, "weight": 1.2},
+              {"name": "Mouse", "price": 25, "quantity": 2, "weight": 0.2}
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE10",
+            "distance_km": 40,
+            "is_express": false
+          },
+          "expected": {"status": "created", "order_id": "ORD-0001", "discount_applied": true}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"status": "calculated", "subtotal": 125.00, "discount": 12.50, "tax": 9.00, "shipping": 4.80, "total": 126.30}
+        },
+        {
+          "action": "process_payment",
+          "data": {"amount": 126.30},
+          "expected": {"status": "success", "transaction_id": "TXN-ORD-0001", "amount": 126.30}
+        },
+        {
+          "action": "generate_confirmation",
+          "data": {},
+          "expected": {"status": "confirmed", "confirmation_number": "CONF-ORD-0001", "email": "john@example.com", "total": 126.30, "items": 2}
+        }
+      ]
+    },
+    {
+      "name": "new_user_express_flow",
+      "description": "First order of a new customer: NEWUSER discount and express shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "maria.garcia@mail.example.org",
+              "phone": "(312) 555-0199",
+              "billing_address": {"street": "742 Evergreen Terrace", "city": "Springfield", "state": "IL", "zip": "62704"},
+              "credit_card": {"number": "5555 5555 5555 4444", "expiration": "03/2028", "cvv": "456"}
+            }
+          },
+          "expected": {"valid": true}
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [{"name": "Tent", "price": 180, "quantity": 1, "weight": 4.5}],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 150,
+            "is_express": true
+          },
+          "expected": {"status": "created", "discount_applied": true}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"subtotal": 180.00, "discount": 27.00, "tax": 12.24, "shipping": 25.88, "total": 191.12}
+        },
+        {
+          "action": "process_payment",
+          "data": {},
+          "expected": {"status": "success", "amount": 191.12}
+        },
+        {
+          "action": "process_payment",
+          "data": {},
+          "expected": {"status": "failed", "error": "Order already paid"}
+        },
+        {
+          "action": "generate_confirmation",
+          "data": {},
+          "expected": {"status": "confirmed", "email": "maria.garcia@mail.example.org", "total": 191.12}
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_blocks_checkout",
+      "description": "Validation errors stop the flow: no order, no payment, no confirmation",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "not-an-email",
+              "phone": "555-123-4567",
+              "billing_address": {"street": "9 Elm St", "city": "Austin", "state": "TX", "zip": "73301"},
+              "credit_card": {"number": "4532015112830366", "expiration": "01/2026", "cvv": "123"}
+            }
+          },
+          "expected": {"valid": false, "errors": ["Invalid email format", "Invalid phone format", "Credit card is expired"]}
+        },
+        {
+          "action": "create_order",
+          "data": {"items": [{"name": "Watch", "price": 150, "quantity": 1, "weight": 0.3}], "distance_km": 10},
+          "expected": {"status": "rejected", "error": "Customer has not been validated"}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"status": "error", "error": "No order to calculate"}
+        },
+        {
+          "action": "process_payment",
+          "data": {},
+          "expected": {"status": "failed", "error": "No order total to pay"}
+        },
+        {
+          "action": "generate_confirmation",
+          "data": {},
+          "expected": {"status": "error", "error": "Order has not been paid"}
+        }
+      ]
+    },
+    {
+      "name": "declined_card_flow",
+      "description": "The card is well formed but the gateway declines it, so the order is never confirmed",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "li.wei@example.com",
+              "phone": "(206) 555-0142",
+              "billing_address": {"street": "400 Broad St", "city": "Seattle", "state": "WA", "zip": "98109"},
+              "credit_card": {"number": "4000000000000002", "expiration": "08/2029", "cvv": "321"}
+            }
+          },
+          "expected": {"valid": true}
+        },
+        {
+          "action": "create_order",
+          "data": {"items": [{"name": "Book", "price": 20, "quantity": 1, "weight": 0.5}], "distance_km": 10},
+          "expected": {"status": "created", "discount_applied": false}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"subtotal": 20.00, "discount": 0.00, "tax": 1.60, "shipping": 1.25, "total": 22.85}
+        },
+        {
+          "action": "process_payment",
+          "data": {"amount": 22.85},
+          "expected": {"status": "declined", "error": "Card declined by issuer"}
+        },
+        {
+          "action": "generate_confirmation",
+          "data": {},
+          "expected": {"status": "error", "error": "Order has not been paid"}
+        }
+      ]
+    },
+    {
+      "name": "retry_discount_and_payment_amount",
+      "description": "An invalid code is ignored, FREESHIP is applied afterwards, and a wrong payment amount is refused",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "sam.taylor@example.net",
+              "phone": "(617) 555-0110",
+              "billing_address": {"street": "1 Harbor Way", "city": "Boston", "state": "MA", "zip": "02110"},
+              "credit_card": {"number": "378282246310005", "expiration": "11/2027", "cvv": "7788"}
+            }
+          },
+          "expected": {"valid": true}
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [{"name": "Lamp", "price": 45, "quantity": 2, "weight": 3}],
+            "discount_code": "BOGUS",
+            "distance_km": 300
+          },
+          "expected": {"status": "created", "discount_applied": false}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"subtotal": 90.00, "discount": 0.00, "tax": 7.20, "shipping": 33.00, "total": 130.20}
+        },
+        {
+          "action": "apply_discount",
+          "data": {"code": "FREESHIP"},
+          "expected": {"applied": true, "discount_code": "FREESHIP"}
+        },
+        {
+          "action": "process_payment",
+          "data": {"amount": 97.20},
+          "expected": {"status": "failed", "error": "No order total to pay"}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"subtotal": 90.00, "discount": 0.00, "tax": 7.20, "shipping": 0.00, "total": 97.20}
+        },
+        {
+          "action": "process_payment",
+          "data": {"amount": 90.00},
+          "expected": {"status": "failed", "error": "Amount does not match order total"}
+        },
+        {
+          "action": "process_payment",
+          "data": {"amount": 97.20},
+          "expected": {"status": "success", "amount": 97.20}
+        },
+        {
+          "action": "generate_confirmation",
+          "data": {},
+          "expected": {"status": "confirmed", "total": 97.20, "items": 1}
+        }
+      ]
+    },
+    {
+      "name": "invalid_order_data_rejected",
+      "description": "A valid customer submits a cart with a negative quantity and then corrects it",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "ops@example.com",
+              "phone": "(415) 555-0100",
+              "billing_address": {"street": "500 Market St", "city": "San Francisco", "state": "CA", "zip": "94105"},
+              "credit_card": {"number": "6011111111111117", "expiration": "06/2026", "cvv": "999"}
+            }
+          },
+          "expected": {"valid": true}
+        },
+        {
+          "action": "apply_discount",
+          "data": {"code": "SAVE10"},
+          "expected": {"applied": false, "error": "No order to discount"}
+        },
+        {
+          "action": "create_order",
+          "data": {"items": [{"name": "Cable", "price": 9.99, "quantity": -3, "weight": 0.1}], "distance_km": 5},
+          "expected": {"status": "rejected", "error": "Item quantity cannot be negative"}
+        },
+        {
+          "action": "create_order",
+          "data": {"items": [{"name": "Cable", "price": 9.99, "quantity": 3, "weight": 0.1}], "distance_km": -5},
+          "expected": {"status": "rejected", "error": "Shipping distance cannot be negative"}
+        },
+        {
+          "action": "create_order",
+          "data": {"items": [{"name": "Cable", "price": 9.99, "quantity": 3, "weight": 0.1}], "distance_km": 5},
+          "expected": {"status": "created"}
+        },
+        {
+          "action": "calculate_total",
+          "data": {},
+          "expected": {"subtotal": 29.97, "discount": 0.00, "tax": 2.40, "shipping": 0.65, "total": 33.02}
+        },
+        {
+          "action": "process_payment",
+          "data": {"amount": 33.02},
+          "expected": {"status": "success"}
+        }
+      ]
+    }
+  ]
+}
