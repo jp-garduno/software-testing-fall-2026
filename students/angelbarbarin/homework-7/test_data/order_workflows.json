@@ -1,0 +1,615 @@
+{
+  "reference_date": "2026-11-01",
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "description": "Happy path: valid customer, SAVE10, standard shipping, payment and confirmation",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.com",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Running Shoes",
+                "price": 89.99,
+                "quantity": 1,
+                "weight": 0.9
+              },
+              {
+                "name": "Socks",
+                "price": 6.5,
+                "quantity": 3,
+                "weight": 0.1
+              }
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created",
+            "items_count": 2
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "applied": true,
+            "discount_code": "SAVE10"
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 35,
+            "is_express": false
+          },
+          "expected": {
+            "status": "ok"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 109.49,
+            "discount": 10.95,
+            "tax": 7.88,
+            "shipping": 8.1,
+            "total": 114.52
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 114.52
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "email": "maria@example.com",
+            "total": 114.52
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_express_flow",
+      "description": "First order of a new customer with NEWUSER and express shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "first.time@example.org",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Coffee Maker",
+                "price": 74.95,
+                "quantity": 1,
+                "weight": 2.6
+              },
+              {
+                "name": "Filters",
+                "price": 4.99,
+                "quantity": 2,
+                "weight": 0.2
+              }
+            ],
+            "customer_type": "new"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "newuser"
+          },
+          "expected": {
+            "applied": true,
+            "discount_code": "NEWUSER"
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 120,
+            "is_express": true
+          },
+          "expected": {
+            "status": "ok"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 84.93,
+            "discount": 12.74,
+            "tax": 5.78,
+            "shipping": 26.25,
+            "total": 104.22
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "total": 104.22
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_blocks_order",
+      "description": "An invalid customer cannot create an order or pay",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria-at-example.com",
+            "phone": "312-555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Invalid email format",
+              "Invalid phone format"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Desk",
+                "price": 199,
+                "quantity": 1,
+                "weight": 18
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected",
+            "error": "Customer must be validated first"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "error",
+            "error": "No order to calculate"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "error",
+            "error": "Total must be calculated first"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "error",
+            "error": "Order is not paid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "declined_payment_flow",
+      "description": "The gateway declines the card, so no confirmation is generated",
+      "gateway": {
+        "declined_cards": [
+          "4532015112830366"
+        ]
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.com",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Smart Watch",
+                "price": 249,
+                "quantity": 1,
+                "weight": 0.3
+              }
+            ]
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE20"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 60
+          },
+          "expected": {
+            "status": "ok"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 249.0,
+            "discount": 49.8,
+            "tax": 15.94,
+            "shipping": 10.15,
+            "total": 225.29
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "error": "Card declined"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "error",
+            "error": "Order is not paid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "discount_retry_and_step_order",
+      "description": "Paying before totals fails; an invalid code is rejected and the next valid one applies",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.com",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Notebook",
+                "price": 3.5,
+                "quantity": 4,
+                "weight": 0.2
+              }
+            ]
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "error",
+            "error": "Total must be calculated first"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "applied": false,
+            "discount_code": null
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "FREESHIP"
+          },
+          "expected": {
+            "applied": true,
+            "discount_code": "FREESHIP"
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 15,
+            "is_express": true
+          },
+          "expected": {
+            "status": "ok"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 14.0,
+            "discount": 0.0,
+            "tax": 1.12,
+            "shipping": 0.0,
+            "total": 15.12
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "error",
+            "error": "Order already paid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "order_over_payment_limit",
+      "description": "Large order above the gateway limit is declined",
+      "gateway": {
+        "limit": 5000
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.com",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Television",
+                "price": 2199.99,
+                "quantity": 3,
+                "weight": 14
+              }
+            ]
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 10
+          },
+          "expected": {
+            "status": "ok"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "calculated",
+            "subtotal": 6599.97,
+            "discount": 0.0,
+            "tax": 528.0,
+            "shipping": 26.0,
+            "total": 7153.97
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "error": "Amount exceeds limit"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_order_data_rejected",
+      "description": "Negative quantity and empty carts are rejected; unknown actions report an error",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.com",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "742 Evergreen Ter",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60614"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2029",
+              "cvv": "321"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Pen",
+                "price": 1.5,
+                "quantity": -1,
+                "weight": 0.01
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected",
+            "error": "Item 'Pen': quantity cannot be negative"
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": []
+          },
+          "expected": {
+            "status": "rejected",
+            "error": "Order must contain at least one item"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "status": "error",
+            "error": "No order to discount"
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 5
+          },
+          "expected": {
+            "status": "error",
+            "error": "No order to ship"
+          }
+        },
+        {
+          "action": "cancel_order",
+          "expected": {
+            "status": "error",
+            "error": "Unknown action: cancel_order"
+          }
+        }
+      ]
+    }
+  ]
+}

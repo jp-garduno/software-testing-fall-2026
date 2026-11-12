@@ -1,0 +1,11 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error
+simple_order,simple,"[{""name"":""Item1"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,false,50.00,0.00,4.00,5.50,59.50,
+save10_at_minimum_threshold,discount,"[{""name"":""Shoes"",""price"":25,""quantity"":2,""weight"":0.8}]",regular,SAVE10,10,false,50.00,5.00,3.60,5.80,54.40,
+save10_below_minimum,discount,"[{""name"":""Shoes"",""price"":49.99,""quantity"":1,""weight"":0.8}]",regular,SAVE10,10,false,49.99,0.00,4.00,5.40,59.39,
+save20_at_minimum_threshold,discount,"[{""name"":""Jacket"",""price"":100,""quantity"":1,""weight"":1.2}]",regular,SAVE20,10,false,100.00,20.00,6.40,5.60,92.00,
+newuser_for_new_customer,discount,"[{""name"":""Headphones"",""price"":60,""quantity"":1,""weight"":0.3}]",new,NEWUSER,20,false,60.00,9.00,4.08,6.15,61.23,
+tax_rounds_up,tax,"[{""name"":""Book"",""price"":10.44,""quantity"":1,""weight"":0.5}]",regular,NONE,0,false,10.44,0.00,0.84,4.25,15.53,
+shipping_express,shipping,"[{""name"":""Vase"",""price"":30,""quantity"":1,""weight"":1.5}]",regular,NONE,100,true,30.00,0.00,2.40,22.13,54.53,
+shipping_freeship_code,shipping,"[{""name"":""Vase"",""price"":30,""quantity"":1,""weight"":1.5}]",regular,FREESHIP,100,false,30.00,0.00,2.40,0.00,32.40,
+complex_zero_quantity_item,complex,"[{""name"":""Gift"",""price"":20,""quantity"":0,""weight"":1},{""name"":""Card"",""price"":4.5,""quantity"":2,""weight"":0.05}]",regular,NONE,8,false,9.00,0.00,0.72,4.85,14.57,
+complex_cart_save20_express,complex,"[{""name"":""Tablet"",""price"":329,""quantity"":1,""weight"":0.5},{""name"":""Case"",""price"":29.99,""quantity"":1,""weight"":0.2},{""name"":""Charger"",""price"":19.99,""quantity"":2,""weight"":0.15}]",regular,SAVE20,250,true,398.97,79.79,25.53,44.25,388.96,
