@@ -1,0 +1,19 @@
+Command: python -m pytest -q --color=no --cov=src --cov-branch --cov-report=term-missing --cov-report=html:htmlcov --cov-fail-under=80
+
+........................................................................ [ 34%]
+........................................................................ [ 69%]
+................................................................         [100%]
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.8-final-0 _______________
+
+Name                        Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------
+src\__init__.py                 0      0      0      0   100%
+src\customer_validator.py      49      0     16      0   100%
+src\order_calculator.py        68      0     14      0   100%
+src\order_processor.py         45      0     16      0   100%
+-----------------------------------------------------------------------
+TOTAL                         162      0     46      0   100%
+Coverage HTML written to dir htmlcov
+Required test coverage of 80% reached. Total coverage: 100.00%
+208 passed in 0.92s

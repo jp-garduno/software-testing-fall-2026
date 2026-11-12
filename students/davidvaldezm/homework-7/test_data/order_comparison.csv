@@ -1,0 +1,11 @@
+test_name,items,customer_type,discount_code,distance_km,is_express,discount_applied,expected_error,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total
+simple_single_item,"[{""name"":""Item"",""price"":19.99,""quantity"":1,""weight"":0}]",regular,NONE,0,false,,,19.99,0.00,1.60,0.00,21.59
+simple_two_item_lines,"[{""name"":""Cable"",""price"":7.25,""quantity"":3,""weight"":0},{""name"":""Clip"",""price"":1.1,""quantity"":2,""weight"":0}]",regular,NONE,0,false,,,23.95,0.00,1.92,0.00,25.87
+discount_save10_exact,"[{""name"":""Item"",""price"":50,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,false,,50.00,0.00,4.00,0.00,54.00
+discount_save10_above,"[{""name"":""Item"",""price"":50.01,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,true,,50.01,5.00,3.60,0.00,48.61
+discount_save20_above,"[{""name"":""Item"",""price"":100.01,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,true,,100.01,20.00,6.40,0.00,86.41
+discount_new_customer,"[{""name"":""Item"",""price"":40,""quantity"":1,""weight"":0}]",new,NEWUSER,0,false,true,,40.00,6.00,2.72,0.00,36.72
+tax_uses_discounted_subtotal,"[{""name"":""Item"",""price"":75,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,true,,75.00,7.50,5.40,0.00,72.90
+shipping_express,"[{""name"":""Item"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,true,,,50.00,0.00,4.00,2.25,56.25
+shipping_free_express,"[{""name"":""Item"",""price"":25,""quantity"":1,""weight"":15}]",regular,FREESHIP,200,true,true,,25.00,0.00,2.00,0.00,27.00
+complex_save20_express,"[{""name"":""Desk"",""price"":60,""quantity"":1,""weight"":2.5},{""name"":""Lamp"",""price"":20.5,""quantity"":2,""weight"":1}]",regular,SAVE20,15,true,true,,101.00,20.20,6.46,5.63,92.89
