@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework 7: coverage report</title>
+<style>
+  body { margin: 2rem auto; padding: 0 1rem; max-width: 60rem;
+         font: 1rem/1.6 system-ui, -apple-system, sans-serif; color: #1f2933; }
+  h1 { font-size: 1.4rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; }
+  th, td { padding: .55rem .7rem; border-bottom: 1px solid #e3e1dc; text-align: left; }
+  thead { background: #f4f6f8; }
+  td:nth-child(n+2), th:nth-child(n+2) { text-align: right; }
+  tfoot td { font-weight: 650; border-top: 2px solid #c7ccd1; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: .92em; }
+  .nota { color: #66757f; font-size: .9rem; }
+</style>
+</head>
+<body>
+<h1>Homework 7 &middot; Coverage report</h1>
+<p class="nota">Emmanuel Arias (<code>yair91</code>) &middot; generated on 2026-11-11
+from the output of <code>pytest --cov=src</code>.</p>
+
+<p><strong>257 passed in 0.32s</strong></p>
+
+<table>
+<thead><tr><th>File</th><th>Statements</th><th>Missing</th><th>Coverage</th></tr></thead>
+<tbody>
+<tr><td><code>src/__init__.py</code></td><td>0</td><td>0</td><td>100 %</td></tr>
+<tr><td><code>src/customer_validator.py</code></td><td>73</td><td>0</td><td>100 %</td></tr>
+<tr><td><code>src/data_generator.py</code></td><td>41</td><td>0</td><td>100 %</td></tr>
+<tr><td><code>src/data_validator.py</code></td><td>109</td><td>0</td><td>100 %</td></tr>
+<tr><td><code>src/order_calculator.py</code></td><td>83</td><td>0</td><td>100 %</td></tr>
+</tbody>
+<tfoot><tr><td>TOTAL</td><td>306</td><td>0</td><td>100 %</td></tr></tfoot>
+</table>
+
+<p class="nota">The course target is 80 %. To reproduce it:
+<code>pytest --cov=src --cov-report=html</code> and open <code>htmlcov/index.html</code>.</p>
+</body>
+</html>
