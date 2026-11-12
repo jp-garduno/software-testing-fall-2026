@@ -1,0 +1,563 @@
+{
+  "reference_date": "2026-11-01",
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "description": "Regular customer with SAVE10; the card has exactly the order total available.",
+      "gateway": {
+        "available_credit": 101.55
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john.doe@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Desk lamp",
+                "price": 39.99,
+                "quantity": 2,
+                "weight": 1.2
+              },
+              {
+                "name": "Light bulb",
+                "price": 5.25,
+                "quantity": 4,
+                "weight": 0.1
+              }
+            ],
+            "discount_code": "SAVE10",
+            "distance_km": 20
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": true
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 100.98,
+            "discount": 10.1,
+            "tax": 7.27,
+            "shipping": 3.4,
+            "total": 101.55
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 101.55,
+            "transaction_id": "TXN-0001"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "transaction_id": "TXN-0001",
+            "email": "john.doe@example.com",
+            "item_count": 6,
+            "total": 101.55
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_express_flow",
+      "description": "First order with NEWUSER, express shipping and an American Express card.",
+      "gateway": {
+        "available_credit": 200
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "ana.ruiz@example.org",
+              "phone": "(312) 555-0199",
+              "billing_address": {
+                "street": "500 Lake Shore Dr",
+                "city": "Chicago",
+                "state": "IL",
+                "zip": "60611-4012"
+              },
+              "credit_card": {
+                "number": "378282246310005",
+                "expiration": "03/2029",
+                "cvv": "7788"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Running shoes",
+                "price": 89.9,
+                "quantity": 1,
+                "weight": 0.9
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 60,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": true
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 89.9,
+            "discount": 13.49,
+            "tax": 6.11,
+            "shipping": 9.68,
+            "total": 92.2
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 92.2
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "email": "ana.ruiz@example.org",
+            "item_count": 1,
+            "total": 92.2
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_cannot_order",
+      "description": "A customer that fails validation cannot create an order, so there is nothing to total.",
+      "gateway": {
+        "available_credit": 500
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john.doe@",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Invalid email format"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Notebook",
+                "price": 12.5,
+                "quantity": 1,
+                "weight": 0.3
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected",
+            "reason": "Customer has not been validated"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected_error": "No order has been created"
+        }
+      ]
+    },
+    {
+      "name": "declined_payment_flow",
+      "description": "The issuer declines a charge above the available credit, so no confirmation is issued.",
+      "gateway": {
+        "available_credit": 50
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john.doe@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Rug",
+                "price": 120.0,
+                "quantity": 1,
+                "weight": 12
+              }
+            ],
+            "discount_code": "FREESHIP",
+            "distance_km": 200
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": true
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 120.0,
+            "discount": 0.0,
+            "tax": 9.6,
+            "shipping": 0.0,
+            "total": 129.6
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "reason": "Payment declined by the card issuer"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected_error": "Order has not been paid"
+        }
+      ]
+    },
+    {
+      "name": "paid_order_is_locked",
+      "description": "After a successful payment the order can be neither paid again nor replaced.",
+      "gateway": {
+        "available_credit": 1000
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john.doe@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Headphones",
+                "price": 50.0,
+                "quantity": 1,
+                "weight": 0
+              }
+            ],
+            "discount_code": "SAVE10"
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": true
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 48.6,
+            "transaction_id": "TXN-0001"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected_error": "Order has already been paid"
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Cable",
+                "price": 9.99,
+                "quantity": 1,
+                "weight": 0.1
+              }
+            ]
+          },
+          "expected_error": "Order has already been paid"
+        }
+      ]
+    },
+    {
+      "name": "rejected_order_is_corrected",
+      "description": "Invalid orders are rejected without failing the checkout; the corrected order goes through.",
+      "gateway": {
+        "available_credit": 100
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john.doe@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Mug",
+                "price": 8.0,
+                "quantity": -2,
+                "weight": 0.3
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected",
+            "reason": "Item 'Mug': quantity cannot be negative"
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Mug",
+                "price": 8.0,
+                "quantity": 2,
+                "weight": 0.3
+              }
+            ],
+            "distance_km": "far"
+          },
+          "expected": {
+            "status": "rejected",
+            "reason": "Distance must be a number"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected_error": "No order has been created"
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Mug",
+                "price": 8.0,
+                "quantity": 2,
+                "weight": 0.3
+              }
+            ],
+            "discount_code": "SAVE20",
+            "distance_km": 10
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": false
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 16.0,
+            "discount": 0.0,
+            "tax": 1.28,
+            "shipping": 1.3,
+            "total": 18.58
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 18.58
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "item_count": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "customer_is_locked_after_order",
+      "description": "Once an order exists the checkout refuses to switch to another customer.",
+      "gateway": {
+        "available_credit": 100
+      },
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john.doe@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "12/2028",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Pen",
+                "price": 1.25,
+                "quantity": 4,
+                "weight": 0.02
+              }
+            ]
+          },
+          "expected": {
+            "status": "created",
+            "discount_applied": false
+          }
+        },
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "ana.ruiz@example.org",
+              "phone": "(312) 555-0199",
+              "billing_address": {
+                "street": "500 Lake Shore Dr",
+                "city": "Chicago",
+                "state": "IL",
+                "zip": "60611-4012"
+              },
+              "credit_card": {
+                "number": "378282246310005",
+                "expiration": "03/2029",
+                "cvv": "7788"
+              }
+            }
+          },
+          "expected_error": "Customer cannot change after the order is created"
+        }
+      ]
+    }
+  ]
+}
