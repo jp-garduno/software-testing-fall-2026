@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte de cobertura - Homework 7</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 760px; padding: 0 1rem; color: #17212b; }
+    h1 { margin-bottom: .25rem; }
+    .summary { color: #176b3a; font-size: 1.25rem; font-weight: 700; }
+    table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+    th, td { border-bottom: 1px solid #d5dce2; padding: .6rem; text-align: left; }
+    th:last-child, td:last-child { text-align: right; }
+    code { background: #f1f4f6; padding: .1rem .25rem; }
+  </style>
+</head>
+<body>
+  <h1>Reporte de cobertura</h1>
+  <p>Homework 7: procesamiento de pedidos y pruebas basadas en datos.</p>
+  <p class="summary">100% de cobertura de statements: 287 de 287</p>
+  <p>128 pruebas aprobadas; 0 statements sin cubrir. Ejecutado con pytest-cov
+    en Python 3.13.14 el 11 de noviembre de 2026.</p>
+  <table>
+    <thead><tr><th>Módulo</th><th>Statements</th><th>Sin cubrir</th><th>Cobertura</th></tr></thead>
+    <tbody>
+      <tr><td><code>src/customer_validator.py</code></td><td>74</td><td>0</td><td>100%</td></tr>
+      <tr><td><code>src/data_validation.py</code></td><td>80</td><td>0</td><td>100%</td></tr>
+      <tr><td><code>src/order_calculator.py</code></td><td>93</td><td>0</td><td>100%</td></tr>
+      <tr><td><code>src/order_processor.py</code></td><td>40</td><td>0</td><td>100%</td></tr>
+      <tr><th>Total</th><th>287</th><th>0</th><th>100%</th></tr>
+    </tbody>
+  </table>
+  <p>Nota de entorno: Coverage reportó que Windows bloqueó la carga de su
+    tracer C; la medición terminó correctamente usando el tracer alternativo.</p>
+</body>
+</html>

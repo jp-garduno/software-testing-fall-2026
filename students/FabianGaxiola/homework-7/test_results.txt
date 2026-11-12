@@ -1,0 +1,34 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\pato1\Documents\Iteso\Pruebas de Software\software-testing-fall-2026\students\FabianGaxiola\homework-7
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.1.0
+collected 128 items
+
+tests\test_customer_validator.py ....................................    [ 28%]
+tests\test_data_validation.py .......                                    [ 33%]
+tests\test_integration.py ......                                         [ 38%]
+tests\test_order_calculator.py ......................................... [ 70%]
+..................                                                       [ 84%]
+tests\test_order_data_driven.py ..........                               [ 92%]
+tests\test_order_traditional.py ..........                               [100%]
+
+============================== warnings summary ===============================
+..\homework-4\.venv\Lib\site-packages\coverage\core.py:108
+  C:\Users\pato1\Documents\Iteso\Pruebas de Software\software-testing-fall-2026\students\FabianGaxiola\homework-4\.venv\Lib\site-packages\coverage\core.py:108: CoverageWarning: Couldn't import C tracer: DLL load failed while importing tracer: An Application Control policy has blocked this file. (no-ctracer); see https://coverage.readthedocs.io/en/7.16.1/messages.html#warning-no-ctracer
+    warn(f"Couldn't import C tracer: {IMPORT_ERROR}", slug="no-ctracer", once=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.13.14-final-0 _______________
+
+Name                        Stmts   Miss  Cover   Missing
+---------------------------------------------------------
+src\customer_validator.py      74      0   100%
+src\data_validation.py         80      0   100%
+src\order_calculator.py        93      0   100%
+src\order_processor.py         40      0   100%
+---------------------------------------------------------
+TOTAL                         287      0   100%
+======================= 128 passed, 1 warning in 0.88s ========================
