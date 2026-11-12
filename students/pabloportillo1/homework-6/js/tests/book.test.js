@@ -1,0 +1,79 @@
+const { Book, BookDetails } = require("../src/book");
+
+const ISBN = "0306406152";
+const makeBook = (totalCopies = 1) => new Book(ISBN, "Clean Code", "Robert Martin", totalCopies);
+
+test("book is created with isbn, title and author", () => {
+  const book = new Book("0306406152", "Clean Code", "Robert Martin");
+
+  expect([book.isbn, book.title, book.author]).toEqual(["0306406152", "Clean Code", "Robert Martin"]);
+});
+
+test("book starts with every copy available", () => {
+  expect(makeBook(5).availableCopies).toBe(5);
+});
+
+test("book with copies is available", () => {
+  expect(makeBook(1).isAvailable()).toBe(true);
+});
+
+test("book without copies is not available", () => {
+  expect(makeBook(0).isAvailable()).toBe(false);
+});
+
+test("borrow takes one copy", () => {
+  const book = makeBook(2);
+
+  book.borrow();
+
+  expect(book.availableCopies).toBe(1);
+});
+
+test("borrow without available copies is rejected", () => {
+  expect(() => makeBook(0).borrow()).toThrow("No copies available for 'Clean Code'");
+});
+
+test("returnCopy puts the copy back", () => {
+  const book = makeBook(2);
+  book.borrow();
+
+  book.returnCopy();
+
+  expect(book.availableCopies).toBe(2);
+});
+
+test("returnCopy when every copy is in is rejected", () => {
+  expect(() => makeBook(2).returnCopy()).toThrow("All copies of 'Clean Code' are already in");
+});
+
+test("isbn with nine digits is rejected", () => {
+  expect(() => new Book("030640615", "Clean Code", "Robert Martin")).toThrow("ISBN must be 10 or 13 digits");
+});
+
+test("isbn with thirteen digits is accepted", () => {
+  expect(new Book("9780306406157", "Clean Code", "Robert Martin").isbn).toBe("9780306406157");
+});
+
+test("isbn with a letter is rejected", () => {
+  expect(() => new Book("03064O6152", "Clean Code", "Robert Martin")).toThrow("ISBN must be 10 or 13 digits");
+});
+
+test.each(["", "   "])("blank title %p is rejected", (title) => {
+  expect(() => new Book(ISBN, title, "Robert Martin")).toThrow("Title is required");
+});
+
+test("negative total copies are rejected", () => {
+  expect(() => makeBook(-1)).toThrow("Total copies cannot be negative");
+});
+
+test("book can be described by genre, year and rating", () => {
+  const details = new BookDetails({ genre: "Software", year: 2008, rating: 4.4 });
+
+  const book = new Book(ISBN, "Clean Code", "Robert Martin", 1, details);
+
+  expect(book.details).toBe(details);
+});
+
+test.each([-0.1, 5.1])("rating %p outside zero to five is rejected", (rating) => {
+  expect(() => new BookDetails({ rating })).toThrow("Rating must be between 0 and 5");
+});

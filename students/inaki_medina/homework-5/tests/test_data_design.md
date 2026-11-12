@@ -1,0 +1,23 @@
+Task Repository (data layer)
+
+Create Task
+test_task_creation_saves_to_repository
+test_task_creation_rejects_duplicate_title
+test_task_creation_sets_created_at_automatically
+
+Update Task
+test_task_update_title_unique_validation
+test_task_status_update_saves_to_repository
+
+Delete Task
+test_soft_delete_archives_task
+test_archived_task_cannot_be_restored
+test_permanently_deleted_task_is_removed_from_repository
+
+Searching and Filtering
+test_tasks_filtered_by_status
+test_tasks_filtered_by_priority
+
+Persistance Operation
+
+Database error handeling

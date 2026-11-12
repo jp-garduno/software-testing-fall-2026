@@ -1,0 +1,16 @@
+........................................................................ [ 64%]
+........................................                                 [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                          Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------
+src\__init__.py                   0      0      0      0   100%
+src\notification_service.py       7      0      0      0   100%
+src\task.py                      62      0     16      0   100%
+src\task_repository.py           14      0      0      0   100%
+src\task_service.py             104      0     38      0   100%
+-------------------------------------------------------------------------
+TOTAL                           187      0     54      0   100%
+Coverage JSON written to file reports/coverage.json
+112 passed in 1.09s

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+/coverage.json
+/python-results.xml
+/python-test-output.txt
+/pip-install-output.txt

@@ -1,0 +1,18 @@
+{
+  "name": "homework-5",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Diego",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage --verbose",
+    "test:doc": "jest --coverage --coverageDirectory=coverage",
+    "test:open": "Start-Process coverage/lcov-report/index.html"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  }
+}

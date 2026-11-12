@@ -1,0 +1,74 @@
+{
+  "measurement": "pytest --cov=src --cov-branch; named Python function bodies from coverage JSON",
+  "coverage_version": "7.16.2",
+  "totals": {
+    "covered_lines": 187,
+    "num_statements": 187,
+    "percent_covered": 100.0,
+    "percent_covered_display": "100",
+    "missing_lines": 0,
+    "excluded_lines": 0,
+    "percent_statements_covered": 100.0,
+    "percent_statements_covered_display": "100",
+    "num_branches": 54,
+    "num_partial_branches": 0,
+    "covered_branches": 54,
+    "missing_branches": 0,
+    "percent_branches_covered": 100.0,
+    "percent_branches_covered_display": "100"
+  },
+  "functions": 29,
+  "covered_functions": 29,
+  "files": {
+    "src/__init__.py": {
+      "statements": 0,
+      "covered_statements": 0,
+      "branches": 0,
+      "covered_branches": 0,
+      "functions": 0,
+      "covered_functions": 0,
+      "missing_lines": [],
+      "missing_branches": []
+    },
+    "src/notification_service.py": {
+      "statements": 7,
+      "covered_statements": 7,
+      "branches": 0,
+      "covered_branches": 0,
+      "functions": 3,
+      "covered_functions": 3,
+      "missing_lines": [],
+      "missing_branches": []
+    },
+    "src/task.py": {
+      "statements": 62,
+      "covered_statements": 62,
+      "branches": 16,
+      "covered_branches": 16,
+      "functions": 8,
+      "covered_functions": 8,
+      "missing_lines": [],
+      "missing_branches": []
+    },
+    "src/task_repository.py": {
+      "statements": 14,
+      "covered_statements": 14,
+      "branches": 0,
+      "covered_branches": 0,
+      "functions": 6,
+      "covered_functions": 6,
+      "missing_lines": [],
+      "missing_branches": []
+    },
+    "src/task_service.py": {
+      "statements": 104,
+      "covered_statements": 104,
+      "branches": 38,
+      "covered_branches": 38,
+      "functions": 12,
+      "covered_functions": 12,
+      "missing_lines": [],
+      "missing_branches": []
+    }
+  }
+}

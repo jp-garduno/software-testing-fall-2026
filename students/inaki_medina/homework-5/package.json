@@ -1,0 +1,16 @@
+{
+  "name": "homework-5",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "task.js",
+  "scripts": {
+    "test": "jest",
+    "test:cov": "jest --coverage"
+  },
+  "dependencies": {
+    "jest": "^30.5.2"
+  }
+}

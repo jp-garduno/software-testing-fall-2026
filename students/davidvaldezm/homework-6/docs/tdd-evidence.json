@@ -1,0 +1,359 @@
+[
+  {
+    "feature": "create a book with bibliographic properties",
+    "red": "bdb4a64",
+    "green": "2f5bae4",
+    "red_output": "TypeError: Book() takes no arguments\n1 failed",
+    "green_output": ".                                                                        [100%]\n1 passed in 0.03s\n"
+  },
+  {
+    "feature": "track total and available copies",
+    "red": "a684faf",
+    "green": "0d13469",
+    "red_output": ".F                                                                       [100%]\n================================== FAILURES ===================================\n___________________ test_book_starts_with_requested_copies ____________________\ntests\\test_book.py:12: in test_book_starts_with_requested_copies\n    book = Book(\"1234567890\", \"Pedro Paramo\", \"Juan Rulfo\", copies=3)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Book.__init__() got an unexpected keyword argument 'copies'\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_book_starts_with_requested_copies - TypeError...\n1 failed, 1 passed in 0.16s\n",
+    "green_output": "..                                                                       [100%]\n2 passed in 0.03s\n"
+  },
+  {
+    "feature": "reject malformed ISBN values",
+    "red": "a8f7ba0",
+    "green": "292966c",
+    "red_output": "..FFFFFF                                                                 [100%]\n================================== FAILURES ===================================\n_____________________ test_book_rejects_invalid_isbn[123] _____________________\ntests\\test_book.py:18: in test_book_rejects_invalid_isbn\n    with pytest.raises(ValueError, match=\"ISBN\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_________________ test_book_rejects_invalid_isbn[123456789X] __________________\ntests\\test_book.py:18: in test_book_rejects_invalid_isbn\n    with pytest.raises(ValueError, match=\"ISBN\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_________________ test_book_rejects_invalid_isbn[11111111111] _________________\ntests\\test_book.py:18: in test_book_rejects_invalid_isbn\n    with pytest.raises(ValueError, match=\"ISBN\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_________________ test_book_rejects_invalid_isbn[1234567890] __________________\ntests\\test_book.py:18: in test_book_rejects_invalid_isbn\n    with pytest.raises(ValueError, match=\"ISBN\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n____________________ test_book_rejects_invalid_isbn[None] _____________________\ntests\\test_book.py:18: in test_book_rejects_invalid_isbn\n    with pytest.raises(ValueError, match=\"ISBN\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_ test_book_rejects_invalid_isbn[\\xd9\\xa1\\xd9\\xa2\\xd9\\xa3\\xd9\\xa4\\xd9\\xa5\\xd9\\xa6\\xd9\\xa7\\xd9\\xa8\\xd9\\xa9\\xd9\\xa0] _\ntests\\test_book.py:18: in test_book_rejects_invalid_isbn\n    with pytest.raises(ValueError, match=\"ISBN\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_book_rejects_invalid_isbn[123] - Failed: DID ...\nFAILED tests/test_book.py::test_book_rejects_invalid_isbn[123456789X] - Faile...\nFAILED tests/test_book.py::test_book_rejects_invalid_isbn[11111111111] - Fail...\nFAILED tests/test_book.py::test_book_rejects_invalid_isbn[1234567890] - Faile...\nFAILED tests/test_book.py::test_book_rejects_invalid_isbn[None] - Failed: DID...\nFAILED tests/test_book.py::test_book_rejects_invalid_isbn[\\xd9\\xa1\\xd9\\xa2\\xd9\\xa3\\xd9\\xa4\\xd9\\xa5\\xd9\\xa6\\xd9\\xa7\\xd9\\xa8\\xd9\\xa9\\xd9\\xa0]\n6 failed, 2 passed in 0.20s\n",
+    "green_output": "........                                                                 [100%]\n8 passed in 0.04s\n"
+  },
+  {
+    "feature": "require a nonblank book title",
+    "red": "e2d53ba",
+    "green": "48f4531",
+    "red_output": "........FFFF                                                             [100%]\n================================== FAILURES ===================================\n________________________ test_book_requires_a_title[] _________________________\ntests\\test_book.py:24: in test_book_requires_a_title\n    with pytest.raises(ValueError, match=\"title\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_______________________ test_book_requires_a_title[  ] ________________________\ntests\\test_book.py:24: in test_book_requires_a_title\n    with pytest.raises(ValueError, match=\"title\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n______________________ test_book_requires_a_title[None] _______________________\ntests\\test_book.py:24: in test_book_requires_a_title\n    with pytest.raises(ValueError, match=\"title\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_______________________ test_book_requires_a_title[42] ________________________\ntests\\test_book.py:24: in test_book_requires_a_title\n    with pytest.raises(ValueError, match=\"title\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_book_requires_a_title[] - Failed: DID NOT RAI...\nFAILED tests/test_book.py::test_book_requires_a_title[  ] - Failed: DID NOT R...\nFAILED tests/test_book.py::test_book_requires_a_title[None] - Failed: DID NOT...\nFAILED tests/test_book.py::test_book_requires_a_title[42] - Failed: DID NOT R...\n4 failed, 8 passed in 0.19s\n",
+    "green_output": "............                                                             [100%]\n12 passed in 0.04s\n"
+  },
+  {
+    "feature": "reject negative or noninteger copy counts",
+    "red": "6a40d9c",
+    "green": "7a4ccc1",
+    "red_output": "............FFFF                                                         [100%]\n================================== FAILURES ===================================\n__________________ test_book_rejects_invalid_copy_counts[-1] __________________\ntests\\test_book.py:30: in test_book_rejects_invalid_copy_counts\n    with pytest.raises(ValueError, match=\"copies\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_________________ test_book_rejects_invalid_copy_counts[1.5] __________________\ntests\\test_book.py:30: in test_book_rejects_invalid_copy_counts\n    with pytest.raises(ValueError, match=\"copies\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_________________ test_book_rejects_invalid_copy_counts[True] _________________\ntests\\test_book.py:30: in test_book_rejects_invalid_copy_counts\n    with pytest.raises(ValueError, match=\"copies\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n__________________ test_book_rejects_invalid_copy_counts[2] ___________________\ntests\\test_book.py:30: in test_book_rejects_invalid_copy_counts\n    with pytest.raises(ValueError, match=\"copies\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_book_rejects_invalid_copy_counts[-1] - Failed...\nFAILED tests/test_book.py::test_book_rejects_invalid_copy_counts[1.5] - Faile...\nFAILED tests/test_book.py::test_book_rejects_invalid_copy_counts[True] - Fail...\nFAILED tests/test_book.py::test_book_rejects_invalid_copy_counts[2] - Failed:...\n4 failed, 12 passed in 0.20s\n",
+    "green_output": "................                                                         [100%]\n16 passed in 0.05s\n"
+  },
+  {
+    "feature": "report whether copies are available",
+    "red": "8d44b87",
+    "green": "fc5ccc5",
+    "red_output": "................FF                                                       [100%]\n================================== FAILURES ===================================\n______________ test_book_availability_depends_on_stock[0-False] _______________\ntests\\test_book.py:36: in test_book_availability_depends_on_stock\n    assert Book(\"1234567890\", \"Title\", \"Author\", copies).is_available() is expected\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Book' object has no attribute 'is_available'\n_______________ test_book_availability_depends_on_stock[1-True] _______________\ntests\\test_book.py:36: in test_book_availability_depends_on_stock\n    assert Book(\"1234567890\", \"Title\", \"Author\", copies).is_available() is expected\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Book' object has no attribute 'is_available'\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_book_availability_depends_on_stock[0-False]\nFAILED tests/test_book.py::test_book_availability_depends_on_stock[1-True] - ...\n2 failed, 16 passed in 0.20s\n",
+    "green_output": "..................                                                       [100%]\n18 passed in 0.05s\n"
+  },
+  {
+    "feature": "refuse borrowing unavailable books",
+    "red": "aad83fd",
+    "green": "65a4c32",
+    "red_output": "...................F                                                     [100%]\n================================== FAILURES ===================================\n_____________________ test_borrow_rejects_exhausted_stock _____________________\ntests\\test_book.py:47: in test_borrow_rejects_exhausted_stock\n    with pytest.raises(ValueError, match=\"available\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_borrow_rejects_exhausted_stock - Failed: DID ...\n1 failed, 19 passed in 0.18s\n",
+    "green_output": "....................                                                     [100%]\n20 passed in 0.05s\n"
+  },
+  {
+    "feature": "restore stock when returning a copy",
+    "red": "7be39f8",
+    "green": "b6bfc3f",
+    "red_output": "....................F                                                    [100%]\n================================== FAILURES ===================================\n____________________ test_return_restores_a_borrowed_copy _____________________\ntests\\test_book.py:55: in test_return_restores_a_borrowed_copy\n    book.return_copy()\n    ^^^^^^^^^^^^^^^^\nE   AttributeError: 'Book' object has no attribute 'return_copy'\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_return_restores_a_borrowed_copy - AttributeEr...\n1 failed, 20 passed in 0.19s\n",
+    "green_output": ".....................                                                    [100%]\n21 passed in 0.05s\n"
+  },
+  {
+    "feature": "prevent returns exceeding owned copies",
+    "red": "9a8d37c",
+    "green": "9c345b4",
+    "red_output": ".....................F                                                   [100%]\n================================== FAILURES ===================================\n_____________________ test_return_rejects_unborrowed_copy _____________________\ntests\\test_book.py:61: in test_return_rejects_unborrowed_copy\n    with pytest.raises(ValueError, match=\"returned\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_book.py::test_return_rejects_unborrowed_copy - Failed: DID ...\n1 failed, 21 passed in 0.19s\n",
+    "green_output": "......................                                                   [100%]\n22 passed in 0.05s\n"
+  },
+  {
+    "feature": "create a member with a default borrow limit",
+    "red": "e68906e",
+    "green": "b75146a",
+    "red_output": "......................F                                                  [100%]\n================================== FAILURES ===================================\n_________________ test_member_has_identity_and_default_limit __________________\ntests\\test_member.py:7: in test_member_has_identity_and_default_limit\n    member = Member(\"M1\", \"Ana\")\n             ^^^^^^^^^^^^^^^^^^^\nE   TypeError: Member() takes no arguments\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_has_identity_and_default_limit - Typ...\n1 failed, 22 passed in 0.19s\n",
+    "green_output": ".......................                                                  [100%]\n23 passed in 0.05s\n"
+  },
+  {
+    "feature": "validate member identity",
+    "red": "8994d06",
+    "green": "f0e451c",
+    "red_output": ".......................FFFFF                                             [100%]\n================================== FAILURES ===================================\n________________ test_member_requires_nonblank_identity[-Ana] _________________\ntests\\test_member.py:13: in test_member_requires_nonblank_identity\n    with pytest.raises(ValueError, match=\"required\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_______________ test_member_requires_nonblank_identity[  -Ana] ________________\ntests\\test_member.py:13: in test_member_requires_nonblank_identity\n    with pytest.raises(ValueError, match=\"required\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n______________ test_member_requires_nonblank_identity[None-Ana] _______________\ntests\\test_member.py:13: in test_member_requires_nonblank_identity\n    with pytest.raises(ValueError, match=\"required\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_________________ test_member_requires_nonblank_identity[M1-] _________________\ntests\\test_member.py:13: in test_member_requires_nonblank_identity\n    with pytest.raises(ValueError, match=\"required\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_______________ test_member_requires_nonblank_identity[M1-None] _______________\ntests\\test_member.py:13: in test_member_requires_nonblank_identity\n    with pytest.raises(ValueError, match=\"required\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_requires_nonblank_identity[-Ana] - F...\nFAILED tests/test_member.py::test_member_requires_nonblank_identity[  -Ana]\nFAILED tests/test_member.py::test_member_requires_nonblank_identity[None-Ana]\nFAILED tests/test_member.py::test_member_requires_nonblank_identity[M1-] - Fa...\nFAILED tests/test_member.py::test_member_requires_nonblank_identity[M1-None]\n5 failed, 23 passed in 0.21s\n",
+    "green_output": "............................                                             [100%]\n28 passed in 0.06s\n"
+  },
+  {
+    "feature": "validate custom borrowing limits",
+    "red": "9851848",
+    "green": "0fdd1e0",
+    "red_output": "............................FFFF                                         [100%]\n================================== FAILURES ===================================\n_______________ test_member_requires_positive_integer_limit[0] ________________\ntests\\test_member.py:19: in test_member_requires_positive_integer_limit\n    with pytest.raises(ValueError, match=\"limit\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n_______________ test_member_requires_positive_integer_limit[-1] _______________\ntests\\test_member.py:19: in test_member_requires_positive_integer_limit\n    with pytest.raises(ValueError, match=\"limit\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n______________ test_member_requires_positive_integer_limit[1.5] _______________\ntests\\test_member.py:19: in test_member_requires_positive_integer_limit\n    with pytest.raises(ValueError, match=\"limit\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n______________ test_member_requires_positive_integer_limit[True] ______________\ntests\\test_member.py:19: in test_member_requires_positive_integer_limit\n    with pytest.raises(ValueError, match=\"limit\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_requires_positive_integer_limit[0]\nFAILED tests/test_member.py::test_member_requires_positive_integer_limit[-1]\nFAILED tests/test_member.py::test_member_requires_positive_integer_limit[1.5]\nFAILED tests/test_member.py::test_member_requires_positive_integer_limit[True]\n4 failed, 28 passed in 0.21s\n",
+    "green_output": "................................                                         [100%]\n32 passed in 0.06s\n"
+  },
+  {
+    "feature": "check remaining member capacity",
+    "red": "39de60f",
+    "green": "a08cc1d",
+    "red_output": "................................F                                        [100%]\n================================== FAILURES ===================================\n_________________________ test_new_member_can_borrow __________________________\ntests\\test_member.py:24: in test_new_member_can_borrow\n    assert Member(\"M1\", \"Ana\").can_borrow() is True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Member' object has no attribute 'can_borrow'\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_new_member_can_borrow - AttributeError: 'Me...\n1 failed, 32 passed in 0.20s\n",
+    "green_output": ".................................                                        [100%]\n33 passed in 0.06s\n"
+  },
+  {
+    "feature": "record a borrowed ISBN for a member",
+    "red": "9c977e8",
+    "green": "ed00ac4",
+    "red_output": ".................................F                                       [100%]\n================================== FAILURES ===================================\n_____________________ test_member_records_a_borrowed_isbn _____________________\ntests\\test_member.py:29: in test_member_records_a_borrowed_isbn\n    member.add_borrowed_book(\"1234567890\")\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Member' object has no attribute 'add_borrowed_book'. Did you mean: 'borrowed_books'?\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_records_a_borrowed_isbn - AttributeE...\n1 failed, 33 passed in 0.20s\n",
+    "green_output": "..................................                                       [100%]\n34 passed in 0.06s\n"
+  },
+  {
+    "feature": "enforce the member borrowing limit",
+    "red": "b2b244e",
+    "green": "35b3ae5",
+    "red_output": "..................................F                                      [100%]\n================================== FAILURES ===================================\n___________________ test_member_cannot_exceed_custom_limit ____________________\ntests\\test_member.py:36: in test_member_cannot_exceed_custom_limit\n    with pytest.raises(ValueError, match=\"limit\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_cannot_exceed_custom_limit - Failed:...\n1 failed, 34 passed in 0.20s\n",
+    "green_output": "...................................                                      [100%]\n35 passed in 0.06s\n"
+  },
+  {
+    "feature": "prevent duplicate active ISBNs for one member",
+    "red": "6e1664a",
+    "green": "0d4ed7a",
+    "red_output": "...................................F                                     [100%]\n================================== FAILURES ===================================\n__________________ test_member_cannot_borrow_same_isbn_twice __________________\ntests\\test_member.py:44: in test_member_cannot_borrow_same_isbn_twice\n    with pytest.raises(ValueError, match=\"already\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_cannot_borrow_same_isbn_twice - Fail...\n1 failed, 35 passed in 0.20s\n",
+    "green_output": "....................................                                     [100%]\n36 passed in 0.06s\n"
+  },
+  {
+    "feature": "remove a returned ISBN from member loans",
+    "red": "b03cd9a",
+    "green": "e268073",
+    "red_output": "....................................F                                    [100%]\n================================== FAILURES ===================================\n______________________ test_member_return_frees_capacity ______________________\ntests\\test_member.py:51: in test_member_return_frees_capacity\n    member.return_book(\"1234567890\")\n    ^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Member' object has no attribute 'return_book'\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_return_frees_capacity - AttributeErr...\n1 failed, 36 passed in 0.20s\n",
+    "green_output": ".....................................                                    [100%]\n37 passed in 0.06s\n"
+  },
+  {
+    "feature": "describe attempts to return a member's unborrowed book",
+    "red": "616b491",
+    "green": "5833738",
+    "red_output": ".....................................F                                   [100%]\n================================== FAILURES ===================================\n__________________ test_member_rejects_return_without_a_loan __________________\ntests\\test_member.py:56: in test_member_rejects_return_without_a_loan\n    with pytest.raises(ValueError, match=\"not borrowed\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AssertionError: Regex pattern did not match.\nE     Expected regex: 'not borrowed'\nE     Actual message: 'list.remove(x): x not in list'\n=========================== short test summary info ===========================\nFAILED tests/test_member.py::test_member_rejects_return_without_a_loan - Asse...\n1 failed, 37 passed in 0.20s\n",
+    "green_output": "......................................                                   [100%]\n38 passed in 0.07s\n"
+  },
+  {
+    "feature": "initialize an empty library",
+    "red": "a08db92",
+    "green": "6dac919",
+    "red_output": "......................F................                                  [100%]\n================================== FAILURES ===================================\n_____________ test_library_starts_with_empty_catalog_and_members ______________\ntests\\test_library.py:20: in test_library_starts_with_empty_catalog_and_members\n    assert (catalog.catalog, catalog.members) == ({}, {})\n            ^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'catalog'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_library_starts_with_empty_catalog_and_members\n1 failed, 38 passed in 0.20s\n",
+    "green_output": ".......................................                                  [100%]\n39 passed in 0.07s\n"
+  },
+  {
+    "feature": "add books to the catalog by ISBN",
+    "red": "8e06324",
+    "green": "0615979",
+    "red_output": ".......................F................                                 [100%]\n================================== FAILURES ===================================\n_______________________ test_library_adds_book_by_isbn ________________________\ntests\\test_library.py:26: in test_library_adds_book_by_isbn\n    catalog.add_book(book)\n    ^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'add_book'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_library_adds_book_by_isbn - AttributeError...\n1 failed, 39 passed in 0.20s\n",
+    "green_output": "........................................                                 [100%]\n40 passed in 0.07s\n"
+  },
+  {
+    "feature": "reject duplicate catalog ISBNs",
+    "red": "6351da3",
+    "green": "bc5deea",
+    "red_output": "........................F................                                [100%]\n================================== FAILURES ===================================\n_____________ test_duplicate_isbn_does_not_replace_catalog_entry ______________\ntests\\test_library.py:34: in test_duplicate_isbn_does_not_replace_catalog_entry\n    with pytest.raises(ValueError, match=\"registered\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_duplicate_isbn_does_not_replace_catalog_entry\n1 failed, 40 passed in 0.20s\n",
+    "green_output": ".........................................                                [100%]\n41 passed in 0.07s\n"
+  },
+  {
+    "feature": "register library members",
+    "red": "1598605",
+    "green": "60712fe",
+    "red_output": ".........................F................                               [100%]\n================================== FAILURES ===================================\n____________________ test_register_member_indexes_identity ____________________\ntests\\test_library.py:42: in test_register_member_indexes_identity\n    catalog.register_member(member)\n    ^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'register_member'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_register_member_indexes_identity - Attribu...\n1 failed, 41 passed in 0.21s\n",
+    "green_output": "..........................................                               [100%]\n42 passed in 0.07s\n"
+  },
+  {
+    "feature": "reject duplicate member identities",
+    "red": "f9d98a4",
+    "green": "3e58410",
+    "red_output": "..........................F................                              [100%]\n================================== FAILURES ===================================\n___________ test_duplicate_member_does_not_replace_existing_member ____________\ntests\\test_library.py:48: in test_duplicate_member_does_not_replace_existing_member\n    with pytest.raises(ValueError, match=\"registered\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_duplicate_member_does_not_replace_existing_member\n1 failed, 42 passed in 0.21s\n",
+    "green_output": "...........................................                              [100%]\n43 passed in 0.07s\n"
+  },
+  {
+    "feature": "borrow a catalog book for a registered member",
+    "red": "bf02618",
+    "green": "810114e",
+    "red_output": "...........................F................                             [100%]\n================================== FAILURES ===================================\n________________ test_borrow_updates_stock_and_member_together ________________\ntests\\test_library.py:54: in test_borrow_updates_stock_and_member_together\n    library.borrow_book(\"M1\", \"1234567890\")\n    ^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'borrow_book'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_borrow_updates_stock_and_member_together\n1 failed, 43 passed in 0.21s\n",
+    "green_output": "............................................                             [100%]\n44 passed in 0.07s\n"
+  },
+  {
+    "feature": "reject unknown members with a domain error",
+    "red": "31b2c4f",
+    "green": "eb08d78",
+    "red_output": "............................F................                            [100%]\n================================== FAILURES ===================================\n_________________ test_unknown_borrower_does_not_change_stock _________________\ntests\\test_library.py:60: in test_unknown_borrower_does_not_change_stock\n    library.borrow_book(\"missing\", \"1234567890\")\nsrc\\library.py:22: in borrow_book\n    member = self.members[member_id]\n             ^^^^^^^^^^^^^^^^^^^^^^^\nE   KeyError: 'missing'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_unknown_borrower_does_not_change_stock - K...\n1 failed, 44 passed in 0.21s\n",
+    "green_output": ".............................................                            [100%]\n45 passed in 0.07s\n"
+  },
+  {
+    "feature": "reject unknown books with a domain error",
+    "red": "1e8a8d2",
+    "green": "33a9a8a",
+    "red_output": ".............................F................                           [100%]\n================================== FAILURES ===================================\n__________________ test_unknown_book_does_not_change_member ___________________\ntests\\test_library.py:66: in test_unknown_book_does_not_change_member\n    library.borrow_book(\"M1\", \"9999999999\")\nsrc\\library.py:25: in borrow_book\n    book = self.catalog[isbn]\n           ^^^^^^^^^^^^^^^^^^\nE   KeyError: '9999999999'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_unknown_book_does_not_change_member - KeyE...\n1 failed, 45 passed in 0.22s\n",
+    "green_output": "..............................................                           [100%]\n46 passed in 0.07s\n"
+  },
+  {
+    "feature": "keep inventory unchanged when member limit is reached",
+    "red": "404848c",
+    "green": "3ffa8fa",
+    "red_output": "..............................F................                          [100%]\n================================== FAILURES ===================================\n____________________ test_failed_borrow_at_limit_is_atomic ____________________\ntests\\test_library.py:76: in test_failed_borrow_at_limit_is_atomic\n    assert library.catalog[\"1234567890\"].available_copies == 2\nE   assert 1 == 2\nE    +  where 1 = <src.book.Book object at 0x000002B3FB12D220>.available_copies\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_failed_borrow_at_limit_is_atomic - assert ...\n1 failed, 46 passed in 0.21s\n",
+    "green_output": "...............................................                          [100%]\n47 passed in 0.07s\n"
+  },
+  {
+    "feature": "keep inventory unchanged on duplicate member loans",
+    "red": "1a9970c",
+    "green": "5e07711",
+    "red_output": "...............................F................                         [100%]\n================================== FAILURES ===================================\n___________________ test_failed_duplicate_borrow_is_atomic ____________________\ntests\\test_library.py:83: in test_failed_duplicate_borrow_is_atomic\n    assert library.catalog[\"1234567890\"].available_copies == 1\nE   assert 0 == 1\nE    +  where 0 = <src.book.Book object at 0x000001E62C8BF0E0>.available_copies\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_failed_duplicate_borrow_is_atomic - assert...\n1 failed, 47 passed in 0.22s\n",
+    "green_output": "................................................                         [100%]\n48 passed in 0.07s\n"
+  },
+  {
+    "feature": "return books through the library",
+    "red": "04f6017",
+    "green": "ba970e0",
+    "red_output": "................................F................                        [100%]\n================================== FAILURES ===================================\n_______________ test_library_return_restores_stock_and_capacity _______________\ntests\\test_library.py:88: in test_library_return_restores_stock_and_capacity\n    library.return_book(\"M1\", \"1234567890\")\n    ^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'return_book'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_library_return_restores_stock_and_capacity\n1 failed, 48 passed in 0.22s\n",
+    "green_output": ".................................................                        [100%]\n49 passed in 0.08s\n"
+  },
+  {
+    "feature": "validate unknown members on returns",
+    "red": "2720441",
+    "green": "7749b8e",
+    "red_output": ".................................F................                       [100%]\n================================== FAILURES ===================================\n_____________________ test_return_rejects_unknown_member ______________________\ntests\\test_library.py:94: in test_return_rejects_unknown_member\n    library.return_book(\"missing\", \"1234567890\")\nsrc\\library.py:36: in return_book\n    member = self.members[member_id]\n             ^^^^^^^^^^^^^^^^^^^^^^^\nE   KeyError: 'missing'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_return_rejects_unknown_member - KeyError: ...\n1 failed, 49 passed in 0.22s\n",
+    "green_output": "..................................................                       [100%]\n50 passed in 0.08s\n"
+  },
+  {
+    "feature": "validate unknown ISBNs on returns",
+    "red": "b076de5",
+    "green": "7864ca0",
+    "red_output": "..................................F................                      [100%]\n================================== FAILURES ===================================\n______________________ test_return_rejects_unknown_book _______________________\ntests\\test_library.py:99: in test_return_rejects_unknown_book\n    library.return_book(\"M1\", \"9999999999\")\nsrc\\library.py:39: in return_book\n    book = self.catalog[isbn]\n           ^^^^^^^^^^^^^^^^^^\nE   KeyError: '9999999999'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_return_rejects_unknown_book - KeyError: '9...\n1 failed, 50 passed in 0.22s\n",
+    "green_output": "...................................................                      [100%]\n51 passed in 0.08s\n"
+  },
+  {
+    "feature": "search titles using case insensitive substring matching",
+    "red": "a5da02e",
+    "green": "d3d1064",
+    "red_output": "...................................F................                     [100%]\n================================== FAILURES ===================================\n___________ test_search_title_matches_substrings_case_insensitively ___________\ntests\\test_library.py:103: in test_search_title_matches_substrings_case_insensitively\n    assert [book.isbn for book in library.search_by_title(\"  PEDRO  \")] == [\"1234567890\"]\n                                  ^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'search_by_title'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_search_title_matches_substrings_case_insensitively\n1 failed, 51 passed in 0.22s\n",
+    "green_output": "....................................................                     [100%]\n52 passed in 0.08s\n"
+  },
+  {
+    "feature": "search authors using case insensitive substring matching",
+    "red": "651175c",
+    "green": "f8cb6ee",
+    "red_output": "....................................F................                    [100%]\n================================== FAILURES ===================================\n________________ test_search_author_returns_all_matching_books ________________\ntests\\test_library.py:107: in test_search_author_returns_all_matching_books\n    assert len(library.search_by_author(\"RULFO\")) == 2\n               ^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'search_by_author'. Did you mean: 'search_by_title'?\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_search_author_returns_all_matching_books\n1 failed, 52 passed in 0.22s\n",
+    "green_output": ".....................................................                    [100%]\n53 passed in 0.08s\n"
+  },
+  {
+    "feature": "list only books with available stock",
+    "red": "72a064f",
+    "green": "4b0b036",
+    "red_output": ".....................................F................                   [100%]\n================================== FAILURES ===================================\n______________ test_available_books_excludes_out_of_stock_titles ______________\ntests\\test_library.py:111: in test_available_books_excludes_out_of_stock_titles\n    assert [book.isbn for book in library.get_available_books()] == [\"1234567890\"]\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'get_available_books'\n=========================== short test summary info ===========================\nFAILED tests/test_library.py::test_available_books_excludes_out_of_stock_titles\n1 failed, 53 passed in 0.23s\n",
+    "green_output": "......................................................                   [100%]\n54 passed in 0.08s\n"
+  },
+  {
+    "feature": "record loan identity and borrowing date",
+    "red": "b594a65",
+    "green": "98a2d71",
+    "red_output": "F......................................................                  [100%]\n================================== FAILURES ===================================\n________________ test_loan_records_member_book_and_borrow_date ________________\ntests\\test_advanced.py:13: in test_loan_records_member_book_and_borrow_date\n    loan = Loan(\"M1\", \"1234567890\", date(2026, 1, 1))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Loan() takes no arguments\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_loan_records_member_book_and_borrow_date\n1 failed, 54 passed in 0.22s\n",
+    "green_output": ".......................................................                  [100%]\n55 passed in 0.09s\n"
+  },
+  {
+    "feature": "set loan due date fourteen days after borrowing",
+    "red": "7e1261b",
+    "green": "4858b02",
+    "red_output": ".F......................................................                 [100%]\n================================== FAILURES ===================================\n____________________ test_due_date_crosses_month_boundary _____________________\ntests\\test_advanced.py:19: in test_due_date_crosses_month_boundary\n    assert loan.due_date == date(2026, 2, 8)\n           ^^^^^^^^^^^^^\nE   AttributeError: 'Loan' object has no attribute 'due_date'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_due_date_crosses_month_boundary - Attribu...\n1 failed, 55 passed in 0.23s\n",
+    "green_output": "........................................................                 [100%]\n56 passed in 0.09s\n"
+  },
+  {
+    "feature": "charge one dollar per overdue day and nothing before the deadline",
+    "red": "098dbf5",
+    "green": "7e633c3",
+    "red_output": "..FFFF......................................................             [100%]\n================================== FAILURES ===================================\n_____________ test_late_fee_respects_due_date_boundary[as_of0-0] ______________\ntests\\test_advanced.py:24: in test_late_fee_respects_due_date_boundary\n    assert Loan(\"M1\", \"1234567890\", date(2026, 1, 1)).late_fee(as_of) == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Loan' object has no attribute 'late_fee'\n_____________ test_late_fee_respects_due_date_boundary[as_of1-0] ______________\ntests\\test_advanced.py:24: in test_late_fee_respects_due_date_boundary\n    assert Loan(\"M1\", \"1234567890\", date(2026, 1, 1)).late_fee(as_of) == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Loan' object has no attribute 'late_fee'\n_____________ test_late_fee_respects_due_date_boundary[as_of2-1] ______________\ntests\\test_advanced.py:24: in test_late_fee_respects_due_date_boundary\n    assert Loan(\"M1\", \"1234567890\", date(2026, 1, 1)).late_fee(as_of) == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Loan' object has no attribute 'late_fee'\n_____________ test_late_fee_respects_due_date_boundary[as_of3-5] ______________\ntests\\test_advanced.py:24: in test_late_fee_respects_due_date_boundary\n    assert Loan(\"M1\", \"1234567890\", date(2026, 1, 1)).late_fee(as_of) == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Loan' object has no attribute 'late_fee'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_late_fee_respects_due_date_boundary[as_of0-0]\nFAILED tests/test_advanced.py::test_late_fee_respects_due_date_boundary[as_of1-0]\nFAILED tests/test_advanced.py::test_late_fee_respects_due_date_boundary[as_of2-1]\nFAILED tests/test_advanced.py::test_late_fee_respects_due_date_boundary[as_of3-5]\n4 failed, 56 passed in 0.25s\n",
+    "green_output": "............................................................             [100%]\n60 passed in 0.10s\n"
+  },
+  {
+    "feature": "stop accumulating fees on the return date",
+    "red": "38a5846",
+    "green": "572252e",
+    "red_output": "......F......................................................            [100%]\n================================== FAILURES ===================================\n_________________ test_closed_loan_stops_fees_at_return_date __________________\ntests\\test_advanced.py:28: in test_closed_loan_stops_fees_at_return_date\n    loan = Loan(\"M1\", \"1234567890\", date(2026, 1, 1), returned_on=date(2026, 1, 18))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Loan.__init__() got an unexpected keyword argument 'returned_on'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_closed_loan_stops_fees_at_return_date - T...\n1 failed, 60 passed in 0.24s\n",
+    "green_output": ".............................................................            [100%]\n61 passed in 0.10s\n"
+  },
+  {
+    "feature": "support student faculty and public borrowing limits",
+    "red": "1089323",
+    "green": "712da2e",
+    "red_output": ".......FFF......................................................         [100%]\n================================== FAILURES ===================================\n____________ test_member_category_sets_borrowing_limit[student-3] _____________\ntests\\test_advanced.py:34: in test_member_category_sets_borrowing_limit\n    assert Member(\"M1\", \"Ana\", category=category).max_borrow_limit == expected\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Member.__init__() got an unexpected keyword argument 'category'\n____________ test_member_category_sets_borrowing_limit[faculty-5] _____________\ntests\\test_advanced.py:34: in test_member_category_sets_borrowing_limit\n    assert Member(\"M1\", \"Ana\", category=category).max_borrow_limit == expected\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Member.__init__() got an unexpected keyword argument 'category'\n_____________ test_member_category_sets_borrowing_limit[public-2] _____________\ntests\\test_advanced.py:34: in test_member_category_sets_borrowing_limit\n    assert Member(\"M1\", \"Ana\", category=category).max_borrow_limit == expected\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Member.__init__() got an unexpected keyword argument 'category'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_member_category_sets_borrowing_limit[student-3]\nFAILED tests/test_advanced.py::test_member_category_sets_borrowing_limit[faculty-5]\nFAILED tests/test_advanced.py::test_member_category_sets_borrowing_limit[public-2]\n3 failed, 61 passed in 0.25s\n",
+    "green_output": "................................................................         [100%]\n64 passed in 0.10s\n"
+  },
+  {
+    "feature": "reject unsupported member categories",
+    "red": "46fcc2a",
+    "green": "69895c2",
+    "red_output": "..........FFFF......................................................     [100%]\n================================== FAILURES ===================================\n________________ test_member_rejects_unknown_category[visitor] ________________\ntests\\test_advanced.py:40: in test_member_rejects_unknown_category\n    Member(\"M1\", \"Ana\", category=category)\nsrc\\member.py:12: in __init__\n    max_borrow_limit = self.CATEGORY_LIMITS[category]\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   KeyError: 'visitor'\n________________ test_member_rejects_unknown_category[Faculty] ________________\ntests\\test_advanced.py:40: in test_member_rejects_unknown_category\n    Member(\"M1\", \"Ana\", category=category)\nsrc\\member.py:12: in __init__\n    max_borrow_limit = self.CATEGORY_LIMITS[category]\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   KeyError: 'Faculty'\n_________________ test_member_rejects_unknown_category[None] __________________\ntests\\test_advanced.py:40: in test_member_rejects_unknown_category\n    Member(\"M1\", \"Ana\", category=category)\nsrc\\member.py:12: in __init__\n    max_borrow_limit = self.CATEGORY_LIMITS[category]\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   KeyError: None\n_______________ test_member_rejects_unknown_category[category3] _______________\ntests\\test_advanced.py:40: in test_member_rejects_unknown_category\n    Member(\"M1\", \"Ana\", category=category)\nsrc\\member.py:12: in __init__\n    max_borrow_limit = self.CATEGORY_LIMITS[category]\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: unhashable type: 'list'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_member_rejects_unknown_category[visitor]\nFAILED tests/test_advanced.py::test_member_rejects_unknown_category[Faculty]\nFAILED tests/test_advanced.py::test_member_rejects_unknown_category[None] - K...\nFAILED tests/test_advanced.py::test_member_rejects_unknown_category[category3]\n4 failed, 64 passed in 0.27s\n",
+    "green_output": "....................................................................     [100%]\n68 passed in 0.11s\n"
+  },
+  {
+    "feature": "apply distinct daily fee rates by member category",
+    "red": "53ea3ad",
+    "green": "afbbdf3",
+    "red_output": "..............FFF......................................................  [100%]\n================================== FAILURES ===================================\n_____________ test_member_category_sets_daily_fee_rate[student-1] _____________\ntests\\test_advanced.py:45: in test_member_category_sets_daily_fee_rate\n    assert Member(\"M1\", \"Ana\", category=category).daily_fee_rate == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Member' object has no attribute 'daily_fee_rate'\n___________ test_member_category_sets_daily_fee_rate[faculty-0.50] ____________\ntests\\test_advanced.py:45: in test_member_category_sets_daily_fee_rate\n    assert Member(\"M1\", \"Ana\", category=category).daily_fee_rate == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Member' object has no attribute 'daily_fee_rate'\n____________ test_member_category_sets_daily_fee_rate[public-1.50] ____________\ntests\\test_advanced.py:45: in test_member_category_sets_daily_fee_rate\n    assert Member(\"M1\", \"Ana\", category=category).daily_fee_rate == Decimal(expected)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Member' object has no attribute 'daily_fee_rate'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_member_category_sets_daily_fee_rate[student-1]\nFAILED tests/test_advanced.py::test_member_category_sets_daily_fee_rate[faculty-0.50]\nFAILED tests/test_advanced.py::test_member_category_sets_daily_fee_rate[public-1.50]\n3 failed, 68 passed in 0.27s\n",
+    "green_output": ".......................................................................  [100%]\n71 passed in 0.11s\n"
+  },
+  {
+    "feature": "calculate loan fees using the captured category rate",
+    "red": "b225a38",
+    "green": "f0ed5ca",
+    "red_output": ".................F...................................................... [100%]\n================================== FAILURES ===================================\n______________________ test_loan_captures_category_rate _______________________\ntests\\test_advanced.py:49: in test_loan_captures_category_rate\n    loan = Loan(\"M1\", \"1234567890\", date(2026, 1, 1), daily_rate=Decimal(\"0.50\"))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Loan.__init__() got an unexpected keyword argument 'daily_rate'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_loan_captures_category_rate - TypeError: ...\n1 failed, 71 passed in 0.26s\n",
+    "green_output": "........................................................................ [100%]\n72 passed in 0.11s\n"
+  },
+  {
+    "feature": "inject a clock and return dated loan records",
+    "red": "afd6147",
+    "green": "c7df0f0",
+    "red_output": "..................F..................................................... [ 98%]\n.                                                                        [100%]\n================================== FAILURES ===================================\n___________________ test_library_uses_injected_borrow_date ____________________\ntests\\test_advanced.py:54: in test_library_uses_injected_borrow_date\n    library = Library(today=lambda: date(2026, 1, 1))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: Library.__init__() got an unexpected keyword argument 'today'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_library_uses_injected_borrow_date - TypeE...\n1 failed, 72 passed in 0.25s\n",
+    "green_output": "........................................................................ [ 98%]\n.                                                                        [100%]\n73 passed in 0.11s\n"
+  },
+  {
+    "feature": "report an empty borrowing history for new members",
+    "red": "50460b9",
+    "green": "94b7112",
+    "red_output": "...................F.................................................... [ 97%]\n..                                                                       [100%]\n================================== FAILURES ===================================\n______________________ test_new_member_has_empty_history ______________________\ntests\\test_advanced.py:71: in test_new_member_has_empty_history\n    assert library.get_member_history(\"M1\") == ()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'get_member_history'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_new_member_has_empty_history - AttributeE...\n1 failed, 73 passed in 0.25s\n",
+    "green_output": "........................................................................ [ 97%]\n..                                                                       [100%]\n74 passed in 0.11s\n"
+  },
+  {
+    "feature": "retain successful borrows in member history",
+    "red": "a3a830a",
+    "green": "85b8dc1",
+    "red_output": "....................F................................................... [ 96%]\n...                                                                      [100%]\n================================== FAILURES ===================================\n_____________________ test_history_contains_borrowed_loan _____________________\ntests\\test_advanced.py:77: in test_history_contains_borrowed_loan\n    assert library.get_member_history(\"M1\") == (loan,)\nE   AssertionError: assert () == (Loan(member_...ecimal('1')),)\nE     \nE     Right contains one more item: Loan(member_id='M1', isbn='1234567890', borrowed_on=datetime.date(2026, 1, 1), returned_on=None, daily_rate=Decimal('1'))\nE     Use -v to get more diff\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_history_contains_borrowed_loan - Assertio...\n1 failed, 74 passed in 0.28s\n",
+    "green_output": "........................................................................ [ 96%]\n...                                                                      [100%]\n75 passed in 0.12s\n"
+  },
+  {
+    "feature": "record return dates while preserving loan snapshots",
+    "red": "34f75bd",
+    "green": "80cf2a2",
+    "red_output": ".....................F.................................................. [ 94%]\n....                                                                     [100%]\n================================== FAILURES ===================================\n_______ test_history_records_return_without_mutating_original_snapshot ________\ntests\\test_advanced.py:85: in test_history_records_return_without_mutating_original_snapshot\n    assert (library.get_member_history(\"M1\")[0].returned_on, borrowed.returned_on) == (clock[0], None)\nE   assert (None, None) == (datetime.dat... 1, 18), None)\nE     \nE     At index 0 diff: None != datetime.date(2026, 1, 18)\nE     Use -v to get more diff\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_history_records_return_without_mutating_original_snapshot\n1 failed, 75 passed in 0.26s\n",
+    "green_output": "........................................................................ [ 94%]\n....                                                                     [100%]\n76 passed in 0.11s\n"
+  },
+  {
+    "feature": "calculate total member fees across open and returned loans",
+    "red": "4547060",
+    "green": "0dc7ad4",
+    "red_output": "......................F................................................. [ 93%]\n.....                                                                    [100%]\n================================== FAILURES ===================================\n_______________ test_total_fees_include_active_and_closed_loans _______________\ntests\\test_advanced.py:96: in test_total_fees_include_active_and_closed_loans\n    assert library.calculate_total_fees(\"M1\") == Decimal(\"8\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'calculate_total_fees'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_total_fees_include_active_and_closed_loans\n1 failed, 76 passed in 0.27s\n",
+    "green_output": "........................................................................ [ 93%]\n.....                                                                    [100%]\n77 passed in 0.12s\n"
+  },
+  {
+    "feature": "reject history queries for unknown members",
+    "red": "24b6e04",
+    "green": "0478f5a",
+    "red_output": ".......................F................................................ [ 92%]\n......                                                                   [100%]\n================================== FAILURES ===================================\n_____________________ test_history_rejects_unknown_member _____________________\ntests\\test_advanced.py:101: in test_history_rejects_unknown_member\n    with pytest.raises(ValueError, match=\"Unknown member\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_history_rejects_unknown_member - Failed: ...\n1 failed, 77 passed in 0.31s\n",
+    "green_output": "........................................................................ [ 92%]\n......                                                                   [100%]\n78 passed in 0.12s\n"
+  },
+  {
+    "feature": "find the most borrowed book from historical events",
+    "red": "9bfd4f1",
+    "green": "17d08be",
+    "red_output": "........................F............................................... [ 91%]\n.......                                                                  [100%]\n================================== FAILURES ===================================\n__________________ test_most_borrowed_counts_repeat_borrows ___________________\ntests\\test_advanced.py:112: in test_most_borrowed_counts_repeat_borrows\n    assert library.most_borrowed_book().isbn == \"1234567890\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   AttributeError: 'Library' object has no attribute 'most_borrowed_book'\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_most_borrowed_counts_repeat_borrows - Att...\n1 failed, 78 passed in 0.27s\n",
+    "green_output": "........................................................................ [ 91%]\n.......                                                                  [100%]\n79 passed in 0.12s\n"
+  },
+  {
+    "feature": "return no popular book when no loans exist",
+    "red": "79fbc8c",
+    "green": "8858a26",
+    "red_output": ".........................F.............................................. [ 90%]\n........                                                                 [100%]\n================================== FAILURES ===================================\n_________________ test_most_borrowed_is_none_without_history __________________\ntests\\test_advanced.py:117: in test_most_borrowed_is_none_without_history\n    assert library.most_borrowed_book() is None\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\library.py:77: in most_borrowed_book\n    return self.catalog[counts.most_common(1)[0][0]]\n                        ^^^^^^^^^^^^^^^^^^^^^^^^\nE   IndexError: list index out of range\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_most_borrowed_is_none_without_history - I...\n1 failed, 79 passed in 0.27s\n",
+    "green_output": "........................................................................ [ 90%]\n........                                                                 [100%]\n80 passed in 0.12s\n"
+  },
+  {
+    "feature": "reject return dates earlier than the borrow date",
+    "red": "316299a",
+    "green": "86e63d3",
+    "red_output": "..........................F............................................. [ 88%]\n.........                                                                [100%]\n================================== FAILURES ===================================\n_________________ test_backdated_return_preserves_active_loan _________________\ntests\\test_advanced.py:124: in test_backdated_return_preserves_active_loan\n    with pytest.raises(ValueError, match=\"before\"):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE   Failed: DID NOT RAISE ValueError\n=========================== short test summary info ===========================\nFAILED tests/test_advanced.py::test_backdated_return_preserves_active_loan - ...\n1 failed, 80 passed in 0.26s\n",
+    "green_output": "........................................................................ [ 88%]\n.........                                                                [100%]\n81 passed in 0.12s\n"
+  }
+]

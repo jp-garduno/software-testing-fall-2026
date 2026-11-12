@@ -1,0 +1,11 @@
+{
+  "browser": "Microsoft Edge via Playwright CLI",
+  "index_filter_book": true,
+  "filter_updates_totals": true,
+  "hide_covered_empty_state": true,
+  "clear_filter_restores_four_files": true,
+  "descending_file_order": true,
+  "navigate_to_book_source": true,
+  "console_errors": 0,
+  "console_warnings": 0
+}

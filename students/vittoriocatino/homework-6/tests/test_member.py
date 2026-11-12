@@ -1,0 +1,55 @@
+from member import Member
+import pytest
+
+
+def test_member_is_created_with_default_limit():
+    member = Member("m-1", "Ada Lovelace")
+
+    assert member.max_borrow_limit == 3
+
+
+def test_member_can_borrow_until_limit():
+    member = Member("m-1", "Ada", max_borrow_limit=1)
+
+    assert member.can_borrow() is True
+    member.add_borrowed_book("1234567890")
+    assert member.can_borrow() is False
+
+
+def test_member_can_return_a_borrowed_book():
+    member = Member("m-1", "Ada")
+    member.add_borrowed_book("1234567890")
+
+    member.return_book("1234567890")
+
+    assert member.borrowed_books == []
+
+
+def test_member_rejects_borrowing_past_limit_and_returning_unknown_book():
+    member = Member("m-1", "Ada", max_borrow_limit=1)
+    member.add_borrowed_book("1234567890")
+
+    with pytest.raises(ValueError, match="limit"):
+        member.add_borrowed_book("1234567890123")
+    with pytest.raises(ValueError, match="not borrowed"):
+        member.return_book("1234567890123")
+
+
+def test_member_rejects_a_zero_borrow_limit():
+    with pytest.raises(ValueError, match="positive limit"):
+        Member("m-1", "Ada", max_borrow_limit=0)
+
+
+def test_member_rejects_an_unknown_category():
+    with pytest.raises(ValueError, match="unknown member category"):
+        Member("m-1", "Ada", category="visitor")
+
+
+@pytest.mark.parametrize(
+    ("category", "limit", "fee_rate"),
+    [("student", 3, 1.0), ("faculty", 5, 0.5), ("public", 2, 1.5)],
+)
+def test_member_category_configures_limits_and_fee_rates(category, limit, fee_rate):
+    member = Member("m-1", "Ada", category=category)
+
+    assert (member.max_borrow_limit, member.late_fee_rate) == (limit, fee_rate)
