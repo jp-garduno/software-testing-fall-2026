@@ -28,6 +28,7 @@ shipping_express_rounds_half_up,shipping,"[{'name':'Kettle','price':20,'quantity
 shipping_freeship_code,shipping,"[{'name':'Rug','price':20,'quantity':1,'weight':5}]",regular,FREESHIP,200,false,20.00,0.00,1.60,0.00,21.60,
 shipping_freeship_overrides_express,shipping,"[{'name':'Rug','price':20,'quantity':1,'weight':5}]",regular,FREESHIP,200,true,20.00,0.00,1.60,0.00,21.60,
 shipping_fractional_distance,shipping,"[{'name':'Candle','price':20,'quantity':3,'weight':0.2}]",regular,NONE,12.345,false,60.00,0.00,4.80,1.53,66.33,
+shipping_express_float_rounding_trap,shipping,"[{'name':'Letter','price':20,'quantity':1,'weight':0.1}]",regular,NONE,20,true,20.00,0.00,1.60,3.08,24.68,
 complex_save10_express_cart,complex,"[{'name':'Book','price':15.99,'quantity':3,'weight':0.5},{'name':'Mug','price':12.5,'quantity':2,'weight':0.4}]",regular,SAVE10,50,true,72.97,7.30,5.25,9.23,80.15,
 complex_newuser_long_distance,complex,"[{'name':'Shoes','price':89.9,'quantity':1,'weight':1.2},{'name':'Socks','price':4.5,'quantity':6,'weight':0.05}]",new,NEWUSER,850,false,116.90,17.54,7.95,85.75,193.06,
 complex_five_items_save20,complex,"[{'name':'Clip','price':1.99,'quantity':10,'weight':0.1},{'name':'Tape','price':5.49,'quantity':3,'weight':0.3},{'name':'Stapler','price':12,'quantity':1,'weight':1},{'name':'Eraser','price':0.99,'quantity':25,'weight':0.01},{'name':'Organizer','price':49.95,'quantity':2,'weight':2.2}]",regular,SAVE20,63,false,173.02,34.60,11.07,10.08,159.57,
