@@ -1,7 +1,7 @@
 import pytest
 
 from data_loader import load_order_cases, run_order_case
-from order_calculator import Order
+from src.order_calculator import Order
 
 
 @pytest.mark.parametrize("case", load_order_cases())

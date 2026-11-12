@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 
 from data_loader import load_workflows
-from order_workflow import OrderWorkflow
+from src.order_workflow import OrderWorkflow
 
 FIXED_TODAY = date(2026, 1, 15)
 

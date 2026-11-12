@@ -2,7 +2,7 @@ from datetime import date
 
 import pytest
 
-from customer_validator import check_expiration, luhn_check, validate_customer
+from src.customer_validator import check_expiration, luhn_check, validate_customer
 from data_loader import load_customer_cases
 
 FIXED_TODAY = date(2026, 1, 15)  # fecha fija => tests deterministas

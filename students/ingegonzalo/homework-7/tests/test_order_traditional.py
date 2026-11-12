@@ -1,7 +1,7 @@
 """Version TRADICIONAL: 10 tests con datos hardcodeados."""
 import pytest
 
-from order_calculator import Order
+from src.order_calculator import Order
 
 
 def test_simple_single_item():

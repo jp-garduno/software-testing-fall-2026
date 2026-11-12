@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from order_calculator import Order
+from src.order_calculator import Order
 
 # Ruta relativa al archivo, funciona sin importar desde donde se ejecute pytest
 DATA_DIR = Path(__file__).resolve().parent.parent / "test_data"
