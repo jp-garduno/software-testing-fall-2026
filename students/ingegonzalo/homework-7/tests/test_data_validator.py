@@ -1,5 +1,5 @@
 from data_loader import DATA_DIR
-from data_validator import validate_customers_json, validate_orders_csv
+from src.data_validator import validate_customers_json, validate_orders_csv
 
 HEADER = ("test_name,items,customer_type,discount_code,distance_km,is_express,"
           "expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total\n")
