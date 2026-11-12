@@ -1,0 +1,6 @@
+# Bandit configuration (bonus: security linting).
+# Only src/ is scanned; the virtual environment and the reports are not code
+# this project is responsible for.
+exclude_dirs:
+  - venv
+  - reports

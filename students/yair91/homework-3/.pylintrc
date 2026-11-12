@@ -1,0 +1,30 @@
+# Pylint configuration for this project.
+#
+# The starting point was `pylint --generate-rcfile`, trimmed down to the
+# settings that are actually decided here. Everything not listed keeps
+# pylint's default, which is deliberate: the point of the exercise is to find
+# problems, so turning rules off needs a reason, not a preference.
+
+[MAIN]
+# Every run should start from scratch; a cached score hides a regression.
+persistent = no
+
+[FORMAT]
+# 120 instead of pylint's 100. It is what the course standard says
+# (.claude/CLAUDE.md) and what black is configured to produce here.
+max-line-length = 120
+
+[BASIC]
+# Short names that are clear in context and would otherwise trip invalid-name.
+good-names = i, j, k, _, id, sku, qty
+
+[DESIGN]
+# Product and Movement are value objects: they hold data and little else.
+# Asking them for two public methods would push logic into them that belongs
+# in Inventory and MovementLog.
+min-public-methods = 1
+
+[MESSAGES CONTROL]
+# Nothing is disabled. If a message shows up it gets fixed in the source,
+# not silenced here.
+disable =
