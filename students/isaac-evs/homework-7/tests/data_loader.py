@@ -2,6 +2,7 @@
 
 import csv
 import json
+from datetime import date
 from pathlib import Path
 
 import pytest
@@ -10,7 +11,10 @@ from order_calculator import Order
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "test_data"
 ORDER_CSV = DATA_DIR / "order_calculations.csv"
+CUSTOMER_JSON = DATA_DIR / "customer_validation.json"
+WORKFLOW_JSON = DATA_DIR / "order_workflows.json"
 COMPONENTS = ("subtotal", "discount", "tax", "shipping", "total")
+REFERENCE_DATE = date(2026, 6, 15)  # "today" for card expiry checks unless a case sets as_of
 
 
 def _text(value):
@@ -63,3 +67,15 @@ def run_order_case(case):
         order.apply_discount(case["discount_code"])
     order.set_shipping(case["distance"], case["is_express"])
     return order.calculate_total()
+
+
+def load_customer_cases(path=CUSTOMER_JSON, category=None):
+    """Load customer validation cases from JSON as pytest params, optionally for one category."""
+    with open(path, encoding="utf-8") as handle:
+        cases = json.load(handle)
+    return [pytest.param(case, id=case["test_name"]) for case in cases if category in (None, case["category"])]
+
+
+def case_date(case):
+    """The date a customer case is validated on: its as_of field or the shared reference date."""
+    return date.fromisoformat(case["as_of"]) if "as_of" in case else REFERENCE_DATE
