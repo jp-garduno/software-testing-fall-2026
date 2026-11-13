@@ -49,7 +49,10 @@ for (let i = 1; i <= 100; i++) {
 }
 
 const header =
-  "test_name,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total";
+  [
+    "test_name,items,customer_type,discount_code,distance_km,is_express,",
+    "expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total",
+  ].join("");
 fs.writeFileSync(
   path.join(__dirname, "100PruebasAlAzar.csv"),
   [header, ...filas].join("\n"),
