@@ -1,0 +1,38 @@
+test_name,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total
+pedido simplre n1 0 articulos,[],regular,NONE,10,false,0.00,0.00,0.00,1.00,1.00
+pedido simplre n2 1 articulo,"[{'name':'Item1','price':50,'quantity':1,'weight':1}]",regular,NONE,10,false,50.00,0.00,4.00,1.50,55.50
+"pedido simplre n2.5 1 articulo, pero varios","[{'name':'Item1','price':50,'quantity':3,'weight':1}]",regular,NONE,10,false,150.00,0.00,12.00,2.50,164.50
+pedido simplre n5 3 articulos,"[{'name':'A','price':10,'quantity':1,'weight':1},{'name':'B','price':20,'quantity':1,'weight':2},{'name':'C','price':5,'quantity':1,'weight':0}]",regular,NONE,0,false,35.00,0.00,2.80,1.50,39.30
+no alcanozo el 10% (casi y no es primeraa compra),"[{'name':'A','price':49.99,'quantity':1,'weight':0}]",regular,SAVE10,0,false,49.99,0.00,4.00,0.00,53.99
+10% de descuento apenas (limite enfeeriro),"[{'name':'A','price':50,'quantity':1,'weight':0}]",regular,SAVE10,0,false,50.00,5.00,3.60,0.00,48.60
+10% de descuento apunto de ser 20% (limite superior),"[{'name':'A','price':99.99,'quantity':1,'weight':0}]",regular,SAVE10,0,false,99.99,10.00,7.20,0.00,97.19
+20% de descuento,"[{'name':'A','price':100,'quantity':1,'weight':0}]",regular,SAVE20,0,false,100.00,20.00,6.40,0.00,86.40
+primer pedido (15%),"[{'name':'A','price':40,'quantity':1,'weight':0}]",new,NEWUSER,0,false,40.00,6.00,2.72,0.00,36.72
+codigo invalido (sin descuento),"[{'name':'A','price':40,'quantity':2,'weight':0}]",regular,SAVE99,0,false,80.00,0.00,6.40,0.00,86.40
+NEWUSER en cliente regular (no aplica),"[{'name':'A','price':40,'quantity':1,'weight':0}]",regular,NEWUSER,0,false,40.00,0.00,3.20,0.00,43.20
+calcular impuesto de un solo articulo,"[{'name':'A','price':100,'quantity':1,'weight':0}]",regular,NONE,0,false,100.00,0.00,8.00,0.00,108.00
+calcular impuesto de varios articulos,"[{'name':'A','price':19.99,'quantity':2,'weight':0},{'name':'B','price':5.5,'quantity':3,'weight':0}]",regular,NONE,0,false,56.48,0.00,4.52,0.00,61.00
+calcular impuesto con descuentos,"[{'name':'A','price':200,'quantity':1,'weight':0}]",regular,SAVE20,0,false,200.00,40.00,12.80,0.00,172.80
+pedido por peso de un producto,"[{'name':'A','price':20,'quantity':1,'weight':10}]",regular,NONE,0,false,20.00,0.00,1.60,5.00,26.60
+pedido por peso de varios productos,"[{'name':'A','price':10,'quantity':2,'weight':1.5},{'name':'B','price':15,'quantity':1,'weight':4}]",regular,NONE,0,false,35.00,0.00,2.80,3.50,41.30
+pedido por distancia de un producto,"[{'name':'A','price':20,'quantity':1,'weight':0}]",regular,NONE,120,false,20.00,0.00,1.60,12.00,33.60
+pedido gratis,"[{'name':'A','price':30,'quantity':1,'weight':5}]",regular,FREESHIP,100,false,30.00,0.00,2.40,0.00,32.40
+pedido expres de un producto,"[{'name':'A','price':20,'quantity':1,'weight':4}]",regular,NONE,50,true,20.00,0.00,1.60,10.50,32.10
+pedido expres de varios productos,"[{'name':'A','price':10,'quantity':2,'weight':2},{'name':'B','price':25,'quantity':1,'weight':1}]",regular,NONE,20,true,45.00,0.00,3.60,6.75,55.35
+pedido completo,"[{'name':'A','price':30,'quantity':2,'weight':1.5},{'name':'B','price':15,'quantity':1,'weight':2}]",regular,NONE,40,true,75.00,0.00,6.00,9.75,90.75
+pedido completo con descuento del 15 (primera compra) y envio por peso,"[{'name':'A','price':30,'quantity':2,'weight':1.5},{'name':'B','price':15,'quantity':1,'weight':2}]",new,NEWUSER,40,false,75.00,11.25,5.10,6.50,75.35
+pedido completo aplicando el 10% de descuento,"[{'name':'A','price':30,'quantity':2,'weight':1.5},{'name':'B','price':15,'quantity':1,'weight':2}]",regular,SAVE10,40,false,75.00,7.50,5.40,6.50,79.40
+"dos pedidos seguidos, uno con cupo y otro sin cupo","[{'name':'A','price':45,'quantity':2,'weight':0}]",regular,SAVE10,0,false,90.00,9.00,6.48,0.00,87.48
+"dos pedidos seguidos, uno con cupo y otro sin cupo (segundo pedido, sin cupo)","[{'name':'A','price':45,'quantity':2,'weight':0}]",regular,NONE,0,false,90.00,0.00,7.20,0.00,97.20
+pedido con valor 0 (osea vasio),"[{'name':'Item1','price':50,'quantity':0,'weight':5}]",regular,NONE,0,false,0.00,0.00,0.00,0.00,0.00
+(invalida) pedido con valor -1,"[{'name':'A','price':-1,'quantity':1,'weight':0}]",regular,NONE,0,false,ERROR,0.00,0.00,0.00,0.00
+pedido con valores machimos (20%),"[{'name':'Max','price':9999.99,'quantity':100,'weight':50}]",regular,SAVE20,10000,true,999999.00,199999.80,63999.94,5250.00,869249.14
+calcular impuesto de pedido con varios productos,"[{'name':'A','price':12.34,'quantity':2,'weight':0},{'name':'B','price':5.67,'quantity':1,'weight':0}]",regular,NONE,0,false,30.35,0.00,2.43,0.00,32.78
+(invalida) precio cero,"[{'name':'A','price':0,'quantity':1,'weight':0}]",regular,NONE,0,false,ERROR,0.00,0.00,0.00,0.00
+(invalida) cantidad negativa,"[{'name':'A','price':10,'quantity':-1,'weight':0}]",regular,NONE,0,false,ERROR,0.00,0.00,0.00,0.00
+(invalida) peso negativo,"[{'name':'A','price':10,'quantity':1,'weight':-2}]",regular,NONE,0,false,ERROR,0.00,0.00,0.00,0.00
+(invalida) distancia negativa,"[{'name':'A','price':10,'quantity':1,'weight':0}]",regular,NONE,-50,false,ERROR,0.00,0.00,0.00,0.00
+(invalida) precio no numerico,"[{'name':'A','price':'x','quantity':1,'weight':0}]",regular,NONE,0,false,ERROR,0.00,0.00,0.00,0.00
+(invalida) items no es arreglo,"{'name':'A','price':10,'quantity':1,'weight':0}",regular,NONE,0,false,ERROR,0.00,0.00,0.00,0.00
+pedido simple sin descuento ni envio 1,"[{'name':'A','price':10,'quantity':1,'weight':0}]",regular,NONE,0,false,10.00,0.00,0.80,0.00,10.80
+pedido simple sin descuento ni envio 2,"[{'name':'A','price':25,'quantity':2,'weight':0}]",regular,NONE,0,false,50.00,0.00,4.00,0.00,54.00

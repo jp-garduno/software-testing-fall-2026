@@ -1,0 +1,248 @@
+{
+  "workflows": [
+    {
+      "name": "pedido completo con SAVE20 y envio estandar",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Laptop Stand", "price": 40, "quantity": 2, "weight": 1.5 },
+              { "name": "Mouse", "price": 25, "quantity": 1, "weight": 0.5 }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE20",
+            "distance_km": 20,
+            "is_express": false
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 105.0,
+            "discount": 21.0,
+            "tax": 6.72,
+            "shipping": 3.75,
+            "total": 94.47
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 94.47 }
+        }
+      ]
+    },
+    {
+      "name": "cliente nuevo con NEWUSER y envio expres",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.com",
+            "phone": "(555) 987-6543",
+            "billing_address": {
+              "street": "45 Oak Ave",
+              "city": "Austin",
+              "state": "TX",
+              "zip": "73301-1234"
+            },
+            "credit_card": {
+              "number": "4111111111111111",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Book", "price": 30, "quantity": 2, "weight": 0.4 }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 50,
+            "is_express": true
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 60.0,
+            "discount": 9.0,
+            "tax": 4.08,
+            "shipping": 8.1,
+            "total": 63.18
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 63.18 }
+        }
+      ]
+    },
+    {
+      "name": "pedido con FREESHIP y varios productos",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "ana@example.com",
+            "phone": "(555) 246-8135",
+            "billing_address": {
+              "street": "900 Pine Rd",
+              "city": "Seattle",
+              "state": "WA",
+              "zip": "98101"
+            },
+            "credit_card": {
+              "number": "378282246310005",
+              "expiration": "11/2026",
+              "cvv": "1234"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Monitor", "price": 150, "quantity": 1, "weight": 5 },
+              { "name": "Cable", "price": 10, "quantity": 3, "weight": 0.2 }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "distance_km": 100,
+            "is_express": false
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 180.0,
+            "discount": 0.0,
+            "tax": 14.4,
+            "shipping": 0.0,
+            "total": 194.4
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 194.4 }
+        }
+      ]
+    },
+    {
+      "name": "(invalida) cliente con email y CVV invalidos",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "invalid-email",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "12"
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": ["Formato de correo electrónico inválido", "CVV inválido"]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Item1", "price": 50, "quantity": 1, "weight": 1 }
+            ],
+            "customer_type": "regular",
+            "discount_code": null,
+            "distance_km": 10,
+            "is_express": false
+          },
+          "expected": { "status": "rejected" }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "not_processed" }
+        }
+      ]
+    },
+    {
+      "name": "(invalida) pedido con precio negativo",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              { "name": "Item1", "price": -10, "quantity": 1, "weight": 1 }
+            ],
+            "customer_type": "regular",
+            "discount_code": null,
+            "distance_km": 10,
+            "is_express": false
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": { "error": "El precio y la cantidad no deben ser negativos" }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "not_processed" }
+        }
+      ]
+    }
+  ]
+}
