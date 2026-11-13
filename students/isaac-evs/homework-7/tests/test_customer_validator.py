@@ -24,7 +24,7 @@ def test_customer_validation(case):
 def test_is_valid_is_consistent_with_errors(case):
     """Invariant checked on every data row: a customer is valid exactly when there are no errors."""
     result = validate_customer(case["customer"], today=case_date(case))
-    assert result["is_valid"] == (result["errors"] == [])
+    assert result["is_valid"] == (not result["errors"])
 
 
 @pytest.mark.parametrize("number", ["4111111111111111", "5555555555554444", "378282246310005", "4532015112830366"])

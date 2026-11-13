@@ -24,9 +24,10 @@ class OrderWorkflow:
 
     def execute(self, action: str, data: Optional[Dict] = None) -> Dict:
         """Run one named step and return its result dictionary."""
-        handler = getattr(self, f"_do_{action}", None)
-        if handler is None:
-            raise ValueError(f"Unknown workflow action: {action}")
+        try:
+            handler = getattr(self, f"_do_{action}")
+        except AttributeError:
+            raise ValueError(f"Unknown workflow action: {action}") from None
         return handler(data or {})
 
     @staticmethod

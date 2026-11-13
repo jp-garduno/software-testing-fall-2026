@@ -45,14 +45,14 @@ def test_shipped_data_files_have_no_problems(validator, path):
 
 
 def test_shipped_data_files_meet_the_minimum_case_counts():
-    assert check_minimum_counts(ORDER_CSV, CUSTOMER_JSON, WORKFLOW_JSON) == []
+    assert len(check_minimum_counts(ORDER_CSV, CUSTOMER_JSON, WORKFLOW_JSON)) == 0
 
 
 # --- order CSV ---------------------------------------------------------------------------------
 
 
 def test_a_well_formed_csv_row_passes(tmp_path):
-    assert validate_order_csv(write(tmp_path, "ok.csv", HEADER + GOOD_ROW)) == []
+    assert len(validate_order_csv(write(tmp_path, "ok.csv", HEADER + GOOD_ROW))) == 0
 
 
 def test_missing_columns_are_reported(tmp_path):
@@ -63,15 +63,15 @@ def test_missing_columns_are_reported(tmp_path):
 @pytest.mark.parametrize(
     "row, expected_message",
     [
-        (f"x,simple,not json,regular,NONE,0,false,1,1,1,1,1,\n", "not valid JSON"),
+        ("x,simple,not json,regular,NONE,0,false,1,1,1,1,1,\n", "not valid JSON"),
         (f"x,simple,{GOOD_ITEMS},regular,NONE,far,false,1,1,1,1,1,\n", "distance_km must be a number"),
         (f"x,simple,{GOOD_ITEMS},regular,NONE,0,maybe,1,1,1,1,1,\n", "is_express must be true or false"),
         (f"x,simple,{GOOD_ITEMS},regular,NONE,0,false,1,1,abc,1,1,\n", "expected_tax must be a number"),
         (f"x,simple,{GOOD_ITEMS},,NONE,0,false,1,1,1,1,1,\n", "customer_type is required"),
         (f"x,simple,{GOOD_ITEMS},regular,NONE,0,false,1,1,1,1,1,boom\n", "must be empty when expected_error is set"),
-        (f'x,simple,"{{}}",regular,NONE,0,false,1,1,1,1,1,\n', "items must be a JSON list"),
-        (f'x,simple,"[1]",regular,NONE,0,false,1,1,1,1,1,\n', "item 1 must be an object"),
-        (f'x,simple,"[{{}}]",regular,NONE,0,false,1,1,1,1,1,\n', "item 1 needs a name of the right type"),
+        ('x,simple,"{}",regular,NONE,0,false,1,1,1,1,1,\n', "items must be a JSON list"),
+        ('x,simple,"[1]",regular,NONE,0,false,1,1,1,1,1,\n', "item 1 must be an object"),
+        ('x,simple,"[{}]",regular,NONE,0,false,1,1,1,1,1,\n', "item 1 needs a name of the right type"),
     ],
 )
 def test_bad_csv_rows_are_reported_with_their_line_number(tmp_path, row, expected_message):
@@ -100,7 +100,7 @@ def write_json(tmp_path, data):
 
 
 def test_a_well_formed_customer_file_passes(tmp_path):
-    assert validate_customer_json(write_json(tmp_path, [customer_case()])) == []
+    assert len(validate_customer_json(write_json(tmp_path, [customer_case()]))) == 0
 
 
 def test_invalid_json_is_reported_with_its_line(tmp_path):
@@ -156,7 +156,7 @@ def workflow_file(steps, customers=None):
 
 def test_a_well_formed_workflow_file_passes(tmp_path):
     steps = [{"action": "calculate_total", "expected": {"total": 1}}]
-    assert validate_workflow_json(write_json(tmp_path, workflow_file(steps))) == []
+    assert len(validate_workflow_json(write_json(tmp_path, workflow_file(steps)))) == 0
 
 
 @pytest.mark.parametrize(
