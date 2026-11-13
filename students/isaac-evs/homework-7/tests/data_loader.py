@@ -79,3 +79,14 @@ def load_customer_cases(path=CUSTOMER_JSON, category=None):
 def case_date(case):
     """The date a customer case is validated on: its as_of field or the shared reference date."""
     return date.fromisoformat(case["as_of"]) if "as_of" in case else REFERENCE_DATE
+
+
+def load_workflow_file(path=WORKFLOW_JSON):
+    """Load the workflow JSON: a dict with named customers and a list of workflows."""
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def load_workflows(path=WORKFLOW_JSON):
+    """Load the workflows as pytest params."""
+    return [pytest.param(flow, id=flow["name"]) for flow in load_workflow_file(path)["workflows"]]

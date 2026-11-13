@@ -1,0 +1,426 @@
+{
+  "customers": {
+    "standard": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "12/2026",
+        "cvv": "123"
+      }
+    },
+    "bad_email": {
+      "email": "not-an-email",
+      "phone": "(555) 123-4567",
+      "billing_address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "12/2026",
+        "cvv": "123"
+      }
+    },
+    "declined_card": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
+      },
+      "credit_card": {
+        "number": "4000000000000002",
+        "expiration": "12/2026",
+        "cvv": "123"
+      }
+    }
+  },
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "description": "Regular customer, SAVE10, standard shipping, paid and confirmed",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": "standard"
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Widget",
+                "price": 40,
+                "quantity": 2,
+                "weight": 1.5
+              },
+              {
+                "name": "Gadget",
+                "price": 25.5,
+                "quantity": 1,
+                "weight": 0.8
+              }
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 50,
+            "express": false
+          },
+          "expected": {
+            "status": "shipping_set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 105.5,
+            "discount": 10.55,
+            "tax": 7.6,
+            "shipping": 6.9,
+            "total": 109.45
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 109.45
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "confirmation_number": "ORD-000001",
+            "total": 109.45
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_express_order",
+      "description": "First-time customer with NEWUSER and express shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": "standard"
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Book",
+                "price": 18,
+                "quantity": 3,
+                "weight": 0.6
+              }
+            ],
+            "customer_type": "new"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "NEWUSER"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 120,
+            "express": true
+          },
+          "expected": {
+            "status": "shipping_set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 54.0,
+            "discount": 8.1,
+            "tax": 3.67,
+            "shipping": 19.35,
+            "total": 68.92
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 68.92
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "confirmation_number": "ORD-000001"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_blocks_the_order",
+      "description": "A customer who fails validation cannot create or pay for an order",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": "bad_email"
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Invalid email format"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Widget",
+                "price": 40,
+                "quantity": 1,
+                "weight": 1
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected",
+            "error": "Customer not validated"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "rejected",
+            "error": "No order total to charge"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "rejected",
+            "error": "Payment not completed"
+          }
+        }
+      ]
+    },
+    {
+      "name": "declined_payment_prevents_confirmation",
+      "description": "FREESHIP order whose card is declined is never confirmed",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": "declined_card"
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Lamp",
+                "price": 60,
+                "quantity": 1,
+                "weight": 3
+              }
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "FREESHIP"
+          },
+          "expected": {
+            "applied": true
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 300,
+            "express": true
+          },
+          "expected": {
+            "status": "shipping_set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 60.0,
+            "discount": 0.0,
+            "tax": 4.8,
+            "shipping": 0.0,
+            "total": 64.8
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "amount": 64.8
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "rejected",
+            "error": "Payment not completed"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rejected_discount_codes_leave_the_price_unchanged",
+      "description": "Codes that do not qualify are refused and the order is priced without them",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": "standard"
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Cable",
+                "price": 30,
+                "quantity": 1,
+                "weight": 1
+              }
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE20"
+          },
+          "expected": {
+            "applied": false
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "NEWUSER"
+          },
+          "expected": {
+            "applied": false
+          }
+        },
+        {
+          "action": "apply_discount",
+          "data": {
+            "code": "SAVE10"
+          },
+          "expected": {
+            "applied": false
+          }
+        },
+        {
+          "action": "set_shipping",
+          "data": {
+            "distance_km": 0,
+            "express": false
+          },
+          "expected": {
+            "status": "shipping_set"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 30.0,
+            "discount": 0.0,
+            "tax": 2.4,
+            "shipping": 0.5,
+            "total": 32.9
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 32.9
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "confirmation_number": "ORD-000001"
+          }
+        }
+      ]
+    }
+  ]
+}
