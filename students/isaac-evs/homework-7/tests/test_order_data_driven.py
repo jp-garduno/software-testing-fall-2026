@@ -1,7 +1,6 @@
 """Data-driven version of the same 10 order tests; the scenarios live in test_data/comparison_orders.csv."""
 
 import pytest
-
 from data_loader import COMPONENTS, DATA_DIR, load_order_cases, run_order_case
 
 

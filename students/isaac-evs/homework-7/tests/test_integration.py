@@ -1,8 +1,8 @@
 """End-to-end tests: each workflow in test_data/order_workflows.json is executed step by step."""
 
 import pytest
-
 from data_loader import REFERENCE_DATE, load_workflow_file, load_workflows
+
 from order_workflow import OrderWorkflow
 
 CUSTOMERS = load_workflow_file()["customers"]
@@ -85,5 +85,8 @@ def test_confirmation_requires_a_successful_payment():
 
 
 def test_workflow_uses_the_real_date_when_none_is_given():
-    customer = {**CUSTOMERS["standard"], "credit_card": {**CUSTOMERS["standard"]["credit_card"], "expiration": "12/2999"}}
+    customer = {
+        **CUSTOMERS["standard"],
+        "credit_card": {**CUSTOMERS["standard"]["credit_card"], "expiration": "12/2999"},
+    }
     assert OrderWorkflow().execute("validate_customer", {"customer": customer}) == {"valid": True, "errors": []}

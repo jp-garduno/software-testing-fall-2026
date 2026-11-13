@@ -1,6 +1,7 @@
 """Data-driven tests for the customer validator. Scenarios live in test_data/customer_validation.json."""
 
 import pytest
+from data_loader import REFERENCE_DATE, case_date, load_customer_cases
 
 from customer_validator import (
     is_valid_cvv,
@@ -10,7 +11,6 @@ from customer_validator import (
     validate_customer,
     validate_expiration,
 )
-from data_loader import REFERENCE_DATE, case_date, load_customer_cases
 
 
 @pytest.mark.parametrize("case", load_customer_cases())

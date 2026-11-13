@@ -3,8 +3,8 @@
 import re
 
 import pytest
-
 from data_loader import COMPONENTS, load_order_cases, run_order_case
+
 from order_calculator import Order
 
 
@@ -61,7 +61,12 @@ def test_individual_calculations_match_the_breakdown():
     order.apply_discount("SAVE20")
     order.set_shipping(40, is_express=True)
     breakdown = order.calculate_total()
-    assert (order.calculate_subtotal(), order.calculate_discount(), order.calculate_tax(), order.calculate_shipping()) == (
+    assert (
+        order.calculate_subtotal(),
+        order.calculate_discount(),
+        order.calculate_tax(),
+        order.calculate_shipping(),
+    ) == (
         breakdown["subtotal"],
         breakdown["discount"],
         breakdown["tax"],
