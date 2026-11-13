@@ -6,7 +6,6 @@ from datetime import date
 from pathlib import Path
 
 import pytest
-from openpyxl import load_workbook
 
 from order_calculator import Order
 
@@ -98,6 +97,8 @@ ORDER_XLSX = DATA_DIR / "order_calculations.xlsx"
 
 def read_order_rows_xlsx(path=ORDER_XLSX):
     """Read order rows from every sheet of an Excel workbook (one sheet per test category)."""
+    from openpyxl import load_workbook  # pylint: disable=import-outside-toplevel  # heavy import, only needed here
+
     workbook = load_workbook(path, read_only=True, data_only=True)
     rows = []
     for sheet in workbook.worksheets:
