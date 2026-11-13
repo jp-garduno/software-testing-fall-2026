@@ -6,6 +6,7 @@ from datetime import date
 from pathlib import Path
 
 import pytest
+from openpyxl import load_workbook
 
 from order_calculator import Order
 
@@ -90,3 +91,22 @@ def load_workflow_file(path=WORKFLOW_JSON):
 def load_workflows(path=WORKFLOW_JSON):
     """Load the workflows as pytest params."""
     return [pytest.param(flow, id=flow["name"]) for flow in load_workflow_file(path)["workflows"]]
+
+
+ORDER_XLSX = DATA_DIR / "order_calculations.xlsx"
+
+
+def read_order_rows_xlsx(path=ORDER_XLSX):
+    """Read order rows from every sheet of an Excel workbook (one sheet per test category)."""
+    workbook = load_workbook(path, read_only=True, data_only=True)
+    rows = []
+    for sheet in workbook.worksheets:
+        header, *body = list(sheet.iter_rows(values_only=True))
+        rows.extend(dict(zip(header, values)) for values in body if any(value is not None for value in values))
+    workbook.close()
+    return rows
+
+
+def load_order_cases_xlsx(path=ORDER_XLSX, error_cases=False):
+    """Load order test cases from an Excel workbook as pytest params."""
+    return to_params(read_order_rows_xlsx(path), error_cases)
