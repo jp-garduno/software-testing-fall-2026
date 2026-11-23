@@ -4,8 +4,9 @@
   "private": true,
   "description": "Playwright end-to-end tests for TodoMVC (Homework 8)",
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --project=chromium",
     "test:all-browsers": "playwright test --project=chromium --project=firefox --project=webkit",
+    "report": "playwright show-report",
     "perf": "node perf/measure.js"
   },
   "devDependencies": {
