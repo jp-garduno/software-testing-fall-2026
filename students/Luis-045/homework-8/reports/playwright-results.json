@@ -1,0 +1,201 @@
+{
+  "framework": "playwright",
+  "status": "passed",
+  "total_seconds": 21.020621,
+  "average_per_test_seconds": 1.1678122777777777,
+  "average_setup_seconds": 0.34811111111111115,
+  "versions": {
+    "node": "v22.14.0",
+    "playwright": "1.65.1",
+    "browser": "157.0.8103.79"
+  },
+  "platform": "win32 10.0.26300 x64",
+  "url": "https://todomvc.com/examples/react/dist/",
+  "workers": 1,
+  "tests": [
+    {
+      "name": "create single task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.586,
+      "setup_seconds": 0.488,
+      "teardown_seconds": 0.173,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "create multiple tasks",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.469,
+      "setup_seconds": 0.286,
+      "teardown_seconds": 0.083,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "task appears in list",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.447,
+      "setup_seconds": 0.304,
+      "teardown_seconds": 0.077,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "mark task complete",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.484,
+      "setup_seconds": 0.303,
+      "teardown_seconds": 0.095,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "unmark completed task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.517,
+      "setup_seconds": 0.291,
+      "teardown_seconds": 0.095,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "complete multiple tasks",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.603,
+      "setup_seconds": 0.321,
+      "teardown_seconds": 0.107,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "delete single task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.544,
+      "setup_seconds": 0.325,
+      "teardown_seconds": 0.091,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "delete completed task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.623,
+      "setup_seconds": 0.336,
+      "teardown_seconds": 0.087,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "clear all completed",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.659,
+      "setup_seconds": 0.337,
+      "teardown_seconds": 0.103,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "edit task text and save on blur",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.504,
+      "setup_seconds": 0.305,
+      "teardown_seconds": 0.088,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "cancel edit",
+      "outcome": "xfailed",
+      "actual_status": "failed",
+      "expected_status": "failed",
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.todo-list .edit:visible')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.todo-list .edit:visible') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('.todo-list .edit:visible')\u001b[22m\n\u001b[2m    24 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+      "total_seconds": 10.475,
+      "setup_seconds": 0.285,
+      "teardown_seconds": 0.081,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "save edited task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.49,
+      "setup_seconds": 0.275,
+      "teardown_seconds": 0.097,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "ignore whitespace only task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.447,
+      "setup_seconds": 0.31,
+      "teardown_seconds": 0.104,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "trim new task text",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.457,
+      "setup_seconds": 0.307,
+      "teardown_seconds": 0.102,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "empty edit deletes task",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.541,
+      "setup_seconds": 0.326,
+      "teardown_seconds": 0.096,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "view all tasks",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.691,
+      "setup_seconds": 0.461,
+      "teardown_seconds": 0.153,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "view active tasks only",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.712,
+      "setup_seconds": 0.513,
+      "teardown_seconds": 0.148,
+      "browser": "157.0.8103.79"
+    },
+    {
+      "name": "view completed tasks only",
+      "outcome": "passed",
+      "actual_status": "passed",
+      "expected_status": "passed",
+      "total_seconds": 0.716,
+      "setup_seconds": 0.493,
+      "teardown_seconds": 0.153,
+      "browser": "157.0.8103.79"
+    }
+  ],
+  "passed": 17,
+  "failed": 0,
+  "expected_failures": 1
+}

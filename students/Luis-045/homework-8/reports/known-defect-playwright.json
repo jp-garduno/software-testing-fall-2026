@@ -1,0 +1,31 @@
+{
+  "framework": "playwright",
+  "status": "failed",
+  "total_seconds": 11.745090999999999,
+  "average_per_test_seconds": 11.745090999999999,
+  "average_setup_seconds": 0.494,
+  "versions": {
+    "node": "v22.14.0",
+    "playwright": "1.65.1",
+    "browser": "157.0.8103.79"
+  },
+  "platform": "win32 10.0.26300 x64",
+  "url": "https://todomvc.com/examples/react/dist/",
+  "workers": 1,
+  "tests": [
+    {
+      "name": "cancel edit",
+      "outcome": "failed",
+      "actual_status": "failed",
+      "expected_status": "passed",
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.todo-list .edit:visible')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.todo-list .edit:visible') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('.todo-list .edit:visible')\u001b[22m\n\u001b[2m    24 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+      "total_seconds": 10.739,
+      "setup_seconds": 0.494,
+      "teardown_seconds": 0.196,
+      "browser": "157.0.8103.79"
+    }
+  ],
+  "passed": 0,
+  "failed": 1,
+  "expected_failures": 0
+}
