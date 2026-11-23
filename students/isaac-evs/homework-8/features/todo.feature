@@ -63,4 +63,5 @@ Feature: Todo Management
     Given I have a todo "Buy milk"
     When I start editing the todo and type "Changed my mind"
     And I press Escape
-    Then the todo should be "Buy milk"
+    Then the todo should no longer be in edit mode
+    And the todo should be "Buy milk"

@@ -33,7 +33,8 @@ test.describe("Task creation", () => {
 
   test("surrounding whitespace is trimmed", async () => {
     await todoPage.addTodo("   spaced out   ");
-    await expect(todoPage.todoItems).toHaveText(["spaced out"]);
+    // toHaveText normalises whitespace, so compare the exact text instead.
+    await expect.poll(() => todoPage.getVisibleTodos()).toEqual(["spaced out"]);
   });
 
   test("blank task is not created", async () => {
@@ -171,7 +172,7 @@ test.describe("Task editing", () => {
   test("edited text is trimmed", async () => {
     await todoPage.addTodo("Buy milk");
     await todoPage.editTodo(0, "  Buy bread  ");
-    await expect(todoPage.todoItems).toHaveText(["Buy bread"]);
+    await expect.poll(() => todoPage.getVisibleTodos()).toEqual(["Buy bread"]);
   });
 
   test("editing a task to empty deletes it", async () => {

@@ -49,6 +49,11 @@ def step_press_escape(context):
     context.todo_page.wait_until_not_editing(0)
 
 
+@then("the todo should no longer be in edit mode")
+def step_not_editing(context):
+    assert context.todo_page.wait_until_not_editing(0), "The todo is still being edited"
+
+
 @when("I clear the completed todos")
 def step_clear_completed(context):
     context.todo_page.clear_completed()
