@@ -21,9 +21,24 @@ module.exports = defineConfig({
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
+  // Visual regression is opt-in (VISUAL=1): baselines are platform-specific screenshots.
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     { name: "firefox", use: { ...devices["Desktop Firefox"] } },
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
+    ...(process.env.VISUAL
+      ? [
+          {
+            name: "visual",
+            testDir: "./visual",
+            snapshotPathTemplate:
+              "{testDir}/baselines/{arg}-{projectName}-{platform}{ext}",
+            use: {
+              ...devices["Desktop Chrome"],
+              viewport: { width: 1280, height: 800 },
+            },
+          },
+        ]
+      : []),
   ],
 });
