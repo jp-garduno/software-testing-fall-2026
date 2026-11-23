@@ -1,0 +1,14 @@
+Feature: Todo Management # features/todo.feature:1
+  As a user
+  I want to manage my todo list
+  So that I can track my tasks
+  Feature: Todo Management  # features/todo.feature:1
+
+  @known-defect
+  Scenario: Cancel an edit with Escape                       # features/todo.feature:61
+    Given I am on the todo page                              # features/steps/todo_steps.py:6
+    Given I have a todo "Buy milk"                           # features/steps/todo_steps.py:11
+    When I start editing the todo and type "Changed my mind" # features/steps/todo_steps.py:40
+    And I press Escape                                       # features/steps/todo_steps.py:46
+    Then the todo should be "Buy milk"                       # features/steps/todo_steps.py:70
+
