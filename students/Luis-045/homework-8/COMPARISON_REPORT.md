@@ -1,8 +1,8 @@
 # Comparison Report: Selenium vs Playwright
 
-**Alumno:** Luis-045  
-**Rama:** `feat/Luis-045/homework-8`  
-**Fecha de validación:** 23 de noviembre de 2026
+- **Alumno:** Luis-045
+- **Rama:** `feat/Luis-045/homework-8`
+- **Fecha de validación:** 23 de noviembre de 2026
 
 Las dos implementaciones automatizan los mismos 18 casos sobre TodoMVC React. Ambas aprobaron 17 y reprodujeron el defecto de cancelación con Escape. Playwright terminó antes en la ejecución medida; esta conclusión corresponde a la configuración y al equipo descritos aquí.
 
