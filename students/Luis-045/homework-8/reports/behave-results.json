@@ -41,7 +41,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.22798633575439453 }
+            "result": { "status": "passed", "duration": 0.23967790603637695 }
           },
           {
             "keyword": "When",
@@ -52,7 +52,7 @@
               "location": "features/steps/todo_steps.py:16",
               "arguments": [{ "value": "Buy groceries", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.09911489486694336 }
+            "result": { "status": "passed", "duration": 0.08566951751708984 }
           },
           {
             "keyword": "Then",
@@ -63,7 +63,7 @@
               "location": "features/steps/todo_steps.py:22",
               "arguments": [{ "value": 1, "name": "count", "original": "1" }]
             },
-            "result": { "status": "passed", "duration": 0.009003877639770508 }
+            "result": { "status": "passed", "duration": 0.006276130676269531 }
           },
           {
             "keyword": "And",
@@ -74,7 +74,7 @@
               "location": "features/steps/todo_steps.py:30",
               "arguments": [{ "value": "Buy groceries", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.01650691032409668 }
+            "result": { "status": "passed", "duration": 0.01434183120727539 }
           }
         ],
         "status": "passed"
@@ -95,7 +95,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.23017525672912598 }
+            "result": { "status": "passed", "duration": 0.2289583683013916 }
           },
           {
             "keyword": "Given",
@@ -106,7 +106,7 @@
               "location": "features/steps/todo_steps.py:16",
               "arguments": [{ "value": "Read book", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.09181618690490723 }
+            "result": { "status": "passed", "duration": 0.08860230445861816 }
           },
           {
             "keyword": "When",
@@ -117,7 +117,7 @@
               "location": "features/steps/todo_steps.py:35",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.07348370552062988 }
+            "result": { "status": "passed", "duration": 0.08406448364257812 }
           },
           {
             "keyword": "Then",
@@ -128,7 +128,7 @@
               "location": "features/steps/todo_steps.py:40",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.014241695404052734 }
+            "result": { "status": "passed", "duration": 0.03867506980895996 }
           },
           {
             "keyword": "And",
@@ -139,7 +139,7 @@
               "location": "features/steps/todo_steps.py:45",
               "arguments": [{ "value": 0, "name": "count", "original": "0" }]
             },
-            "result": { "status": "passed", "duration": 0.007999658584594727 }
+            "result": { "status": "passed", "duration": 0.010662078857421875 }
           }
         ],
         "status": "passed"
@@ -160,7 +160,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.29499101638793945 }
+            "result": { "status": "passed", "duration": 0.2148914337158203 }
           },
           {
             "keyword": "Given",
@@ -171,7 +171,7 @@
               "location": "features/steps/todo_steps.py:16",
               "arguments": [{ "value": "Old task", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.07502079010009766 }
+            "result": { "status": "passed", "duration": 0.08729887008666992 }
           },
           {
             "keyword": "When",
@@ -182,7 +182,7 @@
               "location": "features/steps/todo_steps.py:50",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.34183263778686523 }
+            "result": { "status": "passed", "duration": 0.33281755447387695 }
           },
           {
             "keyword": "Then",
@@ -193,7 +193,7 @@
               "location": "features/steps/todo_steps.py:22",
               "arguments": [{ "value": 0, "name": "count", "original": "0" }]
             },
-            "result": { "status": "passed", "duration": 0.005509376525878906 }
+            "result": { "status": "passed", "duration": 0.0032761096954345703 }
           }
         ],
         "status": "passed"
@@ -214,7 +214,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.2676730155944824 }
+            "result": { "status": "passed", "duration": 0.2082674503326416 }
           },
           {
             "keyword": "Given",
@@ -233,7 +233,7 @@
               "location": "features/steps/todo_steps.py:55",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.3948349952697754 }
+            "result": { "status": "passed", "duration": 0.32576608657836914 }
           },
           {
             "keyword": "When",
@@ -244,7 +244,7 @@
               "location": "features/steps/todo_steps.py:63",
               "arguments": [{ "value": "All", "name": "name" }]
             },
-            "result": { "status": "passed", "duration": 0.03799867630004883 }
+            "result": { "status": "passed", "duration": 0.04066586494445801 }
           },
           {
             "keyword": "Then",
@@ -255,7 +255,7 @@
               "location": "features/steps/todo_steps.py:22",
               "arguments": [{ "value": 3, "name": "count", "original": "3" }]
             },
-            "result": { "status": "passed", "duration": 0.015437602996826172 }
+            "result": { "status": "passed", "duration": 0.015068292617797852 }
           },
           {
             "keyword": "And",
@@ -268,7 +268,7 @@
                 { "value": "Task 1, Task 2, Task 3", "name": "texts" }
               ]
             },
-            "result": { "status": "passed", "duration": 0.07315969467163086 }
+            "result": { "status": "passed", "duration": 0.13035035133361816 }
           }
         ],
         "status": "passed"
@@ -289,7 +289,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.2299356460571289 }
+            "result": { "status": "passed", "duration": 0.2609293460845947 }
           },
           {
             "keyword": "Given",
@@ -308,7 +308,7 @@
               "location": "features/steps/todo_steps.py:55",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.33786964416503906 }
+            "result": { "status": "passed", "duration": 0.41686320304870605 }
           },
           {
             "keyword": "When",
@@ -319,7 +319,7 @@
               "location": "features/steps/todo_steps.py:63",
               "arguments": [{ "value": "Active", "name": "name" }]
             },
-            "result": { "status": "passed", "duration": 0.04321169853210449 }
+            "result": { "status": "passed", "duration": 0.04133272171020508 }
           },
           {
             "keyword": "Then",
@@ -330,7 +330,7 @@
               "location": "features/steps/todo_steps.py:22",
               "arguments": [{ "value": 2, "name": "count", "original": "2" }]
             },
-            "result": { "status": "passed", "duration": 0.01100778579711914 }
+            "result": { "status": "passed", "duration": 0.01149749755859375 }
           },
           {
             "keyword": "And",
@@ -341,7 +341,7 @@
               "location": "features/steps/todo_steps.py:68",
               "arguments": [{ "value": "Task 1, Task 3", "name": "texts" }]
             },
-            "result": { "status": "passed", "duration": 0.052618980407714844 }
+            "result": { "status": "passed", "duration": 0.053624629974365234 }
           }
         ],
         "status": "passed"
@@ -362,7 +362,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.23797225952148438 }
+            "result": { "status": "passed", "duration": 0.21368622779846191 }
           },
           {
             "keyword": "Given",
@@ -381,7 +381,7 @@
               "location": "features/steps/todo_steps.py:55",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.31708431243896484 }
+            "result": { "status": "passed", "duration": 0.34433889389038086 }
           },
           {
             "keyword": "When",
@@ -392,7 +392,7 @@
               "location": "features/steps/todo_steps.py:63",
               "arguments": [{ "value": "Completed", "name": "name" }]
             },
-            "result": { "status": "passed", "duration": 0.08401012420654297 }
+            "result": { "status": "passed", "duration": 0.09210681915283203 }
           },
           {
             "keyword": "Then",
@@ -403,7 +403,7 @@
               "location": "features/steps/todo_steps.py:22",
               "arguments": [{ "value": 1, "name": "count", "original": "1" }]
             },
-            "result": { "status": "passed", "duration": 0.007999181747436523 }
+            "result": { "status": "passed", "duration": 0.010370492935180664 }
           },
           {
             "keyword": "And",
@@ -414,7 +414,7 @@
               "location": "features/steps/todo_steps.py:68",
               "arguments": [{ "value": "Task 2", "name": "texts" }]
             },
-            "result": { "status": "passed", "duration": 0.030516862869262695 }
+            "result": { "status": "passed", "duration": 0.0334017276763916 }
           }
         ],
         "status": "passed"
@@ -435,7 +435,7 @@
               "location": "features/steps/todo_steps.py:9",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.2284684181213379 }
+            "result": { "status": "passed", "duration": 0.564849853515625 }
           },
           {
             "keyword": "Given",
@@ -446,7 +446,7 @@
               "location": "features/steps/todo_steps.py:16",
               "arguments": [{ "value": "Old title", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.09451770782470703 }
+            "result": { "status": "passed", "duration": 0.07202410697937012 }
           },
           {
             "keyword": "When",
@@ -457,7 +457,7 @@
               "location": "features/steps/todo_steps.py:75",
               "arguments": [{ "value": "Updated title", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.35215139389038086 }
+            "result": { "status": "passed", "duration": 0.33960413932800293 }
           },
           {
             "keyword": "And",
@@ -468,7 +468,7 @@
               "location": "features/steps/todo_steps.py:81",
               "arguments": []
             },
-            "result": { "status": "passed", "duration": 0.02099895477294922 }
+            "result": { "status": "passed", "duration": 0.0216219425201416 }
           },
           {
             "keyword": "Then",
@@ -479,7 +479,7 @@
               "location": "features/steps/todo_steps.py:30",
               "arguments": [{ "value": "Updated title", "name": "text" }]
             },
-            "result": { "status": "passed", "duration": 0.013001203536987305 }
+            "result": { "status": "passed", "duration": 0.01531839370727539 }
           }
         ],
         "status": "passed"

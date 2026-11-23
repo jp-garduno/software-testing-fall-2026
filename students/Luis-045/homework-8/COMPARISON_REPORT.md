@@ -22,9 +22,9 @@ Los tiempos se toman de los runners, no de una estimación. `conftest.py` regist
 
 | Metric                        | Selenium | Playwright |
 | ----------------------------- | -------: | ---------: |
-| Total execution time          | 76.630 s |   21.021 s |
-| Average per test              |  4.257 s |    1.168 s |
-| Setup time, promedio por caso |  1.180 s |    0.348 s |
+| Total execution time          | 69.136 s |   25.232 s |
+| Average per test              |  3.841 s |    1.402 s |
+| Setup time, promedio por caso |  0.772 s |    0.531 s |
 | Casos ejecutados              |       18 |         18 |
 | Aprobados                     |       17 |         17 |
 | Fallos esperados ejecutados   |        1 |          1 |
@@ -37,13 +37,13 @@ Evidencia original:
 - [Resultados Selenium](reports/selenium-results.json).
 - [Resultados Playwright serial](reports/playwright-results.json).
 
-En esta corrida Playwright usó aproximadamente 3.65 veces menos tiempo total. Hay una diferencia de ciclo de vida que explica parte del resultado: Selenium inicia y cierra Chrome por prueba, mientras Playwright mantiene un navegador por worker y crea un contexto aislado por caso. Se comparan las suites tal como están implementadas; la tabla no aísla solamente el coste del protocolo de automatización.
+En esta corrida el tiempo total de Selenium fue aproximadamente 2.74 veces el de Playwright. Hay una diferencia de ciclo de vida que explica parte del resultado: Selenium inicia y cierra Chrome por prueba, mientras Playwright mantiene un navegador por worker y crea un contexto aislado por caso. Se comparan las suites tal como están implementadas; la tabla no aísla solamente el coste del protocolo de automatización.
 
 Ambos tiempos incluyen aproximadamente diez segundos dedicados a detectar que Escape no cierra el editor. Una medición aislada y con una aplicación remota depende también de la red, el equipo y las cachés; no establece una superioridad universal.
 
 ### Ejecución paralela
 
-Playwright también se ejecutó con dos workers: **15.676 s**, con 17 aprobados, un fallo esperado y ningún fallo inesperado. Los perfiles independientes evitaron interferencia entre tareas. Esta corrida queda separada de la comparación serial: [resultados paralelos](reports/playwright-parallel-results.json).
+Playwright también se ejecutó con dos workers: **15.054 s**, con 17 aprobados, un fallo esperado y ningún fallo inesperado. Los perfiles independientes evitaron interferencia entre tareas. Esta corrida queda separada de la comparación serial: [resultados paralelos](reports/playwright-parallel-results.json).
 
 ### Reproducción
 
@@ -132,8 +132,6 @@ Una prueba útil también puede revelar un defecto del sistema bajo prueba. Ajus
 
 Evidencia:
 
-- [Captura Selenium tras Escape](screenshots/selenium-test_cancel_edit.png).
-- [Captura Playwright tras Escape](screenshots/playwright-cancel-edit.png).
 - [Ejecución Selenium sin xfail: un fallo](reports/known-defect-selenium.json).
 - [Ejecución Playwright sin test.fail: un fallo](reports/known-defect-playwright.json).
 

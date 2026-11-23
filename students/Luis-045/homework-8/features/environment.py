@@ -1,6 +1,5 @@
 """Create and close a fresh Selenium browser for every BDD scenario."""
 
-import re
 import sys
 from pathlib import Path
 
@@ -15,15 +14,8 @@ def before_scenario(context, _scenario):
     context.driver = create_driver()
 
 
-def after_scenario(context, scenario):
-    """Keep execution evidence and always release the browser process."""
+def after_scenario(context, _scenario):
+    """Release the browser after every scenario, including failed scenarios."""
     driver = getattr(context, "driver", None)
-    if driver is None:
-        return
-    try:
-        name = re.sub(r"[^a-z0-9]+", "-", scenario.name.lower()).strip("-")
-        directory = ROOT / "screenshots"
-        directory.mkdir(exist_ok=True)
-        driver.save_screenshot(str(directory / f"bdd-{name}.png"))
-    finally:
+    if driver is not None:
         driver.quit()

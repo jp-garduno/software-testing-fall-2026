@@ -11,6 +11,8 @@ import pytest
 from browser import create_driver
 from pages.todo_page import DEFAULT_URL, TodoPage
 
+from selenium.webdriver.common.by import By
+
 ROOT = Path(__file__).resolve().parent
 RUN = {"tests": {}, "browser_start_seconds": []}
 
@@ -28,7 +30,7 @@ def pytest_sessionstart(session):
 
 @pytest.fixture
 def todo_page(request):
-    """Give every test a new Chrome profile and save its final visible state."""
+    """Isolate every test and capture only the representative mixed task list."""
     started = time.perf_counter()
     driver = create_driver()
     RUN["browser_start_seconds"].append(time.perf_counter() - started)
@@ -40,9 +42,12 @@ def todo_page(request):
         yield page
     finally:
         try:
-            screenshot = ROOT / "screenshots" / f"selenium-{request.node.name}.png"
-            screenshot.parent.mkdir(exist_ok=True)
-            driver.save_screenshot(str(screenshot))
+            if request.node.name == "test_view_all_tasks":
+                screenshot = ROOT / "screenshots" / "selenium-test_view_all_tasks.png"
+                screenshot.parent.mkdir(exist_ok=True)
+                driver.find_element(By.CSS_SELECTOR, ".todoapp").screenshot(
+                    str(screenshot)
+                )
         finally:
             driver.quit()
 

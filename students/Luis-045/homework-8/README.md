@@ -165,12 +165,12 @@ Los datos se crean mediante la interfaz. El aislamiento del perfil o contexto el
 
 ## Evidencias y mediciones
 
-Los JSON de `reports/` contienen resultados, versiones y tiempos. `screenshots/` incluye una captura al terminar cada uno de los 18 casos de cada framework y los siete escenarios BDD: 43 capturas. Por ejemplo:
+Los JSON de `reports/` contienen resultados, versiones y tiempos. `screenshots/` conserva dos capturas representativas, enfocadas en la aplicación:
 
-- [Selenium: creación de varias tareas](screenshots/selenium-test_create_multiple_tasks.png).
-- [Playwright: filtro de completadas](screenshots/playwright-view-completed-tasks-only.png).
-- [Playwright: editor abierto después de Escape](screenshots/playwright-cancel-edit.png).
-- [BDD: creación](screenshots/bdd-add-a-new-todo.png).
+- [Selenium: lista con tareas activas y completadas](screenshots/selenium-test_view_all_tasks.png).
+- [Playwright: filtro que muestra solo las tareas completadas](screenshots/playwright-view-completed-tasks-only.png).
+
+Los fixtures regeneran únicamente estas dos imágenes. Los resultados completos de todos los casos y escenarios BDD permanecen en los JSON.
 
 Las capturas son evidencia de ejecución, no baselines de regresión visual. Los reportes HTML y trazas temporales de Playwright se generan localmente y no se versionan.
 

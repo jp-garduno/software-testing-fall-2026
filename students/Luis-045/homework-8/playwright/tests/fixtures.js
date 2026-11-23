@@ -11,10 +11,14 @@ const test = base.extend({
       description: browser.version(),
     });
     await use(todoPage);
-    const name = testInfo.title.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-    await page.screenshot({
-      path: path.join(__dirname, "../../screenshots", `playwright-${name}.png`),
-    });
+    if (testInfo.title === "view completed tasks only") {
+      await page.locator(".todoapp").screenshot({
+        path: path.join(
+          __dirname,
+          "../../screenshots/playwright-view-completed-tasks-only.png",
+        ),
+      });
+    }
   },
 });
 
