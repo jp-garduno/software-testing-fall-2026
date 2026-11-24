@@ -8,6 +8,8 @@ const baseURL = rawUrl.endsWith("/") ? rawUrl : `${rawUrl}/`;
 
 module.exports = defineConfig({
   testDir: "./tests",
+  // Same 10 s the Selenium page object waits, so slow network days do not favour one framework.
+  expect: { timeout: 10_000 },
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,

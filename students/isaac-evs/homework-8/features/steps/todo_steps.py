@@ -1,5 +1,8 @@
 """Behave step definitions for features/todo.feature, built on the Selenium TodoPage."""
 
+# behave creates given/when/then when the steps are loaded, so pylint cannot see that they are callable.
+# pylint: disable=not-callable
+
 from behave import given, then, when
 
 

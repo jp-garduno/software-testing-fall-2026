@@ -4,9 +4,9 @@ import os
 from pathlib import Path
 
 import pytest
-from selenium import webdriver
-
 from pages.todo_page import TodoPage
+
+from selenium import webdriver
 
 ARTIFACTS = Path(__file__).resolve().parent / "artifacts"
 

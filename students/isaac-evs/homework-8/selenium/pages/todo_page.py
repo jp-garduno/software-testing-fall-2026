@@ -14,7 +14,7 @@ BASE_URL = os.environ.get("TODOMVC_URL", "https://todomvc.com/examples/react/dis
 DEFAULT_TIMEOUT = 10
 
 
-class TodoPage:
+class TodoPage:  # pylint: disable=too-many-public-methods  # a page object exposes every user action
     """Everything a test may do with, or ask of, the TodoMVC page."""
 
     NEW_TODO_INPUT = (By.CSS_SELECTOR, ".new-todo")

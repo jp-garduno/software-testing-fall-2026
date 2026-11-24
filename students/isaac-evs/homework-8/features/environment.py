@@ -1,16 +1,19 @@
 """Behave hooks: start one Chrome for the run and give each scenario a TodoPage on an empty list."""
 
+# pylint: disable=wrong-import-position
 import sys
 from pathlib import Path
 
 SELENIUM_DIR = Path(__file__).resolve().parent.parent / "selenium"
 sys.path.insert(0, str(SELENIUM_DIR))
 
-# pylint: disable=wrong-import-position
-from selenium import webdriver  # noqa: E402
+from conftest import ARTIFACTS, _chrome_options
+from pages.todo_page import TodoPage
 
-from conftest import ARTIFACTS, _chrome_options  # noqa: E402
-from pages.todo_page import TodoPage  # noqa: E402
+# isort: off  (these imports must follow the sys.path change above)
+from selenium import webdriver
+
+# isort: on
 
 
 def before_all(context):
