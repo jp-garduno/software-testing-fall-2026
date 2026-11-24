@@ -1,0 +1,8 @@
+{
+  "root": true,
+  "env": { "node": true, "browser": true, "es2022": true },
+  "extends": "eslint:recommended",
+  "ignorePatterns": ["playwright-report/", "test-results/"],
+  "parserOptions": { "ecmaVersion": "latest" },
+  "rules": { "eqeqeq": "error", "no-var": "error", "prefer-const": "error" }
+}
