@@ -10,21 +10,21 @@ by `playwright/perf/report.js`.
 
 ## Results
 
-| Metric (ms) | Live median | Live p90 | Local median | Local p90 |
-| --- | ---: | ---: | ---: | ---: |
-| page ready (goto + input visible) | 1008.6 | 1174.8 | 37.5 | 47.4 |
-| DOMContentLoaded | 648.5 | 1018.1 | 24.4 | 29.0 |
-| load event | 993.4 | 1160.5 | 24.4 | 29.0 |
-| first contentful paint | 460.0 | 808.0 | 16.0 | 20.0 |
-| add 1 task | 29.6 | 32.1 | 27.4 | 29.8 |
-| add 99 more tasks (total) | 286.8 | 333.1 | 283.4 | 307.4 |
-| toggle all (100 tasks) | 29.0 | 39.9 | 30.9 | 37.2 |
-| filter Active (100 completed, none shown) | 36.2 | 38.4 | 36.7 | 38.7 |
-| filter Completed (100 shown) | 30.3 | 31.1 | 29.6 | 31.1 |
-| clear completed (100 tasks) | 31.9 | 32.1 | 31.9 | 32.9 |
-| delete 1 task | 79.0 | 79.9 | 79.1 | 79.7 |
+| Metric (ms)                               | Live median | Live p90 | Local median | Local p90 |
+| ----------------------------------------- | ----------: | -------: | -----------: | --------: |
+| page ready (goto + input visible)         |      1008.6 |   1174.8 |         37.5 |      47.4 |
+| DOMContentLoaded                          |       648.5 |   1018.1 |         24.4 |      29.0 |
+| load event                                |       993.4 |   1160.5 |         24.4 |      29.0 |
+| first contentful paint                    |       460.0 |    808.0 |         16.0 |      20.0 |
+| add 1 task                                |        29.6 |     32.1 |         27.4 |      29.8 |
+| add 99 more tasks (total)                 |       286.8 |    333.1 |        283.4 |     307.4 |
+| toggle all (100 tasks)                    |        29.0 |     39.9 |         30.9 |      37.2 |
+| filter Active (100 completed, none shown) |        36.2 |     38.4 |         36.7 |      38.7 |
+| filter Completed (100 shown)              |        30.3 |     31.1 |         29.6 |      31.1 |
+| clear completed (100 tasks)               |        31.9 |     32.1 |         31.9 |      32.9 |
+| delete 1 task                             |        79.0 |     79.9 |         79.1 |      79.7 |
 
-"Add 99 more tasks" is the total for 99 additions (about 2.9 ms each is not meaningful, see the caveat below).
+"Add 99 more tasks" is the total for 99 additions with a single wait at the end, not a per-task time.
 
 ## What the numbers say
 
