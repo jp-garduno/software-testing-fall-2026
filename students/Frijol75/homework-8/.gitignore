@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+
+# Node / Playwright
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# OS
+.DS_Store
+*.swp
+*.swo
+
