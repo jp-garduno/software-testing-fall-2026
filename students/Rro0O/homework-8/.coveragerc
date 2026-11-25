@@ -1,0 +1,5 @@
+[run]
+# Measurement scripts are run by hand, not by the test suite.
+omit =
+    scripts/*
+    playwright/*
