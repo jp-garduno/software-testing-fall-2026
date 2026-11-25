@@ -1,0 +1,13 @@
+
+Running 3 tests using 1 worker
+
+  ok 1 [perf] › perf\performance.spec.js:30:3 › Performance metrics › browser start-up (setup time) (7.6s)
+  ok 2 [perf] › perf\performance.spec.js:44:3 › Performance metrics › page load (1.0s)
+  ok 3 [perf] › perf\performance.spec.js:65:3 › Performance metrics › user operations (11.8s)
+
+  3 passed (23.8s)
+
+To open last HTML report run:
+
+  npx playwright show-report
+

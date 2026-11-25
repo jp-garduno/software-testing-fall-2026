@@ -1,0 +1,1 @@
+Selenium performance results written to C:\Users\carlo\Proyectos\Escuela\Pruebas de Software\Pruebas de software\software-testing-fall-2026\students\carloso222\homework-8\bonus\performance\results\selenium.json
