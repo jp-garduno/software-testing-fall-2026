@@ -14,11 +14,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PLAYWRIGHT_DIR = ROOT / "playwright"
 RUNS = 5
+PLAYWRIGHT_COMMAND = ["npx", "playwright", "test", "--project=chromium", "--reporter=line"]
 
 SUITES = {
     "selenium": (ROOT, [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "-q", "selenium/tests"]),
-    "playwright": (PLAYWRIGHT_DIR, ["npx", "playwright", "test", "--project=chromium", "--workers=1", "--reporter=line"]),
-    "playwright_parallel": (PLAYWRIGHT_DIR, ["npx", "playwright", "test", "--project=chromium", "--reporter=line"]),
+    "playwright": (PLAYWRIGHT_DIR, [*PLAYWRIGHT_COMMAND, "--workers=1"]),
+    "playwright_parallel": (PLAYWRIGHT_DIR, PLAYWRIGHT_COMMAND),
 }
 
 CODE_FILES = {

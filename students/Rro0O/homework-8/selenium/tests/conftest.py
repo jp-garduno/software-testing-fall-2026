@@ -3,8 +3,8 @@ from driver_factory import create_driver
 from pages.todo_page import TodoPage
 
 
-@pytest.fixture
-def driver():
+@pytest.fixture(name="driver")
+def fixture_driver():
     """A fresh browser per test, so no test can see another test's todos."""
     web_driver = create_driver()
     yield web_driver
