@@ -1,9 +1,9 @@
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class TodoPage:
@@ -14,13 +14,12 @@ class TodoPage:
     NEW_TODO_INPUT = (By.CSS_SELECTOR, ".new-todo")
     TODO_LIST = (By.CSS_SELECTOR, ".todo-list")
     TODO_ITEMS = (By.CSS_SELECTOR, ".todo-list li")
-    TODO_COUNT = (By.CSS_SELECTOR, ".todo-count")
     TODO_LABELS = (By.CSS_SELECTOR, ".todo-list li label")
+    TODO_COUNT = (By.CSS_SELECTOR, ".todo-count")
     CLEAR_COMPLETED = (By.CSS_SELECTOR, ".clear-completed")
     FILTER_ALL = (By.CSS_SELECTOR, "a[href='#/']")
     FILTER_ACTIVE = (By.CSS_SELECTOR, "a[href='#/active']")
     FILTER_COMPLETED = (By.CSS_SELECTOR, "a[href='#/completed']")
-    HEADER = (By.TAG_NAME, "h1")
 
     def __init__(self, driver):
         self.driver = driver
@@ -53,28 +52,6 @@ class TodoPage:
                 continue
         return [label.text for label in self.driver.find_elements(*self.TODO_LABELS)]
 
-    def _click_filter(self, locator):
-        """Click a filter link and wait until React marks it as selected."""
-        self.wait.until(EC.element_to_be_clickable(locator)).click()
-        WebDriverWait(
-            self.driver, 10, ignored_exceptions=(StaleElementReferenceException,)
-        ).until(
-            lambda d: "selected"
-            in (d.find_element(*locator).get_attribute("class") or "").split()
-        )
-
-    def filter_all(self):
-        """Show all todos."""
-        self._click_filter(self.FILTER_ALL)
-
-    def filter_active(self):
-        """Show only active todos."""
-        self._click_filter(self.FILTER_ACTIVE)
-
-    def filter_completed(self):
-        """Show only completed todos."""
-        self._click_filter(self.FILTER_COMPLETED)
-
     def is_todo_completed(self, index):
         """Return True if the todo at index is marked completed."""
         items = self.get_todo_items()
@@ -103,7 +80,7 @@ class TodoPage:
         ActionChains(self.driver).double_click(label).perform()
 
         edit_input = self.wait.until(
-            lambda d: item.find_element(By.CSS_SELECTOR, "input.edit")
+            lambda _: item.find_element(By.CSS_SELECTOR, "input.edit")
         )
         self.wait.until(EC.visibility_of(edit_input))
         edit_input.send_keys(Keys.CONTROL, "a")
@@ -120,17 +97,27 @@ class TodoPage:
         btn = self.wait.until(EC.element_to_be_clickable(self.CLEAR_COMPLETED))
         btn.click()
 
+    def _click_filter(self, locator):
+        """Click a filter link and wait until React marks it as selected."""
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
+        WebDriverWait(
+            self.driver, 10, ignored_exceptions=(StaleElementReferenceException,)
+        ).until(
+            lambda d: "selected"
+            in (d.find_element(*locator).get_attribute("class") or "").split()
+        )
+
     def filter_all(self):
         """Show all todos."""
-        self.wait.until(EC.element_to_be_clickable(self.FILTER_ALL)).click()
+        self._click_filter(self.FILTER_ALL)
 
     def filter_active(self):
         """Show only active todos."""
-        self.wait.until(EC.element_to_be_clickable(self.FILTER_ACTIVE)).click()
+        self._click_filter(self.FILTER_ACTIVE)
 
     def filter_completed(self):
         """Show only completed todos."""
-        self.wait.until(EC.element_to_be_clickable(self.FILTER_COMPLETED)).click()
+        self._click_filter(self.FILTER_COMPLETED)
 
     def get_active_count(self):
         """Parse remaining active items count from footer."""

@@ -1,15 +1,16 @@
+# pylint: disable=not-callable
 import os
 import sys
-from behave import given, when, then
 
-# Permite importar TodoPage desde homework-8/selenium/
+from behave import given, then, when
+
 SELENIUM_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "selenium")
 )
 if SELENIUM_DIR not in sys.path:
     sys.path.insert(0, SELENIUM_DIR)
 
-from pages.todo_page import TodoPage
+from pages.todo_page import TodoPage  # pylint: disable=wrong-import-position
 
 
 @given("I am on the todo page")
