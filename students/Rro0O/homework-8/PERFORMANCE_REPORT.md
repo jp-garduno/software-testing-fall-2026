@@ -7,6 +7,8 @@ Measured by [`playwright/perf/performance.spec.js`](playwright/perf/performance.
   useful to compare runs and browsers, not as the exact time a user perceives.
 - The measurement was run twice on the same day (Apple M2, macOS 27.0). All values are medians in milliseconds,
   written as **run A / run B**.
+- Both runs were measured before `navigate` also waited for the sidebar, which normally arrives before the load
+  event.
 
 ## Page load
 

@@ -29,4 +29,4 @@ tests/test_bdd.py::test_all_bdd_scenarios_pass PASSED                    [100%]
 
 =========================== short test summary info ============================
 XFAIL selenium/tests/test_todo_crud.py::test_escape_cancels_edit - Application defect: the edit field ignores Escape, although the TodoMVC spec says it discards the edit
-=================== 20 passed, 1 xfailed in 77.13s (0:01:17) ===================
+======================== 20 passed, 1 xfailed in 56.91s ========================

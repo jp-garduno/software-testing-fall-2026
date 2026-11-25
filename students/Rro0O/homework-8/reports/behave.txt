@@ -74,4 +74,4 @@ Feature: Todo Management # features/todo.feature:1
 1 feature passed, 0 failed, 0 skipped
 8 scenarios passed, 0 failed, 0 skipped
 35 steps passed, 0 failed, 0 skipped
-Took 0min 13.930s
+Took 0min 8.342s

@@ -35,8 +35,8 @@
   },
   "lines_of_code": {
     "Page object": {
-      "selenium": 108,
-      "playwright": 87
+      "selenium": 110,
+      "playwright": 89
     },
     "Tests": {
       "selenium": 110,

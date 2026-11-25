@@ -28,6 +28,10 @@ Setup times are medians of 10 repetitions (`scripts/measure_setup.py` and `playw
 Raw data: [`reports/benchmark.json`](reports/benchmark.json) and
 [`reports/benchmark-run1.json`](reports/benchmark-run1.json).
 
+Both runs were measured before `navigate` started waiting for the sidebar (see "Problems actually found"). The
+sidebar normally arrives before the page's load event, so the change is not expected to alter the figures, but they
+were not measured again. The line counts below include it.
+
 ### How to read these numbers
 
 - **Playwright was faster in both runs, but the margin is not stable**: 36 % less total time in run 1 and 11 % less in
@@ -49,17 +53,17 @@ Lines that are neither blank nor comments, counted by `scripts/benchmark.py`:
 
 | Area                    | Selenium (Python) | Playwright (JavaScript) |
 | ----------------------- | ----------------- | ----------------------- |
-| Page object             | 108               | 87                      |
+| Page object             | 110               | 89                      |
 | Tests (20 cases)        | 110               | 138                     |
 | Setup and configuration | 27                | 29                      |
-| **Total**               | **245**           | **254**                 |
+| **Total**               | **247**           | **256**                 |
 
 The totals are almost the same, but the lines are spent differently:
 
 - The Playwright tests are longer because of the language (`async`/`await`, closing braces, `describe` blocks) and
   because each assertion is its own `await expect(...)`.
 - The Selenium page object is longer because it has to say **when** each action is finished. It contains explicit
-  waits in almost every method; the Playwright one has a single `waitFor`, in `navigate`.
+  waits in almost every method; the Playwright one only has two `waitFor` calls, both in `navigate`.
 
 The same action in both:
 
@@ -107,6 +111,11 @@ The ratings are a judgement based on building these two suites, not a measuremen
   Playwright's `fill()` worked directly.
 - **Playwright, Firefox on macOS 27.** The browser did not start (`Could not find profile folder`) until
   `CFFIXED_USER_HOME` pointed to an empty folder. The error came with a full launch log.
+- **Both, a flaky click.** One run in a clean clone failed on Firefox: "Clear completed" had focus but nothing was
+  cleared. The page loads a sidebar asynchronously, which moves the list about 150 px; a press that spans that moment
+  never becomes a click. Delaying the sidebar request reproduced it. Both page objects now wait for the sidebar in
+  `navigate`. Playwright's auto-waiting did not prevent it, because the layout moved after the element had been
+  checked.
 - **Both.** The assignment URL answers 404, and Escape does not cancel an edit in the current application (see the
   README).
 

@@ -119,6 +119,8 @@ homework-8/
 - **Assertions stay in the tests.** Page objects only act and report state.
 - **Selenium uses explicit waits only** (no implicit waits, no `sleep`): each action waits for its visible effect.
 - **Playwright asserts on locators** (`toHaveText`, `toHaveCount`), which retry automatically.
+- **Waiting for the final layout**: `navigate` waits for the sidebar, which arrives late and moves the list; without
+  this, a click could be lost.
 - **Isolation**: a new WebDriver per Selenium test and a new browser context per Playwright test. The application
   keeps no data between page loads, so there is nothing else to clean up.
 - **Editing in Selenium** selects the text and types over it. `WebElement.clear()` blurs the field, which in this
