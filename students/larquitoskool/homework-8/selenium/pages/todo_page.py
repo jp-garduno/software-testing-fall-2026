@@ -3,17 +3,19 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 class TodoPage:
     """Page Object Model for TodoMVC React application."""
 
-    URL = "https://todomvc.com/examples/react/"
+    URL = "https://demo.playwright.dev/todomvc/"
 
     NEW_TODO_INPUT = (By.CSS_SELECTOR, ".new-todo")
     TODO_LIST = (By.CSS_SELECTOR, ".todo-list")
     TODO_ITEMS = (By.CSS_SELECTOR, ".todo-list li")
     TODO_COUNT = (By.CSS_SELECTOR, ".todo-count")
+    TODO_LABELS = (By.CSS_SELECTOR, ".todo-list li label")
     CLEAR_COMPLETED = (By.CSS_SELECTOR, ".clear-completed")
     FILTER_ALL = (By.CSS_SELECTOR, "a[href='#/']")
     FILTER_ACTIVE = (By.CSS_SELECTOR, "a[href='#/active']")
@@ -42,11 +44,36 @@ class TodoPage:
         return len(self.get_todo_items())
 
     def get_visible_todos(self):
-        """Get list of visible todo texts."""
-        return [
-            item.find_element(By.TAG_NAME, "label").text
-            for item in self.get_todo_items()
-        ]
+        """Get list of visible todo texts, retrying safely if DOM re-renders."""
+        for _ in range(5):
+            try:
+                labels = self.driver.find_elements(*self.TODO_LABELS)
+                return [label.text for label in labels]
+            except StaleElementReferenceException:
+                continue
+        return [label.text for label in self.driver.find_elements(*self.TODO_LABELS)]
+
+    def _click_filter(self, locator):
+        """Click a filter link and wait until React marks it as selected."""
+        self.wait.until(EC.element_to_be_clickable(locator)).click()
+        WebDriverWait(
+            self.driver, 10, ignored_exceptions=(StaleElementReferenceException,)
+        ).until(
+            lambda d: "selected"
+            in (d.find_element(*locator).get_attribute("class") or "").split()
+        )
+
+    def filter_all(self):
+        """Show all todos."""
+        self._click_filter(self.FILTER_ALL)
+
+    def filter_active(self):
+        """Show only active todos."""
+        self._click_filter(self.FILTER_ACTIVE)
+
+    def filter_completed(self):
+        """Show only completed todos."""
+        self._click_filter(self.FILTER_COMPLETED)
 
     def is_todo_completed(self, index):
         """Return True if the todo at index is marked completed."""
@@ -69,17 +96,16 @@ class TodoPage:
         self.driver.execute_script("arguments[0].click();", destroy_btn)
 
     def edit_todo(self, index, new_text, save=True):
-        """Edit todo text; press Enter to save or cancel if save=False."""
+        """Edit todo text; press Enter to save or Escape to cancel."""
         items = self.get_todo_items()
         item = items[index]
         label = item.find_element(By.TAG_NAME, "label")
         ActionChains(self.driver).double_click(label).perform()
 
         edit_input = self.wait.until(
-            lambda d: item.find_element(
-                By.CSS_SELECTOR, "input.edit, input.new-todo, input[type='text']"
-            )
+            lambda d: item.find_element(By.CSS_SELECTOR, "input.edit")
         )
+        self.wait.until(EC.visibility_of(edit_input))
         edit_input.send_keys(Keys.CONTROL, "a")
         edit_input.send_keys(Keys.BACKSPACE)
         edit_input.send_keys(new_text)
@@ -88,12 +114,6 @@ class TodoPage:
             edit_input.send_keys(Keys.RETURN)
         else:
             edit_input.send_keys(Keys.ESCAPE)
-            # En la versión moderna de TodoMVC React, blur cancela sin guardar
-            remaining_inputs = item.find_elements(
-                By.CSS_SELECTOR, "input.edit, input.new-todo, input[type='text']"
-            )
-            if remaining_inputs:
-                self.driver.find_element(*self.HEADER).click()
 
     def clear_completed(self):
         """Click the Clear Completed button."""

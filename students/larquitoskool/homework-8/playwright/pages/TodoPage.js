@@ -1,7 +1,7 @@
 class TodoPage {
   constructor(page) {
     this.page = page;
-    this.url = "https://todomvc.com/examples/react/";
+    this.url = "https://demo.playwright.dev/todomvc/";
     this.newTodoInput = ".new-todo";
     this.todoItems = ".todo-list li";
     this.todoLabels = ".todo-list li label";
@@ -47,16 +47,13 @@ class TodoPage {
     const todo = this.page.locator(this.todoItems).nth(index);
     await todo.locator("label").dblclick();
 
-    const editInput = todo.locator('input.edit, input.new-todo, input[type="text"]');
+    const editInput = todo.locator("input.edit");
     await editInput.fill(newText);
 
     if (save) {
       await editInput.press("Enter");
     } else {
       await editInput.press("Escape");
-      if (await editInput.isVisible()) {
-        await this.page.locator("h1").click();
-      }
     }
   }
 
