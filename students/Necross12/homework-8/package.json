@@ -1,0 +1,26 @@
+{
+  "name": "homework-8",
+  "version": "1.0.0",
+  "description": "Suite de pruebas data-driven para un sistema de pedidos e-commerce, hecha con **JavaScript + Jest**.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npm run test:selenium && npm run test:playwright && npm run test:bdd",
+    "test:selenium": "jest --runInBand selenium/tests",
+    "test:playwright": "playwright test",
+    "test:bdd": "cucumber-js",
+    "perf": "node performance/measure.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.3.0",
+    "@playwright/test": "^1.65.1",
+    "jest": "^30.5.2",
+    "playwright": "^1.65.1",
+    "selenium-webdriver": "^4.51.0"
+  }
+}
