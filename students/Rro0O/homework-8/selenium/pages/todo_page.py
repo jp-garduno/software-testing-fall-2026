@@ -12,7 +12,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 DEFAULT_URL = "https://todomvc.com/examples/react/dist/"
 
 
-class TodoPage:
+# One small method per user action or query; splitting the screen into more classes would not help.
+class TodoPage:  # pylint: disable=too-many-public-methods
     """Actions and queries available on the todo list screen."""
 
     NEW_TODO_INPUT = (By.CLASS_NAME, "new-todo")
@@ -27,6 +28,7 @@ class TodoPage:
     TODO_COUNTER = (By.CLASS_NAME, "todo-count")
     CLEAR_COMPLETED = (By.CLASS_NAME, "clear-completed")
     HEADING = (By.TAG_NAME, "h1")
+    SIDEBAR = (By.CSS_SELECTOR, "aside.learn")
     SELECTED_FILTER = (By.CSS_SELECTOR, ".filters a.selected")
     FILTER_ALL = (By.CSS_SELECTOR, "a[href='#/']")
     FILTER_ACTIVE = (By.CSS_SELECTOR, "a[href='#/active']")
@@ -40,9 +42,12 @@ class TodoPage:
     # Navigation
 
     def navigate(self):
-        """Open the application and wait until it accepts input."""
+        """Open the application and wait until it accepts input and its layout is final."""
         self.driver.get(self.url)
         self.wait.until(EC.element_to_be_clickable(self.NEW_TODO_INPUT))
+        # The sidebar is fetched after the page loads and pushes the list sideways;
+        # a click in progress at that moment is lost.
+        self.wait.until(EC.visibility_of_element_located(self.SIDEBAR))
 
     # Actions
 

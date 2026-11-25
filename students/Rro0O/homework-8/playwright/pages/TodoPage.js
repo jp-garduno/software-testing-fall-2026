@@ -12,6 +12,7 @@ class TodoPage {
     this.counter = page.locator(".todo-count");
     this.clearCompletedButton = page.locator(".clear-completed");
     this.heading = page.locator("h1");
+    this.sidebar = page.locator("aside.learn");
     this.selectedFilter = page.locator(".filters a.selected");
   }
 
@@ -21,6 +22,9 @@ class TodoPage {
   async navigate() {
     await this.page.goto("./");
     await this.newTodoInput.waitFor();
+    // The sidebar is fetched after the page loads and pushes the list sideways;
+    // a click in progress at that moment is lost.
+    await this.sidebar.waitFor();
   }
 
   // Actions
