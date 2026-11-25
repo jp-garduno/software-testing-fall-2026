@@ -1,0 +1,14 @@
+
+Running 3 tests using 1 worker
+
+(node:43602) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › perf/performance.spec.js:79:1 › page load and operation timings stay within budget (8.5s)
+(node:43631) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [firefox] › perf/performance.spec.js:79:1 › page load and operation timings stay within budget (11.7s)
+(node:43683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [webkit] › perf/performance.spec.js:79:1 › page load and operation timings stay within budget (11.2s)
+
+  3 passed (35.3s)
