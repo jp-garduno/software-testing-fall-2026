@@ -1,0 +1,47 @@
+name: Homework 8 - Vittorio Catino E2E
+
+on:
+  push:
+    branches: [feat/homework-8-vittorio-catino]
+    paths:
+      - 'students/vittoriocatino/homework-8/**'
+      - '.github/workflows/homework-8-vittoriocatino.yml'
+  pull_request:
+    paths:
+      - 'students/vittoriocatino/homework-8/**'
+      - '.github/workflows/homework-8-vittoriocatino.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-browser-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: students/vittoriocatino/homework-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: browser-actions/setup-chrome@v2
+        id: chrome
+        with:
+          chrome-version: stable
+      - run: python -m pip install -r requirements.txt
+      - name: Selenium, Playwright and Behave
+        env:
+          CHROME_BINARY: ${{ steps.chrome.outputs.chrome-path }}
+        run: python scripts/run_all.py
+      - name: Publish execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: homework-8-browser-evidence
+          path: |
+            students/vittoriocatino/homework-8/reports/
+            students/vittoriocatino/homework-8/screenshots/
+          retention-days: 14
