@@ -1,0 +1,37 @@
+test_name,items,customer_type,discount_code,distance_km,is_express,discount_applied,expected_error,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total
+simple_empty_cart,[],regular,NONE,0,false,,,0.00,0.00,0.00,0.00,0.00
+simple_single_item,"[{""name"":""Item"",""price"":19.99,""quantity"":1,""weight"":0}]",regular,NONE,0,false,,,19.99,0.00,1.60,0.00,21.59
+simple_two_item_lines,"[{""name"":""Cable"",""price"":7.25,""quantity"":3,""weight"":0},{""name"":""Clip"",""price"":1.1,""quantity"":2,""weight"":0}]",regular,NONE,0,false,,,23.95,0.00,1.92,0.00,25.87
+discount_save10_below,"[{""name"":""Item"",""price"":49.99,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,false,,49.99,0.00,4.00,0.00,53.99
+discount_save10_exact,"[{""name"":""Item"",""price"":50,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,false,,50.00,0.00,4.00,0.00,54.00
+discount_save10_above,"[{""name"":""Item"",""price"":50.01,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,true,,50.01,5.00,3.60,0.00,48.61
+discount_save20_below,"[{""name"":""Item"",""price"":99.99,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,false,,99.99,0.00,8.00,0.00,107.99
+discount_save20_exact,"[{""name"":""Item"",""price"":100,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,false,,100.00,0.00,8.00,0.00,108.00
+discount_save20_above,"[{""name"":""Item"",""price"":100.01,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,true,,100.01,20.00,6.40,0.00,86.41
+discount_unknown_code,"[{""name"":""Item"",""price"":80,""quantity"":1,""weight"":0}]",regular,MADEUP,0,false,false,,80.00,0.00,6.40,0.00,86.40
+discount_expired_code,"[{""name"":""Item"",""price"":80,""quantity"":1,""weight"":0}]",regular,EXPIRED20,0,false,false,,80.00,0.00,6.40,0.00,86.40
+discount_new_customer,"[{""name"":""Item"",""price"":40,""quantity"":1,""weight"":0}]",new,NEWUSER,0,false,true,,40.00,6.00,2.72,0.00,36.72
+discount_returning_customer,"[{""name"":""Item"",""price"":40,""quantity"":1,""weight"":0}]",regular,NEWUSER,0,false,false,,40.00,0.00,3.20,0.00,43.20
+discount_multiple_items,"[{""name"":""Item"",""price"":45,""quantity"":1,""weight"":0},{""name"":""Item"",""price"":3,""quantity"":2,""weight"":0}]",regular,SAVE10,0,false,true,,51.00,5.10,3.67,0.00,49.57
+tax_rounds_down,"[{""name"":""Item"",""price"":0.06,""quantity"":1,""weight"":0}]",regular,NONE,0,false,,,0.06,0.00,0.00,0.00,0.06
+tax_rounds_up,"[{""name"":""Item"",""price"":0.07,""quantity"":1,""weight"":0}]",regular,NONE,0,false,,,0.07,0.00,0.01,0.00,0.08
+tax_fractional_subtotal,"[{""name"":""Item"",""price"":3.19,""quantity"":1,""weight"":0}]",regular,NONE,0,false,,,3.19,0.00,0.26,0.00,3.45
+tax_excludes_shipping,"[{""name"":""Item"",""price"":20,""quantity"":1,""weight"":2}]",regular,NONE,100,false,,,20.00,0.00,1.60,11.00,32.60
+tax_uses_discounted_subtotal,"[{""name"":""Item"",""price"":75,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,true,,75.00,7.50,5.40,0.00,72.90
+shipping_weight_only,"[{""name"":""Item"",""price"":5,""quantity"":3,""weight"":1.5}]",regular,NONE,0,false,,,15.00,0.00,1.20,2.25,18.45
+shipping_distance_only,"[{""name"":""Item"",""price"":5,""quantity"":1,""weight"":0}]",regular,NONE,12.5,false,,,5.00,0.00,0.40,1.25,6.65
+shipping_weight_plus_distance,"[{""name"":""Item"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,false,,,50.00,0.00,4.00,1.50,55.50
+shipping_express,"[{""name"":""Item"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,true,,,50.00,0.00,4.00,2.25,56.25
+shipping_free_standard,"[{""name"":""Item"",""price"":25,""quantity"":1,""weight"":15}]",regular,FREESHIP,200,false,true,,25.00,0.00,2.00,0.00,27.00
+shipping_free_express,"[{""name"":""Item"",""price"":25,""quantity"":1,""weight"":15}]",regular,FREESHIP,200,true,true,,25.00,0.00,2.00,0.00,27.00
+shipping_half_cent,"[{""name"":""Item"",""price"":5,""quantity"":1,""weight"":0.01}]",regular,NONE,0,false,,,5.00,0.00,0.40,0.01,5.41
+complex_save20_express,"[{""name"":""Desk"",""price"":60,""quantity"":1,""weight"":2.5},{""name"":""Lamp"",""price"":20.5,""quantity"":2,""weight"":1}]",regular,SAVE20,15,true,true,,101.00,20.20,6.46,5.63,92.89
+complex_new_customer_standard,"[{""name"":""Item"",""price"":22.5,""quantity"":2,""weight"":1.4},{""name"":""Item"",""price"":10,""quantity"":1,""weight"":0.2}]",new,NEWUSER,30,false,true,,55.00,8.25,3.74,4.50,54.99
+complex_zero_quantity,"[{""name"":""Item"",""price"":999,""quantity"":0,""weight"":100},{""name"":""Item"",""price"":9.5,""quantity"":2,""weight"":1}]",regular,NONE,10,false,,,19.00,0.00,1.52,2.00,22.52
+complex_negative_price,"[{""name"":""Item"",""price"":-1,""quantity"":1,""weight"":1}]",regular,NONE,0,false,,"price must be a finite, nonnegative number",,,,,
+complex_negative_quantity,"[{""name"":""Item"",""price"":10,""quantity"":-1,""weight"":1}]",regular,NONE,0,false,,quantity must be a nonnegative integer,,,,,
+complex_fractional_quantity,"[{""name"":""Item"",""price"":10,""quantity"":1.5,""weight"":1}]",regular,NONE,0,false,,quantity must be a nonnegative integer,,,,,
+complex_negative_weight,"[{""name"":""Item"",""price"":10,""quantity"":1,""weight"":-1}]",regular,NONE,0,false,,"weight must be a finite, nonnegative number",,,,,
+complex_negative_distance,"[{""name"":""Item"",""price"":10,""quantity"":1,""weight"":1}]",regular,NONE,-1,false,,"distance must be a finite, nonnegative number",,,,,
+complex_bulk_order,"[{""name"":""Pallet"",""price"":99999.99,""quantity"":10000,""weight"":2500}]",regular,NONE,100000,true,,,999999900.00,0.00,79999992.00,18765000.00,1098764892.00
+complex_discount_half_cent,"[{""name"":""Item"",""price"":50.05,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,true,,50.05,5.01,3.60,0.00,48.64

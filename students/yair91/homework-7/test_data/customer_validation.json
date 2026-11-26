@@ -1,0 +1,820 @@
+{
+  "description": "Customer validation cases. expected_errors is the complete list, in the fixed order validate_customer produces: email, phone, street, city, state, zip, card number, card expiry.",
+  "reference_date": "2026-11",
+  "test_cases": [
+    {
+      "test_name": "valid_standard",
+      "category": "valid_customers",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": true,
+      "expected_errors": [],
+      "reason": "Every field well formed"
+    },
+    {
+      "test_name": "valid_amex_15_digits",
+      "category": "valid_customers",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "378282246310005",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": true,
+      "expected_errors": [],
+      "reason": "Amex is 15 digits and still valid"
+    },
+    {
+      "test_name": "valid_card_with_spaces",
+      "category": "valid_customers",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532 0151 1283 0366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": true,
+      "expected_errors": [],
+      "reason": "Spaces in the card number are ignored"
+    },
+    {
+      "test_name": "valid_zip_plus_four",
+      "category": "valid_customers",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701-1234"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": true,
+      "expected_errors": [],
+      "reason": "ZIP+4 is accepted"
+    },
+    {
+      "test_name": "valid_expiry_current_month",
+      "category": "valid_customers",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "11/26"
+      },
+      "expected_valid": true,
+      "expected_errors": [],
+      "reason": "Expiry in the reference month is still valid"
+    },
+    {
+      "test_name": "email_missing_at",
+      "category": "invalid_emails",
+      "customer": {
+        "email": "aliceexample.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format"
+      ],
+      "reason": "No at sign"
+    },
+    {
+      "test_name": "email_missing_domain",
+      "category": "invalid_emails",
+      "customer": {
+        "email": "alice@",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format"
+      ],
+      "reason": "Nothing after the at sign"
+    },
+    {
+      "test_name": "email_missing_tld",
+      "category": "invalid_emails",
+      "customer": {
+        "email": "alice@example",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format"
+      ],
+      "reason": "Domain without a TLD"
+    },
+    {
+      "test_name": "email_with_space",
+      "category": "invalid_emails",
+      "customer": {
+        "email": "alice smith@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format"
+      ],
+      "reason": "Space inside the address"
+    },
+    {
+      "test_name": "email_empty",
+      "category": "invalid_emails",
+      "customer": {
+        "email": "",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format"
+      ],
+      "reason": "Empty string"
+    },
+    {
+      "test_name": "email_consecutive_dots",
+      "category": "invalid_emails",
+      "customer": {
+        "email": "alice@example..com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format"
+      ],
+      "reason": "Empty domain label"
+    },
+    {
+      "test_name": "phone_dashes_only",
+      "category": "invalid_phones",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "555-123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Phone must match (XXX) XXX-XXXX"
+      ],
+      "reason": "Missing parentheses"
+    },
+    {
+      "test_name": "phone_no_space",
+      "category": "invalid_phones",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555)123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Phone must match (XXX) XXX-XXXX"
+      ],
+      "reason": "Missing the space after the area code"
+    },
+    {
+      "test_name": "phone_too_few_digits",
+      "category": "invalid_phones",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-456",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Phone must match (XXX) XXX-XXXX"
+      ],
+      "reason": "Nine digits"
+    },
+    {
+      "test_name": "phone_too_many_digits",
+      "category": "invalid_phones",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-45678",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Phone must match (XXX) XXX-XXXX"
+      ],
+      "reason": "Eleven digits"
+    },
+    {
+      "test_name": "phone_letters",
+      "category": "invalid_phones",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) ABC-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Phone must match (XXX) XXX-XXXX"
+      ],
+      "reason": "Letters where digits belong"
+    },
+    {
+      "test_name": "address_street_too_short",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "1 St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Street must be at least 5 characters"
+      ],
+      "reason": "Street below the minimum length"
+    },
+    {
+      "test_name": "address_street_blank",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "     ",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Street must be at least 5 characters"
+      ],
+      "reason": "Street is only spaces"
+    },
+    {
+      "test_name": "address_city_too_short",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "A",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "City must be at least 2 characters"
+      ],
+      "reason": "City of a single letter"
+    },
+    {
+      "test_name": "address_state_lowercase",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "tx",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "State must be a 2-letter uppercase code"
+      ],
+      "reason": "State in lowercase"
+    },
+    {
+      "test_name": "address_state_three_letters",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TEX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "State must be a 2-letter uppercase code"
+      ],
+      "reason": "State with three letters"
+    },
+    {
+      "test_name": "address_zip_four_digits",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "7870"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Zip must be 5 digits or ZIP+4"
+      ],
+      "reason": "Zip with four digits"
+    },
+    {
+      "test_name": "address_zip_letters",
+      "category": "invalid_addresses",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "ABCDE"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Zip must be 5 digits or ZIP+4"
+      ],
+      "reason": "Zip made of letters"
+    },
+    {
+      "test_name": "card_fails_luhn",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830367",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Credit card number failed validation"
+      ],
+      "reason": "One digit off, checksum fails"
+    },
+    {
+      "test_name": "card_too_short",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "453201511283",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Credit card number failed validation"
+      ],
+      "reason": "Twelve digits"
+    },
+    {
+      "test_name": "card_too_long",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "45320151128303666666",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Credit card number failed validation"
+      ],
+      "reason": "Twenty digits"
+    },
+    {
+      "test_name": "card_with_letters",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "411111111111111a",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Credit card number failed validation"
+      ],
+      "reason": "Not all digits"
+    },
+    {
+      "test_name": "card_empty",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Credit card number failed validation"
+      ],
+      "reason": "Empty string"
+    },
+    {
+      "test_name": "card_expiry_past_month",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "10/26"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "One month before the reference date"
+    },
+    {
+      "test_name": "card_expiry_bad_month",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "13/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "Month thirteen"
+    },
+    {
+      "test_name": "card_expiry_wrong_format",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "2027-12"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "ISO format instead of MM/YY"
+    },
+    {
+      "test_name": "card_expiry_four_digit_year",
+      "category": "invalid_cards",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/2027"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "Four digit year"
+    },
+    {
+      "test_name": "multi_email_and_phone",
+      "category": "multiple_errors",
+      "customer": {
+        "email": "bad",
+        "phone": "5551234567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format",
+        "Phone must match (XXX) XXX-XXXX"
+      ],
+      "reason": "Two fields wrong"
+    },
+    {
+      "test_name": "multi_address_pair",
+      "category": "multiple_errors",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "tx",
+          "zip": "123"
+        },
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "State must be a 2-letter uppercase code",
+        "Zip must be 5 digits or ZIP+4"
+      ],
+      "reason": "State and zip wrong"
+    },
+    {
+      "test_name": "multi_card_and_expiry",
+      "category": "multiple_errors",
+      "customer": {
+        "email": "alice@example.com",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "1234567890123",
+        "card_expiry": "01/20"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Credit card number failed validation",
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "Card and expiry wrong"
+    },
+    {
+      "test_name": "multi_everything_wrong",
+      "category": "multiple_errors",
+      "customer": {
+        "email": "nope",
+        "phone": "nope",
+        "address": {
+          "street": "x",
+          "city": "y",
+          "state": "zz1",
+          "zip": "nope"
+        },
+        "card_number": "nope",
+        "card_expiry": "nope"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format",
+        "Phone must match (XXX) XXX-XXXX",
+        "Street must be at least 5 characters",
+        "City must be at least 2 characters",
+        "State must be a 2-letter uppercase code",
+        "Zip must be 5 digits or ZIP+4",
+        "Credit card number failed validation",
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "Every rule fails"
+    },
+    {
+      "test_name": "multi_missing_address_entirely",
+      "category": "multiple_errors",
+      "customer": {
+        "email": "a@b.co",
+        "phone": "(555) 123-4567",
+        "card_number": "4532015112830366",
+        "card_expiry": "12/27"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Street must be at least 5 characters",
+        "City must be at least 2 characters",
+        "State must be a 2-letter uppercase code",
+        "Zip must be 5 digits or ZIP+4"
+      ],
+      "reason": "No address key at all"
+    },
+    {
+      "test_name": "multi_empty_record",
+      "category": "multiple_errors",
+      "customer": {},
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format",
+        "Phone must match (XXX) XXX-XXXX",
+        "Street must be at least 5 characters",
+        "City must be at least 2 characters",
+        "State must be a 2-letter uppercase code",
+        "Zip must be 5 digits or ZIP+4",
+        "Credit card number failed validation",
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "Empty object"
+    },
+    {
+      "test_name": "multi_three_fields",
+      "category": "multiple_errors",
+      "customer": {
+        "email": "bad",
+        "phone": "(555) 123-4567",
+        "address": {
+          "street": "123 Main Street",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "card_number": "0000",
+        "card_expiry": "01/21"
+      },
+      "expected_valid": false,
+      "expected_errors": [
+        "Invalid email format",
+        "Credit card number failed validation",
+        "Card expiry must be MM/YY and not in the past"
+      ],
+      "reason": "Email, card and expiry wrong"
+    }
+  ]
+}

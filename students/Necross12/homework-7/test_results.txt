@@ -1,0 +1,237 @@
+PASS tests/orderDataDriven.test.js
+  Order (data-driven, datos desde CSV)
+    √ pedido simplre n2 1 articulo (2 ms)
+    √ 10% de descuento apenas (limite enfeeriro) (1 ms)
+    √ 20% de descuento (1 ms)
+    √ primer pedido (15%)
+    √ NEWUSER en cliente regular (no aplica)
+    √ codigo invalido (sin descuento)
+    √ calcular impuesto con descuentos
+    √ pedido por peso de varios productos
+    √ pedido gratis
+    √ pedido expres de varios productos (1 ms)
+
+PASS tests/orderCalculator.test.js
+  Order de datos data-driven desde CSV
+    √ Order calculation: pedido simplre n1 0 articulos (1 ms)
+    √ Order calculation: pedido simplre n2 1 articulo
+    √ Order calculation: pedido simplre n2.5 1 articulo, pero varios (1 ms)
+    √ Order calculation: pedido simplre n5 3 articulos
+    √ Order calculation: no alcanozo el 10% (casi y no es primeraa compra)
+    √ Order calculation: 10% de descuento apenas (limite enfeeriro)
+    √ Order calculation: 10% de descuento apunto de ser 20% (limite superior) (2 ms)
+    √ Order calculation: 20% de descuento
+    √ Order calculation: primer pedido (15%) (1 ms)
+    √ Order calculation: codigo invalido (sin descuento)
+    √ Order calculation: NEWUSER en cliente regular (no aplica)
+    √ Order calculation: calcular impuesto de un solo articulo
+    √ Order calculation: calcular impuesto de varios articulos
+    √ Order calculation: calcular impuesto con descuentos
+    √ Order calculation: pedido por peso de un producto (1 ms)
+    √ Order calculation: pedido por peso de varios productos
+    √ Order calculation: pedido por distancia de un producto
+    √ Order calculation: pedido gratis (1 ms)
+    √ Order calculation: pedido expres de un producto
+    √ Order calculation: pedido expres de varios productos
+    √ Order calculation: pedido completo
+    √ Order calculation: pedido completo con descuento del 15 (primera compra) y envio por peso (1 ms)
+    √ Order calculation: pedido completo aplicando el 10% de descuento
+    √ Order calculation: dos pedidos seguidos, uno con cupo y otro sin cupo
+    √ Order calculation: dos pedidos seguidos, uno con cupo y otro sin cupo (segundo pedido, sin cupo)
+    √ Order calculation: pedido con valor 0 (osea vasio)
+    √ Order calculation: (invalida) pedido con valor -1 (5 ms)
+    √ Order calculation: pedido con valores machimos (20%)
+    √ Order calculation: calcular impuesto de pedido con varios productos
+    √ Order calculation: (invalida) precio cero
+    √ Order calculation: (invalida) cantidad negativa
+    √ Order calculation: (invalida) peso negativo (1 ms)
+    √ Order calculation: (invalida) distancia negativa
+    √ Order calculation: (invalida) precio no numerico
+    √ Order calculation: (invalida) items no es arreglo
+    √ Order calculation: pedido simple sin descuento ni envio 1
+    √ Order calculation: pedido simple sin descuento ni envio 2
+  Order de datos aleatorios desde CSV
+    √ Order calculation: generated_1
+    √ Order calculation: generated_2
+    √ Order calculation: generated_3 (1 ms)
+    √ Order calculation: generated_4
+    √ Order calculation: generated_5
+    √ Order calculation: generated_6 (2 ms)
+    √ Order calculation: generated_7
+    √ Order calculation: generated_8
+    √ Order calculation: generated_9 (1 ms)
+    √ Order calculation: generated_10
+    √ Order calculation: generated_11
+    √ Order calculation: generated_12 (1 ms)
+    √ Order calculation: generated_13
+    √ Order calculation: generated_14
+    √ Order calculation: generated_15
+    √ Order calculation: generated_16 (1 ms)
+    √ Order calculation: generated_17
+    √ Order calculation: generated_18
+    √ Order calculation: generated_19
+    √ Order calculation: generated_20
+    √ Order calculation: generated_21 (1 ms)
+    √ Order calculation: generated_22
+    √ Order calculation: generated_23
+    √ Order calculation: generated_24
+    √ Order calculation: generated_25 (1 ms)
+    √ Order calculation: generated_26
+    √ Order calculation: generated_27
+    √ Order calculation: generated_28
+    √ Order calculation: generated_29
+    √ Order calculation: generated_30 (1 ms)
+    √ Order calculation: generated_31
+    √ Order calculation: generated_32
+    √ Order calculation: generated_33
+    √ Order calculation: generated_34 (1 ms)
+    √ Order calculation: generated_35
+    √ Order calculation: generated_36
+    √ Order calculation: generated_37
+    √ Order calculation: generated_38
+    √ Order calculation: generated_39 (1 ms)
+    √ Order calculation: generated_40
+    √ Order calculation: generated_41
+    √ Order calculation: generated_42
+    √ Order calculation: generated_43
+    √ Order calculation: generated_44
+    √ Order calculation: generated_45
+    √ Order calculation: generated_46
+    √ Order calculation: generated_47
+    √ Order calculation: generated_48 (1 ms)
+    √ Order calculation: generated_49
+    √ Order calculation: generated_50 (1 ms)
+    √ Order calculation: generated_51
+    √ Order calculation: generated_52
+    √ Order calculation: generated_53 (1 ms)
+    √ Order calculation: generated_54
+    √ Order calculation: generated_55
+    √ Order calculation: generated_56
+    √ Order calculation: generated_57
+    √ Order calculation: generated_58 (1 ms)
+    √ Order calculation: generated_59
+    √ Order calculation: generated_60
+    √ Order calculation: generated_61
+    √ Order calculation: generated_62 (1 ms)
+    √ Order calculation: generated_63
+    √ Order calculation: generated_64
+    √ Order calculation: generated_65
+    √ Order calculation: generated_66 (1 ms)
+    √ Order calculation: generated_67
+    √ Order calculation: generated_68
+    √ Order calculation: generated_69
+    √ Order calculation: generated_70 (1 ms)
+    √ Order calculation: generated_71
+    √ Order calculation: generated_72
+    √ Order calculation: generated_73
+    √ Order calculation: generated_74
+    √ Order calculation: generated_75 (1 ms)
+    √ Order calculation: generated_76
+    √ Order calculation: generated_77
+    √ Order calculation: generated_78
+    √ Order calculation: generated_79 (1 ms)
+    √ Order calculation: generated_80
+    √ Order calculation: generated_81
+    √ Order calculation: generated_82
+    √ Order calculation: generated_83 (1 ms)
+    √ Order calculation: generated_84
+    √ Order calculation: generated_85
+    √ Order calculation: generated_86
+    √ Order calculation: generated_87
+    √ Order calculation: generated_88
+    √ Order calculation: generated_89
+    √ Order calculation: generated_90
+    √ Order calculation: generated_91
+    √ Order calculation: generated_92 (1 ms)
+    √ Order calculation: generated_93
+    √ Order calculation: generated_94
+    √ Order calculation: generated_95
+    √ Order calculation: generated_96 (1 ms)
+    √ Order calculation: generated_97
+    √ Order calculation: generated_98
+    √ Order calculation: generated_99
+    √ Order calculation: generated_100
+  Order con distancia que no es un numero
+    √ setShipping("abc") lanza error (1 ms)
+    √ setShipping(NaN) lanza error
+    √ setShipping(undefined) lanza error
+  Order con parametros por defecto
+    √ sin customerType es regular (NEWUSER no aplica) y sin isExpress el envio es estandar (1 ms)
+
+PASS tests/customerValidator.test.js
+  Validacion de clientes (data-driven, customerValidation.json)
+    √ el JSON cumple los minimos de la tarea
+    √ todos los campos correctos (1 ms)
+    √ Visa distinta, zip con extension +4
+    √ Amex de 15 digitos, expira en el mes actual
+    √ (invalido) email sin arroba (1 ms)
+    √ (invalido) email sin punto en el dominio
+    √ (invalido) email sin cuerpo
+    √ (invalido) email con espacio
+    √ (invalido) telefono solo 7 digitos (1 ms)
+    √ (invalido) telefono mas de 10 digitos
+    √ (invalido) telefono con letras
+    √ (invalido) telefono vacio
+    √ (invalido) direccion calle vacia (1 ms)
+    √ (invalido) direccion ciudad vacia
+    √ (invalido) direccion estado en minusculas
+    √ (invalido) direccion zip vacio
+    √ (invalido) direccion zip con letras
+    √ (invalido) tarjeta numero vacio (1 ms)
+    √ (invalido) tarjeta no pasa Luhn
+    √ (invalido) tarjeta numero con caracter no numerico
+    √ (invalido) tarjeta menos de 13 digitos
+    √ (invalido) tarjeta expiracion vacia (1 ms)
+    √ (invalido) tarjeta expiracion sin formato de fecha
+    √ (invalido) tarjeta tarjeta vencida
+    √ (invalido) tarjeta CVV vacio
+    √ (invalido) tarjeta CVV de 5 digitos (1 ms)
+    √ (invalido) tarjeta CVV de 2 digitos
+    √ (invalido) multiple, email y telefono invalidos
+    √ (invalido) multiple, calle, ciudad, estado y zip invalidos
+    √ (invalido) multiple, tarjeta con numero, expiracion y CVV invalidos
+    √ (invalido) multiple, tarjeta con numero invalido y vencida (1 ms)
+    √ (invalido) multiple, un error de cada seccion
+    √ (invalido) multiple, todos los campos invalidos
+  Casos extra de estructura
+    √ cliente sin datos devuelve todos los errores sin lanzar excepcion (1 ms)
+    √ Customer.validate usa la fecha actual por defecto
+    √ telefono null o numerico no es valido
+  PhoneNumber.getFormatted
+    √ da formato a 10 digitos seguidos
+    √ deja igual lo que no son 10 digitos
+  luhn
+    √ luhn("4111111111111111") = true
+    √ luhn("4111111111111112") = false
+    √ luhn("") = false
+  Address y CreditCard directos
+    √ Address valida sin errores (1 ms)
+    √ CreditCard usa la fecha actual por defecto
+
+PASS tests/orderTraditional.test.js
+  Order (tradicional, datos hardcodeados)
+    √ pedido simple de 1 articulo
+    √ SAVE10 aplica justo en el limite de $50 (1 ms)
+    √ SAVE20 aplica justo en el limite de $100
+    √ NEWUSER aplica 15% a un cliente nuevo
+    √ NEWUSER no aplica a un cliente regular
+    √ codigo invalido no da descuento (1 ms)
+    √ el impuesto se calcula despues del descuento
+    √ envio por peso de varios productos (peso x cantidad)
+    √ FREESHIP deja el envio en 0 (1 ms)
+    √ envio expres de varios productos (x1.5)
+
+PASS tests/integration.test.js
+  Integración: flujos de pedido completos (orderWorkflows.json)
+    √ el JSON tiene al menos 3 workflows (1 ms)
+    √ pedido completo con SAVE20 y envio estandar (1 ms)
+    √ cliente nuevo con NEWUSER y envio expres
+    √ pedido con FREESHIP y varios productos
+    √ (invalida) cliente con email y CVV invalidos
+    √ (invalida) pedido con precio negativo (1 ms)
+
+Test Suites: 5 passed, 5 total
+Tests:       210 passed, 210 total
+Snapshots:   0 total
+Time:        0.814 s, estimated 1 s
+Ran all test suites.
