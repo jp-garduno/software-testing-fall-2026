@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+.pytest_cache/
+playwright/node_modules/
+playwright/test-results/
+playwright/playwright-report/
+playwright/blob-report/
