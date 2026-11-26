@@ -1,0 +1,113 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.10.8, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\kathy\AppData\Local\Programs\Python\Python310\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\kathy\OneDrive - ITESO\Pruebas de Software\software-testing-fall-2026\students\Kaito0110\homework-7
+configfile: pytest.ini
+testpaths: tests
+plugins: Faker-40.18.0, cov-7.1.0
+collecting ... collected 89 items
+
+tests/test_customer_validator.py::test_customer_validation_from_json[valid_customer_all_fields_visa--] PASSED [  1%]
+tests/test_customer_validator.py::test_customer_validation_from_json[valid_customer_mastercard_zip_plus_4--] PASSED [  2%]
+tests/test_customer_validator.py::test_customer_validation_from_json[valid_customer_amex_4_digit_cvv--] PASSED [  3%]
+tests/test_customer_validator.py::test_customer_validation_from_json[valid_customer_discover_card--] PASSED [  4%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_email_missing_at_symbol--] PASSED [  5%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_email_missing_domain--] PASSED [  6%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_email_double_dots--] PASSED [  7%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_email_empty_string--] PASSED [  8%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_email_short_tld--] PASSED [ 10%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_phone_missing_parentheses--] PASSED [ 11%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_phone_digits_only--] PASSED [ 12%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_phone_missing_space_after_area_code--] PASSED [ 13%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_phone_too_short--] PASSED [ 14%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_phone_with_letters--] PASSED [ 15%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_address_empty_street--] PASSED [ 16%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_address_empty_city--] PASSED [ 17%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_address_full_state_name--] PASSED [ 19%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_address_lowercase_state--] PASSED [ 20%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_address_short_zip--] PASSED [ 21%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_luhn_checksum_failure--] PASSED [ 22%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_too_short--] PASSED [ 23%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_contains_letters--] PASSED [ 24%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_expired_year--] PASSED [ 25%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_expiration_month_13--] PASSED [ 26%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_expiration_bad_format--] PASSED [ 28%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_cvv_two_digits--] PASSED [ 29%]
+tests/test_customer_validator.py::test_customer_validation_from_json[invalid_card_cvv_non_numeric--] PASSED [ 30%]
+tests/test_customer_validator.py::test_customer_validation_from_json[multiple_errors_email_and_phone--] PASSED [ 31%]
+tests/test_customer_validator.py::test_customer_validation_from_json[multiple_errors_address_street_and_zip--] PASSED [ 32%]
+tests/test_customer_validator.py::test_customer_validation_from_json[multiple_errors_card_luhn_and_expired--] PASSED [ 33%]
+tests/test_customer_validator.py::test_customer_validation_from_json[multiple_errors_email_state_and_cvv--] PASSED [ 34%]
+tests/test_customer_validator.py::test_customer_validation_from_json[multiple_errors_all_fields_invalid--] PASSED [ 35%]
+tests/test_customer_validator.py::test_validator_handles_non_dict_and_non_string_inputs PASSED [ 37%]
+tests/test_integration.py::test_end_to_end_order_workflows[complete_standard_order_flow-] PASSED [ 38%]
+tests/test_integration.py::test_end_to_end_order_workflows[new_user_express_order_flow-] PASSED [ 39%]
+tests/test_integration.py::test_end_to_end_order_workflows[freeship_multi_item_workflow-] PASSED [ 40%]
+tests/test_integration.py::test_end_to_end_order_workflows[rejected_invalid_customer_workflow-] PASSED [ 41%]
+tests/test_integration.py::test_workflow_engine_edge_cases PASSED        [ 42%]
+tests/test_order_calculator.py::test_order_calculation[simple_single_item_zero_distance--regular--------] PASSED [ 43%]
+tests/test_order_calculator.py::test_order_calculation[simple_two_items_zero_shipping--regular--------] PASSED [ 44%]
+tests/test_order_calculator.py::test_order_calculation[simple_regular_order_with_shipping--regular--------] PASSED [ 46%]
+tests/test_order_calculator.py::test_order_calculation[discount_save10_at_min_threshold--regular-SAVE10-------] PASSED [ 47%]
+tests/test_order_calculator.py::test_order_calculation[discount_save10_below_threshold--regular-SAVE10-------] PASSED [ 48%]
+tests/test_order_calculator.py::test_order_calculation[discount_save20_at_min_threshold--regular-SAVE20-------] PASSED [ 49%]
+tests/test_order_calculator.py::test_order_calculation[discount_save20_below_threshold--regular-SAVE20-------] PASSED [ 50%]
+tests/test_order_calculator.py::test_order_calculation[discount_newuser_valid_for_new_customer--new-NEWUSER-------] PASSED [ 51%]
+tests/test_order_calculator.py::test_order_calculation[--regular-NEWUSER-------] PASSED [ 52%]
+tests/test_order_calculator.py::test_order_calculation[discount_invalid_code_ignored--regular-EXPIRED50-------] PASSED [ 53%]
+tests/test_order_calculator.py::test_order_calculation[discount_multiple_items_save20--regular-SAVE20-------] PASSED [ 55%]
+tests/test_order_calculator.py::test_order_calculation[tax_calculation_no_discount--regular--------] PASSED [ 56%]
+tests/test_order_calculator.py::test_order_calculation[tax_calculation_after_save10--regular-SAVE10-------] PASSED [ 57%]
+tests/test_order_calculator.py::test_order_calculation[tax_calculation_after_save20--regular-SAVE20-------] PASSED [ 58%]
+tests/test_order_calculator.py::test_order_calculation[tax_calculation_fractional_cents--regular-SAVE10-------] PASSED [ 59%]
+tests/test_order_calculator.py::test_order_calculation[shipping_heavy_weight_standard--regular--------] PASSED [ 60%]
+tests/test_order_calculator.py::test_order_calculation[shipping_long_distance_standard--regular--------] PASSED [ 61%]
+tests/test_order_calculator.py::test_order_calculation[shipping_express_multiplier_applied--regular--------] PASSED [ 62%]
+tests/test_order_calculator.py::test_order_calculation[shipping_freeship_code_standard--regular-FREESHIP-------] PASSED [ 64%]
+tests/test_order_calculator.py::test_order_calculation[shipping_freeship_code_express--regular-FREESHIP-------] PASSED [ 65%]
+tests/test_order_calculator.py::test_order_calculation[shipping_zero_weight_digital_item--regular--------] PASSED [ 66%]
+tests/test_order_calculator.py::test_order_calculation[complex_multi_item_express_save20--regular-SAVE20-------] PASSED [ 67%]
+tests/test_order_calculator.py::test_order_calculation[complex_new_user_multi_item_express--new-NEWUSER-------] PASSED [ 68%]
+tests/test_order_calculator.py::test_order_calculation[edge_case_empty_order_items--regular-SAVE10-------] PASSED [ 69%]
+tests/test_order_calculator.py::test_order_calculation[edge_case_zero_quantity_item--regular--------] PASSED [ 70%]
+tests/test_order_calculator.py::test_order_calculation[edge_case_negative_price_and_weight_clamped--regular-SAVE10-------] PASSED [ 71%]
+tests/test_order_calculator.py::test_order_calculation[edge_case_negative_distance_clamped--regular--------] PASSED [ 73%]
+tests/test_order_calculator.py::test_order_calculation[edge_case_maximum_bulk_enterprise_order--regular-SAVE20-------] PASSED [ 74%]
+tests/test_order_calculator.py::test_order_csv_data_file_is_valid PASSED [ 75%]
+tests/test_order_calculator.py::test_data_validator_detects_missing_columns_and_invalid_rows PASSED [ 76%]
+tests/test_order_calculator.py::test_faker_data_generator_creates_100_valid_orders PASSED [ 77%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[simple_single_item_zero_distance--regular--------] PASSED [ 78%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[simple_two_items_zero_shipping--regular--------] PASSED [ 79%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[simple_regular_order_with_shipping--regular--------] PASSED [ 80%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[discount_save10_at_min_threshold--regular-SAVE10-------] PASSED [ 82%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[discount_save10_below_threshold--regular-SAVE10-------] PASSED [ 83%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[discount_save20_at_min_threshold--regular-SAVE20-------] PASSED [ 84%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[discount_newuser_valid_for_new_customer--new-NEWUSER-------] PASSED [ 85%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[shipping_express_multiplier_applied--regular--------] PASSED [ 86%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[shipping_freeship_code_standard--regular-FREESHIP-------] PASSED [ 87%]
+tests/test_order_data_driven.py::test_order_data_driven_ten_cases[complex_multi_item_express_save20--regular-SAVE20-------] PASSED [ 88%]
+tests/test_order_traditional.py::test_traditional_01_simple_single_item PASSED [ 89%]
+tests/test_order_traditional.py::test_traditional_02_simple_two_items PASSED [ 91%]
+tests/test_order_traditional.py::test_traditional_03_regular_order_with_shipping PASSED [ 92%]
+tests/test_order_traditional.py::test_traditional_04_save10_at_threshold PASSED [ 93%]
+tests/test_order_traditional.py::test_traditional_05_save10_below_threshold PASSED [ 94%]
+tests/test_order_traditional.py::test_traditional_06_save20_at_threshold PASSED [ 95%]
+tests/test_order_traditional.py::test_traditional_07_newuser_discount_for_new_customer PASSED [ 96%]
+tests/test_order_traditional.py::test_traditional_08_express_shipping_multiplier PASSED [ 97%]
+tests/test_order_traditional.py::test_traditional_09_freeship_discount_code PASSED [ 98%]
+tests/test_order_traditional.py::test_traditional_10_complex_multi_item_express_save20 PASSED [100%]
+
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.10.8-final-0 _______________
+
+Name                        Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------
+src\__init__.py                 0      0      0      0   100%
+src\customer_validator.py      77      0     36      0   100%
+src\data_tools.py              63      0     16      0   100%
+src\order_calculator.py        68      0     22      0   100%
+src\order_workflow.py          57      0     18      0   100%
+-----------------------------------------------------------------------
+TOTAL                         265      0     92      0   100%
+Coverage HTML written to dir htmlcov
+============================= 89 passed in 4.58s ==============================

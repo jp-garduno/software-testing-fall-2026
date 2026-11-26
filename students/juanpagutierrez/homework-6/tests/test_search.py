@@ -1,0 +1,73 @@
+"""Tests for search with filters and sorting (advanced feature 3)."""
+
+import pytest
+
+from src.book import Book, BookDetails
+from src.library import Library
+
+
+def test_book_stores_optional_genre_year_and_rating():
+    book = Book("1234567890", "Clean Code", "Robert Martin", details=BookDetails("Software", 2008, 4.4))
+    assert (book.genre, book.publication_year, book.rating) == ("Software", 2008, 4.4)
+
+
+@pytest.mark.parametrize("rating", [-0.1, 5.1])
+def test_rating_outside_zero_to_five_is_rejected(rating):
+    with pytest.raises(ValueError):
+        BookDetails(rating=rating)
+
+
+@pytest.fixture(name="library")
+def library_fixture():
+    """A catalog with books of different genres, years and ratings."""
+    library = Library()
+    library.add_book(Book("1111111111", "Clean Code", "Robert Martin",
+                          details=BookDetails("Software", 2008, 4.4)))
+    library.add_book(Book("2222222222", "Dune", "Frank Herbert",
+                          details=BookDetails("Science Fiction", 1965, 4.3)))
+    library.add_book(Book("3333333333", "Refactoring", "Martin Fowler",
+                          details=BookDetails("Software", 2018, 4.2)))
+    library.add_book(Book("4444444444", "Neuromancer", "William Gibson",
+                          details=BookDetails("Science Fiction", 1984, 3.9)))
+    return library
+
+
+def isbns(books):
+    """ISBNs of ``books``, in order, for compact assertions."""
+    return [book.isbn for book in books]
+
+
+def test_search_filters_by_genre(library):
+    assert isbns(library.search(genre="Software")) == ["1111111111", "3333333333"]
+
+
+def test_search_filters_by_publication_year(library):
+    assert isbns(library.search(publication_year=1965)) == ["2222222222"]
+
+
+def test_search_filters_by_minimum_rating(library):
+    assert isbns(library.search(min_rating=4.3)) == ["1111111111", "2222222222"]
+
+
+def test_search_combines_filters_with_and_logic(library):
+    assert isbns(library.search(genre="Science Fiction", min_rating=4.0)) == ["2222222222"]
+
+
+def test_search_results_can_be_sorted_by_a_field(library):
+    assert isbns(library.search(genre="Science Fiction", sort_by="publication_year")) == ["2222222222", "4444444444"]
+
+
+def test_search_results_can_be_sorted_in_descending_order(library):
+    assert isbns(library.search(min_rating=4.2, sort_by="rating", descending=True)) == [
+        "1111111111", "2222222222", "3333333333"]
+
+
+def test_sorting_by_an_unknown_field_raises(library):
+    with pytest.raises(ValueError):
+        library.search(sort_by="price")
+
+
+def test_books_missing_the_sort_field_are_listed_last(library):
+    library.add_book(Book("5555555555", "Untitled Draft", "Anonymous", details=BookDetails(genre="Software")))
+    assert isbns(library.search(genre="Software", sort_by="rating", descending=True)) == [
+        "1111111111", "3333333333", "5555555555"]
