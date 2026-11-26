@@ -1,0 +1,23 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\david\MYSHIT\homework-3\students\davidvaldezm\homework-3
+configfile: pyproject.toml
+testpaths: .
+plugins: cov-6.3.0
+collected 27 items
+
+test_budget.py ...........................                               [100%]
+
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                  Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------
+src\__init__.py           0      0      0      0   100%
+src\budget.py            28      0      6      0   100%
+src\storage.py           22      0     10      0   100%
+src\transactions.py      38      0     14      0   100%
+-----------------------------------------------------------------
+TOTAL                    88      0     30      0   100%
+Required test coverage of 90% reached. Total coverage: 100.00%
+============================= 27 passed in 0.14s ==============================

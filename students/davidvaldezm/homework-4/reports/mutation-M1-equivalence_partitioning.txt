@@ -1,0 +1,10 @@
+.F....................................                                   [100%]
+================================== FAILURES ===================================
+____________________ test_transfer_amount_partition[EP-A2] ____________________
+tests\test_equivalence_partitioning.py:31: in test_transfer_amount_partition
+    with pytest.raises(ValueError, match=error):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_equivalence_partitioning.py::test_transfer_amount_partition[EP-A2]
+1 failed, 37 passed in 0.21s

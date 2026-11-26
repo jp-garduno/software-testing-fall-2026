@@ -1,0 +1,51 @@
+<div class='container my-5'>
+  <div class='row justify-content-center'>
+    <main class='col-md-8 bg-white shadow-lg p-5 text-dark rounded'>
+
+      <!-- Navegación -->
+      <div class='mb-4'>
+        <a href='/' class='btn btn-secondary'>
+          <i class='bi bi-arrow-left-short'></i>
+          Volver al CV
+        </a>
+      </div>
+
+      <!-- Contador -->
+      <section class='text-center'>
+        <h2 class='h3 text-primary fw-bold mb-4'>
+          <i class='bi bi-speedometer2 me-2'></i>
+          {{title}}
+        </h2>
+
+        <!-- Valor-->
+        <div class='mb-3 display-4 fw-bold text-dark'>
+          <span id='contador_valor'>0</span>%
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class='progress mb-4' style='height: 30px;'>
+          <div
+            id='contador_progress'
+            class='progress-bar progress-bar-striped progress-bar-animated bg-danger'
+            role='progressbar'
+            style='width: 0%'
+            aria-valuenow='0'
+            aria-valuemin='0'
+            aria-valuemax='100'
+          ></div>
+        </div>
+
+        <!-- Botones -->
+        <div class='d-flex justify-content-center gap-2 mb-4'>
+          <button id='menos10' type='button' class='btn btn-outline-danger'>-10</button>
+          <button id='menos1' type='button' class='btn btn-outline-danger me-2'>-1</button>
+          <button id='mas1' type='button' class='btn btn-outline-success me-2'>+1</button>
+          <button id='mas10' type='button' class='btn btn-outline-success'>+10</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src='/js/contador.js'></script>

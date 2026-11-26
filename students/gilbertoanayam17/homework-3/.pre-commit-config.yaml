@@ -1,0 +1,70 @@
+repos:
+  # ---------------------------------------------------------------- general
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        args: ['--markdown-linebreak-ext=md']
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+
+  # -------------------------------------------------------------- formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        types_or: [javascript, json, yaml, markdown]
+
+  # ----------------------------------------------------------------- linting
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.56.0
+    hooks:
+      - id: eslint
+        files: \.js$
+        args: ['--max-warnings=0']
+        additional_dependencies:
+          - eslint@8.56.0
+
+  # ---------------------------------------------------------------- security
+  # Runs the security rule set from `.eslintrc.security.js`. The plugin is
+  # installed into this hook's own environment, which is why the default
+  # `npm run lint` can stay dependency free.
+  #
+  # The paths below are relative to the git repository root, because that is
+  # the working directory pre-commit gives a hook, not the directory holding
+  # this file. An anchored `^src/` pattern matches nothing when the project
+  # sits inside a larger repository, and the hook then reports "no files to
+  # check" rather than failing, which is the worst kind of broken: silent.
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.56.0
+    hooks:
+      - id: eslint
+        alias: eslint-security
+        name: eslint (security rules)
+        files: (^|/)src/.*\.js$
+        args:
+          [
+            '--no-eslintrc',
+            '--config',
+            'students/gilbertoanayam17/homework-3/.eslintrc.security.js',
+            '--resolve-plugins-relative-to',
+            'students/gilbertoanayam17/homework-3',
+            '--max-warnings=0',
+          ]
+        additional_dependencies:
+          - eslint@8.56.0
+          - eslint-plugin-security@2.1.1
+
+  # --------------------------------------------------------- commit messages
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]

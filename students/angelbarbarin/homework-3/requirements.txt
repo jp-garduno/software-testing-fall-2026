@@ -1,0 +1,18 @@
+# Dependencias de students/angelbarbarin/homework-3
+#
+# Solo lo que esta tarea necesita. Las versiones minimas coinciden con las
+# del requirements.txt de la raiz del repo del curso.
+
+# Pruebas
+pytest>=8.0.0
+
+# Analisis estatico y formato
+pylint>=3.0.0
+black>=24.1.0
+isort>=5.13.0
+
+# Hooks de pre-commit
+pre-commit>=3.6.0
+
+# Linting de seguridad (bonus)
+bandit>=1.7.7

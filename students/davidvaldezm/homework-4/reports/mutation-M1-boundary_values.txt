@@ -1,0 +1,16 @@
+F.....F..............................                                    [100%]
+================================== FAILURES ===================================
+____________________ test_transfer_limit_boundaries[BV-A1] ____________________
+tests\test_boundary_values.py:35: in test_transfer_limit_boundaries
+    with pytest.raises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+____________________ test_transfer_limit_boundaries[BV-A7] ____________________
+tests\test_boundary_values.py:35: in test_transfer_limit_boundaries
+    with pytest.raises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_boundary_values.py::test_transfer_limit_boundaries[BV-A1]
+FAILED tests/test_boundary_values.py::test_transfer_limit_boundaries[BV-A7]
+2 failed, 35 passed in 0.20s

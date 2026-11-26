@@ -1,0 +1,10 @@
+[MAIN]
+init-hook=__import__("sys").path.insert(0, __import__("os").getcwd())
+
+[DESIGN]
+max-returns=8
+max-attributes=10
+min-public-methods=1
+
+[SIMILARITIES]
+min-similarity-lines=8

@@ -1,0 +1,40 @@
+name: Homework 4 tests (Rro0O)
+
+on:
+  push:
+    paths: ["students/Rro0O/homework-4/**"]
+  pull_request:
+    paths: ["students/Rro0O/homework-4/**"]
+
+defaults:
+  run:
+    working-directory: students/Rro0O/homework-4
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: pytest -v --cov=src --cov-branch --cov-report=xml --cov-report=term
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage
+          path: students/Rro0O/homework-4/coverage.xml
+
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        with:
+          name: js-coverage
+          path: students/Rro0O/homework-4/coverage

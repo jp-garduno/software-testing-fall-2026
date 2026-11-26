@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-static-testing",
+  "version": "1.0.0",
+  "description": "Portfolio site with static testing infrastructure (Homework 3)",
+  "scripts": {
+    "lint": "eslint src/**/*.js",
+    "lint:report": "eslint src/**/*.js > eslint-report.txt",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.1.0"
+  }
+}

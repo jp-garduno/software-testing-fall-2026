@@ -169,4 +169,4 @@ test(user): add user validation tests
 
 - Complete [Homework 3](./homework/homework-3.md)
 - Preview [Module 4: Black Box Testing](../04-black-box-testing/README.md)
-- Prepare for **Exam 1** (Week 6, Session 2)
+- Prepare for **Exam 1** (Week 6, Session 2) - this module is 30% of it

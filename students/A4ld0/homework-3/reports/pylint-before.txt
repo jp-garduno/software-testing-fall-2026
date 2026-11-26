@@ -1,0 +1,13 @@
+************* Module src.storage
+src\storage.py:3:0: C0410: Multiple imports on one line (os, json) (multiple-imports)
+src\storage.py:17:7: C0123: Use isinstance() rather than type() for a typecheck. (unidiomatic-typecheck)
+src\storage.py:21:7: C0123: Use isinstance() rather than type() for a typecheck. (unidiomatic-typecheck)
+src\storage.py:3:0: W0611: Unused import os (unused-import)
+************* Module src.tasks
+src\tasks.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src\tasks.py:25:4: C0103: Variable name "TaskName" doesn't conform to snake_case naming style (invalid-name)
+src\tasks.py:63:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+src\tasks.py:66:24: C0121: Comparison 'task.completed == True' should be 'task.completed is True' if checking for the singleton value True, or 'bool(task.completed)' if testing for truthiness (singleton-comparison)
+
+-----------------------------------
+Your code has been rated at 9.29/10

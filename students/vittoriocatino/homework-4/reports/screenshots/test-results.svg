@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <rect width="1500" height="900" rx="18" fill="#0d1117"/>
+  <rect width="1500" height="58" rx="18" fill="#21262d"/>
+  <circle cx="30" cy="29" r="9" fill="#ff5f56"/>
+  <circle cx="58" cy="29" r="9" fill="#ffbd2e"/>
+  <circle cx="86" cy="29" r="9" fill="#27c93f"/>
+  <text x="750" y="36" text-anchor="middle" fill="#c9d1d9" font-family="Menlo, monospace" font-size="18">Terminal — pytest</text>
+  <g fill="#c9d1d9" font-family="Menlo, monospace" font-size="22">
+    <text x="32" y="100" fill="#7ee787">$ pytest -v</text>
+    <text x="32" y="142">============================= test session starts ==============================</text>
+    <text x="32" y="180">platform darwin -- Python 3.12.14, pytest-9.0.3, pluggy-1.6.0</text>
+    <text x="32" y="218">rootdir: students/vittoriocatino/homework-4</text>
+    <text x="32" y="256">configfile: pyproject.toml</text>
+    <text x="32" y="294">collecting ... collected 73 items</text>
+    <text x="32" y="350">tests/test_equivalence_partitioning.py .................</text>
+    <text x="1100" y="350" fill="#7ee787">PASSED</text>
+    <text x="32" y="392">tests/test_boundary_values.py .....................</text>
+    <text x="1100" y="392" fill="#7ee787">PASSED</text>
+    <text x="32" y="434">tests/test_decision_tables.py .....................</text>
+    <text x="1100" y="434" fill="#7ee787">PASSED</text>
+    <text x="32" y="476">tests/test_state_transitions.py ..............</text>
+    <text x="1100" y="476" fill="#7ee787">PASSED</text>
+    <text x="32" y="548">tests/test_state_transitions.py::test_st9_closed_account_rejects_transactions</text>
+    <text x="1280" y="548" fill="#7ee787">PASSED</text>
+    <text x="32" y="590">tests/test_state_transitions.py::test_st10_invalid_freeze_does_not_change_frozen_state</text>
+    <text x="1280" y="590" fill="#7ee787">PASSED</text>
+    <text x="32" y="632">tests/test_state_transitions.py::test_st11_closed_account_rejects_second_close</text>
+    <text x="1280" y="632" fill="#7ee787">PASSED</text>
+    <text x="32" y="674">tests/test_state_transitions.py::test_st12_daily_limit_resets_at_midnight</text>
+    <text x="1280" y="674" fill="#7ee787">PASSED</text>
+    <text x="32" y="716">tests/test_state_transitions.py::test_st13_deposit_keeps_active_account_active</text>
+    <text x="1280" y="716" fill="#7ee787">PASSED</text>
+    <text x="32" y="758">tests/test_state_transitions.py::test_st14_zero_deposit_is_rejected_without_state_change</text>
+    <text x="1280" y="758" fill="#7ee787">PASSED</text>
+    <text x="32" y="826" fill="#7ee787">============================== 73 passed in 0.17s ==============================</text>
+  </g>
+</svg>

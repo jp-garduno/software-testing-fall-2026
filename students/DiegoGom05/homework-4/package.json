@@ -1,0 +1,24 @@
+{
+  "name": "homework-4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "banking_system.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./tests/jest.setup.js"
+    ]
+  }
+}

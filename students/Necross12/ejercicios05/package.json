@@ -1,0 +1,16 @@
+{
+  "name": "pruebas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage --verbose"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

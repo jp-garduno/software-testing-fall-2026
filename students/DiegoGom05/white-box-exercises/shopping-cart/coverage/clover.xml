@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1790793575904" clover="3.2.0">
+  <project timestamp="1790793575904" name="All files">
+    <metrics statements="32" coveredstatements="32" conditionals="13" coveredconditionals="13" methods="15" coveredmethods="15" elements="60" coveredelements="60" complexity="0" loc="32" ncloc="32" packages="1" files="1" classes="1"/>
+    <file name="shoppingCart.js" path="C:\Users\2005d\Documents\Iteso\pruebasDeSoftware\software-testing-fall-2026\students\DiegoGom05\white-box-exercises\shopping-cart\shoppingCart.js">
+      <metrics statements="32" coveredstatements="32" conditionals="13" coveredconditionals="13" methods="15" coveredmethods="15"/>
+      <line num="9" count="25" type="cond" truecount="2" falsecount="0"/>
+      <line num="10" count="2" type="stmt"/>
+      <line num="12" count="23" type="cond" truecount="2" falsecount="0"/>
+      <line num="13" count="2" type="stmt"/>
+      <line num="16" count="21" type="stmt"/>
+      <line num="17" count="21" type="stmt"/>
+      <line num="18" count="21" type="stmt"/>
+      <line num="25" count="9" type="stmt"/>
+      <line num="34" count="21" type="stmt"/>
+      <line num="35" count="21" type="stmt"/>
+      <line num="44" count="17" type="stmt"/>
+      <line num="45" count="17" type="cond" truecount="2" falsecount="0"/>
+      <line num="46" count="1" type="stmt"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="51" count="16" type="stmt"/>
+      <line num="60" count="4" type="stmt"/>
+      <line num="61" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="62" count="2" type="stmt"/>
+      <line num="63" count="2" type="stmt"/>
+      <line num="65" count="2" type="stmt"/>
+      <line num="72" count="8" type="stmt"/>
+      <line num="80" count="7" type="cond" truecount="4" falsecount="0"/>
+      <line num="81" count="2" type="stmt"/>
+      <line num="83" count="5" type="stmt"/>
+      <line num="90" count="4" type="stmt"/>
+      <line num="91" count="4" type="stmt"/>
+      <line num="92" count="4" type="stmt"/>
+      <line num="99" count="2" type="stmt"/>
+      <line num="100" count="2" type="stmt"/>
+      <line num="107" count="6" type="stmt"/>
+      <line num="114" count="5" type="stmt"/>
+      <line num="118" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

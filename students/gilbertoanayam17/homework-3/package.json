@@ -1,0 +1,27 @@
+{
+  "name": "static-testing-calculator",
+  "version": "1.0.0",
+  "description": "A small calculator used to practise static testing with ESLint, Prettier and pre-commit",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:security": "eslint . --config .eslintrc.security.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "static-testing",
+    "eslint",
+    "prettier",
+    "pre-commit"
+  ],
+  "author": "Gilberto Anaya Mercado",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-plugin-security": "^2.1.1",
+    "prettier": "^3.2.0"
+  }
+}

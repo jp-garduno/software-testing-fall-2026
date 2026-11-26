@@ -1,0 +1,982 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\playwright.config.js",
+    "rootDir": "C:/Users/david/MYSHIT/homework-8/students/davidvaldezm/homework-8/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../reports/live/playwright-results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "../reports/live/playwright-results.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/david/MYSHIT/homework-8/students/davidvaldezm/homework-8/playwright/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/david/MYSHIT/homework-8/students/davidvaldezm/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "todo-crud.spec.js",
+      "file": "todo-crud.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "create single",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "391.9349000000002"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 946,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:04.285Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "391.9349000000002"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-400d2aee7edfdbc56cf6",
+          "file": "todo-crud.spec.js",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "create multiple",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "364.3505"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 888,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:05.696Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "364.3505"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-0fa6429994e96afc916b",
+          "file": "todo-crud.spec.js",
+          "line": 10,
+          "column": 1
+        },
+        {
+          "title": "complete task",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "338.9715000000001"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 786,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:06.611Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "338.9715000000001"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-cb610cbc6b20e5e78cd8",
+          "file": "todo-crud.spec.js",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "uncomplete task",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "358.27960000000076"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 941,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:07.422Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "358.27960000000076"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-08aba283972e8f9b7e3b",
+          "file": "todo-crud.spec.js",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "complete all",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "359.40959999999995"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1086,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:08.387Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "359.40959999999995"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-e3a107a22c19a710eb5f",
+          "file": "todo-crud.spec.js",
+          "line": 31,
+          "column": 1
+        },
+        {
+          "title": "delete single",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "353.2521000000006"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 829,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:09.501Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "353.2521000000006"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-dd135a5e8076014dd0a0",
+          "file": "todo-crud.spec.js",
+          "line": 39,
+          "column": 1
+        },
+        {
+          "title": "delete completed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "363.0068999999994"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 955,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:10.354Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "363.0068999999994"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-a91528834e340c04291b",
+          "file": "todo-crud.spec.js",
+          "line": 45,
+          "column": 1
+        },
+        {
+          "title": "clear completed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "336.78340000000026"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 919,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:11.336Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "336.78340000000026"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-8370193dae322d5d31be",
+          "file": "todo-crud.spec.js",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "edit enter",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "342.1700000000001"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:12.284Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "342.1700000000001"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-20b63d2771f82ea169ac",
+          "file": "todo-crud.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "edit cancel",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "338.2267000000011"
+                },
+                {
+                  "type": "fail",
+                  "description": "React demo defect: Escape leaves the editor open and does not cancel",
+                  "location": {
+                    "file": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                    "line": 65,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "failed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10848,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('li.editing .edit') to be hidden\u001b[22m\n\u001b[2m    24 × locator resolved to visible <input type=\"text\" class=\"edit\" value=\"Draft\" aria-label=\"Edit todo\" data-testid=\"text-input\"/>\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('li.editing .edit') to be hidden\u001b[22m\n\u001b[2m    24 × locator resolved to visible <input type=\"text\" class=\"edit\" value=\"Draft\" aria-label=\"Edit todo\" data-testid=\"text-input\"/>\u001b[22m\n\n    at TodoPage.editTodo (C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\pages\\TodoPage.js:56:18)\n    at C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\tests\\todo-crud.spec.js:67:5",
+                    "location": {
+                      "file": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\pages\\TodoPage.js",
+                      "column": 18,
+                      "line": 56
+                    },
+                    "snippet": "\u001b[90m   at \u001b[39m..\\pages\\TodoPage.js:56\n\n  54 |       await editor.press(save === 'cancel' ? 'Escape' : 'Enter');\n  55 |     }\n> 56 |     await editor.waitFor({ state: 'hidden', timeout: 10000 });\n     |                  ^\n  57 |   }\n  58 |\n  59 |   async reload() {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\pages\\TodoPage.js",
+                        "column": 18,
+                        "line": 56
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('li.editing .edit') to be hidden\u001b[22m\n\u001b[2m    24 × locator resolved to visible <input type=\"text\" class=\"edit\" value=\"Draft\" aria-label=\"Edit todo\" data-testid=\"text-input\"/>\u001b[22m\n\n\n   at ..\\pages\\TodoPage.js:56\n\n  54 |       await editor.press(save === 'cancel' ? 'Escape' : 'Enter');\n  55 |     }\n> 56 |     await editor.waitFor({ state: 'hidden', timeout: 10000 });\n     |                  ^\n  57 |   }\n  58 |\n  59 |   async reload() {\n    at TodoPage.editTodo (C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\pages\\TodoPage.js:56:18)\n    at C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\tests\\todo-crud.spec.js:67:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:13.162Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "338.2267000000011"
+                    },
+                    {
+                      "type": "fail",
+                      "description": "React demo defect: Escape leaves the editor open and does not cancel",
+                      "location": {
+                        "file": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                        "line": 65,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\test-results\\todo-crud-edit-cancel\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\david\\MYSHIT\\homework-8\\students\\davidvaldezm\\homework-8\\playwright\\pages\\TodoPage.js",
+                    "column": 18,
+                    "line": 56
+                  }
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-03b7fdbb9c6b7ec86200",
+          "file": "todo-crud.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "edit blur",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "353.58740000000034"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 933,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:24.040Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "353.58740000000034"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-d8befc33cc804e6e1712",
+          "file": "todo-crud.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "blank edit deletes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "370.7051999999967"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 885,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:24.997Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "370.7051999999967"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-4f804f7c8be4a23d217c",
+          "file": "todo-crud.spec.js",
+          "line": 64,
+          "column": 3
+        },
+        {
+          "title": "blank creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "353.42299999999886"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 706,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:25.909Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "353.42299999999886"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-d7300a2cc62315bfdb21",
+          "file": "todo-crud.spec.js",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "trim creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "386.1534000000029"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 771,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:26.643Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "386.1534000000029"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-1189d0a1f45da9cf4ce0",
+          "file": "todo-crud.spec.js",
+          "line": 77,
+          "column": 1
+        },
+        {
+          "title": "duplicate tasks",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "371.5818999999974"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 913,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:27.439Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "371.5818999999974"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1426c747b0f8d249d71b-cd1303b084f6318c3933",
+          "file": "todo-crud.spec.js",
+          "line": 82,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "todo-filter.spec.js",
+      "file": "todo-filter.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "filter All",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "378.6762000000017"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1137,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:28.378Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "378.6762000000017"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0401000b6407e623a98-c4da61de5e2cdf262f20",
+          "file": "todo-filter.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "filter Active",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "421.71389999999883"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1105,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:29.540Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "421.71389999999883"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0401000b6407e623a98-ff470b28aab23e0adbbd",
+          "file": "todo-filter.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "filter Completed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "363.28859999999986"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1105,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:30.673Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "363.28859999999986"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0401000b6407e623a98-d38223faccec8cb74806",
+          "file": "todo-filter.spec.js",
+          "line": 8,
+          "column": 3
+        },
+        {
+          "title": "empty filter",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "setup_ms",
+                  "description": "373.1310000000012"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 879,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-24T02:04:31.801Z",
+                  "annotations": [
+                    {
+                      "type": "setup_ms",
+                      "description": "373.1310000000012"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0401000b6407e623a98-a3db58af99703e71c3e0",
+          "file": "todo-filter.spec.js",
+          "line": 17,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-24T02:04:02.620Z",
+    "duration": 30489.048,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

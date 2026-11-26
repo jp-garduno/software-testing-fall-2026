@@ -1,0 +1,49 @@
+name: Homework 3 Static Analysis
+
+on:
+  pull_request:
+    paths:
+      - "students/vittoriocatino/homework-3/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-analysis:
+    name: Validate Homework 3
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: students/vittoriocatino/homework-3
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis tools
+        run: pip install -r requirements.txt
+
+      - name: Check formatting and imports
+        run: |
+          black --check src test_task_service.py
+          isort --check-only --profile black src test_task_service.py
+
+      - name: Run Pylint and Bandit
+        run: |
+          pylint --rcfile=.pylintrc src test_task_service.py
+          bandit -q -r src
+
+      - name: Run tests with coverage
+        run: pytest -q --cov=src --cov-fail-under=90
+
+      - name: Run pre-commit hooks
+        working-directory: .
+        run: >-
+          pre-commit run --all-files
+          --config students/vittoriocatino/homework-3/.pre-commit-config.yaml

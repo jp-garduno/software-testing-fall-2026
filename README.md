@@ -61,11 +61,13 @@ Each module includes a homework assignment to reinforce learning. See individual
 
 ### Exams
 
-- **[Exam 1](./exams/exam-1/)** - Week 6: Git, Testing Concepts, Static Testing
-- **[Exam 2](./exams/exam-2/)** - Week 11: Black Box and White Box Testing, TDD
-- **[Exam 3](./exams/exam-3/)** - Week 16: System Testing, Performance Testing
+- **Exam 1** - Week 6: Git, Static Testing, Black Box Testing (90 minutes, ZIP on Canvas)
+- **Exam 2** - Week 11: Black Box and White Box Testing, TDD (90 minutes, repo URL)
+- **Exam 3** - Week 16: System Testing, Performance Testing (90 minutes, repo URL)
 
-All exams are **practical** - you'll write code and tests to solve real problems. Same submission process as homework.
+All exams are **practical** - no multiple choice. See [exams/README.md](./exams/README.md) for what each one covers and how it is submitted; the statements themselves are published in Canvas.
+
+All three exams last 90 minutes inside a 2-hour session. Note that Exam 1 is the odd one out in the other respects: you **design and document** tests instead of writing automated ones, and you upload a ZIP file rather than a repository URL.
 
 ### Team Project
 

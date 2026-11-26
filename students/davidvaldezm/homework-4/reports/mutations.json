@@ -1,0 +1,62 @@
+[
+  {
+    "id": "M1",
+    "description": "Accept zero transfers",
+    "old": "if amount <= 0:",
+    "new": "if amount < 0:",
+    "detected": {
+      "equivalence_partitioning": true,
+      "boundary_values": true,
+      "decision_tables": true,
+      "state_transitions": false
+    }
+  },
+  {
+    "id": "M2",
+    "description": "Reject an exact daily limit",
+    "old": "amount + self.daily_transfer_total > self.get_daily_limit()",
+    "new": "amount + self.daily_transfer_total >= self.get_daily_limit()",
+    "detected": {
+      "equivalence_partitioning": false,
+      "boundary_values": true,
+      "decision_tables": true,
+      "state_transitions": false
+    }
+  },
+  {
+    "id": "M3",
+    "description": "Waive fees at the exact threshold",
+    "old": "self.balance > threshold",
+    "new": "self.balance >= threshold",
+    "detected": {
+      "equivalence_partitioning": false,
+      "boundary_values": true,
+      "decision_tables": true,
+      "state_transitions": false
+    }
+  },
+  {
+    "id": "M4",
+    "description": "Allow frozen outgoing transactions",
+    "old": "if self.state != \"Active\":",
+    "new": "if self.state not in (\"Active\", \"Frozen\"):",
+    "detected": {
+      "equivalence_partitioning": false,
+      "boundary_values": false,
+      "decision_tables": true,
+      "state_transitions": true
+    }
+  },
+  {
+    "id": "M5",
+    "description": "Force Suspended after every ledger movement",
+    "old": "self.state = \"Active\" if self.balance >= self.minimum else \"Suspended\"",
+    "new": "self.state = \"Suspended\"",
+    "detected": {
+      "equivalence_partitioning": true,
+      "boundary_values": true,
+      "decision_tables": true,
+      "state_transitions": true
+    }
+  }
+]

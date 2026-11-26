@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "script"
+  },
+  "rules": {
+    "eqeqeq": "warn",
+    "no-var": "warn",
+    "no-console": "warn",
+    "no-unused-vars": "warn",
+    "curly": "warn",
+    "semi": ["warn", "always"]
+  }
+}

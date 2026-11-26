@@ -1,0 +1,8 @@
+$ npx eslint .
+
+(no output: 0 problems, exit code 0)
+
+$ npx prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

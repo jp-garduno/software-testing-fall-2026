@@ -1,0 +1,11 @@
+F.....................................                                   [100%]
+================================== FAILURES ===================================
+_____________________ test_transfer_decision_rules[DT-T1] _____________________
+tests\test_decision_tables.py:31: in test_transfer_decision_rules
+    bank.transfer(amount)
+src\banking_system.py:96: in transfer
+    raise ValueError("Exceeds daily limit")
+E   ValueError: Exceeds daily limit
+=========================== short test summary info ===========================
+FAILED tests/test_decision_tables.py::test_transfer_decision_rules[DT-T1] - V...
+1 failed, 37 passed in 0.22s

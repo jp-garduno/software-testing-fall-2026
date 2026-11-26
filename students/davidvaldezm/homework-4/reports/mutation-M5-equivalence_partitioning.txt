@@ -1,0 +1,12 @@
+..................................F...                                   [100%]
+================================== FAILURES ===================================
+_____________________ test_transfer_between_own_accounts ______________________
+tests\test_equivalence_partitioning.py:157: in test_transfer_between_own_accounts
+    assert target.state == "Active"
+E   AssertionError: assert 'Suspended' == 'Active'
+E
+E     - Active
+E     + Suspended
+=========================== short test summary info ===========================
+FAILED tests/test_equivalence_partitioning.py::test_transfer_between_own_accounts
+1 failed, 37 passed in 0.21s

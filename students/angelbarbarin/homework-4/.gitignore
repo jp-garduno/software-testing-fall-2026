@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+coverage.json
+htmlcov/
+python-results.xml
+
+# JavaScript
+node_modules/
+coverage/
+js-results.json
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -38,7 +38,11 @@ You will set up complete static testing infrastructure for a Python or JavaScrip
 - At least 3 Python OR JavaScript files **in `src/` directory**
 - At least 100 lines of code total (excluding tests)
 - Code should have some intentional issues for linters to find
-- Include test files (`test_*.py` or `*.test.js`)
+
+> **Note**: This is a static testing assignment, so you are not required to
+> write tests and neither test results nor coverage affect your grade. If your
+> project already has tests, leave them in — they just aren't graded here.
+> Dynamic testing starts in Module 5.
 
 ---
 
@@ -274,9 +278,9 @@ Brief description of your project (2-3 sentences)
 
 - List your configured hooks
 
-## Testing
+## Linting
 
-Instructions to run tests
+How to run the linters and where the reports are
 ```
 
 **Directory Structure**:
@@ -292,7 +296,6 @@ students/<your-username>/homework-3/
 ├── src/                           # Source code directory
 │   ├── *.py or *.js              # At least 3 files, 100+ lines total
 │   └── ...
-├── test_*.py or *.test.js         # Test files
 └── REPORT.md                      # Analysis report (500+ words, markdown format)
 ```
 
@@ -303,6 +306,8 @@ students/<your-username>/homework-3/
 - At least 3 source files required
 - At least 100 lines of code total in `src/`
 - Pre-commit config must have 5+ hooks
+- Test files are **not** required and are not graded — this assignment covers
+  static testing only
 
 ### Submission Process
 
@@ -358,6 +363,10 @@ students/<your-username>/homework-3/
 | **Analysis Report**      | 15         | Complete analysis, thoughtful insights          |
 | **Documentation**        | 5          | Clear README, well-organized                    |
 | **Total**                | **110**    | (10 bonus points available)                     |
+
+No points are awarded for tests or coverage: this module covers static testing,
+so the automated grade weighs project structure at 75% and linting results at
+25%.
 
 ### Bonus Points
 
@@ -418,7 +427,6 @@ Before submitting:
 - [ ] Pre-commit config has 5+ hooks and works (test with a commit)
 - [ ] At least 3 source files in `src/` directory
 - [ ] At least 100 lines of code total in `src/`
-- [ ] Test files present (test\__.py or _.test.js)
 - [ ] Linting configuration is valid (.pylintrc or .eslintrc.js)
 - [ ] REPORT.md written (500+ words in markdown format)
 - [ ] README.md includes project overview and setup instructions

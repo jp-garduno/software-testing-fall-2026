@@ -1,0 +1,25 @@
+{
+  "name": "homework-4",
+  "version": "1.0.0",
+  "description": "Black box testing suite - SecureBank",
+  "main": "src/bankingSystem.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage --verbose"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/jest.setup.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

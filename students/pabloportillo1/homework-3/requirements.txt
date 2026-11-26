@@ -1,0 +1,15 @@
+# Homework 3 - Static Testing Setup
+# Runtime dependencies: none (standard library only)
+
+# Testing
+pytest>=8.0.0
+pytest-cov>=4.1.0
+
+# Static analysis
+pylint>=3.0.0
+black>=24.1.0
+isort>=5.13.0
+bandit>=1.7.0
+
+# Hook runner
+pre-commit>=3.6.0

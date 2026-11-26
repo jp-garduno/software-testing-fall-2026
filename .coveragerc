@@ -1,0 +1,8 @@
+# Coverage settings for the repository-level run in .github/workflows/ci.yml.
+# coverage.py only reads this file from the directory pytest runs in, so the
+# per-student workflows (working-directory: students/...) are not affected.
+[run]
+omit =
+    */test_*.py
+    */*_test.py
+    */conftest.py

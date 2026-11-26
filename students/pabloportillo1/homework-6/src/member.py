@@ -1,0 +1,35 @@
+from enum import Enum
+
+
+class MemberCategory(Enum):
+    STUDENT = (3, 100)
+    FACULTY = (5, 50)
+    PUBLIC = (2, 150)
+
+    def __init__(self, borrow_limit, daily_late_fee_cents):
+        self.borrow_limit = borrow_limit
+        self.daily_late_fee_cents = daily_late_fee_cents
+
+
+class Member:
+    def __init__(self, member_id, name, category=MemberCategory.STUDENT):
+        self.member_id = member_id
+        self.name = name
+        self.category = category
+        self.borrowed_books = []
+        self.max_borrow_limit = category.borrow_limit
+
+    def can_borrow(self):
+        return len(self.borrowed_books) < self.max_borrow_limit
+
+    def add_borrowed_book(self, isbn):
+        if not self.can_borrow():
+            raise ValueError(f"{self.name} has reached the borrow limit of {self.max_borrow_limit}")
+        if isbn in self.borrowed_books:
+            raise ValueError(f"{self.name} has already borrowed {isbn}")
+        self.borrowed_books.append(isbn)
+
+    def return_book(self, isbn):
+        if isbn not in self.borrowed_books:
+            raise ValueError(f"{self.name} has not borrowed {isbn}")
+        self.borrowed_books.remove(isbn)

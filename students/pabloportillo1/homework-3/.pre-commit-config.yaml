@@ -1,0 +1,64 @@
+# Pre-commit configuration for Homework 3.
+# Every file-based hook is scoped with `files:` so it only touches this
+# submission and never reformats the rest of the course repository. The scope
+# lives on each hook rather than at the top level, because a top-level `files:`
+# also filters the commit message path and would starve the commit-msg hook.
+default_language_version:
+  python: python3.11
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        files: ^students/pabloportillo1/homework-3/
+      - id: end-of-file-fixer
+        files: ^students/pabloportillo1/homework-3/
+      - id: check-yaml
+        files: ^students/pabloportillo1/homework-3/
+      - id: check-json
+        files: ^students/pabloportillo1/homework-3/
+      - id: check-added-large-files
+        files: ^students/pabloportillo1/homework-3/
+        args: ["--maxkb=500"]
+      - id: check-merge-conflict
+        files: ^students/pabloportillo1/homework-3/
+      - id: debug-statements
+        files: ^students/pabloportillo1/homework-3/
+
+  - repo: https://github.com/psf/black
+    rev: 24.2.0
+    hooks:
+      - id: black
+        files: ^students/pabloportillo1/homework-3/
+        args: ["--line-length=120"]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        files: ^students/pabloportillo1/homework-3/
+        args: ["--profile=black", "--line-length=120"]
+
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.1.0
+    hooks:
+      - id: pylint
+        files: ^students/pabloportillo1/homework-3/
+        args:
+          - "--rcfile=students/pabloportillo1/homework-3/.pylintrc"
+        exclude: ^students/pabloportillo1/homework-3/test_
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.8
+    hooks:
+      - id: bandit
+        files: ^students/pabloportillo1/homework-3/
+        args: ["-q"]
+        exclude: ^students/pabloportillo1/homework-3/test_
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]

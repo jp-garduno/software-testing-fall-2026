@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portafolio académico de David Valdez.">
+  <title>David Valdez | Portafolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio">DV</a>
+    <nav aria-label="Navegación principal">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="availability"><span aria-hidden="true"></span> Disponible para aprender y colaborar</p>
+        <h1 id="hero-title">David<br>Valdez</h1>
+        <p class="hero-intro">Estudiante y desarrollador de software enfocado en construir soluciones claras, útiles y verificables.</p>
+        <a class="primary-action" href="#proyectos">Explorar mi trabajo <svg class="link-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a>
+      </div>
+      <div class="hero-mark" aria-hidden="true">
+        <strong>DV</strong>
+        <small>PORTAFOLIO / 2026</small>
+      </div>
+    </section>
+
+    <section class="about" id="sobre-mi" aria-labelledby="about-title">
+      <div>
+        <h2 id="about-title">Aprender, construir,<br>comprobar.</h2>
+      </div>
+      <div class="about-copy">
+        <p>Me interesa convertir ideas en software que las personas puedan entender y usar. Este portafolio documenta mi práctica con HTML, CSS, JavaScript y un flujo de trabajo profesional con Git.</p>
+        <p>Trabajo de forma incremental: separo cada mejora en una rama, escribo commits descriptivos y reviso los cambios antes de integrarlos.</p>
+        <ul class="skills" aria-label="Tecnologías y habilidades">
+          <li>HTML semántico</li>
+          <li>CSS responsive</li>
+          <li>JavaScript</li>
+          <li>Git y GitHub</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="projects" id="proyectos" aria-labelledby="projects-title">
+      <div class="projects-heading">
+        <h2 id="projects-title">Proyectos</h2>
+        <p>Ejercicios académicos que muestran distintas etapas de mi aprendizaje.</p>
+      </div>
+      <div class="project-list">
+        <article>
+          <p class="project-meta">Aplicación web · JavaScript</p>
+          <h3>Recetario digital</h3>
+          <p>Una experiencia para organizar recetas y convertir ingredientes en listas fáciles de consultar.</p>
+          <span class="project-index" aria-hidden="true">A</span>
+        </article>
+        <article>
+          <p class="project-meta">Práctica · Git</p>
+          <h3>Flujo colaborativo</h3>
+          <p>Repositorio de práctica con ramas descriptivas, commits convencionales y revisiones mediante pull requests.</p>
+          <span class="project-index" aria-hidden="true">B</span>
+        </article>
+        <article>
+          <p class="project-meta">Portafolio · HTML/CSS</p>
+          <h3>Este sitio</h3>
+          <p>Una página estática responsive, accesible y construida de forma incremental para documentar mi trabajo.</p>
+          <span class="project-index" aria-hidden="true">C</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto" aria-labelledby="contact-title">
+      <h2 id="contact-title">Construyamos algo<br>que funcione.</h2>
+      <a href="https://github.com/davidvaldezm">Ver perfil en GitHub <svg class="link-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Diseñado y desarrollado por David Valdez.</p>
+    <p>© <span id="year">2026</span></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
