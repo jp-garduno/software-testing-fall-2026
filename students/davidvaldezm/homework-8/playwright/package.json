@@ -1,0 +1,16 @@
+{
+  "name": "homework-8-todomvc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:parallel": "playwright test --workers=2",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "eslint": "8.57.1"
+  }
+}
