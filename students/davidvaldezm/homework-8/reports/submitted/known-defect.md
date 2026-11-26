@@ -1,0 +1,82 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - complementary [ref=e2]:
+    - generic [ref=e3]:
+      - heading "React" [level=3] [ref=e4]
+      - generic [ref=e5]:
+        - heading "React" [level=5] [ref=e6]
+        - link "Source" [ref=e7] [cursor=pointer]:
+          - /url: https://github.com/tastejs/todomvc/tree/gh-pages/examples/react
+        - heading "TypeScript + React" [level=5] [ref=e8]
+        - link "Demo" [ref=e9] [cursor=pointer]:
+          - /url: https://todomvc.com/examples/typescript-react
+        - text: ","
+        - link "Source" [ref=e10] [cursor=pointer]:
+          - /url: https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-react
+    - separator [ref=e11]
+    - blockquote [ref=e12]:
+      - paragraph [ref=e13]: “ React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. ”
+      - link "React" [ref=e15] [cursor=pointer]:
+        - /url: http://facebook.github.io/react
+    - separator [ref=e16]
+    - heading "Official Resources" [level=4] [ref=e17]
+    - list [ref=e18]:
+      - listitem [ref=e19]:
+        - link "Quick Start" [ref=e20] [cursor=pointer]:
+          - /url: https://react.dev/learn
+      - listitem [ref=e21]:
+        - link "API Reference" [ref=e22] [cursor=pointer]:
+          - /url: https://react.dev/reference/react
+      - listitem [ref=e23]:
+        - link "Philosophy" [ref=e24] [cursor=pointer]:
+          - /url: https://petehuntsposts.quora.com/React-Under-the-Hood
+      - listitem [ref=e25]:
+        - link "React Community" [ref=e26] [cursor=pointer]:
+          - /url: https://react.dev/community
+    - heading "Community" [level=4] [ref=e27]
+    - list [ref=e28]:
+      - listitem [ref=e29]:
+        - link "ReactJS on Stack Overflow" [ref=e30] [cursor=pointer]:
+          - /url: https://stackoverflow.com/questions/tagged/reactjs
+    - generic [ref=e31]:
+      - separator [ref=e32]
+      - emphasis [ref=e33]:
+        - text: If you have other helpful links to share, or find any of the links above no longer work, please
+        - link "let us know" [ref=e34] [cursor=pointer]:
+          - /url: https://github.com/tastejs/todomvc/issues
+        - text: .
+  - generic [ref=e35]:
+    - generic [ref=e36]:
+      - heading "todos" [level=1] [ref=e37]
+      - textbox "New Todo Input" [ref=e38]:
+        - /placeholder: What needs to be done?
+    - main [ref=e39]:
+      - generic:
+        - checkbox "❯ Toggle All Input" [ref=e40]
+        - generic: ❯ Toggle All Input
+      - list [ref=e41]:
+        - listitem [ref=e42]:
+          - text: ×
+          - textbox "Edit todo" [active] [ref=e43]: Discard
+    - generic [ref=e44]:
+      - generic [ref=e45]: 1 item left!
+      - list [ref=e46]:
+        - listitem [ref=e47]:
+          - link "All" [ref=e48] [cursor=pointer]:
+            - /url: "#/"
+        - listitem [ref=e49]:
+          - link "Active" [ref=e50] [cursor=pointer]:
+            - /url: "#/active"
+        - listitem [ref=e51]:
+          - link "Completed" [ref=e52] [cursor=pointer]:
+            - /url: "#/completed"
+  - contentinfo [ref=e53]:
+    - paragraph [ref=e54]: Double-click to edit a todo
+    - paragraph [ref=e55]: Created by the TodoMVC Team
+    - paragraph [ref=e56]:
+      - text: Part of
+      - link "TodoMVC" [ref=e57] [cursor=pointer]:
+        - /url: http://todomvc.com
+```

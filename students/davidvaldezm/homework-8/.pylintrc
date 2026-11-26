@@ -1,0 +1,7 @@
+[MAIN]
+persistent=no
+[FORMAT]
+max-line-length=120
+[MESSAGES CONTROL]
+# Assertions and pytest fixture names are the public acceptance vocabulary.
+disable=missing-function-docstring,duplicate-code,too-few-public-methods,redefined-outer-name
