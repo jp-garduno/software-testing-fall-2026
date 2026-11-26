@@ -1,0 +1,39 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error
+simple_single_item_no_shipping,simple,"[{""name"": ""Item1"", ""price"": 50, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,50.00,0.00,4.00,0.00,54.00,
+simple_multiple_items,simple,"[{""name"": ""Pen"", ""price"": 10, ""quantity"": 2, ""weight"": 0}, {""name"": ""Notebook"", ""price"": 5.5, ""quantity"": 3, ""weight"": 0}]",regular,NONE,0,false,36.50,0.00,2.92,0.00,39.42,
+simple_cents_round_tax_up,simple,"[{""name"": ""Cable"", ""price"": 19.99, ""quantity"": 3, ""weight"": 0}]",regular,NONE,0,false,59.97,0.00,4.80,0.00,64.77,
+save10_at_minimum_threshold,discount,"[{""name"": ""Item1"", ""price"": 50, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,50.00,5.00,3.60,0.00,48.60,
+save10_below_minimum,discount,"[{""name"": ""Item1"", ""price"": 49.99, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,49.99,0.00,4.00,0.00,53.99,
+save20_at_minimum_threshold,discount,"[{""name"": ""Item1"", ""price"": 100, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,100.00,20.00,6.40,0.00,86.40,
+save20_below_minimum_gets_nothing,discount,"[{""name"": ""Item1"", ""price"": 99.99, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,99.99,0.00,8.00,0.00,107.99,
+invalid_code_ignored,discount,"[{""name"": ""Item1"", ""price"": 60, ""quantity"": 1, ""weight"": 0}]",regular,BOGUS,0,false,60.00,0.00,4.80,0.00,64.80,
+lowercase_code_is_invalid,discount,"[{""name"": ""Item1"", ""price"": 60, ""quantity"": 1, ""weight"": 0}]",regular,save10,0,false,60.00,0.00,4.80,0.00,64.80,
+newuser_for_new_customer,discount,"[{""name"": ""Item1"", ""price"": 40, ""quantity"": 1, ""weight"": 0}]",new,NEWUSER,0,false,40.00,6.00,2.72,0.00,36.72,
+newuser_rejected_for_regular_customer,discount,"[{""name"": ""Item1"", ""price"": 40, ""quantity"": 1, ""weight"": 0}]",regular,NEWUSER,0,false,40.00,0.00,3.20,0.00,43.20,
+save10_applies_to_multiple_items,discount,"[{""name"": ""A"", ""price"": 30, ""quantity"": 1, ""weight"": 0}, {""name"": ""B"", ""price"": 25, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,55.00,5.50,3.96,0.00,53.46,
+freeship_gives_no_price_discount,discount,"[{""name"": ""Item1"", ""price"": 20, ""quantity"": 1, ""weight"": 2}]",regular,FREESHIP,10,false,20.00,0.00,1.60,0.00,21.60,
+tax_on_round_amount,tax,"[{""name"": ""Item1"", ""price"": 100, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,100.00,0.00,8.00,0.00,108.00,
+tax_rounds_down,tax,"[{""name"": ""Item1"", ""price"": 10.01, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,10.01,0.00,0.80,0.00,10.81,
+tax_rounds_up,tax,"[{""name"": ""Item1"", ""price"": 10.07, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,10.07,0.00,0.81,0.00,10.88,
+tax_is_charged_after_discount,tax,"[{""name"": ""Item1"", ""price"": 200, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,200.00,40.00,12.80,0.00,172.80,
+tax_on_free_item_is_zero,tax,"[{""name"": ""Sample"", ""price"": 0, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,0.00,0.00,0.00,0.00,0.00,
+shipping_weight_only,shipping,"[{""name"": ""Item1"", ""price"": 30, ""quantity"": 2, ""weight"": 1.5}]",regular,NONE,0,false,60.00,0.00,4.80,1.50,66.30,
+shipping_distance_only,shipping,"[{""name"": ""Item1"", ""price"": 40, ""quantity"": 1, ""weight"": 0}]",regular,NONE,100,false,40.00,0.00,3.20,10.00,53.20,
+shipping_weight_and_distance,shipping,"[{""name"": ""Item1"", ""price"": 25, ""quantity"": 2, ""weight"": 2}]",regular,NONE,50,false,50.00,0.00,4.00,7.00,61.00,
+shipping_express_is_one_and_a_half_times,shipping,"[{""name"": ""Item1"", ""price"": 25, ""quantity"": 2, ""weight"": 2}]",regular,NONE,50,true,50.00,0.00,4.00,10.50,64.50,
+freeship_overrides_express,shipping,"[{""name"": ""Item1"", ""price"": 25, ""quantity"": 2, ""weight"": 2}]",regular,FREESHIP,50,true,50.00,0.00,4.00,0.00,54.00,
+shipping_rounds_half_up,shipping,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": 1, ""weight"": 0.333}]",regular,NONE,0,false,10.00,0.00,0.80,0.17,10.97,
+shipping_express_small_order,shipping,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": 1, ""weight"": 1}]",regular,NONE,3,true,10.00,0.00,0.80,1.20,12.00,
+complex_save20_express_two_items,complex,"[{""name"": ""Chair"", ""price"": 60, ""quantity"": 1, ""weight"": 5}, {""name"": ""Cushion"", ""price"": 25, ""quantity"": 2, ""weight"": 1}]",regular,SAVE20,200,true,110.00,22.00,7.04,35.25,130.29,
+complex_new_customer_standard_shipping,complex,"[{""name"": ""Mug"", ""price"": 15, ""quantity"": 3, ""weight"": 0.5}, {""name"": ""Plate"", ""price"": 8.5, ""quantity"": 2, ""weight"": 1.2}]",new,NEWUSER,30,false,62.00,9.30,4.22,4.95,61.87,
+complex_zero_quantity_item_is_ignored,complex,"[{""name"": ""Desk"", ""price"": 100, ""quantity"": 1, ""weight"": 1}, {""name"": ""Lamp"", ""price"": 50, ""quantity"": 0, ""weight"": 10}]",regular,SAVE10,10,false,100.00,10.00,7.20,1.50,98.70,
+complex_maximum_values,complex,"[{""name"": ""Server"", ""price"": 9999.99, ""quantity"": 100, ""weight"": 25}]",regular,SAVE20,20000,false,999999.00,199999.80,63999.94,3250.00,867249.14,
+complex_many_small_items,complex,"[{""name"": ""A"", ""price"": 1.25, ""quantity"": 4, ""weight"": 0.1}, {""name"": ""B"", ""price"": 2.5, ""quantity"": 2, ""weight"": 0.2}, {""name"": ""C"", ""price"": 0.99, ""quantity"": 10, ""weight"": 0.05}, {""name"": ""D"", ""price"": 12, ""quantity"": 1, ""weight"": 1}, {""name"": ""E"", ""price"": 3.33, ""quantity"": 3, ""weight"": 0.3}]",regular,NONE,12,false,41.89,0.00,3.35,2.80,48.04,
+complex_save10_just_above_threshold_express,complex,"[{""name"": ""Item1"", ""price"": 50.01, ""quantity"": 1, ""weight"": 2}]",regular,SAVE10,20,true,50.01,5.00,3.60,4.50,53.11,
+error_negative_price,error,"[{""name"": ""Item1"", ""price"": -5, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,,,,,,price must not be negative
+error_negative_quantity,error,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": -1, ""weight"": 0}]",regular,NONE,0,false,,,,,,quantity must not be negative
+error_negative_weight,error,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": 1, ""weight"": -2}]",regular,NONE,0,false,,,,,,weight must not be negative
+error_fractional_quantity,error,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": 1.5, ""weight"": 0}]",regular,NONE,0,false,,,,,,quantity must be a whole number
+error_negative_distance,error,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": 1, ""weight"": 0}]",regular,NONE,-5,false,,,,,,distance must not be negative
+error_empty_order,error,[],regular,NONE,0,false,,,,,,at least one item
+error_unknown_customer_type,error,"[{""name"": ""Item1"", ""price"": 10, ""quantity"": 1, ""weight"": 0}]",vip,NONE,0,false,,,,,,Invalid customer type

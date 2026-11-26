@@ -104,44 +104,57 @@ FINAL GRADE = (Tests × 40%) + (Coverage × 30%) + (Quality × 20%) + (Structure
 #### 1. Tests (40%)
 
 ```python
-# Runs all Python and JavaScript tests
-pytest -v --junitxml=results.xml
-npm test -- --json
+# Runs the Python and JavaScript tests of the submission directory
+pytest -v --junitxml=python-results.xml --cov=src   # --cov=. without src/
+npm test -- --coverage --json                       # only with the submission's own package.json
+npx playwright test --reporter=json                 # homework 8 only, next to each playwright.config.*
+behave -f json / npx cucumber-js --format json      # homework 8 only, one test per BDD scenario
 
-# Calculates pass rate
-tests_score = (passed_tests / total_tests) × 100
+# Pass rate over all of them; a pytest error (e.g. in a fixture) counts as failed,
+# skipped and xfailed tests count neither way
+tests_score = passed / (passed + failed) × 100
 ```
 
 #### 2. Coverage (30%)
 
 ```python
-# Measures code coverage
-pytest --cov=. --cov-report=json
-npm test -- --coverage
+# Statement coverage per language (homework 5: statements and branches together),
+# averaged over the languages that produced a report
+coverage = average(python_coverage, javascript_coverage)
 
-# Uses coverage percentage directly
-coverage_score = coverage_percentage
+# Full credit at the course target of 80%, proportional below it
+coverage_score = min(coverage / 80 × 100, 100)    # 60% covered -> 75/100
+# No report in either language -> 0
 ```
 
 #### 3. Code Quality (20%)
 
 ```python
-# Checks code style
-pylint **/*.py --output-format=json
-npm run lint
+# Pylint with the course configuration (.github/grading/pylintrc: 120-column lines,
+# docstrings not counted), or the submission's own configuration if it has one
+python_quality = pylint_score × 10                  # 8.5/10 -> 85/100
 
-# Deducts points for violations
-quality_score = 100 - (errors × 5) - (warnings × 1)
+# ESLint errors (warnings are reported but not penalized)
+javascript_quality = 100 if errors == 0 else 85 if errors <= 5 else 70 if errors <= 10 else 50
+
+# Averaged over the languages that were linted; a linter that cannot run is left out
+quality_score = average(python_quality, javascript_quality)
 ```
 
 #### 4. Structure (10%)
 
 ```bash
 # Checks required files
-[ -f README.md ] → +3 points
+[ -f README.md ] → +2 points (+1 in homework 2, 3 and 9)
 [ test files exist ] → +4 points
-[ proper structure ] → +3 points
+[ -d src ] || [ -d tests ] → +4 points
 ```
+
+Homework 1, 2, 3, 8 and 9 have their own checks for the files each assignment asks for (see "Check required files"
+in `.github/workflows/grading-automation.yml`). Homework 1 and 2 weigh structure 60% and give full marks for tests,
+coverage and quality; homework 3 weighs structure 75% and quality 25%; homework 8, whose application under test is
+an external site, grades no coverage and weighs tests 70%, quality 20% and structure 10%; homework 9, a JMeter
+assignment with no code, is graded on structure only.
 
 ### Example Grading Run
 
@@ -156,26 +169,27 @@ Tests:
 - Combined: 33/35 = 94.3%
 
 Coverage:
-- Python: 85%
-- Combined: 85%
+- Python: 68%
+- JavaScript: no report, left out
+- Graded: 68% of the 80% target = 85/100
 
 Code Quality:
-- Pylint: 8.5/10
-- ESLint: 2 warnings
-- Score: 90/100
+- Pylint: 8.5/10 -> 85/100
+- ESLint: 0 errors, 2 warnings -> 100/100
+- Score: 92.5/100
 
 Structure:
 - README.md ✅
 - Tests present ✅
-- Proper structure ✅
+- tests/ directory ✅
 - Score: 10/10
 
 FINAL CALCULATION:
-= (94.3 × 0.40) + (85 × 0.30) + (90 × 0.20) + (100 × 0.10)
-= 37.72 + 25.5 + 18 + 10
-= 91.22/100
+= (94.3 × 0.40) + (85 × 0.30) + (92.5 × 0.20) + (100 × 0.10)
+= 37.72 + 25.5 + 18.5 + 10
+= 91.72/100
 
-Grade: 91.22/100 (A-)
+Grade: 91.72/100
 ```
 
 ---

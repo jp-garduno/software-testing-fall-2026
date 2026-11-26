@@ -1,0 +1,44 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.8, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\david\MYSHIT\.venv-hw8\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\david\MYSHIT\homework-8\students\davidvaldezm\homework-8
+configfile: pytest.ini
+testpaths: selenium/tests
+plugins: platformdirs-4.14.8, cov-7.0.0
+collecting ... collected 19 items
+
+selenium/tests/test_todo_crud.py::test_create_single PASSED              [  5%]
+selenium/tests/test_todo_crud.py::test_create_multiple PASSED            [ 10%]
+selenium/tests/test_todo_crud.py::test_complete_task PASSED              [ 15%]
+selenium/tests/test_todo_crud.py::test_uncomplete_task PASSED            [ 21%]
+selenium/tests/test_todo_crud.py::test_complete_all PASSED               [ 26%]
+selenium/tests/test_todo_crud.py::test_delete_single PASSED              [ 31%]
+selenium/tests/test_todo_crud.py::test_delete_completed PASSED           [ 36%]
+selenium/tests/test_todo_crud.py::test_clear_completed PASSED            [ 42%]
+selenium/tests/test_todo_crud.py::test_edit_enter PASSED                 [ 47%]
+selenium/tests/test_todo_crud.py::test_edit_cancel XFAIL (React demo...) [ 52%]
+selenium/tests/test_todo_crud.py::test_edit_blur PASSED                  [ 57%]
+selenium/tests/test_todo_crud.py::test_blank_creation PASSED             [ 63%]
+selenium/tests/test_todo_crud.py::test_trim_creation PASSED              [ 68%]
+selenium/tests/test_todo_crud.py::test_blank_edit_deletes PASSED         [ 73%]
+selenium/tests/test_todo_crud.py::test_duplicate_tasks PASSED            [ 78%]
+selenium/tests/test_todo_filter.py::test_filter[All-texts0] PASSED       [ 84%]
+selenium/tests/test_todo_filter.py::test_filter[Active-texts1] PASSED    [ 89%]
+selenium/tests/test_todo_filter.py::test_filter[Completed-texts2] PASSED [ 94%]
+selenium/tests/test_todo_filter.py::test_empty_filter PASSED             [100%]
+
+- generated xml file: C:\Users\david\MYSHIT\homework-8\students\davidvaldezm\homework-8\reports\live\selenium-results.xml -
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.8-final-0 _______________
+
+Name                          Stmts   Miss  Cover   Missing
+-----------------------------------------------------------
+selenium\pages\__init__.py        0      0   100%
+selenium\pages\browser.py        14      0   100%
+selenium\pages\todo_page.py      72      2    97%   131-132
+-----------------------------------------------------------
+TOTAL                            86      2    98%
+Coverage JSON written to file reports/live/coverage.json
+=========================== short test summary info ===========================
+XFAIL selenium/tests/test_todo_crud.py::test_edit_cancel - React demo defect: Escape leaves the editor open and does not cancel
+================== 18 passed, 1 xfailed in 113.69s (0:01:53) ==================
