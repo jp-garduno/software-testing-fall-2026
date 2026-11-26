@@ -1,0 +1,802 @@
+{
+  "url": "https://todomvc.com/examples/react/dist/",
+  "exit_status": 0,
+  "browser_setup": {
+    "seconds": 0.44141504199797055,
+    "version": "158.0.8127.37"
+  },
+  "suite_seconds": 5.274527125002351,
+  "tests": [
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_create_single",
+      "phase": "setup",
+      "seconds": 0.7873680419979792,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_create_single",
+      "phase": "call",
+      "seconds": 0.09295550000024377,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_create_single",
+      "phase": "teardown",
+      "seconds": 0.052600333001464605,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_create_multiple",
+      "phase": "setup",
+      "seconds": 0.05460520799897495,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_create_multiple",
+      "phase": "call",
+      "seconds": 0.09814912500223727,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_create_multiple",
+      "phase": "teardown",
+      "seconds": 5.4957999964244664e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_created_task_appears",
+      "phase": "setup",
+      "seconds": 0.0602599999983795,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_created_task_appears",
+      "phase": "call",
+      "seconds": 0.04745958399871597,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_created_task_appears",
+      "phase": "teardown",
+      "seconds": 5.054199937148951e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_complete_single",
+      "phase": "setup",
+      "seconds": 0.05074695900111692,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_complete_single",
+      "phase": "call",
+      "seconds": 0.07963229099914315,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_complete_single",
+      "phase": "teardown",
+      "seconds": 0.057290457996714395,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_uncomplete",
+      "phase": "setup",
+      "seconds": 0.05479679100244539,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_uncomplete",
+      "phase": "call",
+      "seconds": 0.11515041700113215,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_uncomplete",
+      "phase": "teardown",
+      "seconds": 4.891700154985301e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_complete_multiple",
+      "phase": "setup",
+      "seconds": 0.0528453749975597,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_complete_multiple",
+      "phase": "call",
+      "seconds": 0.18057012500139535,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_complete_multiple",
+      "phase": "teardown",
+      "seconds": 5.395799962570891e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_delete_single",
+      "phase": "setup",
+      "seconds": 0.05434649999733665,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_delete_single",
+      "phase": "call",
+      "seconds": 0.33114833300351165,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_delete_single",
+      "phase": "teardown",
+      "seconds": 5.3707997722085565e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_delete_completed",
+      "phase": "setup",
+      "seconds": 0.06390616700082319,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_delete_completed",
+      "phase": "call",
+      "seconds": 0.46193124999990687,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_delete_completed",
+      "phase": "teardown",
+      "seconds": 5.791700095869601e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_clear_completed",
+      "phase": "setup",
+      "seconds": 0.06079570800284273,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_clear_completed",
+      "phase": "call",
+      "seconds": 0.2254547080010525,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_clear_completed",
+      "phase": "teardown",
+      "seconds": 4.9666999984765425e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_edit_text",
+      "phase": "setup",
+      "seconds": 0.060460708002210595,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_edit_text",
+      "phase": "call",
+      "seconds": 0.3440003750001779,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_edit_text",
+      "phase": "teardown",
+      "seconds": 5.7459001254756004e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_cancel_edit",
+      "phase": "setup",
+      "seconds": 0.07075891699787462,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_cancel_edit",
+      "phase": "call",
+      "seconds": 0.39087191699945834,
+      "outcome": "skipped"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_cancel_edit",
+      "phase": "teardown",
+      "seconds": 0.04858879200037336,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_save_edit",
+      "phase": "setup",
+      "seconds": 0.05535441599931801,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_save_edit",
+      "phase": "call",
+      "seconds": 0.38260695799908717,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_crud.py::test_save_edit",
+      "phase": "teardown",
+      "seconds": 5.7041997933993116e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_all",
+      "phase": "setup",
+      "seconds": 0.06467875000089407,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_all",
+      "phase": "call",
+      "seconds": 0.2174889579982846,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_all",
+      "phase": "teardown",
+      "seconds": 4.8833000619197264e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_active",
+      "phase": "setup",
+      "seconds": 0.06896333399708965,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_active",
+      "phase": "call",
+      "seconds": 0.18291279200275312,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_active",
+      "phase": "teardown",
+      "seconds": 4.929199712933041e-05,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_completed",
+      "phase": "setup",
+      "seconds": 0.059513915999559686,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_completed",
+      "phase": "call",
+      "seconds": 0.16046691600058693,
+      "outcome": "passed"
+    },
+    {
+      "engine": "selenium",
+      "test": "selenium/tests/test_todo_filter.py::test_filter_completed",
+      "phase": "teardown",
+      "seconds": 0.15303704100006144,
+      "outcome": "passed"
+    }
+  ],
+  "operations": [
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.34049066600346123,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.023699999999254942,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.06722487500155694,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.05194195800140733,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.021399999998509885,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.020182791999104666,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.019465833000140265,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.01793491699936567,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.05719445900103892,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.02570000000298023,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.022420666999096284,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.04815199999939068,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.01730000000074506,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.02018004099954851,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.046211624998250045,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.052899250000336906,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.024,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.015881584000453586,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.04510325000228477,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.04117716700056917,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.050513124999270076,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.019100000001490116,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.018377500000497093,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.018006791000516387,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.01828508299877285,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.05836708299830207,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.049361792000127025,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.05204366700127139,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.023700000002980233,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.018192540999734774,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "delete_todo",
+      "seconds": 0.30707004200303345,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.061307416999625275,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.026100000001490115,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.016958375003014226,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.01640412500273669,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.06800333299906924,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "delete_todo",
+      "seconds": 0.33121208299780847,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.05804479200014612,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.025800000000745057,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.020558749998599524,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.017129124997154577,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.021444416997837834,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.055741042000590824,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.05368587499833666,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "clear_completed",
+      "seconds": 0.038272666999546345,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.05782783399990876,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.026300000000745057,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.021251999998639803,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "edit_todo",
+      "seconds": 0.30398829199839383,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.06796537499758415,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.026800000000745058,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.02111829199930071,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "edit_todo",
+      "seconds": 0.3599621670000488,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.052642624999862164,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.0205,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.020838874999753898,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "edit_todo",
+      "seconds": 0.3439490829987335,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.062005291001696605,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.022800000000745058,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.01993416700133821,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.01679662500100676,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.01567612500002724,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.06083883400060586,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "filter_by",
+      "seconds": 0.035697374998562736,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "filter_by",
+      "seconds": 0.03110433300025761,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.06620908299737494,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.030300000000745057,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.019957624997914536,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.017478417001257185,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.021412917001725873,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.056085125001118286,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "filter_by",
+      "seconds": 0.0307655420001538,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "navigate",
+      "seconds": 0.05718545799754793,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "page_load",
+      "seconds": 0.026,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.020011749998957384,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.016875792000064394,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "add_todo",
+      "seconds": 0.018871584001317387,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "toggle_todo",
+      "seconds": 0.05636133299776702,
+      "success": true
+    },
+    {
+      "engine": "selenium",
+      "operation": "filter_by",
+      "seconds": 0.02684450000015204,
+      "success": true
+    }
+  ]
+}
