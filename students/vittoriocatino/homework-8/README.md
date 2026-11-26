@@ -20,8 +20,8 @@ python scripts/run_all.py
 Selenium Manager obtiene el controlador compatible con Chrome automáticamente.
 Playwright usa `channel="chrome"`, por lo que ambos frameworks ejecutan el mismo
 navegador instalado. No es necesario descargar los navegadores empaquetados de
-Playwright. En CI se configura `CHROME_BINARY` con la ruta de Chrome instalada
-manualmente. El workflow usa Chrome preinstalado en el runner Ubuntu y comprueba
+Playwright. Para una instalación personalizada se puede definir `CHROME_BINARY`.
+El workflow usa Chrome preinstalado en el runner Ubuntu y comprueba
 su versión antes de ejecutar los tests, igual que el validador general del curso.
 
 ## Comandos separados
