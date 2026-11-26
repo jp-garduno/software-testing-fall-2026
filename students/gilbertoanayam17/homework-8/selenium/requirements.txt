@@ -1,0 +1,2 @@
+selenium>=4.17   # Selenium Manager downloads geckodriver (and Firefox if it is missing)
+pytest>=8.0
