@@ -1,0 +1,244 @@
+{
+  "workflows": [
+    {
+      "name": "complete_standard_order_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Wireless Keyboard",
+                "price": 100.0,
+                "quantity": 1,
+                "weight": 2.0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE20",
+            "distance_km": 20.0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 100.0,
+            "discount": 20.0,
+            "tax": 6.4,
+            "shipping": 3.0,
+            "total": 89.4
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_user_express_order_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "alice.smith@domain.org",
+            "phone": "(415) 987-6543",
+            "billing_address": {
+              "street": "742 Evergreen Terrace",
+              "city": "San Francisco",
+              "state": "CA",
+              "zip": "94102"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "08/2028",
+              "cvv": "998"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Gaming Headset",
+                "price": 80.0,
+                "quantity": 1,
+                "weight": 1.0
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 10.0,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80.0,
+            "discount": 12.0,
+            "tax": 5.44,
+            "shipping": 2.25,
+            "total": 75.69
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        }
+      ]
+    },
+    {
+      "name": "freeship_multi_item_workflow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "carlos.mendez@company.com",
+            "phone": "(312) 555-0199",
+            "billing_address": {
+              "street": "500 W Madison St",
+              "city": "Chicago",
+              "state": "IL",
+              "zip": "60661"
+            },
+            "credit_card": {
+              "number": "5425233430109903",
+              "expiration": "11/2026",
+              "cvv": "456"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Coffee Grinder",
+                "price": 45.0,
+                "quantity": 1,
+                "weight": 2.0
+              },
+              {
+                "name": "Espresso Beans",
+                "price": 20.0,
+                "quantity": 1,
+                "weight": 1.0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "distance_km": 40.0,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 65.0,
+            "discount": 0.0,
+            "tax": 5.2,
+            "shipping": 0.0,
+            "total": 70.2
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rejected_invalid_customer_workflow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "broken-email-address",
+            "phone": "5551234567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2027",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 50.0,
+                "quantity": 1,
+                "weight": 1.0
+              }
+            ]
+          },
+          "expected": {
+            "status": "rejected_invalid_customer"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "failed"
+          }
+        }
+      ]
+    }
+  ]
+}
