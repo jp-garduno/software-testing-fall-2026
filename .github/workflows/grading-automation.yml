@@ -25,6 +25,8 @@ jobs:
         contains(github.event.pull_request.labels.*.name, 'project'))) ||
       github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    # Homework 8 runs browser suites, which can hang; the default is 6 hours.
+    timeout-minutes: 60
     outputs:
       grade: ${{ steps.calculate-grade.outputs.grade }}
       student_name: ${{ steps.extract-info.outputs.student_name }}
@@ -48,6 +50,19 @@ jobs:
           # The submission's code runs in this job. Nothing here needs git
           # credentials - the API calls use GH_TOKEN - so keep the token out of
           # .git/config where that code could read it.
+          persist-credentials: false
+
+      # The course lint configuration comes from the default branch, not from
+      # the pull request: a branch created before .github/grading/ existed has
+      # none, and its code was linted with pylint's defaults. PR #266, branched
+      # in August, lost 52 quality points to docstring findings the course
+      # configuration does not count.
+      - name: Checkout course grading configuration
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: .course-config
+          sparse-checkout: .github/grading
           persist-credentials: false
 
       - name: Set up Python
@@ -260,6 +275,7 @@ jobs:
         if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         env:
           BRANCH_COVERAGE: ${{ steps.extract-info.outputs.assignment == '5' }}
+          SYSTEM_TESTS: ${{ steps.extract-info.outputs.assignment == '8' }}
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -273,6 +289,28 @@ jobs:
           # installed, so a suite that imports anything else died at collection.
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt > pip-install-output.txt 2>&1 || cat pip-install-output.txt
+          fi
+
+          # Homework 8 asks for selenium/requirements.txt, and some submissions
+          # add one under playwright/ or features/ too. Only the root one was
+          # installed, so PR #258 stopped at collection on a Pillow import its
+          # selenium/requirements.txt declares. Its browser tests also need the
+          # Playwright browsers (PR #272: "Executable doesn't exist"), and a
+          # display for a test that starts Chrome without --headless.
+          PYTEST_WRAPPER=()
+          if [ "$SYSTEM_TESTS" = "true" ]; then
+            for REQ in */requirements.txt; do
+              [ -f "$REQ" ] || continue
+              echo "Installing $REQ"
+              pip install -r "$REQ" > pip-install-output.txt 2>&1 || cat pip-install-output.txt
+            done
+            if python -c "import playwright" 2>/dev/null; then
+              python -m playwright install --with-deps > playwright-install-output.txt 2>&1 \
+                || { echo "⚠️  Could not install the Playwright browsers"; tail -20 playwright-install-output.txt; }
+            fi
+            if command -v xvfb-run > /dev/null 2>&1; then
+              PYTEST_WRAPPER=(xvfb-run -a)
+            fi
           fi
 
           # Determine coverage source (prefer src/ to exclude test files from coverage)
@@ -309,14 +347,39 @@ jobs:
           fi
 
           # Run tests with detailed output
-          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE $COV_BRANCH_FLAG --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          "${PYTEST_WRAPPER[@]}" pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE $COV_BRANCH_FLAG --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
           # Extract metrics. The defaults are needed because `|| echo "0"` after
           # a pipeline ending in `head` never fires: head succeeds on empty
           # input, so a run with no summary line used to publish an empty count.
-          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1)
-          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1)
+          #
+          # The counts come from the JUnit report, where a test that errors in
+          # setup (a fixture that cannot start a browser, say) is an error, not
+          # a failure. The summary line was grepped for "passed" and "failed"
+          # only, so errors were not counted at all: PR #272's 22 tests all
+          # errored and it read as a suite with no tests, and "10 passed,
+          # 5 errors" would have scored 100. Skipped and xfailed tests count
+          # neither way, as before.
+          PY_COUNTS=$(python - <<'PY' 2>/dev/null
+          import xml.etree.ElementTree as ET
+          root = ET.parse("python-results.xml").getroot()
+          suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
+          n = {k: sum(int(s.get(k, 0)) for s in suites) for k in ("tests", "failures", "errors", "skipped")}
+          print(n["tests"] - n["failures"] - n["errors"] - n["skipped"], n["failures"] + n["errors"])
+          PY
+          )
+          if [ -n "$PY_COUNTS" ]; then
+            TESTS_PASSED=$(echo "$PY_COUNTS" | awk '{print $1}')
+            TESTS_FAILED=$(echo "$PY_COUNTS" | awk '{print $2}')
+          else
+            TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1)
+            TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1)
+            # From pytest's final "=== ... in 1.23s ===" line only, so a stray
+            # "N error" printed by a test or a plugin is not counted.
+            TESTS_ERRORS=$(grep -E '^=+ .* in [0-9.]+s' python-test-output.txt | tail -1 | grep -oP '\d+ errors?\b' | grep -oP '\d+')
+            TESTS_FAILED=$(( ${TESTS_FAILED:-0} + ${TESTS_ERRORS:-0} ))
+          fi
           TESTS_PASSED=${TESTS_PASSED:-0}
           TESTS_FAILED=${TESTS_FAILED:-0}
 
@@ -376,6 +439,7 @@ jobs:
         if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         env:
           BRANCH_COVERAGE: ${{ steps.extract-info.outputs.assignment == '5' }}
+          SYSTEM_TESTS: ${{ steps.extract-info.outputs.assignment == '8' }}
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -407,8 +471,20 @@ jobs:
             npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
           fi
 
+          # Homework 8: the Playwright step below runs playwright/ itself. Jest's
+          # default testMatch also picks up playwright/tests/*.spec.js, which
+          # fail under Jest, so the same specs would count twice. Only for a
+          # test script that is plain Jest, where the option is understood.
+          JEST_EXTRA=()
+          if [ "$SYSTEM_TESTS" = "true" ]; then
+            TEST_SCRIPT=$(node -e 'try { console.log(require("./package.json").scripts.test || "") } catch (e) {}' 2>/dev/null)
+            if printf '%s' "$TEST_SCRIPT" | grep -qE '^jest( |$)'; then
+              JEST_EXTRA=(--testPathIgnorePatterns /node_modules/ /playwright/)
+            fi
+          fi
+
           # Run tests with coverage
-          npm test -- --coverage --json --outputFile=js-results.json > js-test-output.txt 2>&1
+          npm test -- --coverage --json --outputFile=js-results.json "${JEST_EXTRA[@]}" > js-test-output.txt 2>&1
           NPM_EXIT=$?
 
           # Read the totals from the JSON report the run above already writes.
@@ -502,6 +578,234 @@ jobs:
           cat js-test-output.txt
         continue-on-error: true
 
+      - name: Run Playwright tests (homework 8)
+        id: playwright-tests
+        # Homework 8 asks for the Playwright suite in playwright/, with its own
+        # package.json. The JavaScript step above only runs `npm test` (Jest)
+        # with the package.json at the root, so no Playwright test written in
+        # JavaScript was ever run: 40% of the assignment's rubric. This runs
+        # `playwright test` wherever a submission keeps a Playwright config.
+        if: steps.extract-info.outputs.assignment == '8' && env.SUBMISSION_FOUND == 'true'
+        run: |
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+          set +e
+          ROOT="$PWD"
+          PW_PASSED=0
+          PW_FAILED=0
+          PW_DIRS=""
+          PW_BROKEN=""
+
+          # A root `npm test` that already runs Playwright was counted by the
+          # JavaScript step: PR #270 wraps `playwright test` so that it reports
+          # Jest-style totals and coverage. Running it again would count it twice.
+          # The test script with every `npm run <script>` it calls expanded, so
+          # "test": "npm run e2e" with "e2e": "playwright test" is caught too.
+          ROOT_TEST_SCRIPT=$(node -e '
+          let scripts = {};
+          try { scripts = require("./package.json").scripts || {}; } catch (e) {}
+          const seen = new Set();
+          const expand = (name) => {
+            if (seen.has(name) || !scripts[name]) return "";
+            seen.add(name);
+            const body = scripts[name];
+            const called = [...body.matchAll(/npm run(?:-script)? ([\w:.-]+)/g)].map((m) => expand(m[1]));
+            return [body, ...called].join(" ; ");
+          };
+          console.log(expand("test"));
+          ' 2>/dev/null)
+          if printf '%s' "$ROOT_TEST_SCRIPT" | grep -qi playwright; then
+            echo "ℹ️  The root npm test script runs Playwright (\"$ROOT_TEST_SCRIPT\") and was counted with the JavaScript tests"
+            echo "present=false" >> $GITHUB_OUTPUT
+            echo "counted_by_npm_test=true" >> $GITHUB_OUTPUT
+            echo "tests_passed=0" >> $GITHUB_OUTPUT
+            echo "tests_failed=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          for DIR in . playwright; do
+            CONFIG=$(find "$DIR" -maxdepth 1 -type f -name "playwright.config.*" 2>/dev/null | head -1)
+            [ -n "$CONFIG" ] || continue
+            cd "$ROOT/$DIR"
+            echo "::group::Playwright in $DIR"
+            # The same rule as the JavaScript step: npm walks up the tree, so
+            # without a package.json here it would use somebody else's.
+            if [ ! -f package.json ]; then
+              echo "ℹ️  $CONFIG has no package.json next to it - skipping"
+              echo "::endgroup::"
+              cd "$ROOT"
+              continue
+            fi
+            if [ -f package-lock.json ]; then
+              npm ci --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+            else
+              npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+            fi
+            # The browsers for the version of Playwright the submission declares.
+            npx --no-install playwright install --with-deps > playwright-install-output.txt 2>&1 \
+              || { echo "⚠️  Could not install the Playwright browsers"; tail -20 playwright-install-output.txt; }
+
+            # The JSON reporter's stats: "expected" passed, "flaky" passed on a
+            # retry, "unexpected" failed; skipped tests count neither way. The
+            # report goes to a file so console output from the tests cannot
+            # corrupt it.
+            CI=true PLAYWRIGHT_JSON_OUTPUT_NAME=pw-results.json \
+              npx --no-install playwright test --reporter=json > pw-output.txt 2>&1
+            COUNTS=$(node -e '
+            const s = JSON.parse(require("fs").readFileSync("pw-results.json", "utf8")).stats;
+            if (!s || typeof s.expected !== "number") throw new Error("no stats in the report");
+            console.log(s.expected + (s.flaky || 0), s.unexpected || 0);
+            ' 2>/dev/null)
+            P=$(echo "$COUNTS" | awk '{print $1}')
+            F=$(echo "$COUNTS" | awk '{print $2}')
+            if [ -n "$COUNTS" ] && [ $((P + F)) -gt 0 ]; then
+              echo "🎭 Playwright in $DIR: $P passed, $F failed"
+              PW_PASSED=$((PW_PASSED + P))
+              PW_FAILED=$((PW_FAILED + F))
+            else
+              # The suite did not run at all (a config or import error, or
+              # no test found). Counted as one failed test, so a broken
+              # Playwright suite cannot hide behind a passing Selenium one.
+              echo "❌ Playwright in $DIR ran no tests - counted as 1 failed test"
+              tail -40 pw-output.txt
+              PW_FAILED=$((PW_FAILED + 1))
+              PW_BROKEN="$PW_BROKEN $DIR"
+            fi
+            PW_DIRS="$PW_DIRS $DIR"
+            echo "::endgroup::"
+            cd "$ROOT"
+          done
+
+          if [ -n "$PW_DIRS" ]; then
+            echo "present=true" >> $GITHUB_OUTPUT
+          else
+            echo "present=false" >> $GITHUB_OUTPUT
+          fi
+          echo "dirs=$(echo $PW_DIRS)" >> $GITHUB_OUTPUT
+          echo "broken=$(echo $PW_BROKEN)" >> $GITHUB_OUTPUT
+          echo "tests_passed=$PW_PASSED" >> $GITHUB_OUTPUT
+          echo "tests_failed=$PW_FAILED" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Run BDD scenarios (homework 8)
+        id: bdd-tests
+        # homework-8.md asks for a features/ directory with a .feature file and
+        # its step definitions, but nothing ran them, so the BDD part of the
+        # rubric was left to be graded by hand. Each scenario counts as one
+        # test: behave for Python step definitions, cucumber-js for JavaScript.
+        if: steps.extract-info.outputs.assignment == '8' && env.SUBMISSION_FOUND == 'true'
+        run: |
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+          set +e
+          BDD_PASSED=0
+          BDD_FAILED=0
+          BDD_TOOLS=""
+          BDD_BROKEN=""
+          WRAPPER=()
+          command -v xvfb-run > /dev/null 2>&1 && WRAPPER=(xvfb-run -a)
+
+          # Adds one tool's "<passed> <failed>" to the totals; a run that
+          # reports no scenario at all counts as one failed test, as for
+          # Playwright, so a broken BDD suite cannot go unnoticed.
+          add_counts() {
+            local TOOL="$1" COUNTS="$2" OUTPUT="$3"
+            local P F
+            P=$(echo "$COUNTS" | awk '{print $1}')
+            F=$(echo "$COUNTS" | awk '{print $2}')
+            if [ -n "$COUNTS" ] && [ $((P + F)) -gt 0 ]; then
+              echo "🥒 $TOOL: $P scenario(s) passed, $F failed"
+              BDD_PASSED=$((BDD_PASSED + P))
+              BDD_FAILED=$((BDD_FAILED + F))
+            else
+              echo "❌ $TOOL ran no scenario - counted as 1 failed test"
+              tail -40 "$OUTPUT"
+              BDD_FAILED=$((BDD_FAILED + 1))
+              BDD_BROKEN="$BDD_BROKEN $TOOL"
+            fi
+            BDD_TOOLS="$BDD_TOOLS $TOOL"
+          }
+
+          FEATURES=$(find features -type f -name "*.feature" 2>/dev/null | wc -l)
+          if [ "$FEATURES" -eq 0 ]; then
+            echo "ℹ️  No .feature file in features/ - no BDD scenarios to run"
+          fi
+
+          # behave: Python step definitions in features/steps/, the directory
+          # behave itself requires.
+          if [ "$FEATURES" -gt 0 ] && [ -n "$(find features/steps -type f -name '*.py' 2>/dev/null | head -1)" ]; then
+            echo "::group::behave"
+            rm -f bdd-behave.json  # never a file committed under this name
+            "${WRAPPER[@]}" behave --no-capture -f json -o bdd-behave.json -f progress > bdd-behave-output.txt 2>&1
+            cat bdd-behave-output.txt
+            echo "::endgroup::"
+            # Scenario outlines are expanded into one scenario per example.
+            COUNTS=$(python - <<'PY' 2>/dev/null
+          import json
+          passed = failed = 0
+          for feature in json.load(open("bdd-behave.json")):
+              for element in feature.get("elements", []):
+                  if element.get("type") != "scenario":
+                      continue
+                  status = element.get("status")
+                  if status == "passed":
+                      passed += 1
+                  elif status not in ("skipped", "untested"):
+                      failed += 1
+          print(passed, failed)
+          PY
+          )
+            add_counts behave "$COUNTS" bdd-behave-output.txt
+          fi
+
+          # cucumber-js: JavaScript step definitions and the package.json at
+          # the root that declares @cucumber/cucumber (installed by the
+          # JavaScript step, or here if it did not run).
+          if [ "$FEATURES" -gt 0 ] && [ -f package.json ] && grep -q '"@cucumber/cucumber"' package.json; then
+            echo "::group::cucumber-js"
+            if [ ! -d node_modules/@cucumber/cucumber ]; then
+              if [ -f package-lock.json ]; then
+                npm ci --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+              else
+                npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+              fi
+            fi
+            rm -f bdd-cucumber.json
+            "${WRAPPER[@]}" npx --no-install cucumber-js --format json:bdd-cucumber.json > bdd-cucumber-output.txt 2>&1
+            cat bdd-cucumber-output.txt
+            echo "::endgroup::"
+            # A scenario passes when every step and hook passed; a skipped
+            # one counts neither way; anything else (failed, undefined,
+            # ambiguous, pending) is a failure.
+            COUNTS=$(node -e '
+            let passed = 0, failed = 0;
+            for (const feature of JSON.parse(require("fs").readFileSync("bdd-cucumber.json", "utf8"))) {
+              for (const el of feature.elements || []) {
+                if (el.type !== "scenario") continue;
+                const st = [...(el.before || []), ...(el.steps || []), ...(el.after || [])].map((s) => s.result && s.result.status);
+                if (st.every((s) => s === "passed")) passed++;
+                else if (st.every((s) => s === "passed" || s === "skipped")) continue;
+                else failed++;
+              }
+            }
+            console.log(passed, failed);
+            ' 2>/dev/null)
+            add_counts cucumber-js "$COUNTS" bdd-cucumber-output.txt
+          fi
+
+          if [ -n "$BDD_TOOLS" ]; then
+            echo "present=true" >> $GITHUB_OUTPUT
+          else
+            echo "present=false" >> $GITHUB_OUTPUT
+          fi
+          echo "tools=$(echo $BDD_TOOLS)" >> $GITHUB_OUTPUT
+          echo "broken=$(echo $BDD_BROKEN)" >> $GITHUB_OUTPUT
+          echo "tests_passed=$BDD_PASSED" >> $GITHUB_OUTPUT
+          echo "tests_failed=$BDD_FAILED" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
       - name: Check code quality
         id: code-quality
         if: env.SUBMISSION_FOUND == 'true'
@@ -516,8 +820,8 @@ jobs:
           # Absolute, because the lint runs from inside the student directory and
           # pylint only walks up looking for a configuration while the parent
           # directories are packages - it would never find this one on its own.
-          COURSE_PYLINTRC="$GITHUB_WORKSPACE/.github/grading/pylintrc"
-          COURSE_ESLINTRC="$GITHUB_WORKSPACE/.github/grading/eslintrc.json"
+          COURSE_PYLINTRC="$GITHUB_WORKSPACE/.course-config/.github/grading/pylintrc"
+          COURSE_ESLINTRC="$GITHUB_WORKSPACE/.course-config/.github/grading/eslintrc.json"
 
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -840,8 +1144,8 @@ jobs:
 
           # Check for README (always required)
           if [ -f "README.md" ]; then
-            # For Homework 2 & 3, README is worth 1 point; for others, 2 points
-            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ]; then
+            # For Homework 2, 3 & 9, README is worth 1 point; for others, 2 points
+            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ] || [ "$ASSIGNMENT" = "9" ]; then
               SCORE=$((SCORE + 1))
               echo "✅ README.md found (+1)"
             else
@@ -1058,6 +1362,136 @@ jobs:
 
             # No dynamic test check here on purpose: homework 3 covers static
             # testing, and its rubric awards no points for tests or coverage.
+          elif [ "$ASSIGNMENT" = "8" ]; then
+            # Homework 8: system-level testing. homework-8.md asks for
+            # selenium/, playwright/ and features/ at the root instead of a
+            # src/ or tests/ directory, so the generic check below would take
+            # 4 points from every submission that follows the assignment.
+            # Python and JavaScript are both accepted.
+            echo "Checking Homework 8 structure (Selenium, Playwright, BDD)..."
+
+            count_tests() {
+              find "$1" -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l
+            }
+
+            # Selenium and Playwright tests (2 points each)
+            for TOOL in selenium playwright; do
+              TOOL_TESTS=0
+              if [ -d "$TOOL/tests" ]; then
+                TOOL_TESTS=$(count_tests "$TOOL/tests")
+              fi
+              if [ "$TOOL_TESTS" -ge 1 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ $TOOL/tests/ has $TOOL_TESTS test file(s) (+2)"
+              else
+                echo "❌ No test files in $TOOL/tests/"
+              fi
+            done
+
+            # Page Object Model for both tools (1 point)
+            if [ -d "selenium/pages" ] && [ -d "playwright/pages" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ selenium/pages/ and playwright/pages/ found (+1)"
+            else
+              echo "❌ selenium/pages/ or playwright/pages/ missing"
+            fi
+
+            # BDD feature file (1 point)
+            FEATURES=0
+            if [ -d "features" ]; then
+              FEATURES=$(find features -type f -name "*.feature" | wc -l)
+            fi
+            if [ "$FEATURES" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $FEATURES .feature file(s) in features/ (+1)"
+            else
+              echo "❌ No .feature file in features/"
+            fi
+
+            # Comparison report (1 point)
+            if [ -f "COMPARISON_REPORT.md" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ COMPARISON_REPORT.md found (+1)"
+            else
+              echo "❌ COMPARISON_REPORT.md missing"
+            fi
+
+            # Screenshots (1 point)
+            SHOTS=0
+            if [ -d "screenshots" ]; then
+              # Committed files only: the tests run before this check and may
+              # write screenshots/ themselves.
+              SHOTS=$(git ls-files -- screenshots | wc -l)
+            fi
+            if [ "$SHOTS" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $SHOTS file(s) in screenshots/ (+1)"
+            else
+              echo "❌ No files in screenshots/"
+            fi
+          elif [ "$ASSIGNMENT" = "9" ]; then
+            # Homework 9: performance testing with JMeter. The deliverables are
+            # test plans, their results and reports, not code with unit tests,
+            # so the generic check below would give at most 2 of its 10 points.
+            echo "Checking Homework 9 structure (JMeter plans, results, reports)..."
+
+            # Test plans (1 point each): any .jmx under jmeter/ whose name
+            # says which test it is, e.g. load_test.jmx.
+            for PLAN in load stress spike; do
+              PLANS=0
+              if [ -d "jmeter" ]; then
+                PLANS=$(find jmeter -type f -iname "*${PLAN}*.jmx" | wc -l)
+              fi
+              if [ "$PLANS" -ge 1 ]; then
+                SCORE=$((SCORE + 1))
+                echo "✅ $PLAN test plan found in jmeter/ (+1)"
+              else
+                echo "❌ No $PLAN test plan (jmeter/*${PLAN}*.jmx)"
+              fi
+            done
+
+            # Results (1 point): the raw .jtl files of the runs
+            JTL=0
+            if [ -d "results" ]; then
+              # Committed files only, as for screenshots below. In a git pathspec
+              # "*" also matches "/", so this covers subdirectories too.
+              JTL=$(git ls-files -- "results/*.jtl" | wc -l)
+            fi
+            if [ "$JTL" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $JTL .jtl result file(s) in results/ (+1)"
+            else
+              echo "❌ No .jtl result files in results/"
+            fi
+
+            # Screenshots (1 point)
+            SHOTS=0
+            if [ -d "screenshots" ]; then
+              # Committed files only: the tests run before this check and may
+              # write screenshots/ themselves.
+              SHOTS=$(git ls-files -- screenshots | wc -l)
+            fi
+            if [ "$SHOTS" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $SHOTS file(s) in screenshots/ (+1)"
+            else
+              echo "❌ No files in screenshots/"
+            fi
+
+            # Reports (1 point each, 100+ words so an empty template does not count)
+            for DOC in PERFORMANCE_STRATEGY.md RESULTS.md ANALYSIS_REPORT.md PERFORMANCE_REPORT.md; do
+              if [ -f "$DOC" ]; then
+                DOC_WORDS=$(wc -w < "$DOC")
+                if [ "$DOC_WORDS" -ge 100 ]; then
+                  SCORE=$((SCORE + 1))
+                  echo "✅ $DOC found: $DOC_WORDS words (+1)"
+                else
+                  echo "⚠️  $DOC found but too brief: $DOC_WORDS/100 words"
+                fi
+              else
+                echo "❌ $DOC missing"
+              fi
+            done
           else
             # Code-based homework: check for tests and structure
             # Search recursively: these assignments ask for the tests in a
@@ -1111,6 +1545,26 @@ jobs:
             CODE_QUALITY_WEIGHT=25
             STRUCTURE_WEIGHT=75
             echo "Homework 3 detected - static testing assignment, using adjusted weights (Structure: 75%, Quality: 25%, Tests/Coverage: not applicable)"
+          elif [ "$ASSIGNMENT" = "8" ]; then
+            # Homework 8 tests an external site (TodoMVC), so coverage can only
+            # measure the submission's own page objects and tests: about 95%
+            # whenever they run, 0 when they do not, which charges the same
+            # failure twice. Its weight goes to the tests, which here include
+            # the Selenium, Playwright and BDD suites.
+            TESTS_WEIGHT=70
+            COVERAGE_WEIGHT=0
+            CODE_QUALITY_WEIGHT=20
+            STRUCTURE_WEIGHT=10
+            echo "Homework 8 detected - system tests of an external site, coverage not graded (Tests: 70%, Quality: 20%, Structure: 10%)"
+          elif [ "$ASSIGNMENT" = "9" ]; then
+            # Homework 9 is a JMeter assignment: its deliverables are test plans,
+            # results and reports, with no code to unit test, cover or lint.
+            # Graded on the regular weights, a complete submission scored 22/100.
+            TESTS_WEIGHT=0
+            COVERAGE_WEIGHT=0
+            CODE_QUALITY_WEIGHT=0
+            STRUCTURE_WEIGHT=100
+            echo "Homework 9 detected - JMeter assignment, graded on its deliverables only (Structure: 100%, Tests/Coverage/Quality: not applicable)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
@@ -1128,8 +1582,16 @@ jobs:
           JS_FAILED=${{ steps.js-tests.outputs.tests_failed || '0' }}
           JS_TOTAL=$((JS_PASSED + JS_FAILED))
 
-          TOTAL_PASSED=$((PY_PASSED + JS_PASSED))
-          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL))
+          # Homework 8 only; 0 for every other assignment.
+          PW_PASSED=${{ steps.playwright-tests.outputs.tests_passed || '0' }}
+          PW_FAILED=${{ steps.playwright-tests.outputs.tests_failed || '0' }}
+          PW_TOTAL=$((PW_PASSED + PW_FAILED))
+          BDD_PASSED=${{ steps.bdd-tests.outputs.tests_passed || '0' }}
+          BDD_FAILED=${{ steps.bdd-tests.outputs.tests_failed || '0' }}
+          BDD_TOTAL=$((BDD_PASSED + BDD_FAILED))
+
+          TOTAL_PASSED=$((PY_PASSED + JS_PASSED + PW_PASSED + BDD_PASSED))
+          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL + PW_TOTAL + BDD_TOTAL))
 
           # Calculate test score (0-100)
           if [ $TOTAL_TESTS -gt 0 ]; then
@@ -1480,6 +1942,15 @@ jobs:
             NEXT_STEPS="1. Review the linting output in the Actions tab
           2. Fix any remaining linting issues and make sure the pre-commit hooks run
           3. Update documentation if needed"
+          elif [ "$ASSIGNMENT" = "9" ]; then
+            # Homework 9 is graded on its deliverables only, so show just that row.
+            BREAKDOWN_ROWS="| **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+            DYNAMIC_SECTION="#### Tests, Coverage & Code Quality
+          - Not applicable: homework 9 is a JMeter assignment and is graded on its test plans, results and reports."
+            QUALITY_LINES="- Not graded for this assignment."
+            NEXT_STEPS="1. Review the Required Files output in the Actions tab
+          2. Add any missing test plan, result file or report
+          3. The instructor grades the content of the reports by hand"
           else
             BREAKDOWN_ROWS="| **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
           | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
@@ -1551,12 +2022,38 @@ jobs:
           $JS_COV_LINE"
             fi
 
+            # Homework 8 only. The directory names are the fixed "." and
+            # "playwright" the step loops over, never student input.
+            PW_SECTION=""
+            if [ "$ASSIGNMENT" = "8" ]; then
+              if [ "${{ steps.playwright-tests.outputs.counted_by_npm_test }}" = "true" ]; then
+                PW_SECTION="
+          #### Playwright Tests
+          - Your root \`npm test\` runs Playwright, so these tests are counted under JavaScript Tests above."
+              elif [ "${{ steps.playwright-tests.outputs.present }}" = "true" ]; then
+                PW_SECTION="
+          #### Playwright Tests
+          - ✅ Passed: ${{ steps.playwright-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.playwright-tests.outputs.tests_failed }}
+          - Run with \`npx playwright test\` in: \`${{ steps.playwright-tests.outputs.dirs }}\`. Coverage is not measured for Playwright."
+                if [ -n "${{ steps.playwright-tests.outputs.broken }}" ]; then
+                  PW_SECTION="$PW_SECTION
+          - ⚠️ No test ran in \`${{ steps.playwright-tests.outputs.broken }}\` (a configuration or import error, or no test found), counted as 1 failed test. The Actions log shows Playwright's output."
+                fi
+              else
+                PW_SECTION="
+          #### Playwright Tests
+          - No \`playwright.config.*\` with a \`package.json\` next to it at the root or in \`playwright/\`, so no JavaScript Playwright suite ran. Playwright tests written in Python are counted under Python Tests."
+              fi
+            fi
+
             DYNAMIC_SECTION="#### Python Tests
           - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
           - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
           $PY_COV_LINE$PY_STARTUP_BLOCK
 
           $JS_SECTION
+          $PW_SECTION
 
           #### How coverage is scored
           - The target is **${{ steps.calculate-grade.outputs.coverage_target }}%**, not 100%. At or above it you get the whole category; below it the score scales down proportionally, so 60% covered scores 75/100.
@@ -1565,6 +2062,44 @@ jobs:
           2. Fix any failing tests or linting issues
           3. Ensure coverage meets the minimum threshold (80%)
           4. Update documentation if needed"
+
+            # Homework 8 grades no coverage (see "Calculate final grade") and
+            # runs its BDD scenarios, so the report says that instead. The tool
+            # names are the fixed "behave" and "cucumber-js", never student input.
+            if [ "$ASSIGNMENT" = "8" ]; then
+              BREAKDOWN_ROWS="| **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
+          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+
+              if [ "${{ steps.bdd-tests.outputs.present }}" = "true" ]; then
+                BDD_SECTION="#### BDD Scenarios
+          - ✅ Passed: ${{ steps.bdd-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.bdd-tests.outputs.tests_failed }}
+          - Each scenario counts as one test, run with: \`${{ steps.bdd-tests.outputs.tools }}\`."
+                if [ -n "${{ steps.bdd-tests.outputs.broken }}" ]; then
+                  BDD_SECTION="$BDD_SECTION
+          - ⚠️ \`${{ steps.bdd-tests.outputs.broken }}\` ran no scenario (a configuration or import error, or undefined steps), counted as 1 failed test. The Actions log shows its output."
+                fi
+              else
+                BDD_SECTION="#### BDD Scenarios
+          - No \`.feature\` file in \`features/\` with step definitions (Python under \`features/steps/\` for behave, or \`@cucumber/cucumber\` in the root \`package.json\`), so no scenario ran."
+              fi
+
+              DYNAMIC_SECTION="#### Python Tests
+          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}$PY_STARTUP_BLOCK
+
+          $(printf '%s' "$JS_SECTION" | grep -v '📊 Coverage')
+          $PW_SECTION
+
+          $BDD_SECTION
+
+          #### Coverage
+          - Not graded for homework 8: the application under test is an external site, so coverage would only measure your own page objects and tests. Its weight goes to the tests."
+              NEXT_STEPS="1. Review the detailed test output in the Actions tab
+          2. Fix any failing tests, scenarios or linting issues
+          3. Update documentation if needed"
+            fi
           fi
 
           REPORT="## 📊 Automated Grading Report
