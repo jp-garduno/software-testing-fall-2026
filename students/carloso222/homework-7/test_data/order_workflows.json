@@ -1,0 +1,379 @@
+{
+  "reference_date": "2026-01-15",
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "description": "Valid customer, SAVE10, standard shipping, payment succeeds",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Widget",
+                "price": 40,
+                "quantity": 2,
+                "weight": 1
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE10",
+            "distance_km": 10,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80.0,
+            "discount": 8.0,
+            "tax": 5.76,
+            "shipping": 2.0,
+            "total": 79.76
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 79.76
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_newuser_express_flow",
+      "description": "New customer uses NEWUSER with express shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "maria@example.org",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "5500000000000004",
+              "expiration": "01/2026",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Book",
+                "price": 25,
+                "quantity": 2,
+                "weight": 1
+              },
+              {
+                "name": "Pen",
+                "price": 10,
+                "quantity": 1,
+                "weight": 0.5
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 15,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 60.0,
+            "discount": 9.0,
+            "tax": 4.08,
+            "shipping": 4.13,
+            "total": 59.21
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 59.21
+          }
+        }
+      ]
+    },
+    {
+      "name": "freeship_flow",
+      "description": "FREESHIP removes the shipping cost",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Lamp",
+                "price": 30,
+                "quantity": 1,
+                "weight": 3
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "distance_km": 100,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 30.0,
+            "discount": 0.0,
+            "tax": 2.4,
+            "shipping": 0.0,
+            "total": 32.4
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 32.4
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_card_payment_declined",
+      "description": "Luhn-invalid card: validation fails and payment is declined",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830367",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": ["Invalid credit card number"]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Desk",
+                "price": 50,
+                "quantity": 1,
+                "weight": 0
+              }
+            ],
+            "customer_type": "regular",
+            "distance_km": 0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 50.0,
+            "discount": 0.0,
+            "tax": 4.0,
+            "shipping": 0.0,
+            "total": 54.0
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "reason": "Invalid payment information"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expired_card_payment_declined",
+      "description": "Expired card: payment is declined",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2025",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": ["Credit card expired"]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Chair",
+                "price": 120,
+                "quantity": 1,
+                "weight": 6
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE20",
+            "distance_km": 20,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 120.0,
+            "discount": 24.0,
+            "tax": 7.68,
+            "shipping": 5.0,
+            "total": 108.68
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "reason": "Invalid payment information"
+          }
+        }
+      ]
+    },
+    {
+      "name": "payment_without_order_fails",
+      "description": "Paying before creating an order fails",
+      "steps": [
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "failed",
+            "reason": "No order created"
+          }
+        }
+      ]
+    },
+    {
+      "name": "negative_price_order_rejected",
+      "description": "An order with a negative price is rejected",
+      "steps": [
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Bad",
+                "price": -5,
+                "quantity": 1,
+                "weight": 0
+              }
+            ],
+            "customer_type": "regular"
+          },
+          "expected": {
+            "status": "rejected",
+            "reason": "Item 0: price cannot be negative"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "failed",
+            "reason": "No order created"
+          }
+        }
+      ]
+    }
+  ]
+}

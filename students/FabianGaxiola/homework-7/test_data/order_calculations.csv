@@ -1,0 +1,35 @@
+test_name,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total
+simple_single_50,"[{""name"":""Notebook"",""price"":50,""quantity"":1,""weight"":1}]",regular,NONE,10,false,50.00,0.00,4.00,1.50,55.50
+simple_two_items,"[{""name"":""Pen pack"",""price"":25,""quantity"":2,""weight"":0.5}]",regular,NONE,0,false,50.00,0.00,4.00,0.50,54.50
+simple_distance_order,"[{""name"":""Headphones"",""price"":100,""quantity"":1,""weight"":2}]",regular,NONE,25,false,100.00,0.00,8.00,3.50,111.50
+save10_exact_threshold,"[{""name"":""Mug"",""price"":50,""quantity"":1,""weight"":1}]",regular,SAVE10,0,false,50.00,0.00,4.00,0.50,54.50
+save10_over_threshold,"[{""name"":""Mug"",""price"":50.01,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,50.01,5.00,3.60,0.00,48.61
+save20_exact_threshold,"[{""name"":""Lamp"",""price"":100,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,100.00,0.00,8.00,0.00,108.00
+save20_over_threshold,"[{""name"":""Lamp"",""price"":100.01,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,100.01,20.00,6.40,0.00,86.41
+unknown_discount_code,"[{""name"":""Cable"",""price"":80,""quantity"":1,""weight"":0}]",regular,EXPIRED,0,false,80.00,0.00,6.40,0.00,86.40
+newuser_regular_customer,"[{""name"":""Book"",""price"":20,""quantity"":1,""weight"":0}]",regular,NEWUSER,0,false,20.00,0.00,1.60,0.00,21.60
+newuser_first_order,"[{""name"":""Book"",""price"":20,""quantity"":1,""weight"":0}]",new,NEWUSER,0,false,20.00,3.00,1.36,0.00,18.36
+freeship_overrides_distance,"[{""name"":""Coat"",""price"":25,""quantity"":1,""weight"":1}]",regular,FREESHIP,100,false,25.00,0.00,2.00,0.00,27.00
+tax_small_amount,"[{""name"":""Sticker"",""price"":1.25,""quantity"":1,""weight"":0}]",regular,NONE,0,false,1.25,0.00,0.10,0.00,1.35
+tax_rounding_up,"[{""name"":""Cable"",""price"":12.34,""quantity"":1,""weight"":0}]",regular,NONE,0,false,12.34,0.00,0.99,0.00,13.33
+tax_after_save10,"[{""name"":""Watch"",""price"":123.45,""quantity"":1,""weight"":0}]",regular,SAVE10,0,false,123.45,12.35,8.89,0.00,119.99
+tax_after_save20,"[{""name"":""Console"",""price"":250,""quantity"":1,""weight"":0}]",regular,SAVE20,0,false,250.00,50.00,16.00,0.00,216.00
+shipping_weight_only,"[{""name"":""Bottle"",""price"":10,""quantity"":1,""weight"":2}]",regular,NONE,0,false,10.00,0.00,0.80,1.00,11.80
+shipping_distance_only,"[{""name"":""Ebook"",""price"":10,""quantity"":1,""weight"":0}]",regular,NONE,25,false,10.00,0.00,0.80,2.50,13.30
+shipping_weight_and_distance,"[{""name"":""Shoes"",""price"":10,""quantity"":1,""weight"":2}]",regular,NONE,25,false,10.00,0.00,0.80,3.50,14.30
+shipping_express_combined,"[{""name"":""Shoes"",""price"":10,""quantity"":1,""weight"":2}]",regular,NONE,25,true,10.00,0.00,0.80,5.25,16.05
+shipping_express_distance,"[{""name"":""Ebook"",""price"":10,""quantity"":1,""weight"":0}]",regular,NONE,10,true,10.00,0.00,0.80,1.50,12.30
+shipping_freeship_express,"[{""name"":""Tent"",""price"":10,""quantity"":1,""weight"":10}]",regular,FREESHIP,100,true,10.00,0.00,0.80,0.00,10.80
+complex_multiple_items_save10,"[{""name"":""Notebook"",""price"":20,""quantity"":2,""weight"":1},{""name"":""Pen"",""price"":15,""quantity"":2,""weight"":0.5}]",regular,SAVE10,20,false,70.00,7.00,5.04,3.50,71.54
+complex_multiple_items_express,"[{""name"":""Camera"",""price"":120,""quantity"":1,""weight"":2},{""name"":""Card"",""price"":35,""quantity"":1,""weight"":1}]",regular,SAVE20,120,true,155.00,31.00,9.92,20.25,154.17
+edge_zero_quantity,"[{""name"":""Unused item"",""price"":100,""quantity"":0,""weight"":1}]",regular,NONE,0,false,0.00,0.00,0.00,0.00,0.00
+edge_zero_price_shipping,"[{""name"":""Free sample"",""price"":0,""quantity"":2,""weight"":0.25}]",regular,NONE,10,false,0.00,0.00,0.00,1.25,1.25
+complex_high_value_express,"[{""name"":""Display"",""price"":9999.99,""quantity"":2,""weight"":2.5}]",regular,SAVE20,1000,true,19999.98,4000.00,1280.00,153.75,17433.73
+complex_newuser_fractional,"[{""name"":""Tea"",""price"":19.99,""quantity"":3,""weight"":0.3}]",new,NEWUSER,12.3,false,59.97,9.00,4.08,1.68,56.73
+freeship_order_over_100,"[{""name"":""Chair"",""price"":100,""quantity"":1,""weight"":8}]",regular,FREESHIP,250,false,100.00,0.00,8.00,0.00,108.00
+lowercase_code_is_invalid,"[{""name"":""Keyboard"",""price"":60,""quantity"":1,""weight"":1}]",regular,save10,10,false,60.00,0.00,4.80,1.50,66.30
+multiple_items_save10,"[{""name"":""Shirt"",""price"":30,""quantity"":1,""weight"":0.5},{""name"":""Belt"",""price"":25,""quantity"":1,""weight"":1}]",regular,SAVE10,5,false,55.00,5.50,3.96,1.25,54.71
+newuser_fractional_rounding,"[{""name"":""Snack"",""price"":11.11,""quantity"":3,""weight"":0.1}]",new,NEWUSER,3,false,33.33,5.00,2.27,0.45,31.05
+shipping_large_distance,"[{""name"":""Parcel"",""price"":10,""quantity"":1,""weight"":1}]",regular,NONE,10000,false,10.00,0.00,0.80,1000.50,1011.30
+shipping_many_heavy_items,"[{""name"":""Tile"",""price"":5,""quantity"":100,""weight"":2}]",regular,NONE,0,false,500.00,0.00,40.00,100.00,640.00
+shipping_express_fractional_cent,"[{""name"":""Sample"",""price"":10,""quantity"":1,""weight"":0.01}]",regular,NONE,0,true,10.00,0.00,0.80,0.01,10.81
