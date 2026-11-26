@@ -1,0 +1,48 @@
+{
+  "browser": "firefox",
+  "version": "157.0",
+  "iterations": 5,
+  "todoCount": 50,
+  "metrics": {
+    "load": {
+      "median": 1262.813292,
+      "min": 988.043459,
+      "max": 2140.703917
+    },
+    "domContentLoaded": {
+      "median": 1176,
+      "min": 678,
+      "max": 1787
+    },
+    "loadEvent": {
+      "median": 1243,
+      "min": 962,
+      "max": 2089
+    },
+    "firstContentfulPaint": {
+      "median": 830,
+      "min": 519,
+      "max": 1422
+    },
+    "addTodos": {
+      "median": 301.520125,
+      "min": 289.474167,
+      "max": 683.095083
+    },
+    "toggleAll": {
+      "median": 47.725416,
+      "min": 42.792875,
+      "max": 56.287542
+    },
+    "filter": {
+      "median": 49.034708,
+      "min": 48.752416,
+      "max": 51.872417
+    },
+    "clearCompleted": {
+      "median": 53.678,
+      "min": 52.829833,
+      "max": 59.186166
+    }
+  }
+}

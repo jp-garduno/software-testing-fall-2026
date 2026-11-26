@@ -1,0 +1,32 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.18, pytest-9.2.0, pluggy-1.7.0 -- <tools>/venv/bin/python
+rootdir: .
+configfile: pytest.ini
+testpaths: selenium/tests, tests
+collecting ... collected 21 items
+
+selenium/tests/test_todo_crud.py::test_create_single_task PASSED         [  4%]
+selenium/tests/test_todo_crud.py::test_create_multiple_tasks PASSED      [  9%]
+selenium/tests/test_todo_crud.py::test_new_task_appears_at_end_of_list_and_input_is_trimmed PASSED [ 14%]
+selenium/tests/test_todo_crud.py::test_blank_task_is_not_created PASSED  [ 19%]
+selenium/tests/test_todo_crud.py::test_mark_task_as_complete PASSED      [ 23%]
+selenium/tests/test_todo_crud.py::test_unmark_completed_task PASSED      [ 28%]
+selenium/tests/test_todo_crud.py::test_complete_multiple_tasks PASSED    [ 33%]
+selenium/tests/test_todo_crud.py::test_toggle_all_completes_every_task PASSED [ 38%]
+selenium/tests/test_todo_crud.py::test_delete_single_task PASSED         [ 42%]
+selenium/tests/test_todo_crud.py::test_delete_completed_task PASSED      [ 47%]
+selenium/tests/test_todo_crud.py::test_clear_all_completed_tasks PASSED  [ 52%]
+selenium/tests/test_todo_crud.py::test_edit_task_text PASSED             [ 57%]
+selenium/tests/test_todo_crud.py::test_cancel_edit_without_changes_keeps_original PASSED [ 61%]
+selenium/tests/test_todo_crud.py::test_escape_cancels_edit XFAIL (Ap...) [ 66%]
+selenium/tests/test_todo_crud.py::test_save_edited_task_on_blur PASSED   [ 71%]
+selenium/tests/test_todo_crud.py::test_saving_empty_text_deletes_task PASSED [ 76%]
+selenium/tests/test_todo_filter.py::test_view_all_tasks PASSED           [ 80%]
+selenium/tests/test_todo_filter.py::test_view_active_tasks_only PASSED   [ 85%]
+selenium/tests/test_todo_filter.py::test_view_completed_tasks_only PASSED [ 90%]
+selenium/tests/test_todo_filter.py::test_completing_task_under_active_filter_hides_it PASSED [ 95%]
+tests/test_bdd.py::test_all_bdd_scenarios_pass PASSED                    [100%]
+
+=========================== short test summary info ============================
+XFAIL selenium/tests/test_todo_crud.py::test_escape_cancels_edit - Application defect: the edit field ignores Escape, although the TodoMVC spec says it discards the edit
+======================== 20 passed, 1 xfailed in 56.91s ========================

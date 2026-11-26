@@ -1,0 +1,50 @@
+{
+  "runs": 5,
+  "tests_per_suite": 20,
+  "timings": {
+    "selenium": {
+      "median": 45.26593225001125,
+      "min": 43.803002750035375,
+      "max": 76.66122991702287
+    },
+    "playwright": {
+      "median": 40.07492062501842,
+      "min": 30.961309375008568,
+      "max": 71.91654725000262
+    },
+    "playwright_parallel": {
+      "median": 14.23541587498039,
+      "min": 8.795190042001195,
+      "max": 19.642857958038803
+    }
+  },
+  "setup": {
+    "selenium": {
+      "browser_start": 0.43552922949311323,
+      "navigation": 2.2689981875300873,
+      "version": "158.0.8127.88",
+      "iterations": 10
+    },
+    "playwright": {
+      "browser_start": 0.10508735400000023,
+      "new_context": 0.0371695004999998,
+      "navigation": 1.264660625,
+      "version": "156.0.8078.4",
+      "iterations": 10
+    }
+  },
+  "lines_of_code": {
+    "Page object": {
+      "selenium": 110,
+      "playwright": 89
+    },
+    "Tests": {
+      "selenium": 110,
+      "playwright": 138
+    },
+    "Setup and configuration": {
+      "selenium": 27,
+      "playwright": 29
+    }
+  }
+}

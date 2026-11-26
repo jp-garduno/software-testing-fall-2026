@@ -1,0 +1,10 @@
+{
+  "note": "First benchmark run, same day and machine; only the suite timings are kept",
+  "runs": 5,
+  "tests_per_suite": 20,
+  "timings": {
+    "selenium": { "median": 35.40, "min": 30.96, "max": 42.66 },
+    "playwright": { "median": 22.54, "min": 17.76, "max": 26.18 },
+    "playwright_parallel": { "median": 8.42, "min": 6.05, "max": 11.37 }
+  }
+}
