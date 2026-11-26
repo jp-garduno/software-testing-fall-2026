@@ -1,0 +1,41 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.2.0, pluggy-1.6.0 -- C:\Users\carlo\Proyectos\Escuela\Pruebas de Software\Pruebas de software\software-testing-fall-2026\venv\Scripts\python.exe
+cachedir: .pytest_cache
+metadata: {'Python': '3.11.9', 'Platform': 'Windows-10-10.0.26200-SP0', 'Packages': {'pytest': '9.2.0', 'pluggy': '1.6.0'}, 'Plugins': {'base-url': '2.1.0', 'cov': '7.1.0', 'metadata': '3.1.1', 'mock': '3.15.1', 'xdist': '3.8.0'}, 'JAVA_HOME': 'C:\\Program Files\\Java\\jdk-17.0.20.1', 'Base URL': ''}
+rootdir: C:\Users\carlo\Proyectos\Escuela\Pruebas de Software\Pruebas de software\software-testing-fall-2026\students\carloso222\homework-8
+configfile: pytest.ini
+testpaths: selenium/tests
+plugins: base-url-2.1.0, cov-7.1.0, metadata-3.1.1, mock-3.15.1, xdist-3.8.0
+collecting ... collected 28 items
+
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_create_single_task PASSED [  3%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_create_multiple_tasks PASSED [  7%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_task_appears_in_list_as_active PASSED [ 10%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_task_text_is_trimmed PASSED [ 14%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_blank_task_is_not_created[empty] PASSED [ 17%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_blank_task_is_not_created[spaces] PASSED [ 21%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_mark_task_as_complete PASSED [ 25%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_unmark_completed_task PASSED [ 28%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_complete_multiple_tasks PASSED [ 32%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_toggle_all_completes_and_reopens_every_task PASSED [ 35%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_delete_single_task PASSED [ 39%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_delete_one_task_keeps_the_others PASSED [ 42%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_delete_completed_task PASSED [ 46%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_clear_all_completed PASSED [ 50%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_edit_task_text PASSED [ 53%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_save_edited_task_on_blur PASSED [ 57%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_edit_keeps_completed_state PASSED [ 60%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_edit_without_changes_keeps_text PASSED [ 64%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_cancel_edit_with_escape_discards_changes XFAIL [ 67%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_clearing_text_while_editing_deletes_task PASSED [ 71%]
+selenium/tests/test_todo_filter.py::test_view_all_tasks PASSED           [ 75%]
+selenium/tests/test_todo_filter.py::test_view_active_tasks_only PASSED   [ 78%]
+selenium/tests/test_todo_filter.py::test_view_completed_tasks_only PASSED [ 82%]
+selenium/tests/test_todo_filter.py::test_each_filter_shows_expected_todos[All-expected_todos0] PASSED [ 85%]
+selenium/tests/test_todo_filter.py::test_each_filter_shows_expected_todos[Active-expected_todos1] PASSED [ 89%]
+selenium/tests/test_todo_filter.py::test_each_filter_shows_expected_todos[Completed-expected_todos2] PASSED [ 92%]
+selenium/tests/test_todo_filter.py::test_completing_task_in_active_view_hides_it PASSED [ 96%]
+selenium/tests/test_todo_filter.py::test_clear_completed_from_completed_view PASSED [100%]
+
+- generated xml file: C:\Users\carlo\Proyectos\Escuela\Pruebas de Software\Pruebas de software\software-testing-fall-2026\students\carloso222\homework-8\reports\selenium-junit.xml -
+======================= 27 passed, 1 xfailed in 43.61s ========================

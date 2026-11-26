@@ -1,0 +1,338 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--project=perf"
+    ],
+    "configFile": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\playwright.config.js",
+    "rootDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/perf",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/perf",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/perf",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/perf",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "perf",
+        "name": "perf",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/perf",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\test-results\\perf",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "perf",
+        "testDir": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf",
+        "snapshotDir": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://todomvc.com/examples/react/dist/",
+          "headless": true,
+          "actionTimeout": 10000,
+          "navigationTimeout": 15000,
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium",
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "perf"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      ["list", null],
+      [
+        "html",
+        {
+          "open": "never",
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\reports\\playwright-perf.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 8,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "..\\perf\\performance.spec.js",
+      "file": "../perf/performance.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Performance metrics",
+          "file": "../perf/performance.spec.js",
+          "line": 29,
+          "column": 6,
+          "specs": [
+            {
+              "title": "browser start-up (setup time)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf\\performance.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "perf",
+                  "projectName": "perf",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7623,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:07:21.889Z",
+                      "annotations": [
+                        {
+                          "type": "serial",
+                          "location": {
+                            "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf\\performance.spec.js",
+                            "line": 0,
+                            "column": 0
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0395ec5c307b4a8c0388-4b988ac7ef0be3ca0ac1",
+              "file": "../perf/performance.spec.js",
+              "line": 30,
+              "column": 3
+            },
+            {
+              "title": "page load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf\\performance.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "perf",
+                  "projectName": "perf",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1000,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:07:29.560Z",
+                      "annotations": [
+                        {
+                          "type": "serial",
+                          "location": {
+                            "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf\\performance.spec.js",
+                            "line": 0,
+                            "column": 0
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0395ec5c307b4a8c0388-0558615d7ec1b7458e39",
+              "file": "../perf/performance.spec.js",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "user operations",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf\\performance.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "perf",
+                  "projectName": "perf",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11795,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:07:31.495Z",
+                      "annotations": [
+                        {
+                          "type": "serial",
+                          "location": {
+                            "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\perf\\performance.spec.js",
+                            "line": 0,
+                            "column": 0
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0395ec5c307b4a8c0388-4ff4741d245a7746d599",
+              "file": "../perf/performance.spec.js",
+              "line": 65,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-25T06:07:20.974Z",
+    "duration": 23844.54,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

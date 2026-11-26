@@ -1,0 +1,11 @@
+{
+  "selenium": 45.49,
+  "selenium_screenshots": 43.66,
+  "behave": 14.88,
+  "playwright": 23.27,
+  "playwright_1worker": 32.73,
+  "playwright_chrome_1worker": 35.05,
+  "cross_browser": 166.43,
+  "perf_playwright": 27.82,
+  "perf_selenium": 57.63
+}

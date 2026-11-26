@@ -1,0 +1,2 @@
+# Python dependencies of Homework 8 (Selenium suite, Behave BDD and the Selenium performance script).
+-r selenium/requirements.txt

@@ -1,0 +1,1225 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--project=chromium"
+    ],
+    "configFile": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\playwright.config.js",
+    "rootDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/chromium",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/chromium",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/chromium",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/test-results/chromium",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "perf",
+        "name": "perf",
+        "testDir": "C:/Users/carlo/Proyectos/Escuela/Pruebas de Software/Pruebas de software/software-testing-fall-2026/students/carloso222/homework-8/playwright/perf",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\test-results\\chromium",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests",
+        "snapshotDir": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "https://todomvc.com/examples/react/dist/",
+          "headless": true,
+          "actionTimeout": 10000,
+          "navigationTimeout": 15000,
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium",
+          "channel": "chrome"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      ["list", null],
+      [
+        "html",
+        {
+          "open": "never",
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\reports\\playwright-results-chrome-1worker.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "todo-crud.spec.js",
+      "file": "todo-crud.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Task creation",
+          "file": "todo-crud.spec.js",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "create single task",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 815,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:03:59.356Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-bafab65c6ce99b36c81e",
+              "file": "todo-crud.spec.js",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "create multiple tasks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 555,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:01.038Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-4e00de56993219d80d8a",
+              "file": "todo-crud.spec.js",
+              "line": 16,
+              "column": 3
+            },
+            {
+              "title": "task appears in list as active",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 627,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:01.610Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-651a39a896d63f5da511",
+              "file": "todo-crud.spec.js",
+              "line": 25,
+              "column": 3
+            },
+            {
+              "title": "task text is trimmed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 794,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:02.291Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-a6ef9a5b4e2358182add",
+              "file": "todo-crud.spec.js",
+              "line": 34,
+              "column": 3
+            },
+            {
+              "title": "blank task is not created (empty)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 798,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:03.110Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-3abec764afbaf550b494",
+              "file": "todo-crud.spec.js",
+              "line": 44,
+              "column": 5
+            },
+            {
+              "title": "blank task is not created (spaces)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 781,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:03.938Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-768233a20563ceabb316",
+              "file": "todo-crud.spec.js",
+              "line": 44,
+              "column": 5
+            }
+          ]
+        },
+        {
+          "title": "Task completion",
+          "file": "todo-crud.spec.js",
+          "line": 53,
+          "column": 6,
+          "specs": [
+            {
+              "title": "mark task as complete",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1004,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:04.743Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-03825e5ad87bea497c72",
+              "file": "todo-crud.spec.js",
+              "line": 54,
+              "column": 3
+            },
+            {
+              "title": "unmark completed task",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 852,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:05.795Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-f96bac4cf61fc124dad0",
+              "file": "todo-crud.spec.js",
+              "line": 65,
+              "column": 3
+            },
+            {
+              "title": "complete multiple tasks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1088,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:06.733Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-389b6043f33582cc6783",
+              "file": "todo-crud.spec.js",
+              "line": 76,
+              "column": 3
+            },
+            {
+              "title": "toggle all completes and reopens every task",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1005,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:07.856Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-0deb091f6a30fcd850d4",
+              "file": "todo-crud.spec.js",
+              "line": 86,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "Task deletion",
+          "file": "todo-crud.spec.js",
+          "line": 99,
+          "column": 6,
+          "specs": [
+            {
+              "title": "delete single task",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 868,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:08.898Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-4a99e94d43e97e99d4f9",
+              "file": "todo-crud.spec.js",
+              "line": 100,
+              "column": 3
+            },
+            {
+              "title": "delete one task keeps the others",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1034,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:09.805Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-7fd35616916ec74901fd",
+              "file": "todo-crud.spec.js",
+              "line": 109,
+              "column": 3
+            },
+            {
+              "title": "delete completed task",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1184,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:10.872Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-bf3c0d8dec83c1827170",
+              "file": "todo-crud.spec.js",
+              "line": 118,
+              "column": 3
+            },
+            {
+              "title": "clear all completed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1282,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:12.086Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-cd77f1c7229a393339b8",
+              "file": "todo-crud.spec.js",
+              "line": 129,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "Task editing",
+          "file": "todo-crud.spec.js",
+          "line": 142,
+          "column": 6,
+          "specs": [
+            {
+              "title": "edit task text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 879,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:13.395Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-8158d6f45d0353d12ab5",
+              "file": "todo-crud.spec.js",
+              "line": 143,
+              "column": 3
+            },
+            {
+              "title": "save edited task on blur",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 970,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:14.304Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-e8d5c2de0e75972052fd",
+              "file": "todo-crud.spec.js",
+              "line": 152,
+              "column": 3
+            },
+            {
+              "title": "edit keeps completed state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1149,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:15.311Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-79a9e1c9555e5cc01bba",
+              "file": "todo-crud.spec.js",
+              "line": 161,
+              "column": 3
+            },
+            {
+              "title": "edit without changes keeps text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 799,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:16.488Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-d38b4c9310dae42c706e",
+              "file": "todo-crud.spec.js",
+              "line": 171,
+              "column": 3
+            },
+            {
+              "title": "cancel edit with Escape discards changes @known-defect",
+              "ok": true,
+              "tags": ["known-defect"],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "DEFECT in TodoMVC React: Escape does not cancel editing. The edit box stays open and the typed text is saved on blur, although the TodoMVC spec says Escape must discard the change.",
+                      "location": {
+                        "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                        "line": 180,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1832,
+                      "error": {
+                        "message": "Error: Escape should close the edit box\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.todo-list li.editing .edit')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  1000ms\n\nCall log:\n\u001b[2m  - Escape should close the edit box locator('.todo-list li.editing .edit') with timeout 1000ms\u001b[22m\n\u001b[2m  - waiting for locator('.todo-list li.editing .edit')\u001b[22m\n\u001b[2m    10 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n",
+                        "stack": "Error: Escape should close the edit box\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.todo-list li.editing .edit')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  1000ms\n\nCall log:\n\u001b[2m  - Escape should close the edit box locator('.todo-list li.editing .edit') with timeout 1000ms\u001b[22m\n\u001b[2m  - waiting for locator('.todo-list li.editing .edit')\u001b[22m\n\u001b[2m    10 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n    at C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js:185:74",
+                        "location": {
+                          "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                          "column": 74,
+                          "line": 185
+                        },
+                        "snippet": "  183 |     await todoPage.cancelEdit(0, 'Changed text');\n  184 |\n> 185 |     await expect(todoPage.editInput, 'Escape should close the edit box').toHaveCount(0, { timeout: 1000 });\n      |                                                                          ^\n  186 |     await expect(todoPage.todoLabels).toHaveText(['Original text']);\n  187 |   });\n  188 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                            "column": 74,
+                            "line": 185
+                          },
+                          "message": "Error: Escape should close the edit box\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.todo-list li.editing .edit')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  1000ms\n\nCall log:\n\u001b[2m  - Escape should close the edit box locator('.todo-list li.editing .edit') with timeout 1000ms\u001b[22m\n\u001b[2m  - waiting for locator('.todo-list li.editing .edit')\u001b[22m\n\u001b[2m    10 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  183 |     await todoPage.cancelEdit(0, 'Changed text');\n  184 |\n> 185 |     await expect(todoPage.editInput, 'Escape should close the edit box').toHaveCount(0, { timeout: 1000 });\n      |                                                                          ^\n  186 |     await expect(todoPage.todoLabels).toHaveText(['Original text']);\n  187 |   });\n  188 |\n    at C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js:185:74"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:17.317Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "DEFECT in TodoMVC React: Escape does not cancel editing. The edit box stays open and the typed text is saved on blur, although the TodoMVC spec says Escape must discard the change.",
+                          "location": {
+                            "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                            "line": 180,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\test-results\\chromium\\todo-crud-Task-editing-can-9a884-scards-changes-known-defect-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\carlo\\Proyectos\\Escuela\\Pruebas de Software\\Pruebas de software\\software-testing-fall-2026\\students\\carloso222\\homework-8\\playwright\\tests\\todo-crud.spec.js",
+                        "column": 74,
+                        "line": 185
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-cfd9f1e661fffac7f74b",
+              "file": "todo-crud.spec.js",
+              "line": 179,
+              "column": 3
+            },
+            {
+              "title": "clearing text while editing deletes task",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 922,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:19.214Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1426c747b0f8d249d71b-3eba985b8efe162460dc",
+              "file": "todo-crud.spec.js",
+              "line": 189,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "todo-filter.spec.js",
+      "file": "todo-filter.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Task filtering",
+          "file": "todo-filter.spec.js",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "view all tasks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1148,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:20.211Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-63a90e25a6214644dc0e",
+              "file": "todo-filter.spec.js",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "view active tasks only",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1059,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:21.387Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-a04cf45d63a66de35620",
+              "file": "todo-filter.spec.js",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "view completed tasks only",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1229,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:22.486Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-35fd6bc44239b81ab47d",
+              "file": "todo-filter.spec.js",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "filter \"All\" shows 3 todo(s)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1186,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:23.757Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-2c382e8b9ebfc8052777",
+              "file": "todo-filter.spec.js",
+              "line": 46,
+              "column": 5
+            },
+            {
+              "title": "filter \"Active\" shows 2 todo(s)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1060,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:24.982Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-75bad783dee6e9afd5cc",
+              "file": "todo-filter.spec.js",
+              "line": 46,
+              "column": 5
+            },
+            {
+              "title": "filter \"Completed\" shows 1 todo(s)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1056,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:26.093Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-050f1a8fe7dbffc8986b",
+              "file": "todo-filter.spec.js",
+              "line": 46,
+              "column": 5
+            },
+            {
+              "title": "completing task in active view hides it",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1192,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:27.210Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-6e8c8bb5f40de4a8cba8",
+              "file": "todo-filter.spec.js",
+              "line": 55,
+              "column": 3
+            },
+            {
+              "title": "clear completed from completed view",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1179,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-25T06:04:28.447Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e0401000b6407e623a98-59d35e64609a33a9dbb1",
+              "file": "todo-filter.spec.js",
+              "line": 64,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-25T06:03:58.564Z",
+    "duration": 31982.894,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

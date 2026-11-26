@@ -1,0 +1,172 @@
+
+Running 84 tests using 8 workers
+
+  ok  1 [chromium] › tests\todo-crud.spec.js:9:3 › Task creation › create single task (619ms)
+  ok  9 [chromium] › tests\todo-crud.spec.js:76:3 › Task completion › complete multiple tasks (628ms)
+  ok  7 [chromium] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (spaces) (538ms)
+  ok 11 [chromium] › tests\todo-crud.spec.js:100:3 › Task deletion › delete single task (679ms)
+  ok 10 [chromium] › tests\todo-crud.spec.js:86:3 › Task completion › toggle all completes and reopens every task (930ms)
+  ok  2 [chromium] › tests\todo-crud.spec.js:34:3 › Task creation › task text is trimmed (3.4s)
+  ok  5 [chromium] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (empty) (2.7s)
+  ok 13 [chromium] › tests\todo-crud.spec.js:118:3 › Task deletion › delete completed task (1.9s)
+  ok 12 [chromium] › tests\todo-crud.spec.js:109:3 › Task deletion › delete one task keeps the others (2.1s)
+  ok  6 [chromium] › tests\todo-crud.spec.js:54:3 › Task completion › mark task as complete (4.6s)
+  ok 15 [chromium] › tests\todo-crud.spec.js:143:3 › Task editing › edit task text (3.3s)
+  ok 14 [chromium] › tests\todo-crud.spec.js:129:3 › Task deletion › clear all completed (3.5s)
+  ok 17 [chromium] › tests\todo-crud.spec.js:161:3 › Task editing › edit keeps completed state (3.3s)
+  ok 16 [chromium] › tests\todo-crud.spec.js:152:3 › Task editing › save edited task on blur (3.9s)
+  ok  3 [chromium] › tests\todo-crud.spec.js:25:3 › Task creation › task appears in list as active (8.1s)
+  ok 18 [chromium] › tests\todo-crud.spec.js:171:3 › Task editing › edit without changes keeps text (3.5s)
+  ok  8 [chromium] › tests\todo-crud.spec.js:65:3 › Task completion › unmark completed task (6.3s)
+  ok 20 [chromium] › tests\todo-crud.spec.js:189:3 › Task editing › clearing text while editing deletes task (2.9s)
+  ok 22 [chromium] › tests\todo-filter.spec.js:23:3 › Task filtering › view active tasks only (2.5s)
+  x  19 [chromium] › tests\todo-crud.spec.js:179:3 › Task editing › cancel edit with Escape discards changes @known-defect (3.7s)
+  ok 21 [chromium] › tests\todo-filter.spec.js:13:3 › Task filtering › view all tasks (2.9s)
+  ok 23 [chromium] › tests\todo-filter.spec.js:31:3 › Task filtering › view completed tasks only (3.6s)
+  ok 24 [chromium] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "All" shows 3 todo(s) (3.4s)
+  ok 25 [chromium] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "Active" shows 2 todo(s) (3.4s)
+  ok 26 [chromium] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "Completed" shows 1 todo(s) (3.3s)
+  ok 27 [chromium] › tests\todo-filter.spec.js:55:3 › Task filtering › completing task in active view hides it (2.9s)
+  ok 28 [chromium] › tests\todo-filter.spec.js:64:3 › Task filtering › clear completed from completed view (2.9s)
+  ok  4 [chromium] › tests\todo-crud.spec.js:16:3 › Task creation › create multiple tasks (15.2s)
+  ok 29 [firefox] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (spaces) (4.5s)
+  ok 34 [firefox] › tests\todo-crud.spec.js:25:3 › Task creation › task appears in list as active (8.9s)
+  ok 33 [firefox] › tests\todo-crud.spec.js:54:3 › Task completion › mark task as complete (18.4s)
+  ok 37 [firefox] › tests\todo-crud.spec.js:76:3 › Task completion › complete multiple tasks (19.9s)
+  ok 36 [firefox] › tests\todo-crud.spec.js:65:3 › Task completion › unmark completed task (23.4s)
+  ok 38 [firefox] › tests\todo-crud.spec.js:86:3 › Task completion › toggle all completes and reopens every task (22.2s)
+  ok 39 [firefox] › tests\todo-crud.spec.js:100:3 › Task deletion › delete single task (16.7s)
+  ok 40 [firefox] › tests\todo-crud.spec.js:109:3 › Task deletion › delete one task keeps the others (18.6s)
+  ok 41 [firefox] › tests\todo-crud.spec.js:118:3 › Task deletion › delete completed task (19.2s)
+  ok 42 [firefox] › tests\todo-crud.spec.js:129:3 › Task deletion › clear all completed (18.7s)
+  ok 43 [firefox] › tests\todo-crud.spec.js:143:3 › Task editing › edit task text (18.6s)
+  ok 44 [firefox] › tests\todo-crud.spec.js:152:3 › Task editing › save edited task on blur (21.5s)
+  ok 45 [firefox] › tests\todo-crud.spec.js:161:3 › Task editing › edit keeps completed state (21.1s)
+  ok 46 [firefox] › tests\todo-crud.spec.js:171:3 › Task editing › edit without changes keeps text (16.7s)
+  x  35 [firefox] › tests\todo-crud.spec.js:34:3 › Task creation › task text is trimmed (42.5s)
+  x  31 [firefox] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (empty) (44.6s)
+  x  47 [firefox] › tests\todo-crud.spec.js:179:3 › Task editing › cancel edit with Escape discards changes @known-defect (16.0s)
+  x  32 [firefox] › tests\todo-crud.spec.js:16:3 › Task creation › create multiple tasks (50.3s)
+  ok 48 [firefox] › tests\todo-crud.spec.js:189:3 › Task editing › clearing text while editing deletes task (9.8s)
+  x  30 [firefox] › tests\todo-crud.spec.js:9:3 › Task creation › create single task (45.8s)
+  ok 49 [firefox] › tests\todo-filter.spec.js:13:3 › Task filtering › view all tasks (12.9s)
+  ok 50 [firefox] › tests\todo-filter.spec.js:23:3 › Task filtering › view active tasks only (11.6s)
+  ok 53 [firefox] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "Active" shows 2 todo(s) (14.8s)
+  ok 57 [webkit] › tests\todo-crud.spec.js:9:3 › Task creation › create single task (2.7s)
+  ok 55 [firefox] › tests\todo-filter.spec.js:55:3 › Task filtering › completing task in active view hides it (16.3s)
+  ok 51 [firefox] › tests\todo-filter.spec.js:31:3 › Task filtering › view completed tasks only (20.4s)
+  ok 54 [firefox] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "Completed" shows 1 todo(s) (19.6s)
+  ok 59 [webkit] › tests\todo-crud.spec.js:25:3 › Task creation › task appears in list as active (1.4s)
+  ok 52 [firefox] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "All" shows 3 todo(s) (22.7s)
+  ok 60 [webkit] › tests\todo-crud.spec.js:16:3 › Task creation › create multiple tasks (1.8s)
+  ok 63 [webkit] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (empty) (1.3s)
+  ok 64 [webkit] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (spaces) (1.2s)
+  ok 56 [firefox] › tests\todo-filter.spec.js:64:3 › Task filtering › clear completed from completed view (21.0s)
+  ok 65 [webkit] › tests\todo-crud.spec.js:54:3 › Task completion › mark task as complete (1.5s)
+  ok 58 [webkit] › tests\todo-crud.spec.js:34:3 › Task creation › task text is trimmed (14.2s)
+  ok 70 [webkit] › tests\todo-crud.spec.js:76:3 › Task completion › complete multiple tasks (1.8s)
+  ok 66 [webkit] › tests\todo-crud.spec.js:100:3 › Task deletion › delete single task (7.2s)
+  ok 61 [webkit] › tests\todo-crud.spec.js:65:3 › Task completion › unmark completed task (13.3s)
+  ok 67 [webkit] › tests\todo-crud.spec.js:109:3 › Task deletion › delete one task keeps the others (7.9s)
+  ok 62 [webkit] › tests\todo-crud.spec.js:86:3 › Task completion › toggle all completes and reopens every task (18.2s)
+  ok 68 [webkit] › tests\todo-crud.spec.js:129:3 › Task deletion › clear all completed (12.4s)
+  ok 75 [webkit] › tests\todo-crud.spec.js:118:3 › Task deletion › delete completed task (2.0s)
+  ok 69 [webkit] › tests\todo-crud.spec.js:143:3 › Task editing › edit task text (13.1s)
+  ok 73 [webkit] › tests\todo-crud.spec.js:171:3 › Task editing › edit without changes keeps text (12.2s)
+  ok 71 [webkit] › tests\todo-crud.spec.js:152:3 › Task editing › save edited task on blur (13.3s)
+  x  74 [webkit] › tests\todo-crud.spec.js:179:3 › Task editing › cancel edit with Escape discards changes @known-defect (13.4s)
+  ok 72 [webkit] › tests\todo-crud.spec.js:161:3 › Task editing › edit keeps completed state (14.4s)
+  ok 76 [webkit] › tests\todo-crud.spec.js:189:3 › Task editing › clearing text while editing deletes task (15.9s)
+  ok 77 [webkit] › tests\todo-filter.spec.js:13:3 › Task filtering › view all tasks (18.5s)
+  ok 78 [webkit] › tests\todo-filter.spec.js:23:3 › Task filtering › view active tasks only (18.4s)
+  ok 79 [webkit] › tests\todo-filter.spec.js:31:3 › Task filtering › view completed tasks only (18.5s)
+  ok 80 [webkit] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "All" shows 3 todo(s) (17.3s)
+  ok 81 [webkit] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "Active" shows 2 todo(s) (17.4s)
+  ok 82 [webkit] › tests\todo-filter.spec.js:46:5 › Task filtering › filter "Completed" shows 1 todo(s) (17.1s)
+  ok 83 [webkit] › tests\todo-filter.spec.js:55:3 › Task filtering › completing task in active view hides it (17.3s)
+  ok 84 [webkit] › tests\todo-filter.spec.js:64:3 › Task filtering › clear completed from completed view (11.1s)
+
+
+  1) [firefox] › tests\todo-crud.spec.js:9:3 › Task creation › create single task ──────────────────
+
+    Test timeout of 30000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-create-single-task-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\cross-browser\todo-crud-Task-creation-create-single-task-firefox\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-create-single-task-firefox\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\cross-browser\todo-crud-Task-creation-create-single-task-firefox\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [firefox] › tests\todo-crud.spec.js:16:3 › Task creation › create multiple tasks ──────────────
+
+    Test timeout of 30000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-create-multiple-tasks-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\cross-browser\todo-crud-Task-creation-create-multiple-tasks-firefox\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-create-multiple-tasks-firefox\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\cross-browser\todo-crud-Task-creation-create-multiple-tasks-firefox\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [firefox] › tests\todo-crud.spec.js:34:3 › Task creation › task text is trimmed ───────────────
+
+    Test timeout of 30000ms exceeded while setting up "todoPage".
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-task-text-is-trimmed-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\cross-browser\todo-crud-Task-creation-task-text-is-trimmed-firefox\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-task-text-is-trimmed-firefox\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\cross-browser\todo-crud-Task-creation-task-text-is-trimmed-firefox\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [firefox] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (empty) ──
+
+    Test timeout of 30000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-blank-task-is-not-created-empty--firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\cross-browser\todo-crud-Task-creation-blank-task-is-not-created-empty--firefox\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\cross-browser\todo-crud-Task-creation-blank-task-is-not-created-empty--firefox\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\cross-browser\todo-crud-Task-creation-blank-task-is-not-created-empty--firefox\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [firefox] › tests\todo-crud.spec.js:9:3 › Task creation › create single task ───────────────────
+    [firefox] › tests\todo-crud.spec.js:16:3 › Task creation › create multiple tasks ───────────────
+    [firefox] › tests\todo-crud.spec.js:34:3 › Task creation › task text is trimmed ────────────────
+    [firefox] › tests\todo-crud.spec.js:44:5 › Task creation › blank task is not created (empty) ───
+  80 passed (2.7m)
+
+To open last HTML report run:
+
+  npx playwright show-report
+

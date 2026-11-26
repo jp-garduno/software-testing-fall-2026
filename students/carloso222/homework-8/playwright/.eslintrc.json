@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "env": { "node": true, "browser": true, "es2022": true },
+  "parserOptions": { "ecmaVersion": 2022, "sourceType": "script" },
+  "extends": ["eslint:recommended", "prettier"],
+  "rules": {
+    "eqeqeq": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-param-reassign": "error",
+    "max-len": ["error", { "code": 120, "ignoreUrls": true }]
+  }
+}
