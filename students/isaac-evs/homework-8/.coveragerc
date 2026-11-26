@@ -1,0 +1,6 @@
+# Step definitions and tooling run under behave / node / by hand, not under pytest,
+# so they are left out of the pytest coverage figure instead of showing up as 0%.
+[run]
+omit =
+    features/*
+    tools/*

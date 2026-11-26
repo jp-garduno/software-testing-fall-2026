@@ -1,0 +1,42 @@
+[
+  {
+    "metric": "page ttfb",
+    "ms": 2,
+    "budgetMs": 5000
+  },
+  {
+    "metric": "page domContentLoaded",
+    "ms": 44,
+    "budgetMs": 5000
+  },
+  {
+    "metric": "page load",
+    "ms": 44,
+    "budgetMs": 5000
+  },
+  {
+    "metric": "add 50 tasks",
+    "ms": 1744,
+    "budgetMs": 15000
+  },
+  {
+    "metric": "toggle all 50 tasks",
+    "ms": 80,
+    "budgetMs": 3000
+  },
+  {
+    "metric": "switch to Active filter",
+    "ms": 68,
+    "budgetMs": 3000
+  },
+  {
+    "metric": "switch to All filter",
+    "ms": 57,
+    "budgetMs": 3000
+  },
+  {
+    "metric": "clear 50 completed tasks",
+    "ms": 29,
+    "budgetMs": 3000
+  }
+]

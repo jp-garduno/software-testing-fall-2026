@@ -1,0 +1,11 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error
+simple_single_item_no_shipping,simple,"[{""name"": ""Item1"", ""price"": 50, ""quantity"": 1, ""weight"": 0}]",regular,NONE,0,false,50.00,0.00,4.00,0.00,54.00,
+save10_at_minimum_threshold,discount,"[{""name"": ""Item1"", ""price"": 50, ""quantity"": 1, ""weight"": 0}]",regular,SAVE10,0,false,50.00,5.00,3.60,0.00,48.60,
+save20_at_minimum_threshold,discount,"[{""name"": ""Item1"", ""price"": 100, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,100.00,20.00,6.40,0.00,86.40,
+invalid_code_ignored,discount,"[{""name"": ""Item1"", ""price"": 60, ""quantity"": 1, ""weight"": 0}]",regular,BOGUS,0,false,60.00,0.00,4.80,0.00,64.80,
+newuser_for_new_customer,discount,"[{""name"": ""Item1"", ""price"": 40, ""quantity"": 1, ""weight"": 0}]",new,NEWUSER,0,false,40.00,6.00,2.72,0.00,36.72,
+tax_is_charged_after_discount,tax,"[{""name"": ""Item1"", ""price"": 200, ""quantity"": 1, ""weight"": 0}]",regular,SAVE20,0,false,200.00,40.00,12.80,0.00,172.80,
+shipping_weight_and_distance,shipping,"[{""name"": ""Item1"", ""price"": 25, ""quantity"": 2, ""weight"": 2}]",regular,NONE,50,false,50.00,0.00,4.00,7.00,61.00,
+shipping_express_is_one_and_a_half_times,shipping,"[{""name"": ""Item1"", ""price"": 25, ""quantity"": 2, ""weight"": 2}]",regular,NONE,50,true,50.00,0.00,4.00,10.50,64.50,
+freeship_overrides_express,shipping,"[{""name"": ""Item1"", ""price"": 25, ""quantity"": 2, ""weight"": 2}]",regular,FREESHIP,50,true,50.00,0.00,4.00,0.00,54.00,
+complex_save20_express_two_items,complex,"[{""name"": ""Chair"", ""price"": 60, ""quantity"": 1, ""weight"": 5}, {""name"": ""Cushion"", ""price"": 25, ""quantity"": 2, ""weight"": 1}]",regular,SAVE20,200,true,110.00,22.00,7.04,35.25,130.29,
