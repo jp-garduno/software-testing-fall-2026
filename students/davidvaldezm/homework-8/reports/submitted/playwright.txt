@@ -1,0 +1,37 @@
+
+> homework-8-todomvc@1.0.0 test
+> playwright test --workers=1
+
+
+Running 19 tests using 1 worker
+
+  ok  1 tests\todo-crud.spec.js:4:1 â€º create single (946ms)
+  ok  2 tests\todo-crud.spec.js:10:1 â€º create multiple (888ms)
+  ok  3 tests\todo-crud.spec.js:16:1 â€º complete task (786ms)
+  ok  4 tests\todo-crud.spec.js:23:1 â€º uncomplete task (941ms)
+  ok  5 tests\todo-crud.spec.js:31:1 â€º complete all (1.1s)
+  ok  6 tests\todo-crud.spec.js:39:1 â€º delete single (829ms)
+  ok  7 tests\todo-crud.spec.js:45:1 â€º delete completed (955ms)
+  ok  8 tests\todo-crud.spec.js:52:1 â€º clear completed (919ms)
+  ok  9 tests\todo-crud.spec.js:64:3 â€º edit enter (851ms)
+  x  10 tests\todo-crud.spec.js:64:3 â€º edit cancel (10.8s)
+  ok 11 tests\todo-crud.spec.js:64:3 â€º edit blur (933ms)
+  ok 12 tests\todo-crud.spec.js:64:3 â€º blank edit deletes (885ms)
+  ok 13 tests\todo-crud.spec.js:72:1 â€º blank creation (706ms)
+  ok 14 tests\todo-crud.spec.js:77:1 â€º trim creation (771ms)
+  ok 15 tests\todo-crud.spec.js:82:1 â€º duplicate tasks (913ms)
+  ok 16 tests\todo-filter.spec.js:8:3 â€º filter All (1.1s)
+  ok 17 tests\todo-filter.spec.js:8:3 â€º filter Active (1.1s)
+  ok 18 tests\todo-filter.spec.js:8:3 â€º filter Completed (1.1s)
+  ok 19 tests\todo-filter.spec.js:17:1 â€º empty filter (879ms)
+
+  19 passed (30.5s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
+(node:16764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
