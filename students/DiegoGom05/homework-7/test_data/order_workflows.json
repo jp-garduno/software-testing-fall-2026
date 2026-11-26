@@ -1,0 +1,402 @@
+{
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "description": "Cliente regular valido, codigo SAVE10, envio estandar, pago exitoso",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4532015112830366",
+                "expiration": "12/2030",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "customer_type": "regular",
+            "items": [
+              { "name": "Laptop", "price": 80, "quantity": 1, "weight": 2 },
+              { "name": "Mouse", "price": 15, "quantity": 2, "weight": 0.2 }
+            ]
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "apply_discount",
+          "data": { "code": "SAVE10" },
+          "expected": { "applied": true }
+        },
+        {
+          "action": "set_shipping",
+          "data": { "distance_km": 25, "is_express": false },
+          "expected": { "status": "set" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 110.0,
+            "discount": 11.0,
+            "tax": 7.92,
+            "shipping": 3.7,
+            "total": 110.62
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 110.62 }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_express_flow",
+      "description": "Cliente nuevo con NEWUSER y envio express",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "maria.lopez@mail.com",
+              "phone": "(212) 555-0199",
+              "billing_address": {
+                "street": "45 Ocean Ave",
+                "city": "Los Angeles",
+                "state": "CA",
+                "zip": "90001"
+              },
+              "credit_card": {
+                "number": "5555555555554444",
+                "expiration": "01/2029",
+                "cvv": "999"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "customer_type": "new",
+            "items": [
+              { "name": "Blender", "price": 45, "quantity": 1, "weight": 3 },
+              { "name": "Cups", "price": 6, "quantity": 4, "weight": 0.25 }
+            ]
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "apply_discount",
+          "data": { "code": "NEWUSER" },
+          "expected": { "applied": true }
+        },
+        {
+          "action": "set_shipping",
+          "data": { "distance_km": 15, "is_express": true },
+          "expected": { "status": "set" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 69.0,
+            "discount": 10.35,
+            "tax": 4.69,
+            "shipping": 5.25,
+            "total": 68.59
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 68.59 }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_payment_rejected",
+      "description": "Email invalido y tarjeta vencida: la orden se calcula pero el pago se rechaza",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "not-an-email",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "9 Elm St",
+                "city": "Chicago",
+                "state": "IL",
+                "zip": "60601"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "01/2020",
+                "cvv": "321"
+              }
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": ["Invalid email format", "Credit card expired"]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "customer_type": "regular",
+            "items": [
+              { "name": "Book", "price": 30, "quantity": 1, "weight": 1 }
+            ]
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "set_shipping",
+          "data": { "distance_km": 10, "is_express": false },
+          "expected": { "status": "set" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 30.0,
+            "discount": 0.0,
+            "tax": 2.4,
+            "shipping": 1.5,
+            "total": 33.9
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "failed", "reason": "Invalid customer" }
+        }
+      ]
+    },
+    {
+      "name": "rejected_discount_codes_flow",
+      "description": "Un codigo inexistente y SAVE20 bajo el minimo: la orden sigue sin descuento",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "ana@shop.org",
+              "phone": "(305) 555-7788",
+              "billing_address": {
+                "street": "77 Bay Rd",
+                "city": "Miami",
+                "state": "FL",
+                "zip": "33101-2020"
+              },
+              "credit_card": {
+                "number": "378282246310005",
+                "expiration": "06/2031",
+                "cvv": "1234"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "customer_type": "regular",
+            "items": [
+              { "name": "Hat", "price": 80, "quantity": 1, "weight": 0.5 }
+            ]
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "apply_discount",
+          "data": { "code": "BOGUS99" },
+          "expected": { "applied": false }
+        },
+        {
+          "action": "apply_discount",
+          "data": { "code": "SAVE20" },
+          "expected": { "applied": false }
+        },
+        {
+          "action": "set_shipping",
+          "data": { "distance_km": 20, "is_express": false },
+          "expected": { "status": "set" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 80.0,
+            "discount": 0.0,
+            "tax": 6.4,
+            "shipping": 2.25,
+            "total": 88.65
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 88.65 }
+        }
+      ]
+    },
+    {
+      "name": "freeship_heavy_express_flow",
+      "description": "Orden pesada, larga distancia y express, pero FREESHIP deja el envio en $0",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "carlos@example.com",
+              "phone": "(512) 555-0100",
+              "billing_address": {
+                "street": "1 Congress Ave",
+                "city": "Austin",
+                "state": "TX",
+                "zip": "73301"
+              },
+              "credit_card": {
+                "number": "4532 0151 1283 0366",
+                "expiration": "03/2028",
+                "cvv": "456"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "customer_type": "regular",
+            "items": [
+              { "name": "TV", "price": 400, "quantity": 1, "weight": 5 },
+              { "name": "TV Stand", "price": 50, "quantity": 1, "weight": 8 }
+            ]
+          },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "apply_discount",
+          "data": { "code": "FREESHIP" },
+          "expected": { "applied": true }
+        },
+        {
+          "action": "set_shipping",
+          "data": { "distance_km": 300, "is_express": true },
+          "expected": { "status": "set" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 450.0,
+            "discount": 0.0,
+            "tax": 36.0,
+            "shipping": 0.0,
+            "total": 486.0
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "success", "amount": 486.0 }
+        }
+      ]
+    },
+    {
+      "name": "empty_order_payment_rejected",
+      "description": "Cliente valido pero carrito vacio: total $0, el pago se rechaza",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4532015112830366",
+                "expiration": "12/2030",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": { "customer_type": "regular", "items": [] },
+          "expected": { "status": "created" }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 0.0,
+            "discount": 0.0,
+            "tax": 0.0,
+            "shipping": 0.0,
+            "total": 0.0
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "failed", "reason": "Invalid order total" }
+        }
+      ]
+    },
+    {
+      "name": "invalid_order_data_flow",
+      "description": "Item con cantidad negativa: la orden no se crea y el pago se rechaza",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "john@example.com",
+              "phone": "(555) 123-4567",
+              "billing_address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              },
+              "credit_card": {
+                "number": "4532015112830366",
+                "expiration": "12/2030",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": { "valid": true, "errors": [] }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "customer_type": "regular",
+            "items": [
+              { "name": "Broken", "price": 10, "quantity": -3, "weight": 1 }
+            ]
+          },
+          "expected": { "status": "error" }
+        },
+        {
+          "action": "process_payment",
+          "expected": { "status": "failed", "reason": "No order" }
+        }
+      ]
+    }
+  ]
+}
