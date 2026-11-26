@@ -50,6 +50,19 @@ jobs:
           # .git/config where that code could read it.
           persist-credentials: false
 
+      # The course lint configuration comes from the default branch, not from
+      # the pull request: a branch created before .github/grading/ existed has
+      # none, and its code was linted with pylint's defaults. PR #266, branched
+      # in August, lost 52 quality points to docstring findings the course
+      # configuration does not count.
+      - name: Checkout course grading configuration
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: .course-config
+          sparse-checkout: .github/grading
+          persist-credentials: false
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -516,8 +529,8 @@ jobs:
           # Absolute, because the lint runs from inside the student directory and
           # pylint only walks up looking for a configuration while the parent
           # directories are packages - it would never find this one on its own.
-          COURSE_PYLINTRC="$GITHUB_WORKSPACE/.github/grading/pylintrc"
-          COURSE_ESLINTRC="$GITHUB_WORKSPACE/.github/grading/eslintrc.json"
+          COURSE_PYLINTRC="$GITHUB_WORKSPACE/.course-config/.github/grading/pylintrc"
+          COURSE_ESLINTRC="$GITHUB_WORKSPACE/.course-config/.github/grading/eslintrc.json"
 
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
