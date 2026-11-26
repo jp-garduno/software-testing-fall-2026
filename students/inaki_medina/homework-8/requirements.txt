@@ -1,0 +1,5 @@
+behave>=1.2.6,<2
+coverage>=7,<8
+playwright>=1.50,<2
+pytest>=8,<9
+selenium>=4.29,<5
