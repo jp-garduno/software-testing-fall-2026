@@ -1,0 +1,898 @@
+[
+  {
+    "test_name": "valid_current_expiration_month",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": true,
+      "errors": []
+    }
+  },
+  {
+    "test_name": "valid_plus_email_and_zip4",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan.tag+shop@orders.example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102-1234"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "01/2027",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": true,
+      "errors": []
+    }
+  },
+  {
+    "test_name": "valid_four_digit_cvv",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(212) 555-0187",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "NY",
+        "zip": "10001"
+      },
+      "credit_card": {
+        "number": "378282246310005",
+        "expiration": "11/2026",
+        "cvv": "1234"
+      }
+    },
+    "expected": {
+      "is_valid": true,
+      "errors": []
+    }
+  },
+  {
+    "test_name": "invalid_email_missing_at",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan.example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_email_whitespace",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan @example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_email_double_dot",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan..shop@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_email_missing_tld",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_email_domain_hyphen",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@-example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_phone_no_parentheses",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "415-555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid phone format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_phone_no_space",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415)555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid phone format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_phone_short_subscriber",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid phone format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_phone_letters",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-TEST",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid phone format"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_missing_street",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Missing billing street"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_blank_city",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "  ",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Missing billing city"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_unknown_state",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "ZZ",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid billing state"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_state_is_array",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": [
+          "CA"
+        ],
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid billing state"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_short_zip",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "9410"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid billing ZIP code"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_zip_number",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": 94102
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid billing ZIP code"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_address_null",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": null,
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Missing billing address"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_checksum",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111112",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card number"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_letters",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "411111111111111X",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card number"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_short_number",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "411111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card number"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_all_zeroes",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "0000000000000000",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card number"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_previous_month",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "10/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card expiration"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_previous_year",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "12/2025",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card expiration"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_month_13",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "13/2028",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card expiration"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_two_digit_year",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "12/28",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card expiration"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_null_expiration",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": null,
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card expiration"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_short_cvv",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "12"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card CVV"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_card_missing_object",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Missing credit card"
+      ]
+    }
+  },
+  {
+    "test_name": "multiple_contact_errors",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": null,
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format",
+        "Invalid phone format"
+      ]
+    }
+  },
+  {
+    "test_name": "multiple_billing_errors",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": 1,
+        "city": "",
+        "state": "ca",
+        "zip": "ZIP"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Missing billing street",
+        "Missing billing city",
+        "Invalid billing state",
+        "Invalid billing ZIP code"
+      ]
+    }
+  },
+  {
+    "test_name": "multiple_payment_errors",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": 4111111111111111,
+        "expiration": "00/2030",
+        "cvv": "ABC"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid credit card number",
+        "Invalid credit card expiration",
+        "Invalid credit card CVV"
+      ]
+    }
+  },
+  {
+    "test_name": "multiple_missing_sections",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": "(415) 555-0134",
+      "credit_card": null
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Missing billing address",
+        "Missing credit card"
+      ]
+    }
+  },
+  {
+    "test_name": "multiple_contact_and_card",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "no",
+      "phone": "+1 (415) 555-0134",
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "credit_card": {
+        "number": "123",
+        "expiration": "11/2026",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format",
+        "Invalid phone format",
+        "Invalid credit card number"
+      ]
+    }
+  },
+  {
+    "test_name": "multiple_phone_address_and_expiry",
+    "as_of": "2026-11-11",
+    "customer": {
+      "email": "morgan@example.com",
+      "phone": false,
+      "billing_address": {
+        "street": "14 Oak St",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "12345-1"
+      },
+      "credit_card": {
+        "number": "4111111111111111",
+        "expiration": "02/2020",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid phone format",
+        "Invalid billing ZIP code",
+        "Invalid credit card expiration"
+      ]
+    }
+  },
+  {
+    "test_name": "invalid_null_customer",
+    "as_of": "2026-11-11",
+    "customer": null,
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid customer data"
+      ]
+    }
+  }
+]
