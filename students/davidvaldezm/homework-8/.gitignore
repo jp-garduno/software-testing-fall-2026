@@ -1,0 +1,7 @@
+playwright/node_modules/
+playwright/playwright-report/
+playwright/test-results/
+reports/live/
+coverage.json
+python-results.xml
+*-output.txt

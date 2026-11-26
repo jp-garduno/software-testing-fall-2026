@@ -1,0 +1,480 @@
+{
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "as_of": "2026-11-11",
+      "order_id": "ORD-001",
+      "payment_responses": [
+        true
+      ],
+      "expected_charges": [
+        55.5
+      ],
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "morgan@example.com",
+              "phone": "(415) 555-0134",
+              "billing_address": {
+                "street": "14 Oak St",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94102"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "11/2026",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 50,
+                "quantity": 1,
+                "weight": 1
+              }
+            ],
+            "distance_km": 10
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 50,
+            "discount": 0,
+            "tax": 4,
+            "shipping": 1.5,
+            "total": 55.5
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 55.5
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "ORD-001",
+            "email": "morgan@example.com",
+            "total": 55.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_express_checkout",
+      "as_of": "2026-11-11",
+      "order_id": "ORD-002",
+      "payment_responses": [
+        true
+      ],
+      "expected_charges": [
+        39.72
+      ],
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "morgan@example.com",
+              "phone": "(415) 555-0134",
+              "billing_address": {
+                "street": "14 Oak St",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94102"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "11/2026",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 40,
+                "quantity": 1,
+                "weight": 2
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 10,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 40,
+            "discount": 6,
+            "tax": 2.72,
+            "shipping": 3,
+            "total": 39.72
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 39.72
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "ORD-002",
+            "email": "morgan@example.com",
+            "total": 39.72
+          }
+        }
+      ]
+    },
+    {
+      "name": "free_shipping_decline_then_retry",
+      "as_of": "2026-11-11",
+      "order_id": "ORD-003",
+      "payment_responses": [
+        false,
+        true
+      ],
+      "expected_charges": [
+        27,
+        27
+      ],
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "morgan@example.com",
+              "phone": "(415) 555-0134",
+              "billing_address": {
+                "street": "14 Oak St",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94102"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "11/2026",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 25,
+                "quantity": 1,
+                "weight": 15
+              }
+            ],
+            "discount_code": "FREESHIP",
+            "distance_km": 200,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 25,
+            "discount": 0,
+            "tax": 2,
+            "shipping": 0,
+            "total": 27
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "declined",
+            "amount": 27
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "unpaid"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 27
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 27
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "ORD-003",
+            "email": "morgan@example.com",
+            "total": 27
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_stops_checkout",
+      "as_of": "2026-11-11",
+      "order_id": "ORD-004",
+      "payment_responses": [],
+      "expected_charges": [],
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "invalid",
+              "phone": "(415) 555-0134",
+              "billing_address": {
+                "street": "14 Oak St",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94102"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "11/2026",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Invalid email format"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 30,
+                "quantity": 1,
+                "weight": 0
+              }
+            ]
+          },
+          "expected": {
+            "status": "invalid_customer"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "no_order"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "no_order"
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "unpaid"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_order_then_corrected",
+      "as_of": "2026-11-11",
+      "order_id": "ORD-005",
+      "payment_responses": [
+        true
+      ],
+      "expected_charges": [
+        54.58
+      ],
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "morgan@example.com",
+              "phone": "(415) 555-0134",
+              "billing_address": {
+                "street": "14 Oak St",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94102"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "11/2026",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": true,
+            "errors": []
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 50,
+                "quantity": -1,
+                "weight": 0
+              }
+            ]
+          },
+          "expected": {
+            "status": "invalid_order",
+            "error": "quantity must be a nonnegative integer"
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 50,
+                "quantity": 1,
+                "weight": 1
+              }
+            ],
+            "distance_km": 0.75,
+            "discount_code": "SAVE10"
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "validate_customer",
+          "data": {
+            "customer": {
+              "email": "morgan@example.com",
+              "phone": "(415) 555-0134",
+              "billing_address": {
+                "street": "14 Oak St",
+                "city": "San Francisco",
+                "state": "CA",
+                "zip": "94102"
+              },
+              "credit_card": {
+                "number": "4111111111111111",
+                "expiration": "11/2026",
+                "cvv": "123"
+              }
+            }
+          },
+          "expected": {
+            "valid": false,
+            "errors": [
+              "Order already created"
+            ]
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 1,
+                "quantity": 1,
+                "weight": 0
+              }
+            ]
+          },
+          "expected": {
+            "status": "already_created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 50,
+            "discount": 0,
+            "tax": 4,
+            "shipping": 0.58,
+            "total": 54.58
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success",
+            "amount": 54.58
+          }
+        },
+        {
+          "action": "generate_confirmation",
+          "expected": {
+            "status": "confirmed",
+            "order_id": "ORD-005",
+            "email": "morgan@example.com",
+            "total": 54.58
+          }
+        }
+      ]
+    }
+  ]
+}
