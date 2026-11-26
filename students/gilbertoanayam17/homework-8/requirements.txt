@@ -1,0 +1,4 @@
+-r selenium/requirements.txt
+-r playwright/requirements.txt
+behave>=1.2.6        # BDD scenarios in features/
+pillow>=10.0         # image diff for the visual regression tests (bonus A)
