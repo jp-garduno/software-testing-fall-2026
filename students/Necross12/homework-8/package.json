@@ -1,0 +1,33 @@
+{
+  "name": "homework-8",
+  "version": "1.0.0",
+  "description": "Pruebas end-to-end de TodoMVC con Selenium, Playwright y Cucumber (homework 8).",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:all": "npm run test:selenium && npm run test:playwright && npm run test:bdd",
+    "test:selenium": "jest --runInBand",
+    "test:playwright": "playwright test",
+    "test:bdd": "cucumber-js",
+    "perf": "node performance/measure.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.3.0",
+    "@playwright/test": "^1.65.1",
+    "jest": "^30.5.2",
+    "playwright": "^1.65.1",
+    "selenium-webdriver": "^4.51.0"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/selenium/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "selenium/**/*.js"
+    ],
+    "testTimeout": 30000
+  }
+}
