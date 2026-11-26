@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+coverage.json
+htmlcov/
+venv/
+node_modules/
+playwright-report/
+test-results/
+selenium/artifacts/
+benchmark/selenium-junit.xml
+benchmark/playwright-report.json
