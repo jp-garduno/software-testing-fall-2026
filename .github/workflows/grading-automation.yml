@@ -688,6 +688,124 @@ jobs:
           echo "tests_failed=$PW_FAILED" >> $GITHUB_OUTPUT
         continue-on-error: true
 
+      - name: Run BDD scenarios (homework 8)
+        id: bdd-tests
+        # homework-8.md asks for a features/ directory with a .feature file and
+        # its step definitions, but nothing ran them, so the BDD part of the
+        # rubric was left to be graded by hand. Each scenario counts as one
+        # test: behave for Python step definitions, cucumber-js for JavaScript.
+        if: steps.extract-info.outputs.assignment == '8' && env.SUBMISSION_FOUND == 'true'
+        run: |
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+          set +e
+          BDD_PASSED=0
+          BDD_FAILED=0
+          BDD_TOOLS=""
+          BDD_BROKEN=""
+          WRAPPER=()
+          command -v xvfb-run > /dev/null 2>&1 && WRAPPER=(xvfb-run -a)
+
+          # Adds one tool's "<passed> <failed>" to the totals; a run that
+          # reports no scenario at all counts as one failed test, as for
+          # Playwright, so a broken BDD suite cannot go unnoticed.
+          add_counts() {
+            local TOOL="$1" COUNTS="$2" OUTPUT="$3"
+            local P F
+            P=$(echo "$COUNTS" | awk '{print $1}')
+            F=$(echo "$COUNTS" | awk '{print $2}')
+            if [ -n "$COUNTS" ] && [ $((P + F)) -gt 0 ]; then
+              echo "🥒 $TOOL: $P scenario(s) passed, $F failed"
+              BDD_PASSED=$((BDD_PASSED + P))
+              BDD_FAILED=$((BDD_FAILED + F))
+            else
+              echo "❌ $TOOL ran no scenario - counted as 1 failed test"
+              tail -40 "$OUTPUT"
+              BDD_FAILED=$((BDD_FAILED + 1))
+              BDD_BROKEN="$BDD_BROKEN $TOOL"
+            fi
+            BDD_TOOLS="$BDD_TOOLS $TOOL"
+          }
+
+          FEATURES=$(find features -type f -name "*.feature" 2>/dev/null | wc -l)
+          if [ "$FEATURES" -eq 0 ]; then
+            echo "ℹ️  No .feature file in features/ - no BDD scenarios to run"
+          fi
+
+          # behave: Python step definitions in features/steps/, the directory
+          # behave itself requires.
+          if [ "$FEATURES" -gt 0 ] && [ -n "$(find features/steps -type f -name '*.py' 2>/dev/null | head -1)" ]; then
+            echo "::group::behave"
+            rm -f bdd-behave.json  # never a file committed under this name
+            "${WRAPPER[@]}" behave --no-capture -f json -o bdd-behave.json -f progress > bdd-behave-output.txt 2>&1
+            cat bdd-behave-output.txt
+            echo "::endgroup::"
+            # Scenario outlines are expanded into one scenario per example.
+            COUNTS=$(python - <<'PY' 2>/dev/null
+          import json
+          passed = failed = 0
+          for feature in json.load(open("bdd-behave.json")):
+              for element in feature.get("elements", []):
+                  if element.get("type") != "scenario":
+                      continue
+                  status = element.get("status")
+                  if status == "passed":
+                      passed += 1
+                  elif status not in ("skipped", "untested"):
+                      failed += 1
+          print(passed, failed)
+          PY
+          )
+            add_counts behave "$COUNTS" bdd-behave-output.txt
+          fi
+
+          # cucumber-js: JavaScript step definitions and the package.json at
+          # the root that declares @cucumber/cucumber (installed by the
+          # JavaScript step, or here if it did not run).
+          if [ "$FEATURES" -gt 0 ] && [ -f package.json ] && grep -q '"@cucumber/cucumber"' package.json; then
+            echo "::group::cucumber-js"
+            if [ ! -d node_modules/@cucumber/cucumber ]; then
+              if [ -f package-lock.json ]; then
+                npm ci --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+              else
+                npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+              fi
+            fi
+            rm -f bdd-cucumber.json
+            "${WRAPPER[@]}" npx --no-install cucumber-js --format json:bdd-cucumber.json > bdd-cucumber-output.txt 2>&1
+            cat bdd-cucumber-output.txt
+            echo "::endgroup::"
+            # A scenario passes when every step and hook passed; a skipped
+            # one counts neither way; anything else (failed, undefined,
+            # ambiguous, pending) is a failure.
+            COUNTS=$(node -e '
+            let passed = 0, failed = 0;
+            for (const feature of JSON.parse(require("fs").readFileSync("bdd-cucumber.json", "utf8"))) {
+              for (const el of feature.elements || []) {
+                if (el.type !== "scenario") continue;
+                const st = [...(el.before || []), ...(el.steps || []), ...(el.after || [])].map((s) => s.result && s.result.status);
+                if (st.every((s) => s === "passed")) passed++;
+                else if (st.every((s) => s === "passed" || s === "skipped")) continue;
+                else failed++;
+              }
+            }
+            console.log(passed, failed);
+            ' 2>/dev/null)
+            add_counts cucumber-js "$COUNTS" bdd-cucumber-output.txt
+          fi
+
+          if [ -n "$BDD_TOOLS" ]; then
+            echo "present=true" >> $GITHUB_OUTPUT
+          else
+            echo "present=false" >> $GITHUB_OUTPUT
+          fi
+          echo "tools=$(echo $BDD_TOOLS)" >> $GITHUB_OUTPUT
+          echo "broken=$(echo $BDD_BROKEN)" >> $GITHUB_OUTPUT
+          echo "tests_passed=$BDD_PASSED" >> $GITHUB_OUTPUT
+          echo "tests_failed=$BDD_FAILED" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
       - name: Check code quality
         id: code-quality
         if: env.SUBMISSION_FOUND == 'true'
@@ -1427,6 +1545,17 @@ jobs:
             CODE_QUALITY_WEIGHT=25
             STRUCTURE_WEIGHT=75
             echo "Homework 3 detected - static testing assignment, using adjusted weights (Structure: 75%, Quality: 25%, Tests/Coverage: not applicable)"
+          elif [ "$ASSIGNMENT" = "8" ]; then
+            # Homework 8 tests an external site (TodoMVC), so coverage can only
+            # measure the submission's own page objects and tests: about 95%
+            # whenever they run, 0 when they do not, which charges the same
+            # failure twice. Its weight goes to the tests, which here include
+            # the Selenium, Playwright and BDD suites.
+            TESTS_WEIGHT=70
+            COVERAGE_WEIGHT=0
+            CODE_QUALITY_WEIGHT=20
+            STRUCTURE_WEIGHT=10
+            echo "Homework 8 detected - system tests of an external site, coverage not graded (Tests: 70%, Quality: 20%, Structure: 10%)"
           elif [ "$ASSIGNMENT" = "9" ]; then
             # Homework 9 is a JMeter assignment: its deliverables are test plans,
             # results and reports, with no code to unit test, cover or lint.
@@ -1457,9 +1586,12 @@ jobs:
           PW_PASSED=${{ steps.playwright-tests.outputs.tests_passed || '0' }}
           PW_FAILED=${{ steps.playwright-tests.outputs.tests_failed || '0' }}
           PW_TOTAL=$((PW_PASSED + PW_FAILED))
+          BDD_PASSED=${{ steps.bdd-tests.outputs.tests_passed || '0' }}
+          BDD_FAILED=${{ steps.bdd-tests.outputs.tests_failed || '0' }}
+          BDD_TOTAL=$((BDD_PASSED + BDD_FAILED))
 
-          TOTAL_PASSED=$((PY_PASSED + JS_PASSED + PW_PASSED))
-          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL + PW_TOTAL))
+          TOTAL_PASSED=$((PY_PASSED + JS_PASSED + PW_PASSED + BDD_PASSED))
+          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL + PW_TOTAL + BDD_TOTAL))
 
           # Calculate test score (0-100)
           if [ $TOTAL_TESTS -gt 0 ]; then
@@ -1930,6 +2062,44 @@ jobs:
           2. Fix any failing tests or linting issues
           3. Ensure coverage meets the minimum threshold (80%)
           4. Update documentation if needed"
+
+            # Homework 8 grades no coverage (see "Calculate final grade") and
+            # runs its BDD scenarios, so the report says that instead. The tool
+            # names are the fixed "behave" and "cucumber-js", never student input.
+            if [ "$ASSIGNMENT" = "8" ]; then
+              BREAKDOWN_ROWS="| **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
+          | **Code Quality** | ${{ steps.calculate-grade.outputs.quality_score }}/100 | ${{ steps.calculate-grade.outputs.quality_weight }}% |
+          | **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+
+              if [ "${{ steps.bdd-tests.outputs.present }}" = "true" ]; then
+                BDD_SECTION="#### BDD Scenarios
+          - ✅ Passed: ${{ steps.bdd-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.bdd-tests.outputs.tests_failed }}
+          - Each scenario counts as one test, run with: \`${{ steps.bdd-tests.outputs.tools }}\`."
+                if [ -n "${{ steps.bdd-tests.outputs.broken }}" ]; then
+                  BDD_SECTION="$BDD_SECTION
+          - ⚠️ \`${{ steps.bdd-tests.outputs.broken }}\` ran no scenario (a configuration or import error, or undefined steps), counted as 1 failed test. The Actions log shows its output."
+                fi
+              else
+                BDD_SECTION="#### BDD Scenarios
+          - No \`.feature\` file in \`features/\` with step definitions (Python under \`features/steps/\` for behave, or \`@cucumber/cucumber\` in the root \`package.json\`), so no scenario ran."
+              fi
+
+              DYNAMIC_SECTION="#### Python Tests
+          - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}$PY_STARTUP_BLOCK
+
+          $(printf '%s' "$JS_SECTION" | grep -v '📊 Coverage')
+          $PW_SECTION
+
+          $BDD_SECTION
+
+          #### Coverage
+          - Not graded for homework 8: the application under test is an external site, so coverage would only measure your own page objects and tests. Its weight goes to the tests."
+              NEXT_STEPS="1. Review the detailed test output in the Actions tab
+          2. Fix any failing tests, scenarios or linting issues
+          3. Update documentation if needed"
+            fi
           fi
 
           REPORT="## 📊 Automated Grading Report
