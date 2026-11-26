@@ -84,4 +84,4 @@ La primera ejecución de cada suite siempre fue más lenta (Selenium 14.6 s, Pla
 
 - La página está en internet (todomvc.com), así que la red añade variación; por eso se reportan promedio y mediana.
 - Solo son 5 repeticiones en una sola máquina; los números sirven para comparar, no como valores absolutos.
-- La suite de Selenium corre con el navegador visible, mientras que Playwright y el script de rendimiento corren en modo headless.
+- Los tiempos de la sección 3 se tomaron cuando la suite de Selenium todavía corría con el navegador visible; ahora corre en modo headless (para CI), igual que Playwright y el script de rendimiento.

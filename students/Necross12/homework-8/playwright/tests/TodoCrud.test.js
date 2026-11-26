@@ -9,8 +9,8 @@ test.describe('Todo CRUD', () => {
     await todoPage.navigate();
   });
 
-  test.afterEach(async ({}, testInfo) => {
-    await todoPage.takeScreenshot(testInfo.title);
+  test.afterEach(async () => {
+    await todoPage.takeScreenshot(test.info().title);
   });
 
   test.describe('Task Creation', () => {

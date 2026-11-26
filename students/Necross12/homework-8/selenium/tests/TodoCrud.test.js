@@ -1,4 +1,4 @@
-const { Builder } = require('selenium-webdriver');
+const { buildDriver } = require('../driver');
 const { TodoPage } = require('../pages/TodoPage');
 
 jest.setTimeout(30000);
@@ -8,7 +8,7 @@ describe('Todo CRUD', () => {
   let todoPage;
 
   beforeAll(async () => {
-    driver = await new Builder().forBrowser('chrome').build();
+    driver = await buildDriver();
   });
 
   afterAll(async () => {

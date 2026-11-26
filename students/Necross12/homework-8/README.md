@@ -21,15 +21,18 @@ npm i
 ## Comandos
 
 ```bash
-    npm test # todo
-    npm run test:selenium # selenium 
+    npm test # selenium + jest con cobertura (es lo que corre el CI)
+    npm run test:all # selenium, playwright y cucumber
+    npm run test:selenium # selenium
     npm run test:playwright # playwright
     npm run test:bdd # cucumber
     npm run perf # métricas de rendimiento (bonus C), ver PERFORMANCE.md
 ```
 
-```bash
-npm run test:selenium
+Selenium y Cucumber corren en modo headless (sin ventana) para que funcionen en CI. Para ver el navegador en PowerShell:
+
+```powershell
+$env:HEADLESS='false'; npm run test:selenium
 ```
 
 ## Estructura del proyecto

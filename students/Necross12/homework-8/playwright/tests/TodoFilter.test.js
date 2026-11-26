@@ -11,8 +11,8 @@ test.describe('Task Filtering', () => {
     await todoPage.toggleTodo(1); // "Tarea 2" queda completada
   });
 
-  test.afterEach(async ({}, testInfo) => {
-    await todoPage.takeScreenshot(testInfo.title);
+  test.afterEach(async () => {
+    await todoPage.takeScreenshot(test.info().title);
   });
 
   test('muestra todas las tareas', async () => {
