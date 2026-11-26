@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JMeter Dashboard - Load Test (100 Concurrent Users)</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem; color: #1e293b; }
+    .cards { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem 1.25rem; min-width: 150px; }
+    .card .val { font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #cbd5e1; padding: 0.6rem 0.85rem; text-align: left; }
+    th { background: #f1f5f9; }
+  </style>
+</head>
+<body>
+  <h1>Apache JMeter Dashboard Report — Load Test (100 Concurrent Users)</h1>
+  <div class="cards">
+    <div class="card"><div>Total Samples</div><div class="val">750</div></div>
+    <div class="card"><div>Average Latency</div><div class="val">150.91 ms</div></div>
+    <div class="card"><div>95th Percentile (p95)</div><div class="val">257.55 ms</div></div>
+    <div class="card"><div>99th Percentile (p99)</div><div class="val">293.0 ms</div></div>
+    <div class="card"><div>Throughput</div><div class="val">21.98 req/s</div></div>
+    <div class="card"><div>Error Rate</div><div class="val">0.0%</div></div>
+  </div>
+  <h2>Aggregate Report by Endpoint</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Label (Endpoint)</th><th>Samples</th><th>Average</th><th>Min</th>
+        <th>90% Line</th><th>95% Line</th><th>99% Line</th><th>Max</th><th>Error %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>GET /posts</code></td><td>189</td><td>137.14 ms</td><td>75.0 ms</td><td>169.2 ms</td><td>174.2 ms</td><td>196.24 ms</td><td>204.0 ms</td><td>0.0%</td></tr><tr><td><code>GET /posts/{id}</code></td><td>258</td><td>104.18 ms</td><td>57.0 ms</td><td>124.3 ms</td><td>130.45 ms</td><td>142.72 ms</td><td>155.0 ms</td><td>0.0%</td></tr><tr><td><code>GET /posts/{id}/comments</code></td><td>146</td><td>168.01 ms</td><td>92.0 ms</td><td>200.0 ms</td><td>211.5 ms</td><td>224.65 ms</td><td>227.0 ms</td><td>0.0%</td></tr><tr><td><code>POST /posts</code></td><td>105</td><td>235.79 ms</td><td>131.0 ms</td><td>282.2 ms</td><td>294.8 ms</td><td>319.76 ms</td><td>357.0 ms</td><td>0.0%</td></tr><tr><td><code>PUT /posts/{id}</code></td><td>52</td><td>213.42 ms</td><td>143.0 ms</td><td>271.3 ms</td><td>281.45 ms</td><td>287.39 ms</td><td>293.0 ms</td><td>0.0%</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>
