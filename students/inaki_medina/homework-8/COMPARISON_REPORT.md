@@ -22,22 +22,18 @@ branches.
 
 | Metric | Selenium | Playwright |
 |---|---|---|
-| Lines of code |  |  |
-| Complexity |  |  |
+| Lines of code | 239 | 129 |
+| Complexity | alot | medium |
 
-## 3. Developer Experience
+## 3. Speed
+the latest rerun took 85.54s for Selenium and 30.01s for Playwright.
 
-| Aspect | Selenium | Playwright | Notes |
-|---|---|---|---|
-| Setup difficulty |  |  |  |
-| Auto-waiting |  |  |  |
-| Debugging |  |  |  |
-| Documentation quality |  |  |  |
-| Error messages |  |  |  |
-| IDE support |  |  |  |
 
 ## 4. Recommendations
 
 - When would you choose Selenium?
+	if I know selenium alot and need to tests alot
 - When would you choose Playwright?
+	i'm a begginer and don't mind the time it takes to run tests + i might purposelly slow it down to view if it is correct with my own eyes
 - What did you learn?
+	i learned to code selenium a bit but i just transalted selenium int playwright with copilot and didn't learn much playwright. I also learned to test with tdd and it's uses
