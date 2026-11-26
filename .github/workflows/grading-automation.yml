@@ -1058,6 +1058,73 @@ jobs:
 
             # No dynamic test check here on purpose: homework 3 covers static
             # testing, and its rubric awards no points for tests or coverage.
+          elif [ "$ASSIGNMENT" = "8" ]; then
+            # Homework 8: system-level testing. homework-8.md asks for
+            # selenium/, playwright/ and features/ at the root instead of a
+            # src/ or tests/ directory, so the generic check below would take
+            # 4 points from every submission that follows the assignment.
+            # Python and JavaScript are both accepted.
+            echo "Checking Homework 8 structure (Selenium, Playwright, BDD)..."
+
+            count_tests() {
+              find "$1" -type f \( -name "test_*.py" -o -name "*_test.py" -o -name "*.test.js" -o -name "*.spec.js" -o -name "*.test.mjs" -o -name "*.test.cjs" -o -name "*.test.ts" -o -name "*.spec.ts" \) -not -path "*/__pycache__/*" -not -path "*/node_modules/*" 2>/dev/null | wc -l
+            }
+
+            # Selenium and Playwright tests (2 points each)
+            for TOOL in selenium playwright; do
+              TOOL_TESTS=0
+              if [ -d "$TOOL/tests" ]; then
+                TOOL_TESTS=$(count_tests "$TOOL/tests")
+              fi
+              if [ "$TOOL_TESTS" -ge 1 ]; then
+                SCORE=$((SCORE + 2))
+                echo "✅ $TOOL/tests/ has $TOOL_TESTS test file(s) (+2)"
+              else
+                echo "❌ No test files in $TOOL/tests/"
+              fi
+            done
+
+            # Page Object Model for both tools (1 point)
+            if [ -d "selenium/pages" ] && [ -d "playwright/pages" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ selenium/pages/ and playwright/pages/ found (+1)"
+            else
+              echo "❌ selenium/pages/ or playwright/pages/ missing"
+            fi
+
+            # BDD feature file (1 point)
+            FEATURES=0
+            if [ -d "features" ]; then
+              FEATURES=$(find features -type f -name "*.feature" | wc -l)
+            fi
+            if [ "$FEATURES" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $FEATURES .feature file(s) in features/ (+1)"
+            else
+              echo "❌ No .feature file in features/"
+            fi
+
+            # Comparison report (1 point)
+            if [ -f "COMPARISON_REPORT.md" ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ COMPARISON_REPORT.md found (+1)"
+            else
+              echo "❌ COMPARISON_REPORT.md missing"
+            fi
+
+            # Screenshots (1 point)
+            SHOTS=0
+            if [ -d "screenshots" ]; then
+              # Committed files only: the tests run before this check and may
+              # write screenshots/ themselves.
+              SHOTS=$(git ls-files -- screenshots | wc -l)
+            fi
+            if [ "$SHOTS" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $SHOTS file(s) in screenshots/ (+1)"
+            else
+              echo "❌ No files in screenshots/"
+            fi
           else
             # Code-based homework: check for tests and structure
             # Search recursively: these assignments ask for the tests in a
