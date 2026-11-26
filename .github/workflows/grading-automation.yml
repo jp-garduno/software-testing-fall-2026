@@ -25,6 +25,8 @@ jobs:
         contains(github.event.pull_request.labels.*.name, 'project'))) ||
       github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    # Homework 8 runs browser suites, which can hang; the default is 6 hours.
+    timeout-minutes: 60
     outputs:
       grade: ${{ steps.calculate-grade.outputs.grade }}
       student_name: ${{ steps.extract-info.outputs.student_name }}
@@ -273,6 +275,7 @@ jobs:
         if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         env:
           BRANCH_COVERAGE: ${{ steps.extract-info.outputs.assignment == '5' }}
+          SYSTEM_TESTS: ${{ steps.extract-info.outputs.assignment == '8' }}
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -286,6 +289,28 @@ jobs:
           # installed, so a suite that imports anything else died at collection.
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt > pip-install-output.txt 2>&1 || cat pip-install-output.txt
+          fi
+
+          # Homework 8 asks for selenium/requirements.txt, and some submissions
+          # add one under playwright/ or features/ too. Only the root one was
+          # installed, so PR #258 stopped at collection on a Pillow import its
+          # selenium/requirements.txt declares. Its browser tests also need the
+          # Playwright browsers (PR #272: "Executable doesn't exist"), and a
+          # display for a test that starts Chrome without --headless.
+          PYTEST_WRAPPER=()
+          if [ "$SYSTEM_TESTS" = "true" ]; then
+            for REQ in */requirements.txt; do
+              [ -f "$REQ" ] || continue
+              echo "Installing $REQ"
+              pip install -r "$REQ" > pip-install-output.txt 2>&1 || cat pip-install-output.txt
+            done
+            if python -c "import playwright" 2>/dev/null; then
+              python -m playwright install --with-deps > playwright-install-output.txt 2>&1 \
+                || { echo "⚠️  Could not install the Playwright browsers"; tail -20 playwright-install-output.txt; }
+            fi
+            if command -v xvfb-run > /dev/null 2>&1; then
+              PYTEST_WRAPPER=(xvfb-run -a)
+            fi
           fi
 
           # Determine coverage source (prefer src/ to exclude test files from coverage)
@@ -322,7 +347,7 @@ jobs:
           fi
 
           # Run tests with detailed output
-          pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE $COV_BRANCH_FLAG --cov-report=json --cov-report=term > python-test-output.txt 2>&1
+          "${PYTEST_WRAPPER[@]}" pytest -v --tb=short --junitxml=python-results.xml --cov=$COV_SOURCE $COV_BRANCH_FLAG --cov-report=json --cov-report=term > python-test-output.txt 2>&1
           PYTEST_EXIT=$?
 
           # Extract metrics. The defaults are needed because `|| echo "0"` after
@@ -414,6 +439,7 @@ jobs:
         if: steps.extract-info.outputs.assignment != '3' && env.SUBMISSION_FOUND == 'true'
         env:
           BRANCH_COVERAGE: ${{ steps.extract-info.outputs.assignment == '5' }}
+          SYSTEM_TESTS: ${{ steps.extract-info.outputs.assignment == '8' }}
         run: |
           # Navigate to student directory
           if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
@@ -445,8 +471,20 @@ jobs:
             npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
           fi
 
+          # Homework 8: the Playwright step below runs playwright/ itself. Jest's
+          # default testMatch also picks up playwright/tests/*.spec.js, which
+          # fail under Jest, so the same specs would count twice. Only for a
+          # test script that is plain Jest, where the option is understood.
+          JEST_EXTRA=()
+          if [ "$SYSTEM_TESTS" = "true" ]; then
+            TEST_SCRIPT=$(node -e 'try { console.log(require("./package.json").scripts.test || "") } catch (e) {}' 2>/dev/null)
+            if printf '%s' "$TEST_SCRIPT" | grep -qE '^jest( |$)'; then
+              JEST_EXTRA=(--testPathIgnorePatterns /node_modules/ /playwright/)
+            fi
+          fi
+
           # Run tests with coverage
-          npm test -- --coverage --json --outputFile=js-results.json > js-test-output.txt 2>&1
+          npm test -- --coverage --json --outputFile=js-results.json "${JEST_EXTRA[@]}" > js-test-output.txt 2>&1
           NPM_EXIT=$?
 
           # Read the totals from the JSON report the run above already writes.
@@ -538,6 +576,116 @@ jobs:
           echo "exit_code=$NPM_EXIT" >> $GITHUB_OUTPUT
 
           cat js-test-output.txt
+        continue-on-error: true
+
+      - name: Run Playwright tests (homework 8)
+        id: playwright-tests
+        # Homework 8 asks for the Playwright suite in playwright/, with its own
+        # package.json. The JavaScript step above only runs `npm test` (Jest)
+        # with the package.json at the root, so no Playwright test written in
+        # JavaScript was ever run: 40% of the assignment's rubric. This runs
+        # `playwright test` wherever a submission keeps a Playwright config.
+        if: steps.extract-info.outputs.assignment == '8' && env.SUBMISSION_FOUND == 'true'
+        run: |
+          if [ -n "$STUDENT_DIR" ] && [ "$STUDENT_DIR" != "." ]; then
+            cd "$STUDENT_DIR"
+          fi
+          set +e
+          ROOT="$PWD"
+          PW_PASSED=0
+          PW_FAILED=0
+          PW_DIRS=""
+          PW_BROKEN=""
+
+          # A root `npm test` that already runs Playwright was counted by the
+          # JavaScript step: PR #270 wraps `playwright test` so that it reports
+          # Jest-style totals and coverage. Running it again would count it twice.
+          # The test script with every `npm run <script>` it calls expanded, so
+          # "test": "npm run e2e" with "e2e": "playwright test" is caught too.
+          ROOT_TEST_SCRIPT=$(node -e '
+          let scripts = {};
+          try { scripts = require("./package.json").scripts || {}; } catch (e) {}
+          const seen = new Set();
+          const expand = (name) => {
+            if (seen.has(name) || !scripts[name]) return "";
+            seen.add(name);
+            const body = scripts[name];
+            const called = [...body.matchAll(/npm run(?:-script)? ([\w:.-]+)/g)].map((m) => expand(m[1]));
+            return [body, ...called].join(" ; ");
+          };
+          console.log(expand("test"));
+          ' 2>/dev/null)
+          if printf '%s' "$ROOT_TEST_SCRIPT" | grep -qi playwright; then
+            echo "ℹ️  The root npm test script runs Playwright (\"$ROOT_TEST_SCRIPT\") and was counted with the JavaScript tests"
+            echo "present=false" >> $GITHUB_OUTPUT
+            echo "counted_by_npm_test=true" >> $GITHUB_OUTPUT
+            echo "tests_passed=0" >> $GITHUB_OUTPUT
+            echo "tests_failed=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          for DIR in . playwright; do
+            CONFIG=$(find "$DIR" -maxdepth 1 -type f -name "playwright.config.*" 2>/dev/null | head -1)
+            [ -n "$CONFIG" ] || continue
+            cd "$ROOT/$DIR"
+            echo "::group::Playwright in $DIR"
+            # The same rule as the JavaScript step: npm walks up the tree, so
+            # without a package.json here it would use somebody else's.
+            if [ ! -f package.json ]; then
+              echo "ℹ️  $CONFIG has no package.json next to it - skipping"
+              echo "::endgroup::"
+              cd "$ROOT"
+              continue
+            fi
+            if [ -f package-lock.json ]; then
+              npm ci --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+            else
+              npm install --no-audit --no-fund > npm-install-output.txt 2>&1 || cat npm-install-output.txt
+            fi
+            # The browsers for the version of Playwright the submission declares.
+            npx --no-install playwright install --with-deps > playwright-install-output.txt 2>&1 \
+              || { echo "⚠️  Could not install the Playwright browsers"; tail -20 playwright-install-output.txt; }
+
+            # The JSON reporter's stats: "expected" passed, "flaky" passed on a
+            # retry, "unexpected" failed; skipped tests count neither way. The
+            # report goes to a file so console output from the tests cannot
+            # corrupt it.
+            CI=true PLAYWRIGHT_JSON_OUTPUT_NAME=pw-results.json \
+              npx --no-install playwright test --reporter=json > pw-output.txt 2>&1
+            COUNTS=$(node -e '
+            const s = JSON.parse(require("fs").readFileSync("pw-results.json", "utf8")).stats;
+            if (!s || typeof s.expected !== "number") throw new Error("no stats in the report");
+            console.log(s.expected + (s.flaky || 0), s.unexpected || 0);
+            ' 2>/dev/null)
+            P=$(echo "$COUNTS" | awk '{print $1}')
+            F=$(echo "$COUNTS" | awk '{print $2}')
+            if [ -n "$COUNTS" ] && [ $((P + F)) -gt 0 ]; then
+              echo "🎭 Playwright in $DIR: $P passed, $F failed"
+              PW_PASSED=$((PW_PASSED + P))
+              PW_FAILED=$((PW_FAILED + F))
+            else
+              # The suite did not run at all (a config or import error, or
+              # no test found). Counted as one failed test, so a broken
+              # Playwright suite cannot hide behind a passing Selenium one.
+              echo "❌ Playwright in $DIR ran no tests - counted as 1 failed test"
+              tail -40 pw-output.txt
+              PW_FAILED=$((PW_FAILED + 1))
+              PW_BROKEN="$PW_BROKEN $DIR"
+            fi
+            PW_DIRS="$PW_DIRS $DIR"
+            echo "::endgroup::"
+            cd "$ROOT"
+          done
+
+          if [ -n "$PW_DIRS" ]; then
+            echo "present=true" >> $GITHUB_OUTPUT
+          else
+            echo "present=false" >> $GITHUB_OUTPUT
+          fi
+          echo "dirs=$(echo $PW_DIRS)" >> $GITHUB_OUTPUT
+          echo "broken=$(echo $PW_BROKEN)" >> $GITHUB_OUTPUT
+          echo "tests_passed=$PW_PASSED" >> $GITHUB_OUTPUT
+          echo "tests_failed=$PW_FAILED" >> $GITHUB_OUTPUT
         continue-on-error: true
 
       - name: Check code quality
@@ -1305,8 +1453,13 @@ jobs:
           JS_FAILED=${{ steps.js-tests.outputs.tests_failed || '0' }}
           JS_TOTAL=$((JS_PASSED + JS_FAILED))
 
-          TOTAL_PASSED=$((PY_PASSED + JS_PASSED))
-          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL))
+          # Homework 8 only; 0 for every other assignment.
+          PW_PASSED=${{ steps.playwright-tests.outputs.tests_passed || '0' }}
+          PW_FAILED=${{ steps.playwright-tests.outputs.tests_failed || '0' }}
+          PW_TOTAL=$((PW_PASSED + PW_FAILED))
+
+          TOTAL_PASSED=$((PY_PASSED + JS_PASSED + PW_PASSED))
+          TOTAL_TESTS=$((PY_TOTAL + JS_TOTAL + PW_TOTAL))
 
           # Calculate test score (0-100)
           if [ $TOTAL_TESTS -gt 0 ]; then
@@ -1737,12 +1890,38 @@ jobs:
           $JS_COV_LINE"
             fi
 
+            # Homework 8 only. The directory names are the fixed "." and
+            # "playwright" the step loops over, never student input.
+            PW_SECTION=""
+            if [ "$ASSIGNMENT" = "8" ]; then
+              if [ "${{ steps.playwright-tests.outputs.counted_by_npm_test }}" = "true" ]; then
+                PW_SECTION="
+          #### Playwright Tests
+          - Your root \`npm test\` runs Playwright, so these tests are counted under JavaScript Tests above."
+              elif [ "${{ steps.playwright-tests.outputs.present }}" = "true" ]; then
+                PW_SECTION="
+          #### Playwright Tests
+          - ✅ Passed: ${{ steps.playwright-tests.outputs.tests_passed }}
+          - ❌ Failed: ${{ steps.playwright-tests.outputs.tests_failed }}
+          - Run with \`npx playwright test\` in: \`${{ steps.playwright-tests.outputs.dirs }}\`. Coverage is not measured for Playwright."
+                if [ -n "${{ steps.playwright-tests.outputs.broken }}" ]; then
+                  PW_SECTION="$PW_SECTION
+          - ⚠️ No test ran in \`${{ steps.playwright-tests.outputs.broken }}\` (a configuration or import error, or no test found), counted as 1 failed test. The Actions log shows Playwright's output."
+                fi
+              else
+                PW_SECTION="
+          #### Playwright Tests
+          - No \`playwright.config.*\` with a \`package.json\` next to it at the root or in \`playwright/\`, so no JavaScript Playwright suite ran. Playwright tests written in Python are counted under Python Tests."
+              fi
+            fi
+
             DYNAMIC_SECTION="#### Python Tests
           - ✅ Passed: ${{ steps.python-tests.outputs.tests_passed }}
           - ❌ Failed: ${{ steps.python-tests.outputs.tests_failed }}
           $PY_COV_LINE$PY_STARTUP_BLOCK
 
           $JS_SECTION
+          $PW_SECTION
 
           #### How coverage is scored
           - The target is **${{ steps.calculate-grade.outputs.coverage_target }}%**, not 100%. At or above it you get the whole category; below it the score scales down proportionally, so 60% covered scores 75/100.
