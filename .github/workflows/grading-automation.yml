@@ -840,8 +840,8 @@ jobs:
 
           # Check for README (always required)
           if [ -f "README.md" ]; then
-            # For Homework 2 & 3, README is worth 1 point; for others, 2 points
-            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ]; then
+            # For Homework 2, 3 & 9, README is worth 1 point; for others, 2 points
+            if [ "$ASSIGNMENT" = "2" ] || [ "$ASSIGNMENT" = "3" ] || [ "$ASSIGNMENT" = "9" ]; then
               SCORE=$((SCORE + 1))
               echo "✅ README.md found (+1)"
             else
@@ -1125,6 +1125,69 @@ jobs:
             else
               echo "❌ No files in screenshots/"
             fi
+          elif [ "$ASSIGNMENT" = "9" ]; then
+            # Homework 9: performance testing with JMeter. The deliverables are
+            # test plans, their results and reports, not code with unit tests,
+            # so the generic check below would give at most 2 of its 10 points.
+            echo "Checking Homework 9 structure (JMeter plans, results, reports)..."
+
+            # Test plans (1 point each): any .jmx under jmeter/ whose name
+            # says which test it is, e.g. load_test.jmx.
+            for PLAN in load stress spike; do
+              PLANS=0
+              if [ -d "jmeter" ]; then
+                PLANS=$(find jmeter -type f -iname "*${PLAN}*.jmx" | wc -l)
+              fi
+              if [ "$PLANS" -ge 1 ]; then
+                SCORE=$((SCORE + 1))
+                echo "✅ $PLAN test plan found in jmeter/ (+1)"
+              else
+                echo "❌ No $PLAN test plan (jmeter/*${PLAN}*.jmx)"
+              fi
+            done
+
+            # Results (1 point): the raw .jtl files of the runs
+            JTL=0
+            if [ -d "results" ]; then
+              # Committed files only, as for screenshots below. In a git pathspec
+              # "*" also matches "/", so this covers subdirectories too.
+              JTL=$(git ls-files -- "results/*.jtl" | wc -l)
+            fi
+            if [ "$JTL" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $JTL .jtl result file(s) in results/ (+1)"
+            else
+              echo "❌ No .jtl result files in results/"
+            fi
+
+            # Screenshots (1 point)
+            SHOTS=0
+            if [ -d "screenshots" ]; then
+              # Committed files only: the tests run before this check and may
+              # write screenshots/ themselves.
+              SHOTS=$(git ls-files -- screenshots | wc -l)
+            fi
+            if [ "$SHOTS" -ge 1 ]; then
+              SCORE=$((SCORE + 1))
+              echo "✅ $SHOTS file(s) in screenshots/ (+1)"
+            else
+              echo "❌ No files in screenshots/"
+            fi
+
+            # Reports (1 point each, 100+ words so an empty template does not count)
+            for DOC in PERFORMANCE_STRATEGY.md RESULTS.md ANALYSIS_REPORT.md PERFORMANCE_REPORT.md; do
+              if [ -f "$DOC" ]; then
+                DOC_WORDS=$(wc -w < "$DOC")
+                if [ "$DOC_WORDS" -ge 100 ]; then
+                  SCORE=$((SCORE + 1))
+                  echo "✅ $DOC found: $DOC_WORDS words (+1)"
+                else
+                  echo "⚠️  $DOC found but too brief: $DOC_WORDS/100 words"
+                fi
+              else
+                echo "❌ $DOC missing"
+              fi
+            done
           else
             # Code-based homework: check for tests and structure
             # Search recursively: these assignments ask for the tests in a
@@ -1178,6 +1241,15 @@ jobs:
             CODE_QUALITY_WEIGHT=25
             STRUCTURE_WEIGHT=75
             echo "Homework 3 detected - static testing assignment, using adjusted weights (Structure: 75%, Quality: 25%, Tests/Coverage: not applicable)"
+          elif [ "$ASSIGNMENT" = "9" ]; then
+            # Homework 9 is a JMeter assignment: its deliverables are test plans,
+            # results and reports, with no code to unit test, cover or lint.
+            # Graded on the regular weights, a complete submission scored 22/100.
+            TESTS_WEIGHT=0
+            COVERAGE_WEIGHT=0
+            CODE_QUALITY_WEIGHT=0
+            STRUCTURE_WEIGHT=100
+            echo "Homework 9 detected - JMeter assignment, graded on its deliverables only (Structure: 100%, Tests/Coverage/Quality: not applicable)"
           else
             # Regular homework: prioritize tests and coverage
             TESTS_WEIGHT=40
@@ -1547,6 +1619,15 @@ jobs:
             NEXT_STEPS="1. Review the linting output in the Actions tab
           2. Fix any remaining linting issues and make sure the pre-commit hooks run
           3. Update documentation if needed"
+          elif [ "$ASSIGNMENT" = "9" ]; then
+            # Homework 9 is graded on its deliverables only, so show just that row.
+            BREAKDOWN_ROWS="| **Structure** | ${{ steps.calculate-grade.outputs.structure_score }}/100 | ${{ steps.calculate-grade.outputs.structure_weight }}% |"
+            DYNAMIC_SECTION="#### Tests, Coverage & Code Quality
+          - Not applicable: homework 9 is a JMeter assignment and is graded on its test plans, results and reports."
+            QUALITY_LINES="- Not graded for this assignment."
+            NEXT_STEPS="1. Review the Required Files output in the Actions tab
+          2. Add any missing test plan, result file or report
+          3. The instructor grades the content of the reports by hand"
           else
             BREAKDOWN_ROWS="| **Tests** | ${{ steps.calculate-grade.outputs.test_score }}/100 | ${{ steps.calculate-grade.outputs.tests_weight }}% |
           | **Coverage** | ${{ steps.calculate-grade.outputs.coverage_score }}/100 | ${{ steps.calculate-grade.outputs.coverage_weight }}% |
