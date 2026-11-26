@@ -1,0 +1,263 @@
+{
+  "workflows": [
+    {
+      "name": "standard_order",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 100,
+                "quantity": 1,
+                "weight": 2
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "NONE",
+            "distance_km": 10,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "total": 110
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "total": 110
+          }
+        }
+      ]
+    },
+    {
+      "name": "express_discount_order",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 80,
+                "quantity": 2,
+                "weight": 2
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE20",
+            "distance_km": 30,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "total": 145.74
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "total": 145.74
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_customer_free_shipping",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 25,
+                "quantity": 3,
+                "weight": 2
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "FREESHIP",
+            "distance_km": 120,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "total": 81
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "confirmed",
+            "total": 81
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_cannot_checkout",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "invalid-email",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2030",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Item",
+                "price": 10,
+                "quantity": 1,
+                "weight": 0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "NONE",
+            "distance_km": 0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "rejected"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "status": "rejected"
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "rejected"
+          }
+        },
+        {
+          "action": "confirm_order",
+          "expected": {
+            "status": "rejected"
+          }
+        }
+      ]
+    }
+  ]
+}
