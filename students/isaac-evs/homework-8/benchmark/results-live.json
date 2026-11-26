@@ -1,0 +1,59 @@
+{
+  "runs": 3,
+  "summary": {
+    "selenium": {
+      "median_wall": 13.009621499999994,
+      "median_runner": 12.696,
+      "tests": 41,
+      "failures_per_run": [0, 0, 0],
+      "mean_per_test": 0.3325609756097561,
+      "median_per_test": 0.156
+    },
+    "playwright_parallel": {
+      "median_wall": 18.397703125000003,
+      "median_runner": 17.517701000000002,
+      "tests": 41,
+      "failures_per_run": [0, 0, 0],
+      "mean_per_test": 1.653349593495935,
+      "median_per_test": 1.417
+    },
+    "playwright_serial": {
+      "median_wall": 43.675078499999984,
+      "median_runner": 43.044365,
+      "tests": 41,
+      "failures_per_run": [0, 0, 0],
+      "mean_per_test": 1.021260162601626,
+      "median_per_test": 0.954
+    }
+  },
+  "raw_wall": {
+    "selenium": [16.287625958, 13.009621499999994, 12.692498749999999],
+    "playwright_parallel": [
+      18.397703125000003, 13.582194290999993, 23.92439891699999
+    ],
+    "playwright_serial": [
+      44.03098658300001, 41.30386845800001, 43.675078499999984
+    ]
+  },
+  "startup": {
+    "selenium_driver_and_browser": [
+      1.2263529590000002, 0.5453583329999999, 0.563800917
+    ],
+    "playwright": [
+      {
+        "launch": 0.07584562500000001,
+        "context_and_page": 0.03816216700000001
+      },
+      {
+        "launch": 0.075332166,
+        "context_and_page": 0.03857850000000002
+      },
+      {
+        "launch": 0.075979042,
+        "context_and_page": 0.038577500000000015
+      }
+    ]
+  },
+  "label": "live",
+  "url": "https://todomvc.com/examples/react/dist/"
+}

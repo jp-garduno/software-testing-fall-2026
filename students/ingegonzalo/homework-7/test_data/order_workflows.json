@@ -1,0 +1,81 @@
+{
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "steps": [
+        {"action": "validate_customer",
+         "data": {"email": "john@example.com", "phone": "(555) 123-4567",
+                  "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+                  "credit_card": {"number": "4532015112830366", "expiration": "12/2099", "cvv": "123"}},
+         "expected": {"valid": true, "errors": []}},
+        {"action": "create_order",
+         "data": {"customer_type": "regular",
+                  "items": [{"name": "Keyboard", "price": 45.50, "quantity": 1, "weight": 1.0},
+                            {"name": "Mouse", "price": 20.00, "quantity": 2, "weight": 0.2}]},
+         "expected": {"status": "created"}},
+        {"action": "apply_discount", "data": {"code": "SAVE10"}, "expected": {"applied": true}},
+        {"action": "set_shipping", "data": {"distance_km": 30, "is_express": false}, "expected": {"status": "set"}},
+        {"action": "calculate_total",
+         "expected": {"subtotal": 85.50, "discount": 8.55, "tax": 6.16, "shipping": 3.70, "total": 86.81}},
+        {"action": "process_payment", "expected": {"status": "success"}},
+        {"action": "generate_confirmation", "expected": {"status": "confirmed", "items": 2, "total": 86.81}}
+      ]
+    },
+    {
+      "name": "invalid_customer_blocks_order",
+      "steps": [
+        {"action": "validate_customer",
+         "data": {"email": "invalid-email", "phone": "(555) 123-4567",
+                  "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+                  "credit_card": {"number": "4532015112830366", "expiration": "12/2099", "cvv": "123"}},
+         "expected": {"valid": false, "errors": ["Invalid email format"]}},
+        {"action": "create_order",
+         "data": {"customer_type": "regular", "items": [{"name": "Book", "price": 30, "quantity": 1, "weight": 0.5}]},
+         "expected": {"status": "rejected"}},
+        {"action": "calculate_total", "expected": {"status": "rejected"}},
+        {"action": "process_payment", "expected": {"status": "rejected"}},
+        {"action": "generate_confirmation", "expected": {"status": "rejected"}}
+      ]
+    },
+    {
+      "name": "declined_card_flow",
+      "steps": [
+        {"action": "validate_customer",
+         "data": {"email": "ana@example.com", "phone": "(555) 222-3344",
+                  "billing_address": {"street": "9 Pine Rd", "city": "Denver", "state": "CO", "zip": "80202"},
+                  "credit_card": {"number": "4000000000000002", "expiration": "12/2099", "cvv": "123"}},
+         "expected": {"valid": true, "errors": []}},
+        {"action": "create_order",
+         "data": {"customer_type": "regular", "items": [{"name": "Headphones", "price": 120, "quantity": 1, "weight": 0.5}]},
+         "expected": {"status": "created"}},
+        {"action": "apply_discount", "data": {"code": "SAVE20"}, "expected": {"applied": true}},
+        {"action": "set_shipping", "data": {"distance_km": 100, "is_express": false}, "expected": {"status": "set"}},
+        {"action": "calculate_total",
+         "expected": {"subtotal": 120.00, "discount": 24.00, "tax": 7.68, "shipping": 10.25, "total": 113.93}},
+        {"action": "process_payment", "expected": {"status": "declined"}},
+        {"action": "generate_confirmation", "expected": {"status": "rejected"}}
+      ]
+    },
+    {
+      "name": "new_user_express_flow",
+      "steps": [
+        {"action": "validate_customer",
+         "data": {"email": "maria@example.com", "phone": "(555) 987-6543",
+                  "billing_address": {"street": "45 Oak Ave", "city": "Austin", "state": "TX", "zip": "73301"},
+                  "credit_card": {"number": "4111111111111111", "expiration": "06/2099", "cvv": "321"}},
+         "expected": {"valid": true, "errors": []}},
+        {"action": "create_order",
+         "data": {"customer_type": "new",
+                  "items": [{"name": "Backpack", "price": 80, "quantity": 1, "weight": 1.2},
+                            {"name": "Bottle", "price": 15, "quantity": 2, "weight": 0.5}]},
+         "expected": {"status": "created"}},
+        {"action": "apply_discount", "data": {"code": "NEWUSER"}, "expected": {"applied": true}},
+        {"action": "set_shipping", "data": {"distance_km": 20, "is_express": true}, "expected": {"status": "set"}},
+        {"action": "calculate_total",
+         "expected": {"subtotal": 110.00, "discount": 16.50, "tax": 7.48, "shipping": 4.65, "total": 105.63}},
+        {"action": "process_payment", "expected": {"status": "success"}},
+        {"action": "generate_confirmation", "expected": {"status": "confirmed", "items": 2, "total": 105.63}}
+      ]
+    }
+  ]
+}
