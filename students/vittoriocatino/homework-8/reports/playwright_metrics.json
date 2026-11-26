@@ -1,0 +1,802 @@
+{
+  "url": "https://todomvc.com/examples/react/dist/",
+  "exit_status": 0,
+  "browser_setup": {
+    "seconds": 0.3159352919974481,
+    "version": "158.0.8127.37"
+  },
+  "suite_seconds": 7.549895416999789,
+  "tests": [
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_create_single",
+      "phase": "setup",
+      "seconds": 0.7366361659987888,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_create_single",
+      "phase": "call",
+      "seconds": 0.028631791999941925,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_create_single",
+      "phase": "teardown",
+      "seconds": 0.05797970900312066,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_create_multiple",
+      "phase": "setup",
+      "seconds": 0.3716694169997936,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_create_multiple",
+      "phase": "call",
+      "seconds": 0.04003749999901629,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_create_multiple",
+      "phase": "teardown",
+      "seconds": 0.006898708998051006,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_created_task_appears",
+      "phase": "setup",
+      "seconds": 0.35874812499969266,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_created_task_appears",
+      "phase": "call",
+      "seconds": 0.027191832999960752,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_created_task_appears",
+      "phase": "teardown",
+      "seconds": 0.0036729579987877514,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_complete_single",
+      "phase": "setup",
+      "seconds": 0.38041895799688064,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_complete_single",
+      "phase": "call",
+      "seconds": 0.0515222089998133,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_complete_single",
+      "phase": "teardown",
+      "seconds": 0.05738750000091386,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_uncomplete",
+      "phase": "setup",
+      "seconds": 0.37178775000211317,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_uncomplete",
+      "phase": "call",
+      "seconds": 0.09461554100198555,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_uncomplete",
+      "phase": "teardown",
+      "seconds": 0.003368083998793736,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_complete_multiple",
+      "phase": "setup",
+      "seconds": 0.36188166699866997,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_complete_multiple",
+      "phase": "call",
+      "seconds": 0.1035231659989222,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_complete_multiple",
+      "phase": "teardown",
+      "seconds": 0.0035196670032746624,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_delete_single",
+      "phase": "setup",
+      "seconds": 0.36380958299923805,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_delete_single",
+      "phase": "call",
+      "seconds": 0.11616104100176017,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_delete_single",
+      "phase": "teardown",
+      "seconds": 0.0038054159995226655,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_delete_completed",
+      "phase": "setup",
+      "seconds": 0.3651389999977255,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_delete_completed",
+      "phase": "call",
+      "seconds": 0.15160833399932017,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_delete_completed",
+      "phase": "teardown",
+      "seconds": 0.004532042003120296,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_clear_completed",
+      "phase": "setup",
+      "seconds": 0.3728939579996222,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_clear_completed",
+      "phase": "call",
+      "seconds": 0.13370858400230645,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_clear_completed",
+      "phase": "teardown",
+      "seconds": 0.004025874997751089,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_edit_text",
+      "phase": "setup",
+      "seconds": 0.3699507919991447,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_edit_text",
+      "phase": "call",
+      "seconds": 0.05056387500007986,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_edit_text",
+      "phase": "teardown",
+      "seconds": 0.0037004579971835483,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_cancel_edit",
+      "phase": "setup",
+      "seconds": 0.3483362909973948,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_cancel_edit",
+      "phase": "call",
+      "seconds": 0.09003858299911371,
+      "outcome": "skipped"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_cancel_edit",
+      "phase": "teardown",
+      "seconds": 0.02935145800074679,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_save_edit",
+      "phase": "setup",
+      "seconds": 0.37317299999995157,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_save_edit",
+      "phase": "call",
+      "seconds": 0.09781733300042106,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_crud.py::test_save_edit",
+      "phase": "teardown",
+      "seconds": 0.0038386670021282043,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_all",
+      "phase": "setup",
+      "seconds": 0.3901106669982255,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_all",
+      "phase": "call",
+      "seconds": 0.12922400000024936,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_all",
+      "phase": "teardown",
+      "seconds": 0.005613583001832012,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_active",
+      "phase": "setup",
+      "seconds": 0.3610880839987658,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_active",
+      "phase": "call",
+      "seconds": 0.11664283299978706,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_active",
+      "phase": "teardown",
+      "seconds": 0.004278208001778694,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_completed",
+      "phase": "setup",
+      "seconds": 0.3819503339982475,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_completed",
+      "phase": "call",
+      "seconds": 0.10202016699986416,
+      "outcome": "passed"
+    },
+    {
+      "engine": "playwright",
+      "test": "playwright/tests/test_todo_filter.py::test_filter_completed",
+      "phase": "teardown",
+      "seconds": 0.08376716600105283,
+      "outcome": "passed"
+    }
+  ],
+  "operations": [
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.2957415419987228,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.025599999997764827,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.026100291001057485,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.298233583002002,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.028599999997764827,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.02577000000019325,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.00654791600027238,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.004950499998813029,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.28123554199919454,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.022700000002980232,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.024443041998893023,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.30998579199876986,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.030899999998509883,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.025929958999768132,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.023554208000859944,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.2982021249990794,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.027,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.02530316699994728,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.03277904200149351,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.03456045900020399,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.2927757500001462,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.03180000000074506,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.025278833003540058,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.0056637090019648895,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.004095917000086047,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.030751291997148655,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.03457708300265949,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.29228812499786727,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.027400000002235175,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.023929999999381835,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "delete_todo",
+      "seconds": 0.09143208300156402,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.29158429199742386,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.026399999998509883,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.024187582999729784,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.005474333000165643,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.03576729199994588,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "delete_todo",
+      "seconds": 0.08356141699914588,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.29234408300180803,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.026,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.02530987499994808,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.005505249999259831,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.004048749997309642,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.0320330409995222,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.035616000001027714,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "clear_completed",
+      "seconds": 0.029640000000654254,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.2950635420020262,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.031599999997764826,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.024037708000832936,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "edit_todo",
+      "seconds": 0.025505583002086496,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.27689625000130036,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.025399999998509885,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.0238712909995229,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "edit_todo",
+      "seconds": 0.05864158400072483,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.29982483300045715,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.029599999997764827,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.025226249999832362,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "edit_todo",
+      "seconds": 0.07112050000068848,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.31404220900003565,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.03309999999776483,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.02621566699963296,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.0050406660011503845,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.004083666997757973,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.025333499997941544,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "filter_by",
+      "seconds": 0.04249812499983818,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "filter_by",
+      "seconds": 0.02507533300013165,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.28379887499977485,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.028,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.025388958001713036,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.0047132500003499445,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.004026999999041436,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.037118209002073854,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "filter_by",
+      "seconds": 0.04278066700135241,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "navigate",
+      "seconds": 0.30432199999995646,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "page_load",
+      "seconds": 0.02319999999925494,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.025706792002893053,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.004892875000223285,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "add_todo",
+      "seconds": 0.003958833000069717,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "toggle_todo",
+      "seconds": 0.023985958003322594,
+      "success": true
+    },
+    {
+      "engine": "playwright",
+      "operation": "filter_by",
+      "seconds": 0.04135620899978676,
+      "success": true
+    }
+  ]
+}

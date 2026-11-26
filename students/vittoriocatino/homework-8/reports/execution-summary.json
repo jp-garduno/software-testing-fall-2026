@@ -1,0 +1,17 @@
+[
+  {
+    "suite": "selenium",
+    "wall_seconds": 5.501092999998946,
+    "exit_code": 0
+  },
+  {
+    "suite": "playwright",
+    "wall_seconds": 7.77708958400035,
+    "exit_code": 0
+  },
+  {
+    "suite": "bdd",
+    "wall_seconds": 4.711776583000756,
+    "exit_code": 0
+  }
+]
