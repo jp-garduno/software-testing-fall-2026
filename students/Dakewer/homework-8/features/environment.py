@@ -5,10 +5,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "selenium"))
 
-from pages.browser import create_driver  # noqa: E402
+from pages.browser import create_driver  # noqa: E402  # pylint: disable=wrong-import-position
 
 
-def before_scenario(context, scenario):
+def before_scenario(context, _scenario):
     context.driver = create_driver()
 
 
@@ -19,7 +19,7 @@ def after_step(context, step):
         context.driver.save_screenshot(str(folder / f"line-{step.line}.png"))
 
 
-def after_scenario(context, scenario):
+def after_scenario(context, _scenario):
     driver = getattr(context, "driver", None)
     if driver:
         driver.quit()

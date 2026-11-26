@@ -1,6 +1,6 @@
 # Homework 8: End-to-End Test Automation
 
-Pruebas E2E de [TodoMVC React](https://todomvc.com/examples/react/) con Selenium
+Pruebas E2E de [TodoMVC React](https://todomvc.com/examples/react/dist/) con Selenium
 (Python), Playwright (JavaScript) y BDD con Behave.
 
 ## Contenido
@@ -10,6 +10,7 @@ Pruebas E2E de [TodoMVC React](https://todomvc.com/examples/react/) con Selenium
 | Selenium + Page Object Model | `selenium/` | 26 |
 | Playwright + Page Object Model | `playwright/` | 26 (los mismos) |
 | BDD (Gherkin + Behave) | `features/` | 6 escenarios |
+| Pruebas unitarias del contador de líneas | `tests/` | 2 |
 | Reporte comparativo | `COMPARISON_REPORT.md` | |
 | Bonus A: regresión visual | `playwright/tests/visual/` | 5 |
 | Bonus C: métricas de rendimiento | `playwright/tests/performance/`, `PERFORMANCE_REPORT.md` | 1 |
@@ -22,6 +23,7 @@ Ejecutados en Linux contra la copia local del build oficial (commit `ff43b02`):
 | Suite | Resultado |
 | --- | --- |
 | Selenium | 25 passed, 1 xfailed (defecto conocido) |
+| Unitarias (`tests/`) | 2 passed |
 | Playwright E2E | 26 passed (incluye 1 fallo esperado) |
 | Behave | 6 escenarios, 25 pasos, todos pasan |
 | Visual | 5 passed |
@@ -48,7 +50,8 @@ cd ..
 
 ## Elegir la aplicación bajo prueba
 
-Por defecto las pruebas usan `https://todomvc.com/examples/react/`.
+Por defecto las pruebas usan `https://todomvc.com/examples/react/dist/`. La tarea indica
+la URL sin `dist/`, pero las pruebas no encontraban la aplicación en esa ruta.
 
 Para usar una versión fija y sin depender de internet (la usada para los
 resultados), en **otra terminal**:
@@ -66,7 +69,10 @@ export TODO_URL=http://127.0.0.1:7002/        # Windows: $env:TODO_URL="http://1
 ## Ejecutar las pruebas
 
 ```bash
-# Selenium (con reporte HTML)
+# Selenium y unitarias, desde homework-8/
+pytest
+
+# Solo Selenium, con reporte HTML
 cd selenium
 pytest -v --html=../reports/selenium.html --self-contained-html
 cd ..
@@ -124,13 +130,12 @@ python scripts/count_loc.py
 
 ## Defecto conocido: cancelar edición
 
-El build `ff43b02` no maneja la tecla Escape al editar: el campo sigue abierto y
-al perder el foco se guarda el cambio. El test `cancel edit with escape` describe
-el comportamiento correcto.
+La aplicación no maneja la tecla Escape al editar: el campo sigue abierto y al
+perder el foco se guarda el cambio. Se comprobó en el sitio en línea y en el
+build `ff43b02`.
 
-- Contra la URL local se marca como **fallo esperado** (si se corrige, avisará).
-- Contra cualquier otra URL se ejecuta como test normal: si falla, esa versión
-  tiene el mismo defecto.
+El test `cancel edit with escape` describe el comportamiento correcto y está
+marcado como **fallo esperado**. Si la aplicación se corrige, el test avisará.
 
 ## Decisiones de diseño
 

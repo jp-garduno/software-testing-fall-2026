@@ -1,3 +1,5 @@
+# Behave creates the step decorators at runtime, so pylint cannot see that they are callable.
+# pylint: disable=not-callable
 from behave import given, then, use_step_matcher, when
 
 from pages.todo_page import TodoPage

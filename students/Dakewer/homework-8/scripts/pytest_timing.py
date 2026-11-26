@@ -12,6 +12,6 @@ def pytest_runtest_logreport(report):
     TESTS.add(report.nodeid)
 
 
-def pytest_sessionfinish(session):
-    with open(os.environ["BENCH_OUT"], "w") as out:
+def pytest_sessionfinish():
+    with open(os.environ["BENCH_OUT"], "w", encoding="utf-8") as out:
         json.dump({"tests": len(TESTS), **{k: PHASES[k] for k in ("setup", "call", "teardown")}}, out)

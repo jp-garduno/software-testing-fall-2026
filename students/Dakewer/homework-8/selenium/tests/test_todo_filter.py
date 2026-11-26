@@ -2,8 +2,8 @@
 import pytest
 
 
-@pytest.fixture
-def mixed_todos(todo_page):
+@pytest.fixture(name="mixed_todos")
+def fixture_mixed_todos(todo_page):
     """Three todos where only the middle one is completed."""
     todo_page.add_todos("Task 1", "Task 2", "Task 3")
     todo_page.toggle_todo(1)

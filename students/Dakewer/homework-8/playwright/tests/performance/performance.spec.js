@@ -29,7 +29,8 @@ async function timed(operation) {
 function table(title, rows) {
   const lines = Object.entries(rows).map(([name, s]) =>
     `| ${name} | ${[s.min, s.median, s.p95, s.max].map((v) => v.toFixed(1)).join(' | ')} |`);
-  return [`## ${title}`, '', '| Metric | Min | Median | p95 | Max |', '| --- | ---: | ---: | ---: | ---: |', ...lines, ''].join('\n');
+  const header = ['| Metric | Min | Median | p95 | Max |', '| --- | ---: | ---: | ---: | ---: |'];
+  return [`## ${title}`, '', ...header, ...lines, ''].join('\n');
 }
 
 test('measure page load and todo operations', async ({ browser }) => {

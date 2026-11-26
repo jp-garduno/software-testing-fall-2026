@@ -49,7 +49,7 @@ def run_once(command, cwd, extra_env):
         out = Path(tmp) / "timing.json"
         env = {**os.environ, **extra_env, "BENCH_OUT": str(out)}
         start = time.perf_counter()
-        result = subprocess.run(command, cwd=cwd, env=env, capture_output=True, text=True)
+        result = subprocess.run(command, cwd=cwd, env=env, capture_output=True, text=True, check=False)
         wall = time.perf_counter() - start
         if result.returncode != 0:
             sys.exit(f"Suite failed:\n{result.stdout}\n{result.stderr}")

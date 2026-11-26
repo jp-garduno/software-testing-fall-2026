@@ -15,7 +15,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 DEFAULT_URL = "https://todomvc.com/examples/react/dist/"
 
 
-class TodoPage:
+# One public method per user action or query, so the class is intentionally wide.
+class TodoPage:  # pylint: disable=too-many-public-methods
     # Locators
     NEW_TODO_INPUT = (By.CLASS_NAME, "new-todo")
     TODO_ITEMS = (By.CSS_SELECTOR, ".todo-list li")

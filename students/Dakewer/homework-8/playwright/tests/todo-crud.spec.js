@@ -1,7 +1,6 @@
 // Creation, completion, deletion and editing scenarios.
 const { test, expect } = require('@playwright/test');
 const { TodoPage } = require('../pages/TodoPage');
-const { IS_LOCAL_BUILD } = require('../config/target');
 
 let todoPage;
 
@@ -143,7 +142,7 @@ test.describe('Task Editing', () => {
   });
 
   test('cancel edit with escape', { tag: '@known-defect' }, async () => {
-    test.fail(IS_LOCAL_BUILD, 'TodoMVC React build ff43b02 has no Escape key handler');
+    test.fail(true, 'TodoMVC React has no Escape key handler');
     await todoPage.addTodo('Original');
     await todoPage.startEdit(0);
     await todoPage.typeEdit('Discard me');

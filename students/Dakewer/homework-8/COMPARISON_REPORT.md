@@ -61,10 +61,10 @@ Líneas de código sin blancos, comentarios ni docstrings (`scripts/count_loc.py
 | Componente | Selenium (Python) | Playwright (JavaScript) |
 | --- | ---: | ---: |
 | Page object | 132 | 89 |
-| Tests CRUD y edición | 103 | 132 |
+| Tests CRUD y edición | 101 | 131 |
 | Tests de filtro | 30 | 45 |
-| Configuración y fixtures | 53 | 27 |
-| **Total** | **318** | **293** |
+| Configuración y fixtures | 49 | 26 |
+| **Total** | **312** | **291** |
 
 El total es parecido; cambia dónde está la complejidad:
 

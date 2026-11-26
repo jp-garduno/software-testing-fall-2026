@@ -1,8 +1,6 @@
 """Creation, completion, deletion and editing scenarios."""
 import pytest
 
-from conftest import is_local_build
-
 
 class TestTaskCreation:
     def test_create_single_task(self, todo_page):
@@ -117,8 +115,7 @@ class TestTaskEditing:
 
     @pytest.mark.known_defect
     @pytest.mark.xfail(
-        condition=is_local_build(),
-        reason="TodoMVC React build ff43b02 has no Escape key handler in the edit field",
+        reason="TodoMVC React has no Escape key handler in the edit field",
         strict=True,
     )
     def test_cancel_edit_with_escape(self, todo_page):
