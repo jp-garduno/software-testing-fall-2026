@@ -1,0 +1,44 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,order_date,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error
+simple_single_item,simple,"[{'name': 'Notebook', 'price': 12.50, 'quantity': 1, 'weight': 0}]",regular,NONE,0,false,,12.50,0.00,1.00,0.00,13.50,
+simple_repeated_item,simple,"[{'name': 'Pen', 'price': 1.25, 'quantity': 4, 'weight': 0}]",regular,NONE,0,false,,5.00,0.00,0.40,0.00,5.40,
+simple_two_items,simple,"[{'name': 'Mug', 'price': 8.99, 'quantity': 2, 'weight': 0}, {'name': 'Coaster', 'price': 3.50, 'quantity': 4, 'weight': 0}]",regular,NONE,0,false,,31.98,0.00,2.56,0.00,34.54,
+save10_at_minimum_order,discount,"[{'name': 'Headphones', 'price': 50.00, 'quantity': 1, 'weight': 0}]",regular,SAVE10,0,false,,50.00,5.00,3.60,0.00,48.60,
+save10_below_minimum_order,discount,"[{'name': 'Cable', 'price': 49.99, 'quantity': 1, 'weight': 0}]",regular,SAVE10,0,false,,49.99,0.00,4.00,0.00,53.99,
+save20_at_minimum_order,discount,"[{'name': 'Keyboard', 'price': 100.00, 'quantity': 1, 'weight': 0}]",regular,SAVE20,0,false,,100.00,20.00,6.40,0.00,86.40,
+save20_below_minimum_order,discount,"[{'name': 'Mouse', 'price': 33.33, 'quantity': 3, 'weight': 0}]",regular,SAVE20,0,false,,99.99,0.00,8.00,0.00,107.99,
+unknown_code_gives_no_discount,discount,"[{'name': 'Lamp', 'price': 60.00, 'quantity': 1, 'weight': 0}]",regular,BOGUS50,0,false,,60.00,0.00,4.80,0.00,64.80,
+newuser_on_first_order,discount,"[{'name': 'Backpack', 'price': 40.00, 'quantity': 1, 'weight': 0}]",new,NEWUSER,0,false,,40.00,6.00,2.72,0.00,36.72,
+newuser_for_regular_customer,discount,"[{'name': 'Backpack', 'price': 40.00, 'quantity': 1, 'weight': 0}]",regular,NEWUSER,0,false,,40.00,0.00,3.20,0.00,43.20,
+expired_code_gives_no_discount,discount,"[{'name': 'Sandals', 'price': 80.00, 'quantity': 1, 'weight': 0}]",regular,SUMMER25,0,false,2026-09-01,80.00,0.00,6.40,0.00,86.40,
+code_on_its_last_valid_day,discount,"[{'name': 'Sandals', 'price': 80.00, 'quantity': 1, 'weight': 0}]",regular,SUMMER25,0,false,2026-08-31,80.00,20.00,4.80,0.00,64.80,
+save10_over_several_items,discount,"[{'name': 'Shirt', 'price': 19.99, 'quantity': 2, 'weight': 0}, {'name': 'Cap', 'price': 15.00, 'quantity': 1, 'weight': 0}]",regular,SAVE10,0,false,,54.98,5.50,3.96,0.00,53.44,
+lowercase_code_is_accepted,discount,"[{'name': 'Jacket', 'price': 75.00, 'quantity': 1, 'weight': 0}]",regular,save10,0,false,,75.00,7.50,5.40,0.00,72.90,
+discount_rounds_half_up,discount,"[{'name': 'Blender', 'price': 54.95, 'quantity': 1, 'weight': 0}]",regular,SAVE10,0,false,,54.95,5.50,3.96,0.00,53.41,
+tax_rounds_up_to_the_cent,tax,"[{'name': 'Sticker pack', 'price': 10.99, 'quantity': 1, 'weight': 0}]",regular,NONE,0,false,,10.99,0.00,0.88,0.00,11.87,
+tax_rounds_down_to_the_cent,tax,"[{'name': 'Eraser', 'price': 1.01, 'quantity': 1, 'weight': 0}]",regular,NONE,0,false,,1.01,0.00,0.08,0.00,1.09,
+tax_on_discounted_subtotal,tax,"[{'name': 'Monitor', 'price': 250.00, 'quantity': 1, 'weight': 0}]",regular,SAVE20,0,false,,250.00,50.00,16.00,0.00,216.00,
+tax_excludes_shipping,tax,"[{'name': 'Book', 'price': 20.00, 'quantity': 1, 'weight': 2}]",regular,NONE,30,false,,20.00,0.00,1.60,4.00,25.60,
+shipping_by_weight_only,shipping,"[{'name': 'Dumbbell', 'price': 30.00, 'quantity': 1, 'weight': 10}]",regular,NONE,0,false,,30.00,0.00,2.40,5.00,37.40,
+shipping_by_distance_only,shipping,"[{'name': 'Gift card', 'price': 25.00, 'quantity': 1, 'weight': 0}]",regular,NONE,120,false,,25.00,0.00,2.00,12.00,39.00,
+shipping_weight_counts_quantity,shipping,"[{'name': 'Chair', 'price': 45.00, 'quantity': 2, 'weight': 7.5}]",regular,NONE,85,false,,90.00,0.00,7.20,16.00,113.20,
+express_shipping_costs_half_more,shipping,"[{'name': 'Speaker', 'price': 70.00, 'quantity': 1, 'weight': 3}]",regular,NONE,40,true,,70.00,0.00,5.60,8.25,83.85,
+express_shipping_rounds_to_the_cent,shipping,"[{'name': 'Plant', 'price': 15.00, 'quantity': 1, 'weight': 1.3}]",regular,NONE,12.3,true,,15.00,0.00,1.20,2.82,19.02,
+freeship_removes_shipping,shipping,"[{'name': 'Rug', 'price': 120.00, 'quantity': 1, 'weight': 12}]",regular,FREESHIP,200,false,,120.00,0.00,9.60,0.00,129.60,
+freeship_removes_express_shipping,shipping,"[{'name': 'Tent', 'price': 95.00, 'quantity': 1, 'weight': 8}]",regular,FREESHIP,150,true,,95.00,0.00,7.60,0.00,102.60,
+save20_with_express_shipping,complex,"[{'name': 'Laptop stand', 'price': 45.50, 'quantity': 2, 'weight': 2.2}, {'name': 'USB hub', 'price': 29.99, 'quantity': 1, 'weight': 0.3}, {'name': 'Cable', 'price': 9.99, 'quantity': 3, 'weight': 0.1}]",regular,SAVE20,75.5,true,,150.96,30.19,9.66,15.08,145.51,
+newuser_with_standard_shipping,complex,"[{'name': 'Yoga mat', 'price': 35.00, 'quantity': 1, 'weight': 1.5}, {'name': 'Water bottle', 'price': 12.75, 'quantity': 2, 'weight': 0.4}]",new,NEWUSER,18,false,,60.50,9.08,4.11,2.95,58.48,
+save10_with_express_and_small_items,complex,"[{'name': 'Socks', 'price': 4.99, 'quantity': 6, 'weight': 0.05}, {'name': 'Sneakers', 'price': 64.00, 'quantity': 1, 'weight': 1.1}, {'name': 'Laces', 'price': 2.49, 'quantity': 2, 'weight': 0.02}]",regular,SAVE10,33.3,true,,98.92,9.89,7.12,6.08,102.23,
+zero_quantity_item_is_free_and_weightless,complex,"[{'name': 'Monitor', 'price': 199.99, 'quantity': 0, 'weight': 5}, {'name': 'Mouse pad', 'price': 9.50, 'quantity': 2, 'weight': 0.2}]",regular,NONE,10,false,,19.00,0.00,1.52,1.20,21.72,
+zero_quantity_item_misses_code_minimum,complex,"[{'name': 'TV', 'price': 500.00, 'quantity': 0, 'weight': 15}, {'name': 'Remote', 'price': 20.00, 'quantity': 1, 'weight': 0.2}]",regular,SAVE10,5,false,,20.00,0.00,1.60,0.60,22.20,
+free_items_still_pay_shipping,complex,"[{'name': 'Sample', 'price': 0, 'quantity': 3, 'weight': 0.1}]",regular,NONE,10,false,,0.00,0.00,0.00,1.15,1.15,
+bulk_order_at_maximum_values,complex,"[{'name': 'Server', 'price': 9999.99, 'quantity': 1000, 'weight': 25}]",regular,SAVE20,5000,true,,9999990.00,1999998.00,639999.36,19500.00,8659491.36,
+negative_price_is_rejected,complex,"[{'name': 'Refund', 'price': -10.00, 'quantity': 1, 'weight': 0}]",regular,NONE,0,false,,,,,,,Item 'Refund': price cannot be negative
+negative_quantity_is_rejected,complex,"[{'name': 'Mug', 'price': 8.00, 'quantity': -1, 'weight': 0.3}]",regular,NONE,0,false,,,,,,,Item 'Mug': quantity cannot be negative
+negative_weight_is_rejected,complex,"[{'name': 'Box', 'price': 5.00, 'quantity': 1, 'weight': -2}]",regular,NONE,0,false,,,,,,,Item 'Box': weight cannot be negative
+negative_distance_is_rejected,complex,"[{'name': 'Lamp', 'price': 30.00, 'quantity': 1, 'weight': 1}]",regular,NONE,-5,false,,,,,,,Distance cannot be negative
+fractional_quantity_is_rejected,complex,"[{'name': 'Rope', 'price': 3.00, 'quantity': 1.5, 'weight': 0.5}]",regular,NONE,0,false,,,,,,,Item 'Rope': quantity must be a whole number
+unknown_customer_type_is_rejected,complex,"[{'name': 'Watch', 'price': 150.00, 'quantity': 1, 'weight': 0.2}]",vip,NONE,0,false,,,,,,,Unknown customer type: vip
+empty_order_is_rejected,complex,[],regular,NONE,0,false,,,,,,,An order needs at least one item
+missing_item_field_is_rejected,complex,"[{'name': 'Pillow', 'price': 18.00, 'quantity': 1}]",regular,NONE,0,false,,,,,,,Item is missing the weight field
+blank_item_name_is_rejected,complex,"[{'name': '', 'price': 4.00, 'quantity': 1, 'weight': 0.1}]",regular,NONE,0,false,,,,,,,Item name is required
+text_price_is_rejected,complex,"[{'name': 'Novel', 'price': 'ten', 'quantity': 1, 'weight': 0.4}]",regular,NONE,0,false,,,,,,,Item 'Novel': price must be a number
