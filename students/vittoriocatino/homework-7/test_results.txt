@@ -1,0 +1,17 @@
+........................................................................ [ 33%]
+........................................................................ [ 67%]
+....................................................................     [100%]
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.14.6-final-0 _______________
+
+Name                        Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------
+src/customer_validator.py      45      0     24      0   100%
+src/data_loader.py             85      0     18      0   100%
+src/order_calculator.py        61      0     24      0   100%
+src/order_processor.py         37      0     10      0   100%
+-----------------------------------------------------------------------
+TOTAL                         228      0     76      0   100%
+Coverage HTML written to dir coverage_html
+Coverage JSON written to file reports/coverage.json
+212 passed in 0.16s
