@@ -1,0 +1,22 @@
+{
+  "name": "homework-7",
+  "version": "1.0.0",
+  "description": "Data-driven tests for an e-commerce order processing system (JavaScript + Jest).",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:docs": "jest --coverage --coverageReporters=html --coverageReporters=text",
+    "test:results": "jest --verbose > test_results.txt 2>&1",
+    "test:coverage": "jest --coverage --verbose",
+    "test:validate": "node test_data/runValidation.js",
+    "test:generate": "node test_data/generateOrders.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "csv-parse": "^7.0.3",
+    "jest": "^30.5.2"
+  }
+}

@@ -1,0 +1,482 @@
+[
+  {
+    "test_name": "valid_customer_all_fields_standard",
+    "customer": {
+      "email": "john.doe@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
+      },
+      "credit_card": {
+        "number": "4532015112830366",
+        "expiration": "12/2028",
+        "cvv": "123"
+      }
+    },
+    "expected": {
+      "is_valid": true,
+      "errors": []
+    }
+  },
+  {
+    "test_name": "valid_customer_zip_plus_four",
+    "customer": {
+      "email": "alice_smith@domain.org",
+      "phone": "(312) 555-0199",
+      "billing_address": {
+        "street": "456 Oak Avenue Apt 4B",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60601-1234"
+      },
+      "credit_card": {
+        "number": "5425233430109903",
+        "expiration": "06/2029",
+        "cvv": "456"
+      }
+    },
+    "expected": {
+      "is_valid": true,
+      "errors": []
+    }
+  },
+  {
+    "test_name": "valid_customer_amex_four_digit_cvv",
+    "customer": {
+      "email": "tech.buyer@company.io",
+      "phone": "(415) 888-2345",
+      "billing_address": {
+        "street": "789 Market Blvd Suite 100",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94103"
+      },
+      "credit_card": {
+        "number": "378282246310005",
+        "expiration": "10/2030",
+        "cvv": "9876"
+      }
+    },
+    "expected": {
+      "is_valid": true,
+      "errors": []
+    }
+  },
+  {
+    "test_name": "invalid_email_missing_at",
+    "customer": {
+      "email": "plainaddress.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid email format"]
+    }
+  },
+  {
+    "test_name": "invalid_email_consecutive_dots",
+    "customer": {
+      "email": "john..doe@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid email format"]
+    }
+  },
+  {
+    "test_name": "invalid_email_empty_string",
+    "customer": {
+      "email": "",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing email"]
+    }
+  },
+  {
+    "test_name": "invalid_email_missing_domain",
+    "customer": {
+      "email": "user@",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid email format"]
+    }
+  },
+  {
+    "test_name": "invalid_phone_plain_digits",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "5551234567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid phone format"]
+    }
+  },
+  {
+    "test_name": "invalid_phone_dashes_only",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "555-123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid phone format"]
+    }
+  },
+  {
+    "test_name": "invalid_phone_short_digits",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 12-456",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid phone format"]
+    }
+  },
+  {
+    "test_name": "invalid_phone_empty",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing phone"]
+    }
+  },
+  {
+    "test_name": "invalid_address_missing_street",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing street"]
+    }
+  },
+  {
+    "test_name": "invalid_address_missing_city",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing city"]
+    }
+  },
+  {
+    "test_name": "invalid_address_invalid_state",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "ZZ", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid state"]
+    }
+  },
+  {
+    "test_name": "invalid_address_state_lowercase",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "ny", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid state"]
+    }
+  },
+  {
+    "test_name": "invalid_address_bad_zip",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "ABCDE"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid zip code"]
+    }
+  },
+  {
+    "test_name": "invalid_address_short_zip",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "123"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid zip code"]
+    }
+  },
+  {
+    "test_name": "invalid_address_completely_null",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": null,
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing billing address"]
+    }
+  },
+  {
+    "test_name": "invalid_card_luhn_checksum_failure",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830367", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid credit card number"]
+    }
+  },
+  {
+    "test_name": "invalid_card_too_short",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "1234567890", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid credit card number"]
+    }
+  },
+  {
+    "test_name": "invalid_card_too_long",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "453201511283036612345", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid credit card number"]
+    }
+  },
+  {
+    "test_name": "invalid_card_non_digits",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "453201511283036A", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid credit card number"]
+    }
+  },
+  {
+    "test_name": "invalid_card_expired",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "01/2020", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Credit card expired"]
+    }
+  },
+  {
+    "test_name": "invalid_card_expiration_bad_format",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "2028/12", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid expiration format"]
+    }
+  },
+  {
+    "test_name": "invalid_card_expiration_invalid_month",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "13/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid expiration format"]
+    }
+  },
+  {
+    "test_name": "invalid_card_cvv_two_digits",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "12"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid CVV"]
+    }
+  },
+  {
+    "test_name": "invalid_card_cvv_five_digits",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "12345"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid CVV"]
+    }
+  },
+  {
+    "test_name": "invalid_card_missing_entirely",
+    "customer": {
+      "email": "john@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": null
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing credit card"]
+    }
+  },
+  {
+    "test_name": "multiple_errors_bad_email_and_bad_phone",
+    "customer": {
+      "email": "bad-email",
+      "phone": "123-456",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid email format", "Invalid phone format"]
+    }
+  },
+  {
+    "test_name": "multiple_errors_bad_state_and_bad_zip",
+    "customer": {
+      "email": "valid@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "XX", "zip": "999"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid state", "Invalid zip code"]
+    }
+  },
+  {
+    "test_name": "multiple_errors_bad_card_number_and_expired",
+    "customer": {
+      "email": "valid@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "4532015112830367", "expiration": "01/2020", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid credit card number", "Credit card expired"]
+    }
+  },
+  {
+    "test_name": "multiple_errors_all_card_fields_invalid",
+    "customer": {
+      "email": "valid@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "123 Main St", "city": "New York", "state": "NY", "zip": "10001"},
+      "credit_card": {"number": "1111", "expiration": "99/9999", "cvv": "1"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Invalid credit card number", "Invalid expiration format", "Invalid CVV"]
+    }
+  },
+  {
+    "test_name": "multiple_errors_all_address_fields_missing_or_invalid",
+    "customer": {
+      "email": "valid@example.com",
+      "phone": "(555) 123-4567",
+      "billing_address": {"street": "", "city": "", "state": "INVALID", "zip": "0"},
+      "credit_card": {"number": "4532015112830366", "expiration": "12/2028", "cvv": "123"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": ["Missing street", "Missing city", "Invalid state", "Invalid zip code"]
+    }
+  },
+  {
+    "test_name": "multiple_errors_every_section_fails",
+    "customer": {
+      "email": "bademail",
+      "phone": "999",
+      "billing_address": {"street": "", "city": "", "state": "XX", "zip": "00"},
+      "credit_card": {"number": "0000", "expiration": "00/0000", "cvv": "0"}
+    },
+    "expected": {
+      "is_valid": false,
+      "errors": [
+        "Invalid email format",
+        "Invalid phone format",
+        "Missing street",
+        "Missing city",
+        "Invalid state",
+        "Invalid zip code",
+        "Invalid credit card number",
+        "Invalid expiration format",
+        "Invalid CVV"
+      ]
+    }
+  }
+]
+

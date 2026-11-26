@@ -226,13 +226,13 @@ Once checks complete:
 3. **Review your grade**:
 
    ```
-   Final Grade: 87.5/100
+   Final Grade: 87.1/100
 
    Breakdown:
    - Tests: 90/100 (40% weight)
    - Coverage: 85/100 (30% weight)
    - Code Quality: 88/100 (20% weight)
-   - Structure: 10/10 (10% weight)
+   - Structure: 80/100 (10% weight)
    ```
 
 4. **If you need to improve**:
@@ -277,40 +277,47 @@ Final Grade = (Tests × 40%) + (Coverage × 30%) + (Quality × 20%) + (Structure
 
 #### Tests (40%)
 
-- **What**: Percentage of passing tests
-- **How**: `(tests_passed / total_tests) × 100`
+- **What**: Percentage of passing tests, Python and JavaScript together (in homework 8, also the Playwright tests
+  and each BDD scenario, run with behave or cucumber-js)
+- **How**: `passed / (passed + failed) × 100`. A test that errors, for example in a fixture, counts as failed;
+  skipped tests do not count.
 - **Example**: 18/20 tests pass = 90/100
 
 #### Coverage (30%)
 
-- **What**: Code coverage percentage
-- **How**: Measured by coverage tools
-- **Target**: Aim for 80%+
-- **Example**: 85% coverage = 85/100
+- **What**: Code coverage percentage, averaged over the languages that produced a coverage report
+- **How**: The target is 80%. At or above it you get the whole category; below it the score scales down
+  proportionally. With no coverage report at all, the category scores 0.
+- **Example**: 85% coverage = 100/100, 68% coverage = 85/100
 
 #### Code Quality (20%)
 
-- **What**: Linting and style
-- **How**: Pylint (Python) and ESLint (JavaScript)
-- **Deductions**: Errors and warnings reduce score
-- **Example**: Few minor issues = 95/100
+- **What**: Linting and style, averaged over the languages linted
+- **How**: Pylint with the course configuration (120-column lines, docstrings not counted): a 9.5/10 rating
+  is 95/100. ESLint: 0 errors is 100/100, 1-5 errors 85, 6-10 errors 70, more than 10 errors 50. Warnings are
+  reported but cost nothing.
+- **Example**: Pylint 9.5/10 = 95/100
 
 #### Structure & Documentation (10%)
 
 - **What**: Required files and organization
 - **Points**:
-  - README.md: 3 points
+  - README.md: 2 points (1 in homework 2, 3 and 9)
   - Test files: 4 points
-  - Proper structure: 3 points
+  - A `src/` or `tests/` directory: 4 points
 - **Example**: All present = 10/10
+- **Exceptions**: homework 1, 2, 3, 8 and 9 check the files their own assignment asks for instead. Homework 1 and 2
+  give structure 60% of the grade and full marks for tests, coverage and quality; homework 3 gives structure 75%
+  and quality 25%; homework 8 does not grade coverage, because the application it tests is an external site, and
+  weighs tests 70%, quality 20% and structure 10%; homework 9, which has no code, is graded on structure only.
 
 ### Example Calculation
 
 ```
 Your Results:
 - Tests: 18/20 passed = 90/100
-- Coverage: 85%
-- Code Quality: 95/100 (2 minor linting warnings)
+- Coverage: 68% = 85/100 (68 / 80)
+- Code Quality: 95/100 (Pylint 9.5/10)
 - Structure: 10/10 (all files present)
 
 Calculation:
