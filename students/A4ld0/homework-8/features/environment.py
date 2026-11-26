@@ -6,11 +6,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "selenium"))
 
-from pages.browser import create_driver
-from pages.todo_page import TodoPage
+from pages.browser import create_driver  # pylint: disable=wrong-import-position
+from pages.todo_page import TodoPage  # pylint: disable=wrong-import-position
 
 
-def before_scenario(context, scenario):
+def before_scenario(context, _scenario):
     context.driver = create_driver()
     context.todo_page = TodoPage(context.driver)
 
@@ -24,4 +24,3 @@ def after_scenario(context, scenario):
             context.driver.save_screenshot(str(directory / f"bdd-{name}.png"))
         finally:
             context.driver.quit()
-

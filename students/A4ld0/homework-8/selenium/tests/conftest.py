@@ -11,6 +11,7 @@ from pages.todo_page import TodoPage
 
 ROOT = Path(__file__).resolve().parents[2]
 RECORDS = []
+SESSION_START = pytest.StashKey[float]()
 
 
 @pytest.fixture
@@ -44,7 +45,7 @@ def todo(request):
 
 
 def pytest_sessionstart(session):
-    session.config._homework_started = perf_counter()
+    session.config.stash[SESSION_START] = perf_counter()
 
 
 def pytest_sessionfinish(session, exitstatus):
@@ -52,14 +53,14 @@ def pytest_sessionfinish(session, exitstatus):
     folder.mkdir(exist_ok=True)
     reporter = session.config.pluginmanager.get_plugin("terminalreporter")
     stats = reporter.stats if reporter else {}
+    selenium_ids = {record["test"] for record in RECORDS}
     report = {
-        "total_seconds": perf_counter() - session.config._homework_started,
+        "total_seconds": perf_counter() - session.config.stash.get(SESSION_START, perf_counter()),
         "exit_status": int(exitstatus),
-        "passed": len(stats.get("passed", [])),
-        "failed": len(stats.get("failed", [])),
-        "errors": len(stats.get("error", [])),
+        "passed": sum(item.nodeid in selenium_ids for item in stats.get("passed", [])),
+        "failed": sum(item.nodeid in selenium_ids for item in stats.get("failed", [])),
+        "errors": sum(item.nodeid in selenium_ids for item in stats.get("error", [])),
         "tests": RECORDS,
     }
     (folder / "selenium-metrics.json").write_text(
         json.dumps(report, indent=2), encoding="utf-8")
-

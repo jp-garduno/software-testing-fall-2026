@@ -2,6 +2,9 @@
 
 from behave import given, when, then
 
+# Behave creates its decorators dynamically at runtime.
+# pylint: disable=not-callable
+
 
 @given("I am on the todo page")
 def navigate(context):
@@ -57,4 +60,3 @@ def add_table(context):
 @when('I filter by "{filter_name}"')
 def filter_todos(context, filter_name):
     context.todo_page.filter_by(filter_name)
-

@@ -1,4 +1,5 @@
 const { defineConfig, devices } = require('@playwright/test');
+const path = require('node:path');
 
 module.exports = defineConfig({
   testDir: './tests',
@@ -7,7 +8,7 @@ module.exports = defineConfig({
   expect: { timeout: 10000 },
   reporter: [
     ['list'],
-    ['html', { open: 'never' }],
+    ['html', { open: 'never', outputFolder: path.join(__dirname, 'playwright-report') }],
     ['./metrics-reporter.js'],
   ],
   use: {
@@ -21,4 +22,3 @@ module.exports = defineConfig({
     { name: 'webkit', use: { ...devices['Desktop Safari'] } },
   ],
 });
-

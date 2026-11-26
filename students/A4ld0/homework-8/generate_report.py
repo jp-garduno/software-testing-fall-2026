@@ -46,13 +46,7 @@ def rows_for_operation(tests, name):
             if operation["operation"] == name]
 
 
-def main():
-    selenium = load("selenium-metrics.json")
-    playwright = load("playwright-metrics.json")
-    cross_browser = load("playwright-cross-browser.json")
-    selenium_tests = selenium["tests"] if selenium else []
-    chrome_tests = [test for test in (playwright or {}).get("tests", [])
-                    if test["browser"] == "chrome"]
+def write_comparison(selenium, playwright, selenium_tests, chrome_tests):
     # Only a Chrome-only run has a comparable total duration.
     chrome_only = playwright if playwright and len(chrome_tests) == len(
         playwright["tests"]) else None
@@ -70,6 +64,8 @@ def main():
                  "and a single-worker Chrome run.")
     update("COMPARISON_REPORT.md", "METRICS", "\n".join(lines))
 
+
+def write_performance(selenium_tests, chrome_tests):
     lines = ["| Operation | Selenium mean (ms) | Playwright Chrome mean (ms) |",
              "|---|---:|---:|"]
     for operation in ("page_load", "add", "toggle", "delete", "clear_completed",
@@ -79,6 +75,8 @@ def main():
         lines.append(f"| {operation} | {number(se_mean)} | {number(pw_mean)} |")
     update("PERFORMANCE_REPORT.md", "PERFORMANCE", "\n".join(lines))
 
+
+def write_compatibility(cross_browser):
     lines = ["| Browser | Cases configured | Passed | Failed | Status |",
              "|---|---:|---:|---:|---|"]
     failure_details = []
@@ -101,6 +99,17 @@ def main():
            "\n".join(lines + [""] + failure_details))
 
 
+def main():
+    selenium = load("selenium-metrics.json")
+    playwright = load("playwright-metrics.json")
+    cross_browser = load("playwright-cross-browser.json")
+    selenium_tests = selenium["tests"] if selenium else []
+    chrome_tests = [test for test in (playwright or {}).get("tests", [])
+                    if test["browser"] == "chrome"]
+    write_comparison(selenium, playwright, selenium_tests, chrome_tests)
+    write_performance(selenium_tests, chrome_tests)
+    write_compatibility(cross_browser)
+
+
 if __name__ == "__main__":
     main()
-

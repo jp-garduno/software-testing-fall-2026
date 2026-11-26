@@ -27,8 +27,17 @@ class MetricsReporter {
       status: result.status,
       tests: this.tests,
     }, null, 2));
+    const resultsFile = process.env.PLAYWRIGHT_RESULTS_FILE;
+    if (resultsFile) {
+      const passed = this.tests.filter(test => test.status === 'passed').length;
+      const failed = this.tests.filter(test => ['failed', 'timedOut', 'interrupted'].includes(test.status)).length;
+      fs.writeFileSync(resultsFile, JSON.stringify({
+        numPassedTests: passed,
+        numFailedTests: failed,
+        tests: this.tests,
+      }, null, 2));
+    }
   }
 }
 
 module.exports = MetricsReporter;
-

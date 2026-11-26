@@ -89,4 +89,3 @@ def test_save_edited_task(todo):
     todo.edit_todo(0, "Saved")
     assert todo.get_visible_todos() == ["Saved", "Other"]
     assert todo.is_completed(0)
-

@@ -3,8 +3,8 @@
 import pytest
 
 
-@pytest.fixture
-def mixed(todo):
+@pytest.fixture(name="mixed")
+def mixed_tasks(todo):
     for text in ("Active 1", "Completed", "Active 2"):
         todo.add_todo(text)
     todo.toggle_todo(1)
@@ -27,4 +27,3 @@ def test_view_completed_tasks(mixed):
     mixed.filter_completed()
     assert mixed.get_visible_todos() == ["Completed"]
     assert mixed.is_completed(0)
-

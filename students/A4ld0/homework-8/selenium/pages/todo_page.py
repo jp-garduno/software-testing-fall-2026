@@ -118,4 +118,3 @@ class TodoPage:
         self.wait.until(lambda _: self._item(index).find_element(
             By.CSS_SELECTOR, "label").text == expected)
         self._record("edit" if save else "cancel_edit", start)
-

@@ -31,31 +31,29 @@ Run the following PowerShell commands from this homework folder.
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -r selenium/requirements.txt
-python -m pytest selenium -v
+python -m pip install -r requirements.txt
+pytest -v --cov=. --cov-report=json --cov-report=term
 ```
 
 Selenium Manager discovers and installs the matching ChromeDriver when required. To use a visible browser, set `$env:HEADED = "1"`.
 
+For comparison timings, run `pytest selenium/tests -v` separately to exclude the report-generation unit tests from the measured duration.
+
 ### Playwright
 
 ```powershell
-cd playwright
 npm install
 npx playwright install chrome firefox webkit
-npm run test:chrome -- --workers=1
-cd ..
+npm test -- --coverage --json --outputFile=js-results.json
 ```
 
 The single-worker Chrome run is used for the execution comparison. To run the cross-browser suite (45 test cases) and keep its metrics separately:
 
 ```powershell
-cd playwright
 $env:PLAYWRIGHT_METRICS_FILE = "playwright-cross-browser.json"
-npm test
+npm run test:cross-browser
 Remove-Item Env:PLAYWRIGHT_METRICS_FILE
 npm run report
-cd ..
 ```
 
 ### BDD
