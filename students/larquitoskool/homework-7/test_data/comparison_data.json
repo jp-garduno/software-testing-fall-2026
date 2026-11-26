@@ -1,0 +1,12 @@
+[
+  { "test_name": "simple_1", "items": [{"name": "A", "price": 10, "quantity": 1, "weight": 2}], "customer_type": "regular", "discount_code": null, "distance_km": 10, "is_express": false, "expected_total": 12.80 },
+  { "test_name": "simple_2", "items": [{"name": "B", "price": 20, "quantity": 2, "weight": 1}], "customer_type": "regular", "discount_code": null, "distance_km": 0, "is_express": false, "expected_total": 44.20 },
+  { "test_name": "discount_save10", "items": [{"name": "C", "price": 50, "quantity": 1, "weight": 0}], "customer_type": "regular", "discount_code": "SAVE10", "distance_km": 0, "is_express": false, "expected_total": 48.60 },
+  { "test_name": "discount_save20_fail", "items": [{"name": "D", "price": 99, "quantity": 1, "weight": 0}], "customer_type": "regular", "discount_code": "SAVE20", "distance_km": 0, "is_express": false, "expected_total": 106.92 },
+  { "test_name": "newuser_valid", "items": [{"name": "E", "price": 100, "quantity": 1, "weight": 0}], "customer_type": "new", "discount_code": "NEWUSER", "distance_km": 0, "is_express": false, "expected_total": 91.80 },
+  { "test_name": "invalid_code", "items": [{"name": "F", "price": 100, "quantity": 1, "weight": 0}], "customer_type": "regular", "discount_code": "FAKE", "distance_km": 0, "is_express": false, "expected_total": 108.00 },
+  { "test_name": "high_distance", "items": [{"name": "G", "price": 10, "quantity": 1, "weight": 0}], "customer_type": "regular", "discount_code": null, "distance_km": 100, "is_express": false, "expected_total": 20.80 },
+  { "test_name": "express_shipping", "items": [{"name": "H", "price": 10, "quantity": 1, "weight": 10}], "customer_type": "regular", "discount_code": null, "distance_km": 50, "is_express": true, "expected_total": 25.80 },
+  { "test_name": "free_shipping_code", "items": [{"name": "I", "price": 10, "quantity": 1, "weight": 100}], "customer_type": "regular", "discount_code": "FREESHIP", "distance_km": 1000, "is_express": true, "expected_total": 10.80 },
+  { "test_name": "complex_order", "items": [{"name": "J", "price": 200, "quantity": 1, "weight": 5}], "customer_type": "new", "discount_code": "NEWUSER", "distance_km": 10, "is_express": true, "expected_total": 188.85 }
+]

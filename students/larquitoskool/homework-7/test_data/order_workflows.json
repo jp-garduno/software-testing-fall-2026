@@ -1,0 +1,87 @@
+{
+  "workflows": [
+    {
+      "name": "workflow_1_standard_success",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {"street": "123 Main St", "city": "NY", "state": "NY", "zip": "10001"},
+            "credit_card": {"number": "4532015112830366", "expiration": "12/2030", "cvv": "123"}
+          },
+          "expected": {"valid": true}
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [{"name": "Laptop", "price": 1000, "quantity": 1, "weight": 2.5}],
+            "customer_type": "regular",
+            "discount_code": "SAVE20",
+            "distance": 10,
+            "is_express": false
+          },
+          "expected": {"status": "created"}
+        },
+        {
+          "action": "calculate_total",
+          "expected": {"total": 866.25}
+        },
+        {
+          "action": "process_payment",
+          "expected": {"status": "success"}
+        }
+      ]
+    },
+    {
+      "name": "workflow_2_invalid_customer_blocks_order",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "invalid-email",
+            "phone": "12345",
+            "billing_address": {},
+            "credit_card": {}
+          },
+          "expected": {"valid": false}
+        }
+      ]
+    },
+    {
+      "name": "workflow_3_new_user_express",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "jane@example.com",
+            "phone": "(555) 987-6543",
+            "billing_address": {"street": "456 Oak Ave", "city": "CA", "state": "CA", "zip": "90210"},
+            "credit_card": {"number": "4532015112830366", "expiration": "01/2030", "cvv": "456"}
+          },
+          "expected": {"valid": true}
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [{"name": "Phone", "price": 500, "quantity": 1, "weight": 0.5}],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance": 50,
+            "is_express": true
+          },
+          "expected": {"status": "created"}
+        },
+        {
+          "action": "calculate_total",
+          "expected": {"total": 466.88}
+        },
+        {
+          "action": "process_payment",
+          "expected": {"status": "success"}
+        }
+      ]
+    }
+  ]
+}
