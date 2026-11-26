@@ -1,0 +1,7 @@
+[run]
+# The BDD definitions and test specifications are tests, not application code.
+omit =
+    */tests/*
+    */features/*
+    */conftest.py
+    */.venv/*

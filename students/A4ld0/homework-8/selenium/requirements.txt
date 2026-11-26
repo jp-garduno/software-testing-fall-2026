@@ -1,0 +1,4 @@
+selenium>=4.25,<5
+pytest>=8,<10
+behave>=1.2.6,<2
+

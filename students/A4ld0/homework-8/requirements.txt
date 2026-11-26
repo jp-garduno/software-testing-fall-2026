@@ -1,0 +1,2 @@
+-r selenium/requirements.txt
+pytest-cov>=4.1,<8

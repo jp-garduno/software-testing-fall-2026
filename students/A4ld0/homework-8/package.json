@@ -1,0 +1,14 @@
+{
+  "name": "homework-8-todomvc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node run-playwright.js",
+    "test:cross-browser": "playwright test --config=playwright/playwright.config.js",
+    "report": "playwright show-report playwright/playwright-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "c8": "^10.1.3"
+  }
+}
