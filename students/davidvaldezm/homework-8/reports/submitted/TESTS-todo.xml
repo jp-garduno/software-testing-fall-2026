@@ -1,0 +1,117 @@
+<testsuite name="todo.Todo management" tests="8" errors="0" failures="0" skipped="0" time="10.297618" timestamp="2026-11-23T20:05:37.987409" hostname="DAVID_PC"><testcase classname="todo.Todo management" name="Add a new todo" status="passed" time="0.953809"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Add a new todo
+    Given I am on the todo page ... passed in 0.434s
+    When I add a todo "Buy groceries" ... passed in 0.236s
+    Then I should see 1 todos ... passed in 0.126s
+    And the visible tasks should be "Buy groceries" ... passed in 0.159s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Complete a todo" status="passed" time="1.180494"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Complete a todo
+    Given I am on the todo page ... passed in 0.401s
+    Given I have a todo "Read book" ... passed in 0.243s
+    When I mark the todo as complete ... passed in 0.397s
+    Then the todo should be marked as done ... passed in 0.090s
+    And the active count should be 0 ... passed in 0.049s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Delete a todo" status="passed" time="1.312525"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Delete a todo
+    Given I am on the todo page ... passed in 0.513s
+    Given I have a todo "Old task" ... passed in 0.235s
+    When I delete the todo ... passed in 0.533s
+    Then I should see 0 todos ... passed in 0.032s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Filter todos -- @1.1 " status="passed" time="1.513516"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Filter todos -- @1.1
+    Given I am on the todo page ... passed in 0.289s
+    Given I have the following todos: ... passed in 0.831s
+      | text   | completed |
+      | Task 1 | false     |
+      | Task 2 | true      |
+      | Task 3 | false     |
+    When I filter by "All" ... passed in 0.089s
+    Then I should see 3 todos ... passed in 0.080s
+    And the visible tasks should be "Task 1, Task 2, Task 3" ... passed in 0.225s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Filter todos -- @1.2 " status="passed" time="1.614818"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Filter todos -- @1.2
+    Given I am on the todo page ... passed in 0.513s
+    Given I have the following todos: ... passed in 0.800s
+      | text   | completed |
+      | Task 1 | false     |
+      | Task 2 | true      |
+      | Task 3 | false     |
+    When I filter by "Active" ... passed in 0.085s
+    Then I should see 2 todos ... passed in 0.063s
+    And the visible tasks should be "Task 1, Task 3" ... passed in 0.154s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Filter todos -- @1.3 " status="passed" time="1.314093"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Filter todos -- @1.3
+    Given I am on the todo page ... passed in 0.294s
+    Given I have the following todos: ... passed in 0.806s
+      | text   | completed |
+      | Task 1 | false     |
+      | Task 2 | true      |
+      | Task 3 | false     |
+    When I filter by "Completed" ... passed in 0.084s
+    Then I should see 1 todos ... passed in 0.044s
+    And the visible tasks should be "Task 2" ... passed in 0.087s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Edit a task" status="passed" time="1.107071"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Edit a task
+    Given I am on the todo page ... passed in 0.305s
+    Given I have a todo "Draft" ... passed in 0.137s
+    When I edit the todo to "Final" ... passed in 0.572s
+    Then the visible tasks should be "Final" ... passed in 0.094s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="todo.Todo management" name="Clear completed tasks" status="passed" time="1.301293"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Clear completed tasks
+    Given I am on the todo page ... passed in 0.295s
+    Given I have the following todos: ... passed in 0.569s
+      | text   | completed |
+      | Keep   | false     |
+      | Remove | true      |
+    When I clear completed tasks ... passed in 0.322s
+    Then the visible tasks should be "Keep" ... passed in 0.090s
+    And the active count should be 1 ... passed in 0.025s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>
