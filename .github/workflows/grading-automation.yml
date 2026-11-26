@@ -328,8 +328,33 @@ jobs:
           # Extract metrics. The defaults are needed because `|| echo "0"` after
           # a pipeline ending in `head` never fires: head succeeds on empty
           # input, so a run with no summary line used to publish an empty count.
-          TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1)
-          TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1)
+          #
+          # The counts come from the JUnit report, where a test that errors in
+          # setup (a fixture that cannot start a browser, say) is an error, not
+          # a failure. The summary line was grepped for "passed" and "failed"
+          # only, so errors were not counted at all: PR #272's 22 tests all
+          # errored and it read as a suite with no tests, and "10 passed,
+          # 5 errors" would have scored 100. Skipped and xfailed tests count
+          # neither way, as before.
+          PY_COUNTS=$(python - <<'PY' 2>/dev/null
+          import xml.etree.ElementTree as ET
+          root = ET.parse("python-results.xml").getroot()
+          suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
+          n = {k: sum(int(s.get(k, 0)) for s in suites) for k in ("tests", "failures", "errors", "skipped")}
+          print(n["tests"] - n["failures"] - n["errors"] - n["skipped"], n["failures"] + n["errors"])
+          PY
+          )
+          if [ -n "$PY_COUNTS" ]; then
+            TESTS_PASSED=$(echo "$PY_COUNTS" | awk '{print $1}')
+            TESTS_FAILED=$(echo "$PY_COUNTS" | awk '{print $2}')
+          else
+            TESTS_PASSED=$(grep -oP '\d+ passed' python-test-output.txt | grep -oP '\d+' | head -1)
+            TESTS_FAILED=$(grep -oP '\d+ failed' python-test-output.txt | grep -oP '\d+' | head -1)
+            # From pytest's final "=== ... in 1.23s ===" line only, so a stray
+            # "N error" printed by a test or a plugin is not counted.
+            TESTS_ERRORS=$(grep -E '^=+ .* in [0-9.]+s' python-test-output.txt | tail -1 | grep -oP '\d+ errors?\b' | grep -oP '\d+')
+            TESTS_FAILED=$(( ${TESTS_FAILED:-0} + ${TESTS_ERRORS:-0} ))
+          fi
           TESTS_PASSED=${TESTS_PASSED:-0}
           TESTS_FAILED=${TESTS_FAILED:-0}
 
