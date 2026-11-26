@@ -1,0 +1,11 @@
+test_name,category,items,customer_type,discount_code,distance_km,is_express,expected_subtotal,expected_discount,expected_tax,expected_shipping,expected_total,expected_error
+simple_single_item,simple,"[{'name':'Ebook','price':50,'quantity':1,'weight':0}]",regular,NONE,0,false,50.00,0.00,4.00,0.00,54.00,
+simple_with_standard_shipping,simple,"[{'name':'Item1','price':50,'quantity':1,'weight':1}]",regular,NONE,10,false,50.00,0.00,4.00,1.50,55.50,
+discount_save10_at_threshold,discount,"[{'name':'Headphones','price':50,'quantity':1,'weight':0}]",regular,SAVE10,0,false,50.00,5.00,3.60,0.00,48.60,
+discount_save10_below_threshold,discount,"[{'name':'Headphones','price':49.99,'quantity':1,'weight':0}]",regular,SAVE10,0,false,49.99,0.00,4.00,0.00,53.99,
+discount_save20_at_threshold,discount,"[{'name':'Monitor','price':100,'quantity':1,'weight':0}]",regular,SAVE20,0,false,100.00,20.00,6.40,0.00,86.40,
+discount_newuser_new_customer,discount,"[{'name':'Backpack','price':80,'quantity':1,'weight':0}]",new,NEWUSER,0,false,80.00,12.00,5.44,0.00,73.44,
+discount_invalid_code,discount,"[{'name':'Backpack','price':80,'quantity':1,'weight':0}]",regular,BOGUS50,0,false,80.00,0.00,6.40,0.00,86.40,
+tax_after_discount,tax,"[{'name':'Speaker','price':123.45,'quantity':1,'weight':0}]",regular,SAVE20,0,false,123.45,24.69,7.90,0.00,106.66,
+shipping_express_multiplier,shipping,"[{'name':'Plant','price':10,'quantity':2,'weight':2.5}]",regular,NONE,120,true,20.00,0.00,1.60,21.75,43.35,
+shipping_freeship_code,shipping,"[{'name':'Rug','price':20,'quantity':1,'weight':5}]",regular,FREESHIP,200,false,20.00,0.00,1.60,0.00,21.60,

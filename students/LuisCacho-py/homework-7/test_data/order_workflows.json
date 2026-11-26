@@ -1,0 +1,258 @@
+{
+  "workflows": [
+    {
+      "name": "complete_order_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "john@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2026",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Laptop Stand",
+                "price": 100.0,
+                "quantity": 1,
+                "weight": 2.0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "NONE",
+            "distance_km": 165.0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 100.0,
+            "discount": 0.0,
+            "tax": 8.0,
+            "shipping": 17.5,
+            "total": 125.5
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        }
+      ]
+    },
+    {
+      "name": "new_user_express_discount_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "newbuyer@example.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2026",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Headphones",
+                "price": 100.0,
+                "quantity": 1,
+                "weight": 1.0
+              },
+              {
+                "name": "Case",
+                "price": 20.0,
+                "quantity": 1,
+                "weight": 0.5
+              }
+            ],
+            "customer_type": "new",
+            "discount_code": "NEWUSER",
+            "distance_km": 20.0,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 120.0,
+            "discount": 18.0,
+            "tax": 8.16,
+            "shipping": 4.12,
+            "total": 114.28
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        }
+      ]
+    },
+    {
+      "name": "freeship_bulk_order_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "vip@enterprise.com",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830366",
+              "expiration": "12/2026",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": true
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Office Chair",
+                "price": 200.0,
+                "quantity": 2,
+                "weight": 12.0
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "FREESHIP",
+            "distance_km": 80.0,
+            "is_express": true
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 400.0,
+            "discount": 0.0,
+            "tax": 32.0,
+            "shipping": 0.0,
+            "total": 432.0
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "success"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invalid_customer_declined_payment_flow",
+      "steps": [
+        {
+          "action": "validate_customer",
+          "data": {
+            "email": "bad-email",
+            "phone": "(555) 123-4567",
+            "billing_address": {
+              "street": "123 Main St",
+              "city": "New York",
+              "state": "NY",
+              "zip": "10001"
+            },
+            "credit_card": {
+              "number": "4532015112830367",
+              "expiration": "12/2026",
+              "cvv": "123"
+            }
+          },
+          "expected": {
+            "valid": false
+          }
+        },
+        {
+          "action": "create_order",
+          "data": {
+            "items": [
+              {
+                "name": "Mouse",
+                "price": 50.0,
+                "quantity": 1,
+                "weight": 0.5
+              }
+            ],
+            "customer_type": "regular",
+            "discount_code": "SAVE10",
+            "distance_km": 10.0,
+            "is_express": false
+          },
+          "expected": {
+            "status": "created"
+          }
+        },
+        {
+          "action": "calculate_total",
+          "expected": {
+            "subtotal": 50.0,
+            "discount": 5.0,
+            "tax": 3.6,
+            "shipping": 1.25,
+            "total": 49.85
+          }
+        },
+        {
+          "action": "process_payment",
+          "expected": {
+            "status": "failed"
+          }
+        }
+      ]
+    }
+  ]
+}

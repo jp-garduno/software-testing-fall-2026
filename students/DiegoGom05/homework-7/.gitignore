@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# pytest
+.pytest_cache/
+
+# Cobertura (se entrega solo coverage_report.html)
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Editores
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
