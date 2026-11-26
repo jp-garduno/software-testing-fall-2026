@@ -1,0 +1,18 @@
+{
+  "name": "homework-8-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright end-to-end tests for TodoMVC React (homework 8)",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:crud": "playwright test tests/todo-crud.spec.js tests/todo-filter.spec.js",
+    "test:visual": "playwright test tests/visual.spec.js",
+    "test:perf": "playwright test tests/performance.spec.js",
+    "update-snapshots": "playwright test tests/visual.spec.js --update-snapshots",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}
