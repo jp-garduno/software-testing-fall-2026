@@ -1,0 +1,39 @@
+{
+  "framework": "selenium",
+  "exit_code": 1,
+  "total_seconds": 13.577314399999977,
+  "average_per_test_seconds": 13.577314399999977,
+  "average_setup_seconds": 0.6095304000000397,
+  "versions": {
+    "python": "3.12.14",
+    "selenium": "4.54.0",
+    "pytest": "9.2.0",
+    "browser": "157.0.8103.79"
+  },
+  "platform": "Windows-11-10.0.26300-SP0",
+  "url": "https://todomvc.com/examples/react/dist/",
+  "workers": 1,
+  "collected": 1,
+  "tests": [
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_cancel_edit",
+      "setup": {
+        "seconds": 0.6095304000000397,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 10.651955399999679,
+        "outcome": "failed",
+        "error": "selenium\\tests\\test_todo_crud.py:101: in test_cancel_edit\n    todo_page.cancel_edit()\nselenium\\pages\\todo_page.py:153: in cancel_edit\n    self.finish_edit(Keys.ESCAPE)\nselenium\\pages\\todo_page.py:149: in finish_edit\n    self.wait.until(EC.invisibility_of_element_located(self.EDIT_INPUT))\n.venv\\Lib\\site-packages\\selenium\\webdriver\\support\\wait.py:121: in until\n    raise TimeoutException(message, screen, stacktrace)\nE   selenium.common.exceptions.TimeoutException: Message:"
+      },
+      "teardown": {
+        "seconds": 2.22433860000001,
+        "outcome": "passed"
+      },
+      "outcome": "failed"
+    }
+  ],
+  "passed": 0,
+  "failed": 1,
+  "expected_failures": 0
+}

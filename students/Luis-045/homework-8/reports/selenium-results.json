@@ -1,0 +1,311 @@
+{
+  "framework": "selenium",
+  "exit_code": 0,
+  "total_seconds": 69.13629230000015,
+  "average_per_test_seconds": 3.840905127777786,
+  "average_setup_seconds": 0.7717691777777671,
+  "versions": {
+    "python": "3.12.14",
+    "selenium": "4.54.0",
+    "pytest": "9.2.0",
+    "browser": "157.0.8103.79"
+  },
+  "platform": "Windows-11-10.0.26300-SP0",
+  "url": "https://todomvc.com/examples/react/dist/",
+  "workers": 1,
+  "collected": 18,
+  "tests": [
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_create_single_task",
+      "setup": {
+        "seconds": 0.8064624000003278,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.09173269999973854,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.155890399999862,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_create_multiple_tasks",
+      "setup": {
+        "seconds": 0.6183803999997508,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.3254271000000699,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1729896000001645,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_task_appears_in_list",
+      "setup": {
+        "seconds": 0.5810896000002685,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.13401400000020658,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.102928199999951,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_mark_task_complete",
+      "setup": {
+        "seconds": 0.7280719999998837,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.1876246000001629,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1780979000000116,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_unmark_completed_task",
+      "setup": {
+        "seconds": 0.6076011000000108,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.24860760000001392,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1427301999997326,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_complete_multiple_tasks",
+      "setup": {
+        "seconds": 0.6508720000001631,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.41805539999995744,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1501534999997602,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_delete_single_task",
+      "setup": {
+        "seconds": 0.6394596000000092,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.5122115999997732,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.166604600000028,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_delete_completed_task",
+      "setup": {
+        "seconds": 0.6909309999996367,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.564332800000102,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1756141000000753,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_clear_all_completed",
+      "setup": {
+        "seconds": 0.8772636999997303,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.564442599999893,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1682427999999163,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_edit_task_text_and_save_on_blur",
+      "setup": {
+        "seconds": 0.7660879000000023,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.5182237000003624,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1549306000001707,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_cancel_edit",
+      "setup": {
+        "seconds": 0.5612340000002405,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 10.884185800000068,
+        "outcome": "skipped",
+        "expected_failure": "TODO-001: deployed TodoMVC ignores Escape in the inline editor"
+      },
+      "teardown": {
+        "seconds": 2.288461499999812,
+        "outcome": "passed"
+      },
+      "outcome": "xfailed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_save_edited_task",
+      "setup": {
+        "seconds": 0.8501366000000417,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.45113450000008015,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1620976999997765,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_ignore_whitespace_only_task",
+      "setup": {
+        "seconds": 0.6236537999998291,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.07208570000011605,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1548718000003646,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_trim_new_task_text",
+      "setup": {
+        "seconds": 0.6309769999998025,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.11736740000014834,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1872794999999314,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_crud.py::test_empty_edit_deletes_task",
+      "setup": {
+        "seconds": 0.8208073000000695,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.44281869999986156,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.145315600000231,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_filter.py::test_view_all_tasks",
+      "setup": {
+        "seconds": 1.0713828999996622,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.18302409999978408,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1950737000001936,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_filter.py::test_view_active_tasks_only",
+      "setup": {
+        "seconds": 1.081364399999984,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.10233759999982794,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1738961000000927,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    },
+    {
+      "name": "selenium/tests/test_todo_filter.py::test_view_completed_tasks_only",
+      "setup": {
+        "seconds": 1.2860695000003943,
+        "outcome": "passed"
+      },
+      "call": {
+        "seconds": 0.09154519999992772,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "seconds": 2.1492197000002307,
+        "outcome": "passed"
+      },
+      "outcome": "passed"
+    }
+  ],
+  "passed": 17,
+  "failed": 0,
+  "expected_failures": 1
+}

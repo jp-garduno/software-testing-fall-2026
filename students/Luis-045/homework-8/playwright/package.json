@@ -1,0 +1,18 @@
+{
+  "name": "homework-8-luis-045",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Equivalent TodoMVC end-to-end tests using Page Object Model",
+  "scripts": {
+    "test": "playwright test",
+    "test:serial": "playwright test --workers=1",
+    "test:parallel": "playwright test --workers=2",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "eslint": "8.57.1",
+    "prettier": "3.8.1"
+  }
+}

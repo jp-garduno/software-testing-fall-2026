@@ -1,0 +1,380 @@
+{
+  "tools": {
+    "python": "mccabe 0.7.0",
+    "javascript": "ESLint 8.57.1 complexity"
+  },
+  "selenium": {
+    "physical_lines": 322,
+    "function_count": 42,
+    "average_complexity": 1.0952380952380953,
+    "maximum_complexity": 2,
+    "files": {
+      "selenium/pages/todo_page.py": {
+        "physical_lines": 158,
+        "functions": [
+          {
+            "name": "TodoPage.__init__",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.navigate",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage._visible_items",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage._item",
+            "complexity": 2
+          },
+          {
+            "name": "TodoPage.get_visible_todos",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.get_todo_count",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.wait_for_todos",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.add_todo",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.is_completed",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.toggle_todo",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.get_active_count",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.delete_todo",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.clear_completed",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.filter_by",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.filter_all",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.filter_active",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.filter_completed",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.begin_edit",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.replace_edit_text",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.get_edit_text",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.finish_edit",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.cancel_edit",
+            "complexity": 1
+          },
+          {
+            "name": "TodoPage.blur_edit",
+            "complexity": 1
+          }
+        ]
+      },
+      "selenium/tests/test_todo_crud.py": {
+        "physical_lines": 130,
+        "functions": [
+          {
+            "name": "test_create_single_task",
+            "complexity": 1
+          },
+          {
+            "name": "test_create_multiple_tasks",
+            "complexity": 2
+          },
+          {
+            "name": "test_task_appears_in_list",
+            "complexity": 1
+          },
+          {
+            "name": "test_mark_task_complete",
+            "complexity": 1
+          },
+          {
+            "name": "test_unmark_completed_task",
+            "complexity": 1
+          },
+          {
+            "name": "test_complete_multiple_tasks",
+            "complexity": 1
+          },
+          {
+            "name": "test_delete_single_task",
+            "complexity": 1
+          },
+          {
+            "name": "test_delete_completed_task",
+            "complexity": 1
+          },
+          {
+            "name": "test_clear_all_completed",
+            "complexity": 2
+          },
+          {
+            "name": "test_edit_task_text_and_save_on_blur",
+            "complexity": 1
+          },
+          {
+            "name": "test_cancel_edit",
+            "complexity": 1
+          },
+          {
+            "name": "test_save_edited_task",
+            "complexity": 1
+          },
+          {
+            "name": "test_ignore_whitespace_only_task",
+            "complexity": 1
+          },
+          {
+            "name": "test_trim_new_task_text",
+            "complexity": 1
+          },
+          {
+            "name": "test_empty_edit_deletes_task",
+            "complexity": 1
+          }
+        ]
+      },
+      "selenium/tests/test_todo_filter.py": {
+        "physical_lines": 34,
+        "functions": [
+          {
+            "name": "mixed_todos_page",
+            "complexity": 2
+          },
+          {
+            "name": "test_view_all_tasks",
+            "complexity": 1
+          },
+          {
+            "name": "test_view_active_tasks_only",
+            "complexity": 1
+          },
+          {
+            "name": "test_view_completed_tasks_only",
+            "complexity": 1
+          }
+        ]
+      }
+    }
+  },
+  "playwright": {
+    "physical_lines": 265,
+    "function_count": 40,
+    "average_complexity": 1.1,
+    "maximum_complexity": 2,
+    "files": {
+      "playwright/pages/TodoPage.js": {
+        "physical_lines": 112,
+        "functions": [
+          {
+            "line": 4,
+            "complexity": 1
+          },
+          {
+            "line": 12,
+            "complexity": 1
+          },
+          {
+            "line": 17,
+            "complexity": 1
+          },
+          {
+            "line": 22,
+            "complexity": 1
+          },
+          {
+            "line": 26,
+            "complexity": 1
+          },
+          {
+            "line": 30,
+            "complexity": 1
+          },
+          {
+            "line": 34,
+            "complexity": 1
+          },
+          {
+            "line": 38,
+            "complexity": 2
+          },
+          {
+            "line": 49,
+            "complexity": 1
+          },
+          {
+            "line": 55,
+            "complexity": 1
+          },
+          {
+            "line": 61,
+            "complexity": 1
+          },
+          {
+            "line": 67,
+            "complexity": 1
+          },
+          {
+            "line": 71,
+            "complexity": 1
+          },
+          {
+            "line": 75,
+            "complexity": 1
+          },
+          {
+            "line": 79,
+            "complexity": 1
+          },
+          {
+            "line": 83,
+            "complexity": 1
+          },
+          {
+            "line": 88,
+            "complexity": 1
+          },
+          {
+            "line": 92,
+            "complexity": 1
+          },
+          {
+            "line": 96,
+            "complexity": 1
+          },
+          {
+            "line": 101,
+            "complexity": 1
+          },
+          {
+            "line": 106,
+            "complexity": 1
+          }
+        ]
+      },
+      "playwright/tests/todo-crud.spec.js": {
+        "physical_lines": 125,
+        "functions": [
+          {
+            "line": 3,
+            "complexity": 1
+          },
+          {
+            "line": 9,
+            "complexity": 2
+          },
+          {
+            "line": 18,
+            "complexity": 1
+          },
+          {
+            "line": 25,
+            "complexity": 1
+          },
+          {
+            "line": 32,
+            "complexity": 1
+          },
+          {
+            "line": 41,
+            "complexity": 1
+          },
+          {
+            "line": 51,
+            "complexity": 1
+          },
+          {
+            "line": 59,
+            "complexity": 1
+          },
+          {
+            "line": 69,
+            "complexity": 2
+          },
+          {
+            "line": 80,
+            "complexity": 1
+          },
+          {
+            "line": 89,
+            "complexity": 1
+          },
+          {
+            "line": 101,
+            "complexity": 1
+          },
+          {
+            "line": 109,
+            "complexity": 1
+          },
+          {
+            "line": 114,
+            "complexity": 1
+          },
+          {
+            "line": 119,
+            "complexity": 1
+          }
+        ]
+      },
+      "playwright/tests/todo-filter.spec.js": {
+        "physical_lines": 28,
+        "functions": [
+          {
+            "line": 3,
+            "complexity": 2
+          },
+          {
+            "line": 11,
+            "complexity": 1
+          },
+          {
+            "line": 18,
+            "complexity": 1
+          },
+          {
+            "line": 24,
+            "complexity": 1
+          }
+        ]
+      }
+    }
+  }
+}
