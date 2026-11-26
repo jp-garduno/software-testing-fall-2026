@@ -1,0 +1,21 @@
+{
+  "timestamp_utc": "2026-11-24T02:04:33.243421+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.8",
+  "node": "v22.19.0",
+  "url": "https://todomvc.com/examples/react/dist/",
+  "workers": 1,
+  "retries": 0,
+  "selenium": {
+    "tests": 19,
+    "wall_seconds": 115.67511730000115,
+    "average_seconds": 6.088164068421113,
+    "mean_setup_seconds": 1.9429943368415574
+  },
+  "playwright": {
+    "tests": 19,
+    "wall_seconds": 33.20360359999904,
+    "average_seconds": 1.7475580842104759,
+    "mean_setup_seconds": 0.364139252631579
+  }
+}

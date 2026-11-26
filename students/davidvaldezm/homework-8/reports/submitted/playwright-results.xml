@@ -1,0 +1,127 @@
+<testsuites id="" name="" tests="19" failures="0" skipped="0" errors="0" time="30.489048">
+<testsuite name="todo-crud.spec.js" timestamp="2026-11-24T02:04:02.837Z" hostname="" tests="15" failures="0" skipped="0" time="23.257" errors="0">
+<testcase name="create single" classname="todo-crud.spec.js" time="0.946">
+<properties>
+<property name="setup_ms" value="391.9349000000002">
+</property>
+</properties>
+</testcase>
+<testcase name="create multiple" classname="todo-crud.spec.js" time="0.888">
+<properties>
+<property name="setup_ms" value="364.3505">
+</property>
+</properties>
+</testcase>
+<testcase name="complete task" classname="todo-crud.spec.js" time="0.786">
+<properties>
+<property name="setup_ms" value="338.9715000000001">
+</property>
+</properties>
+</testcase>
+<testcase name="uncomplete task" classname="todo-crud.spec.js" time="0.941">
+<properties>
+<property name="setup_ms" value="358.27960000000076">
+</property>
+</properties>
+</testcase>
+<testcase name="complete all" classname="todo-crud.spec.js" time="1.086">
+<properties>
+<property name="setup_ms" value="359.40959999999995">
+</property>
+</properties>
+</testcase>
+<testcase name="delete single" classname="todo-crud.spec.js" time="0.829">
+<properties>
+<property name="setup_ms" value="353.2521000000006">
+</property>
+</properties>
+</testcase>
+<testcase name="delete completed" classname="todo-crud.spec.js" time="0.955">
+<properties>
+<property name="setup_ms" value="363.0068999999994">
+</property>
+</properties>
+</testcase>
+<testcase name="clear completed" classname="todo-crud.spec.js" time="0.919">
+<properties>
+<property name="setup_ms" value="336.78340000000026">
+</property>
+</properties>
+</testcase>
+<testcase name="edit enter" classname="todo-crud.spec.js" time="0.851">
+<properties>
+<property name="setup_ms" value="342.1700000000001">
+</property>
+</properties>
+</testcase>
+<testcase name="edit cancel" classname="todo-crud.spec.js" time="10.848">
+<properties>
+<property name="setup_ms" value="338.2267000000011">
+</property>
+<property name="fail" value="React demo defect: Escape leaves the editor open and does not cancel">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\..\playwright\test-results\todo-crud-edit-cancel\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="edit blur" classname="todo-crud.spec.js" time="0.933">
+<properties>
+<property name="setup_ms" value="353.58740000000034">
+</property>
+</properties>
+</testcase>
+<testcase name="blank edit deletes" classname="todo-crud.spec.js" time="0.885">
+<properties>
+<property name="setup_ms" value="370.7051999999967">
+</property>
+</properties>
+</testcase>
+<testcase name="blank creation" classname="todo-crud.spec.js" time="0.706">
+<properties>
+<property name="setup_ms" value="353.42299999999886">
+</property>
+</properties>
+</testcase>
+<testcase name="trim creation" classname="todo-crud.spec.js" time="0.771">
+<properties>
+<property name="setup_ms" value="386.1534000000029">
+</property>
+</properties>
+</testcase>
+<testcase name="duplicate tasks" classname="todo-crud.spec.js" time="0.913">
+<properties>
+<property name="setup_ms" value="371.5818999999974">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="todo-filter.spec.js" timestamp="2026-11-24T02:04:02.837Z" hostname="" tests="4" failures="0" skipped="0" time="4.226" errors="0">
+<testcase name="filter All" classname="todo-filter.spec.js" time="1.137">
+<properties>
+<property name="setup_ms" value="378.6762000000017">
+</property>
+</properties>
+</testcase>
+<testcase name="filter Active" classname="todo-filter.spec.js" time="1.105">
+<properties>
+<property name="setup_ms" value="421.71389999999883">
+</property>
+</properties>
+</testcase>
+<testcase name="filter Completed" classname="todo-filter.spec.js" time="1.105">
+<properties>
+<property name="setup_ms" value="363.28859999999986">
+</property>
+</properties>
+</testcase>
+<testcase name="empty filter" classname="todo-filter.spec.js" time="0.879">
+<properties>
+<property name="setup_ms" value="373.1310000000012">
+</property>
+</properties>
+</testcase>
+</testsuite>
+</testsuites>

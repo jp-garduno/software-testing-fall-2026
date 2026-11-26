@@ -1,0 +1,65 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Library/Developer/CommandLineTools/usr/bin/python3
+rootdir: /Users/isaac/Documents/Code/software-testing-fall-2026/students/isaac-evs/homework-8
+configfile: pytest.ini
+testpaths: selenium/tests
+plugins: cov-7.1.0
+collecting ... collected 41 items
+
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_create_single_task PASSED [  2%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_create_multiple_tasks_keeps_their_order PASSED [  4%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_created_task_appears_in_the_list_as_active PASSED [  7%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_input_is_emptied_after_adding PASSED [  9%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_surrounding_whitespace_is_trimmed PASSED [ 12%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_blank_task_is_not_created PASSED [ 14%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_markup_is_shown_as_text_not_rendered PASSED [ 17%]
+selenium/tests/test_todo_crud.py::TestTaskCreation::test_new_list_starts_empty_without_footer PASSED [ 19%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_mark_task_as_complete PASSED [ 21%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_unmark_completed_task PASSED [ 24%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_complete_multiple_tasks PASSED [ 26%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_items_left_counter_follows_completion PASSED [ 29%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_toggle_all_completes_every_task PASSED [ 31%]
+selenium/tests/test_todo_crud.py::TestTaskCompletion::test_toggle_all_twice_reopens_every_task PASSED [ 34%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_delete_single_task PASSED [ 36%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_delete_only_the_chosen_task PASSED [ 39%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_delete_completed_task PASSED [ 41%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_clear_all_completed PASSED [ 43%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_clear_completed_is_only_offered_when_something_is_completed PASSED [ 46%]
+selenium/tests/test_todo_crud.py::TestTaskDeletion::test_footer_disappears_when_the_last_task_is_deleted PASSED [ 48%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_edit_task_text PASSED [ 51%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_double_click_opens_the_task_for_editing PASSED [ 53%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_save_edited_task_by_leaving_the_field PASSED [ 56%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_edited_text_is_trimmed PASSED [ 58%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_editing_a_task_to_empty_deletes_it PASSED [ 60%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_editing_keeps_the_completed_state PASSED [ 63%]
+selenium/tests/test_todo_crud.py::TestTaskEditing::test_cancel_edit_with_escape_restores_the_original_text XFAIL [ 65%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_view_all_tasks PASSED [ 68%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_view_active_tasks_only PASSED [ 70%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_view_completed_tasks_only PASSED [ 73%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_each_filter_shows_the_expected_number_of_tasks[filter_all-3] PASSED [ 75%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_each_filter_shows_the_expected_number_of_tasks[filter_active-2] PASSED [ 78%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_each_filter_shows_the_expected_number_of_tasks[filter_completed-1] PASSED [ 80%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_returning_to_all_restores_every_task PASSED [ 82%]
+selenium/tests/test_todo_filter.py::TestFilterViews::test_items_left_counter_ignores_the_filter PASSED [ 85%]
+selenium/tests/test_todo_filter.py::TestFilterBehaviour::test_all_is_selected_by_default PASSED [ 87%]
+selenium/tests/test_todo_filter.py::TestFilterBehaviour::test_selecting_a_filter_updates_the_route PASSED [ 90%]
+selenium/tests/test_todo_filter.py::TestFilterBehaviour::test_opening_a_filter_route_directly_applies_it PASSED [ 92%]
+selenium/tests/test_todo_filter.py::TestFilterBehaviour::test_completing_a_task_in_the_active_view_removes_it_from_the_view PASSED [ 95%]
+selenium/tests/test_todo_filter.py::TestFilterBehaviour::test_reopening_a_task_in_the_completed_view_removes_it_from_the_view PASSED [ 97%]
+selenium/tests/test_todo_filter.py::TestFilterBehaviour::test_clear_completed_in_the_all_view_leaves_only_active_tasks PASSED [100%]/Users/isaac/Library/Python/3.9/lib/python/site-packages/coverage/inorout.py:521: CoverageWarning: Module selenium/conftest.py was never imported. (module-not-imported); see https://coverage.readthedocs.io/en/7.10.7/messages.html#warning-module-not-imported
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+
+
+=============================== warnings summary ===============================
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.9.6-final-0 ________________
+
+Name                          Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------
+selenium/pages/todo_page.py     125      2      6      1    98%   58, 193
+-------------------------------------------------------------------------
+TOTAL                           125      2      6      1    98%
+=========================== short test summary info ============================
+XFAIL selenium/tests/test_todo_crud.py::TestTaskEditing::test_cancel_edit_with_escape_restores_the_original_text - Known defect of this TodoMVC build: the edit field only handles Enter, so Escape does not cancel (the TodoMVC spec says it should). Strict: this turns red if the app is ever fixed.
+================== 40 passed, 1 xfailed, 1 warning in 14.62s ===================

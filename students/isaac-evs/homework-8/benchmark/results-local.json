@@ -1,0 +1,73 @@
+{
+  "runs": 5,
+  "summary": {
+    "selenium": {
+      "median_wall": 11.079682500000004,
+      "median_runner": 10.816,
+      "tests": 41,
+      "failures_per_run": [0, 0, 0, 0, 0],
+      "mean_per_test": 0.27040000000000003,
+      "median_per_test": 0.152
+    },
+    "playwright_parallel": {
+      "median_wall": 6.079271540999997,
+      "median_runner": 5.398350000000001,
+      "tests": 41,
+      "failures_per_run": [0, 0, 0, 0, 0],
+      "mean_per_test": 0.410409756097561,
+      "median_per_test": 0.347
+    },
+    "playwright_serial": {
+      "median_wall": 12.166102833,
+      "median_runner": 11.714625999999999,
+      "tests": 41,
+      "failures_per_run": [0, 0, 0, 0, 0],
+      "mean_per_test": 0.2734829268292683,
+      "median_per_test": 0.231
+    }
+  },
+  "raw_wall": {
+    "selenium": [
+      12.481683708, 10.968773875000004, 10.905143000000002, 11.079682500000004,
+      11.69419533300001
+    ],
+    "playwright_parallel": [
+      6.201367666999998, 6.079271540999997, 5.458547749999994,
+      5.497352707999994, 6.58975991600002
+    ],
+    "playwright_serial": [
+      12.166102833, 12.102248542000005, 12.067415999999994, 12.381211499999992,
+      12.799189167000009
+    ]
+  },
+  "startup": {
+    "selenium_driver_and_browser": [
+      1.3928269169999998, 1.1490185000000002, 0.9738855000000001, 0.836855625,
+      0.743741583
+    ],
+    "playwright": [
+      {
+        "launch": 0.07627254100000001,
+        "context_and_page": 0.096485459
+      },
+      {
+        "launch": 0.146376667,
+        "context_and_page": 0.275147
+      },
+      {
+        "launch": 0.127050916,
+        "context_and_page": 0.09646720899999997
+      },
+      {
+        "launch": 0.087459959,
+        "context_and_page": 0.04920187499999997
+      },
+      {
+        "launch": 0.11277629200000001,
+        "context_and_page": 0.06223620799999997
+      }
+    ]
+  },
+  "label": "local",
+  "url": "http://127.0.0.1:8765/"
+}

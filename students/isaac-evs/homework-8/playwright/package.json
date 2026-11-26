@@ -1,0 +1,17 @@
+{
+  "name": "todomvc-playwright-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright end-to-end tests for TodoMVC (Homework 8)",
+  "scripts": {
+    "test": "playwright test --project=chromium",
+    "test:all-browsers": "playwright test --project=chromium --project=firefox --project=webkit",
+    "report": "playwright show-report",
+    "perf": "node perf/measure.js",
+    "visual": "VISUAL=1 playwright test --project=visual",
+    "visual:update": "VISUAL=1 playwright test --project=visual --update-snapshots"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
