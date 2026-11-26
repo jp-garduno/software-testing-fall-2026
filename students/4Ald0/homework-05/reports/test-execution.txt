@@ -1,0 +1,138 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\fgf16\OneDrive\Desktop\Coding\Pruebas de software\software-testing-fall-2026\students\4Ald0\homework-5\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\fgf16\OneDrive\Desktop\Coding\Pruebas de software\software-testing-fall-2026\students\4Ald0\homework-5
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.1.0
+collecting ... collected 112 items
+
+tests/test_coverage_edge_cases.py::test_missing_tasks[<lambda>0] PASSED  [  0%]
+tests/test_coverage_edge_cases.py::test_missing_tasks[<lambda>1] PASSED  [  1%]
+tests/test_coverage_edge_cases.py::test_missing_tasks[<lambda>2] PASSED  [  2%]
+tests/test_coverage_edge_cases.py::test_missing_tasks[<lambda>3] PASSED  [  3%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes0] PASSED [  4%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes1] PASSED [  5%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes2] PASSED [  6%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes3] PASSED [  7%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes4] PASSED [  8%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes5] PASSED [  8%]
+tests/test_coverage_edge_cases.py::test_invalid_edits_are_atomic[changes6] PASSED [  9%]
+tests/test_coverage_edge_cases.py::test_archiving_cannot_modify_fields PASSED [ 10%]
+tests/test_coverage_edge_cases.py::test_expired_due_date_does_not_block_unrelated_edit PASSED [ 11%]
+tests/test_coverage_edge_cases.py::test_invalid_search_filters[filters0] PASSED [ 12%]
+tests/test_coverage_edge_cases.py::test_invalid_search_filters[filters1] PASSED [ 13%]
+tests/test_coverage_edge_cases.py::test_invalid_search_filters[filters2] PASSED [ 14%]
+tests/test_coverage_edge_cases.py::test_date_range_is_inclusive_and_excludes_undated PASSED [ 15%]
+tests/test_coverage_edge_cases.py::test_empty_search_and_empty_overdue PASSED [ 16%]
+tests/test_coverage_edge_cases.py::test_priority_order_contains_all_levels PASSED [ 16%]
+tests/test_mocking.py::test_save_happens_before_notification PASSED      [ 17%]
+tests/test_mocking.py::test_email_outage_does_not_undo_creation PASSED   [ 18%]
+tests/test_mocking.py::test_sms_creation_channels[4-1] PASSED            [ 19%]
+tests/test_mocking.py::test_sms_creation_channels[3-0] PASSED            [ 20%]
+tests/test_mocking.py::test_sms_creation_failure_is_nonfatal PASSED      [ 21%]
+tests/test_mocking.py::test_email_failure_still_attempts_sms PASSED      [ 22%]
+tests/test_mocking.py::test_urgent_overdue_alerts[None] PASSED           [ 23%]
+tests/test_mocking.py::test_urgent_overdue_alerts[email] PASSED          [ 24%]
+tests/test_mocking.py::test_urgent_overdue_alerts[sms] PASSED            [ 25%]
+tests/test_mocking.py::test_status_notification_failure_preserves_saved_transition PASSED [ 25%]
+tests/test_mocking.py::test_repository_lookup_failure_stops_workflow PASSED [ 26%]
+tests/test_mocking.py::test_real_repository_uses_database_stub PASSED    [ 27%]
+tests/test_mocking.py::test_notification_adapter_delegates_and_propagates[send_email-args0] PASSED [ 28%]
+tests/test_mocking.py::test_notification_adapter_delegates_and_propagates[send_sms-args1] PASSED [ 29%]
+tests/test_mocking.py::test_no_shared_state_in_new_fixture PASSED        [ 30%]
+tests/test_task_service_integration.py::test_create_saves_and_notifies PASSED [ 31%]
+tests/test_task_service_integration.py::test_duplicate_title_rejected PASSED [ 32%]
+tests/test_task_service_integration.py::test_status_change_saves_copy_and_notifies PASSED [ 33%]
+tests/test_task_service_integration.py::test_complete_workflow_with_stateful_mock PASSED [ 33%]
+tests/test_task_service_integration.py::test_archive_is_soft_delete_and_terminal PASSED [ 34%]
+tests/test_task_service_integration.py::test_invalid_transition_does_not_save PASSED [ 35%]
+tests/test_task_service_integration.py::test_overdue_check_ignores_terminal_and_future PASSED [ 36%]
+tests/test_task_service_integration.py::test_updates_all_editable_fields PASSED [ 37%]
+tests/test_task_service_integration.py::test_duplicate_rename_preserves_original PASSED [ 38%]
+tests/test_task_service_integration.py::test_unchanged_title_is_allowed PASSED [ 39%]
+tests/test_task_service_integration.py::test_permanent_delete_removes_record PASSED [ 40%]
+tests/test_task_service_integration.py::test_combined_search_filters_and_sorting PASSED [ 41%]
+tests/test_task_service_integration.py::test_repository_boundaries_with_fake_database PASSED [ 41%]
+tests/test_task_service_integration.py::test_database_errors_are_propagated[create] PASSED [ 42%]
+tests/test_task_service_integration.py::test_database_errors_are_propagated[update] PASSED [ 43%]
+tests/test_task_service_integration.py::test_database_errors_are_propagated[status] PASSED [ 44%]
+tests/test_task_service_integration.py::test_database_errors_are_propagated[delete] PASSED [ 45%]
+tests/test_task_service_integration.py::test_database_errors_are_propagated[overdue] PASSED [ 46%]
+tests/test_task_service_integration.py::test_database_errors_are_propagated[search] PASSED [ 47%]
+tests/test_task_unit.py::test_task_creation_with_valid_data PASSED       [ 48%]
+tests/test_task_unit.py::test_defaults_and_unique_identifiers PASSED     [ 49%]
+tests/test_task_unit.py::test_invalid_titles_are_rejected[None] PASSED   [ 50%]
+tests/test_task_unit.py::test_invalid_titles_are_rejected[123] PASSED    [ 50%]
+tests/test_task_unit.py::test_invalid_titles_are_rejected[] PASSED       [ 51%]
+tests/test_task_unit.py::test_invalid_titles_are_rejected[ab] PASSED     [ 52%]
+tests/test_task_unit.py::test_invalid_titles_are_rejected[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa] PASSED [ 53%]
+tests/test_task_unit.py::test_invalid_titles_are_rejected[   ] PASSED    [ 54%]
+tests/test_task_unit.py::test_title_length_boundaries[3] PASSED          [ 55%]
+tests/test_task_unit.py::test_title_length_boundaries[100] PASSED        [ 56%]
+tests/test_task_unit.py::test_invalid_description[None] PASSED           [ 57%]
+tests/test_task_unit.py::test_invalid_description[45] PASSED             [ 58%]
+tests/test_task_unit.py::test_invalid_description[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa] PASSED [ 58%]
+tests/test_task_unit.py::test_maximum_description_is_preserved PASSED    [ 59%]
+tests/test_task_unit.py::test_invalid_priority[None] PASSED              [ 60%]
+tests/test_task_unit.py::test_invalid_priority[1] PASSED                 [ 61%]
+tests/test_task_unit.py::test_invalid_priority[HIGH] PASSED              [ 62%]
+tests/test_task_unit.py::test_due_date_must_be_strictly_future[-1] PASSED [ 63%]
+tests/test_task_unit.py::test_due_date_must_be_strictly_future[0] PASSED [ 64%]
+tests/test_task_unit.py::test_due_date_requires_local_datetime[tomorrow] PASSED [ 65%]
+tests/test_task_unit.py::test_due_date_requires_local_datetime[12] PASSED [ 66%]
+tests/test_task_unit.py::test_due_date_requires_local_datetime[aware] PASSED [ 66%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.TODO-TaskStatus.TODO] PASSED [ 67%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.TODO-TaskStatus.IN_PROGRESS] PASSED [ 68%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.TODO-TaskStatus.DONE] PASSED [ 69%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.TODO-TaskStatus.ARCHIVED] PASSED [ 70%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.IN_PROGRESS-TaskStatus.TODO] PASSED [ 71%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.IN_PROGRESS-TaskStatus.IN_PROGRESS] PASSED [ 72%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.IN_PROGRESS-TaskStatus.DONE] PASSED [ 73%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.IN_PROGRESS-TaskStatus.ARCHIVED] PASSED [ 74%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.DONE-TaskStatus.TODO] PASSED [ 75%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.DONE-TaskStatus.IN_PROGRESS] PASSED [ 75%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.DONE-TaskStatus.DONE] PASSED [ 76%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.DONE-TaskStatus.ARCHIVED] PASSED [ 77%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.ARCHIVED-TaskStatus.TODO] PASSED [ 78%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.ARCHIVED-TaskStatus.IN_PROGRESS] PASSED [ 79%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.ARCHIVED-TaskStatus.DONE] PASSED [ 80%]
+tests/test_task_unit.py::test_every_status_transition[TaskStatus.ARCHIVED-TaskStatus.ARCHIVED] PASSED [ 81%]
+tests/test_task_unit.py::test_unknown_transition_is_invalid PASSED       [ 82%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[None-TaskStatus.TODO] PASSED [ 83%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[None-TaskStatus.IN_PROGRESS] PASSED [ 83%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[None-TaskStatus.DONE] PASSED [ 84%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[None-TaskStatus.ARCHIVED] PASSED [ 85%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[-1-TaskStatus.TODO] PASSED [ 86%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[-1-TaskStatus.IN_PROGRESS] PASSED [ 87%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[-1-TaskStatus.DONE] PASSED [ 88%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[-1-TaskStatus.ARCHIVED] PASSED [ 89%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[0-TaskStatus.TODO] PASSED [ 90%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[0-TaskStatus.IN_PROGRESS] PASSED [ 91%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[0-TaskStatus.DONE] PASSED [ 91%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[0-TaskStatus.ARCHIVED] PASSED [ 92%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[1-TaskStatus.TODO] PASSED [ 93%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[1-TaskStatus.IN_PROGRESS] PASSED [ 94%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[1-TaskStatus.DONE] PASSED [ 95%]
+tests/test_task_unit.py::test_overdue_boundaries_and_terminal_states[1-TaskStatus.ARCHIVED] PASSED [ 96%]
+tests/test_task_unit.py::test_future_due_date_can_become_overdue PASSED  [ 97%]
+tests/test_task_unit.py::test_priority_comparison[4-3-1] PASSED          [ 98%]
+tests/test_task_unit.py::test_priority_comparison[1-2--1] PASSED         [ 99%]
+tests/test_task_unit.py::test_priority_comparison[3-3-0] PASSED          [100%]
+
+- generated xml file: C:\Users\fgf16\OneDrive\Desktop\Coding\Pruebas de software\software-testing-fall-2026\students\4Ald0\homework-5\reports\junit.xml -
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                          Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------
+src\__init__.py                   0      0      0      0   100%
+src\notification_service.py       7      0      0      0   100%
+src\task.py                      62      0     16      0   100%
+src\task_repository.py           14      0      0      0   100%
+src\task_service.py             104      0     38      0   100%
+-------------------------------------------------------------------------
+TOTAL                           187      0     54      0   100%
+Coverage HTML written to dir htmlcov
+Coverage JSON written to file reports/coverage.json
+============================= 112 passed in 2.84s =============================

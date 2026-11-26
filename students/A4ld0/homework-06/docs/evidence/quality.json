@@ -1,0 +1,11 @@
+{
+  "python": "3.12.14",
+  "statement_percent": 100.0,
+  "branch_percent": 100.0,
+  "suite_process_seconds": 2.1186,
+  "suite_seconds": 0.426,
+  "no_failures_or_skips": true,
+  "statement_requirement_met": true,
+  "branch_requirement_met": true,
+  "speed_requirement_met": true
+}

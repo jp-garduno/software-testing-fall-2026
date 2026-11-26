@@ -1,0 +1,14 @@
+{
+  "name": "homework-8-playwright-e2e",
+  "version": "1.0.0",
+  "description": "Playwright E2E tests and Page Object Model for TodoMVC React",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

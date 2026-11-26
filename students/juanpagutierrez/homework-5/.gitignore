@@ -1,0 +1,14 @@
+# Generated coverage output - re-created on every run
+htmlcov/
+coverage/
+.coverage
+.coverage.*
+coverage.json
+coverage.xml
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/

@@ -1,0 +1,701 @@
+"""Unit tests for the Library class and advanced features developed with TDD."""
+
+from datetime import date, timedelta
+
+import pytest
+from src.book import Book
+from src.library import Library
+from src.member import Member
+
+
+def test_library_adds_book_to_catalog():
+    library = Library()
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+
+    library.add_book(book)
+
+    assert "1234567890" in library.books
+    assert library.books["1234567890"] is book
+
+
+def test_library_can_add_multiple_books():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    book2 = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=2,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+
+    assert len(library.books) == 2
+    assert library.books["1234567890"] is book1
+    assert library.books["1234567891"] is book2
+
+
+def test_library_rejects_duplicate_isbn():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    book2 = Book(
+        isbn="1234567890",
+        title="Different Book",
+        author="Another Author",
+        total_copies=2,
+        available_copies=2,
+    )
+
+    library.add_book(book1)
+
+    with pytest.raises(ValueError, match="already exists"):
+        library.add_book(book2)
+
+
+def test_library_registers_member():
+    library = Library()
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+
+    library.register_member(member)
+
+    assert "M001" in library.members
+    assert library.members["M001"] is member
+
+
+def test_library_rejects_duplicate_member_id():
+    library = Library()
+
+    member1 = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+    member2 = Member(
+        member_id="M001",
+        name="Another Member",
+    )
+
+    library.register_member(member1)
+
+    with pytest.raises(ValueError, match="already exists"):
+        library.register_member(member2)
+
+
+def test_library_searches_books_by_title():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    book2 = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=2,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+
+    results = library.search_by_title("Hobbit")
+
+    assert len(results) == 1
+    assert results[0] is book1
+
+
+def test_library_searches_books_by_author():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    book2 = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=2,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+
+    results = library.search_by_author("Tolkien")
+
+    assert len(results) == 1
+    assert results[0] is book1
+
+
+def test_library_gets_only_available_books():
+    library = Library()
+
+    available_book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=2,
+    )
+    unavailable_book = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=0,
+    )
+
+    library.add_book(available_book)
+    library.add_book(unavailable_book)
+
+    results = library.get_available_books()
+
+    assert len(results) == 1
+    assert results[0] is available_book
+
+
+def test_library_borrows_book_to_member():
+    library = Library()
+
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890")
+
+    assert book.available_copies == 2
+    assert "1234567890" in member.borrowed_books
+
+
+def test_library_cannot_borrow_unavailable_book():
+    library = Library()
+
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=1,
+        available_copies=0,
+    )
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="No copies available"):
+        library.borrow_book("M001", "1234567890")
+
+    assert book.available_copies == 0
+    assert not member.borrowed_books
+
+
+def test_library_cannot_exceed_member_borrow_limit():
+    library = Library()
+
+    book1 = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=2,
+        available_copies=2,
+    )
+    book2 = Book(
+        isbn="1234567891",
+        title="Dune",
+        author="Frank Herbert",
+        total_copies=2,
+        available_copies=2,
+    )
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+        max_borrow_limit=1,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890")
+
+    with pytest.raises(ValueError, match="borrowing limit"):
+        library.borrow_book("M001", "1234567891")
+
+    assert book1.available_copies == 1
+    assert book2.available_copies == 2
+    assert member.borrowed_books == ["1234567890"]
+
+
+def test_library_returns_book_from_member():
+    library = Library()
+
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    library.borrow_book("M001", "1234567890")
+    library.return_book("M001", "1234567890")
+
+    assert book.available_copies == 3
+    assert "1234567890" not in member.borrowed_books
+
+
+def test_library_cannot_return_book_not_borrowed():
+    library = Library()
+
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="not borrowed"):
+        library.return_book("M001", "1234567890")
+
+    assert book.available_copies == 3
+    assert not member.borrowed_books
+
+
+def test_library_cannot_borrow_book_for_unregistered_member():
+    library = Library()
+
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+
+    library.add_book(book)
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.borrow_book("M999", "1234567890")
+
+    assert book.available_copies == 3
+
+
+def test_library_cannot_borrow_nonexistent_book():
+    library = Library()
+    member = Member(
+        member_id="M001",
+        name="Katherine",
+    )
+
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book not found"):
+        library.borrow_book("M001", "1234567890")
+
+    assert not member.borrowed_books
+
+
+def test_library_cannot_return_book_for_unregistered_member():
+    library = Library()
+
+    book = Book(
+        isbn="1234567890",
+        title="The Hobbit",
+        author="J.R.R. Tolkien",
+        total_copies=3,
+        available_copies=3,
+    )
+    library.add_book(book)
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.return_book("M999", "1234567890")
+
+    assert book.available_copies == 3
+
+
+def test_library_cannot_return_nonexistent_book():
+    library = Library()
+
+    member = Member(member_id="M001", name="Katherine")
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book not found"):
+        library.return_book("M001", "1234567890")
+
+    assert not member.borrowed_books
+
+
+def test_late_fee_is_one_dollar_per_day():
+    library = Library()
+    member = Member(member_id="M100", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Test Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=1,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+    library.borrow_book("M100", "1234567890")
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=17)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 3
+
+
+def test_no_late_fee_when_book_is_returned_on_time():
+    library = Library()
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=14)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 0
+
+
+def test_no_late_fee_when_book_is_returned_early():
+    library = Library()
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=7)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 0
+
+
+def test_late_fee_for_one_day_overdue():
+    library = Library()
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=15)
+
+    fee = library.calculate_late_fee(borrow_date, return_date)
+
+    assert fee == 1
+
+
+def test_total_late_fees_for_member():
+    library = Library()
+    member = Member(member_id="M200", name="Test Member")
+    library.register_member(member)
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=17)
+
+    total_fee = library.calculate_member_late_fees(
+        "M200",
+        [(borrow_date, return_date), (borrow_date, return_date)],
+    )
+
+    assert total_fee == 6
+
+
+def test_calculate_member_late_fees_uses_member_category_rate():
+    library = Library()
+    faculty_member = Member(
+        member_id="M201", name="Dr. Smith", category="faculty"
+    )
+    library.register_member(faculty_member)
+
+    borrow_date = date(2026, 1, 1)
+    return_date = borrow_date + timedelta(days=17)  # 3 days overdue * $0.50 = $1.50
+
+    total_fee = library.calculate_member_late_fees(
+        "M201",
+        [(borrow_date, return_date)],
+    )
+
+    assert total_fee == 1.5
+
+
+def test_calculate_member_late_fees_rejects_unknown_member():
+    library = Library()
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.calculate_member_late_fees(
+            "M999",
+            [(date(2026, 1, 1), date(2026, 1, 17))],
+        )
+
+
+def test_member_can_reserve_unavailable_book():
+    library = Library()
+    member = Member(member_id="M300", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Reserved Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    library.reserve_book("M300", "1234567890")
+
+    assert library.reservations["1234567890"] == ["M300"]
+
+
+def test_cannot_reserve_book_that_is_available():
+    library = Library()
+    member = Member(member_id="M301", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Available Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=1,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book is available"):
+        library.reserve_book("M301", "1234567890")
+
+
+def test_member_cannot_reserve_same_book_twice():
+    library = Library()
+    member = Member(member_id="M302", name="Test Member")
+    book = Book(
+        isbn="1234567890",
+        title="Reserved Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+    library.register_member(member)
+    library.reserve_book("M302", "1234567890")
+
+    with pytest.raises(ValueError, match="already reserved"):
+        library.reserve_book("M302", "1234567890")
+
+
+def test_cannot_reserve_book_for_unknown_member():
+    library = Library()
+    book = Book(
+        isbn="1234567890",
+        title="Reserved Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.reserve_book("M999", "1234567890")
+
+
+def test_cannot_reserve_nonexistent_book():
+    library = Library()
+    member = Member(member_id="M303", name="Test Member")
+
+    library.register_member(member)
+
+    with pytest.raises(ValueError, match="Book not found"):
+        library.reserve_book("M303", "1234567890")
+
+
+def test_reservations_follow_fifo_order():
+    library = Library()
+
+    member1 = Member(member_id="M401", name="First Member")
+    member2 = Member(member_id="M402", name="Second Member")
+    book = Book(
+        isbn="1234567890",
+        title="FIFO Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=0,
+    )
+
+    library.add_book(book)
+    library.register_member(member1)
+    library.register_member(member2)
+
+    library.reserve_book("M401", "1234567890")
+    library.reserve_book("M402", "1234567890")
+
+    assert library.reservations["1234567890"][0] == "M401"
+    assert library.reservations["1234567890"][1] == "M402"
+
+
+def test_returned_book_notifies_first_member_in_reservation_queue():
+    library = Library()
+
+    borrower = Member(member_id="M400", name="Current Borrower")
+    member1 = Member(member_id="M401", name="First Reserver")
+    member2 = Member(member_id="M402", name="Second Reserver")
+    book = Book(
+        isbn="1234567890",
+        title="FIFO Book",
+        author="Test Author",
+        total_copies=1,
+        available_copies=1,
+    )
+
+    library.add_book(book)
+    library.register_member(borrower)
+    library.register_member(member1)
+    library.register_member(member2)
+
+    library.borrow_book("M400", "1234567890")
+    library.reserve_book("M401", "1234567890")
+    library.reserve_book("M402", "1234567890")
+
+    library.return_book("M400", "1234567890")
+
+    assert len(library.notifications) == 1
+    assert library.notifications[0]["member_id"] == "M401"
+    assert library.notifications[0]["isbn"] == "1234567890"
+    assert library.reservations["1234567890"] == ["M402"]
+
+
+def test_search_books_with_combined_filters_and_sorting():
+    library = Library()
+
+    book1 = Book(
+        isbn="1111111111",
+        title="Zeta Architecture",
+        author="Alice",
+        total_copies=2,
+        genre="Tech",
+        publication_year=2022,
+        rating=4.5,
+    )
+    book2 = Book(
+        isbn="2222222222",
+        title="Alpha Patterns",
+        author="Bob",
+        total_copies=2,
+        genre="Tech",
+        publication_year=2022,
+        rating=4.9,
+    )
+    book3 = Book(
+        isbn="3333333333",
+        title="History of Science",
+        author="Carol",
+        total_copies=1,
+        genre="History",
+        publication_year=2020,
+        rating=4.7,
+    )
+
+    library.add_book(book1)
+    library.add_book(book2)
+    library.add_book(book3)
+
+    filtered = library.search_books(
+        genre="tech",
+        publication_year=2022,
+        min_rating=4.6,
+    )
+    assert filtered == [book2]
+
+    sorted_tech = library.search_books(genre="Tech", sort_by="title")
+    assert sorted_tech == [book2, book1]
+
+    with pytest.raises(ValueError, match="Invalid sort field"):
+        library.search_books(sort_by="invalid_field")
+
+
+def test_borrowing_history_tracks_transactions_and_most_borrowed_book():
+    library = Library()
+
+    book1 = Book(isbn="1111111111", title="Book One", author="Author A", total_copies=2)
+    book2 = Book(isbn="2222222222", title="Book Two", author="Author B", total_copies=2)
+    member = Member(member_id="M500", name="History Member")
+
+    library.add_book(book1)
+    library.add_book(book2)
+    library.register_member(member)
+
+    assert library.get_most_borrowed_book() is None
+
+    library.borrow_book("M500", "1111111111")
+    library.return_book("M500", "1111111111")
+    library.borrow_book("M500", "1111111111")
+    library.borrow_book("M500", "2222222222")
+
+    history = library.get_member_history("M500")
+    assert len(history) == 4
+    assert history[0] == {"member_id": "M500", "isbn": "1111111111", "action": "borrow"}
+    assert history[1] == {"member_id": "M500", "isbn": "1111111111", "action": "return"}
+
+    assert library.get_most_borrowed_book() is book1
+
+    with pytest.raises(ValueError, match="Member not found"):
+        library.get_member_history("UNKNOWN")
