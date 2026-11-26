@@ -1,0 +1,15 @@
+{
+  "name": "homework-8-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright end-to-end tests for the TodoMVC React app",
+  "scripts": {
+    "test": "playwright test --grep-invert @performance",
+    "test:chromium": "playwright test --grep-invert @performance --project=chromium",
+    "test:performance": "playwright test --grep @performance --workers=1 --reporter=list,./reporters/performance-reporter.js",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  }
+}
