@@ -1,0 +1,62 @@
+name: TodoMVC - David Valdez Homework 8
+
+on:
+  push:
+    paths:
+      - "students/davidvaldezm/homework-8/**"
+      - ".github/workflows/davidvaldezm-homework-8.yml"
+  pull_request:
+    paths:
+      - "students/davidvaldezm/homework-8/**"
+      - ".github/workflows/davidvaldezm-homework-8.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  system-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: students/davidvaldezm/homework-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: browser-actions/setup-chrome@v1
+        id: chrome
+        with:
+          chrome-version: stable
+      - run: python -m pip install -r requirements.txt
+      - run: npm ci --prefix playwright
+      - run: python -m black --check selenium features scripts
+      - run: python -m pylint selenium/pages selenium/tests/*.py features/*.py features/steps/*.py scripts/*.py
+      - run: npm run lint --prefix playwright
+      - name: Run both system suites and record timings
+        env:
+          CHROME_BINARY: ${{ steps.chrome.outputs.chrome-path }}
+        run: python scripts/benchmark.py
+      - name: Execute BDD scenarios
+        env:
+          CHROME_BINARY: ${{ steps.chrome.outputs.chrome-path }}
+        run: python -m behave --junit --junit-directory reports/live/bdd features
+      - name: Record UI performance samples
+        env:
+          CHROME_BINARY: ${{ steps.chrome.outputs.chrome-path }}
+        run: python scripts/performance.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: davidvaldezm-homework-8-reports
+          path: |
+            students/davidvaldezm/homework-8/reports/live
+            students/davidvaldezm/homework-8/screenshots
+            students/davidvaldezm/homework-8/playwright/playwright-report
+            students/davidvaldezm/homework-8/playwright/test-results
+          retention-days: 14

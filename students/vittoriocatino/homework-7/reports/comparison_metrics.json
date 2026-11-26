@@ -1,0 +1,43 @@
+{
+  "python": "3.14.6",
+  "scenarios": [
+    "simple_one",
+    "simple_quantity",
+    "simple_empty",
+    "save10_at_50",
+    "save10_above_50",
+    "save20_at_100",
+    "save20_above_100",
+    "save10_below_50",
+    "newuser_eligible",
+    "newuser_returning"
+  ],
+  "repetitions": 5,
+  "suites": {
+    "traditional": {
+      "physical_lines": 152,
+      "nonblank_noncomment_lines": 131,
+      "wall_seconds": [
+        0.1809251249942463,
+        0.1743693749886006,
+        0.17756599999847822,
+        0.17683058299007826,
+        0.17343374999472871
+      ],
+      "median_seconds": 0.17683058299007826
+    },
+    "data_driven": {
+      "physical_lines": 24,
+      "nonblank_noncomment_lines": 18,
+      "wall_seconds": [
+        0.17421308398479596,
+        0.1848538749909494,
+        0.17304929098463617,
+        0.1726669580093585,
+        0.17725475001498125
+      ],
+      "median_seconds": 0.17421308398479596
+    }
+  },
+  "test_code_reduction_percent": 86.26
+}
