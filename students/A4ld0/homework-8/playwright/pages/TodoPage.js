@@ -16,7 +16,8 @@ class TodoPage {
 
   async navigate() {
     const start = performance.now();
-    await this.page.goto(process.env.TODO_URL || 'https://todomvc.com/examples/react/');
+    const url = process.env.TODO_URL || 'https://todomvc.com/examples/typescript-react/';
+    await this.page.goto(url);
     await expect(this.input).toBeVisible();
     this.record('page_load', start);
   }
@@ -92,6 +93,7 @@ class TodoPage {
     const editor = item.locator('.edit');
     await editor.fill(text);
     await editor.press(save ? 'Enter' : 'Escape');
+    await expect(editor).toBeHidden();
     await expect(label).toHaveText(save ? text : original);
     this.record(save ? 'edit' : 'cancel_edit', start);
   }

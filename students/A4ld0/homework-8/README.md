@@ -2,7 +2,9 @@
 
 **Student:** Aldo Ramón Velázquez Fonseca (A4ld0)
 
-**Application:** [React TodoMVC](https://todomvc.com/examples/react/)
+**Application:** [TodoMVC (TypeScript + React)](https://todomvc.com/examples/typescript-react/)
+
+The assignment's `/examples/react/` URL returns HTTP 404. Its `/examples/react/dist/` replacement leaves the editor open when Escape is pressed. The official TypeScript + React example supports all required scenarios, including cancelling an edit.
 
 ## Coverage
 
@@ -72,9 +74,9 @@ python generate_report.py
 
 The script updates the measured sections in `COMPARISON_REPORT.md` and writes the bonus results to `PERFORMANCE_REPORT.md`. The tests record real page-load and operation durations, status, and screenshots. The Playwright HTML report also includes traces on failure.
 
-The default application URL can be overridden with the `TODO_URL` environment variable.
+Set `TODO_URL` to test a different deployment of the application. Set `CHROME_BIN` to use a specific Chrome binary in both suites.
 
-## Current execution status
+## Local verification
 
-All 15 Selenium test cases, 15 Playwright test cases and six BDD scenarios are implemented. Browser execution is pending because the development environment could not install the test dependencies or reach the external service. No timings, screenshots or pass results have been fabricated.
+On Windows with Chrome for Testing, all 15 Selenium cases, 15 Playwright cases, and six Behave scenarios passed. The grading commands also passed five Python report tests and measured 99.42% Python and 100% JavaScript statement coverage.
 

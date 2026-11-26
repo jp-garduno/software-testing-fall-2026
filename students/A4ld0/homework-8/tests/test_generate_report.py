@@ -2,7 +2,8 @@
 
 import json
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from shutil import rmtree
+from tempfile import mkdtemp
 import unittest
 from unittest.mock import patch
 
@@ -11,11 +12,11 @@ import generate_report
 
 class ReportTests(unittest.TestCase):
     def setUp(self):
-        self.directory = TemporaryDirectory()
-        self.addCleanup(self.directory.cleanup)
-        self.root = Path(self.directory.name)
-        self.addCleanup(patch.stopall)
-        patch.object(generate_report, "ROOT", self.root).start()
+        self.root = Path(mkdtemp())
+        self.addCleanup(rmtree, self.root)
+        patcher = patch.object(generate_report, "ROOT", self.root)
+        patcher.start()
+        self.addCleanup(patcher.stop)
         (self.root / "reports").mkdir()
         (self.root / "COMPARISON_REPORT.md").write_text(
             "Heading\n<!-- METRICS_START -->\nOld\n<!-- METRICS_END -->\nEnding",

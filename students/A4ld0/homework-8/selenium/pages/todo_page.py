@@ -11,7 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class TodoPage:
-    URL = os.getenv("TODO_URL", "https://todomvc.com/examples/react/")
+    URL = os.getenv("TODO_URL", "https://todomvc.com/examples/typescript-react/")
     NEW_TODO = (By.CSS_SELECTOR, ".new-todo")
     ITEMS = (By.CSS_SELECTOR, ".todo-list li")
     CLEAR = (By.CSS_SELECTOR, ".clear-completed")
